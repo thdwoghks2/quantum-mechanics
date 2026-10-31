@@ -1,0 +1,469 @@
+---
+number: 86
+title: 1930 광자 상자 논쟁
+short: 광자 상자
+question: 빛을 담은 상자의 무게와 시계로 에너지와 시각을 함께 정확히 잴 수 있을까요?
+mechanism: 아인슈타인은 상자에서 광자 하나가 빠져나간 시각을 안쪽 시계로 재고, 줄어든 무게로 그 광자의 에너지를 재면 둘 다 정확히 알 수 있다고 했어요. 보어는 무게를 재려면 상자의 높이를 읽어야 하고, 높이를 정확히 읽을수록 불확정성 원리 때문에 상자의 운동량이 흐려져 무게 재기가 어려워진다는 것을 짚었어요. 게다가 중력 속에서는 높이에 따라 시계가 가는 빠르기가 달라서, 높이가 흐리면 시각도 흐려져요. 두 흐림을 곱하면 에너지-시간 불확정성의 한계보다 작아질 수 없어요.
+part: 11
+minutes: 20
+assumes: [uncertainty-principle, photon, energy, mass, weight, gravity, momentum, impulse, planck-constant, speed-of-light]
+introduces: []
+sources:
+  - "Bohr, N. Discussion with Einstein on Epistemological Problems in Atomic Physics. In P. A. Schilpp (ed.), Albert Einstein: Philosopher-Scientist (1949)"
+  - "Rosenfeld, L. Niels Bohr in the Thirties. In S. Rozental (ed.), Niels Bohr: His Life and Work as Seen by His Friends and Colleagues (1967)"
+  - "Jammer, M. The Philosophy of Quantum Mechanics (Wiley, 1974), 5장"
+  - "Chou, C. W. et al. Optical Clocks and Relativity. Science 329, 1630–1633 (2010)"
+testout: [q86-a, q86-b, q86-c]
+status: published
+---
+
+<Screen kind="scene" title="다시 브뤼셀">
+  <Fragment slot="visual">
+    <BigNumber top="제6회 솔베이 회의, 벨기에 브뤼셀" value="1930년 10월" bottom="아인슈타인이 빛을 담은 상자를 들고 와요" />
+  </Fragment>
+
+1927년의 논쟁이 끝나고 3년 뒤, 브뤼셀에서 다시 솔베이 회의가 열렸어요. 이번 주제는 자석의 성질이었어요.
+
+<S n={2}>
+
+하지만 아인슈타인은 지난 강 끝에서 예고한 빛 상자를 들고 왔어요. 이번엔 에너지와 시간을 함께 정확히 재 보겠다는 거였죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={63} title="에너지와 시간">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '짧게 머무는 상태', caption: '에너지가 넓게 흐려져요' },
+      { big: '오래 머무는 상태', caption: '에너지가 좁게 정해져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+63강에서 에너지와 시간 사이에도 불확정성이 있다고 배웠어요. 원자가 들뜬 상태에 짧게 머물수록 내는 빛의 에너지가 넓게 흐려졌죠.
+
+<S n={2}>
+
+에너지의 흐림과 시간의 흐림을 곱하면, 플랑크 상수 h쯤 되는 한계보다 작아질 수 없어요. 아인슈타인은 이 한계를 넘는 장치를 생각해 냈어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="빛을 담은 상자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-box', title: '상자', caption: '안에 빛이 가득해요' },
+      { icon: 'clock', title: '안쪽 시계', caption: '덮개를 여닫아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+상자 안에 빛을 가득 담고, 벽에 작은 구멍과 덮개를 달아요. 덮개는 상자 안의 시계가 열고 닫아요.
+
+<S n={2}>
+
+시계는 정해진 순간에 덮개를 아주 잠깐 열어요. 그 사이 광자 하나가 빠져나가게 하는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="시각은 시계가 알아요">
+  <Fragment slot="visual">
+    <BigNumber top="덮개가 열린 순간" value="정오 12시 정각" bottom="시계가 정한 순간이라 아주 정확히 알 수 있어요" q="time" />
+  </Fragment>
+
+광자가 빠져나간 시각은 시계가 정해요. 예를 들어 정오 12시 정각에 아주 잠깐 열도록 맞춰 두면 되죠.
+
+<S n={2}>
+
+그러니 시각은 얼마든지 정확하게 알 수 있다는 게 아인슈타인의 생각이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="에너지는 무게가 알아요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'scale', title: '광자가 나가기 전', caption: '상자의 무게를 재요' },
+      { icon: 'scale', title: '광자가 나간 뒤', caption: '아주 조금 가벼워져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+에너지는 무게로 재요. 아인슈타인은 1905년에 에너지를 잃은 물체는 질량도 줄어든다는 걸 보였거든요.
+
+<S n={2}>
+
+<Later n={100}>E = mc²</Later>이라는 식이에요. 100강에서 자세히 배우는데, 여기서는 "에너지가 빠져나간 만큼 상자가 가벼워진다"만 쓰면 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="얼마나 가벼워질까">
+  <Fragment slot="visual">
+    <DataTable caption="초록빛 광자 하나가 빠져나갔을 때" head={['양', '값']} rows={[
+      ['광자 하나의 에너지', '약 4 × 10⁻¹⁹ J'],
+      ['빛의 속력의 제곱', '약 9 × 10¹⁶ m²/s²'],
+      ['줄어드는 질량 (에너지 ÷ 빛의 속력의 제곱)', '약 4 × 10⁻³⁶ kg'],
+    ]} />
+  </Fragment>
+
+초록빛 광자 하나의 에너지는 약 4 × 10⁻¹⁹ J이에요. 이걸 빛의 속력의 제곱으로 나누면 줄어드는 질량이 나와요.
+
+약 4 × 10⁻³⁶ kg이에요. 실제로는 잴 수 없을 만큼 작지만, 사고 실험에서는 원리상 잴 수 있다고 놓고 따져요.
+
+</Screen>
+
+<Screen kind="step" title="둘 다 정확하면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '시각', caption: '시계로 정확히', tone: 'accent' },
+      { big: '에너지', caption: '무게로 정확히', tone: 'accent' },
+      { big: '한계', caption: '깨지는 걸까요?', tone: 'no' },
+    ]} />
+  </Fragment>
+
+시각은 시계로, 에너지는 무게로 정확히 잰다면 두 흐림을 곱한 값은 0에 가까워져요. 에너지-시간 불확정성의 한계가 깨지는 셈이죠.
+
+<S n={2}>
+
+그러면 양자역학이 말하는 흐림은 측정을 잘 못해서 생긴 것일 뿐, 자연의 성질이 아니라는 뜻이 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="상자의 노림수">
+
+<Check id="q86-a" options={[
+  { t: '광자 하나의 에너지와 그 광자가 나간 시각을 함께 정확히 잴 수 있다는 것', ok: true, why: '맞아요. 시각은 안쪽 시계로, 에너지는 줄어든 무게로 재면 둘 다 정확하다는 생각이에요.' },
+  { t: '광자의 위치와 운동량을 함께 정확히 잴 수 있다는 것', why: '그건 1927년의 사고 실험이 노린 짝이에요. 이번엔 에너지와 시간이었어요.' },
+  { t: '빛에는 질량이 없다는 것', why: '이 장치는 오히려 에너지가 빠져나가면 상자가 가벼워진다는 사실을 이용해요.' },
+  { t: '시계가 상자 안에서는 멈춘다는 것', why: '시계는 덮개를 정해진 순간에 여는 데 쓰여요. 시계가 멈춘다는 주장은 없었어요.' },
+]}>
+
+아인슈타인은 빛을 담은 상자에 안쪽 시계를 달고, 광자 하나가 나가기 전과 뒤의 무게를 재자고 했어요. 이 사고 실험으로 보이려 한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="하룻밤">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '그날 저녁', caption: '보어는 답을 바로 찾지 못했어요' },
+      { big: '다음 날 아침', caption: '보어가 반박을 내놓아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+회의에 와 있던 벨기에 물리학자 레옹 로젠펠트의 회고에 따르면, 보어는 이 장치에 크게 당황했어요. 그날 저녁 내내 어디가 잘못됐는지 찾지 못했다고 해요.
+
+<S n={2}>
+
+다음 날 아침 보어는 반박을 들고 나타났어요. 그 반박은 상자의 무게를 **어떻게 재는지**를 끝까지 따지는 데서 시작했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="무게는 높이로 읽어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-box', title: '용수철에 매단 상자', caption: '가벼워지면 조금 올라가요' },
+      { icon: 'ruler', title: '옆에 세운 자', caption: '바늘이 가리키는 높이를 읽어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+보어는 상자를 용수철에 매달았다고 생각했어요. 상자에 바늘을 달고, 옆에 자를 세워 두는 거예요.
+
+<S n={2}>
+
+광자가 빠져나가 상자가 가벼워지면 상자는 아주 조금 올라가요. 그러니 무게를 잰다는 건 결국 상자의 **높이**를 읽는 일이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="높이를 정확히 읽으면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '높이를 정확히', caption: '바늘을 똑똑히 읽어요' },
+      { big: '운동량이 흐려져요', caption: '불확정성 원리', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+높이를 정확히 읽을수록, 불확정성 원리 때문에 상자의 운동량은 흐려져요. 1927년에 두 틈 판에 생긴 일이 상자에도 그대로 생기는 거죠.
+
+<S n={2}>
+
+운동량이 흐린 상자는 위아래로 조금씩 출렁여요. 그 출렁임 속에서 아주 작은 무게 차이를 가려내야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="오래 재면 되지만">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '짧게 재면', caption: '무게 차이가 출렁임에 묻혀요', tone: 'no' },
+      { big: '오래 재면', caption: '무게 차이가 쌓여서 드러나요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+무게 차이는 상자를 아주 약하게 당기는 힘이에요. 이 힘이 오래 작용할수록 운동량의 변화가 쌓여서, 출렁임보다 커지면 드러나요.
+
+<S n={2}>
+
+그래서 높이를 정확히 읽을수록 무게를 재는 시간이 길어져야 해요. 여기까지는 아인슈타인도 큰 문제가 아니라고 여길 만했죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="높이에 따라 다른 시계">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'clock', title: '높은 곳의 시계', caption: '아주 조금 빨리 가요', tone: 'accent' },
+      { icon: 'clock', title: '낮은 곳의 시계', caption: '아주 조금 느리게 가요' },
+    ]} />
+  </Fragment>
+
+보어의 반박은 여기서 한 걸음 더 나갔어요. 아인슈타인 자신이 1915년에 세운 <Later n={103}>일반상대성이론</Later>에 따르면, 중력 속에서는 높은 곳의 시계가 낮은 곳의 시계보다 조금 빨리 가요.
+
+<S n={2}>
+
+왜 그런지는 103강에서 자세히 배워요. 오늘은 이 사실 하나만 빌려 쓸게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="얼마나 다를까">
+  <Fragment slot="visual">
+    <DataTable caption="지구 표면 근처, 높이가 다른 두 시계" head={['높이 차이', '하루 동안 높은 시계가 앞서는 시간']} rows={[
+      ['1 m', '약 10⁻¹¹ s (1000억분의 1초)'],
+      ['100 m', '약 10⁻⁹ s (10억분의 1초)'],
+      ['33 cm', '2010년 원자시계 실험에서 실제로 잰 차이'],
+    ]} />
+  </Fragment>
+
+지구에서 1 m 높은 시계는 하루에 약 1000억분의 1초 앞서요. 높이 차이가 100배면 앞서는 시간도 100배예요.
+
+너무 작아서 일상에서는 느낄 수 없어요. 그래도 2010년 미국의 연구진은 아주 정밀한 원자시계로 높이 33 cm 차이에서 생기는 이 효과를 실제로 쟀어요.
+
+</Screen>
+
+<Screen kind="step" title="높이가 흐리면 시각도 흐려요">
+  <Fragment slot="visual">
+    <Flow alt="높이를 흐리게 알면 시계가 가는 빠르기도 흐려지고, 그래서 덮개가 열린 시각도 흐려진다는 사슬" items={[
+      { t: '상자의 높이', sub: '조금 흐려요' },
+      { t: '시계의 빠르기', sub: '그만큼 흐려요', step: 2 },
+      { t: '덮개가 열린 시각', sub: '흐려져요', step: 2 },
+    ]} />
+  </Fragment>
+
+이제 두 가지를 이어 붙여요. 무게를 재려면 상자가 출렁이니, 상자의 높이는 조금 흐릴 수밖에 없어요.
+
+<S n={2}>
+
+높이가 흐리면 안쪽 시계가 가는 빠르기도 흐려지죠. 그래서 "정오 12시 정각"이라던 덮개의 시각도 바깥 시계로 보면 흐려져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="보어의 계산">
+  <Fragment slot="visual">
+    <DataTable caption="보어의 반박을 단계로" head={['단계', '무엇이 흐려지나']} rows={[
+      ['① 높이를 Δq만큼 흐리게 읽어요', '운동량이 h ÷ Δq쯤 흐려져요'],
+      ['② 무게 차이를 가려내려면', '무게 차이가 시간 T 동안 준 운동량이 그 흐림보다 커야 해요'],
+      ['③ 높이가 Δq 흐리면', '시간 T 동안 시계가 가는 양이 g × T × Δq ÷ c²만큼 흐려져요'],
+      ['④ ②와 ③을 곱하면', '에너지의 흐림 × 시각의 흐림이 h보다 커요'],
+    ]} />
+  </Fragment>
+
+보어는 이 사슬을 식으로 따라갔어요. 표의 g는 중력 가속도, c는 빛의 속력, h는 플랑크 상수예요.
+
+①에서 높이를 정확히 읽을수록(Δq가 작을수록) ②에서 무게를 오래 재야 해요. 그런데 ③에서 오래 잴수록 시각의 흐림이 커지죠. 둘을 곱하면 g, T, Δq가 서로 맞물려 없어지고 $\Delta E \times \Delta T \gtrsim h$만 남아요.
+
+</Screen>
+
+<Screen kind="step" title="한계는 그대로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '에너지를 정확히', caption: '시각이 흐려져요' },
+      { big: '시각을 정확히', caption: '에너지가 흐려져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+결국 상자로도 에너지와 시각을 함께 정확히 잴 수 없었어요. 에너지를 정확히 재려 할수록 시각이 흐려졌거든요.
+
+<S n={2}>
+
+<Key>상자의 무게를 정확히 재려면 상자의 높이가 흐려질 수밖에 없고, 중력 속에서는 높이에 따라 시계의 빠르기가 달라지므로, 광자의 에너지와 그 광자가 나간 시각은 함께 정확히 정해질 수 없어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="자기 이론에 막히다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '아인슈타인의 상자', caption: '불확정성 원리를 깨려 했어요' },
+      { big: '아인슈타인의 중력 이론', caption: '불확정성 원리를 지켜 냈어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note label="한 번 짚고 갈게요">
+
+이 반박에서 결정적인 조각은 아인슈타인 자신의 중력 이론이었어요. 보어가 새 원리를 만들어 낸 게 아니에요.
+
+보어는 장치의 모든 부분에 이미 알려진 물리 법칙을 빠짐없이 적용했을 뿐이에요. 그러자 불확정성 원리가 저절로 다시 나타났어요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="반박의 사슬">
+
+<Check id="q86-b" options={[
+  { t: '상자가 너무 무거워서 광자 하나만큼의 차이를 저울이 못 느껴요.', why: '사고 실험에서는 아주 정밀한 저울도 쓸 수 있다고 놓아요. 보어의 반박은 저울의 성능이 아니라 물리 법칙에서 나와요.' },
+  { t: '무게를 재려면 높이가 흐려지고, 높이가 흐리면 중력 속 시계의 빠르기가 흐려져 시각이 흐려져요.', ok: true, why: '맞아요. 이 두 고리가 이어져서 에너지와 시각을 함께 정확히 잴 수 없게 돼요.' },
+  { t: '광자가 빠져나갈 때 덮개가 시계를 망가뜨려요.', why: '그런 일은 없어요. 시계는 멀쩡하지만, 높이에 따라 가는 빠르기가 달라져요.' },
+  { t: '빛에는 에너지가 없어서 상자가 가벼워지지 않아요.', why: '빛에는 에너지가 있고, 에너지가 빠져나가면 상자는 실제로 가벼워져요. 보어도 이 점은 받아들였어요.' },
+]}>
+
+보어는 빛 상자로도 광자의 에너지와 나간 시각을 함께 정확히 잴 수 없다고 반박했어요. 그 반박의 사슬을 가장 바르게 말한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="1927년과 1930년">
+  <Fragment slot="visual">
+    <DataTable head={['', '1927년', '1930년']} rows={[
+      ['노린 짝', '위치와 운동량', '에너지와 시간'],
+      ['장치', '용수철에 매단 두 틈 판', '용수철에 매단 빛 상자'],
+      ['보어의 반박', '판에도 불확정성 원리를', '상자에도 불확정성 원리를, 시계에는 중력을'],
+    ]} />
+  </Fragment>
+
+두 논쟁은 모양이 같아요. 아인슈타인은 측정 대상인 전자나 광자에만 양자역학을 쓰고, 장치는 보통 물체처럼 다뤘어요.
+
+<S n={2}>
+
+보어는 장치에도 같은 법칙을 끝까지 적용했죠. 그러자 두 번 모두 한계가 되살아났어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="논쟁이 바뀐 방향">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1927~1930', caption: '양자역학에 모순이 있다' },
+      { big: '1935', caption: '양자역학은 완전하지 않다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 논쟁 뒤 아인슈타인은 양자역학 안에 모순이 있다는 주장을 거의 하지 않았어요. 대신 이론이 **완전하지 않다**는 주장에 힘을 실었어요.
+
+<S n={2}>
+
+그 주장은 1935년 한 편의 논문으로 나와요. 88강에서 배울 EPR 논문이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="100 m 높은 시계">
+
+<Numeric id="q86-c" answer={1e-9} mode="order" unit="s">
+
+지구에서 높이가 1 m 다른 두 시계가 있으면, 높은 시계가 하루에 약 10⁻¹¹ s 앞서요. 높이 차이가 100 m라면 높은 시계는 하루에 몇 초쯤 앞설까요? 자릿수만 맞히면 돼요.
+
+<Fragment slot="solution">
+
+앞서는 시간은 높이 차이에 비례해요. 높이가 100배니 10⁻¹¹ s × 100 = 10⁻⁹ s, 곧 하루에 약 10억분의 1초예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['uncertainty-principle', 'photon', 'weight']}>
+
+1. 아인슈타인은 광자가 나간 시각을 시계로, 에너지를 상자의 줄어든 무게로 재면 둘 다 정확하다고 했어요.
+2. 무게를 재려면 상자의 높이를 읽어야 하고, 높이를 정확히 읽을수록 운동량이 흐려져서 오래 재야 해요.
+3. 중력 속에서는 높이에 따라 시계의 빠르기가 달라서, 높이가 흐리면 시각도 흐려져요.
+4. 두 흐림을 곱하면 에너지-시간 불확정성의 한계가 그대로 남아요.
+5. 그 뒤 아인슈타인은 논쟁의 초점을 모순에서 불완전함으로 옮겼어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="달에서 재면">
+
+<DailyProblem id="p86">
+
+같은 빛 상자 실험을 중력이 지구의 6분의 1인 달에서 한다고 해 볼게요. 중력이 약하면 높이에 따른 시계 차이도 작아지니, 이번엔 아인슈타인이 이길까요?
+
+오늘의 원리로 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+중력이 약해지면 바뀌는 게 두 가지예요. 높이에 따른 시계 차이, 그리고 광자 하나만큼의 무게 차이예요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+무게 차이가 작아지면, 같은 높이의 정확도에서 무게를 더 오래 재야 해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+이기지 못해요. 달에서는 광자 하나만큼의 무게 차이도 6분의 1로 작아져요. 그래서 그 차이를 가려내려면 무게를 6배 더 오래 재야 해요.
+
+높이에 따른 시계 차이는 6분의 1로 줄지만, 재는 시간이 6배로 늘어서 시각의 흐림은 그대로예요. 보어의 계산에서 중력 가속도 g가 서로 맞물려 없어진 것과 같은 까닭이에요. 한계는 중력의 세기와 상관없이 남아요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+빛 상자의 무게를 재려면 높이가 흐려지고, 중력 속에서는 높이가 흐리면 시계도 흐려지니, 광자의 에너지와 나간 시각은 함께 정확히 잴 수 없어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="광자에서 고양이로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'atom', title: '원자 하나', caption: '두 상태가 겹쳐 있을 수 있어요' },
+      { icon: 's4-cat', title: '고양이 한 마리', caption: '두 상태가 겹쳐 있을 수 있을까요?', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지금까지의 논쟁은 전자와 광자처럼 작은 것에 관한 이야기였어요. 양자역학의 식은 크기에 제한이 없는데, 큰 물체도 두 상태가 겹친 채로 있을 수 있을까요?
+
+<S n={2}>
+
+1935년 에르빈 슈뢰딩거는 이 물음을 고양이로 바꿔 던졌어요. 다음 강에서는 그 고양이와, 측정이란 정확히 무엇인지에 관한 문제를 같이 따져 볼게요.
+
+</S>
+
+</Screen>
