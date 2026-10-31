@@ -1,0 +1,427 @@
+---
+number: 104
+title: 블랙홀
+short: 블랙홀
+question: 빛조차 빠져나오지 못하는 천체를, 우리는 어떻게 '찍을' 수 있을까요?
+mechanism: 질량이 아주 좁은 곳에 모이면 시공간이 너무 휘어서, 어떤 반지름 안쪽에서는 빛도 빠져나올 수 없어요. 그 경계가 사건의 지평선이고, 그런 천체가 블랙홀이에요. 블랙홀 자체는 빛을 내지 않지만, 둘레를 도는 뜨거운 기체가 내는 빛이 블랙홀 곁에서 휘어지며 밝은 고리를 만들고 가운데에 어두운 그림자를 남겨요. 2019년과 2022년 지구 크기의 가상 망원경이 그 그림자를 찍었어요.
+part: 12
+minutes: 22
+assumes: [general-relativity, spacetime, gravity, mass, speed-of-light, time-dilation, kinetic-energy, radio-wave, wavelength, interference]
+introduces: [black-hole, event-horizon]
+sources:
+  - "Schwarzschild, K. Über das Gravitationsfeld eines Massenpunktes nach der Einsteinschen Theorie. Sitzungsberichte der Preußischen Akademie der Wissenschaften, 189–196 (1916)"
+  - "Michell, J. On the Means of Discovering the Distance, Magnitude, &c. of the Fixed Stars. Philosophical Transactions of the Royal Society 74, 35–57 (1784)"
+  - "Event Horizon Telescope Collaboration. First M87 Event Horizon Telescope Results. I. Astrophysical Journal Letters 875, L1 (2019)"
+  - "Event Horizon Telescope Collaboration. First Sagittarius A* Event Horizon Telescope Results. I. Astrophysical Journal Letters 930, L12 (2022)"
+  - "The Nobel Prize in Physics 2020 (Penrose, Genzel, Ghez). Press release, Royal Swedish Academy of Sciences"
+testout: [q104-a, q104-b, q104-c]
+status: published
+---
+
+<Screen kind="scene" title="전쟁터에서 온 편지">
+  <Fragment slot="visual">
+    <BigNumber top="독일의 천문학자 카를 슈바르츠실트" value="1915년 12월" bottom="러시아 전선의 군 복무 중에 아인슈타인에게 보낸 편지" />
+  </Fragment>
+
+지난 강 끝에서 예고한 대로, 일반상대성이론의 첫 정확한 답은 뜻밖의 곳에서 왔어요. 독일의 천문학자 카를 슈바르츠실트는 제1차 세계대전 중 러시아 전선에서 군 복무를 하고 있었어요.
+
+<S n={2}>
+
+그는 아인슈타인의 방정식이 발표된 지 한 달 만에, 별 하나 둘레의 시공간을 정확히 풀어 편지로 보냈어요. 그리고 몇 달 뒤인 1916년 5월 병으로 세상을 떠났어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={103} title="질량은 시공간을 휘게 해요">
+  <Fragment slot="visual">
+    <DataTable caption="멀리 떨어진 시계와 견줄 때, 1년 동안 덜 가는 시간" head={['어디서', '덜 가는 시간']} rows={[
+      ['지구 표면', '약 0.02초'],
+      ['해의 표면', '약 1분'],
+      ['밀러 행성', '1시간이 지구의 7년'],
+    ]} />
+  </Fragment>
+
+103강에서 질량은 시공간을 휘게 하고, 무거운 천체 곁일수록 시간이 느리게 간다고 배웠어요. 지구 표면은 1년에 0.02초, 해의 표면은 1분쯤이었죠.
+
+<S n={2}>
+
+같은 질량이라도 더 좁게 뭉칠수록 표면 가까이의 휘어짐이 커져요. 그럼 아주아주 좁게 뭉치면 어떻게 될까요? 슈바르츠실트의 답이 그걸 알려 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="벗어나는 빠르기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'ball', title: '살살 던지면', caption: '조금 올라갔다 떨어져요' },
+      { icon: 'ball', title: '세게 던지면', caption: '높이 올라갔다 떨어져요' },
+      { icon: 'rocket', title: '초속 11.2 km로', caption: '다시는 돌아오지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+공을 위로 던지면 세게 던질수록 높이 올라가요. 6강의 운동 에너지가 클수록 중력을 거슬러 더 높이 갈 수 있으니까요.
+
+<S n={2}>
+
+지구에서 초속 약 11.2 km보다 빠르게 던지면, 공은 다시는 돌아오지 않고 우주로 빠져나가요. 이 빠르기를 벗어나는 빠르기라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="뭉칠수록 빨라져요">
+  <Fragment slot="visual">
+    <DataTable caption="표면에서 벗어나는 빠르기" head={['천체', '반지름', '벗어나는 빠르기']} rows={[
+      ['지구', '약 6,400 km', '초속 약 11 km'],
+      ['해', '약 70만 km', '초속 약 620 km'],
+      ['해를 반지름 3 km로 뭉치면', '약 3 km', '초속 약 30만 km (빛의 속력)'],
+    ]} />
+  </Fragment>
+
+벗어나는 빠르기는 천체가 무거울수록, 그리고 좁게 뭉칠수록 커져요. 해의 표면에서는 초속 약 620 km예요.
+
+같은 해를 반지름 약 3 km로 뭉친다고 해 볼게요. 그러면 표면에서 벗어나는 빠르기가 빛의 속력에 이르러요. 빛조차 빠져나오지 못하는 거예요.
+
+</Screen>
+
+<Screen kind="story" title="1784년의 어두운 별">
+  <Fragment slot="visual">
+    <BigNumber top="영국의 자연철학자 존 미첼" value="1784" bottom="너무 무거워서 빛이 빠져나오지 못하는 '어두운 별'을 상상했어요" />
+  </Fragment>
+
+이 생각은 사실 뉴턴의 물리학으로도 할 수 있었어요. 1784년 영국의 존 미첼은 아주 무거운 별에서는 빛도 빠져나오지 못해 보이지 않을 수 있다고 썼어요.
+
+<S n={2}>
+
+하지만 진지한 예측이 된 건 일반상대성이론이 나오고 나서였어요. 슈바르츠실트의 답에는 빛이 빠져나오지 못하는 경계가 정확히 들어 있었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="사건의 지평선이라는 이름">
+  <Fragment slot="visual">
+    <Define term="event-horizon" />
+  </Fragment>
+
+질량 M이 반지름 2GM/c²보다 좁게 뭉치면, 그 반지름의 경계 안쪽에서는 빛도 바깥으로 나올 수 없어요. 이 경계를 **사건의 지평선**이라고 불러요.
+
+<S n={2}>
+
+바다의 지평선 너머는 보이지 않듯, 이 경계 안쪽에서 일어난 사건은 바깥에서 결코 볼 수 없다는 뜻이에요. G는 뉴턴의 중력 상수예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="지평선의 크기">
+  <Fragment slot="visual">
+    <DataTable caption="그 질량을 뭉쳤을 때 사건의 지평선의 반지름" head={['질량', '반지름']} rows={[
+      ['지구', '약 9 mm'],
+      ['해', '약 3 km'],
+      ['해의 10배', '약 30 km'],
+      ['해의 65억 배 (M87 은하의 블랙홀)', '약 190억 km'],
+    ]} />
+  </Fragment>
+
+사건의 지평선의 반지름은 질량에 비례해요. 해는 약 3 km이니, 해의 10배면 30 km예요.
+
+지구를 블랙홀로 만들려면 구슬만 한 반지름 9 mm로 뭉쳐야 해요. 반대로 해의 65억 배인 M87 은하의 블랙홀은 반지름이 약 190억 km로, 명왕성 궤도보다 몇 배 커요.
+
+</Screen>
+
+<Screen kind="define" title="블랙홀이라는 이름">
+  <Fragment slot="visual">
+    <Define term="black-hole" />
+  </Fragment>
+
+사건의 지평선을 가진 천체를 **블랙홀**이라고 불러요. 빛을 내지도 되돌려 보내지도 않으니 검은 구멍처럼 보인다는 뜻이에요.
+
+<S n={2}>
+
+이 이름은 1967년 미국의 물리학자 존 휠러가 강연에서 쓰면서 널리 퍼졌어요. 그 전에는 "얼어붙은 별", "무너진 별" 같은 이름으로 불렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="지평선의 반지름">
+
+<Numeric id="q104-a" answer={60} tol={0.05} unit="km">
+
+해와 질량이 같은 블랙홀의 사건의 지평선은 반지름이 약 3 km이고, 반지름은 질량에 비례해요. 해의 20배인 블랙홀의 사건의 지평선은 반지름이 약 몇 km일까요?
+
+<Fragment slot="solution">
+
+질량이 20배면 반지름도 20배예요. 3 km × 20 = 60 km예요. 서울 끝에서 끝까지 정도의 크기에 해 20개의 질량이 들어 있는 셈이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="한쪽으로만 열린 문">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '바깥에서 안으로', caption: '들어갈 수 있어요' },
+      { big: '안에서 바깥으로', caption: '빛도 나올 수 없어요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+사건의 지평선은 한쪽으로만 열린 문 같아요. 바깥에서 안으로는 들어갈 수 있지만, 안에서 바깥으로는 빛도 나올 수 없죠.
+
+<S n={2}>
+
+멀리서 보면 사건의 지평선을 향해 떨어지는 우주선은 103강처럼 시간이 점점 느려져요. 그래서 점점 느리고 붉어지다가 지평선 앞에서 멈춘 듯 흐려져 사라져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="진공청소기가 아니에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'sun', title: '해', caption: '지구는 1년에 한 바퀴 돌아요' },
+      { icon: 's4-blackhole', title: '같은 질량의 블랙홀', caption: '지구는 똑같이 1년에 한 바퀴 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 블랙홀이 둘레의 모든 걸 빨아들이는 진공청소기인 줄 알았어요.
+
+그런데 멀리서 보면 블랙홀은 같은 질량의 별과 똑같이 당겨요. 사건의 지평선 가까이 가야만 특별한 일이 생기죠. 해가 같은 질량의 블랙홀로 바뀌어도 지구는 그대로 1년에 한 바퀴 돌아요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="analogy" title="폭포 쪽으로 흐르는 강">
+  <Fragment slot="visual">
+    <Analogy rows={[
+      ['물고기가 헤엄치는 가장 빠른 빠르기', '빛의 속력'],
+      ['폭포 쪽으로 점점 빨라지는 강물', '블랙홀 쪽으로 휘어 흐르는 시공간'],
+      ['강물이 물고기보다 빨라지는 지점', '사건의 지평선'],
+      ['그 지점 너머의 물고기', '지평선 안쪽의 빛'],
+    ]} fits="강물이 물고기의 가장 빠른 헤엄보다 빨리 흐르는 곳을 지나면, 물고기가 아무리 거슬러 헤엄쳐도 폭포 쪽으로 밀려가요. 지평선 안쪽의 빛도 그래요." breaks="시공간은 물처럼 실제로 흐르는 물질이 아니에요. 이 그림은 계산의 한 방법을 빗댄 것일 뿐이고, 시간이 느려지는 일까지는 보여 주지 못해요." />
+  </Fragment>
+
+폭포를 향해 흐르는 강을 떠올려 보세요. 폭포에 가까울수록 강물이 빨라지다가, 어느 지점부터는 물고기가 가장 빨리 헤엄쳐도 거슬러 오를 수 없어요.
+
+사건의 지평선은 그 지점과 비슷해요. 그 너머에서는 빛도 바깥으로 거슬러 나올 수 없어요.
+
+</Screen>
+
+<Screen kind="story" title="이론에서 하늘로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1916', caption: '슈바르츠실트의 답' },
+      { big: '1971~1972', caption: '백조자리 X-1, 첫 유력한 후보' },
+      { big: '2020', caption: '은하 중심 블랙홀 연구에 노벨상', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오랫동안 블랙홀은 수학의 답일 뿐이라고 여겨졌어요. 1970년대 초 백조자리 X-1이라는 천체가 첫 유력한 후보로 떠올랐어요. 보이지 않는 무거운 짝이 둘레의 별 기체를 끌어당겨 X선을 내고 있었거든요.
+
+<S n={2}>
+
+2020년 노벨 물리학상은 블랙홀이 생길 수밖에 없음을 수학으로 보인 로저 펜로즈에게 돌아갔어요. 우리 은하 중심을 도는 별들을 수십 년 지켜본 라인하르트 겐첼과 앤드리아 게즈도 함께 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="보이지 않는 것을 보는 법">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '블랙홀 자체', caption: '빛을 내지 않아요', tone: 'dim' },
+      { big: '둘레의 별', caption: '보이지 않는 무언가의 둘레를 돌아요' },
+      { big: '둘레의 기체', caption: '뜨겁게 달아 빛을 내요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+블랙홀은 스스로 빛을 내지 않아요. 그래서 블랙홀을 보려면 그 둘레를 봐야 해요.
+
+<S n={2}>
+
+우리 은하 한가운데의 별들은 보이지 않는 무언가의 둘레를 빠르게 돌아요. 그 움직임으로 해 질량의 약 400만 배가 아주 좁은 곳에 있다는 걸 알아냈어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="블랙홀을 보는 방법">
+
+<Check id="q104-b" options={[
+  { t: '블랙홀이 내는 빛을 망원경으로 직접 받아요.', why: '사건의 지평선 안쪽에서는 빛이 나오지 못해요. 블랙홀 자체의 빛은 받을 수 없어요.' },
+  { t: '둘레의 별들이 도는 모습과 둘레의 뜨거운 기체가 내는 빛을 봐요.', ok: true, why: '맞아요. 보이지 않는 질량이 둘레에 남기는 흔적으로 블랙홀을 알아내요.' },
+  { t: '블랙홀이 둘레의 모든 별을 빨아들이는 걸 봐요.', why: '블랙홀은 진공청소기가 아니에요. 둘레의 별들은 대부분 그 둘레를 돌 뿐이에요.' },
+  { t: '블랙홀은 어떤 방법으로도 알아낼 수 없어요.', why: '별의 움직임, 기체의 빛, 그리고 그림자로 블랙홀을 알아낼 수 있어요.' },
+]}>
+
+블랙홀은 스스로 빛을 내지 않아요. 천문학자들은 블랙홀이 있다는 걸 어떻게 알아낼까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="지구만 한 망원경">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'telescope', title: '세계 여러 곳의 전파 망원경', caption: '같은 순간에 같은 곳을 봐요' },
+      { icon: 'globe', title: '지구 크기의 가상 망원경', caption: '자료를 모아 하나처럼 합쳐요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+블랙홀의 그림자는 지구에서 보면 아주아주 작아요. 그걸 보려면 지구만 한 망원경이 필요해요.
+
+<S n={2}>
+
+그래서 사건지평선 망원경(EHT) 연구진은 세계 여러 곳의 전파 망원경이 같은 순간 같은 곳을 보게 했어요. 이때 쓴 전파의 파장은 1.3 mm였어요. 그 자료를 원자시계로 맞춰 합치면, 지구 크기의 망원경 하나처럼 쓸 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="2019년 4월 10일">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-blackhole', title: 'M87 은하 한가운데', caption: '5,500만 광년 떨어져 있어요' },
+      { big: '65억 배', caption: '해 질량에 견준 무게', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2017년 4월에 모은 자료로, EHT 연구진은 2019년 4월 10일 첫 블랙홀 사진을 공개했어요. 5,500만 광년 떨어진 M87 은하 한가운데의 블랙홀이에요.
+
+<S n={2}>
+
+사진에는 밝은 고리와 그 가운데 어두운 부분이 찍혀 있었어요. EHT는 이 일을 파리의 카페에서 뉴욕의 신문 글씨를 읽는 정도의 정밀함이라고 설명했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="고리와 그림자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '밝은 고리', caption: '둘레의 뜨거운 기체가 낸 빛이 휘어 모여요' },
+      { big: '어두운 가운데', caption: '빛이 빠져나오지 못하는 그림자', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+밝은 고리는 블랙홀 둘레를 도는 뜨거운 기체가 낸 빛이에요. 그 빛이 블랙홀 곁의 크게 휜 시공간을 지나며 휘어져 고리처럼 모였어요.
+
+<S n={2}>
+
+가운데 어두운 부분은 그림자예요. 그쪽으로 간 빛은 사건의 지평선에 빨려 들어가 돌아오지 못하니까요. 그림자는 빛이 휘는 효과 때문에 사건의 지평선보다 2.5배쯤 크게 보여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="2022년, 우리 은하의 블랙홀">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'galaxy', title: '우리 은하 한가운데', caption: '약 2만 7천 광년 떨어져 있어요' },
+      { big: '약 400만 배', caption: '해 질량에 견준 무게', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2022년 5월 12일, EHT는 우리 은하 한가운데의 블랙홀 사진도 공개했어요. 약 2만 7천 광년 떨어진, 해 질량의 약 400만 배인 블랙홀이에요.
+
+<S n={2}>
+
+둘레를 도는 별들로 무게를 알아낸 바로 그 블랙홀이에요. 이번에도 밝은 고리와 어두운 그림자가 찍혔어요.
+
+<Key>블랙홀 자체는 빛을 내지 않지만, 둘레의 뜨거운 기체가 낸 빛이 휘어진 시공간을 지나며 밝은 고리를 만들고, 사건의 지평선으로 빨려 든 빛 때문에 가운데에 그림자가 남아서, 지구만 한 망원경으로 그 그림자를 찍을 수 있었어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="사진 속 어두운 가운데">
+
+<Check id="q104-c" options={[
+  { t: '블랙홀 표면의 검은 색깔이에요.', why: '블랙홀에는 색깔을 띤 표면이 없어요. 어두운 건 빛이 그쪽에서 나오지 못하기 때문이에요.' },
+  { t: '사건의 지평선 쪽으로 간 빛이 돌아오지 못해서 생긴 그림자예요.', ok: true, why: '맞아요. 그래서 그림자라고 불러요. 빛이 휘는 효과 때문에 사건의 지평선보다 크게 보여요.' },
+  { t: '망원경이 고장 나서 생긴 빈자리예요.', why: '세계 여러 곳의 망원경이 같은 결과를 냈고, 일반상대성이론의 예측과도 맞았어요.' },
+  { t: '블랙홀 앞을 가린 먼지 구름이에요.', why: '먼지가 아니에요. 2019년과 2022년의 두 블랙홀 모두 이론이 예측한 크기의 그림자가 찍혔어요.' },
+]}>
+
+2019년 공개된 M87 은하 블랙홀 사진에는 밝은 고리 가운데 어두운 부분이 있어요. 이 어두운 부분은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['black-hole', 'event-horizon']}>
+
+1. 좁게 뭉칠수록 벗어나는 빠르기가 커져요.
+2. 2GM/c²보다 좁게 뭉치면 빛도 못 빠져나와요.
+3. 그 경계가 사건의 지평선, 그 천체가 블랙홀이에요.
+4. 블랙홀은 둘레의 별과 기체로 알아내요.
+5. 휘어진 빛이 만든 고리와 그림자를 찍었어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="해가 블랙홀이 된다면">
+
+<DailyProblem id="p104">
+
+어느 날 해가 질량은 그대로인 채 반지름 3 km의 블랙홀로 바뀌었다고 상상해 볼게요(실제로 해는 그렇게 되지 않아요).
+
+지구의 궤도는 어떻게 될까요? 지구에 사는 우리에게는 무엇이 달라질까요? 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+멀리서 보면 블랙홀은 같은 질량의 별과 똑같이 당겨요. 지구는 해에서 얼마나 멀리 있나요?
+
+</Fragment>
+<Fragment slot="solution">
+
+지구의 궤도는 그대로예요. 지구는 해에서 약 1억 5천만 km 떨어져 있어서, 반지름 3 km의 사건의 지평선과는 비교할 수 없이 멀어요. 그렇게 멀리서는 블랙홀도 같은 질량의 해와 똑같이 당기니, 지구는 여전히 1년에 한 바퀴 돌아요.
+
+달라지는 건 빛과 열이에요. 블랙홀은 빛을 내지 않으니 하늘이 어두워지고 지구는 빠르게 차가워질 거예요. 블랙홀이 지구를 빨아들이는 일은 일어나지 않아요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+질량이 2GM/c²보다 좁게 뭉치면 빛도 빠져나오지 못하는 사건의 지평선이 생기고, 그 블랙홀은 둘레의 빛이 휘어 만든 고리 속 그림자로 찍을 수 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="시공간의 물결">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-blackhole', title: '서로 도는 두 블랙홀', caption: '시공간을 흔들어요' },
+      { icon: 's4-detector', title: '4 km 길이의 두 팔', caption: '원자보다 훨씬 작은 흔들림을 재요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+블랙홀 두 개가 서로의 둘레를 돌다 합쳐지면, 그 둘레의 시공간이 크게 흔들려요. 그 흔들림은 물결처럼 빛의 속력으로 우주에 퍼져 나가요.
+
+<S n={2}>
+
+아인슈타인은 1916년 이런 물결을 예측했지만, 너무 약해서 결코 잴 수 없을 거라 봤어요. 다음 강에서는 그 물결을 2015년에 처음 잡아낸 이야기를 따라가 볼게요.
+
+</S>
+
+</Screen>
