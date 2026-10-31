@@ -1,0 +1,122 @@
+---
+/**
+ * 방사성 붕괴. 원자핵마다 매 순간 같은 확률로 붕괴한다(나이와 상관없이).
+ * 왼쪽 격자: 남은 원자핵(밝은 칸)과 붕괴한 원자핵(어두운 칸). 오른쪽: 남은 수를 시간(반감기 단위)에 따라 그린다.
+ */
+interface Props {
+  n?: number;
+}
+const { n = 400 } = Astro.props;
+---
+<qm-sim-p13-decay class="sim" data-ratio="0.55">
+  <canvas aria-label="격자 속 원자핵들이 제멋대로 하나씩 붕괴하고, 남은 수를 그린 곡선은 반감기마다 절반으로 떨어진다"></canvas>
+  <input type="hidden" data-param="n" value={n} />
+  <div class="sim__buttons" aria-label="원자핵 수 고르기">
+    <button type="button" class="btn" data-set="n=400" aria-pressed={n === 400 ? 'true' : 'false'}>400개</button>
+    <button type="button" class="btn" data-set="n=16" aria-pressed={n === 16 ? 'true' : 'false'}>16개</button>
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-reset>처음으로</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p13-decay>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const T = 2.5; // 화면에서 반감기 하나를 2.5초로
+  const MAXH = 5; // 반감기 다섯 번까지 그린다
+
+  class SimP13Decay extends Sim {
+    alive: boolean[] = [];
+    hist: [number, number][] = [];
+    clock = 0;
+
+    init() {
+      this.reset();
+    }
+    changed() {
+      this.reset();
+    }
+    reset() {
+      const n = this.p.n ?? 400;
+      this.alive = Array.from({ length: n }, () => true);
+      this.hist = [[0, n]];
+      this.clock = 0;
+      this.t = 0;
+    }
+
+    tick(dt: number) {
+      if (this.clock / T >= MAXH) return;
+      this.clock += dt;
+      const p = 1 - Math.pow(0.5, dt / T);
+      for (let i = 0; i < this.alive.length; i++) if (this.alive[i] && Math.random() < p) this.alive[i] = false;
+      this.hist.push([this.clock / T, this.alive.filter(Boolean).length]);
+    }
+
+    readout() {
+      const n = this.alive.length;
+      const left = this.alive.filter(Boolean).length;
+      const h = this.clock / T;
+      return `지난 시간: 반감기의 ${h.toFixed(1)}배 · 남은 원자핵 ${left}개 · 예상 ${(n * Math.pow(0.5, h)).toFixed(1)}개`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const n = this.alive.length || 1;
+      const side = Math.ceil(Math.sqrt(n));
+      const gw = Math.min(h - 16, w * 0.42);
+      const cell = gw / side;
+      const gx = 8;
+      const gy = (h - gw) / 2;
+      this.alive.forEach((a, i) => {
+        const x = gx + (i % side) * cell;
+        const y = gy + Math.floor(i / side) * cell;
+        g.fillStyle = a ? c.energy : c.line;
+        g.globalAlpha = a ? 0.9 : 0.45;
+        g.fillRect(x + 1, y + 1, cell - 2, cell - 2);
+      });
+      g.globalAlpha = 1;
+
+      // 남은 수 그래프
+      const x0 = gx + gw + 30;
+      const x1 = w - 10;
+      const top = 14;
+      const bot = h - 22;
+      this.line(x0, bot, x1, bot, c.line, 1);
+      this.line(x0, top, x0, bot, c.line, 1);
+      const X = (t: number) => x0 + (t / MAXH) * (x1 - x0);
+      const Y = (v: number) => bot - (v / n) * (bot - top);
+      for (let k = 1; k <= MAXH; k++) {
+        g.setLineDash([3, 4]);
+        this.line(X(k), top, X(k), bot, c.line, 1);
+        g.setLineDash([]);
+        this.text(String(k), X(k), bot + 10, c.text2, 10, 'center');
+      }
+      this.text('가로: 반감기 몇 번', x1, top + 2, c.text2, 10, 'right');
+      // 예상 곡선
+      g.strokeStyle = c.text2;
+      g.setLineDash([5, 4]);
+      g.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const t = (i / 100) * MAXH;
+        const yv = Y(n * Math.pow(0.5, t));
+        if (i) g.lineTo(X(t), yv);
+        else g.moveTo(X(t), yv);
+      }
+      g.stroke();
+      g.setLineDash([]);
+      // 실제로 남은 수
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      this.hist.forEach(([t, v], i) => {
+        if (i) g.lineTo(X(t), Y(v));
+        else g.moveTo(X(t), Y(v));
+      });
+      g.stroke();
+      this.text('남은 수', x0 + 4, top + 2, c.energy, 10);
+    }
+  }
+  define('qm-sim-p13-decay', SimP13Decay);
+</script>
