@@ -1,0 +1,160 @@
+---
+/**
+ * 같은 움직임을 두 기준틀에서 본다. 일정한 빠르기로 달리는 기차 안에서
+ * - mode="up": 승객이 공을 곧게 위로 던졌다 받는다
+ * - mode="roll": 공을 기차 바닥에서 앞으로 굴린다
+ * "기차 안에서 보기"는 기차를 멈춰 두고 땅의 기둥이 뒤로 지나가게, "땅에서 보기"는 기차가 앞으로 달리게 그린다.
+ * 공이 지나간 자취를 점선으로 남긴다.
+ */
+interface Props {
+  mode?: 'up' | 'roll';
+  /** 처음 보는 기준틀: 'train' 또는 'ground' */
+  view?: 'train' | 'ground';
+  /** 기차의 빠르기 (m/s) */
+  v?: number;
+}
+const { mode = 'up', view = 'train', v = 10 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p12-frames class="sim" data-ratio="0.42" data-mode={mode === 'roll' ? '1' : '0'} data-view={view === 'ground' ? '1' : '0'}>
+  <canvas aria-label="일정한 빠르기로 달리는 기차 안에서 공이 움직이고, 기차 안에서 본 공의 자취와 땅에서 본 공의 자취를 바꿔 볼 수 있다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__buttons" role="group" aria-label="어디서 볼지">
+      <button type="button" class="btn" data-set="view=0" aria-pressed={view === 'train' ? 'true' : 'false'}>기차 안에서 보기</button>
+      <button type="button" class="btn" data-set="view=1" aria-pressed={view === 'ground' ? 'true' : 'false'}>땅에서 보기</button>
+    </div>
+    <div class="sim__row">
+      <label for={`fr-v-${uid}`}>기차의 빠르기</label>
+      <input id={`fr-v-${uid}`} type="range" min="0" max="20" step="5" value={v} data-param="v" />
+      <output data-out="v"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p12-frames>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const G = 9.8;
+  const VY = 6; // 위로 던지는 빠르기 (m/s)
+  const TOSS = (2 * VY) / G; // 던졌다 받기까지 걸리는 시간
+  const ROLL = 5; // 기차 안에서 굴리는 빠르기 (m/s)
+  const CAR = 20; // 기차 한 칸의 길이 (m)
+  const SPAN = 40; // 화면에 보이는 땅의 폭 (m)
+
+  class SimP12Frames extends Sim {
+    trail: [number, number][] = [];
+    cycle = -1;
+
+    init() {
+      this.p.mode = Number(this.dataset.mode ?? 0);
+      this.p.view = Number(this.dataset.view ?? 0);
+    }
+
+    changed() {
+      this.t = 0;
+      this.trail = [];
+      this.cycle = -1;
+    }
+
+    reset() {
+      this.trail = [];
+      this.cycle = -1;
+    }
+
+    format(name: string) {
+      return name === 'v' ? `${this.p.v} m/s` : super.format(name);
+    }
+
+    period() {
+      return this.p.mode === 1 ? (CAR - 4) / ROLL : TOSS + 0.6;
+    }
+
+    readout() {
+      const v = this.p.v!;
+      if (this.p.mode === 1) {
+        return this.p.view === 0
+          ? `기차 안에서 본 공의 빠르기: ${ROLL} m/s`
+          : `땅에서 본 공의 빠르기: ${ROLL} + ${v} = ${ROLL + v} m/s`;
+      }
+      if (this.p.view === 0) return '기차 안에서 보면 공은 곧게 올라갔다 곧게 내려와요';
+      return v === 0 ? '기차가 멈춰 있으면 땅에서 봐도 곧게 오르내려요' : `땅에서 보면 공은 ${v} m/s로 앞으로 가면서 포물선을 그려요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const v = this.p.v!;
+      const T = this.period();
+      // 굴리기에서 땅에서 볼 때는 기차가 멀리 가니 보이는 폭을 넓힌다
+      const span = this.p.view === 1 ? Math.max(SPAN, 8 + v * T + CAR) : SPAN;
+      const s = w / span; // 가로로 1 m가 몇 px인지
+      const sy = Math.min(s * 1.6, h / 7); // 세로는 조금 키워서 그린다
+      const ground = h * 0.86;
+      const k = Math.floor(this.t / T);
+      const tau = this.t - k * T; // 이번 던지기에서 지난 시간
+      if (k !== this.cycle) {
+        this.cycle = k;
+        this.trail = [];
+      }
+
+      // 기차가 땅에서 간 거리. 땅에서 볼 때 기차 칸의 왼쪽 끝 자리를 정한다
+      const dist = v * tau;
+      const carLeftGround = 3 + dist; // 땅에서 본 자리 (m)
+      const carLeftTrain = (span - CAR) / 2; // 기차 안에서 볼 때 기차는 가운데에 멈춰 있다
+      const carLeft = this.p.view === 1 ? carLeftGround : carLeftTrain;
+
+      // 땅과 기둥: 기차 안에서 보면 기둥이 뒤로 지나간다
+      this.line(0, ground, w, ground, c.line, 2);
+      const shift = this.p.view === 0 ? -(v * this.t) : 0;
+      const off = ((shift % 8) + 8) % 8;
+      for (let x = off; x <= span; x += 8) this.line(x * s, ground, x * s, ground - 18, c.muted, 1.5);
+      this.text(this.p.view === 0 ? '기차 안에서 본 모습' : '땅에서 본 모습', 8, 12, c.text, 12, 'left');
+
+      // 기차 칸
+      const carH = 4.2 * sy;
+      g.strokeStyle = c.text2;
+      g.lineWidth = 2;
+      g.strokeRect(carLeft * s, ground - carH - 6, CAR * s, carH);
+      this.dot(carLeft * s + 3 * s, ground - 3, 4, c.text2);
+      this.dot(carLeft * s + (CAR - 3) * s, ground - 3, 4, c.text2);
+      if (this.p.view === 1 && v > 0) this.arrow(carLeft * s + CAR * s * 0.4, ground - carH - 18, carLeft * s + CAR * s * 0.6, ground - carH - 18, c.motion, 2);
+      const floor = ground - 6;
+
+      // 공의 자리 (기차 안 좌표 → 화면)
+      let bx: number;
+      let by: number;
+      if (this.p.mode === 1) {
+        const inside = 2 + Math.min(ROLL * tau, CAR - 4);
+        bx = carLeft + inside;
+        by = 0.4;
+      } else {
+        const tt = Math.min(tau, TOSS);
+        bx = carLeft + CAR / 2;
+        by = 1.2 + VY * tt - 0.5 * G * tt * tt;
+        // 사람
+        const px = (carLeft + CAR / 2 - 0.6) * s;
+        this.line(px, floor, px, floor - 1.2 * sy, c.text2, 2);
+        this.dot(px, floor - 1.45 * sy, 0.25 * sy, c.text2);
+      }
+      const X = bx * s;
+      const Y = floor - by * sy;
+      const last = this.trail[this.trail.length - 1];
+      if (!last || Math.hypot(last[0] - X, last[1] - Y) > 3) this.trail.push([X, Y]);
+      // 기차 안에서 볼 때는 자취도 기차와 함께 머문다. 땅에서 볼 때는 땅에 남는다
+      g.setLineDash([3, 4]);
+      g.strokeStyle = c.accent;
+      g.lineWidth = 1.5;
+      g.beginPath();
+      this.trail.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+      g.stroke();
+      g.setLineDash([]);
+      this.dot(X, Y, 5, c.accent);
+    }
+  }
+  define('qm-sim-p12-frames', SimP12Frames);
+</script>
