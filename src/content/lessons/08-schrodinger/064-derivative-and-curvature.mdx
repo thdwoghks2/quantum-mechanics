@@ -1,0 +1,595 @@
+---
+number: 64
+title: "미분: 변화율과 곡률"
+short: 미분
+question: 속도계 바늘은 어떻게 '지금 이 순간'의 빠르기를 알려 줄까요?
+mechanism: 짧은 동안 바뀐 양을 그 동안의 길이로 나누고, 그 길이를 0에 가깝게 줄여 가면 한순간의 변화율이 나와요. 이게 미분이고, 그래프에서는 그 점의 기울기예요. 기울기가 얼마나 빨리 바뀌는지를 한 번 더 재면 곡률이 나오는데, 파장이 짧은 물결일수록 곡률이 크고 입자의 운동 에너지도 같은 비율로 커져서, 파동함수의 곡률로 운동 에너지를 읽을 수 있어요.
+part: 8
+minutes: 20
+assumes: [speed, velocity, acceleration, second-law, kinetic-energy, momentum, wavelength, sine, wavefunction, de-broglie-wavelength, uncertainty-principle]
+introduces: [derivative, curvature]
+sources:
+  - "Leibniz, G. W. Nova Methodus pro Maximis et Minimis, Acta Eruditorum (1684)"
+  - "Newton, I. The Method of Fluxions and Infinite Series (1736, 1671년 무렵 씀)"
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 8 Motion (1963)"
+  - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Ch. 2 (2018)"
+testout: [q64-flat, q64-curv, q64-zero]
+status: published
+---
+
+<Screen kind="scene" title="식으로 가기 전에">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'speedometer', title: '얼마나 빨리 바뀌나', caption: '속도계 바늘처럼' },
+      { icon: 'curvesign', title: '얼마나 굽었나', caption: '휘는 길 표지판처럼', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강에서 에너지와 시간도 둘 다 딱 정해질 수는 없다는 걸 봤어요. 이제 파동함수(입자를 찾을 확률을 알려 주는 파동)가 어떤 모양이 되는지 정하는 식으로 갈 차례예요.
+
+<S n={2}>
+
+그 식은 '얼마나 빨리 바뀌나'와 '얼마나 굽었나'라는 두 말로 쓰여 있어요. 그래서 오늘은 식에 앞서 이 두 말부터 익혀 둘게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="속도계 바늘">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'speedometer', title: '바늘이 60', caption: '1시간에 60 km를 가는 빠르기' },
+      { icon: 'clock', title: '재는 동안', caption: '딱 한순간', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+자동차 속도계 바늘이 60을 가리키면, 1시간에 60 km를 가는 빠르기라는 뜻이죠. 그런데 그 차가 1시간을 달려 본 건 아니에요.
+
+<S n={2}>
+
+바늘은 지금 이 순간의 빠르기를 보여 줘요. 한순간에는 간 거리도 걸린 시간도 0이라서, 거리를 시간으로 그냥 나눠서는 이 값을 얻을 수 없거든요.
+
+</S>
+
+<S n={3}>
+
+답은 시간을 아주 짧게 잘라서 재는 데 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={4} title="평균 속력">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '약 160 km', caption: '서울에서 대전까지' },
+      { big: '2시간', caption: '걸린 시간' },
+      { big: '80 km/h', caption: '평균 속력', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+4강에서 속력은 간 거리를 걸린 시간으로 나눈 값이라고 했어요. 서울에서 대전까지 약 160 km를 2시간에 갔다면 평균 80 km/h죠.
+
+<S n={2}>
+
+그런데 그 2시간 동안 차는 신호에 서기도 하고, 고속도로에서 빨리 달리기도 했어요. 평균은 그 사이에 있었던 일을 숫자 하나로 뭉뚱그린 값이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="시간을 잘게 자르기">
+  <Fragment slot="visual">
+    <DataTable caption="놓은 지 2초 된 공이 그 뒤 짧은 시간 동안 낸 평균 속력" head={['자른 시간', '그동안 떨어진 거리', '평균 속력']} rows={[
+      ['1 s', '24.5 m', '24.5 m/s'],
+      ['0.1 s', '2.009 m', '20.09 m/s'],
+      ['0.01 s', '0.19649 m', '19.649 m/s'],
+      ['0.001 s', '0.0196049 m', '19.6049 m/s'],
+    ]} steps={[undefined, 2, 2, 3]} />
+  </Fragment>
+
+떨어지는 공으로 직접 해 볼게요. 공기를 무시하면, 손에서 놓은 공은 t초 동안 4.9 × t² m를 떨어져요.
+
+놓은 지 2초 된 순간부터 짧은 시간 동안 떨어진 거리를 재고, 그 거리를 시간으로 나눠 봐요.
+
+<S n={2}>
+
+자르는 시간을 1초, 0.1초, 0.01초로 줄일수록 평균 속력이 19.6 m/s에 다가가요.
+
+</S>
+
+<S n={3}>
+
+0.001초로 자르면 19.6049 m/s라서 19.6과 거의 같아요. 그래서 2초인 순간의 속력은 19.6 m/s라고 말해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="미분이라는 이름">
+  <Fragment slot="visual">
+    <Define term="derivative" />
+  </Fragment>
+
+이렇게 재는 시간을 0에 가깝게 줄여 가며 한순간의 변화율을 구하는 일을 **미분**이라고 해요. 속도계 바늘이 보여 주는 값이 위치를 시간으로 미분한 값이죠.
+
+<Key>미분은 짧은 동안 바뀐 양을 그 동안의 길이로 나누고, 그 길이를 0에 가깝게 줄여 갈 때 다가가는 값이라서, 한순간에 무언가가 얼마나 빨리 바뀌는지를 알려 줘요.</Key>
+
+</Screen>
+
+<Screen kind="graph" title="그래프에서는 기울기">
+  <Fragment slot="visual">
+    <Plot
+      alt="떨어진 거리-시간 그래프. 시간이 갈수록 가팔라지는 곡선과, 2초인 점에 닿는 직선"
+      x={[0, 3.1]} y={[0, 46]}
+      xLabel="시간 (s)" yLabel="떨어진 거리 (m)" xq="time" yq="space"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 10, 20, 30, 40]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: '4.9 * x * x', q: 'space', step: 2 },
+        { pts: [[1, 0], [3, 39.2]], q: 'motion', label: '닿는 직선', labelAt: [2.55, 24], step: 3 },
+      ]}
+      points={[{ x: 2, y: 19.6, label: '2초', q: 'motion', step: 3, dx: -26, dy: -8 }]}
+    />
+  </Fragment>
+
+미분은 그래프로 보면 더 잘 보여요.
+
+<S n={1}>
+
+가로축은 공을 놓은 뒤 지난 시간이고, 세로축은 그동안 떨어진 거리예요.
+
+</S>
+
+<S n={2}>
+
+공이 점점 빨라지니까 곡선도 갈수록 가팔라져요.
+
+</S>
+
+<S n={3}>
+
+2초인 점에 살짝 닿게 직선을 그어 볼게요. 이 직선의 기울기가 19.6 m/s로, 2초인 순간의 속력과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="점을 옮겨 보기">
+  <Fragment slot="visual">
+    <SimP08Slope curve="sine" show="slope" x={0.04} />
+  </Fragment>
+
+이번엔 물결 모양 곡선 위에서 점을 옮겨 보세요. 점에 닿은 보라색 직선의 기울기가 그 자리의 미분값이에요.
+
+<S n={2}>
+
+가파르게 올라가는 곳에서는 기울기가 크고, 꼭대기에서는 0이 돼요. 올라가다 내려가기 시작하는 그 순간에는 높이가 잠깐 바뀌지 않거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="평평한 구간">
+
+<Check id="q64-flat" options={[
+  { t: '멈춰 있었어요.', ok: true, why: '위치가 시간에 따라 바뀌지 않았으니 위치를 시간으로 미분한 값, 그러니까 속력이 0이에요.' },
+  { t: '가장 빠르게 달렸어요.', why: '빠르게 달리면 짧은 시간에 위치가 많이 바뀌어서 그래프가 가파르게 올라가요.' },
+  { t: '일정하게 빨라지고 있었어요.', why: '빨라지는 중이라면 위치가 점점 더 많이 바뀌어서, 그래프가 갈수록 가팔라지는 곡선이 돼요.' },
+  { t: '뒤로 가고 있었어요.', why: '뒤로 가면 위치 값이 줄어드니까 그래프가 내려가요. 평평하다는 건 위치가 그대로라는 뜻이에요.' },
+]}>
+
+어떤 자동차의 위치를 시간에 따라 그린 그래프가 있어요. 3시부터 3시 10분까지 이 그래프가 가로로 평평했다면, 그동안 자동차는 어떤 상태였을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="변화율은 어디에나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'ruler', title: '키', caption: '1년에 몇 cm 자라나' },
+      { icon: 'pot', title: '물 데우기', caption: '1분에 몇 ℃ 오르나' },
+      { icon: 'mountain', title: '등산로', caption: '한 걸음에 몇 cm 오르나' },
+    ]} />
+  </Fragment>
+
+미분은 속력에만 쓰는 게 아니에요. 바뀌는 양이 있으면 어디에든 쓸 수 있죠.
+
+<S n={2}>
+
+키가 1년에 몇 cm 자라는지, 물이 1분에 몇 ℃ 데워지는지도 변화율이에요. 그리고 꼭 시간에 따라 바뀌는 양만 미분할 수 있는 것도 아니에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="자리에 따라 바뀌는 양">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'mountain', title: '등산로의 한 자리', caption: '앞으로 1 cm 갈 때 높이가 0.3 cm 올라요' },
+      { big: '0.3', title: '그 자리의 가파른 정도', caption: '높이를 거리로 미분한 값', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+등산로의 한 자리에서, 앞으로 1 cm 갈 때 높이가 0.3 cm 오른다고 해 볼게요. 그 자리의 가파른 정도는 0.3이고, 이건 높이를 거리로 미분한 값이에요.
+
+<S n={2}>
+
+파동함수도 시간이 아니라 자리에 따라 값이 달라지는 파동이에요. 그래서 이제부터는 자리에 따른 변화율을 자주 쓸 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="휘는 길">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'curvesign', title: '휘는 길 표지판', caption: '곧 길이 굽어요' },
+      { icon: 'car', title: '운전대', caption: '굽은 길에서는 계속 돌려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 두 번째 말인 '굽은 정도'로 가 볼게요. 차를 타고 가다 보면 길이 휜다고 알려 주는 표지판을 만나죠.
+
+<S n={2}>
+
+곧게 뻗은 길에서는 운전대를 가만히 두면 돼요. 휜 길에서는 계속 돌려야 하고, 많이 휠수록 더 빨리 돌려야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="방향이 바뀌는 빠르기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '기울기', caption: '길이 지금 향한 방향' },
+      { big: '기울기의 변화율', caption: '그 방향이 바뀌는 빠르기', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+운전대를 돌린다는 건 차가 가는 방향이 바뀐다는 뜻이에요. 그래프로 말하면 기울기가 바뀌는 거죠.
+
+<S n={2}>
+
+그러니까 굽은 정도는 기울기가 얼마나 빨리 바뀌는지로 잴 수 있어요. 미분해서 얻은 기울기를 한 번 더 미분하는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="곡률이라는 이름">
+  <Fragment slot="visual">
+    <Define term="curvature" />
+  </Fragment>
+
+이렇게 기울기가 바뀌는 빠르기로 잰 굽은 정도를 **곡률**이라고 불러요. 기울기가 커지는 중이면 곡률은 0보다 크고, 곡선은 위로 굽어요.
+
+<S n={2}>
+
+거꾸로 기울기가 작아지는 중이면 곡률은 0보다 작고, 곡선은 아래로 굽죠.
+
+<Key>곡률은 기울기가 얼마나 빨리 바뀌는지를 재는 값이라서, 아무리 가파른 길이라도 곧게 뻗어 있으면 0이고, 완만한 길이라도 휘어 있으면 0이 아니에요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="가파름과 굽음">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '곧은 비탈', caption: '기울기 큼 · 곡률 0' },
+      { big: '골짜기 바닥', caption: '기울기 0 · 곡률 큼', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note label="헷갈림 주의">
+
+저도 처음엔 가파른 곳이 많이 굽은 곳인 줄 알았어요. 그런데 미끄럼틀의 곧은 비탈은 아주 가팔라도 전혀 굽지 않았죠.
+
+거꾸로 골짜기 맨 밑은 평평해서 기울기가 0이지만, 양옆이 솟아 있어서 가장 세게 굽은 곳이에요.
+
+</Note>
+
+기울기는 지금 향한 방향을, 곡률은 그 방향이 바뀌는 빠르기를 말해요.
+
+</Screen>
+
+<Screen kind="observe" title="곡률 보기">
+  <Fragment slot="visual">
+    <SimP08Slope curve="sine" show="both" x={0.1} />
+  </Fragment>
+
+점을 다시 옮겨 보세요. 이번엔 노란 화살표가 곡선이 굽는 쪽을 가리키고, 화살표의 길이가 곡률의 크기예요.
+
+<S n={2}>
+
+봉우리 근처에서는 아래로, 골짜기 근처에서는 위로 굽어요. 곡선이 가로축을 지나는 점에서는 곡률이 0이 되고요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="늘 가로축 쪽으로">
+  <Fragment slot="visual">
+    <Plot
+      alt="사인 곡선. 봉우리에서는 아래로, 골짜기에서는 위로 굽고, 가로축을 지나는 점에서는 굽지 않는다"
+      x={[0, 12.6]} y={[-1.4, 1.4]}
+      xLabel="자리" yLabel="곡선의 높이"
+      xTicks={[]} yTicks={[-1, 0, 1]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'sin(x)', q: 'space', step: 1 }]}
+      points={[
+        { x: 1.571, y: 1, label: '아래로 굽어요', step: 2, dy: -10 },
+        { x: 4.712, y: -1, label: '위로 굽어요', step: 2, dy: 18 },
+        { x: 6.283, y: 0, label: '곡률 0', step: 3, dy: -12 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 자리, 세로축은 곡선의 높이예요.
+
+</S>
+
+<S n={2}>
+
+사인 곡선은 가로축보다 높이 있으면 아래로, 낮게 있으면 위로 굽어요.
+
+</S>
+
+<S n={3}>
+
+그래서 언제나 가로축 쪽으로 굽고, 가로축에서 멀수록 더 세게 굽어요.
+
+<Key>사인 모양 물결은 높이가 클수록 그만큼 세게 가로축 쪽으로 굽어서, 곡률이 늘 높이에 비례하고 부호는 높이와 반대예요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="촘촘한 물결">
+  <Fragment slot="visual">
+    <Plot
+      alt="높이가 같은 두 사인 곡선. 하나는 파장이 다른 하나의 절반이라 더 촘촘하다"
+      x={[0, 12.6]} y={[-1.4, 1.4]}
+      xLabel="자리" yLabel="높이"
+      xTicks={[]} yTicks={[-1, 0, 1]}
+      curves={[
+        { fn: 'sin(x)', q: 'space', label: '긴 파장', labelAt: [0.3, 1.25] },
+        { fn: 'sin(2 * x)', q: 'energy', dash: true, label: '파장 절반', labelAt: [9.2, 1.25] },
+      ]}
+    />
+  </Fragment>
+
+높이가 같은 두 물결을 견줘 볼게요. 파장이 절반인 물결은 같은 높이를 절반 거리 안에서 오르내려야 하죠.
+
+<S n={2}>
+
+그래서 기울기가 2배 가파르고, 그 기울기가 절반 거리 안에서 뒤집혀요. 곡률은 2 × 2 = 4배가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="파장이 3분의 1이면">
+
+<Check id="q64-curv" options={[
+  { t: '3배', why: '기울기만 보면 3배지만, 그 기울기가 3분의 1 거리 안에서 바뀌니까 한 번 더 3배가 돼요.' },
+  { t: '9배', ok: true, why: '기울기가 3배 가파르고, 그 기울기가 3분의 1 거리 안에서 바뀌어요. 그래서 3 × 3 = 9배예요.' },
+  { t: '3분의 1', why: '파장이 짧을수록 더 촘촘하게 오르내리니까 더 세게 굽어요. 곡률이 작아지지 않아요.' },
+  { t: '같아요', why: '높이가 같아도 오르내리는 거리가 짧으면 더 세게 굽어요.' },
+]}>
+
+높이가 같은 사인 모양 물결 A와 B가 있어요. B의 파장이 A의 3분의 1이라면, 봉우리에서 B의 곡률은 A의 몇 배일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recall" from={58} title="파동함수">
+  <Fragment slot="visual">
+    <Plot
+      alt="자리에 따라 값이 오르내리는 파동함수 하나"
+      x={[0, 10]} y={[-1.2, 1.2]}
+      xLabel="자리" yLabel="파동함수의 값"
+      xTicks={[]} yTicks={[0]}
+      curves={[{ fn: 'exp(-((x - 5) ** 2) / 6) * cos(3 * (x - 5))', q: 'plain' }]}
+    />
+  </Fragment>
+
+58강에서 입자를 파동함수로 나타냈어요. 파동함수는 자리마다 값을 가진 파동이고, 그 값의 크기를 제곱하면 그 자리에서 입자를 찾을 확률을 알려 줘요.
+
+<S n={2}>
+
+파동함수도 자리에 따라 오르내리니까, 기울기와 곡률을 가지고 있어요. 오늘 배운 두 말은 이 모양을 읽는 도구예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={47} title="파장과 운동량">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '긴 파장', caption: '운동량이 작아요' },
+      { big: '짧은 파장', caption: '운동량이 커요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+47강에서 전자 같은 입자도 파장을 가지고, 그 파장은 운동량에 반비례한다고 했어요. 그래서 파장이 절반이면 운동량은 2배예요.
+
+<S n={2}>
+
+운동 에너지는 ½mv²였죠. 운동량 mv로 바꿔 쓰면 운동량의 제곱을 2m으로 나눈 값이라서, 운동량이 2배면 운동 에너지는 4배예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="굽은 정도가 알려 주는 것">
+  <Fragment slot="visual">
+    <DataTable caption="파장이 짧아질 때 함께 커지는 두 양" head={['파장', '파동함수의 곡률', '입자의 운동 에너지']} rows={[
+      ['1배', '1배', '1배'],
+      ['2분의 1', '4배', '4배'],
+      ['3분의 1', '9배', '9배'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+두 결과를 나란히 놓아 볼게요. 파장이 절반이 되면 파동함수의 곡률도 4배, 입자의 운동 에너지도 4배예요.
+
+<Key>파동함수의 파장이 짧아지면 곡률과 운동 에너지가 똑같은 비율로 커지니까, 파동함수가 얼마나 세게 굽었는지를 보면 그 입자의 운동 에너지를 읽을 수 있어요.</Key>
+
+</Screen>
+
+<Screen kind="analogy" title="길과 운전대">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['길이 지금 향한 방향', '그래프의 기울기 (미분)'],
+        ['운전대를 돌리는 빠르기', '곡률'],
+        ['곧게 뻗은 길', '곡률 0'],
+        ['급하게 휘는 길', '곡률이 큼'],
+      ]}
+      fits="기울기와 곡률이 서로 다른 양이라는 것, 그리고 곡률은 방향이 바뀌는 빠르기라는 것이 같아요."
+      breaks="실제 길은 땅 위에서 왼쪽 오른쪽으로 휘지만, 그래프는 높이가 자리에 따라 바뀌는 모양이에요. 그래서 굽는 방향이 위와 아래 둘뿐이고, 그 방향을 곡률의 부호로 나타내요."
+    />
+  </Fragment>
+
+오늘의 두 말을 운전에 빗대어 한 번에 모아 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="worked" title="숫자로 곡률 재기">
+  <Fragment slot="visual">
+    <DataTable caption="높이가 x²인 곡선" head={['x', '높이', '한 칸 갈 때 오른 높이', '그 값이 늘어난 양']} rows={[
+      ['0', '0', '', ''],
+      ['1', '1', '1', ''],
+      ['2', '4', '3', '2'],
+      ['3', '9', '5', '2'],
+      ['4', '16', '7', '2'],
+    ]} steps={[undefined, undefined, 2, 2, 2]} />
+  </Fragment>
+
+곡률도 숫자로 재 볼 수 있어요. 높이가 x²인 곡선에서 x를 1씩 늘리며 높이를 적어요.
+
+<S n={2}>
+
+한 칸 갈 때 오른 높이는 1, 3, 5, 7로 늘어요. 이 값이 그 구간의 기울기를 어림한 거예요.
+
+이 기울기들이 한 칸마다 늘 2씩 커지죠. 그래서 이 곡선의 곡률은 어디서나 2예요.
+
+</S>
+
+<S n={3}>
+
+감각으로 확인해 볼게요. 던진 공이 그리는 길도 이런 모양이라서, 어디서나 같은 세기로 휘어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="곡률이 0인 그래프">
+
+<Check id="q64-zero" options={[
+  { t: '비스듬히 곧게 올라가는 직선', ok: true, why: '기울기가 어디서나 같아서 바뀌지 않아요. 기울기의 변화율이 0이니 곡률도 0이에요.' },
+  { t: '사인 곡선', why: '높이가 있는 곳마다 가로축을 향해 굽어요. 곡률이 0인 곳은 가로축을 지나는 점뿐이에요.' },
+  { t: '높이가 x²인 곡선', why: '한 칸마다 기울기가 2씩 커지니까 곡률이 어디서나 2예요.' },
+  { t: '완만한 직선만 0이고, 가파른 직선은 곡률이 커요', why: '가파른 것과 굽은 것은 달라요. 직선은 얼마나 가파르든 기울기가 바뀌지 않아서 곡률이 0이에요.' },
+]}>
+
+다음 가운데 어느 자리에서나 곡률이 0인 그래프는 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="뉴턴과 라이프니츠">
+  <Fragment slot="visual">
+    <BigNumber top="라이프니츠가 미분을 처음 책으로 펴낸 해" value="1684" bottom="뉴턴은 그보다 앞선 1660년대에 따로 같은 방법을 만들었어요" />
+  </Fragment>
+
+미분은 1600년대 후반에 아이작 뉴턴과 고트프리트 라이프니츠가 따로따로 만들었어요. 뉴턴은 움직임의 법칙을 쓰려고 이 도구가 필요했죠.
+
+<S n={2}>
+
+5강의 F = ma도 속도가 바뀌는 빠르기, 그러니까 속도를 미분한 가속도에 관한 식이에요. 물리학의 법칙은 이렇게 무엇이 얼마나 빨리 바뀌는지로 쓰인 것이 많아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['derivative', 'curvature']}>
+
+1. 짧은 동안 바뀐 양을 그 동안의 길이로 나누고, 그 길이를 0에 가깝게 줄이면 한순간의 변화율이 나와요. 이게 미분이에요.
+2. 그래프에서 미분값은 그 점에 닿는 직선의 기울기예요.
+3. 기울기가 얼마나 빨리 바뀌는지를 한 번 더 재면 곡률이 나오고, 곡률은 곡선이 굽는 세기와 방향을 알려 줘요.
+4. 파장이 짧은 물결일수록 세게 굽는데, 입자의 운동 에너지도 같은 비율로 커져요.
+5. 그래서 파동함수의 곡률을 보면 입자의 운동 에너지를 읽을 수 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="두 입자의 파동함수">
+
+<DailyProblem id="p64">
+
+두 입자의 파동함수가 있어요. 둘 다 사인 모양이고 높이도 같은데, A의 파장은 2 nm, B의 파장은 1 nm예요.
+
+운동 에너지가 더 큰 입자는 어느 것이고, 몇 배일까요? 질량은 같다고 할게요.
+
+<Fragment slot="hint1">
+
+파장이 절반이면 곡률은 몇 배였나요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+곡률과 운동 에너지는 같은 비율로 바뀌어요.
+
+</Fragment>
+<Fragment slot="solution">
+
+B가 4배 커요. B의 파장이 절반이라 기울기가 2배 가파르고, 그 기울기가 절반 거리 안에서 바뀌니까 곡률이 4배예요.
+
+운동 에너지도 운동량의 제곱에 비례하고, 운동량은 파장에 반비례해요. 그래서 운동 에너지도 똑같이 4배가 돼요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+미분은 한순간의 변화율이고 곡률은 그 변화율이 바뀌는 빠르기라서, 파동함수가 얼마나 굽었는지를 보면 입자의 운동 에너지를 읽을 수 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="에너지를 더하는 식">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'coaster', title: '오르막', caption: '위치 에너지가 늘고 운동 에너지가 줄어요' },
+      { big: '덜 굽은 파동함수', caption: '운동 에너지가 작은 자리', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+롤러코스터가 오르막을 오르면 위치 에너지가 늘고 운동 에너지는 줄죠. 그렇다면 입자도 위치 에너지가 큰 자리에서는 파동함수가 덜 굽어야 해요.
+
+<S n={2}>
+
+다음 강에서는 곡률로 읽은 운동 에너지에 위치 에너지를 더하면 전체 에너지가 된다는 생각을 식 하나로 써요. 그 식이 <Later n={65}>슈뢰딩거 방정식</Later>이에요.
+
+</S>
+
+</Screen>

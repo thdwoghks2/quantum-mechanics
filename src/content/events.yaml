@@ -2,318 +2,318 @@
 - id: newton-prism
   year: 1666
   title: 뉴턴의 프리즘 실험
-  summary: 뉴턴이 프리즘으로 햇빛을 여러 색으로 나누고, 두 번째 프리즘으로 다시 모아 흰빛을 만들었다. 흰빛은 여러 색의 빛이 섞인 것이다. 실험 시기는 1660년대 중반으로 알려져 있다.
+  summary: "뉴턴이 프리즘으로 햇빛을 여러 색으로 나누고, 두 번째 프리즘으로 다시 모아 흰빛을 만들었어요. 흰빛은 여러 색의 빛이 섞인 거예요. 실험한 때는 1660년대 중반으로 알려져 있어요."
   lessons: [17]
   people: [newton]
 - id: principia
   year: 1687
   title: 『프린키피아』 출간
-  summary: 뉴턴이 운동 법칙과 만유인력 법칙을 담은 책을 펴냈다. 이 책의 물리학은 200년 넘게 거의 모든 운동을 설명했다.
+  summary: "뉴턴이 운동 법칙과 만유인력 법칙을 담은 책을 펴냈어요. 사람들은 이 책의 물리학으로 200년 넘게 거의 모든 움직임을 설명했어요."
   lessons: [1, 5]
   people: [newton]
 - id: huygens-treatise
   year: 1690
   title: 하위헌스의 『빛에 관한 논고』
-  summary: 빛이 파동이라고 보고, 앞선 물결의 모든 점이 새 물결을 내보낸다는 방식으로 빛의 반사와 굴절을 설명했다.
+  summary: "하위헌스가 빛을 파동으로 보고, 앞선 물결의 모든 점이 새 물결을 내보낸다는 방식으로 빛의 반사와 굴절을 설명했어요."
   lessons: [15]
   people: [huygens]
 - id: coulomb-1785
   year: 1785
   title: 쿨롱의 비틀림 저울
-  summary: 전기를 띤 두 공 사이의 힘이 거리의 제곱에 반비례한다는 것을 측정으로 보였다.
+  summary: "쿨롱이 전기를 띤 두 공 사이의 힘이 거리의 제곱에 반비례한다는 것을 측정으로 보였어요."
   lessons: [18]
   people: [coulomb]
 - id: young-1801
   year: 1801
   title: 영의 간섭 실험
-  summary: 토머스 영이 1801년부터 1803년 사이의 강연과 논문에서 빛의 간섭을 보이고, 빛이 파동이라고 주장했다.
+  summary: "토머스 영이 1801년부터 1803년 사이의 강연과 논문에서 빛의 간섭을 보이고, 빛이 파동이라고 주장했어요."
   lessons: [14, 16]
   people: [young]
 - id: laplace-demon
   year: 1814
   title: 라플라스의 악마
-  summary: 라플라스가 모든 것의 현재 상태를 아는 지성에게는 미래가 정해져 보일 것이라고 썼다. 결정론을 가장 분명하게 표현한 문장으로 꼽힌다.
+  summary: "라플라스가 모든 것의 지금 상태를 아는 지성에게는 미래가 정해져 보일 거라고 썼어요. 결정론을 가장 분명하게 나타낸 문장으로 꼽혀요."
   lessons: [8]
   people: [laplace]
 - id: arago-spot
   year: 1818
   title: 아라고의 밝은 점
-  summary: 프레넬의 파동 이론을 반박하려던 푸아송의 계산대로, 둥근 원판 그림자 한가운데에서 밝은 점이 실제로 관측되었다. 빛의 파동 이론이 받아들여지는 계기가 되었다.
+  summary: "프레넬의 파동 이론을 반박하려던 푸아송의 계산대로, 둥근 원판 그림자 한가운데에서 밝은 점이 실제로 보였어요. 이 일로 빛의 파동 이론이 받아들여지기 시작했어요."
   lessons: [15]
   people: [fresnel, poisson, arago]
 - id: faraday-1831
   year: 1831
   title: 전자기 유도 발견
-  summary: 패러데이가 자석을 움직이면 전선에 전기가 흐른다는 것을 발견했다.
+  summary: "패러데이가 자석을 움직이면 전선에 전기가 흐른다는 것을 발견했어요."
   lessons: [19]
   people: [faraday]
 - id: maxwell-1865
   year: 1865
   title: 빛은 전자기파
-  summary: 맥스웰이 전기와 자기의 방정식에서 전자기파의 속력을 계산했고, 그것이 빛의 속력과 같다는 데서 빛이 전자기파라고 결론지었다.
+  summary: "맥스웰이 전기와 자기의 방정식으로 전자기파의 속력을 계산했어요. 그 값이 빛의 속력과 같아서, 빛이 전자기파라고 결론지었어요."
   lessons: [19]
   people: [maxwell]
 - id: hertz-1887
   year: 1887
   title: 헤르츠의 전파 실험
-  summary: 헤르츠가 실험실에서 전파를 만들고 검출해 전자기파가 실제로 있다는 것을 보였다.
+  summary: "헤르츠가 실험실에서 전파를 만들고 잡아내서, 전자기파가 실제로 있다는 것을 보였어요."
   lessons: [19]
   people: [hertz]
 - id: michelson-morley
   year: 1887
   title: 마이컬슨-몰리 실험
-  summary: 빛을 전하는 매질이 있다면 지구의 움직임에 따라 빛의 속력이 달라져야 했지만, 차이가 나타나지 않았다.
+  summary: "빛을 전하는 매질이 있다면 지구가 움직이는 방향에 따라 빛의 속력이 달라져야 했어요. 그런데 아무 차이도 나타나지 않았어요."
   lessons: [97]
 - id: rontgen-1895
   year: 1895
   date: 11월 8일
   title: X선 발견
-  summary: 빌헬름 뢴트겐이 두꺼운 종이를 뚫고 나가는 보이지 않는 빛을 발견하고 X선이라고 이름 붙였다.
+  summary: "빌헬름 뢴트겐이 두꺼운 종이를 뚫고 나가는 보이지 않는 빛을 발견하고 X선이라고 이름 붙였어요."
   lessons: [19]
 - id: thomson-1897
   year: 1897
   title: 전자의 발견
-  summary: 톰슨이 음극선이 원자보다 훨씬 가벼운 음전하 알갱이의 흐름이라는 것을 보였다.
+  summary: "톰슨이 음극선이 원자보다 훨씬 가벼운 음전하 알갱이의 흐름이라는 것을 보였어요."
   lessons: [37]
   people: [thomson]
 - id: kelvin-clouds
   year: 1900
   date: 4월 27일
   title: 켈빈의 '두 구름' 강연
-  summary: 런던 왕립연구소에서 켈빈이 열과 빛의 이론에 드리운 두 조각의 구름을 말했다. 두 구름은 각각 상대성이론과 양자역학으로 이어졌다.
+  summary: "런던 왕립연구소에서 켈빈이 열과 빛의 이론에 드리운 두 조각의 구름을 이야기했어요. 두 구름은 각각 상대성이론과 양자역학으로 이어졌어요."
   lessons: [31]
   people: [kelvin]
 - id: planck-1900
   year: 1900
   date: 12월 14일
   title: 플랑크의 에너지 덩어리 가정
-  summary: 플랑크가 독일 물리학회에서 에너지가 덩어리로만 오간다는 가정으로 뜨거운 물체가 내는 빛의 세기를 설명했다.
+  summary: "플랑크가 독일 물리학회에서, 에너지가 덩어리로만 오간다는 가정으로 뜨거운 물체가 내는 빛의 세기를 설명했어요."
   lessons: [32]
   people: [planck]
 - id: einstein-1905
   year: 1905
   title: 아인슈타인의 1905년
-  summary: 광전 효과, 브라운 운동, 특수상대성이론, E = mc²에 관한 논문이 한 해에 나왔다.
+  summary: "광전 효과, 브라운 운동, 특수상대성이론, E = mc²에 관한 논문이 한 해에 나왔어요."
   lessons: [22, 35, 97, 100]
   people: [einstein]
 - id: perrin-1908
   year: 1908
   title: 페랭의 브라운 운동 측정
-  summary: 페랭이 브라운 운동을 정밀하게 재어 원자의 존재를 확인했다.
+  summary: "페랭이 브라운 운동을 정밀하게 재서 원자가 실제로 있다는 것을 확인했어요."
   lessons: [22]
   people: [perrin]
 - id: geiger-marsden
   year: 1909
   title: 금박 실험
-  summary: 가이거와 마스든이 얇은 금박에 쏜 알파 입자 일부가 크게 튕겨 나오는 것을 관측했다.
+  summary: "가이거와 마스든이 얇은 금박에 쏜 알파 입자 가운데 일부가 크게 튕겨 나오는 것을 보았어요."
   lessons: [39]
   people: [rutherford]
 - id: rutherford-1911
   year: 1911
   title: 원자핵의 발견
-  summary: 러더퍼드가 원자 한가운데에 작고 무거운 원자핵이 있다고 발표했다.
+  summary: "러더퍼드가 원자 한가운데에 작고 무거운 원자핵이 있다고 발표했어요."
   lessons: [39]
   people: [rutherford]
 - id: bohr-1913
   year: 1913
   title: 보어의 원자 모형
-  summary: 보어가 전자가 정해진 에너지에만 있을 수 있다는 모형으로 수소의 선 스펙트럼을 설명했다.
+  summary: "보어가 전자는 정해진 에너지에만 있을 수 있다는 모형으로 수소의 선 스펙트럼을 설명했어요."
   lessons: [44]
   people: [bohr]
 - id: millikan-1916
   year: 1916
   title: 광전 효과 식의 확인
-  summary: 밀리컨이 정밀한 측정으로 아인슈타인의 광전 효과 식을 확인했다.
+  summary: "밀리컨이 정밀한 측정으로 아인슈타인의 광전 효과 식이 맞다는 것을 확인했어요."
   lessons: [35]
   people: [millikan]
 - id: noether-1918
   year: 1918
   title: 뇌터 정리
-  summary: 뇌터가 물리 법칙의 대칭과 보존 법칙이 짝을 이룬다는 것을 증명했다.
+  summary: "뇌터가 물리 법칙의 대칭과 보존 법칙이 짝을 이룬다는 것을 증명했어요."
   lessons: [125]
   people: [noether]
 - id: stern-gerlach
   year: 1922
   title: 슈테른-게를라흐 실험
-  summary: 은 원자 빔이 자석을 지나며 두 갈래로만 갈라졌다. 훗날 스핀으로 설명되었다.
+  summary: "은 원자들이 자석 사이를 지나며 두 갈래로만 갈라졌어요. 이 결과는 몇 해 뒤 스핀으로 설명됐어요."
   lessons: [72]
 - id: compton-1923
   year: 1923
   title: 콤프턴 산란
-  summary: X선이 전자와 부딪혀 진동수가 낮아지는 현상이 빛을 운동량을 가진 알갱이로 보면 정확히 설명되었다.
+  summary: "X선이 전자와 부딪혀 진동수가 낮아지는 현상이, 빛을 운동량을 가진 알갱이로 보면 정확히 설명됐어요."
   lessons: [36]
 - id: debroglie-1924
   year: 1924
   title: 물질파 제안
-  summary: 드브로이가 전자도 파동의 성질을 가진다고 제안했다.
+  summary: "드브로이가 전자도 파동의 성질을 가진다고 제안했어요."
   lessons: [47]
   people: [debroglie]
 - id: qm-1925
   year: 1925
   title: 행렬역학과 배타 원리
-  summary: 하이젠베르크가 행렬역학을, 파울리가 배타 원리를 내놓았다.
+  summary: "하이젠베르크가 행렬역학을, 파울리가 배타 원리를 내놓았어요."
   lessons: [61, 73]
   people: [heisenberg, pauli]
 - id: schrodinger-1926
   year: 1926
   title: 슈뢰딩거 방정식과 확률 해석
-  summary: 슈뢰딩거가 파동 방정식을, 보른이 그 확률 해석을 발표했다.
+  summary: "슈뢰딩거가 파동함수가 따르는 방정식을, 보른이 그 확률 해석을 발표했어요."
   lessons: [56, 65]
   people: [schrodinger, born]
 - id: solvay-1927
   year: 1927
   title: 불확정성 원리와 솔베이 회의
-  summary: 하이젠베르크가 불확정성 원리를 발표했고, 브뤼셀 솔베이 회의에서 아인슈타인과 보어의 논쟁이 시작되었다. 같은 해 데이비슨과 거머가 전자의 회절을 관측했다.
+  summary: "하이젠베르크가 불확정성 원리를 발표했고, 브뤼셀 솔베이 회의에서 아인슈타인과 보어의 논쟁이 시작됐어요. 같은 해 데이비슨과 거머가 전자가 회절하는 것을 보았어요."
   lessons: [49, 61, 85]
   people: [heisenberg, einstein, bohr]
 - id: dirac-1928
   year: 1928
   title: 디랙 방정식
-  summary: 디랙이 상대성이론과 맞는 전자의 방정식을 세우고 반물질을 예측했다.
+  summary: "디랙이 상대성이론과 맞는 전자의 방정식을 세우고 반물질을 예측했어요."
   lessons: [101]
   people: [dirac]
 - id: chandrasekhar-1930
   year: 1930
   title: 찬드라세카르 한계
-  summary: 찬드라세카르가 백색왜성이 버틸 수 있는 질량에 한계가 있다는 것을 계산했다.
+  summary: "찬드라세카르가 백색왜성이 버틸 수 있는 질량에 한계가 있다는 것을 계산했어요."
   lessons: [110]
   people: [chandrasekhar]
 - id: neutron-1932
   year: 1932
   title: 중성자와 양전자 발견
-  summary: 채드윅이 중성자를, 앤더슨이 양전자를 발견했다.
+  summary: "채드윅이 중성자를, 앤더슨이 양전자를 발견했어요."
   lessons: [101, 106]
 - id: szilard-1933
   year: 1933
   title: 연쇄 반응이라는 생각
-  summary: 실라르드가 런던의 길을 건너다 중성자 연쇄 반응을 떠올렸다고 회고했다.
+  summary: "실라르드는 런던에서 길을 건너다 중성자 연쇄 반응을 떠올렸다고 회고했어요."
   lessons: [111]
   people: [szilard]
 - id: epr-1935
   year: 1935
   title: EPR 논문과 슈뢰딩거의 고양이
-  summary: 아인슈타인, 포돌스키, 로젠이 양자역학이 불완전하다고 주장했고, 슈뢰딩거가 고양이 사고 실험을 내놓았다.
+  summary: "아인슈타인, 포돌스키, 로젠이 양자역학이 불완전하다고 주장했고, 슈뢰딩거가 고양이 사고 실험을 내놓았어요."
   lessons: [87, 88]
   people: [einstein, schrodinger]
 - id: fission-1938
   year: 1938
   title: 핵분열의 발견
-  summary: 한과 슈트라스만이 우라늄에서 바륨을 찾아냈고, 마이트너와 프리슈가 원자핵이 쪼개진 것이라고 해석했다.
+  summary: "한과 슈트라스만이 우라늄에서 바륨을 찾아냈고, 마이트너와 프리슈가 이것을 원자핵이 쪼개진 거라고 해석했어요."
   lessons: [112]
   people: [meitner]
 - id: letter-1939
   year: 1939
   date: 8월 2일
   title: 아인슈타인-실라르드 편지
-  summary: 아인슈타인이 서명한 편지가 루스벨트 대통령에게 원자폭탄의 가능성을 알렸다.
+  summary: "아인슈타인이 서명한 편지가 루스벨트 대통령에게 원자폭탄이 가능하다는 것을 알렸어요."
   lessons: [113]
   people: [einstein, szilard]
 - id: cp1-1942
   year: 1942
   date: 12월 2일
   title: 시카고 파일 1
-  summary: 페르미가 이끈 팀이 처음으로 연쇄 반응을 제어하는 원자로를 가동했다.
+  summary: "페르미가 이끈 팀이 연쇄 반응을 제어하는 원자로를 처음으로 가동했어요."
   lessons: [114]
   people: [fermi]
 - id: trinity-1945
   year: 1945
   date: 7월 16일
   title: 트리니티 실험
-  summary: 뉴멕시코 사막에서 첫 원자폭탄 폭발 실험이 있었다.
+  summary: "미국 뉴멕시코 사막에서 첫 원자폭탄 폭발 실험이 있었어요."
   lessons: [116]
   people: [oppenheimer, fermi]
 - id: hiroshima-1945
   year: 1945
   date: 8월 6일, 8월 9일
   title: 히로시마와 나가사키
-  summary: 원자폭탄이 두 도시에 떨어졌다. 그해 말까지 두 도시에서 수십만 명이 목숨을 잃은 것으로 추정된다.
+  summary: "원자폭탄이 두 도시에 떨어졌어요. 그해 말까지 두 도시에서 수십만 명이 목숨을 잃은 것으로 추정돼요."
   lessons: [117]
 - id: transistor-1947
   year: 1947
   title: 트랜지스터 발명
-  summary: 벨 연구소에서 바딘, 브래튼, 쇼클리가 트랜지스터를 만들었다.
+  summary: "벨 연구소의 바딘, 브래튼, 쇼클리가 트랜지스터를 만들었어요."
   lessons: [132]
 - id: hearing-1954
   year: 1954
   title: 오펜하이머 청문회
-  summary: 미국 원자력위원회 청문회 끝에 오펜하이머가 보안 인가를 잃었다.
+  summary: "미국 원자력위원회 청문회 끝에 오펜하이머가 보안 인가를 잃었어요."
   lessons: [119]
   people: [oppenheimer]
 - id: manifesto-1955
   year: 1955
   date: 7월 9일
   title: 러셀-아인슈타인 선언
-  summary: 핵전쟁의 위험을 경고하고 과학자들의 책임을 촉구한 선언이 발표되었다.
+  summary: "핵전쟁의 위험을 경고하고 과학자들의 책임을 촉구한 선언이 발표됐어요."
   lessons: [119]
   people: [einstein, rotblat]
 - id: laser-1960
   year: 1960
   title: 첫 레이저
-  summary: 메이먼이 루비 결정으로 첫 레이저를 만들었다.
+  summary: "메이먼이 루비 결정으로 첫 레이저를 만들었어요."
   lessons: [133]
 - id: bell-1964
   year: 1964
   title: 벨 부등식
-  summary: 벨이 국소 실재론이 맞다면 따라야 할 부등식을 유도했다.
+  summary: "벨이 국소 실재론이 맞다면 실험 결과가 따라야 할 부등식을 이끌어 냈어요."
   lessons: [90]
   people: [bell]
 - id: cmb-1965
   year: 1965
   title: 우주 배경 복사 발견
-  summary: 펜지어스와 윌슨이 하늘 모든 방향에서 오는 약한 전파를 발견했다. 빅뱅의 흔적이었다.
+  summary: "펜지어스와 윌슨이 하늘의 모든 방향에서 오는 약한 전파를 발견했어요. 빅뱅이 남긴 흔적이었어요."
   lessons: [126]
 - id: pulsar-1967
   year: 1967
   title: 펄서 발견
-  summary: 대학원생 조슬린 벨 버넬이 규칙적으로 깜박이는 전파원을 발견했다. 노벨상은 지도교수에게 돌아갔다.
+  summary: "대학원생 조슬린 벨 버넬이 규칙적으로 깜박이는 전파원을 발견했어요. 노벨상은 지도교수에게 돌아갔어요."
   lessons: [110]
 - id: hawking-1974
   year: 1974
   title: 호킹 복사
-  summary: 호킹이 블랙홀도 양자 효과로 빛을 낸다고 계산했다.
+  summary: "호킹이 블랙홀도 양자 효과 때문에 빛을 낸다고 계산했어요."
   lessons: [129]
 - id: aspect-1982
   year: 1982
   title: 아스페의 벨 실험
-  summary: 아스페 연구진이 측정 방향을 빠르게 바꾸는 실험으로 벨 부등식이 깨진다는 것을 보였다.
+  summary: "아스페 연구진이 측정 방향을 빠르게 바꾸는 실험으로 벨 부등식이 깨진다는 것을 보였어요."
   lessons: [91]
 - id: tonomura-1989
   year: 1989
   title: 전자 하나씩 쏘는 이중 슬릿
-  summary: 토노무라 연구진이 전자를 하나씩 보내도 점들이 쌓여 간섭 무늬가 생기는 것을 영상으로 기록했다.
+  summary: "토노무라 연구진이 전자를 하나씩 보내도 점들이 쌓여 간섭 무늬가 생기는 모습을 영상으로 기록했어요."
   lessons: [50]
 - id: shor-1994
   year: 1994
   title: 쇼어 알고리즘
-  summary: 쇼어가 양자컴퓨터로 큰 수를 빠르게 소인수분해하는 방법을 내놓았다.
+  summary: "쇼어가 양자컴퓨터로 큰 수를 빠르게 소인수분해하는 방법을 내놓았어요."
   lessons: [135]
 - id: bec-1995
   year: 1995
   title: 보스-아인슈타인 응축
-  summary: 아주 차갑게 식힌 원자 수천 개가 하나의 양자 상태로 모였다.
+  summary: "아주 차갑게 식힌 원자 수천 개가 하나의 양자 상태로 모였어요."
   lessons: [76]
 - id: higgs-2012
   year: 2012
   date: 7월 4일
   title: 힉스 입자 발견
-  summary: 유럽입자물리연구소(CERN)가 힉스 입자로 보이는 새 입자를 발견했다고 발표했다.
+  summary: "유럽입자물리연구소(CERN)가 힉스 입자로 보이는 새 입자를 발견했다고 발표했어요."
   lessons: [124]
 - id: ligo-2015
   year: 2015
   date: 9월 14일
   title: 중력파 첫 검출
-  summary: 약 13억 년 전 두 블랙홀이 합쳐질 때 생긴 시공간의 떨림이 지구에 닿아 검출되었다.
+  summary: "약 13억 년 전 두 블랙홀이 합쳐질 때 생긴 시공간의 떨림이 지구에 닿아 검출됐어요."
   lessons: [105]
 - id: eht-2019
   year: 2019
   date: 4월 10일
   title: 블랙홀 그림자 사진
-  summary: 사건지평선 망원경 연구진이 M87 은하 중심 블랙홀의 그림자 사진을 공개했다.
+  summary: "사건지평선 망원경 연구진이 M87 은하 중심에 있는 블랙홀의 그림자 사진을 공개했어요."
   lessons: [104]
 - id: nobel-2022
   year: 2022
   title: 얽힘 실험에 노벨 물리학상
-  summary: 아스페, 클라우저, 차일링거가 얽힌 광자 실험으로 노벨 물리학상을 받았다.
+  summary: "아스페, 클라우저, 차일링거가 얽힌 광자 실험으로 노벨 물리학상을 받았어요."
   lessons: [91]
 
 # ══ 세션별로 새 사건을 더하는 자리 ═══════════════════════════════
@@ -325,12 +325,36 @@
 
 # ── 세션 2 (37~63강) ──
 # (여기 아래에 더한다)
+- id: hertz-1883
+  year: 1883
+  title: 휘지 않은 음극선
+  summary: 하인리히 헤르츠가 전기를 띤 두 판 사이로 음극선을 지나게 했지만 휘지 않았어요. 그래서 음극선이 빛 같은 파동이라는 생각에 힘이 실렸어요. 1897년 톰슨은 관 속에 남은 공기가 판의 전기를 가렸기 때문이라고 보고, 공기를 더 철저히 빼서 음극선을 휘게 했어요.
+  lessons: [37]
+  people: [hertz]
+- id: braun-1897
+  year: 1897
+  title: 브라운관
+  summary: 카를 페르디난트 브라운이 음극선으로 화면에 전기의 변화를 그리는 유리관을 만들었어요. 옛날 TV와 컴퓨터 모니터의 브라운관이 여기서 나왔어요.
+  lessons: [37]
+  people: [braun]
 
 # ── 세션 3 (64~83강, 106~110강) ──
 # (여기 아래에 더한다)
 
 # ── 세션 4 (84~105강, 111~120강) ──
 # (여기 아래에 더한다)
+- id: como-1927
+  year: 1927
+  title: 보어의 코모 강연
+  summary: 이탈리아 코모에서 열린 볼타 서거 100주년 학회에서 보어가 상보성이라는 생각을 처음 공개했어요. 이 강연을 다듬은 글이 1928년 『네이처』에 실렸어요.
+  lessons: [84]
+  people: [bohr]
+- id: solvay-1930
+  year: 1930
+  title: 광자 상자 논쟁
+  summary: 제6회 솔베이 회의에서 아인슈타인이 빛을 담은 상자로 에너지와 시각을 함께 정확히 재자는 사고 실험을 내놓았어요. 보어는 다음 날 아인슈타인의 중력 이론을 써서, 그 장치로도 에너지-시간 불확정성을 피할 수 없다고 반박했어요.
+  lessons: [86]
+  people: [einstein, bohr]
 
 # ── 세션 5 (121~137강) ──
 # (여기 아래에 더한다)
