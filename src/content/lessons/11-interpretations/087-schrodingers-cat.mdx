@@ -1,0 +1,447 @@
+---
+number: 87
+title: 슈뢰딩거의 고양이와 측정 문제
+short: 슈뢰딩거의 고양이
+question: 원자 하나의 겹친 상태가 고양이까지 번지면, 상자 속 고양이는 어떤 상태일까요?
+mechanism: 슈뢰딩거 방정식대로라면 원자에 연결된 검출기도, 그 검출기에 묶인 고양이도 원자와 함께 두 상태가 겹친 채로 바뀌어 가요. 그런데 상자를 열면 늘 결과 하나만 보여요. 언제, 무엇 때문에 겹친 상태가 결과 하나로 정해지는지 이론 안에 분명한 규칙이 없다는 것, 이것이 측정 문제예요.
+part: 11
+minutes: 20
+assumes: [superposition, schrodinger-equation, wavefunction, collapse, quantum-state, qubit, probability, copenhagen-interpretation]
+introduces: [measurement-problem]
+sources:
+  - "Schrödinger, E. Die gegenwärtige Situation in der Quantenmechanik. Naturwissenschaften 23, 807–812, 823–828, 844–849 (1935)"
+  - "Trimmer, J. D. The Present Situation in Quantum Mechanics: A Translation of Schrödinger's 'Cat Paradox' Paper. Proceedings of the American Philosophical Society 124, 323–338 (1980)"
+  - "Wigner, E. P. Remarks on the Mind-Body Question. In I. J. Good (ed.), The Scientist Speculates (1961)"
+  - "Arndt, M. et al. Wave–particle duality of C60 molecules. Nature 401, 680–682 (1999)"
+  - "Fein, Y. Y. et al. Quantum superposition of molecules beyond 25 kDa. Nature Physics 15, 1242–1245 (2019)"
+  - "Bell, J. S. Against 'measurement'. Physics World 3(8), 33–40 (1990)"
+testout: [q87-a, q87-b, q87-c]
+status: published
+---
+
+<Screen kind="scene" title="작은 것에서 큰 것으로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'atom', title: '원자', caption: '두 상태가 겹칠 수 있어요' },
+      { icon: 's4-detector', title: '검출기', caption: '원자들로 되어 있어요' },
+      { icon: 's4-cat', title: '고양이', caption: '이것도 원자들로 되어 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 물었던 것처럼, 지금까지의 논쟁은 전자와 광자처럼 작은 것에 관한 이야기였어요. 그런데 검출기도, 고양이도, 우리 몸도 결국 원자들로 되어 있죠.
+
+<S n={2}>
+
+양자역학의 식에는 "여기부터는 크니까 쓰지 마시오" 하는 경계가 없어요. 1935년 에르빈 슈뢰딩거는 이 점을 고양이 한 마리로 드러냈어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={79} title="겹친 상태">
+  <Fragment slot="visual">
+    <BigNumber top="큐비트 하나의 상태" value="α|0⟩ + β|1⟩" bottom="재면 0이 나올 확률은 |α|², 1이 나올 확률은 |β|²" />
+  </Fragment>
+
+79강에서 큐비트의 상태를 α|0⟩ + β|1⟩로 적었어요. 0인 상태와 1인 상태가 겹쳐 있는 상태예요.
+
+<S n={2}>
+
+이건 0이나 1 가운데 하나인데 우리가 모르는 상태가 아니었죠. 두 상태가 겹친 채로 서로 간섭할 수 있는, 그 자체로 하나의 상태예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={65} title="식은 겹침을 지켜요">
+  <Fragment slot="visual">
+    <Flow alt="겹친 상태를 슈뢰딩거 방정식에 넣으면 시간이 지나도 겹친 상태가 나온다" items={[
+      { t: '처음', sub: '겹친 상태' },
+      { t: '슈뢰딩거 방정식', sub: '시간에 따라 바꿔요', step: 2 },
+      { t: '나중', sub: '여전히 겹친 상태', step: 2 },
+    ]} />
+  </Fragment>
+
+65강의 슈뢰딩거 방정식은 파동함수가 시간에 따라 어떻게 바뀌는지 정해요. 이 식은 우연이 끼어들 틈 없이, 부드럽게 정해진 대로 바꿔 가요.
+
+<S n={2}>
+
+그리고 겹친 상태를 넣으면 겹친 상태가 나와요. 식 스스로는 겹친 상태를 하나로 고르지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="두 가지 규칙">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '재지 않을 때', caption: '슈뢰딩거 방정식대로 부드럽게 바뀌어요. 겹침이 그대로 남아요.' },
+      { big: '잴 때', caption: '결과 하나로 갑자기 바뀌어요. 어느 결과인지는 확률로 정해져요.', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그래서 양자역학 교과서에는 상태가 바뀌는 규칙이 두 가지 있어요. 재지 않을 때는 슈뢰딩거 방정식을 따르고, 잴 때는 결과 하나로 붕괴해요.
+
+<S n={2}>
+
+두 규칙은 성격이 정반대예요. 하나는 부드럽고 정해져 있고, 다른 하나는 갑작스럽고 확률적이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1935년의 논문">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1935년 5월', caption: 'EPR 논문 (88강)' },
+      { big: '1935년 여름', caption: '아인슈타인과 슈뢰딩거의 편지' },
+      { big: '1935년 말', caption: '고양이가 나오는 논문', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+슈뢰딩거는 1935년 말 독일의 과학 잡지에 「양자역학의 현재 상황」이라는 긴 논문을 실었어요. 고양이는 그 논문 한가운데 나와요.
+
+<S n={2}>
+
+실제 역사에서는 다음 강에서 배울 EPR 논문이 몇 달 먼저 나왔어요. 슈뢰딩거는 그 논문을 두고 아인슈타인과 편지를 주고받다가 이 사고 실험을 썼어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="상자 안의 장치">
+  <Fragment slot="visual">
+    <Flow alt="원자가 깨지면 검출기가 울리고, 검출기가 망치를 움직여 독약 병을 깨뜨리고, 고양이가 죽는 사슬" items={[
+      { t: '원자', sub: '깨질 수도, 안 깨질 수도' },
+      { t: '검출기', sub: '깨지면 울려요' },
+      { t: '망치와 독약 병', sub: '울리면 병이 깨져요' },
+      { t: '고양이', sub: '병이 깨지면 죽어요' },
+    ]} />
+  </Fragment>
+
+닫힌 상자 안에 고양이와 장치를 넣어요. 장치 안에는 원자핵이 저절로 깨지는 물질이 아주 조금 들어 있어요.
+
+<S n={2}>
+
+원자 하나가 깨지면 검출기가 울리고, 그 신호로 망치가 독약 병을 깨뜨려 고양이가 죽게 돼요.
+
+</S>
+
+<S n={3}>
+
+머릿속에서만 하는 사고 실험이에요. 실제로 고양이를 써서 한 실험은 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="한 시간 뒤">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '50%', caption: '한 시간 안에 원자 하나가 깨져요' },
+      { big: '50%', caption: '한 시간 동안 하나도 안 깨져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+물질의 양은 한 시간 동안 원자 하나가 깨질 확률과 하나도 안 깨질 확률이 반반이 되도록 맞춰요. 원자핵이 언제 깨질지는 양자역학이 확률로만 알려 주거든요.
+
+<S n={2}>
+
+이제 상자를 닫고 한 시간을 기다려요. 열기 직전 상자 안의 상태를 식으로 따라가 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="식을 끝까지 따라가면">
+  <Fragment slot="visual">
+    <DataTable caption="슈뢰딩거 방정식을 상자 전체에 쓰면, 한 시간 뒤" head={['', '겹친 두 가지']} rows={[
+      ['원자', '깨짐 + 안 깨짐'],
+      ['검출기', '울림 + 조용함'],
+      ['독약 병', '깨짐 + 멀쩡함'],
+      ['고양이', '죽음 + 삶'],
+    ]} />
+  </Fragment>
+
+슈뢰딩거 방정식을 상자 전체에 그대로 쓰면 답이 나와요. 원자는 깨진 상태와 안 깨진 상태가 겹쳐 있어요.
+
+<S n={2}>
+
+검출기는 원자에 묶여 있으니 울린 상태와 조용한 상태가 겹쳐요. 그 사슬이 이어져서, 고양이도 죽은 상태와 산 상태가 겹친 채로 남아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="슈뢰딩거의 뜻">
+  <Fragment slot="visual">
+    <BigNumber top="슈뢰딩거, 1935년 논문" value="“아주 우스꽝스러운 경우”" bottom="겹친 상태를 그대로 믿으면 생기는 일을 보여 주려고 든 예" />
+  </Fragment>
+
+슈뢰딩거가 고양이가 정말 반쯤 죽어 있다고 주장한 건 아니에요. 그는 이 예를 "아주 우스꽝스러운 경우"라고 불렀어요.
+
+<S n={2}>
+
+원자 세계의 겹침을 아무 경계 없이 받아들이면, 이런 말도 안 되는 결론까지 간다는 걸 보이려던 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="열면 늘 하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-cat', title: '상자를 열면', caption: '살아 있거나', tone: 'ok' },
+      { icon: 's4-cat', title: '상자를 열면', caption: '죽어 있거나', tone: 'no' },
+    ]} />
+  </Fragment>
+
+실제로 상자를 열면 우리는 늘 둘 중 하나를 봐요. 살아 있는 고양이나, 죽은 고양이죠.
+
+<S n={2}>
+
+겹친 고양이를 본 사람은 없어요. 그렇다면 겹친 상태는 어디선가 하나로 정해졌어야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="측정 문제라는 이름">
+  <Fragment slot="visual">
+    <Define term="measurement-problem" />
+  </Fragment>
+
+언제 하나로 정해졌을까요? 원자가 검출기를 울린 순간일 수도, 고양이가 숨을 거둔 순간일 수도, 사람이 상자를 연 순간일 수도 있어요.
+
+<S n={2}>
+
+양자역학의 규칙은 이 가운데 무엇이 "측정"인지 말해 주지 않아요. 이 빈자리를 **측정 문제**라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="경계가 없어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', caption: '원자' },
+      { icon: 's4-detector', caption: '검출기' },
+      { icon: 's4-cat', caption: '고양이' },
+      { icon: 's4-people', caption: '상자를 연 사람' },
+    ]} />
+  </Fragment>
+
+검출기를 "측정 장치"라고 부르면 될 것 같지만, 검출기도 원자들로 되어 있어요. 원자에 쓰는 식을 검출기에도 써야 하죠.
+
+<S n={2}>
+
+<Key>원자에서 사람까지 모두 같은 원자들로 되어 있는데 양자역학은 어디서부터 측정이 일어나 겹친 상태가 결과 하나로 정해지는지 말해 주지 않으니, 상자를 열기 전 고양이의 상태를 어떻게 봐야 할지가 문제로 남아요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="무엇이 문제인가">
+
+<Check id="q87-a" options={[
+  { t: '고양이가 원자보다 커서 슈뢰딩거 방정식을 풀기 어렵다는 문제', why: '계산이 어렵다는 게 핵심이 아니에요. 풀 수 있다고 해도, 언제 결과 하나로 정해지는지 규칙이 없다는 게 문제예요.' },
+  { t: '겹친 상태가 언제, 무엇 때문에 결과 하나로 정해지는지 이론이 말해 주지 않는다는 문제', ok: true, why: '맞아요. 재지 않을 때의 규칙과 잴 때의 규칙 사이 경계가 어디인지가 측정 문제예요.' },
+  { t: '검출기가 정확하지 않아서 원자가 깨졌는지 놓칠 수 있다는 문제', why: '장치의 오차 문제가 아니에요. 완벽한 검출기라도 그 검출기 자체가 겹친 상태가 될 수 있다는 게 문제예요.' },
+  { t: '고양이로 실험하는 건 옳지 않다는 문제', why: '이건 머릿속에서만 하는 사고 실험이에요. 실제로 고양이를 쓴 실험은 없어요.' },
+]}>
+
+슈뢰딩거의 고양이가 드러낸 측정 문제는 무엇에 관한 문제일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="반쯤 죽은 고양이?">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '반쯤 죽은 고양이', caption: '이런 뜻이 아니에요', tone: 'no' },
+      { big: '모르는 고양이', caption: '이런 뜻도 아니에요', tone: 'no' },
+      { big: '겹친 상태', caption: '두 상태가 함께 있는 하나의 상태', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 겹친 고양이를 "반쯤 죽은 고양이"로 떠올렸어요. 그런데 그런 뜻이 아니에요.
+
+"사실은 하나로 정해졌는데 우리가 모를 뿐"이라는 뜻도 아니에요. 84강의 간섭 무늬처럼, 겹친 상태는 그 자체로 하나의 상태예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="겹친 상태 읽기">
+
+<Check id="q87-b" options={[
+  { t: '고양이는 살아 있는데 몸의 절반만 아파요.', why: '겹친 상태는 반쯤 아픈 하나의 상태가 아니에요. 산 상태와 죽은 상태가 함께 겹친 상태예요.' },
+  { t: '고양이는 이미 살았든 죽었든 정해져 있고, 우리가 모를 뿐이에요.', why: '그렇게 보는 건 겹친 상태가 아니라 "모름"이에요. 겹친 상태는 두 상태가 간섭할 수 있는 하나의 상태예요.' },
+  { t: '산 상태와 죽은 상태가 겹친 하나의 양자 상태예요.', ok: true, why: '맞아요. 식을 그대로 따르면 그렇게 돼요. 슈뢰딩거는 이것이 얼마나 이상한 결론인지 보이려 했어요.' },
+  { t: '상자 안에는 고양이가 없어요.', why: '고양이는 상자 안에 있어요. 물음은 그 고양이의 상태를 어떻게 말하느냐예요.' },
+]}>
+
+슈뢰딩거 방정식을 상자 전체에 끝까지 쓰면, 한 시간 뒤 상자를 열기 직전 고양이는 어떤 상태라고 나올까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="위그너의 친구">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's4-people', title: '실험실 안의 친구', caption: '결과를 봤어요' },
+      { icon: 's4-door', title: '닫힌 문', caption: '' },
+      { icon: 's4-people', title: '문밖의 위그너', caption: '아직 못 봤어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1961년 물리학자 유진 위그너는 고양이 자리에 사람을 넣었어요. 친구가 실험실 안에서 결과를 보고, 위그너는 문밖에 서 있어요.
+
+<S n={2}>
+
+친구에게는 결과가 이미 하나로 정해졌어요. 그런데 문밖의 위그너가 실험실 전체에 식을 쓰면, 친구까지 겹친 상태로 나와요. 누구의 기준이 맞는지가 다시 측정 문제예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="실험은 어디까지 갔나">
+  <Fragment slot="visual">
+    <DataTable caption="간섭 무늬로 겹친 상태를 확인한 것들" head={['해', '물체', '원자 수']} rows={[
+      ['1927년 무렵', '전자', '원자보다 작아요'],
+      ['1999', '축구공 모양 탄소 분자', '60개'],
+      ['2019', '큰 유기 분자', '약 2,000개'],
+    ]} />
+  </Fragment>
+
+겹침이 큰 물체에서는 정말 사라질까요? 실험은 점점 더 큰 물체로 나아갔어요.
+
+<S n={2}>
+
+1999년에는 탄소 원자 60개로 된 분자가, 2019년에는 원자 약 2,000개로 된 분자가 간섭 무늬를 만들었어요. 둘 다 두 길을 겹쳐 지났다는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="고양이는 아직 아니에요">
+  <Fragment slot="visual">
+    <BigNumber top="고양이 몸에 든 원자의 수" value="약 10²⁶개" bottom="2,000개와는 자릿수가 23단계 달라요" />
+  </Fragment>
+
+고양이 한 마리에는 원자가 약 10²⁶개 들어 있어요. 지금까지 실험한 분자와는 비교가 안 될 만큼 많죠.
+
+<S n={2}>
+
+큰 물체의 겹침이 왜 안 보이는지는 <Later n={93}>결어긋남</Later>이라는 생각으로 꽤 설명할 수 있어요. 93강에서 자세히 다뤄요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="측정 문제를 고르면">
+
+<Check id="q87-c" options={[
+  { t: '입자의 위치와 운동량을 함께 정확히 잴 수 없다는 것', why: '그건 불확정성 원리예요. 측정 문제는 언제 결과 하나로 정해지는지에 관한 물음이에요.' },
+  { t: '측정할 때마다 기계의 눈금이 조금씩 틀리게 나온다는 것', why: '그건 측정 오차예요. 측정 문제는 완벽한 장치를 써도 남는 이론의 물음이에요.' },
+  { t: '재지 않을 때의 부드러운 규칙과 잴 때의 갑작스러운 규칙 사이 경계를 이론이 정해 주지 않는다는 것', ok: true, why: '맞아요. 검출기, 고양이, 사람 가운데 어디서 "측정"이 일어나는지 정하는 규칙이 이론 안에 없어요.' },
+  { t: '고양이는 원자보다 커서 양자역학을 전혀 쓸 수 없다는 것', why: '양자역학의 식에는 크기 제한이 없어요. 원자 2,000개로 된 분자도 겹친 상태를 보였어요.' },
+]}>
+
+다음 가운데 **측정 문제**를 가장 바르게 말한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="해석마다 다른 대답">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '코펜하겐 해석', caption: '측정 장치에서 정해져요' },
+      { big: '다른 해석들', caption: '93강에서 나란히 견줘요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+84강의 코펜하겐 해석은 측정 장치를 일상의 말로 적는 쪽에 두고, 거기서 결과가 정해진다고 봐요. 하지만 장치가 어디서 시작되는지는 분명히 말하지 않죠.
+
+<S n={2}>
+
+다른 해석들은 이 물음에 저마다 다르게 대답해요. 93강에서 그 대답들을 공정하게 나란히 놓고 견줘 볼 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['measurement-problem', 'superposition', 'schrodinger-equation', 'collapse']}>
+
+1. 슈뢰딩거 방정식은 겹친 상태를 겹친 채로 부드럽게 바꿔 가고, 스스로 결과 하나를 고르지 않아요.
+2. 그래서 원자의 겹침에 검출기와 고양이를 묶으면, 식대로라면 고양이까지 겹친 상태가 돼요.
+3. 그런데 상자를 열면 늘 결과 하나만 보여요.
+4. 원자에서 사람까지 모두 원자로 되어 있으니, 어디서 측정이 일어나 하나로 정해지는지 이론이 말해 주지 않아요.
+5. 이 빈자리가 측정 문제예요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="상자 안의 사진기">
+
+<DailyProblem id="p87">
+
+친구가 꾀를 냈어요. "상자 안에 사진기를 넣어서 30분마다 고양이를 찍게 하면 돼요. 그러면 사진기가 측정을 하니까 고양이는 늘 하나로 정해져 있을 거예요."
+
+이 꾀로 측정 문제가 풀릴까요? 오늘의 원리로 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+사진기도 원자들로 되어 있어요. 슈뢰딩거 방정식을 상자 전체에 쓰면 사진기의 상태는 어떻게 될까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+풀리지 않아요. 사진기도 원자들로 되어 있으니, 식을 상자 전체에 쓰면 사진기도 "산 고양이를 찍은 상태"와 "죽은 고양이를 찍은 상태"가 겹친 상태가 돼요.
+
+장치를 하나 더 넣으면 겹침의 사슬이 하나 더 길어질 뿐이에요. 어디서 사슬이 끊겨 결과 하나로 정해지는지는 여전히 말해 주지 않아요. 그래서 측정 문제는 장치를 더해서는 풀리지 않는 이론의 물음이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+슈뢰딩거 방정식대로라면 원자의 겹침이 검출기와 고양이까지 번지는데, 언제 결과 하나로 정해지는지 이론이 말해 주지 않는 것이 측정 문제예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="멀리 떨어진 두 입자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '입자 A', caption: '여기서 재요' },
+      { icon: 'atom', title: '입자 B', caption: '멀리 떨어져 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+고양이 논문보다 몇 달 앞서, 아인슈타인은 두 동료와 함께 다른 방향에서 양자역학을 겨눴어요. 한때 함께 있다가 멀리 떨어진 두 입자를 쓰는 사고 실험이에요.
+
+<S n={2}>
+
+한쪽만 재도 다른 쪽의 값을 확실히 맞힐 수 있다면, 그 값은 재기 전부터 있었던 게 아닐까요? 아인슈타인은 그렇다고 봤어요. 다음 강에서는 그 논증과, 거기 쓰인 두 가지 믿음을 같이 따라가 볼게요.
+
+</S>
+
+</Screen>
