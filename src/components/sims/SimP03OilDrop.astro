@@ -1,0 +1,139 @@
+---
+/**
+ * 38강: 밀리컨의 기름방울. 두 판의 전압을 바꿔 방울 하나를 공중에 멈춰 세운다.
+ * 멈추면 전기력 = 무게이므로 전하 = 무게 × 판 사이 거리 ÷ 전압. 여러 방울의 전하를 모으면 늘 e의 정수배다.
+ */
+interface Props {
+  /** 다른 방울 고르기 버튼을 보일지 */
+  many?: boolean;
+}
+const { many = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-oildrop class="sim" data-ratio="0.62">
+  <canvas aria-label="두 판 사이에 기름방울 하나가 있다. 위로 끄는 전기력과 아래로 끄는 무게가 화살표로 보인다. 둘이 같아지면 방울이 멈춘다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`od-v-${uid}`}>판의 전압</label>
+      <input id={`od-v-${uid}`} type="range" min="0" max="2000" step="10" value="0" data-param="v" />
+      <output data-out="v"></output>
+    </div>
+    <div class="sim__buttons" aria-label="방울 고르기">
+      {many ? [0, 1, 2, 3, 4].map((k) => (
+        <button type="button" class="btn" data-set={`d=${k}`} aria-pressed={k === 0 ? 'true' : 'false'}>방울 {k + 1}</button>
+      )) : <input type="hidden" data-param="d" value="0" />}
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-oildrop>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const E = 1.6e-19; // 기본 전하 (어림)
+  const GAP = 0.01; // 판 사이 거리 1 cm
+  // 방울마다 [전하의 개수, 멈추는 전압]. 질량은 여기서 거꾸로 정한다.
+  const DROPS: [number, number][] = [
+    [2, 1200],
+    [5, 640],
+    [3, 1100],
+    [1, 1850],
+    [4, 750],
+  ];
+
+  class SimOilDrop extends Sim {
+    y = 0.5; // 판 사이 높이 (0 아래 판, 1 위 판)
+    found = new Map<number, number>();
+
+    init() {
+      if (this.p.d === undefined) this.p.d = 0;
+    }
+
+    drop() {
+      const [n, vb] = DROPS[this.p.d!] ?? DROPS[0]!;
+      const q = n * E;
+      const weight = (q * vb) / GAP; // 멈추는 전압에서 전기력 = 무게
+      return { n, vb, q, weight };
+    }
+
+    /** 위로 가는 쪽이 +인 알짜 힘의 비 (전기력 − 무게) ÷ 무게 */
+    net() {
+      const { q, weight } = this.drop();
+      const fe = (q * this.p.v!) / GAP;
+      return (fe - weight) / weight;
+    }
+
+    stopped() {
+      return Math.abs(this.net()) < 0.012;
+    }
+
+    changed(name: string) {
+      if (name === 'set') this.y = 0.5;
+    }
+
+    tick(dt: number) {
+      if (this.stopped()) return;
+      this.y += this.net() * dt * 0.35;
+      if (this.y > 0.94 || this.y < 0.06) this.y = 0.5;
+    }
+
+    format() {
+      return `${this.p.v} V`;
+    }
+
+    readout() {
+      const { weight } = this.drop();
+      const w = (weight / 1e-14).toFixed(2);
+      let s = `방울 ${this.p.d! + 1}의 무게 ${w} × 10⁻¹⁴ N · 판 사이 1 cm. `;
+      if (this.stopped()) {
+        this.found.set(this.p.d!, this.drop().n);
+        const q = (weight * GAP) / this.p.v!;
+        s += `멈췄어요. 전하 = 무게 × 거리 ÷ 전압 = ${(q / 1e-19).toFixed(1)} × 10⁻¹⁹ C`;
+      } else if (this.net() > 0) s += '전기력이 무게보다 커서 올라가요.';
+      else s += this.p.v! === 0 ? '전압이 없으면 무게 때문에 내려가요.' : '전기력이 무게보다 작아서 내려가요.';
+      if (this.found.size > 1) {
+        const list = [...this.found.values()].map((n) => (n * 1.6).toFixed(1)).join(', ');
+        s += ` · 지금까지 찾은 전하(10⁻¹⁹ C): ${list}`;
+      }
+      return s;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const top = h * 0.14;
+      const bot = h * 0.86;
+      const x0 = w * 0.12;
+      const x1 = w * 0.88;
+      const v = this.p.v!;
+      // 두 판
+      this.line(x0, top, x1, top, v > 0 ? c.charge : c.text2, 5);
+      this.line(x0, bot, x1, bot, v > 0 ? c.charge : c.text2, 5);
+      if (v > 0) {
+        this.text('+ 판', x1 + 6, top, c.charge, 11);
+        this.text('− 판', x1 + 6, bot, c.charge, 11);
+      }
+      this.text('분무기로 뿌린 방울이 위 판의 구멍으로 들어와요', w / 2, top - 14, c.muted, 10, 'center');
+      // 방울은 − 전하를 띤다. 위 판이 +라서 방울을 위로 끈다.
+      const cx = w / 2;
+      const cy = bot - this.y * (bot - top);
+      this.dot(cx, cy, 7, c.energy);
+      this.text('기름방울', cx + 12, cy - 12, c.text2, 10);
+      // 힘 화살표
+      const { q, weight } = this.drop();
+      const fe = (q * v) / GAP;
+      const scale = h * 0.22;
+      const aw = scale; // 무게 화살표 길이
+      const ae = Math.min(h * 0.4, (fe / weight) * scale);
+      this.arrow(cx - 18, cy, cx - 18, cy + aw, c.force, 2.5);
+      this.text('무게', cx - 24, cy + aw - 4, c.force, 10, 'right');
+      if (ae > 2) {
+        this.arrow(cx + 18, cy, cx + 18, cy - ae, c.charge, 2.5);
+        this.text('전기력', cx + 24, cy - ae + 6, c.charge, 10);
+      }
+      if (this.stopped()) this.text('멈춤', cx, cy + 22, c.accent, 12, 'center');
+    }
+  }
+  define('qm-sim-oildrop', SimOilDrop);
+</script>

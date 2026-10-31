@@ -1,0 +1,461 @@
+---
+number: 38
+title: 전하의 최소 단위
+short: 전하의 최소 단위
+question: 전하는 얼마든지 잘게 나눌 수 있을까요?
+mechanism: 전기를 띤 기름방울을 두 판 사이에 띄우면, 방울이 멈췄을 때 위로 끄는 전기력과 아래로 끄는 무게가 같아요. 그래서 무게와 판의 전압으로 방울의 전하를 계산할 수 있는데, 어떤 방울을 재도 그 값은 늘 약 1.6 × 10⁻¹⁹ C의 정수배였어요. 전하에는 더 쪼갤 수 없는 가장 작은 덩어리 e가 있고, 전자 하나의 전하가 −e예요.
+part: 3
+year: 1909
+place: 시카고
+minutes: 20
+assumes: [electron, charge, electric-force, weight, gravity, mass, force, quantum, scientific-notation]
+introduces: [elementary-charge]
+sources:
+  - "Millikan, R. A. On the Elementary Electrical Charge and the Avogadro Constant. Physical Review 2, 109–143 (1913)"
+  - "Millikan, R. A. The Isolation of an Ion, a Precision Measurement of Its Charge, and the Correction of Stokes's Law. Physical Review 32, 349–397 (1911)"
+  - "Fletcher, H. My Work with Millikan on the Oil-Drop Experiment. Physics Today 35(6), 43–47 (1982)"
+  - "Holton, G. Subelectrons, Presuppositions, and the Millikan-Ehrenhaft Dispute. Historical Studies in the Physical Sciences 9, 161–224 (1978)"
+  - "Goodstein, D. In Defense of Robert Andrews Millikan. American Scientist 89, 54–60 (2001)"
+  - "CODATA 2018: 기본 전하 e = 1.602 176 634 × 10⁻¹⁹ C (2019년부터 정의값), 전자의 질량 9.109 × 10⁻³¹ kg"
+testout: [q38-multiple, q38-count, q38-xray]
+status: published
+---
+
+<Screen kind="scene" title="나눈 값만 알아요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전하 ÷ 질량', caption: '37강에서 톰슨이 잰 값', tone: 'ok' },
+      { big: '?', caption: '전자 하나가 띤 전하', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+37강에서 톰슨은 전자의 질량 1 kg에 실린 전하를 쟀어요. 하지만 전자 하나가 띤 전하와 전자 하나의 질량은 따로 알지 못했죠.
+
+<S n={2}>
+
+둘 가운데 하나만 재면 나머지는 나눗셈으로 나와요. 오늘은 전자 하나가 띤 전하를 잰 실험을 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="눈에 보이는 것에 붙이기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's2-spray', title: '아주 작은 기름방울', caption: '눈으로 겨우 보여요' },
+      { big: '전자 몇 개', title: '방울에 붙은 전하', caption: '방울을 판 사이에서 움직여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자 하나는 너무 작아서 따로 붙잡아 잴 수가 없어요. 그래서 눈에 보이는 작은 물체에 전자 몇 개를 붙여서 그 물체를 재기로 했어요.
+
+<S n={2}>
+
+물체가 작을수록 전자 몇 개가 주는 효과가 커져요. 그래서 고른 것이 분무기로 뿌린 아주 작은 기름방울이었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={5} title="무게라는 힘">
+  <Fragment slot="visual">
+    <BigNumber top="질량 1 kg인 물체가 지구에서 받는 무게" value="약 9.8 N" bottom="질량이 2배면 무게도 2배예요" q="force" />
+  </Fragment>
+
+방울을 재려면 5강의 무게를 떠올려야 해요. 무게는 지구가 물체를 끌어당기는 힘이고, 질량 1 kg마다 약 9.8 N이에요.
+
+<S n={2}>
+
+그리고 물체에 작용하는 힘들이 서로 맞먹어 알짜 힘이 0이면, 멈춰 있던 물체는 계속 멈춰 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="공중에 띄우기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '↑ 전기력', caption: '위 판의 + 전하가 방울을 끌어 올려요', tone: 'accent' },
+      { big: '↓ 무게', caption: '지구가 방울을 끌어 내려요' },
+    ]} />
+  </Fragment>
+
+− 전하를 띤 기름방울을 위아래 두 판 사이에 넣고, 위 판에 + 전하를 모아 봐요. 그러면 방울은 위로 끌리는 전기력과 아래로 끌리는 무게를 함께 받아요.
+
+<S n={2}>
+
+판의 전압을 조절해 두 힘을 똑같게 맞추면 방울은 공중에 멈춰요. 그때 **전기력과 무게가 같다**는 사실에서 방울의 전하를 거꾸로 알아낼 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="밀리컨과 플레처">
+  <Fragment slot="visual">
+    <BigNumber top="로버트 밀리컨이 기름방울로 전하를 재기 시작한 해" value="1909" bottom="미국 시카고 대학, 대학원생 하비 플레처와 함께" />
+  </Fragment>
+
+미국 시카고 대학의 로버트 밀리컨은 처음엔 물방울로 이 실험을 했어요. 그런데 물방울은 재는 동안 증발해서 자꾸 작아졌어요.
+
+<S n={2}>
+
+그래서 1909년, 대학원생 하비 플레처와 함께 잘 증발하지 않는 시계 기름으로 바꿨어요. 기름방울 하나를 몇 시간씩 붙잡아 둘 수 있었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="실험 장치">
+  <Fragment slot="visual">
+    <Flow alt="분무기로 기름을 뿌리면, 그 가운데 방울 하나가 위 판의 작은 구멍으로 떨어지고, 두 판 사이에서 작은 망원경으로 방울을 지켜본다" items={[
+      { t: '분무기로 뿌리기', sub: '뿌릴 때 방울이 전하를 얻어요' },
+      { t: '구멍으로 떨어지기', sub: '위 판의 작은 구멍', step: 2 },
+      { t: '판 사이에서 지켜보기', sub: '작은 망원경으로 봐요', step: 3 },
+    ]} />
+  </Fragment>
+
+분무기로 기름을 뿌리면 방울들이 뿜어져 나오며 문질러져서 전하를 얻어요.
+
+<S n={2}>
+
+그 가운데 하나가 위 판의 작은 구멍으로 떨어져 두 판 사이로 들어와요.
+
+</S>
+
+<S n={3}>
+
+밀리컨은 빛을 비춘 방울을 작은 망원경으로 지켜보며, 판의 전압을 켰다 껐다 했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="방울 멈춰 세우기">
+  <Fragment slot="visual">
+    <SimP03OilDrop />
+  </Fragment>
+
+판의 전압을 천천히 올려서 방울을 공중에 멈춰 보세요. 두 화살표의 길이를 보면서 맞추면 돼요.
+
+<S n={2}>
+
+방울이 멈추면 전기력이 무게와 같아진 거예요. 이때 방울의 전하가 계산돼 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="전하 계산하기">
+  <Fragment slot="visual">
+    <DataTable caption="멈춘 방울 하나 (어림한 값)" head={['재는 것', '값']} rows={[
+      ['방울의 무게', '3.2 × 10⁻¹⁴ N'],
+      ['판 사이 거리', '0.01 m'],
+      ['방울이 멈춘 전압', '1,000 V'],
+      ['전하 = 무게 × 거리 ÷ 전압', '3.2 × 10⁻¹⁹ C'],
+    ]} highlight={[3]} />
+  </Fragment>
+
+두 판 사이에서 전하 1 C가 받는 전기력은 판의 전압을 판 사이 거리로 나눈 값(N)이에요. 그래서 방울이 받는 전기력은 방울의 전하 × 전압 ÷ 거리예요.
+
+<S n={2}>
+
+방울이 멈췄으니 이 전기력이 무게와 같아요. 식을 거꾸로 풀면 전하 = 무게 × 거리 ÷ 전압이에요.
+
+</S>
+
+<S n={3}>
+
+표의 값을 넣으면 3.2 × 10⁻¹⁴ × 0.01 ÷ 1,000 = 3.2 × 10⁻¹⁹ C예요. 감각으로 보면, 1 C의 1경분의 1도 안 되는 아주 작은 전하예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="방울의 무게는 어떻게">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전압을 끄면', caption: '방울이 일정한 빠르기로 천천히 떨어져요' },
+      { big: '빠르기로 크기를', caption: '큰 방울일수록 빨리 떨어져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그런데 방울의 무게는 어떻게 알았을까요? 전압을 끄면 방울은 공기에 막혀서 일정한 빠르기로 아주 천천히 떨어져요.
+
+<S n={2}>
+
+큰 방울일수록 빨리 떨어지니까, 떨어지는 빠르기로 방울의 크기를 계산하고 기름 밀도로 무게를 구했어요. 실제로는 오르내리는 빠르기를 재서 더 정확히 계산했지만, 원리는 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="여러 방울 재기">
+  <Fragment slot="visual">
+    <SimP03OilDrop many />
+  </Fragment>
+
+이번엔 방울 다섯 개를 하나씩 멈춰 세워 보세요. 방울마다 무게도 다르고, 멈추는 전압도 달라요.
+
+<S n={2}>
+
+찾은 전하를 늘어놓아 보면 1.6, 3.2, 4.8, 6.4, 8.0처럼 모두 **1.6 × 10⁻¹⁹ C의 정수배**예요. 그 사이 값은 하나도 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="전하를 늘어놓으면">
+  <Fragment slot="visual">
+    <Plot
+      alt="방울 여덟 개의 전하를 점으로 찍으면 모두 1.6의 배수인 높이에 놓인다"
+      x={[0, 9]} y={[0, 11]}
+      xLabel="방울 번호" yLabel="전하 (× 10⁻¹⁹ C)" yq="charge"
+      xTicks={[1, 2, 3, 4, 5, 6, 7, 8]} yTicks={[1.6, 3.2, 4.8, 6.4, 8.0, 9.6]}
+      axisSteps={[1, 1]}
+      points={[
+        { x: 1, y: 3.25, q: 'charge', step: 2 },
+        { x: 2, y: 7.95, q: 'charge', step: 2 },
+        { x: 3, y: 4.82, q: 'charge', step: 2 },
+        { x: 4, y: 1.58, q: 'charge', step: 2 },
+        { x: 5, y: 6.45, q: 'charge', step: 2 },
+        { x: 6, y: 3.18, q: 'charge', step: 2 },
+        { x: 7, y: 9.62, q: 'charge', step: 2 },
+        { x: 8, y: 4.79, q: 'charge', step: 2 },
+      ]}
+    />
+  </Fragment>
+
+가로축은 방울 번호, 세로축은 그 방울에서 계산한 전하예요. 세로축 눈금은 1.6씩 늘어나요.
+
+<S n={2}>
+
+점들이 눈금 높이에만 모여 있고, 눈금 사이에는 하나도 없어요. 실제 밀리컨의 방울들도 이렇게 늘 1.6 × 10⁻¹⁹ C의 정수배에 놓였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="기본 전하라는 이름">
+  <Fragment slot="visual">
+    <Define term="elementary-charge" />
+  </Fragment>
+
+방울이 띤 전하는 늘 같은 덩어리를 몇 개 더한 값이었어요. 그 덩어리 하나의 크기를 **기본 전하**라고 부르고, e라고 써요.
+
+<Key>밀리컨이 잰 기름방울의 전하는 어떤 방울이든 늘 약 1.6 × 10⁻¹⁹ C의 정수배였으니까, 전하에는 더 쪼갤 수 없는 가장 작은 덩어리 e가 있고, 전자 하나의 전하는 바로 −e예요.</Key>
+
+</Screen>
+
+<Screen kind="analogy" title="10원 단위의 지갑">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['지갑 속 돈의 합계', '방울이 띤 전하'],
+        ['합계는 늘 10원의 배수', '전하는 늘 e의 배수'],
+        ['가장 작은 동전 10원', '기본 전하 e'],
+      ]}
+      fits="합계들이 늘 10원의 배수라면 가장 작은 동전이 10원이라고 짐작하듯이, 전하들이 늘 e의 배수라서 e가 가장 작은 덩어리라고 봐요."
+      breaks="지갑에는 50원, 100원처럼 크기가 다른 동전이 섞여 있지만, 전하의 덩어리는 e 한 가지예요. 그리고 동전은 녹여서 쪼갤 수 있지만, e를 띤 알갱이를 쪼개 더 작은 전하를 홀로 떼어 낸 적은 없어요."
+    />
+  </Fragment>
+
+요즘은 1원짜리 동전을 거의 쓰지 않아서, 동전만 든 지갑의 합계는 늘 10원의 배수예요. 그 합계만 여러 개 보고도 가장 작은 동전이 10원이라고 짐작할 수 있죠.
+
+</Screen>
+
+<Screen kind="check" title="나올 수 없는 값">
+
+<Check id="q38-multiple" options={[
+  { t: '4.8 × 10⁻¹⁹ C', why: '1.6의 3배예요. 전자 3개만큼의 전하라서 나올 수 있어요.' },
+  { t: '2.4 × 10⁻¹⁹ C', ok: true, why: '1.6의 1.5배예요. 전하는 e의 정수배만 있으니 이 값은 나올 수 없어요.' },
+  { t: '9.6 × 10⁻¹⁹ C', why: '1.6의 6배예요. 전자 6개만큼의 전하라서 나올 수 있어요.' },
+  { t: '1.6 × 10⁻¹⁹ C', why: 'e 하나예요. 전자 하나만 붙은 방울이라서 나올 수 있어요.' },
+]}>
+
+기본 전하 e는 약 1.6 × 10⁻¹⁹ C예요. 기름방울 하나의 전하를 쟀을 때 나올 수 **없는** 값은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="전자 하나의 질량">
+  <Fragment slot="visual">
+    <DataTable caption="두 실험을 합치면" head={['알게 된 것', '값']} rows={[
+      ['전자의 전하 ÷ 질량 (37강)', '1.76 × 10¹¹ C/kg'],
+      ['전자 하나의 전하 (오늘)', '1.6 × 10⁻¹⁹ C'],
+      ['전자 하나의 질량 = 전하 ÷ (전하 ÷ 질량)', '9.1 × 10⁻³¹ kg'],
+    ]} highlight={[2]} />
+  </Fragment>
+
+이제 37강의 값과 합칠 수 있어요. 전하를 (전하 ÷ 질량)으로 나누면 질량이 남거든요.
+
+<S n={2}>
+
+1.6 × 10⁻¹⁹ ÷ (1.76 × 10¹¹) ≈ 9.1 × 10⁻³¹ kg이에요. 수소 원자 하나의 질량은 약 1.67 × 10⁻²⁷ kg이니, 전자는 그 약 1,836분의 1이에요.
+
+</S>
+
+<S n={3}>
+
+톰슨의 짐작이 맞았어요. 전자는 전하가 큰 게 아니라, 원자보다 훨씬 가벼운 알갱이였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="1 C에 든 전자">
+
+<Numeric id="q38-count" answer={6.25e18} tol={0.05}>
+
+전하 1 C는 전자 몇 개가 띤 전하를 모두 더한 크기일까요? 기본 전하 e는 1.6 × 10⁻¹⁹ C로 계산해 보세요. (6.25e18처럼 써도 돼요.)
+
+<Fragment slot="solution">
+
+1 ÷ (1.6 × 10⁻¹⁹) = 6.25 × 10¹⁸개예요. 625경 개쯤이에요. 우리가 보통 다루는 전하에는 전자가 이만큼 많이 들어 있어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="왜 덩어리가 안 느껴질까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'sand', title: '가까이서 본 모래', caption: '알갱이 하나하나가 보여요' },
+      { icon: 'balloon', title: '문지른 풍선', caption: '전하 덩어리가 1조 개쯤이라 매끈하게 느껴져요' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 이상했어요. 풍선을 문지르면 전하가 조금씩 매끈하게 쌓이는 것 같았거든요.
+
+그런데 멀리서 보면 매끈한 모래밭도 가까이 가면 알갱이로 되어 있잖아요. 풍선이 띤 전하도 e가 1조 개쯤 모인 거라서, 하나 더하고 빼는 차이가 느껴지지 않을 뿐이에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="recall" from={32} title="에너지도 덩어리였어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'E = hf', title: '에너지', caption: '빛의 에너지는 덩어리로 오가요' },
+      { big: 'e', title: '전하', caption: '전하도 덩어리로만 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+32강에서 빛의 에너지가 덩어리로만 오간다는 걸 봤어요. 진동수가 f인 빛은 hf씩, 그러니까 플랑크 상수 h와 진동수를 곱한 크기의 덩어리로 주고받죠.
+
+<S n={2}>
+
+전하에도 같은 일이 있었어요. 자연에는 매끈하게 이어진 줄 알았던 양이 사실은 덩어리로 되어 있는 경우가 있어요. 이런 덩어리를 양자라고 부르는 까닭이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="전압이 절반으로">
+
+<Check id="q38-xray" options={[
+  { t: '전하가 2배가 됐어요', ok: true, why: '전하 = 무게 × 거리 ÷ 전압이에요. 무게와 거리는 그대로인데 전압이 절반이면, 전하는 2배예요. 전자를 더 얻었어요.' },
+  { t: '전하가 절반이 됐어요', why: '전하가 줄었다면 방울을 띄우는 데 더 센 전압이 필요해요. 전압이 줄었으니 전하는 늘었어요.' },
+  { t: '전하는 그대로예요', why: '전하가 그대로라면 같은 전압에서 멈췄을 거예요.' },
+  { t: '방울의 무게가 절반이 됐어요', why: '방울은 그대로이고, X선은 공기에서 떼어 낸 전하를 방울에 붙였을 뿐이에요.' },
+]}>
+
+1,200 V에서 멈춰 있던 기름방울에 X선을 잠깐 쬐었더니, 이제는 600 V에서 멈춰요. X선은 주변 공기에서 전하를 떼어 내서 방울에 붙이거나 떼어 가요. 방울에는 무슨 일이 생겼을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="노벨상과 남은 물음">
+  <Fragment slot="visual">
+    <BigNumber top="밀리컨이 기본 전하와 광전 효과를 잰 공로로 노벨 물리학상을 받은 해" value="1923" bottom="2019년부터는 e의 값을 정해 놓고 다른 단위를 정해요" />
+  </Fragment>
+
+밀리컨은 1923년에 노벨 물리학상을 받았어요. 다만 공책에 기록한 방울 가운데 일부만 논문에 실었고, 이를 두고 역사학자들의 평가는 지금도 엇갈려요.
+
+<S n={2}>
+
+그래도 그 뒤 여러 방법으로 다시 잰 값도 같은 결론을 줬어요. 지금은 e를 1.602 176 634 × 10⁻¹⁹ C로 아예 정해 두고, 그 값으로 다른 단위를 정해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['elementary-charge']}>
+
+1. 전자 하나는 너무 작아서, 전자 몇 개를 작은 기름방울에 붙여 재기로 했어요.
+2. 판의 전압으로 방울을 멈추면 전기력과 무게가 같으니, 전하 = 무게 × 거리 ÷ 전압으로 전하가 나와요.
+3. 어느 방울을 재도 전하는 1.6 × 10⁻¹⁹ C의 정수배였으니, 전하의 가장 작은 덩어리 e가 있어요.
+4. e를 37강의 전하 ÷ 질량으로 나누면, 전자 하나의 질량은 9.1 × 10⁻³¹ kg이에요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="네 방울로 e 찾기">
+
+<DailyProblem id="p38">
+
+기름방울 네 개의 전하를 재서 이런 값을 얻었어요. 단위는 10⁻¹⁹ C예요.
+
+3.3, 6.5, 8.1, 4.9
+
+이 값들로 기본 전하 e를 어림해 보세요. 그리고 e가 0.8이 아니라고 말하려면 무엇이 더 필요할지도 생각해 보세요.
+
+<Fragment slot="hint1">
+
+값을 작은 것부터 늘어놓고, 이웃한 값끼리의 차이를 구해 보세요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+e가 0.8이라면, 0.8의 홀수배인 2.4나 4.0 같은 값도 나와야 해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+늘어놓으면 3.3, 4.9, 6.5, 8.1이고, 이웃한 값의 차이가 모두 1.6이에요. 그러니 e는 약 1.6 × 10⁻¹⁹ C이고, 네 방울은 e를 2개, 3개, 4개, 5개 가진 거예요.
+
+다만 네 값만으로는 e가 0.8일 가능성을 지울 수 없어요. 0.8이라도 네 값은 모두 정수배거든요. 방울을 아주 많이 재도 2.4나 4.0 같은 값이 한 번도 나오지 않아야 e가 1.6이라고 말할 수 있어요. 밀리컨이 수많은 방울을 잰 까닭이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+기름방울을 전기력으로 띄워 전하를 재 보니 늘 1.6 × 10⁻¹⁹ C의 정수배여서, 전하에는 가장 작은 덩어리 e가 있고 전자 하나가 그만큼을 띠고 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="원자 속은 어떻게 생겼을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '−', title: '전자', caption: '아주 가볍고 − 전하를 띠어요' },
+      { big: '+', title: '나머지', caption: '원자의 질량 거의 전부와 + 전하', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+원자는 전기를 띠지 않으니, 전자의 − 전하만큼 + 전하도 들어 있어야 해요. 원자의 질량도 거의 다 그 나머지 부분에 있죠.
+
+<S n={2}>
+
+톰슨은 + 전하가 원자 전체에 고르게 퍼져 있고 그 속에 전자가 박혀 있다고 생각했어요. 다음 강에서는 1909년, 얇은 금박에 <Later n={39}>알파 입자</Later>를 쏘아 이 생각을 시험한 실험을 따라가요.
+
+</S>
+
+</Screen>
