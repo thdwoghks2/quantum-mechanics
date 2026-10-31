@@ -1,0 +1,83 @@
+---
+/**
+ * 커지는 우주(127강). 은하들 사이의 거리가 모두 같은 비율로 늘어난다.
+ * 기준으로 고른 은하를 가운데 두고 보면, 다른 은하는 모두 멀어지고, 두 배 먼 은하는 두 배 빨리 멀어진다.
+ * 기준을 바꿔도 똑같이 보여서, 우주에 가운데가 따로 없다는 것을 보여 준다.
+ */
+---
+<qm-sim-p15-expand class="sim" data-ratio="0.78">
+  <canvas aria-label="흩어진 은하들 사이의 거리가 모두 같은 비율로 늘어나요. 고른 은하에서 보면 다른 은하들이 모두 멀어지고, 먼 은하일수록 화살표가 길어요."></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="ref" value="0" />
+    <div class="sim__buttons" aria-label="어느 은하에서 볼지">
+      <button type="button" class="btn" data-set="ref=0" aria-pressed="true">은하 A에서 보기</button>
+      <button type="button" class="btn" data-set="ref=1" aria-pressed="false">은하 B에서</button>
+      <button type="button" class="btn" data-set="ref=2" aria-pressed="false">은하 C에서</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-expand>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  /** 같은 자리에 늘 같은 은하가 있도록 씨앗이 있는 난수로 흩는다. */
+  function galaxies(): [number, number][] {
+    let s = 20240711;
+    const r = () => {
+      s = (s * 1103515245 + 12345) >>> 0;
+      return s / 4294967296;
+    };
+    const out: [number, number][] = [[0, 0], [0.42, -0.18], [-0.3, 0.36]];
+    while (out.length < 46) {
+      const p: [number, number] = [r() * 2.4 - 1.2, r() * 2.4 - 1.2];
+      if (out.every(([x, y]) => Math.hypot(x - p[0], y - p[1]) > 0.17)) out.push(p);
+    }
+    return out;
+  }
+
+  const G = galaxies();
+  const NAMES = ['A', 'B', 'C'];
+
+  class SimP15Expand extends Sim {
+    /** 처음과 비교한 우주의 크기 */
+    get a() {
+      return 1 + ((this.t % 7) / 7) * 0.9;
+    }
+
+    readout() {
+      const ref = NAMES[this.p.ref ?? 0];
+      return `우주의 크기: 처음의 ${this.a.toFixed(2)}배 · 은하 ${ref}에서 보면 다른 은하가 모두 멀어지고, 두 배 먼 은하는 두 배 빨리 멀어져요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const ref = G[this.p.ref ?? 0]!;
+      const cx = w / 2;
+      const cy = h / 2;
+      const S = Math.min(w, h) * 0.34;
+      const a = this.a;
+      // 화살표: 멀어지는 빠르기는 거리에 비례
+      G.forEach(([x, y], i) => {
+        const dx = (x - ref[0]) * a * S;
+        const dy = (y - ref[1]) * a * S;
+        const px = cx + dx;
+        const py = cy + dy;
+        if (px < -10 || px > w + 10 || py < -10 || py > h + 10) return;
+        const isRef = i === (this.p.ref ?? 0);
+        if (!isRef) {
+          const k = 0.32;
+          this.ctx.globalAlpha = 0.55;
+          this.arrow(px, py, px + dx * k, py + dy * k, c.motion, 1.3);
+          this.ctx.globalAlpha = 1;
+        }
+        const named = i < 3;
+        this.dot(px, py, isRef ? 5 : named ? 3.6 : 2.4, isRef ? c.accent : named ? c.text : c.text2);
+        if (named) this.text(NAMES[i]!, px + 7, py - 8, isRef ? c.accent : c.text2, 11, 'left');
+      });
+      this.text('화살표: 멀어지는 빠르기 (먼 은하일수록 길어요)', 10, h - 8, c.motion, 10, 'left');
+    }
+  }
+  define('qm-sim-p15-expand', SimP15Expand);
+</script>
