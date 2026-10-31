@@ -1,0 +1,195 @@
+---
+/**
+ * 내 칠판(docs/REWARDS.md 3). 끝낸 강마다 칸 하나가 채워진다.
+ * 칸에는 내가 쓴 한 문장(notes.one)과 그 강의 핵심 문장(<Key>)이 칠판 글씨로 적힌다.
+ * 핵심 문장은 빌드할 때 강 파일에서 뽑고, 내 문장과 끝낸 강은 이 기기의 학습 기록에서 읽는다.
+ */
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import '../styles/pages.css';
+import { getCourse } from '../lib/course.ts';
+import { keySentences } from '../lib/rewards.ts';
+import { lessonUrl } from '../lib/url.ts';
+
+const course = await getCourse();
+const lessons = await getCollection('lessons', (l) => import.meta.env.DEV || l.data.status === 'published');
+const keys = new Map(lessons.map((l) => [l.data.number, keySentences(l.body ?? '')]));
+---
+<Base title="칠판" description="끝낸 강마다 내 한 문장과 그 강의 핵심 문장이 칠판에 한 칸씩 쌓여요.">
+  <main class="page board-page" data-page="board">
+    <header class="page__head">
+      <p class="label">내 칠판</p>
+      <h1>칠판</h1>
+      <p class="page__lead">
+        강을 끝낼 때마다 칸 하나가 채워져요. 강 끝에서 적은 내 한 문장과, 그 강에서 꼭 가져갈 핵심 문장이 함께 적혀요.
+      </p>
+      <p class="small muted" id="board-sum"></p>
+    </header>
+
+    <div class="board chalk">
+      {course.map((p) => (
+        <section class="board__part" aria-labelledby={`bp-${p.number}`}>
+          <h2 class="board__ph" id={`bp-${p.number}`}><span class="mono">{p.number}부</span> {p.title}</h2>
+          <ol class="board__cells">
+            {p.lessons.map((l) => (
+              <li class="cell" data-n={l.n}>
+                <p class="cell__n mono">{String(l.n).padStart(3, '0')}</p>
+                <div class="cell__body" hidden>
+                  <p class="cell__t">{l.published ? <a href={lessonUrl(l.n)}>{l.title}</a> : l.title}</p>
+                  <p class="cell__mine" data-empty="한 문장을 아직 적지 않았어요"></p>
+                  {(keys.get(l.n) ?? []).map((k) => <p class="cell__key">{k}</p>)}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
+    </div>
+  </main>
+  <script>
+    import { load } from '../lib/progress.ts';
+    import { isLit, type Status } from '../lib/rewards.ts';
+
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
+    function init() {
+      if (!document.querySelector('[data-page="board"]')) return;
+      const state = load();
+      let filled = 0;
+      for (const cell of document.querySelectorAll<HTMLElement>('.cell')) {
+        const n = cell.dataset.n!;
+        const lit = isLit(state.lessons[n]?.status as Status | undefined);
+        cell.classList.toggle('is-filled', lit);
+        cell.querySelector<HTMLElement>('.cell__body')!.hidden = !lit;
+        if (!lit) continue;
+        filled++;
+        const mine = cell.querySelector<HTMLElement>('.cell__mine')!;
+        const one = state.notes[n]?.one?.trim();
+        mine.textContent = one || mine.dataset.empty!;
+        mine.classList.toggle('is-empty', !one);
+      }
+      // 칸이 하나도 안 찬 부는 접어서 칠판이 덜 길어 보이게 한다.
+      for (const part of document.querySelectorAll<HTMLElement>('.board__part')) {
+        part.classList.toggle('has-filled', !!part.querySelector('.cell.is-filled'));
+      }
+      document.getElementById('board-sum')!.textContent = filled
+        ? `137칸 가운데 ${filled}칸이 채워졌어요.`
+        : '아직 채운 칸이 없어요. 강을 하나 끝내면 여기에 첫 칸이 생겨요.';
+    }
+    document.addEventListener('astro:page-load', init);
+  </script>
+</Base>
+
+<style>
+  .board {
+    display: grid;
+    gap: 34px;
+    padding: 26px 18px 30px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(228, 223, 210, 0.08);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .board__part {
+    display: grid;
+    gap: 12px;
+  }
+
+  .board__ph {
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: 1.45rem;
+    color: var(--chalk);
+    letter-spacing: 0.02em;
+  }
+
+  .board__part:not(.has-filled) .board__ph {
+    opacity: 0.55;
+  }
+
+  .board__ph .mono {
+    font-family: var(--font-hand);
+    color: var(--accent-2);
+    margin-right: 4px;
+  }
+
+  .board__cells {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(2.6rem, 1fr));
+    gap: 6px;
+  }
+
+  /* 빈 칸: 번호만 흐리게 */
+  .cell {
+    min-height: 2.6rem;
+    display: grid;
+    place-items: center;
+    border: 1px dashed rgba(228, 223, 210, 0.12);
+    border-radius: 6px;
+  }
+
+  .cell__n {
+    font-size: 0.6875rem;
+    color: rgba(228, 223, 210, 0.28);
+  }
+
+  /* 채운 칸: 한 줄을 다 쓰고 칠판 글씨로 */
+  .cell.is-filled {
+    grid-column: 1 / -1;
+    place-items: stretch;
+    padding: 14px 14px 16px;
+    border: 0;
+    border-top: 1px solid rgba(228, 223, 210, 0.14);
+    border-radius: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .cell.is-filled .cell__n {
+    color: var(--accent-2);
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+  }
+
+  .cell__body {
+    display: grid;
+    gap: 10px;
+  }
+
+  .cell__t {
+    font-size: var(--fs-xs);
+    color: var(--chalk-2);
+  }
+
+  .cell__t a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .cell__t a:hover {
+    color: var(--accent-2);
+  }
+
+  .cell__mine,
+  .cell__key {
+    font-family: var(--font-hand);
+    font-size: 1.45rem;
+    line-height: 1.35;
+    color: var(--chalk);
+  }
+
+  .cell__mine.is-empty {
+    color: rgba(228, 223, 210, 0.35);
+    font-size: 1.2rem;
+  }
+
+  .cell__key {
+    font-size: 1.3rem;
+    color: var(--chalk-2);
+    padding-left: 14px;
+    border-left: 2px solid rgba(231, 145, 58, 0.45);
+  }
+</style>

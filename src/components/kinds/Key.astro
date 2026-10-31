@@ -4,20 +4,36 @@
  * 짧게 끊지 말고 조건과 이유를 다 담은 한 문장으로 쓴다. 한 화면에 하나까지.
  */
 ---
-<p class="key"><slot /></p>
+<p class="key chalk"><slot /></p>
 
 <style>
+  /* 화면 가운데에 크게. 칠판에 한 줄 적어 둔 것처럼 둘레에 여백을 넉넉히 둔다. */
   .key {
-    margin: 2px 0;
-    padding: 10px 0;
-    border-top: 1px solid var(--line-2);
-    border-bottom: 1px solid var(--line-2);
+    position: relative;
+    margin: 10px 0 6px;
+    padding: 24px 20px 22px;
+    border: 1px solid rgba(228, 223, 210, 0.07);
+    border-radius: var(--radius-lg);
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--text);
+    font-size: 1.1875rem;
+    line-height: 1.78;
+    color: var(--chalk);
+    text-align: center;
     text-wrap: pretty;
+  }
+
+  .key::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 36px;
+    height: 2px;
+    margin-left: -18px;
+    border-radius: 1px;
+    background: var(--accent);
+    opacity: 0.7;
   }
 
   :global(html.js .screen.is-active) .key {

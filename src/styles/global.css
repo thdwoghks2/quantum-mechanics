@@ -1,11 +1,14 @@
 /* 137 · 디자인 토큰
    레이아웃: 137강이 한 줄로 이어진 세로 궤적 + 레슨은 한 장씩 넘기는 화면 카드.
-   분위기는 색과 타이포가 맡고, 문장은 이해를 맡는다. 다크 단일 테마. */
+   분위기는 색과 타이포가 맡고, 문장은 이해를 맡는다. 다크 단일 테마.
+   질감은 셋만 쓴다: 필름 입자(어디나), 아주 옅은 별(바탕), 칠판(핵심 문장, 되짚기, 칠판 페이지).
+   휴대폰(390×844)이 기준이고, 숨 쉴 공간을 먼저 둔다. */
 :root {
   color-scheme: dark;
 
   /* 바탕과 글 */
   --ink: #0d0c0a;
+  --ink-0: #070605;
   --ink-2: #14120f;
   --ink-3: #1d1a16;
   --line: #2d2922;
@@ -29,6 +32,15 @@
   --q-heat: #e5806a;    /* 온도 */
   --q-plain: #c9c2b4;
 
+  /* 칠판: 분필 글씨와 칠판 바탕 */
+  --chalk: #e4dfd2;
+  --chalk-2: #a9a497;
+  --slate: #151714;
+  --slate-2: #1b1e1a;
+
+  /* 별 */
+  --star: #f4ead6;
+
   /* 의미 색: 확인 문제의 맞음/틀림 */
   --ok: #8fc6a3;
   --no: #e5806a;
@@ -37,6 +49,7 @@
   --font-display: "Nanum Myeongjo", "Noto Serif KR", "AppleMyungjo", serif;
   --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-hand: "Nanum Pen Script", "Nanum Myeongjo", cursive;
 
   /* 글자 크기 단계 */
   --fs-xs: 0.75rem;
@@ -48,7 +61,8 @@
   --fs-3xl: 3.25rem;
 
   --radius: 10px;
-  --gutter: clamp(16px, 4vw, 32px);
+  --radius-lg: 16px;
+  --gutter: clamp(18px, 5vw, 32px);
 }
 
 *,
@@ -72,9 +86,26 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--fs-md);
-  line-height: 1.75;
+  line-height: 1.8;
   word-break: keep-all;
   overflow-wrap: anywhere;
+}
+
+/* 아주 옅은 별. 소수 간격으로 겹쳐서 무늬가 되풀이되어 보이지 않게 한다. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(1px 1px at 37px 61px, rgba(244, 234, 214, 0.55), transparent 60%),
+    radial-gradient(1px 1px at 151px 13px, rgba(244, 234, 214, 0.35), transparent 60%),
+    radial-gradient(1.4px 1.4px at 89px 173px, rgba(244, 234, 214, 0.4), transparent 60%),
+    radial-gradient(1px 1px at 233px 97px, rgba(242, 180, 107, 0.35), transparent 60%),
+    radial-gradient(1px 1px at 17px 239px, rgba(244, 234, 214, 0.3), transparent 60%);
+  background-size: 211px 263px, 307px 211px, 389px 431px, 463px 353px, 523px 487px;
 }
 
 /* 필름 그레인 */
@@ -146,6 +177,15 @@ canvas {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/* 칠판 바탕: 분필 가루가 옅게 번진 어두운 판. 핵심 문장과 칠판 페이지에만 쓴다. */
+.chalk {
+  background-color: var(--slate);
+  background-image:
+    radial-gradient(120% 80% at 20% 10%, rgba(228, 223, 210, 0.045), transparent 60%),
+    radial-gradient(90% 70% at 85% 90%, rgba(228, 223, 210, 0.035), transparent 65%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.09' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23c)'/></svg>");
 }
 
 /* 공용 버튼 */

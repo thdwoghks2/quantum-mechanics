@@ -29,7 +29,7 @@ const entries = await Promise.all(
       ))}
     </dl>
   </section>
-  <section class="recap__flow" aria-labelledby="recap-flow">
+  <section class="recap__flow chalk" aria-labelledby="recap-flow">
     <h3 id="recap-flow" class="label">오늘 온 길</h3>
     <slot />
   </section>
@@ -38,28 +38,32 @@ const entries = await Promise.all(
 <style>
   .recap {
     display: grid;
-    gap: 14px;
+    gap: 22px;
   }
 
   .recap h3 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: 0.12em;
   }
 
   .recap dl {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     margin: 0;
   }
 
   .recap__term {
     display: grid;
     grid-template-columns: minmax(4.5em, auto) 1fr;
-    gap: 4px 12px;
+    gap: 4px 14px;
     align-items: baseline;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
   }
 
   .recap__term dt {
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 700;
     color: var(--qc, var(--text));
   }
 
@@ -70,35 +74,63 @@ const entries = await Promise.all(
     color: var(--text-2);
   }
 
+  /* 오늘 온 길: 칠판에 번호를 매겨 한 줄씩 적어 가듯 */
+  .recap__flow {
+    padding: 18px 16px 16px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(228, 223, 210, 0.07);
+  }
+
   .recap__flow :global(ol) {
+    list-style: none;
     margin: 0;
-    padding-left: 1.4em;
+    padding: 0;
     display: grid;
-    gap: 6px;
+    gap: 10px;
+    counter-reset: path;
+  }
+
+  .recap__flow :global(li) {
+    position: relative;
+    padding-left: 2em;
+    counter-increment: path;
+    line-height: 1.65;
+    font-size: 0.9375rem;
+    color: var(--chalk);
+  }
+
+  .recap__flow :global(li)::before {
+    content: counter(path);
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
   }
 
   :global(html.js .screen.is-active) .recap__flow :global(li) {
-    animation: recap-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: recap-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .recap__flow :global(li:nth-child(2)) {
-    animation-delay: 0.12s;
+    animation-delay: 0.25s;
   }
 
   .recap__flow :global(li:nth-child(3)) {
-    animation-delay: 0.24s;
+    animation-delay: 0.5s;
   }
 
   .recap__flow :global(li:nth-child(4)) {
-    animation-delay: 0.36s;
+    animation-delay: 0.75s;
   }
 
   .recap__flow :global(li:nth-child(5)) {
-    animation-delay: 0.48s;
+    animation-delay: 1s;
   }
 
   .recap__flow :global(li:nth-child(n + 6)) {
-    animation-delay: 0.6s;
+    animation-delay: 1.25s;
   }
 
   @keyframes recap-in {
@@ -106,10 +138,5 @@ const entries = await Promise.all(
       opacity: 0;
       transform: translateX(-8px);
     }
-  }
-
-  .recap__flow :global(li) {
-    line-height: 1.6;
-    font-size: var(--fs-sm);
   }
 </style>

@@ -15,6 +15,7 @@
    npm run lint:style   # 금지 표현, 명사형 종결, 화면당 글자 수, 그래프 없는 방향어
    npm test
    npm run dev          # http://localhost:4321/lessons/번호/
+   npm run check:screens -- 번호   # 휴대폰 화면에서 넘치는지 (build, preview 뒤)
    ```
 6. `npm run docs:curriculum`으로 `docs/CURRICULUM.md`를 갱신한다.
 
@@ -137,7 +138,23 @@ status: draft                         # 다 쓰면 published
 | `Panels`, `Icon`, `BigNumber`, `DataTable`, `Flow` | 장면, 비교, 큰 숫자, 표, 흐름도 |
 | `Sim…` | 시뮬레이션 (`src/components/sims/`) |
 
-## 4. 새 시뮬레이션
+## 4. 화면이 보이는 모양
+
+- 화면 내용은 세로 가운데에 놓인다(조금 위로 치우치게). `<S>` 단계는 처음부터 자리를 잡아 두고 나타나기만 해서, "계속"을 눌러도 글이 밀리지 않는다.
+  남은 단계가 있으면 아래 버튼이 테두리만 있는 "계속"이 되고, 가운데에 단계 점이 보인다. 다음에 열릴 자리에는 작은 점 셋이 깜빡인다.
+- 화면이 휴대폰(390×844)보다 길면 저절로 촘촘한 모양(`is-dense`, 그래도 넘치면 `is-denser`)이 된다. 그래도 넘치면 화면 안에서 스크롤된다.
+  `npm run build` 뒤 다른 터미널에서 `npm run preview`를 켜 두고 `npm run check:screens -- 21,22`로 잰다. 넘치는 화면이 있으면 실패한다.
+  촘촘한 모양이 자주 붙는 강은 화면을 쪼갠다.
+- 화면 종류마다 얼굴이 다르다.
+  - `define`: 정의 카드의 용어를 크게, 물리량 색 밑줄
+  - `<Key>`: 칠판 바탕에 가운데 정렬, 큰 명조
+  - `story`: 바탕이 더 어둡고, `BigNumber`와 `Panels`의 `big`(연도)이 크게 별빛 색으로
+  - `check`: 문제와 선택지가 카드 안에
+  - `recap`: 오늘 온 길이 칠판 위에 번호와 함께 한 줄씩 나타난다
+  - 시각 자료 없이 글만 있는 장면·설명·이야기·비교·다음 강 화면: 큰 글씨(20px)
+- 그래서 글만 있는 화면은 글이 짧을수록 좋다. 큰 글씨로 3문장이면 한 화면이 꽉 찬다.
+
+## 5. 새 시뮬레이션
 
 `src/components/sims/SimXxx.astro`를 만들고 `src/lib/client/sim.ts`의 `Sim`을 상속한다.
 슬라이더는 `input[data-param]`, 버튼은 `button[data-set="이름=값"]`으로 매개변수에 묶인다.

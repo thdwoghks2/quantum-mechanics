@@ -1,42 +1,54 @@
-/* 레슨 밖의 페이지들: 첫 화면, 코스, 진단, 복습, 용어집, 인물, 연대기, 기록 */
+/* 레슨 밖의 페이지들: 처음 화면, 코스, 진단, 복습, 용어집, 인물, 연대기, 칠판, 기록
+   위계: 작은 이름표 → 큰 제목 → 흐린 안내 → 줄로 나눈 구역. 휴대폰에서 덜 빽빽하게. */
 .page {
-  width: min(760px, 100%);
+  width: min(720px, 100%);
   margin: 0 auto;
-  padding: 36px var(--gutter) 80px;
+  padding: 44px var(--gutter) 96px;
   display: grid;
-  gap: 28px;
+  gap: 44px;
 }
 
 .page__head {
   display: grid;
-  gap: 10px;
+  gap: 12px;
+}
+
+.page__head > .label {
+  letter-spacing: 0.14em;
 }
 
 .page__head h1 {
-  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  font-size: clamp(2.1rem, 8vw, 2.8rem);
 }
 
 .page__lead {
   color: var(--text-2);
-  max-width: 36em;
+  max-width: 34em;
+  line-height: 1.8;
 }
 
 .section {
   display: grid;
-  gap: 12px;
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
 }
 
 .section h2 {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
+}
+
+.section > .label:first-child {
+  letter-spacing: 0.14em;
 }
 
 .card {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--ink-2);
-  padding: 16px 18px;
+  padding: 18px 18px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .muted {
@@ -45,6 +57,7 @@
 
 .small {
   font-size: var(--fs-sm);
+  line-height: 1.7;
 }
 
 .row {

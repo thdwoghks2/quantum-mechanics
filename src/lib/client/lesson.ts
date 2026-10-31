@@ -4,9 +4,13 @@
  * - 진행 위치는 이 기기에 저장되고, 다시 열면 이어서 본다. 주소의 #s5 같은 표시로 특정 화면을 열 수 있다.
  * - 글 속 물리량 용어에 색 밑줄을 긋고, 누르면 정의 카드가 열린다.
  * - 통과 시험: 핵심 문제를 모두 맞히면 강을 건너뛴다.
+ * - 단계는 처음부터 자리를 잡아 두고 나타나기만 한다. 그래서 화면이 넘치는지는 처음에 한 번 재면 되고,
+ *   넘칠 때만 촘촘한 모양(is-dense, is-denser)을 붙인다.
+ * - 부의 마지막 강을 처음 마치면 장 넘김 화면을 한 번 보여 준다.
  */
 import { load, save, setLesson, setScreen } from '../progress.ts';
 import { buildMatchers, findTerms, type TermEntry } from '../terms.ts';
+import { shouldTurn } from '../rewards.ts';
 
 interface Gloss extends TermEntry {
   definition: string;
@@ -39,6 +43,7 @@ class QmLesson extends HTMLElement {
   touchX = 0;
   touchY = 0;
   onKey: ((e: KeyboardEvent) => void) | null = null;
+  onResize: (() => void) | null = null;
 
   connectedCallback() {
     this.n = Number(this.dataset.lesson);
@@ -49,10 +54,13 @@ class QmLesson extends HTMLElement {
     this.highlightTerms();
     this.bind();
     this.restore();
+    // 글꼴이 늦게 도착하면 글 높이가 달라지니 한 번 더 잰다.
+    document.fonts?.ready.then(() => this.isConnected && this.fit(this.screens[this.i]!));
   }
 
   disconnectedCallback() {
     if (this.onKey) document.removeEventListener('keydown', this.onKey);
+    if (this.onResize) window.removeEventListener('resize', this.onResize);
   }
 
   /* ── 상태 ── */
@@ -81,7 +89,8 @@ class QmLesson extends HTMLElement {
     this.step = opts.allSteps ? max : Math.min(1, max);
     this.applySteps();
     screen.dispatchEvent(new CustomEvent('qm:show'));
-    screen.querySelector<HTMLElement>('.screen__text')?.scrollTo({ top: 0 });
+    this.fit(screen);
+    screen.scrollTo({ top: 0 });
     this.updateChrome();
     if (this.i > 0) {
       save(setScreen(load(), this.n, this.i, Date.now()));
@@ -96,7 +105,19 @@ class QmLesson extends HTMLElement {
     const screen = this.screens[this.i]!;
     for (const el of this.stepsOf(screen).els) {
       el.classList.toggle('step-hidden', Number(el.dataset.step) > this.step);
+      el.classList.remove('step-enter', 'step-next');
     }
+    // 다음에 열릴 글 자리에 작은 표시를 둔다.
+    screen.querySelector<HTMLElement>(`.screen__body .step[data-step="${this.step + 1}"]`)?.classList.add('step-next');
+  }
+
+  /** 화면이 무대보다 길면 한 단계씩 촘촘하게 한다. 단계는 자리를 미리 잡고 있으니 다 연 모양과 높이가 같다. */
+  fit(screen: HTMLElement) {
+    screen.classList.remove('is-dense', 'is-denser');
+    const over = () => screen.scrollHeight - screen.clientHeight > 1;
+    if (!over()) return;
+    screen.classList.add('is-dense');
+    if (over()) screen.classList.add('is-denser');
   }
 
   next() {
@@ -105,9 +126,13 @@ class QmLesson extends HTMLElement {
     if (this.step < max) {
       this.step++;
       this.applySteps();
-      // 새로 열린 단계가 보이게 글 영역을 내린다.
-      const opened = screen.querySelector<HTMLElement>(`.screen__body [data-step="${this.step}"]`);
-      opened?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      // 새로 열린 단계만 천천히 떠오르게 하고, 화면이 넘치는 경우에만 그 단계가 보이게 내린다.
+      const opened = [...screen.querySelectorAll<HTMLElement>(`[data-step="${this.step}"]`)];
+      for (const el of opened) {
+        el.classList.add('step-enter');
+        el.addEventListener('animationend', () => el.classList.remove('step-enter'), { once: true });
+      }
+      opened.find((el) => el.closest('.screen__body'))?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       this.updateChrome();
       return;
     }
@@ -125,6 +150,7 @@ class QmLesson extends HTMLElement {
   }
 
   finish() {
+    const before = load().lessons[this.n]?.status;
     save(setLesson(load(), this.n, 'done', Date.now(), this.last));
     const nextUrl = this.dataset.next;
     const btn = this.querySelector<HTMLButtonElement>('.lnav__next')!;
@@ -141,6 +167,15 @@ class QmLesson extends HTMLElement {
     }
     btn.replaceWith(done);
     this.updateChrome(true);
+    if (shouldTurn(this.dataset.partEnd === '1', before)) this.openTurn();
+  }
+
+  /** 장 넘김: 한 부를 마치면 다음 시대로 넘어간다는 말만 한 번 보여 준다. */
+  openTurn() {
+    const turn = this.querySelector<HTMLElement>('.turn');
+    if (!turn) return;
+    turn.hidden = false;
+    turn.querySelector<HTMLElement>('.turn__go')?.focus({ preventScroll: true });
   }
 
   restore() {
@@ -216,16 +251,38 @@ class QmLesson extends HTMLElement {
     this.querySelectorAll('.toc li').forEach((el, j) => el.classList.toggle('is-now', j === this.i));
     const count = this.querySelector('.lnav__count')!;
     if (!finished) count.textContent = `${this.i + 1} / ${this.screens.length}`;
+    // 이 화면의 단계를 점으로: 연 단계는 채우고, 남은 단계는 비운다. 단계가 없으면 점도 없다.
+    const pips = this.querySelector<HTMLElement>('.lnav__steps');
+    if (pips) {
+      const { max } = this.stepsOf(this.screens[this.i]!);
+      pips.innerHTML = '';
+      if (max > 1 && !finished) {
+        for (let k = 1; k <= max; k++) {
+          const dot = document.createElement('i');
+          if (k <= this.step) dot.className = 'is-on';
+          pips.append(dot);
+        }
+      }
+    }
     // 첫 화면에서는 '이전' 자리가 코스로 나가는 버튼이 된다.
     const prev = this.querySelector<HTMLButtonElement>('.lnav__prev')!;
     prev.textContent = this.i === 0 ? '‹ 나가기' : '‹ 이전';
     const next = this.querySelector<HTMLButtonElement>('button.lnav__next');
     if (next) {
       const { max } = this.stepsOf(this.screens[this.i]!);
-      if (this.i === 0) next.textContent = '시작 ›';
-      else if (this.step < max) next.textContent = '계속 ›';
-      else if (this.i === this.last) next.textContent = '강 마치기';
-      else next.textContent = '다음 ›';
+      let mode = 'next';
+      if (this.i === 0) {
+        next.textContent = '시작 ›';
+        mode = 'start';
+      } else if (this.step < max) {
+        next.textContent = '계속';
+        mode = 'continue';
+      } else if (this.i === this.last) {
+        next.textContent = '강 마치기';
+        mode = 'finish';
+      } else next.textContent = '다음 ›';
+      next.dataset.mode = mode;
+      next.setAttribute('aria-label', mode === 'continue' ? '이 화면의 다음 글 보기' : next.textContent);
     }
   }
 
@@ -238,6 +295,7 @@ class QmLesson extends HTMLElement {
       else if (action === 'prev') this.prev();
       else if (action === 'testout') this.openTestout();
       else if (action === 'testout-close') this.closeTestout();
+      else if (action === 'turn-close') this.querySelector<HTMLElement>('.turn')!.hidden = true;
       const open = t.closest<HTMLElement>('[data-open]')?.dataset.open;
       if (open) this.toggleRail(open);
       if (t.closest('[data-close]')) this.closeRails();
@@ -252,6 +310,8 @@ class QmLesson extends HTMLElement {
       if (e.key === 'Escape') {
         this.closePop();
         this.closeRails();
+        const turn = this.querySelector<HTMLElement>('.turn');
+        if (turn) turn.hidden = true;
         return;
       }
       if (!this.querySelector('.testout')!.hidden) return;
@@ -259,6 +319,13 @@ class QmLesson extends HTMLElement {
       if (e.key === 'ArrowLeft') this.prev();
     };
     document.addEventListener('keydown', this.onKey);
+
+    let raf = 0;
+    this.onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => this.fit(this.screens[this.i]!));
+    };
+    window.addEventListener('resize', this.onResize);
 
     const stage = this.querySelector<HTMLElement>('.stage')!;
     stage.addEventListener('touchstart', (e) => {

@@ -1,27 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/pages.css';
+import StarMap from '../components/rewards/StarMap.astro';
+import YearLine from '../components/rewards/YearLine.astro';
 import { getCourse } from '../lib/course.ts';
 import { lessonUrl } from '../lib/url.ts';
 
 const course = await getCourse();
 const total = course.reduce((s, p) => s + p.lessons.length, 0);
 ---
-<Base title="코스" description="137강 전체 궤적">
+<Base title="코스" description="0부에서 16부까지 한 줄로 이어진 137강의 지도예요.">
   <main class="page" data-page="course">
     <header class="page__head">
       <p class="label">한 줄로 이어진 {total}강</p>
       <h1>코스</h1>
       <p class="page__lead">
-        0부에서 16부까지 한 줄로 이어진다. 앞 강에서 배운 것만 뒤 강에서 끌어다 쓴다.
-        밝은 강은 공개된 강이고, 어두운 강은 준비 중이다.
+        0부에서 16부까지 한 줄로 이어져요. 뒤 강은 앞 강에서 배운 것만 끌어다 써요.
       </p>
-      <p class="small muted" id="summary"></p>
     </header>
+
+    <section class="sky-wrap" aria-labelledby="sky-h">
+      <h2 id="sky-h" class="sr-only">별 지도</h2>
+      <StarMap size="large" />
+      <div class="sky-foot">
+        <YearLine />
+        <p class="small muted" id="summary"></p>
+      </div>
+    </section>
 
     <ol class="track">
       {course.map((p) => (
-        <li class="track__part">
+        <li class="track__part" id={`part-${p.number}`}>
           <div class="track__head">
             <p class="mono track__pn">{p.number}부</p>
             <h2>{p.title}</h2>
@@ -34,9 +43,9 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
                 <span class="mono node__n">{String(l.n).padStart(3, '0')}</span>
                 <span class="node__body">
                   {l.published ? <a href={lessonUrl(l.n)} class="node__t">{l.title}</a> : <span class="node__t">{l.title}</span>}
-                  <span class="node__note">{l.note}</span>
+                  {l.note && <span class="node__note">{l.note}</span>}
                 </span>
-                <span class="node__state small">{l.published ? '' : '준비 중'}</span>
+                <span class="node__state">{l.published ? '' : '준비 중'}</span>
               </li>
             ))}
           </ol>
@@ -62,7 +71,7 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
         if (st === 'done' || st === 'tested-out') done++;
       }
       const open = document.querySelectorAll('.node.is-open').length;
-      document.getElementById('summary')!.textContent = `공개된 ${open}강 가운데 ${done}강을 끝냈다.`;
+      document.getElementById('summary')!.textContent = `열린 ${open}강 가운데 ${done}강을 끝냈어요. 별은 끝낸 강마다 하나씩 켜져요.`;
       const next = [...document.querySelectorAll<HTMLElement>('.node.is-open')].find((el) => !el.dataset.status || el.dataset.status === 'started');
       next?.classList.add('is-next');
     }
@@ -71,28 +80,46 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
 </Base>
 
 <style>
+  .sky-wrap {
+    display: grid;
+    gap: 22px;
+    padding: 22px 0 6px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sky-foot {
+    display: grid;
+    gap: 10px;
+  }
+
   .track {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 34px;
+    gap: 56px;
   }
 
   .track__head {
     display: grid;
-    gap: 4px;
-    padding-left: 30px;
-    margin-bottom: 10px;
+    gap: 6px;
+    padding-left: 34px;
+    margin-bottom: 14px;
   }
 
   .track__pn {
     color: var(--accent);
-    font-size: var(--fs-sm);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.16em;
   }
 
   .track__head h2 {
     font-size: var(--fs-xl);
+  }
+
+  .track__head .small {
+    line-height: 1.65;
   }
 
   .track__lessons {
@@ -106,8 +133,8 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
     content: '';
     position: absolute;
     left: 7px;
-    top: 6px;
-    bottom: 6px;
+    top: 10px;
+    bottom: 10px;
     width: 1px;
     background: var(--line-2);
   }
@@ -115,16 +142,16 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
   .node {
     position: relative;
     display: grid;
-    grid-template-columns: 30px 3.2em minmax(0, 1fr) auto;
+    grid-template-columns: 34px 2.8em minmax(0, 1fr) auto;
     align-items: baseline;
     gap: 4px 8px;
-    padding: 8px 0;
+    padding: 11px 0;
     color: var(--muted);
   }
 
   .node__dot {
     position: relative;
-    top: 2px;
+    top: 3px;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -140,9 +167,15 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
     border-color: var(--text-2);
   }
 
-  .node[data-status='done'] .node__dot,
+  .node[data-status='done'] .node__dot {
+    background: var(--star);
+    border-color: var(--star);
+    box-shadow: 0 0 10px rgba(244, 234, 214, 0.25);
+  }
+
   .node[data-status='tested-out'] .node__dot {
-    background: var(--text-2);
+    background: color-mix(in srgb, var(--star) 55%, var(--ink));
+    border-color: color-mix(in srgb, var(--star) 55%, var(--ink));
   }
 
   .node[data-status='skipped'] .node__dot {
@@ -163,13 +196,13 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
   }
 
   .node__n {
-    font-size: var(--fs-xs);
+    font-size: 0.6875rem;
     color: var(--muted);
   }
 
   .node__body {
     display: grid;
-    gap: 2px;
+    gap: 3px;
     min-width: 0;
   }
 
@@ -177,6 +210,7 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
     color: inherit;
     text-decoration: none;
     font-weight: 500;
+    line-height: 1.5;
   }
 
   a.node__t:hover {
@@ -187,11 +221,21 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
   .node__note {
     font-size: var(--fs-xs);
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.55;
+  }
+
+  .node:not(.is-open) .node__note {
+    opacity: 0.75;
   }
 
   .node__state {
+    font-size: 0.6875rem;
     color: var(--text-2);
     white-space: nowrap;
+  }
+
+  .node:not(.is-open) .node__state {
+    color: var(--muted);
+    opacity: 0.7;
   }
 </style>

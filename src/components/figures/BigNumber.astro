@@ -18,7 +18,8 @@ const { value, top, bottom, q = 'plain' } = Astro.props;
 <style>
   .bignum {
     display: grid;
-    gap: 10px;
+    gap: 12px;
+    padding: 8px 0;
     justify-items: center;
     text-align: center;
     max-width: 460px;
@@ -34,8 +35,9 @@ const { value, top, bottom, q = 'plain' } = Astro.props;
   .bignum__value {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(1.8rem, 7vw, 2.8rem);
-    line-height: 1.2;
+    font-size: var(--bignum-size, clamp(2rem, 8vw, 2.9rem));
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     color: var(--qc, var(--text));
     font-variant-numeric: tabular-nums;
     text-wrap: balance;

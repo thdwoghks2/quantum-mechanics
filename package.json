@@ -13,7 +13,8 @@
     "test": "vitest run",
     "check": "npm run validate && npm run lint:style && npm test && astro build",
     "docs:curriculum": "node scripts/curriculum-md.mjs",
-    "deploy": "npm run check && npx -y firebase-tools@15.34.2 deploy --only hosting:app"
+    "deploy": "npm run check && npx -y firebase-tools@15.34.2 deploy --only hosting:app",
+    "check:screens": "node scripts/screen-fit.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.14",

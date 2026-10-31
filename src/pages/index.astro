@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Dust from '../components/figures/Dust.astro';
+import StarMap from '../components/rewards/StarMap.astro';
+import YearLine from '../components/rewards/YearLine.astro';
 import '../styles/pages.css';
 import { getCourse } from '../lib/course.ts';
 import { lessonUrl, url } from '../lib/url.ts';
@@ -26,6 +28,13 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
         <a class="btn btn--ghost" href={url('course/')}>137강 전체 보기</a>
       </div>
       <p class="small muted" id="review-note" hidden></p>
+    </section>
+
+    <section class="section sky-home" aria-labelledby="sky-h">
+      <p class="label" id="sky-h">내 하늘</p>
+      <StarMap size="small" />
+      <YearLine />
+      <p class="small muted">강을 하나 끝낼 때마다 별이 하나 켜져요. 한 부를 다 마치면 그 부의 별자리가 이어져요. <a href={url('course/')}>코스에서 크게 보기</a></p>
     </section>
 
     <section class="section">
@@ -75,7 +84,7 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
       <h2>왜 137일까요</h2>
       <p class="muted">
         빛과 전자가 서로 얼마나 세게 끌어당기고 밀어내는지를 나타내는 수가 있어요. 그 값이 거의 정확히 137분의 1이에요.
-        왜 하필 이 값인지는 아직 아무도 몰라요. 미국의 물리학자 리처드 파인먼은 이 수를 물리학의 가장 큰 수수께끼 가운데 하나로 꼽았어요.
+        왜 하필 이 값인지는 아직 아무도 몰라요. 리처드 파인먼은 이 수를 물리학의 가장 큰 수수께끼 가운데 하나로 꼽았어요.
         이 책의 강 수는 그 수에서 따왔고, 그 수가 정확히 무엇인지는 122강에서 같이 볼 거예요.
       </p>
     </section>
@@ -121,8 +130,12 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
   .hero {
     position: relative;
     display: grid;
+    gap: 20px;
+    padding-top: 8px;
+  }
+
+  .sky-home {
     gap: 18px;
-    padding-top: 12px;
   }
 
   .hero > :global(:not(.dust)) {
@@ -170,7 +183,7 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 14px;
+    gap: 22px;
     counter-reset: how;
   }
 
@@ -206,7 +219,7 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
     display: grid;
     grid-template-columns: 3.4em 1fr auto;
     gap: 10px;
-    padding: 7px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--line);
     color: var(--muted);
     font-size: var(--fs-sm);

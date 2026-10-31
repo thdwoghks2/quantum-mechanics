@@ -1,0 +1,272 @@
+---
+/**
+ * 별 지도(docs/REWARDS.md 1). 끝낸 강마다 별이 하나 켜지고, 한 부의 별이 다 켜지면 그 별자리의 선이 이어진다.
+ * large는 코스 위에 크게(부 이름표가 붙는다), small은 처음 화면에 작게.
+ * 별을 누르면 그 강으로 간다(열린 강만). 별의 자리는 강 번호로 정해져서 늘 같다.
+ */
+import { getCourse } from '../../lib/course.ts';
+import { lessonUrl } from '../../lib/url.ts';
+import { skyLayout } from '../../lib/rewards.ts';
+
+interface Props {
+  size?: 'large' | 'small';
+}
+const { size = 'large' } = Astro.props;
+const course = await getCourse();
+const sky = skyLayout(
+  course.map((p) => ({ number: p.number, lessons: p.lessons.map((l) => l.n) })),
+  size === 'large' ? { cols: 3, cellW: 120, cellH: 92 } : { cols: 6, cellW: 100, cellH: 80 },
+);
+const byN = new Map(course.flatMap((p) => p.lessons).map((l) => [l.n, l]));
+const partOf = new Map(course.map((p) => [p.number, p]));
+const hit = size === 'large' ? 9 : 11;
+const path = (pts: [number, number][]) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x},${y}`).join(' ');
+---
+<qm-sky class:list={['sky', `sky--${size}`]}>
+  <svg
+    viewBox={`0 0 ${sky.width} ${sky.height}`}
+    role="group"
+    aria-label="별 지도. 끝낸 강마다 별이 하나씩 켜지고, 한 부를 다 마치면 그 부의 별자리가 이어져요."
+  >
+    <g class="sky__links" aria-hidden="true">
+      {sky.links.map((l) => (
+        <path class="sky__link" d={path(l.points)} data-part={l.part} data-lessons={partOf.get(l.part)!.lessons.map((x) => x.n).join(',')} pathLength="1" />
+      ))}
+    </g>
+    {size === 'large' && (
+      <g class="sky__labels" aria-hidden="true">
+        {sky.labels.map((b) => (
+          <text x={b.x} y={b.y} class="sky__label" data-part={b.part}>
+            <tspan class="sky__pn">{b.part}</tspan> {partOf.get(b.part)!.title}
+          </text>
+        ))}
+      </g>
+    )}
+    <g class="sky__stars">
+      {sky.stars.map((s) => {
+        const l = byN.get(s.n)!;
+        return l.published ? (
+          <a href={lessonUrl(s.n)} class="sky__a" data-n={s.n} aria-label={`${s.n}강 ${l.title}`}>
+            <circle class="sky__hit" cx={s.x} cy={s.y} r={hit} />
+            <circle class="sky__halo" cx={s.x} cy={s.y} r={s.r * 3.2} />
+            <circle class="sky__star" cx={s.x} cy={s.y} r={s.r} />
+          </a>
+        ) : (
+          <circle class="sky__star is-closed" cx={s.x} cy={s.y} r={s.r * 0.8} data-n={s.n} aria-hidden="true" />
+        );
+      })}
+    </g>
+  </svg>
+  {size === 'large' && (
+    <p class="sky__legend">
+      <span><i class="dot dot--done"></i>끝낸 강</span>
+      <span><i class="dot dot--passed"></i>통과 시험으로 건너뛴 강</span>
+      <span><i class="dot dot--now"></i>보는 중</span>
+      <span><i class="dot dot--open"></i>아직</span>
+    </p>
+  )}
+</qm-sky>
+
+<script>
+  import { load } from '../../lib/progress.ts';
+  import { isLit, partComplete, type Status } from '../../lib/rewards.ts';
+
+  // 페이지를 바꿔 끼워 다시 붙을 때마다 학습 기록을 새로 읽는다.
+  class QmSky extends HTMLElement {
+    connectedCallback() {
+      const state = load();
+      const statusOf = (n: number) => state.lessons[n]?.status as Status | undefined;
+      let next: Element | null = null;
+      for (const a of this.querySelectorAll<SVGElement>('.sky__a')) {
+        const st = statusOf(Number(a.dataset.n));
+        a.classList.toggle('is-done', st === 'done');
+        a.classList.toggle('is-passed', st === 'tested-out');
+        a.classList.toggle('is-now', st === 'started');
+        a.classList.remove('is-next');
+        if (!next && !isLit(st) && st !== 'skipped') next = a;
+        const label = a.getAttribute('aria-label')!.replace(/ · .*$/, '');
+        const word = st === 'done' ? '끝냄' : st === 'tested-out' ? '통과' : st === 'started' ? '보는 중' : '';
+        a.setAttribute('aria-label', word ? `${label} · ${word}` : label);
+      }
+      next?.classList.add('is-next');
+      for (const p of this.querySelectorAll<SVGPathElement>('.sky__link')) {
+        const lessons = p.dataset.lessons!.split(',').map(Number);
+        const lit = partComplete(lessons, statusOf);
+        p.classList.toggle('is-lit', lit);
+        this.querySelector(`.sky__label[data-part="${p.dataset.part}"]`)?.classList.toggle('is-lit', lit);
+      }
+    }
+  }
+  if (!customElements.get('qm-sky')) customElements.define('qm-sky', QmSky);
+</script>
+
+<style>
+  .sky {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .sky--small svg {
+    max-height: 170px;
+  }
+
+  .sky__link {
+    fill: none;
+    stroke: var(--star);
+    stroke-width: 0.7;
+    stroke-linejoin: round;
+    opacity: 0;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .sky__link.is-lit {
+    opacity: 0.45;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s;
+  }
+
+  .sky__label {
+    font-family: var(--font-body);
+    font-size: 7.5px;
+    letter-spacing: 0.04em;
+    fill: var(--muted);
+    opacity: 0.75;
+  }
+
+  .sky__label .sky__pn {
+    font-family: var(--font-mono);
+    fill: var(--accent);
+  }
+
+  .sky__label.is-lit {
+    fill: var(--text-2);
+    opacity: 1;
+  }
+
+  .sky__hit {
+    fill: transparent;
+  }
+
+  .sky__star {
+    fill: var(--line-2);
+    transition: fill 0.6s, opacity 0.6s;
+  }
+
+  .sky__star.is-closed {
+    fill: var(--line);
+    opacity: 0.8;
+  }
+
+  .sky__a .sky__star {
+    fill: #5c564b;
+  }
+
+  .sky__halo {
+    fill: var(--star);
+    opacity: 0;
+    transition: opacity 0.8s;
+  }
+
+  .sky__a.is-done .sky__star {
+    fill: var(--star);
+  }
+
+  .sky__a.is-done .sky__halo {
+    opacity: 0.07;
+  }
+
+  .sky__a.is-passed .sky__star {
+    fill: var(--star);
+    opacity: 0.55;
+  }
+
+  .sky__a.is-passed .sky__halo {
+    opacity: 0.035;
+  }
+
+  .sky__a.is-now .sky__star {
+    fill: var(--accent-2);
+    animation: sky-twinkle 2.6s ease-in-out infinite;
+  }
+
+  .sky__a.is-next:not(.is-now) .sky__star {
+    fill: var(--accent);
+  }
+
+  .sky__a.is-next .sky__halo,
+  .sky__a.is-now .sky__halo {
+    fill: var(--accent);
+    opacity: 0.12;
+    animation: sky-breathe 3.2s ease-in-out infinite;
+  }
+
+  .sky__a:hover .sky__star,
+  .sky__a:focus-visible .sky__star {
+    fill: var(--accent-2);
+  }
+
+  .sky__a:focus-visible {
+    outline: none;
+  }
+
+  .sky__a:focus-visible .sky__halo {
+    fill: var(--accent);
+    opacity: 0.3;
+  }
+
+  @keyframes sky-twinkle {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes sky-breathe {
+    50% {
+      opacity: 0.03;
+    }
+  }
+
+  .sky__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .sky__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5c564b;
+  }
+
+  .dot--done {
+    background: var(--star);
+    box-shadow: 0 0 6px rgba(244, 234, 214, 0.5);
+  }
+
+  .dot--passed {
+    background: var(--star);
+    opacity: 0.55;
+  }
+
+  .dot--now {
+    background: var(--accent-2);
+  }
+</style>

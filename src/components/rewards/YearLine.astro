@@ -1,0 +1,77 @@
+---
+/**
+ * 지금 서 있는 해(docs/REWARDS.md 2). 가장 뒤의 끝낸 강과 이어진 사건의 연도로,
+ * 물리학의 역사에서 지금 어디쯤 와 있는지 한 줄로 보여 준다.
+ */
+import { getCollection } from 'astro:content';
+import { url } from '../../lib/url.ts';
+
+const events = (await getCollection('events')).map((e) => ({ year: e.data.year, title: e.data.title, lessons: e.data.lessons }));
+const json = JSON.stringify(events).replace(/</g, '\\u003c');
+---
+<qm-year class="yearline" data-events={json} data-timeline={url('timeline/')}>
+  <p class="yearline__label label">지금 서 있는 해</p>
+  <p class="yearline__line">첫 강을 마치면, 여기에 지금 물리학의 역사 어디쯤 와 있는지가 적혀요.</p>
+</qm-year>
+
+<script>
+  import { load } from '../../lib/progress.ts';
+  import { standingYear, yearText, type Status, type YearEvent } from '../../lib/rewards.ts';
+
+  class QmYear extends HTMLElement {
+    connectedCallback() {
+      const events: YearEvent[] = JSON.parse(this.dataset.events ?? '[]');
+      const s = standingYear(load().lessons as Record<string, { status: Status }>, events);
+      if (!s) return;
+      const line = this.querySelector('.yearline__line')!;
+      line.innerHTML = '';
+      const year = document.createElement('span');
+      year.className = 'yearline__year';
+      year.textContent = yearText(s.year);
+      line.append('지금 ', year, '에 와 있어요.');
+      const cap = document.createElement('a');
+      cap.className = 'yearline__cap';
+      cap.href = this.dataset.timeline!;
+      cap.textContent = `${s.title} · ${s.from}강`;
+      this.append(cap);
+    }
+  }
+  if (!customElements.get('qm-year')) customElements.define('qm-year', QmYear);
+</script>
+
+<style>
+  .yearline {
+    display: grid;
+    gap: 4px;
+  }
+
+  .yearline__label {
+    letter-spacing: 0.12em;
+  }
+
+  .yearline__line {
+    font-size: var(--fs-md);
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  .yearline :global(.yearline__year) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.6em;
+    color: var(--star);
+    letter-spacing: -0.01em;
+    margin: 0 0.04em 0 0.1em;
+    vertical-align: -0.06em;
+  }
+
+  .yearline :global(.yearline__cap) {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .yearline :global(.yearline__cap:hover) {
+    color: var(--accent-2);
+  }
+</style>

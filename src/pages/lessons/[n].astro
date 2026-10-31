@@ -5,6 +5,7 @@ import '../../styles/lesson.css';
 import { lessonUrl, url } from '../../lib/url.ts';
 import MusicToggle from '../../components/music/MusicToggle.astro';
 import { mdxComponents } from '../../components/mdx.ts';
+import { firstYearOf, hasBatchim, turnLines } from '../../lib/rewards.ts';
 
 export async function getStaticPaths() {
   const lessons = await getCollection('lessons', (l) => import.meta.env.DEV || l.data.status === 'published');
@@ -34,6 +35,20 @@ const parts = await getCollection('curriculum');
 const part = parts.find((p) => p.data.number === d.part);
 const nextTitle = next ? (await getCollection('lessons', (l) => l.data.number === next))[0]?.data.short : undefined;
 const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.number + 1);
+
+// 장 넘김: 부의 마지막 강이면, 다음 부에서 처음 나오는 사건의 해로 넘어간다는 두 줄을 미리 만들어 둔다.
+const events = (await getCollection('events')).map((e) => ({ year: e.data.year, title: e.data.title, lessons: e.data.lessons }));
+const isPartEnd = part?.data.lessons.at(-1)?.n === d.number;
+const nextPart = parts.find((p) => p.data.number === d.part + 1);
+const turn = isPartEnd && part
+  ? turnLines({
+      part: d.part,
+      partTitle: part.data.title,
+      nextPart: nextPart?.data.number,
+      nextTitle: nextPart?.data.title,
+      nextYear: nextPart ? firstYearOf(nextPart.data.lessons.map((l) => l.n), events) : undefined,
+    })
+  : null;
 ---
 <Base title={`${d.number}강 ${d.short}`} description={d.question} bare bodyClass="lesson-body">
   <qm-lesson
@@ -43,6 +58,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
     data-next={next ? lessonUrl(next) : ''}
     data-next-title={next ? `${next}강 ${nextTitle ?? ''}` : ''}
     data-course={url('course/')}
+    data-part-end={turn ? '1' : undefined}
   >
     <header class="lbar">
       <a class="lbar__back" href={url('course/')} aria-label="코스로 돌아가기">137</a>
@@ -122,7 +138,10 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
 
     <nav class="lnav" aria-label="화면 넘기기">
       <button type="button" class="btn btn--ghost lnav__prev" data-action="prev">‹ 이전</button>
-      <span class="lnav__count" aria-live="polite"></span>
+      <span class="lnav__mid">
+        <span class="lnav__steps" aria-hidden="true"></span>
+        <span class="lnav__count" aria-live="polite"></span>
+      </span>
       <button type="button" class="btn btn--primary lnav__next" data-action="next">다음 ›</button>
     </nav>
 
@@ -141,7 +160,21 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
       </div>
     </div>
 
-    <template id="next-planned">{plannedNext ? `${plannedNext.n}강 ${plannedNext.title}은 아직 준비하고 있어요.` : ''}</template>
+    {turn && (
+      <div class="turn" role="dialog" aria-modal="true" aria-labelledby="turn-l1" hidden>
+        <div class="turn__inner">
+          <p class="turn__n mono">{d.part}부 · {part?.data.title}</p>
+          <p class="turn__l1" id="turn-l1">{turn[0]}</p>
+          <p class="turn__l2">{turn[1]}</p>
+          <div class="turn__actions">
+            <a class="btn btn--primary turn__go" href={next ? lessonUrl(next) : url('course/')}>{next ? `${next}강으로 ›` : '코스로'}</a>
+            <button type="button" class="btn btn--ghost" data-action="turn-close">닫기</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <template id="next-planned">{plannedNext ? `${plannedNext.n}강 「${plannedNext.title}」${hasBatchim(plannedNext.title.slice(-1)) ? '은' : '는'} 아직 준비하고 있어요.` : ''}</template>
   </qm-lesson>
   <script type="application/json" id="qm-glossary" set:html={glossaryJson} />
   <script>

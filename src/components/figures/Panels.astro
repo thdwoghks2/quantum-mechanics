@@ -50,10 +50,10 @@ const { panels, arrows = false } = Astro.props;
     display: grid;
     justify-items: center;
     align-content: start;
-    gap: 6px;
-    padding: 14px 8px 12px;
+    gap: 8px;
+    padding: 16px 8px 14px;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     background: var(--ink-2);
     color: var(--text-2);
     text-align: center;
@@ -88,7 +88,7 @@ const { panels, arrows = false } = Astro.props;
   .panel__big {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: var(--fs-xl);
+    font-size: var(--panel-big, var(--fs-xl));
     color: var(--text);
     line-height: 1.2;
   }

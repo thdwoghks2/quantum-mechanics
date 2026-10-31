@@ -12,7 +12,7 @@ interface Props {
   bodyClass?: string;
   bare?: boolean;
 }
-const { title, description = '137강, 하루 한 강씩 양자역학을 기초부터 배우는 코스', bodyClass = '', bare = false } = Astro.props;
+const { title, description = '던진 공이 떨어지는 법칙에서 양자역학까지, 하루 한 강씩 137강으로 이어지는 한 권의 책이에요.', bodyClass = '', bare = false } = Astro.props;
 const fullTitle = title === '137' ? '137 · 양자역학을 기초부터' : `${title} · 137`;
 const nav = [
   { href: url('course/'), label: '코스' },
@@ -20,6 +20,7 @@ const nav = [
   { href: url('glossary/'), label: '용어집' },
   { href: url('timeline/'), label: '연대기' },
   { href: url('people/'), label: '인물' },
+  { href: url('board/'), label: '칠판' },
   { href: url('settings/'), label: '기록' },
 ];
 const here = Astro.url.pathname;
@@ -43,7 +44,7 @@ const here = Astro.url.pathname;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@400;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&display=swap"
     />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <ClientRouter />
@@ -63,11 +64,11 @@ const here = Astro.url.pathname;
     {!bare && (
       <header class="site">
         <a class="site__mark" href={url('')} aria-label="137 처음 화면">137</a>
+        <MusicToggle class="site__music" />
         <nav class="site__nav" aria-label="사이트">
           {nav.map((n) => (
             <a href={n.href} aria-current={here.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
-          <MusicToggle />
         </nav>
       </header>
     )}
@@ -78,36 +79,45 @@ const here = Astro.url.pathname;
 
 <style>
   .site {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'mark nav music';
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px 24px;
-    padding: 14px var(--gutter);
+    gap: 6px 24px;
+    padding: 12px var(--gutter);
     border-bottom: 1px solid var(--line);
   }
 
   .site__mark {
+    grid-area: mark;
     font-family: var(--font-display);
     font-weight: 800;
     font-size: var(--fs-xl);
+    line-height: 1;
     letter-spacing: 0.02em;
     color: var(--accent);
     text-decoration: none;
   }
 
+  .site :global(.site__music) {
+    grid-area: music;
+    justify-self: end;
+  }
+
   .site__nav {
+    grid-area: nav;
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 18px;
+    gap: 2px 20px;
   }
 
   .site__nav a {
-    color: var(--text-2);
+    color: var(--muted);
     text-decoration: none;
     font-size: var(--fs-sm);
-    padding: 6px 0;
+    padding: 6px 0 5px;
     border-bottom: 1px solid transparent;
+    white-space: nowrap;
   }
 
   .site__nav a:hover,
@@ -116,9 +126,22 @@ const here = Astro.url.pathname;
     border-bottom-color: var(--accent);
   }
 
-  @media (max-width: 480px) {
+  /* 휴대폰: 첫 줄에 137과 음악, 둘째 줄에 메뉴 일곱 개를 고르게 */
+  @media (max-width: 640px) {
+    .site {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'mark music' 'nav nav';
+      padding: 10px var(--gutter) 4px;
+    }
+
     .site__nav {
-      gap: 4px 13px;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    .site__nav a {
+      font-size: 0.8125rem;
+      padding: 8px 0 7px;
     }
   }
 </style>
