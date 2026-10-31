@@ -1,0 +1,394 @@
+---
+number: 102
+title: 등가 원리
+short: 등가 원리
+question: 엘리베이터가 내려가기 시작할 때 몸이 가벼워지는 느낌은, 중력에 대해 무엇을 알려 줄까요?
+mechanism: 모든 물체는 질량과 상관없이 똑같이 떨어지기 때문에, 함께 떨어지는 상자 안에서는 중력이 사라진 것처럼 보이고, 거꾸로 우주에서 빨라지는 로켓 안에서는 중력이 생긴 것처럼 보여요. 작은 상자 안에서 하는 어떤 실험으로도 중력과 빨라짐을 구별할 수 없다는 것이 등가 원리예요. 그래서 빨라지는 로켓 안에서 빛이 휘어 보이고 높은 곳 시계가 빨리 가는 것처럼, 중력 속에서도 빛이 휘고 높은 곳 시계가 빨리 가야 해요.
+part: 12
+minutes: 20
+assumes: [gravity, weight, mass, acceleration, inertia, force, second-law, reference-frame, constancy-of-light-speed, speed-of-light]
+introduces: [equivalence-principle]
+sources:
+  - "Einstein, A. Über das Relativitätsprinzip und die aus demselben gezogenen Folgerungen. Jahrbuch der Radioaktivität und Elektronik 4, 411–462 (1907)"
+  - "Einstein, A. Grundgedanken und Methoden der Relativitätstheorie, in ihrer Entwicklung dargestellt (1920년 원고). Collected Papers of Albert Einstein Vol. 7, Doc. 31. '생애에서 가장 행복한 생각'"
+  - "NASA. Apollo 15 Hammer-Feather Drop (1971년 8월 2일)"
+  - "Touboul, P. et al. MICROSCOPE Mission: Final Results of the Test of the Equivalence Principle. Physical Review Letters 129, 121102 (2022)"
+testout: [q102-a, q102-b, q102-c]
+status: published
+---
+
+<Screen kind="scene" title="엘리베이터 속 몸무게">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'elevator', title: '내려가기 시작할 때', caption: '몸이 잠깐 가벼워요' },
+      { icon: 'elevator', title: '올라가기 시작할 때', caption: '몸이 잠깐 무거워요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 말한 그 느낌이에요. 엘리베이터가 아래로 출발하는 순간 몸이 잠깐 붕 뜨는 듯 가벼워지죠.
+
+<S n={2}>
+
+위로 출발할 때는 반대로 몸이 무거워지고요. 오늘은 이 익숙한 느낌에서 중력에 관한 큰 원리 하나를 끌어낼 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={5} title="무게는 힘이에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '질량', caption: '물체의 양, kg' },
+      { big: '무게', caption: '지구가 당기는 힘, N', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+5강에서 질량과 무게를 나눴어요. 무게는 지구가 물체를 당기는 힘이고, 질량 50 kg인 사람의 무게는 약 490 N이었죠.
+
+<S n={2}>
+
+체중계는 그 힘을 직접 재지 않아요. 체중계가 발을 밀어 올리는 힘을 재고, 그걸 kg으로 바꿔 보여 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="엘리베이터 속 체중계">
+  <Fragment slot="visual">
+    <DataTable caption="질량 50 kg인 사람이 엘리베이터 속 체중계에 서 있을 때" head={['엘리베이터', '체중계가 미는 힘', '체중계 눈금']} rows={[
+      ['멈춰 있거나 고르게 움직여요', '50 × 9.8 = 490 N', '50 kg'],
+      ['아래로 2 m/s²씩 빨라져요', '50 × (9.8 − 2) = 390 N', '약 40 kg'],
+      ['위로 2 m/s²씩 빨라져요', '50 × (9.8 + 2) = 590 N', '약 60 kg'],
+    ]} />
+  </Fragment>
+
+엘리베이터가 아래로 2 m/s²씩 빨라지면, 사람도 함께 아래로 빨라져야 해요. 그러려면 체중계가 덜 받쳐 줘야 하니, 미는 힘이 390 N으로 줄어요.
+
+그래서 눈금은 약 40 kg으로 내려가요. 위로 빨라질 때는 반대로 약 60 kg이 되죠. 5강의 F = ma 그대로예요.
+
+</Screen>
+
+<Screen kind="step" title="함께 떨어지면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'elevator', title: '9.8 m/s²로 함께 떨어지는 상자', caption: '체중계 눈금이 0이에요' },
+      { icon: 'apple', title: '손에서 놓은 사과', caption: '떨어지지 않고 옆에 떠 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그럼 상자가 9.8 m/s²로, 곧 마음대로 떨어지게 두면 어떨까요? 체중계 눈금은 0이 돼요.
+
+<S n={2}>
+
+손에서 놓은 사과도 바닥으로 떨어지지 않고 옆에 떠 있어요. 상자도, 사람도, 사과도 똑같이 떨어지고 있으니까요. 상자 안에서 보면 중력이 사라진 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="가장 행복한 생각">
+  <Fragment slot="visual">
+    <BigNumber top="아인슈타인, 1907년 베른의 특허청" value="“떨어지는 사람은 무게를 못 느낀다”" bottom="그가 '생애에서 가장 행복한 생각'이라 부른 생각" />
+  </Fragment>
+
+1907년 아인슈타인은 스위스 베른의 특허청에서 일하고 있었어요. 아인슈타인의 회고에 따르면, 그때 문득 자유롭게 떨어지는 사람은 자기 무게를 느끼지 못한다는 생각이 떠올랐어요.
+
+<S n={2}>
+
+1920년의 원고에서 아인슈타인은 이것을 "생애에서 가장 행복한 생각"이라고 불렀어요. 중력을 새롭게 이해하는 실마리가 여기 있었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="달 위의 망치와 깃털">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'hand', title: '1971년 8월 2일, 달', caption: '아폴로 15호의 데이비드 스콧' },
+      { icon: 'feather', title: '망치와 매의 깃털', caption: '동시에 놓았더니 동시에 닿았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 생각이 통하는 건 모든 물체가 똑같이 떨어지기 때문이에요. 1971년 아폴로 15호의 우주인 데이비드 스콧은 공기가 없는 달에서 망치와 매의 깃털을 동시에 놓았어요.
+
+<S n={2}>
+
+둘은 나란히 떨어져 동시에 땅에 닿았어요. 무거운 것도 가벼운 것도 중력 속에서 똑같이 빨라지는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="우주 정거장의 우주인">
+  <Fragment slot="visual">
+    <BigNumber top="높이 약 400 km를 도는 국제우주정거장에서의 중력" value="지구 표면의 약 90%" bottom="그런데도 우주인은 둥둥 떠요" />
+  </Fragment>
+
+우주 정거장의 우주인이 둥둥 뜨는 건 중력이 없어서가 아니에요. 높이 약 400 km에서도 중력은 지구 표면의 약 90%나 되거든요.
+
+<S n={2}>
+
+정거장과 우주인은 함께 지구를 향해 끝없이 떨어지고 있어요. 옆으로 아주 빨리 날고 있어서 땅에 닿지 않고 지구 둘레를 돌 뿐이죠. 함께 떨어지는 상자처럼, 그 안에서는 중력이 느껴지지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="둥둥 뜨는 까닭">
+
+<Check id="q102-a" options={[
+  { t: '우주 정거장이 있는 높이에는 중력이 없어서', why: '높이 약 400 km에서도 중력은 지구 표면의 약 90%예요. 중력이 없다면 정거장은 지구를 돌지 않고 곧장 멀어져요.' },
+  { t: '정거장과 우주인이 함께 떨어지고 있어서', ok: true, why: '맞아요. 모두 똑같이 떨어지니 정거장 안에서는 서로 밀거나 받칠 일이 없어 무게가 느껴지지 않아요.' },
+  { t: '우주인의 질량이 0이 되어서', why: '우주인의 질량은 그대로예요. 체중계가 받쳐 주지 않을 뿐이에요.' },
+  { t: '정거장 안의 공기가 우주인을 밀어 올려서', why: '공기가 우주인을 띄우는 게 아니에요. 공기가 없어도 똑같이 떠요.' },
+]}>
+
+국제우주정거장 안의 우주인은 둥둥 떠다녀요. 그 까닭으로 가장 알맞은 건 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="거꾸로: 우주의 로켓">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'rocket', title: '별에서 먼 우주의 로켓', caption: '9.8 m/s²씩 빨라져요' },
+      { icon: 'apple', title: '손에서 놓은 사과', caption: '바닥으로 "떨어져요"', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이번엔 거꾸로 해 볼게요. 중력이 거의 없는 먼 우주에서 로켓이 9.8 m/s²씩 빨라지고 있어요.
+
+<S n={2}>
+
+로켓 안에서 사과를 놓으면, 사과는 그 자리에 있는데 바닥이 빨라지며 다가와요. 안에 있는 사람에게는 사과가 9.8 m/s²로 바닥에 "떨어지는" 것으로 보여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="구별할 수 있을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'globe', title: '지구 위에 멈춘 방', caption: '사과가 9.8 m/s²로 떨어져요' },
+      { icon: 'rocket', title: '우주에서 빨라지는 로켓', caption: '사과가 9.8 m/s²로 떨어져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+창문이 없다면, 지구 위의 방과 우주에서 빨라지는 로켓을 구별할 수 있을까요? 사과를 놓아도, 공을 던져도, 체중계에 올라가도 결과가 똑같아요.
+
+<S n={2}>
+
+질량이 큰 쇠공이든 작은 깃털이든, 두 곳에서 똑같이 떨어져요. 그러니 결과만 보고는 어느 쪽인지 알 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="등가 원리라는 이름">
+  <Fragment slot="visual">
+    <Define term="equivalence-principle" />
+  </Fragment>
+
+이렇게 중력과 빨라짐이 작은 상자 안에서는 서로 구별되지 않는다는 원리를 **등가 원리**라고 불러요. 둘이 같은 값을 갖는다는 뜻이에요.
+
+<S n={2}>
+
+96강에서는 고르게 움직이는 기준틀끼리 구별할 수 없었어요. 등가 원리는 그 생각을 빨라지는 기준틀과 중력까지 넓혀요.
+
+<Key>모든 물체가 질량과 상관없이 똑같이 떨어지기 때문에, 작은 상자 안에서는 중력 속에 멈춰 있는 것과 같은 크기로 빨라지는 것을 어떤 실험으로도 구별할 수 없어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="두 가지 질량">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '움직이기 어려운 정도', caption: '5강의 관성, F = ma의 m' },
+      { big: '중력이 당기는 정도', caption: '무게를 정하는 m', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+5강에서 질량은 두 가지 일을 했어요. 하나는 밀었을 때 잘 안 움직이려는 정도, 곧 관성이에요. 다른 하나는 중력이 얼마나 세게 당기느냐예요.
+
+<S n={2}>
+
+두 질량이 정확히 같아서 모든 물체가 똑같이 떨어져요. 2022년 프랑스의 인공위성 실험은 두 질량이 10¹⁵분의 1의 정밀도까지 같다는 걸 확인했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="창 없는 상자">
+
+<Check id="q102-b" options={[
+  { t: '쇠공과 나무공을 함께 떨어뜨려 어느 쪽이 먼저 닿는지 봐요.', why: '두 곳 모두에서 쇠공과 나무공은 동시에 닿아요. 그래서 구별할 수 없어요.' },
+  { t: '체중계에 올라가 눈금을 봐요.', why: '빨라지는 정도가 9.8 m/s²라면 두 곳에서 눈금이 똑같아요.' },
+  { t: '공을 옆으로 던져 날아가는 모양을 봐요.', why: '두 곳 모두에서 공은 똑같은 포물선을 그려요.' },
+  { t: '작은 상자 안의 어떤 실험으로도 구별할 수 없어요.', ok: true, why: '맞아요. 그게 등가 원리예요. 모든 물체가 똑같이 떨어지니, 안에서 하는 실험은 결과가 모두 같아요.' },
+]}>
+
+창문이 없는 작은 상자 안에 있어요. 상자는 지구 위에 놓여 있거나, 먼 우주에서 9.8 m/s²씩 빨라지는 로켓 안에 있어요. 둘을 구별하는 방법으로 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="로켓을 가로지르는 빛">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'laser', title: '왼편 벽에서 쏜 빛', caption: '바닥과 나란하게 쏴요' },
+      { icon: 'rocket', title: '빛이 건너는 동안', caption: '로켓이 위로 빨라져요' },
+      { big: '맞은편 벽', caption: '빛은 조금 아래에 닿아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 등가 원리를 빛에 써 볼게요. 빨라지는 로켓의 한쪽 벽에서 바닥과 나란하게 빛을 쏘아요.
+
+<S n={2}>
+
+빛이 맞은편 벽까지 가는 동안 로켓은 위로 빨라져요. 그래서 빛은 쏜 높이보다 조금 아래에 닿고, 로켓 안에서 보면 빛이 아래로 휘어진 길을 가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="중력 속에서도 휘어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'rocket', title: '빨라지는 로켓', caption: '빛이 아래로 휘어요' },
+      { icon: 'globe', title: '중력 속', caption: '그러니 빛이 아래로 휘어야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+등가 원리에 따르면 빨라지는 로켓과 중력 속은 구별할 수 없어요. 그러니 중력 속에서도 빛은 휘어야 해요.
+
+<S n={2}>
+
+95강에서 본 1919년 개기일식 관측이 바로 이걸 시험했어요. 해 곁을 지나는 별빛이 휘는 정도를 쟀죠. 지구 위의 빛도 휘지만, 너무 조금이라 우리는 느끼지 못해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="높은 곳 시계가 빨라요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'clock', title: '로켓 천장의 시계', caption: '아주 조금 빨리 가요', tone: 'accent' },
+      { icon: 'clock', title: '로켓 바닥의 시계', caption: '아주 조금 느리게 가요' },
+    ]} />
+  </Fragment>
+
+빨라지는 로켓의 바닥에서 천장으로 1초마다 빛 신호를 보낸다고 해 볼게요. 신호가 올라가는 동안 천장은 빨라지며 달아나니, 신호는 1초보다 조금 길게 벌어져 도착해요.
+
+<S n={2}>
+
+천장의 사람에게는 바닥의 시계가 느리게 가는 거예요. 등가 원리로 옮기면, 중력 속에서는 낮은 곳의 시계가 높은 곳의 시계보다 느리게 가요. 86강에서 보어가 빌려 쓴 바로 그 사실이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="작은 상자에서만">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '작은 상자', caption: '중력과 빨라짐을 구별할 수 없어요', tone: 'ok' },
+      { big: '아주 큰 상자', caption: '양 끝의 공이 서로 다가와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 "그럼 중력은 진짜가 아니라는 말인가" 하고 헷갈렸어요.
+
+등가 원리는 작은 상자에서만 성립해요. 지구만 한 상자라면, 양 끝에서 떨어뜨린 두 공이 모두 지구 중심으로 향해서 서로 다가와요. 이 차이는 빨라짐으로 흉내 낼 수 없는 중력의 진짜 흔적이에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="빛은 어디에 닿을까">
+
+<Check id="q102-c" options={[
+  { t: '쏜 높이보다 조금 아래에 닿아요.', ok: true, why: '맞아요. 빛이 건너는 동안 로켓이 위로 빨라지니, 맞은편 벽이 위로 올라가 빛은 상대적으로 아래에 닿아요.' },
+  { t: '쏜 높이와 정확히 같은 곳에 닿아요.', why: '로켓이 고르게 움직인다면 그래요. 하지만 빨라지는 로켓에서는 빛이 건너는 동안 로켓의 빠르기가 바뀌어서 아래에 닿아요.' },
+  { t: '쏜 높이보다 위에 닿아요.', why: '로켓이 위로 빨라지니 맞은편 벽은 빛보다 위로 올라가요. 그래서 빛은 아래에 닿아요.' },
+  { t: '빛은 맞은편 벽에 닿지 못해요.', why: '빛은 아주 빨라서 금방 맞은편 벽에 닿아요. 다만 아주 조금 아래에 닿아요.' },
+]}>
+
+먼 우주에서 위로 빨라지는 로켓 안에서, 한쪽 벽의 작은 전등이 바닥과 나란하게 맞은편 벽으로 가는 빛줄기를 쏘아요. 빛은 맞은편 벽의 어디에 닿을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['equivalence-principle']}>
+
+1. 모든 물체는 질량과 상관없이 똑같이 떨어져요.
+2. 그래서 함께 떨어지는 상자 안에서는 중력이 사라져요.
+3. 빨라지는 로켓 안에서는 중력이 생긴 것처럼 보여요.
+4. 작은 상자 안에서는 둘을 구별할 수 없어요.
+5. 그러니 중력 속에서도 빛이 휘고 시계가 달라져요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="떨어지는 상자 속 공 던지기">
+
+<DailyProblem id="p102">
+
+자유롭게 떨어지는 상자 안에서, 우주인이 공을 맞은편 친구에게 옆으로 살짝 던졌어요.
+
+상자 안의 두 사람에게 공은 어떻게 날아가 보일까요? 상자 밖 땅에 서 있는 사람에게는 어떻게 보일까요? 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+상자, 두 사람, 공이 모두 똑같이 떨어지고 있어요. 상자 안에서 보면 중력이 있는 것처럼 보일까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+상자 안에서는 공이 곧은 선을 그리며 일정한 빠르기로 친구에게 날아가요. 모두 함께 떨어지니, 상자 안에서는 중력이 없는 것과 같거든요.
+
+땅에서 보면 공은 상자와 함께 아래로 빨라지면서 옆으로도 가니, 포물선을 그려요. 96강의 기차처럼 같은 공이 기준틀에 따라 곧은 선과 포물선으로 보이는데, 이번엔 중력이 있느냐 없느냐까지 기준틀에 따라 달라진 거예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+모든 물체가 똑같이 떨어져서 작은 상자 안에서는 중력과 빨라짐을 구별할 수 없고, 그래서 중력 속에서도 빛이 휘고 높이에 따라 시계가 다르게 가요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="휘어진 시간과 공간">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'clock', title: '밀러 행성의 1시간', caption: '지구의 7년' },
+      { icon: 's4-satellite', title: 'GPS 위성의 시계', caption: '하루 38마이크로초씩 빨라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인은 등가 원리에서 출발해 8년을 더 매달린 끝에, 1915년 중력을 시간과 공간의 휘어짐으로 설명하는 이론을 완성했어요.
+
+<S n={2}>
+
+다음 강에서는 그 이론으로 영화 속 밀러 행성의 1시간이 왜 지구의 7년인지 계산하고, 우리 휴대폰의 GPS가 왜 이 이론 없이는 하루에 10 km씩 틀려지는지 따라가 볼게요.
+
+</S>
+
+</Screen>
