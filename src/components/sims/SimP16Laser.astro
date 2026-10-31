@@ -1,0 +1,168 @@
+---
+/**
+ * 레이저 속(133강). 관 속의 원자들을 펌프로 들뜨게 하면, 들뜬 원자는 아무 때나 아무 방향으로 광자를 내놓는다(자발 방출).
+ * 광자가 들뜬 원자 곁을 지나면 같은 방향, 같은 진동수의 광자가 하나 더 나온다(유도 방출).
+ * 거울 두 장 사이를 오가는 광자만 계속 불어나서, 한쪽 거울(조금 비치는 거울)로 곧은 빛이 나간다.
+ * 거울을 빼거나 펌프가 약해서 바닥상태 원자가 더 많으면, 흡수가 이겨서 빛이 불어나지 않는다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p16-laser class="sim" data-ratio="0.56">
+  <canvas aria-label="두 거울 사이의 관 속 원자들. 들뜬 원자는 주황, 바닥상태 원자는 흐린 점이에요. 거울 사이를 오가는 광자가 유도 방출로 불어나면 한쪽 거울로 곧은 빛이 나가요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`pump-${uid}`}>펌프 세기</label>
+      <input id={`pump-${uid}`} type="range" min="0" max="1" step="0.05" value="0.6" data-param="pump" />
+      <output data-out="pump"></output>
+    </div>
+    <input type="hidden" data-param="mirror" value="1" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="mirror=1" aria-pressed="true">거울 있음</button>
+      <button type="button" class="btn" data-set="mirror=0" aria-pressed="false">거울 없음</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-laser>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  interface Photon {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  }
+
+  const N = 26;
+  const MAX = 140;
+
+  class SimP16Laser extends Sim {
+    atoms: { x: number; y: number; up: boolean }[] = [];
+    photons: Photon[] = [];
+    out = 0;
+    seed = 7;
+
+    rand() {
+      this.seed = (this.seed * 1664525 + 1013904223) >>> 0;
+      return this.seed / 4294967296;
+    }
+
+    init() {
+      this.atoms = Array.from({ length: N }, (_, i) => ({
+        x: 0.08 + (0.72 * (i + 0.5)) / N,
+        y: 0.5 + (this.rand() - 0.5) * 0.5,
+        up: false,
+      }));
+    }
+
+    reset() {
+      this.photons = [];
+      this.out = 0;
+      for (const a of this.atoms) a.up = false;
+    }
+
+    changed() {
+      this.photons = [];
+    }
+
+    format() {
+      return `${Math.round((this.p.pump ?? 0) * 100)}%`;
+    }
+
+    tick(dt: number) {
+      const pump = this.p.pump ?? 0;
+      const mirror = (this.p.mirror ?? 1) > 0;
+      const speed = 0.9;
+      // 펌프: 바닥상태 원자를 들뜨게 한다
+      for (const a of this.atoms) {
+        if (!a.up && this.rand() < pump * dt * 3) a.up = true;
+        // 자발 방출: 아무 방향으로
+        if (a.up && this.rand() < dt * 0.35 && this.photons.length < MAX) {
+          a.up = false;
+          const ang = this.rand() * Math.PI * 2;
+          this.photons.push({ x: a.x, y: a.y, vx: Math.cos(ang) * speed, vy: Math.sin(ang) * speed * 1.8 });
+        }
+      }
+      const born: Photon[] = [];
+      this.photons = this.photons.filter((p) => {
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        if (p.y < 0.18 || p.y > 0.82) return false; // 관 옆으로 빠져나감
+        if (p.x < 0.04 || p.x > 0.84) {
+          if (!mirror) return false;
+          if (Math.abs(p.vy) > 0.25) return false; // 비스듬한 빛은 거울 사이에 붙잡히지 않는다
+          if (p.x > 0.84 && this.rand() < 0.12) {
+            this.out += 1;
+            return false; // 조금 비치는 거울로 나감
+          }
+          p.vx = -p.vx;
+          p.x = Math.min(0.84, Math.max(0.04, p.x));
+        }
+        for (const a of this.atoms) {
+          if (Math.abs(a.x - p.x) < 0.02 && Math.abs(a.y - p.y) < 0.16) {
+            if (a.up && this.rand() < 0.5 && this.photons.length + born.length < MAX) {
+              a.up = false; // 유도 방출: 같은 방향의 광자 하나 더
+              born.push({ x: p.x, y: a.y, vx: p.vx, vy: p.vy * 0.6 });
+            } else if (!a.up && this.rand() < 0.08) {
+              a.up = true; // 흡수
+              return false;
+            }
+          }
+        }
+        return true;
+      });
+      this.photons.push(...born);
+      this.out *= Math.pow(0.4, dt);
+    }
+
+    readout() {
+      const up = this.atoms.filter((a) => a.up).length;
+      const along = this.photons.filter((p) => Math.abs(p.vy) < 0.25).length;
+      const beam = this.out > 4 ? '세요' : this.out > 0.8 ? '조금 나와요' : '거의 없어요';
+      return `들뜬 원자 ${up}/${N} · 거울 사이를 오가는 광자 ${along}개 · 나가는 빛: ${beam}`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const X = (x: number) => x * w;
+      const Y = (y: number) => y * h;
+      // 관
+      ctx.strokeStyle = c.line;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(X(0.04), Y(0.18), X(0.8), Y(0.64));
+      // 거울
+      if ((this.p.mirror ?? 1) > 0) {
+        this.line(X(0.04), Y(0.16), X(0.04), Y(0.84), c.text, 4);
+        ctx.globalAlpha = 0.6;
+        this.line(X(0.84), Y(0.16), X(0.84), Y(0.84), c.text, 3);
+        ctx.globalAlpha = 1;
+        this.text('거울', X(0.04), Y(0.1), c.muted, 10, 'center');
+        this.text('조금 비치는 거울', X(0.84), Y(0.1), c.muted, 10, 'center');
+      }
+      // 원자
+      for (const a of this.atoms) this.dot(X(a.x), Y(a.y), 4.5, a.up ? c.accent : 'rgba(189,181,165,0.35)');
+      // 광자
+      for (const p of this.photons) {
+        const len = 7;
+        const m = Math.hypot(p.vx, p.vy) || 1;
+        ctx.globalAlpha = 0.9;
+        this.line(X(p.x), Y(p.y), X(p.x) - (p.vx / m) * len, Y(p.y) - (p.vy / m) * len, c.heat, 1.6);
+      }
+      ctx.globalAlpha = 1;
+      // 나가는 빛
+      const beam = Math.min(1, this.out / 8);
+      if (beam > 0.05) {
+        const g = ctx.createLinearGradient(X(0.85), 0, w, 0);
+        g.addColorStop(0, `rgba(229, 128, 106, ${0.3 + beam * 0.7})`);
+        g.addColorStop(1, `rgba(229, 128, 106, ${0.1 + beam * 0.3})`);
+        ctx.fillStyle = g;
+        ctx.fillRect(X(0.85), Y(0.48), w - X(0.85), Y(0.04));
+        this.text('나가는 빛', X(0.92), Y(0.6), c.heat, 10, 'center');
+      }
+      this.text('주황 점: 들뜬 원자 · 붉은 선: 광자', X(0.04), h - 8, c.muted, 10, 'left');
+    }
+  }
+  define('qm-sim-p16-laser', SimP16Laser);
+</script>

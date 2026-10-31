@@ -927,3 +927,23 @@
   lessons: [132]
   sources:
     - "Kahng, D. & Atalla, M. M. IRE Solid-State Device Research Conference (1960)"
+- id: maiman
+  name: 시어도어 메이먼
+  original: Theodore Maiman
+  born: 1927
+  died: 2007
+  role: 미국의 물리학자, 공학자
+  summary: 1960년 5월 휴스 연구소에서, 손가락만 한 루비 막대 양 끝에 은을 입혀 거울로 쓰고 센 섬광으로 펌프질해 첫 레이저를 작동시켰어요.
+  lessons: [133]
+  sources:
+    - "Maiman, T. H. Nature 187, 493 (1960)"
+- id: townes
+  name: 찰스 타운스
+  original: Charles Townes
+  born: 1915
+  died: 2015
+  role: 미국의 물리학자
+  summary: 1954년 전파로 유도 방출을 일으키는 메이저를 만들고, 1958년 아서 숄로와 함께 눈에 보이는 빛으로도 같은 장치를 만들 수 있다는 논문을 냈어요. 1964년 노벨 물리학상을 받았어요.
+  lessons: [133]
+  sources:
+    - "Schawlow, A. L. & Townes, C. H. Physical Review 112, 1940 (1958)"
