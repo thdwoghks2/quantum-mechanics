@@ -2,4 +2,5 @@
 export default {
   curvesign: '<path d="M32 4L60 32 32 60 4 32z"/><path d="M27 46V38c0-7 10-7 10-14v-6"/><path d="M31 22l6-6 6 6"/>',
   tv: '<rect x="4" y="8" width="56" height="38" rx="3"/><path d="M22 56h20M32 46v10"/><circle cx="20" cy="27" r="4"/><circle cx="32" cy="27" r="3"/><circle cx="43" cy="27" r="2"/>',
+  bowl: '<path d="M6 22a26 26 0 0 0 52 0"/><path d="M4 22h56"/><circle cx="17" cy="36" r="4" fill="currentColor"/><path d="M22 44c6 5 14 5 20 0" stroke-dasharray="3 3"/>',
 };
