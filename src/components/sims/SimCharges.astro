@@ -35,8 +35,8 @@ const uid = Math.random().toString(36).slice(2, 8);
 
     readout() {
       const F = 1 / this.p.r! ** 2;
-      const kind = this.p.sign! > 0 ? '서로 민다' : '서로 당긴다';
-      return `${kind} · 거리 1일 때의 힘을 1로 잡으면 지금 힘은 ${F >= 0.1 ? F.toFixed(2) : F.toFixed(3)} (= 1 ÷ ${this.p.r}²)`;
+      const kind = this.p.sign! > 0 ? '서로 밀어요' : '서로 당겨요';
+      return `${kind} · 거리가 1일 때의 힘을 1로 잡으면, 지금 힘은 ${F >= 0.1 ? F.toFixed(2) : F.toFixed(3)} (= 1 ÷ ${this.p.r}²)`;
     }
 
     draw() {

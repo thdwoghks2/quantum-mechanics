@@ -6,7 +6,7 @@ interface Props {
 const { n = 1 } = Astro.props;
 ---
 <qm-sim-string class="sim" data-ratio="0.46">
-  <canvas aria-label="양 끝이 고정된 줄이 정상파로 떤다. 흔들리지 않는 점(마디)이 표시된다."></canvas>
+  <canvas aria-label="양 끝이 고정된 줄이 정상파로 떨어요. 흔들리지 않는 점(마디)도 보여요."></canvas>
   <input type="hidden" data-param="n" value={n} />
   <div class="sim__buttons" aria-label="진동 모드 고르기">
     {[1, 2, 3, 4, 5].map((k) => (
@@ -33,7 +33,7 @@ const { n = 1 } = Astro.props;
 
     readout() {
       const n = this.p.n!;
-      if (n === 0) return '1, 2, 3번째 모드를 섞었다. 실제 악기 줄은 여러 모드로 동시에 떤다.';
+      if (n === 0) return '1, 2, 3번째 모드를 섞었어요. 실제 악기 줄은 여러 모드로 한꺼번에 떨어요.';
       return `${n}번째 모드 · 줄 위에 반 파장 ${n}개 · 파장 = 줄 길이의 ${n === 1 ? '2' : `2/${n}`}배 · 진동수 = 기본 진동수의 ${n}배 · 마디 ${n + 1}개(양 끝 포함)`;
     }
 

@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import '../styles/pages.css';
 ---
-<Base title="기록" description="학습 기록 옮기기와 지우기">
+<Base title="기록" description="이 기기에 저장된 학습 기록을 다른 기기로 옮기거나 지워요.">
   <main class="page" data-page="settings">
     <header class="page__head">
       <p class="label">학습 기록</p>
       <h1>기록</h1>
       <p class="page__lead">
-        학습 기록은 로그인 없이 이 브라우저에만 저장된다. 다른 기기에서 이어 보려면 아래 글을 복사해서 그 기기의 이 페이지에 붙여 넣는다.
+        학습 기록은 로그인 없이 이 브라우저에만 저장돼요. 다른 기기에서 이어 보려면 아래 글을 복사해서, 그 기기의 이 페이지에 붙여 넣으세요.
+        별 지도와 칠판도 이 기록으로 그려요.
       </p>
       <p class="small muted" id="summary"></p>
     </header>
@@ -26,7 +27,7 @@ import '../styles/pages.css';
     <section class="section">
       <h2>불러오기</h2>
       <label class="sr-only" for="import">붙여 넣을 기록</label>
-      <textarea id="import" class="field mono" rows="4" placeholder="qm137:로 시작하는 글을 붙여 넣는다"></textarea>
+      <textarea id="import" class="field mono" rows="4" placeholder="qm137:로 시작하는 글을 붙여 넣으세요"></textarea>
       <div class="row">
         <button type="button" class="btn" id="load">이 기록으로 바꾸기</button>
         <span class="small muted" id="load-msg" aria-live="polite"></span>
@@ -35,10 +36,10 @@ import '../styles/pages.css';
 
     <section class="section">
       <h2>모두 지우기</h2>
-      <p class="small muted">끝낸 강, 복습 목록, 메모가 모두 지워진다. 되돌릴 수 없으니 먼저 내보내기를 해 두자.</p>
+      <p class="small muted">끝낸 강, 복습 목록, 메모가 모두 지워져요. 되돌릴 수 없으니 먼저 내보내기를 해 두세요.</p>
       <div class="row">
         <button type="button" class="btn" id="reset">기록 지우기</button>
-        <button type="button" class="btn btn--primary" id="reset-yes" hidden>정말 지운다</button>
+        <button type="button" class="btn btn--primary" id="reset-yes" hidden>정말 지우기</button>
         <span class="small muted" id="reset-msg" aria-live="polite"></span>
       </div>
     </section>
@@ -62,30 +63,30 @@ import '../styles/pages.css';
         const text = $<HTMLTextAreaElement>('export').value;
         try {
           await navigator.clipboard.writeText(text);
-          $('copy-msg').textContent = '복사했다.';
+          $('copy-msg').textContent = '복사했어요.';
         } catch {
           $<HTMLTextAreaElement>('export').select();
-          $('copy-msg').textContent = '자동 복사가 막혀 있다. 글이 선택되었으니 직접 복사하자.';
+          $('copy-msg').textContent = '자동 복사가 막혀 있어요. 글을 선택해 뒀으니 직접 복사해 주세요.';
         }
       });
       $('load').addEventListener('click', () => {
         const s = importText($<HTMLTextAreaElement>('import').value);
         if (!s) {
-          $('load-msg').textContent = '읽을 수 없는 글이다. qm137:로 시작하는 글 전체를 붙여 넣었는지 확인하자.';
+          $('load-msg').textContent = '읽을 수 없는 글이에요. qm137:로 시작하는 글 전체를 붙여 넣었는지 확인해 보세요.';
           return;
         }
         save(s);
-        $('load-msg').textContent = '불러왔다.';
+        $('load-msg').textContent = '불러왔어요.';
         refresh();
       });
       $('reset').addEventListener('click', () => {
         $('reset-yes').hidden = false;
-        $('reset-msg').textContent = '한 번 더 누르면 지워진다.';
+        $('reset-msg').textContent = '한 번 더 누르면 지워져요.';
       });
       $('reset-yes').addEventListener('click', () => {
         save(emptyState());
         $('reset-yes').hidden = true;
-        $('reset-msg').textContent = '지웠다.';
+        $('reset-msg').textContent = '지웠어요.';
         refresh();
       });
       refresh();

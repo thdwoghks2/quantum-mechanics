@@ -13,7 +13,7 @@ const { f = 1, showLambda = false, speed = 2, controls = true } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-wave class="sim" data-ratio="0.5" data-lambda={showLambda ? '1' : '0'} data-speed={speed}>
-  <canvas aria-label="줄 위를 지나가는 파동. 표시한 점 하나는 위아래로만 움직인다."></canvas>
+  <canvas aria-label="줄 위를 지나가는 파동. 표시한 점 하나는 위아래로만 움직여요."></canvas>
   <div class="sim__controls">
     {controls ? (
       <div class="sim__row">

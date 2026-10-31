@@ -9,7 +9,7 @@ interface Props {
 const { mu = 0 } = Astro.props;
 ---
 <qm-sim-coaster class="sim" data-ratio="0.7">
-  <canvas aria-label="롤러코스터 차량이 언덕을 오르내리고, 운동 에너지, 위치 에너지, 열이 막대로 표시된다"></canvas>
+  <canvas aria-label="롤러코스터 차량이 언덕을 오르내리고, 운동 에너지, 위치 에너지, 열이 막대로 보여요"></canvas>
   <input type="hidden" data-param="mu" value={mu} />
   <div class="sim__buttons">
     <button type="button" class="btn" data-set="mu=0" aria-pressed={mu === 0 ? 'true' : 'false'}>마찰 없음</button>

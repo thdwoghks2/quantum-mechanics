@@ -6,7 +6,7 @@ interface Props {
 const { flip = 0 } = Astro.props;
 ---
 <qm-sim-pulses class="sim" data-ratio="0.5">
-  <canvas aria-label="줄 양쪽에서 출발한 두 물결이 가운데서 만났다가 지나간다. 점선은 각 물결, 실선은 둘을 더한 줄의 모양"></canvas>
+  <canvas aria-label="줄 양쪽에서 출발한 두 물결이 가운데서 만났다가 지나가요. 점선은 각 물결이고, 실선은 둘을 더한 줄의 모양이에요"></canvas>
   <input type="hidden" data-param="flip" value={flip} />
   <div class="sim__buttons">
     <button type="button" class="btn" data-set="flip=0" aria-pressed={flip === 0 ? 'true' : 'false'}>둘 다 위로</button>
@@ -44,7 +44,7 @@ const { flip = 0 } = Astro.props;
 
     readout() {
       const mid = this.a(L / 2) + this.b(L / 2);
-      return `가운데 지점의 변위: ${mid.toFixed(2)} (물결 하나의 높이를 1로 잡음)`;
+      return `가운데 지점의 변위: ${mid.toFixed(2)} (물결 하나의 높이를 1로 잡았을 때)`;
     }
 
     draw() {

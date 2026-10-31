@@ -121,7 +121,7 @@ const uid = Math.random().toString(36).slice(2, 8);
         this.arrow(cx - size - len - 6, floorY - size * 0.55, cx - size - 6, floorY - size * 0.55, c.force, 3);
         this.text(`미는 힘 ${this.p.f} N`, cx - size - len / 2 - 6, floorY - size * 0.55 - 14, c.force, 11, 'center');
       } else {
-        this.text('손을 뗐다', cx - size - 40, floorY - size * 0.55, c.muted, 11, 'center');
+        this.text('손을 뗀 뒤', cx - size - 40, floorY - size * 0.55, c.muted, 11, 'center');
       }
       const fr = this.friction();
       if (fr > 0 && (this.v > 0.01 || this.pushing())) {

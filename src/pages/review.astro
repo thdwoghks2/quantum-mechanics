@@ -3,18 +3,18 @@ import Base from '../layouts/Base.astro';
 import '../styles/pages.css';
 import '../styles/lesson.css';
 ---
-<Base title="복습" description="오늘 다시 풀 문제">
+<Base title="복습" description="강에서 푼 확인 문제를 1일, 3일, 7일, 21일 뒤에 다시 풀어요.">
   <main class="page" data-page="review">
     <header class="page__head">
       <p class="label">복습</p>
       <h1>오늘 다시 풀 문제</h1>
       <p class="page__lead">
-        강 안에서 푼 확인 문제는 1일, 3일, 7일, 21일 뒤에 다시 나온다. 맞히면 다음 간격으로, 틀리면 1일 뒤로 돌아간다.
-        21일 간격까지 맞히면 익힌 것으로 보고 더 내지 않는다.
+        강 안에서 푼 확인 문제는 1일, 3일, 7일, 21일 뒤에 다시 나와요. 맞히면 다음 간격으로 넘어가고, 틀리면 1일 뒤로 돌아가요.
+        21일 간격까지 맞히면 익힌 것으로 보고 더 내지 않아요.
       </p>
       <p class="small muted" id="stats"></p>
     </header>
-    <section class="card" id="item" hidden>
+    <section class="card review-card" id="item" hidden>
       <p class="label" id="item-meta"></p>
       <div id="item-body"></div>
       <div class="row">
@@ -66,8 +66,8 @@ import '../styles/lesson.css';
           box.hidden = true;
           empty.hidden = false;
           empty.textContent = total === 0
-            ? '오늘 복습할 문제가 없다. 강을 공부하며 확인 문제를 풀면 여기에 쌓인다.'
-            : `오늘 복습 ${doneCount}문제를 마쳤다.`;
+            ? '오늘 복습할 문제가 없어요. 강을 공부하면서 확인 문제를 풀면 여기에 쌓여요.'
+            : `오늘 복습 ${doneCount}문제를 마쳤어요.`;
           return;
         }
         box.hidden = false;
@@ -134,7 +134,9 @@ import '../styles/lesson.css';
             e.preventDefault();
             const ok = isCorrect(parseNumber(input.value), p.answer, p.mode, p.tol);
             verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
-            verdict.textContent = ok ? '맞았다.' : `아직 아니다. 정답은 약 ${p.answer.toLocaleString('ko-KR')} ${p.unit ?? ''}.`;
+            verdict.textContent = ok
+              ? `맞았어요. 정답은 약 ${p.answer.toLocaleString('ko-KR')}${p.unit ? ` ${p.unit}` : ''}이에요.`
+              : `아직이에요. 정답은 약 ${p.answer.toLocaleString('ko-KR')}${p.unit ? ` ${p.unit}` : ''}이에요. 아래 풀이와 비교해 보세요.`;
             sol.hidden = false;
             go.disabled = true;
             answered(item.id, ok);
@@ -150,3 +152,10 @@ import '../styles/lesson.css';
     document.addEventListener('astro:page-load', init);
   </script>
 </Base>
+
+<style>
+  .review-card {
+    gap: 16px;
+    padding: 22px 18px;
+  }
+</style>

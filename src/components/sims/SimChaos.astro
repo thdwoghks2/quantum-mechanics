@@ -9,7 +9,7 @@ interface Props {
 const { d = 0 } = Astro.props;
 ---
 <qm-sim-chaos class="sim" data-ratio="0.82">
-  <canvas aria-label="가운데 둥근 장애물이 있는 당구대에서 두 공이 거의 같은 방향으로 출발한다"></canvas>
+  <canvas aria-label="가운데 둥근 장애물이 있는 당구대에서 두 공이 거의 같은 방향으로 출발해요"></canvas>
   <input type="hidden" data-param="d" value={d} />
   <div class="sim__buttons" aria-label="처음 방향의 차이">
     <button type="button" class="btn" data-set="d=0" aria-pressed={d === 0 ? 'true' : 'false'}>차이 0°</button>

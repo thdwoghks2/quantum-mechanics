@@ -7,7 +7,7 @@ const { start = 0 } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-scale class="sim" data-ratio="0.56" data-autoplay="false">
-  <canvas aria-label="10의 거듭제곱 크기 사다리. 슬라이더로 크기를 바꾸면 그 크기에 있는 물체가 표시된다."></canvas>
+  <canvas aria-label="10의 거듭제곱 크기 사다리. 슬라이더로 크기를 바꾸면 그 크기의 물체가 보여요."></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`scale-exp-${uid}`}>크기 (m)</label>
@@ -86,10 +86,10 @@ const uid = Math.random().toString(36).slice(2, 8);
       const [te, name, v] = this.nearest();
       const exact = te === e;
       this.text(exact ? name : '…', w / 2, h * 0.2, exact ? c.text : c.muted, 17, 'center');
-      this.text(exact ? v : `10${sup(e)} m 근처에는 표시한 물체가 없다`, w / 2, h * 0.2 + 26, c.text2, 13, 'center');
+      this.text(exact ? v : `10${sup(e)} m 근처에는 표시한 물체가 없어요`, w / 2, h * 0.2 + 26, c.text2, 13, 'center');
       // 사람과의 차이
       const diff = e;
-      const msg = diff === 0 ? '사람과 같은 자릿수' : diff > 0 ? `사람보다 ${diff}단계 크다 (10${sup(diff)}배)` : `사람보다 ${-diff}단계 작다 (10${sup(-diff)}분의 1)`;
+      const msg = diff === 0 ? '사람과 같은 자릿수' : diff > 0 ? `사람보다 ${diff}단계 커요 (10${sup(diff)}배)` : `사람보다 ${-diff}단계 작아요 (10${sup(-diff)}분의 1)`;
       this.text(msg, w / 2, h * 0.88, c.accent, 12, 'center');
     }
   }

@@ -10,7 +10,7 @@ const { f = 1 } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-antenna class="sim" data-ratio="0.56">
-  <canvas aria-label="안테나의 전하가 위아래로 흔들리고, 퍼져 나가는 물결이 오른쪽의 다른 전하에 늦게 도착해 그 전하를 흔든다"></canvas>
+  <canvas aria-label="안테나의 전하가 위아래로 흔들리고, 퍼져 나가는 물결이 오른쪽의 다른 전하에 늦게 도착해서 그 전하를 흔들어요"></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`an-f-${uid}`}>흔드는 진동수</label>
@@ -44,7 +44,7 @@ const uid = Math.random().toString(36).slice(2, 8);
     }
 
     readout() {
-      return this.t < this.delay() ? `변화가 오는 중 · 도착까지 ${(this.delay() - this.t).toFixed(1)}초` : '변화가 도착해 오른쪽 전하도 흔들린다';
+      return this.t < this.delay() ? `변화가 오는 중 · 도착까지 ${(this.delay() - this.t).toFixed(1)}초` : '변화가 도착해서 멀리 있는 전하도 흔들려요';
     }
 
     delay() {

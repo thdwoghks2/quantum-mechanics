@@ -10,7 +10,7 @@ const { thz = 460, water = 0 } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-light class="sim" data-ratio="0.5">
-  <canvas aria-label="고른 진동수의 빛의 색과 파장. 공기와 물에서의 파장을 비교한다."></canvas>
+  <canvas aria-label="고른 진동수의 빛이 어떤 색인지, 공기와 물에서 파장이 어떻게 다른지 보여요."></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`lc-f-${uid}`}>진동수</label>

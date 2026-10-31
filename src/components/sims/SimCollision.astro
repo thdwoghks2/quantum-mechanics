@@ -9,7 +9,7 @@ const { m1 = 2, m2 = 1, stick = 0 } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-collision class="sim" data-ratio="0.62">
-  <canvas aria-label="왼쪽 수레가 멈춰 있는 오른쪽 수레와 부딪힌다. 운동량 막대와 운동 에너지가 표시된다."></canvas>
+  <canvas aria-label="왼쪽 수레가 멈춰 있는 오른쪽 수레와 부딪혀요. 운동량 막대와 운동 에너지가 함께 보여요."></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`co-a-${uid}`}>수레 A 질량</label>

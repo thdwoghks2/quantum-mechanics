@@ -14,7 +14,7 @@ const { mode = 'two', lambda = 1, d = 3, gap = 4 } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-ripple class="sim" data-ratio="0.64" data-mode={mode}>
-  <canvas aria-label={mode === 'two' ? '두 점에서 퍼지는 물결이 겹쳐 간섭 무늬를 만든다' : '왼쪽에서 오는 물결이 벽의 틈을 지나 퍼진다'}></canvas>
+  <canvas aria-label={mode === 'two' ? '두 점에서 퍼지는 물결이 겹쳐서 간섭 무늬를 만들어요' : '왼쪽에서 오는 물결이 벽의 틈을 지나 퍼져요'}></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`rp-l-${uid}`}>파장</label>
@@ -152,7 +152,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       } else {
         for (const [sx, sy] of src) this.dot((sx / W) * w, (sy / H) * h, 4, c.text);
       }
-      this.text(avg ? '밝을수록 크게 출렁인다 (평균)' : '주황: 솟은 곳 · 파랑: 꺼진 곳', w - 8, h - 10, c.text, 11, 'right');
+      this.text(avg ? '밝을수록 크게 출렁여요 (평균)' : '주황: 솟은 곳 · 파랑: 꺼진 곳', w - 8, h - 10, c.text, 11, 'right');
     }
   }
   define('qm-sim-ripple', SimRipple);

@@ -14,18 +14,18 @@ for (const t of terms) {
   byLesson.set(t.data.taughtIn, list);
 }
 ---
-<Base title="용어집" description="137강에서 정식으로 배우는 용어들">
+<Base title="용어집" description="137강에서 정식으로 배우는 용어를 강 순서대로 모았어요.">
   <main class="page">
     <header class="page__head">
       <p class="label">용어 {terms.length}개</p>
       <h1>용어집</h1>
       <p class="page__lead">
-        용어마다 그 용어를 처음 정식으로 가르치는 강이 하나 있다. 그 강보다 앞에서는 그 용어를 쓰지 않는다.
-        강 순서대로 정리했다.
+        용어마다 그 용어를 처음 정식으로 가르치는 강이 하나 있어요. 그 강보다 앞에서는 그 용어를 쓰지 않아요.
+        강 순서대로 모았어요.
       </p>
     </header>
     {[...byLesson.entries()].map(([n, list]) => (
-      <section class="section">
+      <section class="section gl__sec">
         <h2 class="gl__h">
           {published.has(n) ? <a href={lessonUrl(n)}>{n}강</a> : <span>{n}강</span>}
         </h2>
@@ -45,13 +45,18 @@ for (const t of terms) {
 
 <style>
   .gl {
-    border-left: 3px solid var(--qc, var(--q-plain));
+    gap: 10px;
+  }
+
+  .gl__sec {
+    gap: 12px;
   }
 
   .gl__h {
     font-family: var(--font-mono);
     font-weight: 500;
-    font-size: var(--fs-md);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
     color: var(--accent);
   }
 
@@ -60,11 +65,16 @@ for (const t of terms) {
   }
 
   .gl__term {
-    font-size: var(--fs-lg);
+    justify-self: start;
+    font-size: var(--fs-xl);
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--qc, var(--q-plain));
   }
 
   .gl__ex {
     margin: 0;
     padding-left: 1.1em;
+    display: grid;
+    gap: 2px;
   }
 </style>

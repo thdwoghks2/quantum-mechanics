@@ -7,7 +7,7 @@ const { phase = false } = Astro.props;
 const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-circle class="sim" data-ratio="0.52" data-phase={phase ? '1' : '0'}>
-  <canvas aria-label="원을 도는 점의 높이가 오른쪽 그래프에 사인 곡선으로 그려진다"></canvas>
+  <canvas aria-label="원을 도는 점의 높이가 오른쪽 그래프에 사인 곡선으로 그려져요"></canvas>
   <div class="sim__controls">
     <div class="sim__row">
       <label for={`cs-a-${uid}`}>돈 각도</label>
