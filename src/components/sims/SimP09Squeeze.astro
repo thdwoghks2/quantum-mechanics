@@ -1,0 +1,106 @@
+---
+/**
+ * 상자에 전자 10개를 넣고 상자를 좁힌다. 배타 원리가 있으면 1~5번째 칸까지 둘씩 채우고,
+ * 없다고 상상하면 모두 1번째 칸에 들어간다. 칸의 에너지는 상자 길이의 제곱에 반비례한다.
+ * 오른쪽 막대는 전체 에너지(처음 상자의 1번째 칸 에너지를 1로 두었을 때).
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p09-squeeze class="sim" data-ratio="0.62">
+  <canvas aria-label="상자 속 에너지 칸에 전자 10개가 채워져 있다. 상자를 좁히면 칸들이 높아지고, 오른쪽 막대의 전체 에너지가 커진다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p9q-l-${uid}`}>상자 길이</label>
+      <input id={`p9q-l-${uid}`} type="range" min="0.4" max="1" step="0.05" value="1" data-param="L" />
+      <output data-out="L"></output>
+    </div>
+  </div>
+  <input type="hidden" data-param="pauli" value="1" />
+  <div class="sim__buttons" aria-label="배타 원리">
+    <button type="button" class="btn" data-set="pauli=1" aria-pressed="true">배타 원리 있음</button>
+    <button type="button" class="btn" data-set="pauli=0" aria-pressed="false">배타 원리가 없다면</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p09-squeeze>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 10;
+
+  class SimP09Squeeze extends Sim {
+    animated = false;
+
+    levels(): number[] {
+      // 전자마다 들어간 칸 번호
+      const out: number[] = [];
+      for (let i = 0; i < N; i++) out.push(this.p.pauli ? Math.floor(i / 2) + 1 : 1);
+      return out;
+    }
+
+    total() {
+      const L = this.p.L ?? 1;
+      return this.levels().reduce((s, n) => s + (n * n) / (L * L), 0);
+    }
+
+    format(name: string) {
+      return name === 'L' ? `${Math.round((this.p.L ?? 1) * 100)}%` : '';
+    }
+
+    readout() {
+      const t = this.total();
+      return `전자 10개의 전체 에너지: ${Math.round(t)} (처음 상자의 1번째 칸 에너지를 1로 두었어요)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const L = this.p.L ?? 1;
+      const boxMax = w * 0.6;
+      const bw = boxMax * L;
+      const x0 = 14 + (boxMax - bw) / 2;
+      const x1 = x0 + bw;
+      const top = 14;
+      const bot = h - 16;
+      const Emax = 40;
+      const Y = (E: number) => bot - (E / Emax) * (bot - top);
+
+      g.fillStyle = 'rgba(214,170,60,0.22)';
+      g.fillRect(x0 - 8, top, 8, bot - top);
+      g.fillRect(x1, top, 8, bot - top);
+      this.line(x0, bot, x1, bot, c.line, 1);
+
+      const lv = this.levels();
+      for (let n = 1; n <= 5; n++) {
+        const E = (n * n) / (L * L);
+        if (E > Emax) {
+          this.text('↑ 더 높은 칸', x0 + 4, top + 8, c.muted, 10);
+          break;
+        }
+        const y = Y(E);
+        this.line(x0 + 4, y, x1 - 4, y, c.energy, 1.5);
+        const here = lv.filter((k) => k === n).length;
+        for (let j = 0; j < here; j++) {
+          const px = x0 + bw / 2 + (j - (here - 1) / 2) * Math.min(14, (bw - 12) / Math.max(1, here));
+          this.dot(px, y - 5, 4, j % 2 ? c.space : c.accent);
+        }
+      }
+      if (!this.p.pauli) this.text('10개가 모두 1번째 칸에', x0 + bw / 2, Y(1 / (L * L)) - 18, c.text2, 10, 'center');
+
+      // 전체 에너지 막대
+      const bx = w * 0.74;
+      const bwid = w * 0.16;
+      const tot = this.total();
+      const full = 700;
+      const bh = Math.min(1, tot / full) * (bot - top);
+      this.line(bx, bot, bx + bwid, bot, c.line, 1);
+      g.fillStyle = c.energy;
+      g.globalAlpha = 0.75;
+      g.fillRect(bx, bot - bh, bwid, bh);
+      g.globalAlpha = 1;
+      this.text('전체 에너지', bx + bwid / 2, top - 2, c.energy, 10, 'center');
+      this.text(String(Math.round(tot)), bx + bwid / 2, bot - bh - 9, c.text, 12, 'center');
+    }
+  }
+  define('qm-sim-p09-squeeze', SimP09Squeeze);
+</script>

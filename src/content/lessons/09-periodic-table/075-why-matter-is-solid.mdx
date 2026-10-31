@@ -1,0 +1,415 @@
+---
+number: 75
+title: 물질이 단단한 이유
+short: 물질이 단단한 이유
+question: 원자는 거의 빈 공간인데, 손은 왜 책상을 뚫고 지나가지 못할까요?
+mechanism: 두 원자가 아주 가까워지면 두 원자의 전자들이 같은 곳을 나눠 써야 하는데, 배타 원리 때문에 이미 찬 상태에는 들어갈 수 없어서 비어 있는 높은 칸으로 올라가야 해요. 게다가 좁은 곳에 갇힐수록 칸의 에너지는 길이의 제곱에 반비례해 치솟아요. 그래서 물질을 누르려면 큰 에너지가 들고, 이 버팀이 축퇴압이에요. 전기력만으로는 물질이 버티지 못하고, 배타 원리가 있어야 물질이 단단해요.
+part: 9
+minutes: 20
+assumes: [atom, nucleus, electron, charge, electric-force, pauli-exclusion, orbital, particle-in-a-box, energy-level, uncertainty-principle, zero-point-energy, gravity, molecule]
+introduces: [degeneracy-pressure]
+sources:
+  - "Dyson, F. J., Lenard, A. Stability of Matter. I, Journal of Mathematical Physics 8, 423 (1967)"
+  - "Dyson, F. J. Ground-State Energy of a Finite System of Charged Particles, Journal of Mathematical Physics 8, 1538 (1967)"
+  - "Lieb, E. H., Thirring, W. E. Bound for the Kinetic Energy of Fermions Which Proves the Stability of Matter, Physical Review Letters 35, 687 (1975)"
+  - "Fowler, R. H. On Dense Matter, Monthly Notices of the Royal Astronomical Society 87, 114 (1926)"
+  - "물의 부피 탄성률 약 2.2 GPa: 부피를 1% 줄이는 데 약 22 MPa(바닷속 약 2.2 km의 수압)"
+testout: [q75-why, q75-six, q75-repel]
+status: published
+---
+
+<Screen kind="scene" title="거의 빈 공간">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'stadium', title: '원자를 축구장만큼 키우면', caption: '지름 약 100 m' },
+      { icon: 'sand', title: '원자핵은', caption: '한가운데의 모래알만 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 원자는 거의 빈 공간이라고 했죠. 원자 하나를 축구장만큼 키우면, 원자핵은 한가운데 놓인 모래알만 해요.
+
+<S n={2}>
+
+그런데 손바닥으로 책상을 눌러도, 손은 책상 속으로 조금도 들어가지 않아요. 빈 공간끼리 만났는데도 서로 지나가지 못하는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="거의 줄지 않는 물질">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'hand', title: '책상', caption: '세게 눌러도 그대로' },
+      { icon: 'bottle', title: '물', caption: '1% 줄이려면 바닷속 2 km의 압력', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+고체나 액체는 아무리 세게 눌러도 부피가 거의 줄지 않아요. 물의 부피를 1% 줄이는 데도 바닷속 2 km 깊이에서 받는 만큼의 압력이 필요하죠.
+
+<S n={2}>
+
+빈 공간투성이인 원자들이 이렇게 단단히 버티는 까닭을 오늘 따라가 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="흔한 설명">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '손의 전자', caption: '음전하' },
+      { big: '책상의 전자', caption: '음전하 · 서로 밀어내요?', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+흔히 듣는 설명은 손의 전자와 책상의 전자가 음전하끼리 서로 밀어낸다는 거예요. 틀린 말은 아니지만, 이것만으로는 부족해요.
+
+<S n={2}>
+
+원자는 전체로 보면 전하가 0이라서, 조금만 떨어져 있어도 서로 거의 밀어내지 않거든요. 버팀의 큰 몫은 다른 데서 와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="가까이 오면 생기는 일">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '두 원자가 다가와요', caption: '전자들이 같은 곳을 나눠 써야 해요' },
+      { big: '같은 상태는 이미 찼어요', caption: '높은 칸으로 올라가야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 원자가 아주 가까이 오면, 두 원자의 전자들이 같은 곳을 나눠 써야 해요. 이미 꽉 찬 오비탈에 다른 원자의 전자가 겹쳐 들어오려는 거죠.
+
+<S n={2}>
+
+그런데 73강의 배타 원리 때문에 같은 상태에 둘이 있을 수는 없어요. 겹쳐 들어온 전자는 비어 있는 더 높은 칸으로 올라가야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={66} title="좁을수록 치솟는 칸">
+  <Fragment slot="visual">
+    <SimP08Box n={1} sizer />
+  </Fragment>
+
+66강에서 상자를 절반으로 줄이면 모든 칸의 에너지가 4배가 됐어요. 좁은 곳에 갇힐수록 파동함수가 세게 굽기 때문이었죠.
+
+<S n={2}>
+
+전자 여러 개를 좁은 곳에 가두면, 배타 원리 때문에 높은 칸까지 채워야 해요. 거기에 자리까지 좁아지면 에너지가 빠르게 치솟아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="전자 10개를 눌러 보기">
+  <Fragment slot="visual">
+    <SimP09Squeeze />
+  </Fragment>
+
+전자 10개를 상자에 넣었어요. 상자 길이를 줄여 보면서 오른쪽 막대의 전체 에너지를 보세요.
+
+<S n={2}>
+
+'배타 원리가 없다면'을 누르면 10개가 모두 1번째 칸에 들어가요. 배타 원리가 있을 때 전체 에너지가 훨씬 크고, 상자를 줄일 때도 훨씬 빨리 커져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="축퇴압">
+  <Fragment slot="visual">
+    <Define term="degeneracy-pressure" />
+  </Fragment>
+
+전자들을 좁은 곳에 몰아넣을 때, 배타 원리 때문에 높은 칸까지 채워야 해서 생기는 버팀을 **축퇴압**이라고 불러요. 이름은 어렵지만, 뜻은 '빈자리가 없어서 버틴다'에 가까워요.
+
+<S n={2}>
+
+<Key>전자들을 좁은 곳에 밀어 넣으면 배타 원리 때문에 비어 있는 높은 칸까지 채워야 하고, 칸의 에너지는 좁을수록 치솟아서, 물질은 눌리지 않으려고 버텨요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="숫자로 견주기">
+  <Fragment slot="visual">
+    <DataTable caption="상자 속 전자 10개의 전체 에너지 (처음 상자의 1번째 칸 에너지를 1로 두었어요)" head={['', '배타 원리 있음', '배타 원리가 없다면']} rows={[
+      ['처음 상자', '110', '10'],
+      ['절반 길이 상자', '440', '40'],
+      ['늘어난 에너지', '330', '30'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+배타 원리가 있으면 전자 10개는 1번째부터 5번째 칸까지 둘씩 들어가요. 전체 에너지는 2 × (1 + 4 + 9 + 16 + 25) = 110이에요.
+
+배타 원리가 없다면 10개 모두 1번째 칸이라 10이죠.
+
+<S n={2}>
+
+상자를 절반으로 줄이면 두 경우 모두 4배가 돼요. 그래서 늘어나는 에너지가 330과 30으로 11배 차이 나요.
+
+</S>
+
+<S n={3}>
+
+누르는 쪽은 늘어나는 에너지만큼 일을 해 줘야 해요. 그러니 배타 원리가 있으면 물질이 훨씬 세게 버텨요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="버티는 힘은 기울기">
+  <Fragment slot="visual">
+    <Plot
+      alt="상자 길이에 따른 전자 10개의 전체 에너지. 배타 원리가 있을 때의 곡선이 훨씬 높고, 상자가 좁아질수록 훨씬 가파르게 치솟는다"
+      x={[0.4, 1]} y={[0, 700]}
+      xLabel="상자 길이 (처음의 몇 배)" yLabel="전체 에너지" xq="space" yq="energy"
+      xTicks={[0.4, 0.6, 0.8, 1]} yTicks={[0, 200, 400, 600]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: '110 / (x * x)', q: 'energy', label: '배타 원리 있음', labelAt: [0.62, 420], step: 2 },
+        { fn: '10 / (x * x)', q: 'plain', dash: true, label: '배타 원리가 없다면', labelAt: [0.6, 95], step: 2 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 상자 길이, 세로축은 전자 10개의 전체 에너지예요.
+
+</S>
+
+<S n={2}>
+
+배타 원리가 있을 때 곡선이 훨씬 높고, 상자가 좁아질수록 훨씬 가파르게 치솟아요.
+
+</S>
+
+<S n={3}>
+
+64강에서 곡선의 기울기는 변화율이었죠. 길이를 조금 줄일 때 에너지가 얼마나 늘어나는지, 그 기울기가 바로 물질이 버티는 힘의 세기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="절반으로 줄이면">
+
+<Check id="q75-half" options={[
+  { t: '4배', ok: true, why: '상자가 절반이면 모든 칸의 에너지가 4배가 돼요. 전자들이 들어간 칸은 그대로라서 전체도 4배예요.' },
+  { t: '2배', why: '칸의 에너지는 길이에 반비례하는 게 아니라 길이의 제곱에 반비례해요.' },
+  { t: '11배', why: '11은 배타 원리가 있을 때와 없을 때의 차이예요. 같은 경우끼리 상자만 줄이면 4배예요.' },
+  { t: '그대로예요', why: '좁은 곳에 갇히면 파동함수가 더 세게 굽어서 칸의 에너지가 올라가요.' },
+]}>
+
+배타 원리를 따르는 전자 10개가 든 상자의 길이를 절반으로 줄였어요. 전체 에너지는 처음의 몇 배가 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="책상을 뚫지 못하는 까닭">
+
+<Check id="q75-why" options={[
+  { t: '전자들이 겹쳐 들어갈 빈 상태가 없어서, 높은 칸으로 올라가는 데 큰 에너지가 들기 때문이에요', ok: true, why: '배타 원리 때문에 겹친 전자는 높은 칸으로 가야 하고, 좁은 곳일수록 그 칸의 에너지가 치솟아요. 그 에너지를 내지 못하니 손이 들어가지 못해요.' },
+  { t: '원자 속이 물질로 꽉 차 있기 때문이에요', why: '원자는 거의 빈 공간이에요. 원자핵은 원자 지름의 10만분의 1쯤밖에 안 돼요.' },
+  { t: '손의 원자핵과 책상의 원자핵이 부딪히기 때문이에요', why: '원자핵은 너무 작아서 서로 부딪힐 일이 거의 없어요. 버팀은 원자핵이 아니라 전자들에게서 와요.' },
+  { t: '중력이 손을 위로 밀어 올리기 때문이에요', why: '중력은 손을 아래로 당겨요. 책상이 버티는 힘은 중력이 아니에요.' },
+]}>
+
+원자가 거의 빈 공간인데도 손이 책상을 뚫고 지나가지 못하는 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="1967년의 증명">
+  <Fragment slot="visual">
+    <BigNumber top="물질이 무너지지 않는다는 것이 수학으로 증명된 해" value="1967" bottom="프리먼 다이슨과 앤드루 레너드" />
+  </Fragment>
+
+1967년 프리먼 다이슨과 앤드루 레너드는, 전자들이 배타 원리를 따르면 물질이 스스로 무너지지 않는다는 것을 수학으로 증명했어요.
+
+<S n={2}>
+
+다이슨은 같은 해, 전자들이 배타 원리를 따르지 않는다면 물질이 스스로 무너져 내린다는 것도 보였어요. 전기력만으로는 부족하고, 배타 원리가 있어야 물질이 버틴다는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="전기력과 배타 원리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전기력', caption: '중성 원자끼리는 거의 밀어내지 않아요', tone: 'dim' },
+      { big: '배타 원리', caption: '겹치려는 전자를 높은 칸으로 올려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전기력은 원자 속에서 전자를 원자핵에 붙잡아 두는 일을 해요. 하지만 중성 원자끼리는 서로 거의 밀어내지 않죠.
+
+<S n={2}>
+
+원자들이 겹치지 못하게 막는 큰 몫은 배타 원리예요. 그래서 물질의 크기와 단단함은 결국 배타 원리가 정해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="원자의 크기가 비슷한 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '수소', caption: '전자 1개' },
+      { big: '우라늄', caption: '전자 92개 · 크기는 몇 배 차이뿐', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+원자핵의 전하가 커지면 전자들은 더 세게 끌려서, 안쪽 전자들은 원자핵에 더 가까이 붙어요. 그런데 배타 원리 때문에 바깥 전자들은 높은 칸에 머물러야 해요.
+
+<S n={2}>
+
+그래서 전자가 92개인 우라늄 원자도 전자가 하나인 수소 원자보다 몇 배 클 뿐이에요. 배타 원리가 원자의 크기까지 정하는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그럼 아무것도 못 만지나요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '닿는다는 느낌', caption: '전자들이 겹치지 못하고 버티는 것' },
+      { big: '겹치지 못하는 전자', caption: '배타 원리와 전기력이 함께 만들어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 '원자는 서로 닿지 않으니 우리는 아무것도 만지지 못한다'는 말을 듣고 한참 헷갈렸어요.
+
+그런데 '만진다'는 느낌 자체가, 손과 물건의 전자들이 겹치지 못하고 버티는 데서 와요. 배타 원리와 전기력이 함께 만드는 그 버팀을 우리는 '닿았다'고 느끼는 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="전자 6개라면">
+
+<Numeric id="q75-six" answer={28} tol={0.01}>
+
+상자에 전자 6개를 넣었어요. 배타 원리에 따라 낮은 칸부터 둘씩 채운다면, 전체 에너지는 1번째 칸 에너지의 몇 배일까요?
+
+<Fragment slot="solution">
+
+1, 2, 3번째 칸에 둘씩 들어가요. 칸의 에너지는 1번째의 1배, 4배, 9배라서, 전체는 2 × (1 + 4 + 9) = 28배예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="별을 버티는 힘">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'sun', title: '연료를 다 쓴 별', caption: '중력에 눌려 쪼그라들어요' },
+      { big: '지구만 한 크기', caption: '전자의 축퇴압이 버텨요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+축퇴압은 별에서 더 크게 드러나요. 연료를 다 쓴 별의 중심은 자기 중력에 눌려 아주 작게 쪼그라드는데, 그 무게를 전자의 축퇴압이 버텨요.
+
+<S n={2}>
+
+태양만 한 질량이 지구만 한 크기로 줄어든 별, <Later n={110}>백색왜성</Later>이 그렇게 버티는 별이에요. 1926년 랠프 파울러가 처음 이렇게 설명했고, 110강에서 다시 만나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="수소와 헬륨">
+
+<Check id="q75-repel" options={[
+  { t: '수소는 1s에 빈자리가 있어서 두 전자가 스핀을 반대로 하고 함께 들어갈 수 있기 때문이에요', ok: true, why: '수소 원자 둘의 전자는 한 오비탈에 스핀을 반대로 하고 나란히 들어갈 수 있어요. 헬륨은 1s가 이미 꽉 차서, 겹치려면 전자가 높은 칸으로 올라가야 해요.' },
+  { t: '헬륨 원자가 수소 원자보다 무겁기 때문이에요', why: '무게가 아니라 바깥 오비탈에 빈자리가 있는지가 붙을지 밀어낼지를 정해요.' },
+  { t: '헬륨 원자는 전하를 띠고 있기 때문이에요', why: '헬륨 원자는 전자 둘과 원자핵의 전하가 맞아서 전체로 중성이에요.' },
+  { t: '수소 원자에는 배타 원리가 적용되지 않기 때문이에요', why: '배타 원리는 모든 전자에 똑같이 적용돼요. 수소의 두 전자도 스핀이 반대일 때만 같은 오비탈에 들어가요.' },
+]}>
+
+수소 원자 두 개는 가까이 오면 붙어서 수소 분자가 되는데, 헬륨 원자 두 개는 가까이 오면 서로 밀어내요. 가장 알맞은 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['degeneracy-pressure', 'pauli-exclusion']}>
+
+1. 중성 원자끼리는 전기력으로 서로 거의 밀어내지 않아요.
+2. 그런데 두 원자가 겹치려 하면, 전자들이 이미 찬 상태에 들어갈 수 없어 높은 칸으로 올라가야 해요.
+3. 좁은 곳에 갇힐수록 칸의 에너지가 길이의 제곱에 반비례해 치솟아요.
+4. 그래서 물질을 누르려면 큰 에너지가 들고, 이 버팀이 축퇴압이에요.
+5. 배타 원리가 없다면 물질은 스스로 무너져서, 손도 책상도 지금처럼 버티지 못해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="눌러서 줄인 금속">
+
+<DailyProblem id="p75">
+
+금속 덩어리를 아주 센 힘으로 눌러 원자 사이 거리를 조금 줄였어요. 전자들은 금속 안을 비교적 자유롭게 돌아다니니, 덩어리 전체를 하나의 큰 상자로 볼 수 있어요.
+
+덩어리의 길이를 모든 방향으로 1%씩 줄이면, 전자들의 에너지는 대략 어떻게 될까요? 오늘의 규칙으로 방향과 크기를 어림해 보세요.
+
+<Fragment slot="hint1">
+
+상자 속 칸의 에너지는 상자 길이의 제곱에 반비례했어요. 길이가 0.99배면 1 ÷ 0.99²은 얼마쯤일까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+전자들의 에너지가 약 2% 커져요. 1 ÷ 0.99² ≈ 1.02라서, 모든 칸의 에너지가 그만큼 올라가거든요.
+
+배타 원리 때문에 전자들은 높은 칸까지 채워져 있어서, 그 많은 전자의 에너지가 다 함께 2%씩 늘어요. 그 늘어나는 에너지만큼 일을 해 줘야 하니, 금속은 조금만 줄이려 해도 세게 버텨요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+원자들이 겹치려 하면 전자들이 배타 원리 때문에 높은 칸으로 올라가야 하고 좁을수록 그 에너지가 치솟아서, 거의 빈 공간인 원자들로 된 물질도 단단히 버텨요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="규칙을 따르지 않는 입자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전자', caption: '같은 상태에 하나만' },
+      { big: '광자', caption: '같은 상태에 얼마든지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 물질을 버티게 한 건, 전자가 배타 원리를 따른다는 사실이었어요. 그런데 73강에서 광자는 이 규칙을 따르지 않는다고 했죠.
+
+<S n={2}>
+
+다음 강에서는 입자들이 이렇게 두 무리로 나뉜다는 걸 봐요. 그 이야기는 1924년 인도의 한 물리학자가 아인슈타인에게 보낸 편지에서 시작돼요.
+
+</S>
+
+</Screen>
