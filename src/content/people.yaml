@@ -461,6 +461,29 @@
   role: 영국의 물리학자
   summary: 전자를 발견한 조지프 존 톰슨의 아들이에요. 1927년 애버딘 대학에서 학생 알렉산더 리드와 함께 빠른 전자를 얇은 금속 막에 통과시켜 X선과 같은 고리 무늬를 얻었어요. 1937년 노벨 물리학상을 받았어요.
   lessons: [49]
+- id: tonomura
+  name: 토노무라 아키라
+  original: Akira Tonomura
+  born: 1942
+  died: 2012
+  role: 일본의 물리학자
+  summary: 히타치 연구소에서 전자의 물질파를 다루는 기술을 연구했어요. 1989년 전자를 하나씩 보내 점이 쌓이며 간섭 무늬가 드러나는 모습을 영상으로 남겼어요.
+  lessons: [50]
+- id: jonsson
+  name: 클라우스 왼손
+  original: Claus Jönsson
+  born: 1930
+  role: 독일의 물리학자
+  summary: 1961년 튀빙겐 대학에서 폭이 1 μm도 안 되는 슬릿 여러 개를 직접 만들어, 전자로 빛과 같은 간섭 무늬를 처음 찍었어요.
+  lessons: [50]
+- id: gi-taylor
+  name: 제프리 잉그럼 테일러
+  original: Geoffrey Ingram Taylor
+  born: 1886
+  died: 1975
+  role: 영국의 물리학자
+  summary: 1909년 빛을 아주 희미하게 줄여 석 달 가까이 사진을 찍어도, 밝은 빛과 같은 회절 무늬가 생긴다는 것을 보였어요. 뒤에는 유체의 흐름 연구로 이름을 남겼어요.
+  lessons: [50]
 
 # ── 세션 3 (64~83강, 106~110강) ──
 # (여기 아래에 더한다)

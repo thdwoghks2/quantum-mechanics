@@ -1,0 +1,160 @@
+---
+/**
+ * 50·51·56강: 전자를 하나씩 이중 슬릿에 보내면 화면에 점이 하나씩 찍히고, 많이 모이면 간섭 무늬가 떠오른다.
+ * 점이 찍히는 자리는 확률 분포 P(x) = 봉투 × (1 + V cos(2πx/s)) / 2 를 따른다(V: 무늬의 또렷함).
+ * which를 켜면 "경로를 알아내는 정도" 슬라이더가 생기고, 알아낼수록 V가 줄어 무늬가 사라진다.
+ * oneslit을 켜면 한쪽 틈을 막은 경우(무늬 없음)를 고를 수 있다.
+ */
+interface Props {
+  which?: boolean;
+  oneslit?: boolean;
+}
+const { which = false, oneslit = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-buildup class="sim" data-ratio="0.62">
+  <canvas aria-label="검은 화면에 전자가 닿은 자리마다 점이 하나씩 찍힌다. 점이 수천 개 모이면 밝고 어두운 줄무늬가 드러난다. 아래에는 자리별 개수 막대그래프가 있다."></canvas>
+  <div class="sim__controls">
+    {which ? (
+      <div class="sim__row">
+        <label for={`bu-w-${uid}`}>경로를 알아내는 정도</label>
+        <input id={`bu-w-${uid}`} type="range" min="0" max="100" step="10" value="0" data-param="w" />
+        <output data-out="w"></output>
+      </div>
+    ) : <input type="hidden" data-param="w" value="0" />}
+    {oneslit ? (
+      <div class="sim__buttons" aria-label="틈 고르기">
+        <button type="button" class="btn" data-set="one=0" aria-pressed="true">두 틈 다 열기</button>
+        <button type="button" class="btn" data-set="one=1" aria-pressed="false">한 틈 막기</button>
+      </div>
+    ) : <input type="hidden" data-param="one" value="0" />}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-add="1">전자 하나</button>
+      <button type="button" class="btn" data-add="100">100개</button>
+      <button type="button" class="btn" data-play>계속 보내기</button>
+      <button type="button" class="btn" data-reset>지우기</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-buildup>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const S = 0.16; // 무늬 간격 (화면 폭 비)
+  const MAX = 30000;
+  const BINS = 80;
+
+  class SimBuildUp extends Sim {
+    xs: number[] = [];
+    ys: number[] = [];
+    acc = 0;
+
+    init() {
+      if (this.p.one === undefined) this.p.one = 0;
+      this.querySelectorAll<HTMLButtonElement>('button[data-add]').forEach((b) =>
+        b.addEventListener('click', () => {
+          this.add(Number(b.dataset.add));
+          this.frame();
+        }),
+      );
+    }
+
+    vis() {
+      return 1 - this.p.w! / 100;
+    }
+
+    /** 화면 위 자리 x (−0.5 ~ 0.5)에 닿을 확률의 상대값 */
+    prob(x: number) {
+      if (this.p.one === 1) {
+        // 한쪽 틈만: 넓게 퍼진 봉우리 하나 (가운데에서 조금 비켜 있다)
+        const u = (x - 0.04) / 0.2;
+        return Math.exp(-u * u);
+      }
+      const env = Math.exp(-((x / 0.22) ** 2));
+      return env * (1 + this.vis() * Math.cos((2 * Math.PI * x) / S)) * 0.5;
+    }
+
+    add(n: number) {
+      for (let k = 0; k < n && this.xs.length < MAX; k++) {
+        for (let tries = 0; tries < 200; tries++) {
+          const x = Math.random() - 0.5;
+          if (Math.random() < this.prob(x)) {
+            this.xs.push(x);
+            this.ys.push(Math.random());
+            break;
+          }
+        }
+      }
+      this.renderOutputs();
+    }
+
+    changed() {
+      this.xs = [];
+      this.ys = [];
+    }
+
+    reset() {
+      this.xs = [];
+      this.ys = [];
+      this.renderOutputs();
+    }
+
+    tick(dt: number) {
+      const n = this.xs.length;
+      const rate = n < 20 ? 4 : n < 200 ? 40 : n < 2000 ? 400 : 3000;
+      this.acc += rate * dt;
+      const k = Math.floor(this.acc);
+      this.acc -= k;
+      if (k > 0) this.add(k);
+    }
+
+    format() {
+      return `${this.p.w} %`;
+    }
+
+    readout() {
+      const n = this.xs.length;
+      let s = `화면에 닿은 전자 ${n.toLocaleString('ko-KR')}개`;
+      if (this.p.one === 1) s += ' · 한쪽 틈만 열었어요';
+      else if (this.p.w! > 0) s += ` · 경로를 ${this.p.w} % 알아내는 장치를 켰어요`;
+      return s;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const top = 10;
+      const sh = h * 0.6;
+      const x0 = 10;
+      const x1 = w - 10;
+      g.fillStyle = '#060608';
+      g.fillRect(x0, top, x1 - x0, sh);
+      // 점
+      g.fillStyle = 'rgba(150, 230, 210, 0.85)';
+      const n = this.xs.length;
+      const size = n < 300 ? 3 : n < 3000 ? 2 : 1.2;
+      for (let i = 0; i < n; i++) {
+        const px = x0 + (this.xs[i]! + 0.5) * (x1 - x0);
+        const py = top + this.ys[i]! * sh;
+        g.fillRect(px - size / 2, py - size / 2, size, size);
+      }
+      this.text('화면', x0 + 4, top + 10, c.muted, 10);
+      // 아래: 자리별 개수
+      const by = h - 8;
+      const bh = h - sh - top - 24;
+      const counts = new Array(BINS).fill(0);
+      for (const x of this.xs) counts[Math.min(BINS - 1, Math.floor((x + 0.5) * BINS))]++;
+      const max = Math.max(1, ...counts);
+      const bw = (x1 - x0) / BINS;
+      g.fillStyle = c.charge;
+      counts.forEach((k, i) => {
+        const hh = (k / max) * bh;
+        g.fillRect(x0 + i * bw, by - hh, Math.max(1, bw - 1), hh);
+      });
+      this.line(x0, by, x1, by, c.text2, 1);
+      this.text('자리마다 닿은 개수', x0, by - bh - 6, c.muted, 10);
+    }
+  }
+  define('qm-sim-buildup', SimBuildUp);
+</script>

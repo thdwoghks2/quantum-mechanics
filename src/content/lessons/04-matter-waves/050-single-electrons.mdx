@@ -1,0 +1,398 @@
+---
+number: 50
+title: 전자 하나씩 쏘는 이중 슬릿
+short: 전자 하나씩
+question: 전자를 하나씩 보내도 간섭 무늬가 생길까요?
+mechanism: 전자를 장치 안에 늘 하나만 있도록 하나씩 이중 슬릿에 보내면, 전자는 화면의 한 점에 알갱이 하나로 닿고 그 자리는 미리 알 수 없어요. 그런데 수만 개가 모이면 드브로이 파장에 맞는 간섭 무늬가 드러나요. 다른 전자와 간섭할 수 없으니, 전자 하나하나의 물질파가 두 길을 함께 지나 스스로 간섭하고, 그 결과가 전자가 어디에 닿을지의 확률을 정하는 거예요.
+part: 4
+year: 1989
+place: 도쿄 근처 히타치 연구소
+minutes: 22
+epigraph:
+  text: "고전적인 방식으로는 설명하기가 불가능한, 절대로 불가능한 현상이고, 그 안에 양자역학의 심장이 들어 있다."
+  by: 리처드 파인먼
+  source: 『파인먼의 물리학 강의』 3권 1장 (1965)
+assumes: [double-slit, fringe, interference, slit, de-broglie-wavelength, matter-wave, electron-diffraction, electron, photon, probability]
+introduces: [wave-particle-duality]
+sources:
+  - "Tonomura, A., Endo, J., Matsuda, T., Kawasaki, T. & Ezawa, H. Demonstration of single-electron buildup of an interference pattern. American Journal of Physics 57, 117–120 (1989)"
+  - "Jönsson, C. Elektroneninterferenzen an mehreren künstlich hergestellten Feinspalten. Zeitschrift für Physik 161, 454–474 (1961)"
+  - "Merli, P. G., Missiroli, G. F. & Pozzi, G. On the statistical aspect of electron interference phenomena. American Journal of Physics 44, 306–307 (1976)"
+  - "Taylor, G. I. Interference fringes with feeble light. Proceedings of the Cambridge Philosophical Society 15, 114–115 (1909)"
+  - "Crease, R. P. The most beautiful experiment. Physics World 15(9), 19–20 (2002)"
+  - "Feynman, R. P., Leighton, R. B. & Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 1 (1965)"
+testout: [q50-one, q50-many, q50-dark]
+status: published
+---
+
+<Screen kind="scene" title="하나씩 보내면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '한꺼번에', caption: '전자 수십억 개가 무늬를 만들어요', tone: 'ok' },
+      { big: '하나씩', caption: '장치 안에 늘 전자가 하나뿐이라면', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+49강에서 결정에 쏜 전자들은 파동처럼 정해진 방향으로 몰렸어요. 그런데 그때는 전자를 한꺼번에 아주 많이 쏘았죠.
+
+<S n={2}>
+
+무늬를 만든 게 전자 하나하나일까요, 아니면 수많은 전자가 서로 밀고 부딪힌 결과일까요? 오늘은 전자를 하나씩 보내서 이 물음을 가려 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={16} title="빛의 이중 슬릿">
+  <Fragment slot="visual">
+    <SimDoubleSlit />
+  </Fragment>
+
+16강에서 빛을 가까이 붙은 두 슬릿에 비추면, 뒤쪽 화면에 밝고 어두운 줄무늬가 생긴다고 했어요. 두 슬릿을 지난 빛이 간섭하기 때문이었죠.
+
+<S n={2}>
+
+어두운 줄은 빛이 막혀서 생긴 게 아니라, 두 슬릿에서 온 빛이 서로 지워서 생겼어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="전자로 한 이중 슬릿">
+  <Fragment slot="visual">
+    <BigNumber top="클라우스 왼손이 전자로 여러 슬릿의 간섭 무늬를 찍은 해" value="1961" bottom="독일 튀빙겐 대학, 폭이 1 μm도 안 되는 슬릿을 직접 깎아 만들었어요" />
+  </Fragment>
+
+1961년 독일의 클라우스 왼손은 아주 가는 슬릿 여러 개를 만들어 전자를 통과시켰어요. 화면에는 빛과 똑같은 모양의 간섭 무늬가 찍혔죠.
+
+<S n={2}>
+
+하지만 이때도 전자를 한꺼번에 많이 보냈어요. 전자 하나만 있을 때도 무늬가 생기는지는 아직 몰랐어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="토노무라의 실험">
+  <Fragment slot="visual">
+    <BigNumber top="토노무라 아키라 연구진이 전자 하나씩 쌓이는 무늬를 영상으로 남긴 해" value="1989" bottom="일본 히타치 연구소" />
+  </Fragment>
+
+1989년 일본 히타치 연구소의 토노무라 아키라 연구진은 전자를 1초에 많아야 1,000개쯤만 보냈어요. 전자가 빛의 속력의 40 %쯤으로 날아가니, 이웃한 두 전자 사이는 100 km가 넘게 떨어져 있었죠.
+
+<S n={2}>
+
+장치의 길이는 2 m도 안 됐어요. 그러니 장치 안에는 거의 늘 전자가 **딱 하나**뿐이었어요. 이탈리아 볼로냐에서도 1970년대에 비슷한 실험이 있었지만, 토노무라 연구진은 쌓여 가는 모습을 또렷한 영상으로 남겼어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="두 길로 나누는 가는 철사">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '전자', caption: '위에서 하나씩 내려와요' },
+      { big: '+ 전기를 띤 가는 철사', caption: '양옆의 두 길로 지나요', tone: 'accent' },
+      { big: '화면', caption: '닿은 자리에 점이 찍혀요' },
+    ]} />
+  </Fragment>
+
+토노무라 연구진은 슬릿 대신 머리카락보다 훨씬 가는 철사에 + 전기를 걸어 썼어요. 전자는 철사의 양옆 가운데 어딘가로 지나가고, 철사에 끌려 뒤에서 다시 만나요.
+
+<S n={2}>
+
+길이 두 갈래이니 이중 슬릿과 같은 일을 해요. 화면에는 전자가 닿은 자리마다 빛나는 점이 하나씩 찍혔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="전자 하나">
+  <Fragment slot="visual">
+    <SimP04BuildUp />
+  </Fragment>
+
+먼저 "전자 하나"를 몇 번 눌러 보세요. 전자를 하나씩 보내면 화면에 무엇이 생기는지 보세요.
+
+<S n={2}>
+
+전자는 화면 전체에 물결처럼 번지지 않아요. 늘 **작은 점 하나**로 닿아요. 그리고 다음 전자가 어디에 닿을지는 미리 알 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="알갱이로 닿아요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '●', title: '닿는 모습', caption: '늘 점 하나, 알갱이 하나', tone: 'ok' },
+      { big: '?', title: '닿는 자리', caption: '전자마다 제멋대로예요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자가 화면에 닿는 모습은 37강의 알갱이 그대로예요. 반쪽짜리 전자나 흐릿하게 번진 전자는 한 번도 없었어요.
+
+<S n={2}>
+
+몇 개만 보면 점들은 아무렇게나 흩어져 있어요. 무늬 같은 건 전혀 보이지 않죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="계속 보내면">
+  <Fragment slot="visual">
+    <SimP04BuildUp />
+  </Fragment>
+
+이번엔 "계속 보내기"를 누르고 점이 쌓이는 걸 지켜보세요. 아래 막대는 자리마다 닿은 전자의 개수예요.
+
+<S n={2}>
+
+수백 개쯤부터 점이 몰리는 곳과 비는 곳이 보이기 시작하고, 수만 개가 되면 또렷한 **줄무늬**가 떠올라요. 16강에서 빛이 만든 간섭 무늬와 같은 모양이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="점들이 그린 무늬">
+  <Fragment slot="visual">
+    <BigNumber top="하나씩 아무렇게나 찍히던 점들이 모여 그린 것" value="간섭 무늬" bottom="그동안 장치 안에는 늘 전자가 하나뿐이었어요" q="charge" />
+  </Fragment>
+
+여기서 저는 정말 소름이 돋았어요. 점 하나하나는 제멋대로 찍혔는데, 모아 놓으니 파동만이 그릴 수 있는 무늬가 나왔거든요.
+
+<Key>장치 안에 늘 전자가 하나뿐이었는데도 점들이 모여 간섭 무늬를 그렸으니까, 무늬는 전자들끼리 부딪혀 생긴 게 아니라 전자 하나하나가 파동처럼 두 길을 함께 지나 스스로 간섭해서 생긴 거예요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="스스로 간섭해요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '두 길', caption: '전자 하나의 물질파가 철사 양쪽을 함께 지나요' },
+      { big: '겹치기', caption: '뒤에서 만나 간섭해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자가 하나뿐이니, 다른 전자와 간섭할 수는 없어요. 간섭하려면 두 길에서 온 파동이 필요한데, 둘 다 같은 전자의 것이어야 해요.
+
+<S n={2}>
+
+그러니 전자 하나의 물질파가 철사의 양쪽 길을 함께 지나, 뒤에서 자기 자신과 겹친 거예요. 무늬의 간격도 전자의 드브로이 파장으로 계산한 값과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="닿을 확률">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '밝은 줄', caption: '전자가 닿을 확률이 높아요', tone: 'ok' },
+      { big: '어두운 줄', caption: '전자가 거의 닿지 않아요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+그러면 파동이 정하는 건 무엇일까요? 전자 하나가 어디에 닿을지는 알 수 없지만, 어디에 **닿을 확률이 높은지**는 정해져 있어요.
+
+<S n={2}>
+
+24강의 주사위를 떠올려 보세요. 한 번 던질 때의 눈은 모르지만, 많이 던지면 확률대로 나오죠. 밝은 줄은 닿을 확률이 높은 곳이고, 어두운 줄은 확률이 거의 0인 곳이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="파동-입자 이중성이라는 이름">
+  <Fragment slot="visual">
+    <Define term="wave-particle-duality" />
+  </Fragment>
+
+전자는 닿을 때는 알갱이 하나로 닿고, 어디에 닿을지는 파동처럼 간섭하는 확률을 따랐어요. 이 두 얼굴을 함께 가리켜 **파동-입자 이중성**이라고 불러요.
+
+<S n={2}>
+
+빛도 같아요. 빛도 광자 하나씩 띄엄띄엄 닿지만, 많이 모이면 간섭 무늬를 그려요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="반은 파동, 반은 알갱이?">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '✕', title: '반은 파동, 반은 알갱이', caption: '이런 뜻이 아니에요', tone: 'no' },
+      { big: '○', title: '알갱이로 닿고, 확률은 파동처럼', caption: '늘 둘 다예요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 이중성이라는 말을 처음 들었을 때, 전자가 어떤 때는 파동이었다가 어떤 때는 알갱이로 바뀌는 줄 알았어요.
+
+그런데 실험이 보여 준 건 달라요. 전자는 언제나 알갱이 하나로 닿고, 그 자리의 확률은 언제나 파동처럼 움직여요. 바뀌는 게 아니라 늘 둘 다예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="전자 하나의 결과">
+
+<Check id="q50-one" options={[
+  { t: '화면의 한 곳에 점 하나가 찍혀요.', ok: true, why: '전자는 언제나 알갱이 하나로 한 점에 닿아요. 어디에 닿을지는 미리 알 수 없을 뿐이에요.' },
+  { t: '화면 전체에 흐린 줄무늬가 찍혀요.', why: '전자 하나는 줄무늬를 그리지 않아요. 줄무늬는 수많은 점이 모여야 보여요.' },
+  { t: '두 슬릿 바로 뒤에 점 두 개가 찍혀요.', why: '전자 하나는 점 하나로만 닿아요. 반으로 나뉘어 두 군데에 닿는 일은 없어요.' },
+  { t: '아무것도 찍히지 않아요.', why: '전자는 화면 어딘가에 닿아서 점 하나를 남겨요.' },
+]}>
+
+이중 슬릿 장치에 전자를 딱 하나만 보냈어요. 화면에는 무엇이 남을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="수만 개가 모이면">
+
+<Check id="q50-many" options={[
+  { t: '전자 하나하나의 물질파가 두 길을 함께 지나 스스로 간섭하고, 그 결과가 닿을 확률을 정하기 때문이에요.', ok: true, why: '장치 안에는 늘 전자가 하나뿐이었어요. 그러니 간섭은 전자 하나 안에서 일어나고, 그게 점들이 몰리는 자리를 정해요.' },
+  { t: '앞서 보낸 전자들이 화면에 남아 뒤의 전자를 밀어내기 때문이에요.', why: '그렇다면 점들이 고르게 흩어지기만 했을 거예요. 줄무늬는 간섭의 모양이에요.' },
+  { t: '전자들이 날아가는 동안 서로 부딪히기 때문이에요.', why: '이웃한 전자 사이는 100 km가 넘게 떨어져 있어서 부딪힐 수 없었어요.' },
+  { t: '철사가 전자를 줄무늬 모양으로 골라 보내기 때문이에요.', why: '철사는 두 길을 만들 뿐이에요. 한쪽 길만 열면 줄무늬가 생기지 않아요.' },
+]}>
+
+전자를 하나씩 보냈는데도 수만 개가 모이자 간섭 무늬가 생겼어요. 그 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="어두운 줄 한가운데">
+
+<Check id="q50-dark" options={[
+  { t: '거의 닿지 않아요. 그 자리는 두 길의 파동이 서로 지워서 닿을 확률이 거의 0이에요.', ok: true, why: '어두운 줄은 전자가 막혀서가 아니라, 두 길에서 온 파동이 상쇄 간섭해 확률이 0에 가까워진 곳이에요.' },
+  { t: '밝은 줄과 똑같이 자주 닿아요.', why: '그렇다면 줄무늬가 생기지 않았을 거예요. 어두운 줄에는 점이 거의 없어요.' },
+  { t: '전자가 막혀서 절대 갈 수 없는 곳이에요.', why: '그 자리를 막는 건 아무것도 없어요. 한쪽 틈을 막으면 오히려 그 자리에도 전자가 닿아요.' },
+  { t: '전자 하나만 보낼 때는 그 자리에 자주 닿아요.', why: '하나를 보내든 많이 보내든 확률은 같아요. 하나만 보내면 어디에 닿을지 모를 뿐, 어두운 줄에 닿을 확률은 여전히 거의 0이에요.' },
+]}>
+
+전자를 하나씩 보내 만든 간섭 무늬에서, 어두운 줄 한가운데에는 전자가 얼마나 닿을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="빛도 하나씩">
+  <Fragment slot="visual">
+    <BigNumber top="제프리 잉그럼 테일러가 아주 희미한 빛으로 간섭 무늬를 찍은 해" value="1909" bottom="가장 희미한 사진은 석 달 가까이 걸려 찍었어요" />
+  </Fragment>
+
+빛으로는 훨씬 먼저 비슷한 실험이 있었어요. 1909년 영국의 제프리 잉그럼 테일러는 빛을 아주아주 희미하게 줄여, 바늘 그림자의 회절 무늬를 사진으로 찍었어요.
+
+<S n={2}>
+
+가장 희미한 빛으로는 석 달 가까이 걸렸지만, 무늬는 밝은 빛으로 찍은 것과 똑같았어요. 지금은 광자 하나씩 세는 카메라로, 광자가 점 하나씩 쌓여 간섭 무늬가 되는 모습을 직접 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="주사위와 다른 점">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['주사위 한 번', '전자 하나가 닿는 자리'],
+        ['많이 던지면 드러나는 확률', '많이 모이면 드러나는 무늬'],
+        ['?', '두 길이 열려 있으면 줄어드는 자리'],
+      ]}
+      fits="하나는 알 수 없지만 많이 모으면 정해진 확률이 드러난다는 점이 같아요."
+      breaks="주사위에는 어두운 줄이 없어요. 주사위를 던질 방법을 하나 더 열어 준다고 어떤 눈이 덜 나오지는 않잖아요. 그런데 전자는 길이 하나 더 열리자 어떤 자리에는 오히려 덜 닿아요. 확률이 파동처럼 서로 지워지는 건 주사위에는 없는 일이에요."
+    />
+  </Fragment>
+
+전자가 닿는 자리의 확률을 24강의 주사위에 빗대 볼게요. 맞는 곳보다 틀리는 곳이 더 중요해요.
+
+</Screen>
+
+<Screen kind="story" title="가장 아름다운 실험">
+  <Fragment slot="visual">
+    <BigNumber top="영국 물리학회 잡지 『피직스 월드』 독자들이 고른 가장 아름다운 실험" value="전자 하나씩 쏘는 이중 슬릿" bottom="2002년 9월호" />
+  </Fragment>
+
+2002년 『피직스 월드』라는 물리학 잡지가 독자들에게 가장 아름다운 실험을 물었어요. 1위는 전자를 하나씩 쏘는 이중 슬릿 실험이었어요.
+
+<S n={2}>
+
+리처드 파인먼은 이 실험에 양자역학의 심장이 들어 있다고 했어요. 앞으로 배울 양자역학은 결국 이 무늬가 왜 생기는지를 정확히 계산하는 방법이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['wave-particle-duality', 'matter-wave', 'double-slit', 'probability']}>
+
+1. 장치 안에 늘 전자가 하나뿐이도록 하나씩 보내자, 전자는 화면에 점 하나로 닿았어요.
+2. 하나하나의 자리는 제멋대로였지만, 수만 개가 모이자 간섭 무늬가 드러났어요.
+3. 다른 전자와 간섭할 수 없으니, 전자 하나의 물질파가 두 길을 함께 지나 스스로 간섭한 거예요.
+4. 그래서 전자는 알갱이로 닿고, 어디에 닿을지의 확률은 파동처럼 간섭해요. 이게 파동-입자 이중성이에요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="한쪽 틈을 막으면">
+
+<DailyProblem id="p50">
+
+두 틈을 다 열었을 때 어두운 줄 한가운데였던 자리를 하나 골라요. 이번엔 한쪽 틈을 막고 전자를 하나씩 수만 개 보냈어요. 그 자리에 닿는 전자는 두 틈을 다 열었을 때보다 많아질까요, 적어질까요? 아래 시뮬레이션으로 확인해 봐도 좋아요.
+
+<SimP04BuildUp oneslit />
+
+<Fragment slot="hint1">
+
+한쪽 틈만 열면 지울 상대 파동이 없어요. 그러면 그 자리의 확률은 어떻게 될까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+많아져요. 한쪽 틈만 열면 간섭할 다른 길이 없으니, 전자는 넓게 퍼진 봉우리 하나 모양으로 닿고 그 자리에도 꽤 닿아요.
+
+두 틈을 열면 길이 하나 더 생겼는데도 그 자리에는 전자가 오히려 거의 닿지 않아요. 두 길의 파동이 서로 지우기 때문이에요. 길을 더 열었는데 덜 닿는다는 이 사실이, 주사위 같은 보통의 확률로는 설명할 수 없는 양자역학의 수수께끼예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+전자는 하나씩 보내도 알갱이 하나로 닿지만, 수만 개가 모이면 간섭 무늬를 그리니까, 어디에 닿을지의 확률이 파동처럼 간섭해요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="어느 길로 갔을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이쪽 길?', caption: '' },
+      { big: '저쪽 길?', caption: '' },
+      { big: '재 보면', caption: '무늬는 어떻게 될까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자 하나가 두 길을 함께 지났다니, 직접 확인하고 싶어지죠. 철사 곁에 장치를 달아 전자가 양옆 가운데 어디로 지나는지 재면 어떻게 될까요?
+
+<S n={2}>
+
+다음 강에서는 경로를 재는 순간 간섭 무늬가 사라진다는 것과, 보어가 이 일을 설명하려고 내놓은 <Later n={51}>상보성</Later>이라는 생각을 배워요.
+
+</S>
+
+</Screen>
