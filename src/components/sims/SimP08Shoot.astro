@@ -1,0 +1,174 @@
+---
+/**
+ * 슈뢰딩거 방정식을 왼쪽 끝에서부터 한 걸음씩 따라가며 파동함수를 그린다.
+ * 자리마다 (전체 에너지 − 위치 에너지)만큼 굽으라는 규칙만 쓴다.
+ * mode="step": 위치 에너지가 가운데에서 한 번 높아지는 길. 높은 곳에서 파장이 길어진다.
+ * mode="well": 유한한 우물. 맞는 에너지에서만 파동함수가 양 끝에서 잦아든다.
+ */
+interface Props {
+  mode?: 'step' | 'well';
+  e?: number;
+}
+const { mode = 'step', e } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const isWell = mode === 'well';
+const e0 = e ?? (isWell ? 0.2 : 1.2);
+// 우물의 허용 에너지 (같은 계산을 미리 해 둔 값)
+const levels = [0.0809, 0.3181, 0.6868];
+---
+<qm-sim-p08-shoot class="sim" data-ratio="0.62" data-mode={mode}>
+  <canvas aria-label={isWell
+    ? '유한한 우물 안팎의 위치 에너지와, 고른 전체 에너지로 왼쪽 끝부터 그린 파동함수. 맞는 에너지에서만 오른쪽 끝에서 잦아든다'
+    : '가운데에서 위치 에너지가 한 번 높아지는 길과, 그 위를 지나는 파동함수. 위치 에너지가 높은 곳에서 파장이 길어진다'}></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p8h-e-${uid}`}>전체 에너지</label>
+      <input id={`p8h-e-${uid}`} type="range" min={isWell ? 0.02 : 0.6} max={isWell ? 0.98 : 2} step={isWell ? 0.0005 : 0.01} value={e0} data-param="E" />
+      <output data-out="E"></output>
+    </div>
+  </div>
+  {isWell && (
+    <div class="sim__buttons" aria-label="허용되는 에너지로 맞추기">
+      {levels.map((v, i) => (
+        <button type="button" class="btn" data-set={`E=${v}`}>{i + 1}번째 허용 에너지</button>
+      ))}
+    </div>
+  )}
+  <p class="sim__readout"></p>
+</qm-sim-p08-shoot>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 2000;
+
+  class SimP08Shoot extends Sim {
+    animated = false;
+    well = false;
+    psi = new Float64Array(N + 1);
+    K = 400;
+    V0 = 0.5;
+
+    init() {
+      this.well = this.dataset.mode === 'well';
+      this.K = this.well ? 900 : 400;
+      this.V0 = this.well ? 1 : 0.5;
+    }
+
+    V(x: number) {
+      if (this.well) return x < 0.35 || x > 0.65 ? this.V0 : 0;
+      return x < 0.5 ? 0 : this.V0;
+    }
+
+    solve() {
+      const E = this.p.E!;
+      const h = 1 / N;
+      const psi = this.psi;
+      if (this.well) {
+        const kap = Math.sqrt(this.K * Math.max(this.V0 - E, 1e-6));
+        psi[0] = 1e-6;
+        psi[1] = 1e-6 * Math.exp(kap * h);
+      } else {
+        psi[0] = 0;
+        psi[1] = h;
+      }
+      for (let i = 1; i < N; i++) {
+        psi[i + 1] = 2 * psi[i]! - psi[i - 1]! - h * h * this.K * (E - this.V(i * h)) * psi[i]!;
+      }
+    }
+
+    format(name: string) {
+      return name === 'E' ? (this.p.E ?? 0).toFixed(this.well ? 3 : 2) : '';
+    }
+
+    tail() {
+      // 우물 모드: 오른쪽 끝의 값을 우물 안 최대값과 견준다
+      let m = 0;
+      for (let i = Math.floor(N * 0.35); i <= Math.floor(N * 0.65); i++) m = Math.max(m, Math.abs(this.psi[i]!));
+      return this.psi[N]! / (m || 1);
+    }
+
+    readout() {
+      const E = this.p.E ?? 0;
+      if (!this.well) {
+        const r = Math.sqrt(E / (E - this.V0));
+        return `왼쪽 운동 에너지 ${E.toFixed(2)} · 오른쪽 운동 에너지 ${(E - this.V0).toFixed(2)} · 오른쪽 파장은 왼쪽의 ${r.toFixed(2)}배`;
+      }
+      const t = this.tail();
+      if (Math.abs(t) < 0.08) return '오른쪽 끝에서 파동함수가 0으로 잦아들어요. 허용되는 에너지예요.';
+      return t > 0 ? '오른쪽 끝에서 파동함수가 위로 끝없이 커져요. 이 에너지는 안 돼요.' : '오른쪽 끝에서 파동함수가 아래로 끝없이 커져요. 이 에너지는 안 돼요.';
+    }
+
+    draw() {
+      this.solve();
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const E = this.p.E!;
+      const Emax = this.well ? 1.3 : 2.3;
+      const L = 14;
+      const R = w - 14;
+      const T = 10;
+      const B = h - 16;
+      const X = (x: number) => L + x * (R - L);
+      const Y = (en: number) => B - (en / Emax) * (B - T);
+
+      // 위치 에너지
+      g.fillStyle = 'rgba(214,170,60,0.16)';
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2;
+      g.beginPath();
+      g.moveTo(X(0), Y(0));
+      for (let i = 0; i <= 400; i++) {
+        const x = i / 400;
+        g.lineTo(X(x), Y(this.V(x)));
+      }
+      g.lineTo(X(1), Y(0));
+      g.closePath();
+      g.fill();
+      g.beginPath();
+      for (let i = 0; i <= 400; i++) {
+        const x = i / 400;
+        if (i) g.lineTo(X(x), Y(this.V(x)));
+        else g.moveTo(X(x), Y(this.V(x)));
+      }
+      g.stroke();
+
+      // 위치 에너지가 전체 에너지보다 큰 곳
+      if (this.well && E < this.V0) {
+        g.fillStyle = 'rgba(150,150,150,0.10)';
+        g.fillRect(X(0), T, X(0.35) - X(0), B - T);
+        g.fillRect(X(0.65), T, X(1) - X(0.65), B - T);
+      }
+
+      // 전체 에너지 선
+      g.setLineDash([6, 5]);
+      this.line(L, Y(E), R, Y(E), c.energy, 1.5);
+      g.setLineDash([]);
+      this.text('전체 에너지', R - 2, Y(E) - 9, c.energy, 11, 'right');
+      this.text('위치 에너지', this.well ? X(0.02) : X(0.52), Y(this.V0) - 9, c.energy, 11);
+
+      // 파동함수 (전체 에너지 선을 바닥선으로)
+      let m = 0;
+      const i0 = this.well ? Math.floor(N * 0.3) : 0;
+      const i1 = this.well ? Math.floor(N * 0.7) : N;
+      for (let i = i0; i <= i1; i++) m = Math.max(m, Math.abs(this.psi[i]!));
+      const amp = (B - T) * 0.2;
+      g.save();
+      g.beginPath();
+      g.rect(L, T, R - L, B - T);
+      g.clip();
+      g.strokeStyle = c.text;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let i = 0; i <= N; i += 2) {
+        const yv = Y(E) - (amp * this.psi[i]!) / (m || 1);
+        if (i) g.lineTo(X(i / N), yv);
+        else g.moveTo(X(i / N), yv);
+      }
+      g.stroke();
+      g.restore();
+      this.text('파동함수', L + 4, T + 8, c.text, 11);
+    }
+  }
+  define('qm-sim-p08-shoot', SimP08Shoot);
+</script>

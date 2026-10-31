@@ -1,0 +1,487 @@
+---
+number: 65
+title: 슈뢰딩거 방정식의 구조
+short: 슈뢰딩거 방정식
+question: 파동함수가 어디서 얼마나 굽을지는 무엇이 정할까요?
+mechanism: 고전 물리에서 자리마다 운동 에너지와 위치 에너지를 더하면 늘 전체 에너지가 돼요. 지난 강에서 운동 에너지는 파동함수의 곡률로 읽을 수 있었으니, 그 자리에 곡률을 넣으면 '곡률로 읽은 운동 에너지 + 위치 에너지 = 전체 에너지'라는 식이 되고, 이게 슈뢰딩거 방정식이에요. 그래서 위치 에너지가 높은 곳일수록 운동 에너지가 적어 파동함수가 덜 굽고 파장이 길어져요.
+part: 8
+minutes: 20
+assumes: [energy, kinetic-energy, potential-energy, energy-conservation, wavelength, standing-wave, planck-constant, de-broglie-wavelength, matter-wave, wavefunction, energy-level, bohr-model, derivative, curvature, model, prediction]
+introduces: [schrodinger-equation]
+sources:
+  - "Schrödinger, E. Quantisierung als Eigenwertproblem (Erste Mitteilung), Annalen der Physik 79, 361 (1926)"
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 16 (1965)"
+  - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Ch. 1-2 (2018)"
+  - "Moore, W. Schrödinger: Life and Thought (1989)"
+testout: [q65-wave, q65-parts, q65-num]
+status: published
+---
+
+<Screen kind="scene" title="오르막의 롤러코스터">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'coaster', title: '낮은 곳', caption: '위치 에너지 작음 · 운동 에너지 큼' },
+      { icon: 'coaster', title: '높은 곳', caption: '위치 에너지 큼 · 운동 에너지 작음', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 롤러코스터를 봤죠. 오르막에서는 위치 에너지가 늘고, 그만큼 운동 에너지가 줄어요.
+
+<S n={2}>
+
+오늘은 이 생각을 파동함수에 그대로 옮긴 식을 봐요. 기호가 낯설어 보여도, 그 안에 든 생각은 에너지를 더하는 것 하나예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={6} title="더하면 늘 같은 값">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '그릇 바닥', caption: '빠르게 굴러요' },
+      { big: '그릇 가장자리', caption: '느려지다 멈춰요' },
+      { big: '어디서나', caption: '운동 + 위치 = 전체', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+6강에서 에너지는 모양을 바꿔도 전체 양이 그대로라고 했어요. 둥근 그릇 안에서 구르는 구슬은 바닥에서 빠르고, 가장자리로 올라가면 느려지죠.
+
+<S n={2}>
+
+그래도 어느 자리에서든 운동 에너지와 위치 에너지를 더하면 늘 같은 값이 나와요. 이 값이 전체 에너지예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="자리마다 나눠 갖기">
+  <Fragment slot="visual">
+    <Plot
+      alt="그릇 모양의 위치 에너지 곡선과 가로로 그은 전체 에너지 선. 두 선 사이의 간격이 운동 에너지다"
+      x={[-2, 2]} y={[0, 4.2]}
+      xLabel="자리" yLabel="에너지" yq="energy"
+      xTicks={[]} yTicks={[0]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: 'x * x', q: 'energy', label: '위치 에너지', labelAt: [-1.95, 3.85], step: 2 },
+        { fn: '3', q: 'energy', dash: true, label: '전체 에너지', labelAt: [0.9, 3.25], step: 2 },
+        { pts: [[1, 1], [1, 3]], q: 'motion', label: '운동 에너지', labelAt: [1.05, 2], step: 3 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 자리, 세로축은 에너지예요.
+
+</S>
+
+<S n={2}>
+
+그릇 모양 곡선이 자리마다의 위치 에너지이고, 가로로 그은 점선이 전체 에너지예요.
+
+</S>
+
+<S n={3}>
+
+두 선 사이의 간격이 그 자리의 운동 에너지예요. 바닥에서 가장 넓고, 가장자리로 갈수록 좁아지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={64} title="곡률로 읽는 운동 에너지">
+  <Fragment slot="visual">
+    <Plot
+      alt="높이가 같은 두 사인 곡선. 파장이 절반인 곡선이 더 세게 굽는다"
+      x={[0, 12.6]} y={[-1.4, 1.4]}
+      xLabel="자리" yLabel="파동함수의 값"
+      xTicks={[]} yTicks={[0]}
+      curves={[
+        { fn: 'sin(x)', q: 'space', label: '긴 파장', labelAt: [0.3, 1.25] },
+        { fn: 'sin(2 * x)', q: 'energy', dash: true, label: '파장 절반', labelAt: [9.2, 1.25] },
+      ]}
+    />
+  </Fragment>
+
+지난 강에서 파동함수가 세게 굽을수록 그 입자의 운동 에너지가 크다는 걸 봤어요. 파장이 절반이면 곡률도 운동 에너지도 4배였죠.
+
+<S n={2}>
+
+그러니까 앞 화면의 운동 에너지 자리에 파동함수의 곡률을 넣을 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="부호 맞추기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '곡률', caption: '파동함수 값과 부호가 반대' },
+      { big: '− 곡률', caption: '파동함수 값과 부호가 같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+사인 모양 파동함수는 값과 반대 방향으로 굽었어요. 값이 0보다 클 때 곡률은 0보다 작죠.
+
+<S n={2}>
+
+그런데 운동 에너지는 0보다 커야 해요. 그래서 곡률 앞에 마이너스를 붙여 부호를 맞춰요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="단위를 맞추는 수">
+  <Fragment slot="visual">
+    <BigNumber top="곡률을 에너지로 바꾸는 수" value="ħ² ÷ 2m" bottom="ħ는 플랑크 상수 h를 2π로 나눈 값, 약 1.05 × 10⁻³⁴ J·s예요" q="energy" />
+  </Fragment>
+
+곡률을 에너지로 바꾸려면 단위를 맞추는 수가 하나 필요해요. 그 수는 ħ²을 2m으로 나눈 값이고, m은 입자의 질량이에요.
+
+<S n={2}>
+
+질량이 분모에 있으니, 같은 모양으로 굽어도 가벼운 입자일수록 운동 에너지가 커요. 전자처럼 가벼운 입자에서 이 효과가 두드러지는 까닭이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="슈뢰딩거 방정식">
+  <Fragment slot="visual">
+    <Define term="schrodinger-equation" />
+  </Fragment>
+
+곡률로 읽은 운동 에너지에 위치 에너지를 더하면 전체 에너지가 된다는 식을 **슈뢰딩거 방정식**이라고 불러요. 1926년 에르빈 슈뢰딩거가 처음 내놓았어요.
+
+<Key>슈뢰딩거 방정식은 파동함수가 자리마다 '곡률로 읽은 운동 에너지 + 위치 에너지 = 전체 에너지'를 만족해야 한다고 말하는 식이라서, 위치 에너지가 주어지면 파동함수가 어디서 얼마나 굽어야 하는지가 정해져요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="식을 한 조각씩">
+  <Fragment slot="visual">
+    <DataTable caption="슈뢰딩거 방정식의 세 조각" head={['조각', '뜻']} rows={[
+      ['−(ħ²/2m) × (ψ의 곡률)', '운동 에너지 × ψ'],
+      ['V × ψ', '위치 에너지 × ψ'],
+      ['E × ψ', '전체 에너지 × ψ'],
+    ]} />
+  </Fragment>
+
+세 조각을 한 줄에 놓으면 이런 식이 돼요.
+
+$$-\frac{\hbar^2}{2m}\,\frac{d^2\psi}{dx^2} + V\psi = E\psi$$
+
+<S n={2}>
+
+ψ(프사이)는 파동함수, V는 자리마다의 위치 에너지, E는 전체 에너지예요. d²ψ/dx²는 ψ를 자리 x로 두 번 미분했다는 뜻이라서, 곡률을 가리켜요.
+
+</S>
+
+<S n={3}>
+
+조각마다 ψ가 곱해져 있지만, 양쪽을 ψ로 나누면 '운동 에너지 + 위치 에너지 = 전체 에너지'가 남아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="숫자로 견주기">
+  <Fragment slot="visual">
+    <DataTable caption="전체 에너지가 5 eV인 전자" head={['자리', '위치 에너지', '운동 에너지', '파장']} rows={[
+      ['A', '1 eV', '4 eV', '약 0.61 nm'],
+      ['B', '4 eV', '1 eV', '약 1.23 nm'],
+    ]} steps={[undefined, 2]} />
+  </Fragment>
+
+전체 에너지가 5 eV인 전자로 해 볼게요. eV(전자볼트)는 원자 세계에서 쓰는 작은 에너지 단위로, 1 eV는 약 1.6 × 10⁻¹⁹ J이에요.
+
+자리 A의 위치 에너지가 1 eV라면 운동 에너지는 5 − 1 = 4 eV예요.
+
+<S n={2}>
+
+자리 B의 위치 에너지가 4 eV라면 운동 에너지는 1 eV로, A의 4분의 1이에요. 그래서 B에서는 곡률이 4분의 1로 줄고, 파장은 2배로 길어져요.
+
+</S>
+
+<S n={3}>
+
+감각으로 확인하면, 0.61 nm는 원자 두세 개를 늘어놓은 길이예요. 전자의 파동은 원자 크기에서 굽고 있는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="식을 따라 그려 보기">
+  <Fragment slot="visual">
+    <SimP08Shoot mode="step" e={1.2} />
+  </Fragment>
+
+이 그림은 슈뢰딩거 방정식이 시키는 대로, 왼쪽 끝에서부터 파동함수를 한 걸음씩 그려요. 전체 에너지 슬라이더를 움직여 보세요.
+
+<S n={2}>
+
+위치 에너지가 높은 오른쪽에서는 운동 에너지가 적어서 덜 굽고, 그래서 파장이 길어요. 전체 에너지를 높이면 양쪽 모두 운동 에너지가 늘어 파장이 짧아지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="높은 곳으로 넘어간 전자">
+
+<Check id="q65-wave" options={[
+  { t: '파장이 길어져요.', ok: true, why: '위치 에너지가 늘어난 만큼 운동 에너지가 줄어요. 운동 에너지가 작으면 곡률이 작아서 파동함수가 덜 굽고, 파장이 길어져요.' },
+  { t: '파장이 짧아져요.', why: '파장이 짧아지려면 운동 에너지가 커져야 해요. 위치 에너지가 높은 곳에서는 거꾸로 운동 에너지가 줄어요.' },
+  { t: '파장은 그대로예요.', why: '전체 에너지는 그대로지만, 그 가운데 운동 에너지 몫이 줄어요. 파장은 운동 에너지로 정해지니까 달라져요.' },
+  { t: '파동함수가 사라져요.', why: '전체 에너지가 그 자리의 위치 에너지보다 크니까 운동 에너지가 0보다 커요. 파동함수는 덜 굽지만 계속 이어져요.' },
+]}>
+
+전자가 위치 에너지가 낮은 곳에서 높은 곳으로 넘어가요. 전자의 전체 에너지는 높은 곳의 위치 에너지보다도 커요. 넘어간 뒤 파동함수는 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="빠르기 대신 굽는 세기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '구슬', caption: '운동 에너지가 크면 빨리 지나가요' },
+      { big: '파동함수', caption: '운동 에너지가 크면 세게 굽어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+고전 물리에서는 자리마다의 운동 에너지가 그 자리를 지나는 빠르기를 정했어요. 슈뢰딩거 방정식에서는 같은 운동 에너지가 파동함수가 굽는 세기를 정하죠.
+
+<S n={2}>
+
+그래서 이 식은 입자가 어디로 지나가는지 대신, 파동함수가 어떤 모양인지를 알려 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="식이 하는 일">
+  <Fragment slot="visual">
+    <Flow alt="위치 에너지가 주어지면 자리마다 굽는 세기가 정해지고, 그 규칙을 따라 파동함수의 모양이 그려진다" items={[
+      { t: '위치 에너지', sub: '문제가 주는 것' },
+      { t: '굽는 세기', sub: 'E − V로 정해져요', step: 2 },
+      { t: '파동함수의 모양', sub: '한 걸음씩 그려져요', step: 2 },
+    ]} />
+  </Fragment>
+
+위치 에너지가 주어지면, 식이 자리마다 파동함수가 얼마나 굽어야 하는지 알려 줘요.
+
+<S n={2}>
+
+그 규칙을 따라 한 걸음씩 그려 나가면 파동함수 전체가 나와요. 방금 본 그림도 이렇게 그렸고, 컴퓨터로 분자의 모양을 계산할 때도 이 생각에서 출발해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={20} title="양 끝이 묶인 줄">
+  <Fragment slot="visual">
+    <SimString n={2} />
+  </Fragment>
+
+그런데 식만으로는 전체 에너지가 얼마든 파동함수를 그릴 수 있어요. 실제로 어떤 에너지가 허락되는지는 끝자리의 조건이 정해요.
+
+<S n={2}>
+
+20강에서 양 끝이 묶인 기타 줄은 정해진 음만 냈죠. 끝에서 흔들림이 0이어야 해서, 반 파장이 딱 맞게 들어가는 모양만 남았거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="외울 것은 하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '운동 + 위치', caption: '자리마다 더해요' },
+      { big: '= 전체', caption: '어디서나 같은 값', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 기호가 많아서 이 식이 겁났어요. 그런데 이 강에서 가져갈 건 기호가 아니라 '운동 에너지 + 위치 에너지 = 전체 에너지'라는 생각 하나예요.
+
+나머지 기호는 그 생각을 정확하게 적으려고 붙은 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="1926년 취리히">
+  <Fragment slot="visual">
+    <BigNumber top="슈뢰딩거가 이 식을 담은 첫 논문을 낸 해" value="1926" bottom="같은 제목의 논문을 그해에 네 편 냈어요" />
+  </Fragment>
+
+슈뢰딩거는 취리히 대학 교수였던 1926년에 이 식을 내놓았어요. 전자도 파동이라는 드브로이의 물질파 생각에서 출발했죠.
+
+<S n={2}>
+
+첫 논문에서 이 식으로 수소 원자의 에너지 준위를 계산했는데, 보어 모형과 같은 값이 나왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="가정 대신 결과로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '보어 모형 (1913)', caption: '정해진 에너지만 허락된다고 가정해요' },
+      { big: '슈뢰딩거 방정식 (1926)', caption: '정해진 에너지가 계산에서 나와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+44강의 보어 모형은 전자가 정해진 에너지에만 있을 수 있다고 처음부터 가정했어요. 왜 그런지는 설명하지 못했죠.
+
+<S n={2}>
+
+슈뢰딩거 방정식에서는 그 정해진 에너지가 계산 결과로 나와요. 갇힌 파동은 끝자리 조건 때문에 정해진 모양만 될 수 있거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="어디서 나온 식일까">
+  <Fragment slot="visual">
+    <Flow cycle alt="식을 세우고, 예측하고, 실험으로 확인하는 고리" items={[
+      { t: '식을 세우기', sub: '물질파에서 짐작' },
+      { t: '예측', sub: '수소의 에너지 준위' },
+      { t: '확인', sub: '실험과 맞아요' },
+    ]} />
+  </Fragment>
+
+이 식은 더 기본적인 법칙에서 이끌어 낸 게 아니에요. 리처드 파인먼은 이 식이 "슈뢰딩거의 머릿속에서 나왔다"고 했어요.
+
+<S n={2}>
+
+그래도 우리가 이 식을 믿는 건 1강의 고리를 돌았기 때문이에요. 이 식으로 한 예측이 원자부터 분자까지 실험과 맞았거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="곡률이 든 조각">
+
+<Check id="q65-parts" options={[
+  { t: '운동 에너지', ok: true, why: '파동함수가 세게 굽을수록 운동 에너지가 커요. 그래서 곡률이 든 조각이 운동 에너지를 맡아요.' },
+  { t: '위치 에너지', why: '위치 에너지는 V × ψ 조각이에요. V는 자리마다 문제가 정해 주는 값이에요.' },
+  { t: '전체 에너지', why: '전체 에너지는 E × ψ 조각이에요. 어느 자리에서나 같은 값이에요.' },
+  { t: '입자를 찾을 확률', why: '확률은 파동함수 값의 크기를 제곱해서 얻어요. 곡률이 든 조각은 에너지를 나타내요.' },
+]}>
+
+슈뢰딩거 방정식에서 파동함수의 곡률이 들어 있는 조각은 무엇을 나타낼까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="용돈과 고정비">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['한 달 용돈 (어디서나 같아요)', '전체 에너지 E'],
+        ['동네마다 다른 고정비', '자리마다 다른 위치 에너지 V'],
+        ['쓰고 남는 돈', '운동 에너지 E − V'],
+        ['남는 돈이 많으면 씀씀이가 커요', '운동 에너지가 크면 파동함수가 세게 굽어요'],
+      ]}
+      fits="전체는 그대로이고, 자리마다 정해진 몫을 빼고 남는 만큼이 움직임에 쓰인다는 구조가 같아요."
+      breaks="돈은 모자라면 빚이 되지만, 파동함수에서는 위치 에너지가 전체 에너지보다 큰 곳에서 굽는 방향 자체가 뒤집혀요. 이건 67강에서 따로 봐요."
+    />
+  </Fragment>
+
+슈뢰딩거 방정식의 구조를 용돈에 빗대어 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="check" title="파장 어림하기">
+
+<Numeric id="q65-num" answer={0.61} tol={0.06} unit="nm">
+
+운동 에너지가 1 eV인 전자의 파장은 약 1.23 nm예요. 운동 에너지가 4 eV인 전자의 파장은 몇 nm일까요?
+
+<Fragment slot="solution">
+
+운동 에너지가 4배면 곡률도 4배라서 파장은 절반이 돼요. 1.23 ÷ 2 ≈ 0.61 nm예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['schrodinger-equation', 'curvature']}>
+
+1. 자리마다 운동 에너지와 위치 에너지를 더하면 늘 전체 에너지가 돼요.
+2. 파동함수에서는 운동 에너지를 곡률로 읽을 수 있으니, 그 자리에 곡률을 넣어요.
+3. 그렇게 쓴 '곡률로 읽은 운동 에너지 + 위치 에너지 = 전체 에너지'가 슈뢰딩거 방정식이에요.
+4. 그래서 위치 에너지가 높은 곳일수록 운동 에너지가 적어서, 파동함수가 덜 굽고 파장이 길어요.
+5. 어떤 에너지가 실제로 허락되는지는 끝자리 조건이 정해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="턱을 넘는 전자">
+
+<DailyProblem id="p65">
+
+전체 에너지가 3 eV인 전자가 위치 에너지 0인 곳에서 위치 에너지 2 eV인 턱 위로 올라가요.
+
+턱 위에서 파동함수의 파장은 처음보다 몇 배쯤 길어질까요?
+
+<Fragment slot="hint1">
+
+턱 위에서 운동 에너지는 처음의 몇 분의 1인가요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+곡률은 파장의 제곱에 반비례해요. 파장이 2배면 곡률은 4분의 1이었죠.
+
+</Fragment>
+<Fragment slot="solution">
+
+처음 운동 에너지는 3 eV이고, 턱 위에서는 3 − 2 = 1 eV라서 3분의 1이 돼요. 곡률도 3분의 1로 줄어요.
+
+곡률은 파장의 제곱에 반비례하니까, 파장은 √3배, 그러니까 약 1.7배 길어져요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+슈뢰딩거 방정식은 자리마다 '곡률로 읽은 운동 에너지 + 위치 에너지 = 전체 에너지'를 맞추라는 식이라서, 위치 에너지가 높은 곳일수록 파동함수가 덜 굽어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="벽 사이에 갇히면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '열린 길', caption: '어떤 에너지든 그릴 수 있어요' },
+      { big: '양쪽이 막힌 상자', caption: '벽에서 파동함수가 0이어야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘은 전체 에너지를 아무렇게나 골라도 파동함수를 그릴 수 있었어요. 그런데 입자를 벽 사이에 가두면, 벽에서 파동함수가 0이어야 해요.
+
+<S n={2}>
+
+다음 강에서는 이 조건 때문에 에너지가 정해진 값들로만 나뉜다는 걸 계산해요. 그 계산이 QLED TV 화면의 색까지 설명해 줘요.
+
+</S>
+
+</Screen>
