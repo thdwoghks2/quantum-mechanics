@@ -1,0 +1,434 @@
+---
+number: 32
+title: "플랑크의 가정: 덩어리로 오가는 에너지"
+short: 플랑크의 가정
+question: 진동수가 높은 진동은 왜 kT의 에너지를 받지 못할까요?
+mechanism: 플랑크는 진동수 f로 진동하는 것이 에너지를 hf 크기의 덩어리로만 주고받는다고 가정했어요. 그러면 hf가 kT보다 작은 낮은 진동수의 진동은 고전 계산처럼 거의 kT를 받지만, hf가 kT보다 훨씬 큰 높은 진동수의 진동은 볼츠만 분포에 따라 첫 덩어리조차 받기 어려워 에너지가 거의 0이에요. 그래서 흑체의 에너지가 무한대가 되지 않고, 계산한 곡선이 실제와 꼭 맞아요.
+part: 2
+year: 1900
+minutes: 23
+epigraph:
+  text: "그것은 절망 끝의 행동이었다."
+  by: 막스 플랑크
+  source: 로버트 우드에게 보낸 편지 (1931)
+assumes: [ultraviolet-catastrophe, boltzmann-distribution, equipartition, mode, blackbody, frequency, energy, joule, absolute-temperature, scientific-notation]
+introduces: [quantum, planck-constant]
+sources:
+  - "Planck, M. Zur Theorie des Gesetzes der Energieverteilung im Normalspectrum, Verhandlungen der Deutschen Physikalischen Gesellschaft 2 (1900), 1900년 12월 14일 발표"
+  - "Planck, M. Über eine Verbesserung der Wienschen Spectralgleichung (1900년 10월 19일 발표)"
+  - "Kragh, H. Max Planck: the reluctant revolutionary, Physics World (2000)"
+  - "Hermann, A. The Genesis of Quantum Theory (1971): 1931년 플랑크가 R. W. 우드에게 보낸 편지"
+  - "BIPM, SI Brochure (9th edition, 2019): 플랑크 상수 h = 6.62607015 × 10⁻³⁴ J·s로 킬로그램을 정의"
+testout: [q32-energy, q32-high, q32-n2]
+status: published
+---
+
+<Screen kind="recall" from={30} title="맞지 않는 높은 쪽">
+  <Fragment slot="visual">
+    <Plot
+      alt="5000 K 흑체의 실제 곡선과 고전 계산. 낮은 진동수에서는 겹치고 높은 진동수에서 크게 벌어진다"
+      x={[0, 1000]} y={[0, 2.5]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (실제 꼭대기를 1로)" xq="time" yq="energy"
+      xTicks={[0, 200, 400, 600, 800, 1000]} yTicks={[0, 1, 2]}
+      curves={[
+        { fn: 'x*x*6.48e-5 <= 2.55 ? x*x*6.48e-5 : NaN', q: 'force', dash: true, label: '고전 계산', labelAt: [210, 2.35] },
+        { fn: 'x*x*x/(exp(48*x/5000)-1)/1.607e6', q: 'heat', label: '실제', labelAt: [330, 1.12] },
+      ]}
+    />
+  </Fragment>
+
+30강에서 모드마다 kT를 준 고전 계산은 진동수가 낮은 쪽에서만 실제와 맞았어요. 높은 쪽에서는 무한대로 터졌죠.
+
+<S n={2}>
+
+실제 곡선을 보면, 진동수가 높은 모드는 kT보다 훨씬 적은 에너지만 받고 있었어요. 오늘은 그 까닭을 찾아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={25} title="높은 에너지는 드물어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0', caption: '흔해요' },
+      { big: 'kT', caption: '약 0.37배' },
+      { big: '5 kT', caption: '약 150분의 1', tone: 'accent' },
+    ]} arrows />
+  </Fragment>
+
+25강의 볼츠만 분포를 떠올려 보세요. 에너지가 kT만큼 높아질 때마다 그 상태에 있을 확률이 약 0.37배로 줄었어요.
+
+<S n={2}>
+
+그래서 kT보다 몇 배나 큰 에너지를 갖는 일은 아주 드물었죠. 이 사실이 오늘 열쇠가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="베를린의 플랑크">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1900년 10월', title: '막스 플랑크', caption: '베를린 대학의 이론물리학 교수' },
+      { big: '딱 맞는 식', title: '루벤스의 새 측정', caption: '플랑크의 식이 모든 진동수에서 맞았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1900년 베를린 대학의 막스 플랑크는 키르히호프의 숙제, 흑체의 곡선을 오래 붙들고 있었어요. 그해 10월 루벤스의 새 측정을 보고, 플랑크는 측정에 딱 맞는 식을 먼저 찾아냈어요.
+
+<S n={2}>
+
+10월 19일 플랑크가 이 식을 발표하자, 루벤스는 자기 측정과 견줘 보고 모든 진동수에서 꼭 맞는다는 걸 확인했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="맞는 식, 모르는 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '식', caption: '측정과 꼭 맞아요' },
+      { big: '까닭', caption: '왜 맞는지 아무도 몰라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+하지만 플랑크는 만족하지 못했어요. 식이 맞긴 한데, 그 식이 어떤 원리에서 나오는지 설명할 수 없었거든요.
+
+<S n={2}>
+
+1강에서 법칙은 왜 맞는지를 알아야 다른 곳에도 쓸 수 있었죠. 플랑크는 그 까닭을 찾으려고 두 달 동안 매달렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="12월 14일의 발표">
+  <Fragment slot="visual">
+    <BigNumber top="1900년 12월 14일, 독일 물리학회" value="E = hf" bottom="진동수 f인 진동은 에너지를 hf 크기의 덩어리로만 주고받는다" q="energy" />
+  </Fragment>
+
+1900년 12월 14일, 플랑크는 독일 물리학회에서 자기 식이 나오는 가정을 발표했어요. 흑체의 벽에서 진동수 f로 진동하는 것은 에너지를 hf 크기의 덩어리로만 주고받는다는 거예요.
+
+<S n={2}>
+
+그러니까 그 진동의 에너지는 0, hf, 2hf, 3hf … 처럼 계단으로만 바뀌어요. 고전물리학에서는 에너지가 얼마든지 잘게 바뀔 수 있었으니, 아주 낯선 가정이었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="양자라는 이름">
+  <Fragment slot="visual">
+    <Define term="quantum" />
+  </Fragment>
+
+이렇게 에너지가 오가는 가장 작은 덩어리를 **양자**라고 해요. "얼마만큼"이라는 뜻의 라틴어에서 온 말이에요.
+
+<S n={2}>
+
+진동수 f인 진동에서 양자 하나의 크기는 hf예요. 진동수가 높을수록 양자 하나가 커지는 거죠. 양자역학이라는 이름이 여기서 나왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="플랑크 상수">
+  <Fragment slot="visual">
+    <Define term="planck-constant" />
+  </Fragment>
+
+hf의 h를 **플랑크 상수**라고 해요. 측정에 맞게 정해 보니 h = 6.63 × 10⁻³⁴ J·s였어요. 단위 J·s는 에너지(J)를 진동수(1/s)로 나눈 단위예요.
+
+<S n={2}>
+
+3강에서 킬로그램을 정하는 수는 32강에서 만난다고 했죠. 2019년부터 킬로그램은 이 h의 값을 정확히 6.62607015 × 10⁻³⁴로 못 박아 정해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="양자 하나의 크기">
+  <Fragment slot="visual">
+    <DataTable caption="양자 하나의 에너지 E = hf (h = 6.63 × 10⁻³⁴ J·s)" head={['진동', '진동수', '양자 하나']} rows={[
+      ['FM 라디오 전파', '1 × 10⁸ Hz', '약 7 × 10⁻²⁶ J'],
+      ['적외선', '3 × 10¹³ Hz', '약 2 × 10⁻²⁰ J'],
+      ['초록빛', '6 × 10¹⁴ Hz', '약 4 × 10⁻¹⁹ J'],
+      ['X선', '1 × 10¹⁸ Hz', '약 7 × 10⁻¹⁶ J'],
+    ]} steps={[undefined, undefined, 2, 2]} />
+  </Fragment>
+
+양자 하나의 크기를 계산해 볼게요. 초록빛은 1초에 6 × 10¹⁴번 진동하니까, hf = 6.63 × 10⁻³⁴ × 6 × 10¹⁴ ≈ 4 × 10⁻¹⁹ J이에요.
+
+<S n={2}>
+
+진동수가 1,000만 배 높으면 양자도 1,000만 배 커요. FM 전파의 양자는 아주 작고, X선의 양자는 아주 크죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="빛 양자의 크기">
+
+<Numeric id="q32-energy" answer={3.3e-19} tol={0.03} unit="J">
+
+1초에 5 × 10¹⁴번 진동하는 빛이 있어요. 플랑크의 가정에서 이 진동수의 에너지 덩어리, 양자 하나의 크기는 몇 J일까요? (h = 6.63 × 10⁻³⁴ J·s, 3.3e-19처럼 입력)
+
+<Fragment slot="solution">
+
+E = hf = 6.63 × 10⁻³⁴ × 5 × 10¹⁴ = 33.15 × 10⁻²⁰ ≈ 3.3 × 10⁻¹⁹ J이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="analogy" title="큰 지폐만 받는 저금통">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['친구들끼리 오가는 잔돈 (평균 500원쯤)', '분자들이 주고받는 에너지 (평균 kT쯤)'],
+        ['100원 단위로 받는 저금통', '진동수가 낮은 진동 (hf가 kT보다 작아요)'],
+        ['5만 원짜리 지폐만 받는 저금통', '진동수가 높은 진동 (hf가 kT보다 훨씬 커요)'],
+        ['큰 지폐 저금통은 거의 늘 비어 있어요', '높은 진동수의 진동은 에너지가 거의 0이에요'],
+      ]}
+      fits="오가는 돈이 대개 잔돈이면, 큰 단위만 받는 저금통에는 들어갈 기회가 거의 없어요. 덩어리가 클수록 비어 있기 쉬워요."
+      breaks="돈은 모아 두었다가 한꺼번에 낼 수 있지만, 에너지는 볼츠만 분포에 따라 확률로 오가요. 그리고 저금통과 달리 진동은 받은 에너지를 다시 내놓기도 해요."
+    />
+  </Fragment>
+
+친구들끼리 잔돈이 제멋대로 오간다고 해 볼게요. 100원 단위로 받는 저금통에는 돈이 곧잘 모이지만, 5만 원짜리 지폐만 받는 저금통은 거의 늘 비어 있겠죠.
+
+<S n={2}>
+
+분자들이 주고받는 에너지는 대개 kT쯤이에요. 그러니 hf가 kT보다 훨씬 큰 진동은 첫 덩어리조차 받기가 아주 어려워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="hf와 kT 견주기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'hf ≪ kT', title: '진동수가 낮을 때', caption: '계단이 촘촘해 고전 계산처럼 거의 kT' },
+      { big: 'hf ≫ kT', title: '진동수가 높을 때', caption: '첫 계단도 오르기 어려워 거의 0', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+결국 hf와 kT 가운데 무엇이 큰지가 갈라요. 진동수가 낮아 hf가 kT보다 훨씬 작으면, 계단이 아주 촘촘해서 에너지가 고전 계산처럼 거의 매끄럽게 오가요.
+
+<S n={2}>
+
+진동수가 높아 hf가 kT보다 훨씬 크면, 첫 계단에 오를 확률조차 볼츠만 분포에 따라 아주 작아요. 그 진동은 거의 늘 에너지 0에 머물러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="계단 간격 바꾸기">
+  <Fragment slot="visual">
+    <SimP02Ladder r={0.3} />
+  </Fragment>
+
+에너지 계단이에요. 막대는 계단마다 그 에너지에 있을 확률이고, 주황 선은 평균 에너지, 점선은 고전 계산의 kT예요. 계단 간격 hf를 0.1 kT에서 5 kT까지 늘려 보세요.
+
+<S n={2}>
+
+간격이 작으면 평균이 거의 kT예요. 간격이 kT의 서너 배를 넘으면 거의 맨 아래 계단에만 머물러서, 평균 에너지가 0에 가까워지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="플랑크의 곡선">
+  <Fragment slot="visual">
+    <Plot
+      alt="고전 계산과 플랑크의 식. 낮은 진동수에서는 둘이 같고, 높은 진동수에서 플랑크의 식은 꺾여 내려와 실제 곡선과 겹친다"
+      x={[0, 1000]} y={[0, 2.5]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (꼭대기를 1로)" xq="time" yq="energy"
+      xTicks={[0, 200, 400, 600, 800, 1000]} yTicks={[0, 1, 2]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: 'x*x*6.48e-5 <= 2.55 ? x*x*6.48e-5 : NaN', q: 'force', dash: true, label: '모드마다 kT', labelAt: [210, 2.35] },
+        { fn: 'x*x*x/(exp(48*x/5000)-1)/1.607e6', q: 'energy', step: 2, label: '플랑크의 식', labelAt: [360, 1.12] },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+점선은 모드마다 kT를 준 고전 계산이에요.
+
+</S>
+
+<S n={2}>
+
+모드 수는 그대로 두고 모드마다 플랑크의 평균 에너지를 주면, 높은 진동수에서 곡선이 꺾여 내려와요. 흑체에서 실제로 잰 곡선과 꼭 겹치는 곡선이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="자외선 파탄이 사라져요">
+  <Fragment slot="visual">
+    <BigNumber top="플랑크의 가정으로 계산한 흑체의 에너지" value="유한한 값" bottom="무한대가 사라졌어요" q="energy" />
+  </Fragment>
+
+진동수가 높은 모드는 끝없이 많지만, 그 모드들은 거의 다 에너지 0에 머물러요. 그래서 다 더해도 유한한 값이 나와요.
+
+<Key>에너지가 hf 덩어리로만 오가면, 진동수가 높은 진동은 kT보다 훨씬 큰 첫 덩어리조차 받기 어려워 에너지가 거의 0이니까, 흑체의 에너지는 무한대가 되지 않고 실제 곡선과 꼭 맞아요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="높은 진동수의 진동">
+
+<Check id="q32-high" options={[
+  { t: '양자 하나 hf가 kT보다 훨씬 커서, 첫 덩어리를 받을 확률이 아주 작으니까', ok: true, why: '볼츠만 분포에 따라 kT보다 몇 배 큰 에너지는 아주 드물어요. 그래서 그 진동은 거의 늘 0에 머물러요.' },
+  { t: '진동수가 높은 진동은 상자 속에 몇 개 없으니까', why: '29강에서 봤듯 진동수가 높을수록 모드는 오히려 더 많아요.' },
+  { t: '진동수가 높으면 에너지가 저절로 사라지니까', why: '에너지는 사라지지 않아요. 애초에 거의 받지 못하는 거예요.' },
+  { t: '진동수가 높은 진동에는 kT가 더 크게 돌아가니까', why: '그렇다면 자외선 파탄이 더 심해져요. 실제로는 거의 0을 받아요.' },
+]}>
+
+플랑크의 가정에서, 진동수가 높은 진동이 kT보다 훨씬 적은 에너지만 갖는 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="질소의 떨기도 같아요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '약 70조 Hz', title: '질소 분자의 떨기', caption: '양자 하나 약 4.6 × 10⁻²⁰ J' },
+      { big: '약 4 × 10⁻²¹ J', title: '300 K의 kT', caption: '양자보다 열 배 넘게 작아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+26강과 31강의 구름 하나, 질소 분자의 떨기도 같은 까닭이에요. 질소의 떨기는 1초에 약 70조 번 진동해서, 양자 하나가 약 4.6 × 10⁻²⁰ J이에요.
+
+<S n={2}>
+
+방 온도의 kT는 약 4 × 10⁻²¹ J로 그보다 열 배 넘게 작아요. 그래서 떨기 자리는 첫 덩어리를 거의 못 받고, 등분배의 예측과 어긋났던 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="양자는 kT의 몇 배">
+
+<Numeric id="q32-n2" answer={11} tol={0.08} unit="배">
+
+질소 분자의 떨기는 1초에 약 7 × 10¹³번 진동해요. 이 떨기의 양자 하나 hf는 300 K의 kT(약 4.1 × 10⁻²¹ J)의 몇 배일까요? (h = 6.63 × 10⁻³⁴ J·s)
+
+<Fragment slot="solution">
+
+hf = 6.63 × 10⁻³⁴ × 7 × 10¹³ ≈ 4.6 × 10⁻²⁰ J이에요. 이걸 4.1 × 10⁻²¹ J로 나누면 약 11배예요. 그래서 방 온도에서는 떨기가 거의 일어나지 않아요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="빛도 덩어리일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '플랑크의 생각 (1900)', caption: '벽의 진동이 에너지를 주고받는 방식만 덩어리' },
+      { big: '아인슈타인의 생각 (1905)', caption: '빛 자체가 덩어리 (35강)', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 여기서 빛이 덩어리라는 말인 줄 알았어요. 그런데 플랑크는 그렇게 보지 않았어요.
+
+플랑크는 벽의 진동이 에너지를 주고받는 방식만 덩어리라고 봤고, 빛 자체는 여전히 파동이라고 생각했어요. 빛 자체가 덩어리라고 처음 주장한 사람은 1905년의 아인슈타인이에요(35강).
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="망설인 혁명가">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1900', caption: '플랑크의 가정' },
+      { big: '1900~1910년대', caption: '플랑크는 고전물리학 안에서 설명하려고 애썼어요' },
+      { big: '1918', caption: '노벨 물리학상', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+플랑크 자신은 이 가정을 식을 얻기 위한 임시방편으로 여겼어요. 1931년의 한 편지에서는 이 가정을 "절망 끝의 행동"이었다고 돌아봤죠.
+
+<S n={2}>
+
+그 뒤 여러 해 동안 플랑크는 양자를 고전물리학 안에서 설명하려고 애썼지만 끝내 그러지 못했어요. 그래도 그가 연 문은 닫히지 않았고, 1918년 노벨 물리학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['quantum', 'planck-constant']}>
+
+1. 플랑크는 진동수 f인 진동이 에너지를 hf 덩어리, 곧 양자로만 주고받는다고 가정했어요.
+2. hf가 kT보다 작은 낮은 진동수에서는 계단이 촘촘해서 거의 kT를 받아요.
+3. hf가 kT보다 훨씬 큰 높은 진동수에서는 첫 덩어리를 받을 확률이 아주 작아 에너지가 거의 0이에요.
+4. 그래서 흑체의 에너지가 무한대가 되지 않고, 계산한 곡선이 실제와 꼭 맞아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="뜨거울수록 높은 진동수까지">
+
+<DailyProblem id="p32">
+
+28강에서 흑체를 뜨겁게 할수록 가장 세게 나오는 빛의 진동수가 높아졌어요(빈의 법칙).
+
+플랑크의 가정으로 이 사실을 설명해 보세요. 온도가 오르면 kT와 hf의 관계가 어떻게 달라지는지 생각해 보세요.
+
+<Fragment slot="hint1">
+
+온도가 2배가 되면 kT도 2배예요. 그러면 hf가 kT보다 작은, 그러니까 에너지를 넉넉히 받는 진동의 진동수는 어디까지 넓어질까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+온도가 오르면 kT가 커져요. 그러면 hf가 kT와 비슷한 진동, 그러니까 덩어리를 받을 수 있는 진동의 진동수도 커지죠.
+
+그래서 더 높은 진동수의 모드까지 에너지를 받아 빛을 내게 되고, 가장 센 진동수도 kT에 비례해 높아져요. 빈의 법칙이 플랑크의 가정에서 저절로 나와요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+진동수 f인 진동이 에너지를 hf 덩어리로만 주고받는다면 hf가 kT보다 큰 진동은 거의 에너지를 못 받으니까, 자외선 파탄이 사라지고 흑체의 곡선이 꼭 맞아요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="그네의 에너지도 덩어리일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'swing', title: '그네', caption: '에너지가 매끄럽게 바뀌는 것처럼 보여요' },
+      { big: 'h = 6.63 × 10⁻³⁴', caption: '얼마나 작은 수일까요' },
+    ]} />
+  </Fragment>
+
+플랑크의 가정이 맞다면, 진동하는 건 무엇이든 에너지를 덩어리로 주고받아야 해요. 그런데 그네를 밀 때 에너지가 뚝뚝 끊겨 바뀌는 걸 본 사람은 없죠.
+
+<S n={2}>
+
+다음 강에서는 h가 얼마나 작은 수인지 계산해서, 일상에서 에너지 덩어리가 왜 보이지 않는지 따져 볼게요.
+
+</S>
+
+</Screen>

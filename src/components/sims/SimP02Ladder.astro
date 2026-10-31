@@ -1,0 +1,87 @@
+---
+/**
+ * 32강: 플랑크의 가정. 진동수 f인 진동은 에너지를 hf 덩어리로만 가질 수 있다(0, hf, 2hf …).
+ * 온도 T에서 각 계단에 있을 확률은 볼츠만 분포를 따른다. 계단 간격 hf가 kT보다 작으면 평균 에너지가 kT에 가깝고,
+ * 훨씬 크면 첫 계단에도 거의 못 올라가 평균 에너지가 0에 가깝다.
+ */
+interface Props {
+  r?: number;
+}
+const { r = 0.3 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-ladder class="sim" data-ratio="0.72" data-autoplay="false">
+  <canvas aria-label="에너지 계단. 계단마다 그 에너지에 있을 확률이 막대로 보인다. 계단 간격이 kT보다 크면 거의 맨 아래 계단에만 머문다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`ld-r-${uid}`}>계단 간격 hf</label>
+      <input id={`ld-r-${uid}`} type="range" min="0.1" max="5" step="0.1" value={r} data-param="r" />
+      <output data-out="r"></output>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-ladder>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const TOP = 6; // kT 단위로 그릴 높이
+
+  class SimLadder extends Sim {
+    animated = false;
+
+    avg() {
+      const r = this.p.r!;
+      return r / Math.expm1(r);
+    }
+
+    format() {
+      return `${this.p.r!.toFixed(1)} kT`;
+    }
+
+    readout() {
+      const r = this.p.r!;
+      const p0 = 1 - Math.exp(-r);
+      return `계단 간격 hf = ${r.toFixed(1)} kT · 맨 아래 계단에 있을 확률 ${(p0 * 100).toFixed(0)}% · 평균 에너지 ${this.avg().toFixed(2)} kT (고전 계산은 늘 1 kT)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const r = this.p.r!;
+      const left = 54;
+      const right = w - 16;
+      const bot = h - 20;
+      const top = 16;
+      const Y = (e: number) => bot - (e / TOP) * (bot - top);
+      this.line(left, bot, left, top, c.text2, 1);
+      this.text('에너지', 6, top + 4, c.muted, 10);
+      this.text('0', left - 8, bot, c.muted, 10, 'right');
+      this.text('kT', left - 8, Y(1), c.text2, 11, 'right');
+      // 고전 계산의 평균 kT
+      g.setLineDash([5, 4]);
+      this.line(left, Y(1), right, Y(1), c.muted, 1);
+      g.setLineDash([]);
+      // 계단과 확률 막대
+      const p0 = 1 - Math.exp(-r);
+      const barMax = right - left - 70;
+      for (let n = 0; n * r <= TOP + 1e-9; n++) {
+        const e = n * r;
+        const y = Y(e);
+        this.line(left, y, left + 40, y, c.energy, 2);
+        const p = p0 * Math.exp(-n * r);
+        const len = Math.max(1, p * barMax);
+        g.fillStyle = c.energy;
+        g.globalAlpha = 0.45;
+        g.fillRect(left + 48, y - 3, len, 6);
+        g.globalAlpha = 1;
+        if (r >= 0.6 && n <= 4) this.text(n === 0 ? '0' : `${n}hf`, left + 44 + len + 8, y, c.text2, 10);
+      }
+      // 평균 에너지
+      const ya = Y(this.avg());
+      this.line(left, ya, right, ya, c.accent, 2);
+      this.text(`평균 ${this.avg().toFixed(2)} kT`, right, ya - 9, c.accent, 11, 'right');
+    }
+  }
+  define('qm-sim-ladder', SimLadder);
+</script>
