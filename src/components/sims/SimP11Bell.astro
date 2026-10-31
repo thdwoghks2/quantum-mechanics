@@ -53,6 +53,7 @@ const { mode = 'quantum', same = false, controls = true } = Astro.props;
         btn.addEventListener('click', () => {
           const k = Number(btn.dataset.run);
           for (let i = 0; i < k; i++) this.runOne();
+          this.renderOutputs();
           this.frame();
         });
       }
@@ -110,8 +111,8 @@ const { mode = 'quantum', same = false, controls = true } = Astro.props;
       g.strokeRect(x - bw / 2, y - bh / 2, bw, bh);
       this.text(`장치 ${name}`, x, y - bh / 2 - 10, c.text2, 12, 'center');
       // 방향 1, 2, 3을 120°씩 벌어진 바늘로
-      const r = bh * 0.26;
-      const cy = y - bh * 0.12;
+      const r = bh * 0.22;
+      const cy = y - bh * 0.06;
       for (let k = 0; k < 3; k++) {
         const ang = -Math.PI / 2 + (k * 2 * Math.PI) / 3;
         const on = setting === k;
