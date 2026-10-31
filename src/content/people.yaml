@@ -489,3 +489,13 @@
   lessons: [122]
   sources:
     - "Tomonaga, S. Progress of Theoretical Physics 1, 27 (1946)"
+- id: yukawa
+  name: 유카와 히데키
+  original: 湯川秀樹 (Hideki Yukawa)
+  born: 1907
+  died: 1981
+  role: 일본의 이론물리학자
+  summary: 1935년, 원자핵을 묶는 힘이 원자핵 크기에서만 닿는다는 데서 그 힘을 나르는 입자가 전자의 200배쯤 무거워야 한다고 예측했어요. 1947년 그 입자 파이온이 발견됐고, 1949년 일본 사람으로는 처음 노벨 물리학상을 받았어요.
+  lessons: [123]
+  sources:
+    - "Yukawa, H. Proceedings of the Physico-Mathematical Society of Japan 17, 48 (1935)"
