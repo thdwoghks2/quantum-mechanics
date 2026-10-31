@@ -13,4 +13,5 @@ export default {
   's5-snowflake': '<path d="M32 4v56M8 18l48 28M8 46l48-28"/><path d="M26 10l6 6 6-6M26 54l6-6 6 6M10 26l8-2-2-8M54 38l-8 2 2 8M10 38l8 2-2 8M54 26l-8-2 2-8"/>',
   's5-square': '<rect x="16" y="16" width="32" height="32"/><path d="M32 6a26 26 0 0 1 26 26" stroke-dasharray="3 3"/><path d="M52 26l6 6 4-8"/>',
   's5-mirror': '<path d="M32 4v56" stroke-dasharray="4 3"/><path d="M26 18c-10 0-16 8-16 14s6 14 16 14M38 18c10 0 16 8 16 14s-6 14-16 14"/><circle cx="20" cy="28" r="2" fill="currentColor"/><circle cx="44" cy="28" r="2" fill="currentColor"/>',
+  's5-blackboard': '<rect x="4" y="8" width="56" height="38" rx="2"/><path d="M10 18c4-3 6 3 10 0M24 16h8M36 18l4-4 4 4M10 28h14M28 30c3-4 7 4 10 0M44 26h10M10 38h8M22 36l6 4M34 38h16"/><path d="M14 46l-4 12M50 46l4 12"/>',
 };
