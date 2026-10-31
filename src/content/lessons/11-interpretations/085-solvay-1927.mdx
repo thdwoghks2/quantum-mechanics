@@ -1,0 +1,468 @@
+---
+number: 85
+title: 1927 솔베이 회의
+short: 1927 솔베이 회의
+question: 아인슈타인은 불확정성 원리를 어떻게 피해 가려 했고, 보어는 어떻게 막아 냈을까요?
+mechanism: 아인슈타인은 두 틈이 뚫린 판이 전자에게 받는 반동을 재면, 전자가 어느 틈으로 지났는지 알면서도 간섭 무늬까지 볼 수 있다고 생각했어요. 보어는 반동을 가려낼 만큼 판의 운동량을 정확히 알려면, 불확정성 원리 때문에 판의 위치가 무늬 간격보다 크게 흐려진다고 반박했어요. 판의 위치가 흐려지면 무늬가 번져 사라지니, 길과 무늬는 끝내 함께 볼 수 없어요.
+part: 11
+minutes: 20
+assumes: [uncertainty-principle, complementarity, copenhagen-interpretation, momentum, momentum-conservation, double-slit, fringe, interference, electron, probability]
+introduces: []
+sources:
+  - "Bohr, N. Discussion with Einstein on Epistemological Problems in Atomic Physics. In P. A. Schilpp (ed.), Albert Einstein: Philosopher-Scientist (1949)"
+  - "Einstein, A. 막스 보른에게 보낸 편지, 1926년 12월 4일. The Born-Einstein Letters (1971)"
+  - "Heisenberg, W. Der Teil und das Ganze (1969). 솔베이 회의 동안의 아침과 저녁 토론에 관한 회고"
+  - "Bacciagaluppi, G. & Valentini, A. Quantum Theory at the Crossroads: Reconsidering the 1927 Solvay Conference (Cambridge University Press, 2009)"
+  - "Instituts Internationaux de Physique et de Chimie Solvay. Électrons et Photons: Rapports et discussions du cinquième Conseil de physique (1928)"
+testout: [q85-a, q85-b, q85-c]
+status: published
+---
+
+<Screen kind="scene" title="브뤼셀, 1927년 10월">
+  <Fragment slot="visual">
+    <BigNumber top="제5회 솔베이 회의, 벨기에 브뤼셀" value="1927년 10월 24~29일" bottom="주제는 '전자와 광자'" />
+  </Fragment>
+
+지난 강 끝에서 예고한 대로, 1927년 10월 벨기에 브뤼셀에 물리학자들이 모였어요. 기업가 에르네스트 솔베이가 세운 재단이 연 회의였어요.
+
+<S n={2}>
+
+주제는 "전자와 광자"였어요. 막 태어난 양자역학을 어떻게 받아들일지가 이 회의의 큰 물음이었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="사진 한 장">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '29명', caption: '단체 사진에 찍힌 사람' },
+      { big: '17명', caption: '이미 받았거나 나중에 노벨상을 받은 사람', tone: 'accent' },
+      { big: '1명', caption: '노벨상을 두 분야에서 받은 마리 퀴리' },
+    ]} />
+  </Fragment>
+
+이 회의의 단체 사진에는 29명이 찍혀 있어요. 그 가운데 17명이 이미 노벨상을 받았거나 나중에 받았어요.
+
+<S n={2}>
+
+마리 퀴리는 사진 속 유일한 여성이었어요. 물리학상과 화학상을 모두 받은 사람이기도 하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="두 사람">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '닐스 보어', caption: '코모에서 상보성을 말한 사람' },
+      { big: '알베르트 아인슈타인', caption: '광자를 처음 내놓은 사람', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 회의가 지금까지 기억되는 건 두 사람 때문이에요. 한 사람은 한 달 전 코모에서 상보성을 말한 닐스 보어예요.
+
+<S n={2}>
+
+다른 한 사람은 알베르트 아인슈타인이에요. 1905년 빛이 광자라는 덩어리로 오간다고 처음 말한 사람이라, 양자역학의 출발점에 서 있던 사람이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="주사위를 던지지 않는다">
+  <Fragment slot="visual">
+    <BigNumber top="아인슈타인이 막스 보른에게 보낸 편지, 1926년 12월" value="“그는 주사위를 던지지 않는다고 저는 확신해요”" bottom="여기서 '그'는 자연의 법칙을 정한 존재를 빗댄 말이에요" />
+  </Fragment>
+
+그런데 아인슈타인은 양자역학이 마음에 들지 않았어요. 회의 1년 전, 친구 막스 보른에게 보낸 편지에 그 마음이 남아 있어요.
+
+<S n={2}>
+
+이 이론이 많은 걸 설명한다고 인정하면서도, "그는 주사위를 던지지 않는다"고 적었어요. 자연의 법칙이 확률로 끝날 리 없다는 뜻이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="불만의 정체">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '틀렸다', caption: '아인슈타인이 한 말이 아니에요', tone: 'no' },
+      { big: '완전하지 않다', caption: '아인슈타인이 오래 붙든 생각이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인은 양자역학의 계산이 틀렸다고 하지 않았어요. 실험과 잘 맞는다는 건 그도 알고 있었거든요.
+
+<S n={2}>
+
+그가 문제 삼은 건 이 이론이 **완전하냐**는 거였어요. 확률 뒤에 더 자세한 설명이 숨어 있어야 한다고 봤죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="아침과 저녁">
+  <Fragment slot="visual">
+    <Flow cycle alt="아침에 아인슈타인이 사고 실험을 내놓고, 낮 동안 보어가 따져 보고, 저녁에 반박하는 고리" items={[
+      { t: '아침', sub: '아인슈타인의 사고 실험' },
+      { t: '낮', sub: '보어와 동료들이 따져 봐요' },
+      { t: '저녁', sub: '보어의 반박' },
+    ]} />
+  </Fragment>
+
+하이젠베르크의 회고에 따르면, 두 사람의 논쟁은 회의장보다 호텔 식당에서 더 뜨거웠어요. 아인슈타인이 아침마다 새 사고 실험을 들고 왔거든요.
+
+<S n={2}>
+
+보어와 동료들은 낮 내내 그 실험을 따져 봤어요. 저녁이면 보어가 그 실험의 어디가 틀렸는지 설명했다고 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={61} title="함께 정할 수 없는 두 값">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '위치를 정확히', caption: '운동량이 크게 흐려져요' },
+      { big: '운동량을 정확히', caption: '위치가 크게 흐려져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인이 겨눈 건 61강의 불확정성 원리였어요. 어떤 물체든 위치와 운동량을 동시에 정확히 정할 수는 없다는 원리였죠.
+
+<S n={2}>
+
+위치를 더 정확히 정하면 운동량이 더 흐려지고, 운동량을 더 정확히 정하면 위치가 더 흐려져요. 두 흐림을 곱한 값은 어떤 한계보다 작아질 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={7} title="밀면 밀려요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'skaters', title: '얼음 위의 두 사람', caption: '서로 밀면 둘 다 반대로 미끄러져요' },
+      { icon: 'slits', title: '판과 전자', caption: '전자가 휘면 판도 반대로 밀려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+사고 실험에는 7강의 운동량 보존도 쓰여요. 얼음 위에서 두 사람이 서로 밀면, 둘 다 반대 방향으로 미끄러지죠.
+
+<S n={2}>
+
+두 운동량을 더한 값이 처음과 같아야 하기 때문이에요. 전자가 판의 틈을 지나며 방향을 바꾸면, 판도 그만큼 반대로 밀려요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="움직이는 판">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'spark', title: '전자 하나', caption: '판으로 날아가요' },
+      { icon: 'slits', title: '용수철에 매단 판', caption: '틈 A와 틈 B가 있어요', tone: 'accent' },
+      { icon: 'field', title: '스크린', caption: '전자가 점을 찍어요' },
+    ]} />
+  </Fragment>
+
+보어가 1949년에 남긴 회고에 따르면, 두 사람은 이런 장치를 두고 이야기했어요. 두 틈이 뚫린 판을 단단히 고정하지 않고, 약한 용수철에 매달아 둬요.
+
+<S n={2}>
+
+그러면 판은 전자에게 받은 작은 반동만큼 움직일 수 있어요. 이 반동을 재 보자는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="반동이 알려 주는 길">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '틈 A로 지나면', caption: '판이 받는 반동 ①' },
+      { big: '틈 B로 지나면', caption: '판이 받는 반동 ②', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자가 스크린의 같은 점에 닿더라도, 틈 A로 지났는지 틈 B로 지났는지에 따라 꺾이는 각도가 조금 달라요. 그래서 판이 받는 반동도 조금 달라요.
+
+<S n={2}>
+
+판의 반동을 재면 전자가 어느 틈을 지났는지 알 수 있다는 거죠. 그러면서 스크린에 찍히는 점들로 무늬도 볼 수 있다는 게 아인슈타인 쪽의 생각이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그게 되면 무너지는 것">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길', caption: '판의 반동으로 알아내요' },
+      { big: '+', caption: '' },
+      { big: '무늬', caption: '스크린의 점으로 봐요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이게 된다면 상보성이 무너져요. 길을 보는 실험과 무늬를 보는 실험을 한 번에 한 셈이니까요.
+
+<S n={2}>
+
+그러면 전자는 사실 정해진 길로 갔고, 양자역학은 그 길을 다 말하지 못한 불완전한 이론이 되겠죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="사고 실험의 노림수">
+
+<Check id="q85-a" options={[
+  { t: '양자역학의 계산 결과가 실험과 다르다는 걸 보이려 했어요.', why: '아인슈타인도 계산이 실험과 맞는다는 건 인정했어요. 노린 건 계산이 아니라 이론이 완전한지였어요.' },
+  { t: '판의 반동으로 길을 알아내면서 간섭 무늬도 함께 볼 수 있다는 걸 보이려 했어요.', ok: true, why: '맞아요. 그게 된다면 길과 무늬를 함께 볼 수 없다는 상보성이 깨지고, 양자역학이 말하지 못한 정해진 길이 있다는 뜻이 돼요.' },
+  { t: '전자가 두 틈을 동시에 지난다는 걸 보이려 했어요.', why: '반대예요. 아인슈타인은 전자가 한 틈만 지났다는 걸 반동으로 알아낼 수 있다고 봤어요.' },
+  { t: '운동량 보존이 틀렸다는 걸 보이려 했어요.', why: '이 사고 실험은 운동량 보존을 이용해요. 반동을 재서 길을 알아낸다는 생각이 운동량 보존에서 나와요.' },
+]}>
+
+두 틈이 뚫린 판을 용수철에 매달고, 판이 전자에게 받는 반동을 재자는 사고 실험이 있어요. 이 사고 실험으로 아인슈타인 쪽이 보이려 한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="보어의 반박 1">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '반동 ①', caption: '' },
+      { big: '반동 ②', caption: '차이가 아주 작아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+보어는 반동을 재는 일부터 따져 봤어요. 반동 ①과 ②의 차이는 전자 하나가 주는 아주 작은 차이예요.
+
+<S n={2}>
+
+그 차이를 가려내려면, 전자가 오기 전 판의 운동량을 그 차이보다 더 정확히 알고 있어야 해요. 처음 운동량이 흐리면 반동이 묻혀 버리거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="보어의 반박 2">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '판의 운동량', caption: '아주 정확히 정해요' },
+      { big: '판의 위치', caption: '불확정성 원리 때문에 흐려져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+여기서 불확정성 원리가 판에도 똑같이 적용돼요. 판의 운동량을 그렇게 정확히 정하면 판의 위치가 흐려지죠.
+
+<S n={2}>
+
+보어가 계산해 보니, 그 흐림은 스크린에 생길 무늬의 간격보다 커야 했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="번지는 무늬">
+  <Fragment slot="visual">
+    <Plot
+      alt="스크린 위 자리에 따른 밝기. 판이 고정되면 밝고 어두운 줄이 번갈아 나오고, 판의 위치가 무늬 간격보다 크게 흐려지면 밝기가 고르게 번진다"
+      x={[-2, 2]} y={[0, 2.2]}
+      xLabel="스크린 위의 자리 (무늬 간격 단위)" yLabel="밝기 (상대값)"
+      xTicks={[-2, -1, 0, 1, 2]} yTicks={[0, 1, 2]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: '1 + cos(2*PI*x)', q: 'space', label: '판이 고정되면', labelAt: [0.15, 2.08], step: 2 },
+        { fn: '1', q: 'plain', dash: true, label: '판이 흐리게 흔들리면', labelAt: [0.6, 0.86], step: 3 },
+      ]}
+    />
+  </Fragment>
+
+가로축은 스크린 위의 자리이고, 1칸이 무늬 간격 하나예요. 세로축은 그 자리에 전자가 얼마나 많이 찍히는지예요.
+
+<S n={2}>
+
+판이 고정되어 있으면 밝은 줄과 어두운 줄이 번갈아 나와요.
+
+</S>
+
+<S n={3}>
+
+판의 위치가 무늬 간격보다 크게 흐려지면, 전자마다 밝은 줄의 자리가 달라져요. 그래서 다 모으면 무늬가 번져서 고른 밝기만 남아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="길을 얻으면 무늬를 잃어요">
+  <Fragment slot="visual">
+    <Flow alt="판의 반동을 재려면 운동량을 정확히 알아야 하고, 그러면 판의 위치가 흐려지고, 그래서 무늬가 번진다는 사슬" items={[
+      { t: '반동을 재요', sub: '길을 알아내려고' },
+      { t: '판의 위치가 흐려져요', sub: '불확정성 원리', step: 2 },
+      { t: '무늬가 번져요', sub: '상보성은 지켜져요', step: 2 },
+    ]} />
+  </Fragment>
+
+결국 판의 반동으로 길을 알아내는 순간, 무늬는 사라져요. 아인슈타인의 장치에서도 상보성은 지켜졌어요.
+
+<S n={2}>
+
+<Key>길을 알아낼 만큼 판의 운동량을 정확히 정하면 불확정성 원리 때문에 판의 위치가 무늬 간격보다 크게 흐려지므로, 어느 틈으로 갔는지와 간섭 무늬는 같은 실험에서 함께 볼 수 없어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="판은 큰 물체인데">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'slits', title: '판', caption: '전자보다 훨씬 무거워요' },
+      { big: '요구한 정밀도', caption: '전자 하나의 반동을 가려낼 만큼', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 여기서 멈췄어요. 판은 전자보다 훨씬 큰데, 판에도 불확정성 원리가 문제가 되나 싶었거든요.
+
+판이 커도 우리가 요구한 게 "전자 하나의 반동을 가려낼 만큼" 정확한 운동량이에요. 그 정도로 정확히 정하면 큰 판이라도 위치가 무늬 간격만큼은 흐려져요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="무늬가 사라진 까닭">
+
+<Check id="q85-b" options={[
+  { t: '판이 용수철에 매달려 있어서 전자가 판에 부딪혀 튕겨 나가요.', why: '판이 움직일 수 있다고 전자가 튕겨 나가는 건 아니에요. 문제는 판의 위치가 흐려진다는 데 있어요.' },
+  { t: '판의 운동량을 정확히 정하자 판의 위치가 무늬 간격보다 크게 흐려져요.', ok: true, why: '맞아요. 판의 위치가 흐려지면 전자마다 밝은 줄의 자리가 달라져서, 모아 놓으면 무늬가 번져요.' },
+  { t: '반동을 재는 사람이 전자를 눈으로 봐서 전자가 멈춰요.', why: '이 실험에서 사람은 판의 반동을 잴 뿐이에요. 무늬가 번지는 까닭은 판의 위치에 생긴 흐림이에요.' },
+  { t: '운동량 보존이 성립하지 않아서 반동을 잴 수 없어요.', why: '운동량 보존은 그대로 성립해요. 반동을 잴 수 있다는 생각 자체가 운동량 보존에서 나왔어요.' },
+]}>
+
+보어의 반박에 따르면, 판의 반동으로 전자가 지난 틈을 알아내면 간섭 무늬가 사라져요. 가장 직접적인 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="흔들리는 사진기">
+  <Fragment slot="visual">
+    <Analogy rows={[
+      ['가는 줄무늬 천', '스크린의 간섭 무늬'],
+      ['사진기', '두 틈이 뚫린 판'],
+      ['찍는 동안 흔들린 거리', '판의 위치가 흐려진 정도'],
+      ['줄무늬가 번진 사진', '번져서 사라진 무늬'],
+    ]} fits="흔들린 거리가 줄 간격보다 크면 줄무늬가 번져 사라지는 것처럼, 판의 위치가 무늬 간격보다 크게 흐려지면 간섭 무늬가 사라져요." breaks="사진기는 손을 더 단단히 잡으면 흔들림을 얼마든지 줄일 수 있어요. 판의 흐림은 운동량을 정확히 정하려는 순간 불확정성 원리가 요구하는 것이라 줄일 수 없어요." />
+  </Fragment>
+
+보어의 반박은 흔들린 사진과 비슷해요. 사진기가 줄 간격보다 크게 흔들리면 가는 줄무늬가 번져서 사라지죠.
+
+다만 사진기의 흔들림은 손을 고정하면 줄일 수 있어요. 판의 흐림은 그렇게 줄일 수 없다는 게 다른 점이에요.
+
+</Screen>
+
+<Screen kind="compare" title="두 사람이 선 자리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '아인슈타인', caption: '확률 뒤에 더 자세한 설명이 있어야 해요' },
+      { big: '보어', caption: '측정 장치까지 함께 보면 이론에 모순이 없어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이번 논쟁에서 아인슈타인의 장치는 보어의 반박을 넘지 못했어요. 장치를 끝까지 따져 보니 불확정성 원리를 피할 길이 없었거든요.
+
+<S n={2}>
+
+그렇다고 아인슈타인이 생각을 바꾼 건 아니었어요. 그는 더 정교한 사고 실험을 찾아 3년 뒤 다시 돌아와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="무늬 간격과 흔들림">
+
+<Check id="q85-c" options={[
+  { t: '줄무늬가 또렷하게 보여요.', why: '판의 위치가 무늬 간격보다 크게 흐리면, 전자마다 밝은 줄의 자리가 달라져요. 또렷한 줄무늬는 남지 않아요.' },
+  { t: '줄무늬가 번져서 거의 고른 밝기가 돼요.', ok: true, why: '맞아요. 흐림 2 mm가 무늬 간격 1 mm보다 크니, 밝은 줄과 어두운 줄이 서로 겹쳐서 번져요.' },
+  { t: '줄무늬 간격이 2 mm로 넓어져요.', why: '판이 흔들린다고 무늬 간격이 바뀌지는 않아요. 무늬의 자리가 전자마다 달라져서 번질 뿐이에요.' },
+  { t: '전자가 스크린에 닿지 않아요.', why: '전자는 여전히 스크린에 점을 찍어요. 다만 그 점들이 줄무늬를 만들지 못해요.' },
+]}>
+
+스크린에 생길 간섭 무늬의 간격이 1 mm예요. 반동을 재려고 판의 운동량을 정확히 정했더니, 판의 위치가 2 mm만큼 흐려졌어요. 전자를 많이 쏘아 모은 결과는 어떨까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['uncertainty-principle', 'complementarity', 'momentum-conservation']}>
+
+1. 아인슈타인은 확률만 말하는 양자역학이 완전하지 않다고 봤어요.
+2. 그래서 판의 반동으로 전자의 길을 알아내면서 간섭 무늬도 보는 장치를 생각했어요.
+3. 반동을 가려내려면 판의 운동량을 아주 정확히 알아야 해요.
+4. 그러면 불확정성 원리 때문에 판의 위치가 무늬 간격보다 크게 흐려져요.
+5. 그래서 무늬가 번져 사라지고, 길과 무늬를 함께 볼 수 없다는 상보성이 지켜졌어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="꽉 고정한 판">
+
+<DailyProblem id="p85">
+
+이번엔 반대로 해 볼게요. 두 틈이 뚫린 판을 아주 무거운 받침에 꽉 고정했어요.
+
+이 실험에서는 간섭 무늬를 볼 수 있을까요? 전자가 지난 틈은 알아낼 수 있을까요? 오늘의 원리로 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+꽉 고정하면 판의 위치는 아주 정확히 정해져요. 그러면 판의 운동량은 어떻게 될까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+간섭 무늬는 볼 수 있지만, 지난 틈은 알아낼 수 없어요.
+
+판의 위치를 정확히 정하면 불확정성 원리 때문에 판의 운동량이 크게 흐려져요. 그러면 전자 하나가 준 작은 반동이 그 흐림에 묻혀서 가려낼 수 없어요. 반대로 위치가 흐려지지 않았으니 무늬는 또렷하게 남아요. 무늬를 얻으면 길을 잃고, 길을 얻으면 무늬를 잃는 거예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+판의 반동으로 전자의 길을 알아내려면 판의 운동량을 정확히 정해야 하는데, 그러면 판의 위치가 흐려져 무늬가 사라지니 길과 무늬는 함께 볼 수 없어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="빛을 담은 상자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-box', title: '1930년의 사고 실험', caption: '빛을 가득 담은 상자와 시계' },
+      { icon: 'scale', title: '무게 재기', caption: '빛이 빠져나가기 전과 뒤' },
+    ]} />
+  </Fragment>
+
+1930년 솔베이 회의에서 아인슈타인은 새 장치를 들고 왔어요. 빛을 가득 담은 상자에 시계를 달고, 광자 하나가 빠져나가는 시각과 상자의 무게를 함께 재자는 거였어요.
+
+<S n={2}>
+
+이번엔 위치와 운동량이 아니라 에너지와 시간을 노렸어요. 다음 강에서는 보어가 하룻밤을 고민하고 내놓은 반박을 따라가 볼게요.
+
+</S>
+
+</Screen>
