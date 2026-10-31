@@ -22,7 +22,7 @@ const BANNED = [
 ];
 const FLIP = [/문제는 [^.]{0,40}(였다|이다)\./, /가 아니라 [^.]{0,30}(이다|였다)\./];
 const DIRECTION = /(오른쪽|왼쪽|꼭대기|위쪽|아래쪽|쪽으로|언덕)/;
-const LITERAL = /(북|남|동|서|산|봉우리|에베레스트|롤러코스터|코스터|건물|탑|나무|미끄럼틀|그네|관람차|첫|두 번째)\s*$|(산|코스터|언덕|건물|탑|미끄럼틀)\s?\S*\s*$/;
+const LITERAL = /(다음|처음|첫|북|남|동|서|산|봉우리|에베레스트|롤러코스터|코스터|건물|탑|나무|미끄럼틀|그네|관람차|첫|두 번째)\s*$|(산|코스터|언덕|건물|탑|미끄럼틀)\s?\S*\s*$/;
 const GRAPHY = /<(Plot|Sim[A-Z]\w*|Spectrum|Flow)\b/;
 
 function walk(dir) {
@@ -68,10 +68,12 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
     if (!free && len > 320) warn(rel, at, `글이 ${len}자다. 한 화면 120~250자를 목표로 나눈다`);
 
     if (!GRAPHY.test(block)) {
+      // 롤러코스터, 산, 미끄럼틀처럼 실제 사물이 나오는 화면의 "꼭대기", "언덕"은 괜찮다.
+      const physical = /(롤러코스터|차량|산|미끄럼틀|건물|사다리|계단)/.test(plain);
       for (const d of plain.matchAll(new RegExp(DIRECTION, 'g'))) {
-        // 산꼭대기, 롤러코스터 언덕처럼 실제 사물을 가리키면 괜찮다.
+        if (physical && /꼭대기|언덕/.test(d[0])) continue;
         const before = plain.slice(Math.max(0, d.index - 10), d.index);
-        if (LITERAL.test(before)) continue;
+        if (LITERAL.test(before) || /(이|저|그|양|한|반대)\s*$/.test(before)) continue;
         warn(rel, at, `그래프가 없는 화면의 방향어 "${d[0]}"`);
       }
     }

@@ -1,0 +1,150 @@
+---
+/** 두 수레의 충돌. 질량을 바꾸고, 튕기는 충돌과 달라붙는 충돌을 비교한다. 운동량 막대와 운동 에너지를 함께 본다. */
+interface Props {
+  m1?: number;
+  m2?: number;
+  stick?: 0 | 1;
+}
+const { m1 = 2, m2 = 1, stick = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-collision class="sim" data-ratio="0.62">
+  <canvas aria-label="왼쪽 수레가 멈춰 있는 오른쪽 수레와 부딪힌다. 운동량 막대와 운동 에너지가 표시된다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`co-a-${uid}`}>수레 A 질량</label>
+      <input id={`co-a-${uid}`} type="range" min="1" max="4" step="1" value={m1} data-param="m1" />
+      <output data-out="m1"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`co-b-${uid}`}>수레 B 질량</label>
+      <input id={`co-b-${uid}`} type="range" min="1" max="4" step="1" value={m2} data-param="m2" />
+      <output data-out="m2"></output>
+    </div>
+    <input type="hidden" data-param="stick" value={stick} />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="stick=0" aria-pressed={stick === 0 ? 'true' : 'false'}>튕기는 충돌</button>
+      <button type="button" class="btn" data-set="stick=1" aria-pressed={stick === 1 ? 'true' : 'false'}>달라붙는 충돌</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-collision>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const V1 = 2;
+  const T = 7;
+
+  class SimCollision extends Sim {
+    x1 = 0;
+    x2 = 0;
+    v1 = V1;
+    v2 = 0;
+    hit = false;
+
+    init() {
+      this.resetState();
+    }
+
+    changed() {
+      this.resetState();
+    }
+
+    resetState() {
+      this.t = 0;
+      this.x1 = 1;
+      this.x2 = 5;
+      this.v1 = V1;
+      this.v2 = 0;
+      this.hit = false;
+    }
+
+    width(m: number) {
+      return 0.35 + m * 0.12;
+    }
+
+    tick(dt: number) {
+      if (this.t > T) this.resetState();
+      this.x1 += this.v1 * dt;
+      this.x2 += this.v2 * dt;
+      const gap = this.x2 - this.width(this.p.m2!) - (this.x1 + this.width(this.p.m1!));
+      if (!this.hit && gap <= 0) {
+        this.hit = true;
+        const { m1, m2, stick } = this.p as Record<string, number>;
+        if (stick) {
+          const v = (m1! * this.v1 + m2! * this.v2) / (m1! + m2!);
+          this.v1 = v;
+          this.v2 = v;
+        } else {
+          const a = ((m1! - m2!) * this.v1 + 2 * m2! * this.v2) / (m1! + m2!);
+          const b = ((m2! - m1!) * this.v2 + 2 * m1! * this.v1) / (m1! + m2!);
+          this.v1 = a;
+          this.v2 = b;
+        }
+      }
+    }
+
+    format(name: string) {
+      return `${this.p[name]} kg`;
+    }
+
+    ke() {
+      return 0.5 * this.p.m1! * this.v1 ** 2 + 0.5 * this.p.m2! * this.v2 ** 2;
+    }
+
+    readout() {
+      const p = this.p.m1! * this.v1 + this.p.m2! * this.v2;
+      return `${this.hit ? '부딪힌 뒤' : '부딪히기 전'} · 운동량 합 ${p.toFixed(2)} kg·m/s · 운동 에너지 합 ${this.ke().toFixed(2)} J`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const trackY = h * 0.34;
+      const X = (x: number) => 16 + (x / 12) * (w - 32);
+      this.line(10, trackY, w - 10, trackY, c.line, 2);
+      const cart = (x: number, m: number, v: number, label: string, col: string) => {
+        const half = this.width(m);
+        const x0 = X(x - half);
+        const x1 = X(x + half);
+        const hh = 18 + m * 5;
+        g.fillStyle = c.ink3;
+        g.strokeStyle = col;
+        g.lineWidth = 2;
+        g.fillRect(x0, trackY - hh - 6, x1 - x0, hh);
+        g.strokeRect(x0, trackY - hh - 6, x1 - x0, hh);
+        this.dot(x0 + 7, trackY - 3, 3.5, c.text2);
+        this.dot(x1 - 7, trackY - 3, 3.5, c.text2);
+        this.text(`${label} ${m} kg`, (x0 + x1) / 2, trackY - hh / 2 - 6, c.text, 11, 'center');
+        if (Math.abs(v) > 0.01) {
+          const len = v * 22;
+          const yy = trackY - hh - 16;
+          this.arrow((x0 + x1) / 2, yy, (x0 + x1) / 2 + len, yy, c.motion, 2);
+          this.text(`${v.toFixed(2)} m/s`, (x0 + x1) / 2 + len / 2, yy - 10, c.motion, 10, 'center');
+        }
+      };
+      cart(this.x1, this.p.m1!, this.v1, 'A', c.force);
+      cart(this.x2, this.p.m2!, this.v2, 'B', c.force);
+      // 운동량 막대 (부호 포함)
+      const base = h * 0.8;
+      const scale = (h * 0.28) / 8;
+      const pa = this.p.m1! * this.v1;
+      const pb = this.p.m2! * this.v2;
+      const items: [string, number][] = [['A의 운동량', pa], ['B의 운동량', pb], ['합', pa + pb]];
+      const bw = (w - 60) / 3;
+      this.line(20, base, w - 20, base, c.text2, 1);
+      items.forEach(([name, val], i) => {
+        const x = 30 + i * (bw + 0) + bw * 0.2;
+        const ww = bw * 0.6;
+        g.fillStyle = i === 2 ? c.accent : c.force;
+        const hh = val * scale;
+        g.fillRect(x, base - Math.max(hh, 0), ww, Math.abs(hh));
+        this.text(name, x + ww / 2, base + 14, c.text2, 11, 'center');
+        this.text(val.toFixed(2), x + ww / 2, base - Math.max(hh, 0) - 8, c.text, 10, 'center');
+      });
+    }
+  }
+  define('qm-sim-collision', SimCollision);
+</script>

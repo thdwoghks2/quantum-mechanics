@@ -1,0 +1,392 @@
+---
+number: 5
+title: 힘과 운동 법칙
+short: 힘과 운동 법칙
+question: 물체가 움직이려면 누군가 계속 밀어 줘야 하는가
+mechanism: 아무것도 방해하지 않으면 물체는 지금의 속도를 그대로 유지한다(관성). 속도를 바꾸는 것은 힘이고, 같은 힘이 만드는 가속도는 질량에 반비례한다(F = ma). 지구가 물체를 당기는 힘(무게)도 질량에 비례하므로, 모든 물체는 같은 가속도로 떨어진다.
+part: 0
+minutes: 25
+assumes: [speed, velocity, acceleration, unit, si, model]
+introduces: [friction, inertia, force, mass, second-law, gravity, weight]
+sources:
+  - "Galilei, G. Discorsi e dimostrazioni matematiche intorno a due nuove scienze (1638)"
+  - "Newton, I. Philosophiæ Naturalis Principia Mathematica (1687)"
+  - "NASA JPL Voyager mission status: 보이저 1호는 태양에 대해 약 17 km/s로 움직인다"
+testout: [q5-bus, q5-a, q5-moon]
+status: published
+---
+
+<Screen kind="scene">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'cart', title: '카트를 밀면', caption: '움직인다' },
+      { icon: 'cart', title: '손을 떼면', caption: '몇 걸음 못 가 멈춘다', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+마트에서 카트를 밀면 움직이고, 손을 떼면 몇 걸음 못 가 멈춘다. 자전거도 페달을 멈추면 결국 선다.
+
+이런 경험 때문에 우리는 "물체가 움직이려면 무언가가 계속 밀어 줘야 한다"고 쉽게 생각한다. 이 강은 이 생각이 맞는지 따져 보는 데서 시작한다.
+
+</Screen>
+
+<Screen kind="story">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '기원전 4세기', title: '아리스토텔레스', caption: '움직이려면 계속 밀어야 한다' },
+      { big: '1600년대', title: '갈릴레오 갈릴레이', caption: '방해하는 것이 없으면 계속 움직인다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+고대 그리스의 철학자 아리스토텔레스도 그렇게 생각했다. 마차는 말이 끄는 동안만 가고, 말이 멈추면 마차도 멈춘다. 일상 경험과 잘 맞았기 때문에 이 생각은 2,000년 가까이 받아들여졌다.
+
+1600년대 이탈리아의 갈릴레오 갈릴레이(4강에서 떨어지는 물체의 가속도를 잰 사람)는 다르게 생각했다. 그 실마리는 물체를 멈추게 하는 것이 무엇인지에 있었다.
+
+</Screen>
+
+<Screen kind="compare">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cart', title: '마트 바닥의 카트', caption: '몇 m 가고 멈춘다' },
+      { icon: 'puck', title: '아이스링크의 퍽', caption: '수십 m를 미끄러진다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+같은 세기로 한 번 밀어도, 마트 바닥의 카트는 몇 m 가서 서지만 아이스링크의 퍽은 수십 m를 미끄러진다. 바닥이 매끄러울수록 더 멀리 간다.
+
+그렇다면 카트를 멈추게 한 것은 바닥이다. 미는 사람이 없어진 것은 두 경우가 같았는데, 바닥의 매끄러움만 달랐다. 바퀴와 바닥이 맞닿아 문질리면서 움직임을 붙잡은 것이다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="friction" />
+  </Fragment>
+
+맞닿은 두 물체가 서로 미끄러지려 할 때 그 움직임을 방해하는 것을 **마찰**이라고 한다. 카트를 세운 것은 바닥과 바퀴 사이의 마찰이다.
+
+얼음 위에서는 마찰이 아주 작아서 퍽이 오래 간다. 그렇다면 마찰이 아예 없는 곳에서는 어떻게 될까?
+
+</Screen>
+
+<Screen kind="story">
+  <Fragment slot="visual">
+    <BigNumber top="보이저 1호, 1977년 발사" value="1초에 약 17 km" bottom="로켓을 계속 켜지 않아도 지금까지 이 빠르기로 태양계 밖을 날아가고 있다" q="motion" />
+  </Fragment>
+
+갈릴레이의 답은 "멈추지 않는다"였다. 방해하는 것이 전혀 없으면 물체는 같은 빠르기로 같은 방향으로 끝없이 간다.
+
+우주에는 마찰을 일으킬 바닥도 공기도 거의 없다. 1977년에 발사된 탐사선 보이저 1호는 로켓을 계속 켜지 않는데도 지금까지 1초에 약 17 km씩 태양계 밖으로 날아가고 있다. 아무도 밀지 않는데 계속 간다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="inertia" />
+  </Fragment>
+
+물체가 지금의 속도를 그대로 유지하려는 성질을 **관성**이라고 한다. 멈춰 있는 물체는 계속 멈춰 있으려 하고, 움직이는 물체는 같은 속도로 계속 움직이려 한다.
+
+관성에 따르면 "계속 움직인다"는 설명이 필요한 일이 아니다. 설명이 필요한 것은 속도가 바뀔 때다.
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q5-bus" options={[
+  { t: '무언가가 몸을 앞으로 밀어서', why: '몸을 앞으로 미는 것은 없다. 버스 안의 무엇도 승객을 앞으로 밀지 않았다.' },
+  { t: '몸이 원래의 속도를 유지하려 해서', ok: true, why: '버스는 멈췄지만 몸은 관성 때문에 원래 속도로 계속 가려 한다. 그래서 버스보다 앞으로 나간다.' },
+  { t: '버스가 뒤로 움직여서', why: '버스는 뒤로 가지 않았다. 앞으로 가다가 멈췄을 뿐이다.' },
+  { t: '버스 안의 공기가 몸을 밀어서', why: '공기도 버스와 함께 움직이고 있었다. 승객을 앞으로 밀 만큼 공기가 세게 움직이지 않는다.' },
+]}>
+
+달리던 버스가 급정거하면 서 있던 승객의 몸이 앞으로 쏠린다. 가장 정확한 이유는?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cart', title: '밀기', caption: '카트를 미는 손' },
+      { icon: 'apple', title: '당기기', caption: '사과를 아래로 끌어당기는 지구' },
+      { icon: 'puck', title: '붙잡기', caption: '퍽을 느리게 하는 얼음의 마찰' },
+    ]} />
+  </Fragment>
+
+관성 때문에, 아무것도 방해하지 않으면 속도는 그대로다. 그러니 속도가 바뀌었다면 반드시 무언가가 밀었거나 당겼다.
+
+출발하는 카트는 손이 밀었고, 떨어지는 사과는 지구가 당겼고, 느려지는 퍽은 얼음이 붙잡았다. 이 셋에는 공통점이 있다. 모두 물체의 속도를 바꾼다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="force" />
+  </Fragment>
+
+물체의 속도를 바꾸는 밀기나 당기기를 **힘**이라고 한다. 힘의 단위는 뉴턴(N)이다. 1강에 나온 아이작 뉴턴의 이름에서 왔다.
+
+마찰도 힘이다. 움직임의 반대 방향으로 작용해서 속도를 줄인다. 이제 아리스토텔레스의 카트를 다시 보면, 카트를 계속 밀어야 했던 이유는 마찰이라는 힘이 계속 속도를 줄였기 때문이다.
+
+</Screen>
+
+<Screen kind="compare">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cart', title: '빈 카트', caption: '같은 힘으로 밀면 쉽게 빨라진다' },
+      { icon: 'cart', title: '물건이 가득 찬 카트', caption: '같은 힘으로 밀어도 잘 안 빨라진다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+같은 힘으로 밀어도 빈 카트는 쉽게 빨라지고, 물건이 가득 찬 카트는 잘 빨라지지 않는다. 멈출 때도 마찬가지로, 가득 찬 카트는 세우기 어렵다.
+
+물체마다 속도를 바꾸기 어려운 정도가 다르다. 이 정도를 나타내는 양이 필요하다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="mass" />
+  </Fragment>
+
+물체의 속도를 바꾸기 어려운 정도를 **질량**이라고 한다. 단위는 3강에서 본 킬로그램(kg)이다. 물체에 든 물질의 양이라고 봐도 된다.
+
+질량은 물체가 어디에 있든 같다. 지구에 있든 달에 있든 우주 정거장에 떠 있든, 가득 찬 카트는 빈 카트보다 밀기 어렵다.
+
+</Screen>
+
+<Screen kind="observe">
+  <Fragment slot="visual">
+    <SimForce f={40} m={20} mu={0} />
+  </Fragment>
+
+카트를 처음 2초 동안 밀었다가 손을 뗀다. 먼저 마찰 없는 얼음 위에서, 질량은 그대로 두고 미는 힘을 40 N에서 80 N으로 바꿔 보자. 그다음 힘은 40 N으로 두고 질량을 20 kg에서 40 kg으로 바꿔 보자.
+
+<S n={2}>
+
+힘을 2배로 하면 가속도도 2배가 된다. 질량을 2배로 하면 가속도는 절반이 된다. 그리고 얼음 위에서는 손을 뗀 뒤에도 속도가 그대로다. 마찰 있음으로 바꾸면 손을 떼자마자 느려진다.
+
+</S>
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="second-law" />
+  </Fragment>
+
+시뮬레이션에서 본 관계를 말로 쓰면 이렇다. 물체의 가속도는 받는 힘에 비례하고, 질량에 반비례한다. 이것을 **가속도 법칙**이라고 한다.
+
+식으로 쓰면 F = ma다. F는 힘(N), m은 질량(kg), a는 가속도(m/s²)다. 1 N은 질량 1 kg인 물체를 1초에 1 m/s씩 빨라지게 하는 힘이다. 뉴턴이 1687년에 펴낸 책에 이 법칙이 실려 있다.
+
+</Screen>
+
+<Screen kind="worked">
+  <Fragment slot="visual">
+    <DataTable caption="20 kg 카트를 40 N으로 민다 (마찰 무시)" head={['단계', '계산', '결과']} rows={[
+      ['가속도', '40 N ÷ 20 kg', '2 m/s²'],
+      ['1초 뒤 속도', '2 × 1', '2 m/s'],
+      ['3초 뒤 속도', '2 × 3', '6 m/s'],
+    ]} steps={[undefined, 2, 2]} />
+  </Fragment>
+
+F = ma를 a에 대해 바꾸면 a = F ÷ m이다. 20 kg 카트를 40 N으로 밀면 가속도는 40 ÷ 20 = 2 m/s²다. 단위도 N ÷ kg = (kg·m/s²) ÷ kg = m/s²로 맞는다.
+
+<S n={2}>
+
+가속도가 2 m/s²이면 1초마다 2 m/s씩 빨라지므로, 3초 동안 밀면 6 m/s가 된다. 사람이 빠르게 달리는 정도다.
+
+</S>
+
+</Screen>
+
+<Screen kind="check">
+
+<Numeric id="q5-a" answer={2} tol={0.02} unit="m/s²">
+
+마찰이 없는 바닥에서 질량 50 kg인 수레를 100 N의 힘으로 민다. 수레의 가속도는?
+
+<Fragment slot="solution">
+
+a = F ÷ m = 100 N ÷ 50 kg = 2 m/s².
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recall" from={4}>
+  <Fragment slot="visual">
+    <Plot
+      alt="떨어지는 공의 속도-시간 그래프. 1초마다 9.8 m/s씩 빨라진다"
+      x={[0, 3.2]} y={[0, 32]}
+      xLabel="시간 (s)" yLabel="속도 (m/s)" xq="time" yq="motion"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 10, 20, 30]}
+      curves={[{ fn: '9.8 * x', q: 'motion' }]}
+    />
+  </Fragment>
+
+4강에서 손에서 놓은 공은 1초마다 9.8 m/s씩 빨라진다는 것을 봤다. 가속도가 9.8 m/s²이고, 그래프는 일정하게 올라가는 곧은 선이었다.
+
+가속도 법칙에 따르면 가속도가 있으면 반드시 힘이 있다. 손을 놓은 공을 아무도 밀지 않는데 빨라진다면, 무언가가 공을 아래로 당기고 있는 것이다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="gravity" />
+  </Fragment>
+
+공을 아래로 당기는 것은 지구다. 질량을 가진 물체끼리 서로 끌어당기는 힘을 **중력**이라고 한다.
+
+뉴턴은 사과를 떨어뜨리는 힘과 달을 지구 둘레에 붙잡아 두는 힘이 같은 중력이라고 보았다. 땅 위의 물체와 하늘의 천체가 같은 법칙을 따른다는 생각은 당시로서는 아주 대담한 것이었다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="weight" />
+  </Fragment>
+
+지구가 물체를 당기는 중력의 크기를 **무게**라고 한다. 떨어지는 물체의 가속도가 9.8 m/s²이므로, 가속도 법칙에 따라 무게는 질량 × 9.8이다.
+
+100 g, 곧 0.1 kg짜리 사과의 무게는 0.1 × 9.8 ≈ 1 N이다. 1 N이 어느 정도의 힘인지 감을 잡고 싶다면 사과 하나를 손바닥에 올려 보면 된다.
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <DataTable caption="무거운 돌과 가벼운 돌" head={['', '1 kg 돌', '2 kg 돌']} rows={[
+      ['지구가 당기는 힘(무게)', '9.8 N', '19.6 N'],
+      ['질량', '1 kg', '2 kg'],
+      ['가속도 = 힘 ÷ 질량', '9.8 m/s²', '9.8 m/s²'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+이제 4강에서 남겨 둔 사실 하나를 설명할 수 있다. 무거운 물체와 가벼운 물체가 왜 같은 가속도로 떨어질까?
+
+<S n={2}>
+
+2 kg 돌은 1 kg 돌보다 지구가 2배 세게 당긴다. 그런데 질량도 2배라서 속도를 바꾸기가 2배 어렵다.
+
+</S>
+
+<S n={3}>
+
+2배 센 힘을 2배 큰 질량으로 나누면 가속도는 같다. 그래서 공기를 무시하면 모든 물체가 9.8 m/s²로 떨어진다.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare">
+  <Fragment slot="visual">
+    <DataTable caption="질량 60 kg인 사람" head={['', '지구', '달']} rows={[
+      ['질량', '60 kg', '60 kg'],
+      ['무게', '약 588 N', '약 98 N'],
+      ['체중계에 표시되는 값', '60 kg', '약 10 kg'],
+    ]} highlight={[2]} />
+  </Fragment>
+
+달은 지구보다 훨씬 작아서 물체를 약 6분의 1의 세기로 당긴다. 질량 60 kg인 사람은 달에서도 질량이 60 kg이지만, 무게는 588 N에서 약 98 N으로 줄어든다.
+
+체중계는 사실 무게를 잰 다음 9.8로 나눠서 kg으로 바꿔 보여 준다. 그래서 같은 사람이 달에서 체중계에 올라가면 약 10 kg이 찍힌다. 질량은 그대로인데도 그렇다.
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q5-moon" options={[
+  { t: '질량은 그대로이고 무게는 줄어든다', ok: true, why: '질량은 물체에 든 물질의 양이라 장소와 상관없다. 무게는 당기는 힘이라 달에서는 약 6분의 1이 된다.' },
+  { t: '질량도 무게도 그대로다', why: '무게는 그곳의 중력이 당기는 힘이다. 달의 중력이 약하니 무게도 줄어든다.' },
+  { t: '질량도 무게도 6분의 1이 된다', why: '물체에 든 물질의 양은 달에 간다고 줄지 않는다. 가득 찬 카트는 달에서도 밀기 어렵다.' },
+  { t: '질량은 줄고 무게는 그대로다', why: '거꾸로다. 장소에 따라 바뀌는 것은 무게다.' },
+]}>
+
+우주 비행사가 지구에서 달로 갔다. 비행사의 질량과 무게는 어떻게 되는가?
+
+</Check>
+
+</Screen>
+
+<Screen kind="problem">
+
+<DailyProblem id="p5">
+
+질량 1,500 kg인 자동차가 멈춰 있다가 10초 만에 100 km/h(약 27.8 m/s)가 됐다. 공기와 마찰은 무시한다.
+
+① 이 10초 동안의 가속도는?
+
+<Numeric id="q5-car" answer={4170} tol={0.03} unit="N">
+
+② 이 가속도를 내려면 자동차를 앞으로 미는 힘이 몇 N 필요한가?
+
+<Fragment slot="solution">
+
+가속도는 27.8 ÷ 10 = 2.78 m/s². 힘은 1,500 × 2.78 ≈ 4,170 N.
+
+</Fragment>
+</Numeric>
+
+③ 질량 60 kg인 사람 네 명이 타고 같은 힘으로 출발하면, 100 km/h가 되기까지 몇 초 걸리는가?
+
+④ 실제 자동차의 엔진은 ②의 답보다 큰 힘을 내야 한다. 왜일까?
+
+<Fragment slot="hint1">
+
+가속도는 1초 동안 바뀐 속도다. 10초 동안 27.8 m/s가 바뀌었다.
+
+</Fragment>
+<Fragment slot="hint2">
+
+사람이 타면 질량이 1,500 + 240 = 1,740 kg이 된다. 같은 힘을 더 큰 질량으로 나누면 가속도가 작아진다.
+
+</Fragment>
+<Fragment slot="hint3">
+
+가속도가 작아지면, 같은 속도에 이르는 데 시간이 더 걸린다. 걸리는 시간은 바뀐 속도를 가속도로 나눈 값이다.
+
+</Fragment>
+<Fragment slot="solution">
+
+① 2.78 m/s².
+
+② 약 4,170 N. 사과 약 4,000개의 무게와 맞먹는 힘이다.
+
+③ 가속도는 4,170 ÷ 1,740 ≈ 2.40 m/s²이고, 시간은 27.8 ÷ 2.40 ≈ 11.6초다. 1.6초쯤 더 걸린다.
+
+④ 실제로는 공기가 차를 뒤로 붙잡고, 바퀴와 도로 사이, 엔진 안의 부품 사이에도 마찰이 있다. 이 힘들이 속도를 줄이는 방향으로 작용하므로, 엔진은 그것을 이기고도 4,170 N이 남을 만큼 세게 밀어야 한다. 마찰을 무시한 모형은 필요한 힘을 실제보다 작게 잡는다.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="three">
+
+오늘 배운 것을 자기 말로 세 줄로 적어 보자.
+
+<ThreeLines>
+
+1. 방해하는 것이 없으면 물체는 같은 속도로 계속 움직인다(관성). 카트가 멈추는 것은 마찰이라는 힘 때문이다.
+2. 힘은 속도를 바꾸고, 가속도는 힘에 비례하고 질량에 반비례한다. F = ma.
+3. 무게는 지구가 당기는 힘으로 질량 × 9.8이다. 무게도 질량에 비례하므로 모든 물체가 같은 가속도로 떨어진다.
+
+</ThreeLines>
+
+</Screen>
+
+<Screen kind="next">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'coaster', title: '롤러코스터', caption: '첫 언덕을 오른 뒤로는 엔진 없이 달린다' },
+    ]} />
+  </Fragment>
+
+롤러코스터는 처음 언덕까지만 끌어 올려지고, 그다음부터는 엔진 없이 내려갔다 올라갔다를 되풀이한다. 다음 언덕을 넘을 수 있을지 F = ma로 계산하려면 경사가 바뀔 때마다 힘과 가속도를 다시 구해야 한다.
+
+다음 강에서는 그보다 훨씬 간단한 방법을 배운다. 높이와 빠르기가 서로 바뀌어도 둘을 합친 양은 그대로 남는다는 사실을 이용하는 방법이다.
+
+</Screen>

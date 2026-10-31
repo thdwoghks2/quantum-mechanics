@@ -5,18 +5,19 @@ interface Props {
   v0?: number;
 }
 const { a = 2, v0 = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-motion class="sim" data-ratio="0.66">
   <canvas aria-label="도로 위 자동차와 속도-시간 그래프. 가속도와 처음 속도를 바꿀 수 있다."></canvas>
   <div class="sim__controls">
     <div class="sim__row">
-      <label for="mo-a">가속도</label>
-      <input id="mo-a" type="range" min="-3" max="4" step="0.5" value={a} data-param="a" />
+      <label for={`mo-a-${uid}`}>가속도</label>
+      <input id={`mo-a-${uid}`} type="range" min="-3" max="4" step="0.5" value={a} data-param="a" />
       <output data-out="a"></output>
     </div>
     <div class="sim__row">
-      <label for="mo-v">처음 속도</label>
-      <input id="mo-v" type="range" min="0" max="20" step="1" value={v0} data-param="v0" />
+      <label for={`mo-v-${uid}`}>처음 속도</label>
+      <input id={`mo-v-${uid}`} type="range" min="0" max="20" step="1" value={v0} data-param="v0" />
       <output data-out="v0"></output>
     </div>
     <div class="sim__buttons">

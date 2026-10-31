@@ -4,13 +4,14 @@ interface Props {
   start?: number;
 }
 const { start = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
 ---
 <qm-sim-scale class="sim" data-ratio="0.56" data-autoplay="false">
   <canvas aria-label="10의 거듭제곱 크기 사다리. 슬라이더로 크기를 바꾸면 그 크기에 있는 물체가 표시된다."></canvas>
   <div class="sim__controls">
     <div class="sim__row">
-      <label for="scale-exp">크기 (m)</label>
-      <input id="scale-exp" type="range" min="-10" max="27" step="1" value={start} data-param="e" />
+      <label for={`scale-exp-${uid}`}>크기 (m)</label>
+      <input id={`scale-exp-${uid}`} type="range" min="-10" max="27" step="1" value={start} data-param="e" />
       <output data-out="e"></output>
     </div>
   </div>

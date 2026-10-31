@@ -158,14 +158,14 @@
   taughtIn: 5
   q: force
   highlight: true
-- id: newton-unit
-  term: 뉴턴(N)
-  pattern: '뉴턴\(N\)'
-  definition: 힘의 단위. 질량 1 kg인 물체를 1초에 1 m/s씩 빨라지게 하는 힘이 1 N이다.
+- id: friction
+  term: 마찰
+  definition: 맞닿은 두 물체가 서로 미끄러지려 할 때 그 움직임을 방해하는 힘.
+  unit: N
   examples:
-    - 100 g짜리 사과를 지구가 끌어당기는 힘은 약 1 N이다.
-    - 어른이 카트를 힘껏 밀 때의 힘은 수백 N이다.
-  notThis: 사람 이름 뉴턴. 단위 이름이 그의 이름에서 왔다.
+    - 손을 뗀 마트 카트가 곧 멈추는 것은 바닥과 바퀴 사이의 마찰 때문이다.
+    - 얼음 위에서는 마찰이 아주 작아서 한 번 민 퍽이 오래 미끄러진다.
+  notThis: 공기의 저항. 공기가 물체를 붙잡는 것도 움직임을 방해하지만 맞닿은 면 사이의 마찰과는 따로 다룬다.
   taughtIn: 5
   q: force
 - id: gravity

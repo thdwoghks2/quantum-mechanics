@@ -1,0 +1,177 @@
+---
+/**
+ * 롤러코스터와 에너지 막대. 운동 에너지 + 위치 에너지(+ 열)가 어떻게 나뉘는지 본다.
+ * 마찰을 켜면 줄어든 만큼이 열 막대로 간다.
+ */
+interface Props {
+  mu?: 0 | 1;
+}
+const { mu = 0 } = Astro.props;
+---
+<qm-sim-coaster class="sim" data-ratio="0.7">
+  <canvas aria-label="롤러코스터 차량이 언덕을 오르내리고, 운동 에너지, 위치 에너지, 열이 막대로 표시된다"></canvas>
+  <input type="hidden" data-param="mu" value={mu} />
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-set="mu=0" aria-pressed={mu === 0 ? 'true' : 'false'}>마찰 없음</button>
+    <button type="button" class="btn" data-set="mu=1" aria-pressed={mu === 1 ? 'true' : 'false'}>마찰 있음</button>
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-reset>처음부터</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-coaster>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const G = 9.8;
+  const M = 500;
+  // 트랙 높이(m): 가로 0~100 m
+  const CTRL: [number, number][] = [[0, 40], [16, 3], [34, 30], [50, 5], [66, 22], [82, 3], [100, 42]];
+  const H0 = 40;
+
+  function height(x: number) {
+    for (let i = 0; i < CTRL.length - 1; i++) {
+      const [x0, y0] = CTRL[i]!;
+      const [x1, y1] = CTRL[i + 1]!;
+      if (x >= x0 && x <= x1) {
+        const u = (x - x0) / (x1 - x0);
+        return y0 + (y1 - y0) * (1 - Math.cos(Math.PI * u)) / 2;
+      }
+    }
+    return CTRL.at(-1)![1];
+  }
+
+  class SimCoaster extends Sim {
+    x = 0.5;
+    v = 0;
+    heat = 0;
+
+    init() {
+      this.resetState();
+    }
+
+    changed() {
+      this.resetState();
+    }
+
+    reset() {
+      this.resetState();
+    }
+
+    resetState() {
+      this.x = 0.5;
+      this.v = 0;
+      this.heat = 0;
+    }
+
+    slope(x: number) {
+      return (height(x + 0.05) - height(x - 0.05)) / 0.1;
+    }
+
+    tick(dt: number) {
+      const steps = 8;
+      for (let i = 0; i < steps; i++) {
+        const h = dt / steps;
+        const s = this.slope(this.x);
+        const cos = 1 / Math.sqrt(1 + s * s);
+        const sin = s * cos;
+        let a = -G * sin;
+        if (this.p.mu && Math.abs(this.v) > 0.01) a -= Math.sign(this.v) * 0.035 * G * cos;
+        const vOld = this.v;
+        this.v += a * h;
+        const ds = this.v * h;
+        this.x = Math.max(0.2, Math.min(99.8, this.x + ds * cos));
+        if (this.p.mu) {
+          // 마찰로 잃은 에너지는 열로 간다: 에너지 장부를 맞춘다.
+          const e = 0.5 * M * vOld * vOld + M * G * height(this.x - ds * cos);
+          const eNew = 0.5 * M * this.v * this.v + M * G * height(this.x);
+          if (eNew < e) this.heat += e - eNew;
+        }
+      }
+      if (this.p.mu && Math.abs(this.v) < 0.05 && this.t > 6) {
+        // 바닥에 멈추면 다시 출발
+        const ke = 0.5 * M * this.v * this.v;
+        if (ke < 50 && Math.abs(this.slope(this.x)) < 0.05) this.resetState();
+      }
+    }
+
+    energies() {
+      const ke = 0.5 * M * this.v * this.v;
+      const pe = M * G * height(this.x);
+      if (!this.p.mu) {
+        // 마찰이 없으면 처음 에너지를 그대로 유지한다(수치 오차 보정).
+        const total = M * G * H0;
+        return { ke: Math.max(0, total - pe), pe, heat: 0, total };
+      }
+      return { ke, pe, heat: this.heat, total: M * G * H0 };
+    }
+
+    readout() {
+      const { ke, pe, heat } = this.energies();
+      const speed = Math.sqrt((2 * ke) / M);
+      return `높이 ${height(this.x).toFixed(1)} m · 속력 ${speed.toFixed(1)} m/s · 운동 ${(ke / 1000).toFixed(0)} kJ · 위치 ${(pe / 1000).toFixed(0)} kJ${this.p.mu ? ` · 열 ${(heat / 1000).toFixed(0)} kJ` : ''}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const barW = Math.min(150, w * 0.34);
+      const tx0 = 10;
+      const tx1 = w - barW - 18;
+      const ty0 = h - 24;
+      const ty1 = 20;
+      const X = (x: number) => tx0 + (x / 100) * (tx1 - tx0);
+      const Y = (y: number) => ty0 - (y / 45) * (ty0 - ty1);
+      // 처음 높이 선
+      g.setLineDash([4, 4]);
+      this.line(tx0, Y(H0), tx1, Y(H0), c.muted, 1);
+      g.setLineDash([]);
+      this.text('출발 높이 40 m', tx0 + 4, Y(H0) - 9, c.muted, 10);
+      // 트랙
+      g.strokeStyle = c.text2;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let x = 0; x <= 100; x += 0.5) (x ? g.lineTo : g.moveTo).call(g, X(x), Y(height(x)));
+      g.stroke();
+      this.line(tx0, ty0, tx1, ty0, c.line, 1);
+      // 차량
+      const s = this.slope(this.x);
+      const ang = Math.atan2(-s * ((ty0 - ty1) / 45), (tx1 - tx0) / 100);
+      g.save();
+      g.translate(X(this.x), Y(height(this.x)));
+      g.rotate(ang);
+      g.fillStyle = c.accent;
+      g.fillRect(-9, -12, 18, 10);
+      g.restore();
+      // 막대
+      const { ke, pe, heat, total } = this.energies();
+      const bx = w - barW - 4;
+      const bTop = 26;
+      const bBot = h - 30;
+      const H = bBot - bTop;
+      const bars: [string, number, string][] = [['운동', ke, c.motion], ['위치', pe, c.space], ['열', heat, c.heat]];
+      const bw = (barW - 28) / 4;
+      bars.forEach(([name, val, col], i) => {
+        const x = bx + 8 + i * (bw + 4);
+        g.fillStyle = c.ink3;
+        g.fillRect(x, bTop, bw, H);
+        g.fillStyle = col;
+        const hh = (Math.max(0, val) / total) * H;
+        g.fillRect(x, bBot - hh, bw, hh);
+        this.text(name, x + bw / 2, bBot + 12, c.text2, 11, 'center');
+      });
+      // 합계: 세 막대를 쌓은 것. 늘 같은 높이다.
+      const sx = bx + 8 + 3 * (bw + 4);
+      let y = bBot;
+      for (const [, val, col] of bars) {
+        const hh = (Math.max(0, val) / total) * H;
+        g.fillStyle = col;
+        g.fillRect(sx, y - hh, bw, hh);
+        y -= hh;
+      }
+      this.text('합계', sx + bw / 2, bBot + 12, c.energy, 11, 'center');
+      this.text('에너지', bx + barW / 2, 12, c.energy, 11, 'center');
+    }
+  }
+  define('qm-sim-coaster', SimCoaster);
+</script>
