@@ -1,0 +1,384 @@
+---
+number: 59
+title: 측정과 상태의 붕괴
+short: 측정과 붕괴
+question: 한 번 잰 전자를 곧바로 다시 재면 어떻게 될까요?
+mechanism: 재기 전의 전자는 결과마다 확률 진폭을 가진 양자 상태에 있고, 재면 보른 규칙의 확률대로 결과 하나가 나와요. 곧바로 같은 측정을 다시 하면 늘 같은 결과가 나오니, 첫 측정이 상태를 그 결과만 확실한 상태로 바꿔 놓았다고 봐야 해요. 이 갑작스러운 바뀜이 파동함수의 붕괴예요. 재지 않고 두면 상태는 정해진 규칙대로 매끄럽게 변하고, 자주 재면 변할 틈이 없어 처음 결과에 붙잡혀요.
+part: 6
+year: 1927
+minutes: 20
+epigraph:
+  text: "'궤도'는 우리가 그것을 관측할 때 비로소 생겨난다."
+  by: 베르너 하이젠베르크
+  source: 「양자론적 운동학과 역학의 직관적 내용에 대하여」 (1927)
+assumes: [wavefunction, probability-amplitude, born-rule, standard-deviation, probability, superposition, complementarity, energy-level, excited-state]
+introduces: [quantum-state, collapse]
+sources:
+  - "Heisenberg, W. Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik. Zeitschrift für Physik 43, 172–198 (1927)"
+  - "von Neumann, J. Mathematische Grundlagen der Quantenmechanik (1932)"
+  - "Itano, W. M., Heinzen, D. J., Bollinger, J. J. & Wineland, D. J. Quantum Zeno effect. Physical Review A 41, 2295–2300 (1990)"
+  - "Griffiths, D. J. & Schroeter, D. F. Introduction to Quantum Mechanics (3rd ed.), Section 1.2: The Statistical Interpretation"
+testout: [q59-again, q59-after, q59-many]
+status: published
+---
+
+<Screen kind="scene" title="곧바로 다시 재면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '재기 전', caption: '넓게 퍼진 파동함수' },
+      { big: '재는 순간', caption: '한 자리에서 발견' },
+      { big: '곧바로 다시', caption: '어디서 발견될까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+58강 끝에서 물음 하나를 남겼어요. 넓게 퍼진 파동함수를 가진 전자를 재면 한 자리에서 발견되는데, 곧바로 한 번 더 재면 어떻게 될까요?
+
+<S n={2}>
+
+이 물음의 답은 측정이 결과를 그저 읽어 오는 일이 아니라는 걸 보여 줘요. 오늘은 측정이 전자에게 무슨 일을 하는지 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={58} title="확률을 담은 화살표">
+  <Fragment slot="visual">
+    <SimP06Psi shape="bump" />
+  </Fragment>
+
+58강에서 파동함수는 자리마다 확률 진폭을 붙인 것이라고 했어요. 화살표 길이의 제곱이 그 근처에서 발견될 확률이었죠.
+
+<S n={2}>
+
+파동함수를 알면 결과마다의 확률은 알지만, 한 번의 결과는 알 수 없었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="두 상자의 전자">
+  <Fragment slot="visual">
+    <DataTable caption="두 상자 가운데 어디서 발견될까" head={['상자', '확률 진폭의 길이', '발견될 확률']} rows={[
+      ['A', '0.6', '0.36'],
+      ['B', '0.8', '0.64'],
+    ]} />
+  </Fragment>
+
+계산을 쉽게 하려고, 전자가 상자 A 아니면 상자 B에서만 발견된다고 해 볼게요. 확률 진폭의 길이는 A가 0.6, B가 0.8이에요.
+
+<S n={2}>
+
+보른 규칙대로 재면 A에서 발견될 확률은 0.36, B는 0.64예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="양자 상태라는 이름">
+  <Fragment slot="visual">
+    <Define term="quantum-state" />
+  </Fragment>
+
+이렇게 결과마다의 확률 진폭을 모두 담은 것을 **양자 상태**라고 해요. 이 전자는 두 진폭을 함께 가진 하나의 양자 상태에 있어요.
+
+<S n={2}>
+
+13강의 중첩처럼 두 진폭이 함께 더해진 상태라서, 이런 상태를 두 상태의 중첩이라고도 불러요. 그렇다고 전자가 반씩 나뉘어 있는 건 아니에요. 재면 늘 한 상자에서 통째로 발견돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="재면 하나">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '0.36 : 0.64', caption: '재기 전의 확률' },
+      { big: '상자 B', caption: '이번에 나온 결과', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 상자를 열어 재 봐요. 이번에는 B에서 발견됐다고 해요.
+
+<S n={2}>
+
+0.64의 확률로 일어날 일이 일어난 거예요. 다른 전자였다면 A에서 발견됐을 수도 있죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="곧바로 다시 재면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '상자 B', title: '첫 측정', caption: '' },
+      { big: '상자 B', title: '곧바로 둘째 측정', caption: '100 %', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그 전자를 곧바로 다시 재면 어떻게 될까요? 실험에서는 언제나 다시 B예요.
+
+<S n={2}>
+
+재기 전의 상태가 그대로라면, 둘째 측정에서도 36 %의 확률로 A가 나와야 해요. 그런데 한 번도 그러지 않았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="상태가 바뀌었어요">
+  <Fragment slot="visual">
+    <DataTable caption="첫 측정 전과 뒤의 확률 진폭" head={['', '상자 A', '상자 B']} rows={[
+      ['재기 전', '0.6', '0.8'],
+      ['B에서 발견된 뒤', '0', '1'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+그러니 첫 측정이 전자의 상태를 바꿔 놓았다고 봐야 해요. 재기 전에는 A 0.6, B 0.8이던 확률 진폭이, B에서 발견된 뒤에는 A 0, B 1이 된 거예요.
+
+<S n={2}>
+
+측정은 이미 정해져 있던 답을 읽어 오는 일이 아니었어요. 결과가 나오는 순간 상태가 그 결과에 맞게 바뀌는 일이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="파동함수의 붕괴라는 이름">
+  <Fragment slot="visual">
+    <Define term="collapse" />
+  </Fragment>
+
+측정 결과가 나오는 순간 양자 상태가 그 결과만 확실한 상태로 바뀌는 일을 **파동함수의 붕괴**라고 불러요. 넓게 퍼졌던 화살표들이 한 자리로 오그라드는 모습에서 붙은 이름이에요.
+
+<Key>재기 전의 전자는 결과마다 확률 진폭을 가진 상태에 있다가, 재면 보른 규칙의 확률대로 결과 하나가 나오고 상태가 그 결과만 확실한 상태로 바뀌니까, 곧바로 같은 측정을 다시 하면 같은 결과가 나와요.</Key>
+
+</Screen>
+
+<Screen kind="observe" title="재고, 또 재기">
+  <Fragment slot="visual">
+    <SimP06Collapse />
+  </Fragment>
+
+이번엔 자리를 재는 경우예요. 봉우리가 둘인 처음 상태에서 "자리 재기"를 누르고, 곧바로 몇 번 더 눌러 보세요.
+
+<S n={2}>
+
+첫 측정에서 두 봉우리 가운데 한 곳이 뽑히면, 상태가 그 자리에 좁게 몰려요. 곧바로 다시 재면 결과는 거의 같은 자리에서 나와요. "처음 상태로"를 눌러 여러 번 해 보면 첫 결과는 그때그때 달라요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그대로 두면 다시 퍼져요">
+  <Fragment slot="visual">
+    <SimP06Collapse />
+  </Fragment>
+
+이번엔 자리를 한 번 잰 다음 "재생"을 눌러 보세요. 재지 않고 시간이 흐르게 두는 거예요.
+
+<S n={2}>
+
+좁게 몰렸던 상태가 점점 퍼져요. 재지 않고 두면 상태는 정해진 규칙대로 변하거든요. 그 규칙은 65강의 <Later n={65}>슈뢰딩거 방정식</Later>이 말해 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="두 가지 변화">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '재지 않을 때', title: '매끄러운 변화', caption: '정해진 규칙대로, 예측할 수 있게', tone: 'ok' },
+      { big: '잴 때', title: '갑작스러운 바뀜', caption: '확률대로, 결과는 예측할 수 없게', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+양자역학에서 상태는 두 가지 방식으로 변해요. 재지 않을 때는 정해진 규칙대로 매끄럽게 변해서, 지금 상태를 알면 나중 상태를 정확히 계산할 수 있어요.
+
+<S n={2}>
+
+잴 때는 결과가 확률대로 하나 뽑히고, 상태가 갑자기 그 결과에 맞게 바뀌어요. 이 둘이 왜 이렇게 다른지는 아직 물리학의 큰 물음이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="곧바로 다시">
+
+<Check id="q59-again" options={[
+  { t: '다시 A에서 발견돼요.', ok: true, why: '첫 측정으로 상태가 A만 확실한 상태로 바뀌었어요. 곧바로 같은 측정을 하면 같은 결과가 나와요.' },
+  { t: '0.36의 확률로 A, 0.64의 확률로 B에서 발견돼요.', why: '그건 첫 측정 전의 확률이에요. 첫 측정으로 상태가 바뀌었어요.' },
+  { t: '이번엔 꼭 B에서 발견돼요.', why: '측정이 결과를 번갈아 내는 건 아니에요. 바뀐 상태대로 다시 A가 나와요.' },
+  { t: '어디서도 발견되지 않아요.', why: '전자는 사라지지 않아요. 바뀐 상태에서는 A에서 발견될 확률이 1이에요.' },
+]}>
+
+두 상자의 전자(A 0.6, B 0.8)를 재서 이번엔 A에서 발견했어요. 곧바로 같은 전자를 다시 재면 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="첫 측정 뒤의 확률">
+
+<Check id="q59-after" options={[
+  { t: 'A에서 발견될 확률은 0이에요.', ok: true, why: 'B에서 발견된 순간 상태가 B 1, A 0인 상태로 바뀌었어요.' },
+  { t: 'A에서 발견될 확률은 0.36이에요.', why: '0.36은 재기 전의 확률이에요. 측정이 상태를 바꿨어요.' },
+  { t: 'A에서 발견될 확률은 0.6이에요.', why: '0.6은 재기 전 확률 진폭의 길이예요. 확률은 그 제곱이고, 그마저 측정 뒤에는 0이 돼요.' },
+  { t: 'A에서 발견될 확률은 0.5예요.', why: '측정 뒤에 반반으로 돌아가지 않아요. 결과에 맞게 B만 확실해져요.' },
+]}>
+
+두 상자의 전자(A 0.6, B 0.8)를 재서 B에서 발견했어요. 곧바로 다시 재면 A에서 발견될 확률은 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="처음 상태를 알아내려면">
+
+<Check id="q59-many" options={[
+  { t: '똑같이 준비한 전자를 많이 만들어, 하나씩 한 번만 재요.', ok: true, why: '한 번 잰 전자는 상태가 바뀌니 다시 써도 처음 상태를 알 수 없어요. 처음 상태 그대로인 전자를 새로 많이 재야 해요.' },
+  { t: '전자 하나를 여러 번 거듭 재요.', why: '첫 측정 뒤로는 상태가 바뀌어서, 거듭 재도 첫 결과만 되풀이돼요.' },
+  { t: '전자 하나를 아주 정밀하게 한 번 재요.', why: '한 번의 측정은 결과 하나만 줘요. 확률 진폭의 길이는 수많은 결과가 쌓여야 드러나요.' },
+  { t: '알아낼 방법이 없어요.', why: '같은 상태를 여러 번 준비할 수 있으면, 결과가 나오는 비율로 확률을 알아낼 수 있어요.' },
+]}>
+
+어떤 장치가 두 상자의 전자를 늘 같은 상태로 만들어 내요. 그 상태에서 A에서 발견될 확률이 얼마인지 실험으로 알아내려면 어떻게 해야 할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="지켜보는 냄비">
+  <Fragment slot="visual">
+    <BigNumber top="미국 국립표준기술연구소의 실험" value="1990" bottom="자주 잴수록 이온이 위 준위로 넘어가지 못했어요" />
+  </Fragment>
+
+영어에는 지켜보는 냄비는 끓지 않는다는 속담이 있어요. 1990년 미국 국립표준기술연구소의 데이비드 와인랜드 연구진은 이 속담 같은 일을 원자로 해냈어요.
+
+<S n={2}>
+
+이온 수천 개를 바닥상태에서 들뜬상태로 천천히 넘어가게 하면서, 그 사이에 어느 준위에 있는지를 여러 번 쟀어요. 자주 잴수록 이온들은 재는 순간마다 바닥상태로 되돌려져, 위 준위로 거의 넘어가지 못했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="자주 재면 붙잡혀요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '조금 변해요', caption: '위 준위의 진폭이 아주 조금 생겨요' },
+      { big: '재요', caption: '거의 늘 바닥상태가 나와요' },
+      { big: '처음으로', caption: '상태가 바닥상태로 돌아가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+재지 않고 아주 잠깐 두면 위 준위의 확률 진폭이 아주 조금 생겨요. 그때 재면 거의 늘 바닥상태가 나오고, 상태는 다시 바닥상태로 붕괴해요.
+
+<S n={2}>
+
+이걸 자주 되풀이하면 위 준위의 진폭이 자랄 틈이 없어요. 측정이 상태를 바꾼다는 게 정말 실험으로 드러난 거예요. 이 일은 움직임을 부정한 그리스 철학자의 이름을 따서 양자 제논 효과라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="측정이란 무엇일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '분명한 것', caption: '재면 결과 하나, 그리고 상태가 바뀐다' },
+      { big: '아직 모르는 것', caption: '무엇이 측정이고, 바뀜은 어떻게 일어나나', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 여기서 오래 멈췄어요. 측정하는 장치도 결국 원자로 되어 있는데, 왜 장치와 부딪히는 일만 상태를 갑자기 바꾸는 걸까요?
+
+실제로 무엇이 측정이고 붕괴가 어떻게 일어나는지는 아직 물리학자들 사이에 합의가 없어요. 87강의 <Later n={87}>측정 문제</Later>에서 이 물음을 정면으로 다뤄요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="analogy" title="뒤집어 둔 카드">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['뒤집어 둔 카드 한 장', '두 상자의 전자'],
+        ['펼쳐서 보기', '측정'],
+        ['다시 봐도 같은 카드', '곧바로 다시 재도 같은 결과'],
+      ]}
+      fits="한 번 확인한 결과는 곧바로 다시 확인해도 같다는 점이 같아요."
+      breaks="카드는 펼치기 전부터 이미 어떤 카드인지 정해져 있었고, 우리가 몰랐을 뿐이에요. 양자 상태는 달라요. 두 확률 진폭이 55강처럼 서로 간섭할 수 있어서, 재기 전부터 답이 정해져 있었다고 보면 간섭 무늬를 설명할 수 없어요."
+    />
+  </Fragment>
+
+측정을 뒤집어 둔 카드를 펼치는 일에 빗대 볼게요. 이번엔 틀리는 곳이 더 중요해요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['quantum-state', 'collapse', 'born-rule', 'wavefunction']}>
+
+1. 재기 전의 전자는 결과마다 확률 진폭을 가진 양자 상태에 있고, 재면 보른 규칙대로 결과 하나가 나와요.
+2. 곧바로 다시 재면 늘 같은 결과가 나오니, 첫 측정이 상태를 그 결과만 확실한 상태로 바꾼 거예요. 이게 파동함수의 붕괴예요.
+3. 재지 않고 두면 상태는 정해진 규칙대로 다시 퍼지고, 자주 재면 변할 틈 없이 붙잡혀요.
+4. 그래서 처음 상태의 확률을 알아내려면 똑같이 준비한 것을 많이 만들어 하나씩 재야 해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="한 전자를 100번 재면">
+
+<DailyProblem id="p59">
+
+한 친구가 두 상자의 전자(A 0.6, B 0.8) 하나를 준비해서, 그 전자를 곧바로 100번 거듭 쟀어요. 그러고는 A가 나온 비율로 0.36을 확인하겠다고 해요. 이 계획은 무엇이 잘못됐을까요? 실제로는 어떤 결과가 나올까요?
+
+<Fragment slot="hint1">
+
+첫 측정 뒤에 상태가 어떻게 바뀌는지 떠올려 보세요.
+
+</Fragment>
+<Fragment slot="solution">
+
+첫 측정에서 A나 B 가운데 하나가 나오면, 그 순간 상태가 그 결과만 확실한 상태로 바뀌어요. 그래서 나머지 99번은 모두 첫 결과와 같아요. 100번 모두 A거나 100번 모두 B가 나와서, 0.36은 볼 수 없어요.
+
+0.36을 확인하려면 같은 상태의 전자를 100개 새로 준비해서 하나씩 한 번만 재야 해요. 그러면 A가 36번쯤 나와요. 측정이 상태를 바꾼다는 걸 잊으면 실험 계획부터 틀어져요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+측정하면 확률대로 결과 하나가 나오고 양자 상태가 그 결과만 확실한 상태로 바뀌니까, 곧바로 다시 재면 같은 결과가 나와요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="좁은 봉우리는 왜 퍼질까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'hand', title: '짧은 박수 소리', caption: '여러 높이의 소리가 섞여 있어요' },
+      { big: '좁게 몰린 상태', title: '전자', caption: '왜 곧바로 퍼질까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+자리를 잰 직후 좁게 몰렸던 상태는 그대로 두자 금세 퍼졌어요. 왜 좁게 몰린 상태일수록 빨리 퍼질까요?
+
+<S n={2}>
+
+그 답은 짧은 박수 소리에 숨어 있어요. 다음 강에서는 좁은 파동 하나가 사실은 여러 파장의 파동이 겹친 것이라는 생각, 곧 푸리에의 생각을 배워요.
+
+</S>
+
+</Screen>

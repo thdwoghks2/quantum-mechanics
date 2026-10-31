@@ -1,0 +1,134 @@
+---
+/**
+ * 59강: 측정과 파동함수의 붕괴. 위에는 지금 상태에서 자리마다 발견될 확률(길이²)을 그린다.
+ * "자리 재기"를 누르면 보른 규칙대로 한 자리가 뽑히고, 상태는 그 자리에 좁게 몰린 모양으로 바뀐다.
+ * 곧바로 다시 재면 거의 같은 자리가 나온다. "그대로 두기"(재생)를 누르면 좁게 몰린 상태가 다시 퍼진다.
+ * 아래에는 지금까지 잰 결과가 차례로 찍힌다.
+ */
+---
+<qm-sim-collapse class="sim" data-ratio="0.66" data-autoplay="false">
+  <canvas aria-label="위에는 전자가 자리마다 발견될 확률 곡선이 있다. 처음에는 두 곳에 봉우리가 있고, 자리를 재면 한 곳에 좁은 봉우리만 남는다. 아래에는 잰 결과가 차례로 점으로 찍힌다."></canvas>
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-act="measure">자리 재기</button>
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-act="fresh">처음 상태로</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-collapse>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const W0 = 0.012; // 잰 직후 봉우리의 폭
+
+  class SimCollapse extends Sim {
+    mode: 'fresh' | 'narrow' = 'fresh';
+    mu = 0.5;
+    age = 0; // 잰 뒤 흐른 시간
+    hist: { x: number; fresh: boolean }[] = [];
+
+    init() {
+      this.querySelectorAll<HTMLButtonElement>('button[data-act]').forEach((b) =>
+        b.addEventListener('click', () => {
+          if (b.dataset.act === 'measure') this.measure();
+          else this.fresh();
+          this.renderOutputs();
+          this.frame();
+        }),
+      );
+    }
+
+    width() {
+      return Math.sqrt(W0 * W0 + (0.06 * this.age) ** 2);
+    }
+
+    /** 지금 상태에서 자리 x(0~1)에 발견될 확률의 상대값 */
+    dens(x: number) {
+      if (this.mode === 'fresh') {
+        const a = Math.exp(-(((x - 0.3) / 0.07) ** 2)) * 0.36;
+        const b = Math.exp(-(((x - 0.7) / 0.07) ** 2)) * 0.64;
+        return a + b;
+      }
+      const s = this.width();
+      return (Math.exp(-(((x - this.mu) / s) ** 2)) * W0) / s;
+    }
+
+    measure() {
+      const wasFresh = this.mode === 'fresh';
+      let max = 0;
+      for (let i = 0; i <= 400; i++) max = Math.max(max, this.dens(i / 400));
+      let x = 0.5;
+      for (let k = 0; k < 2000; k++) {
+        const c = Math.random();
+        if (Math.random() * max < this.dens(c)) {
+          x = c;
+          break;
+        }
+      }
+      this.hist.push({ x, fresh: wasFresh });
+      if (this.hist.length > 12) this.hist.shift();
+      this.mode = 'narrow';
+      this.mu = x;
+      this.age = 0;
+      this.pause();
+    }
+
+    fresh() {
+      this.mode = 'fresh';
+      this.age = 0;
+      this.hist = [];
+      this.pause();
+    }
+
+    tick(dt: number) {
+      if (this.mode === 'narrow') this.age += dt;
+      this.renderOutputs();
+    }
+
+    readout() {
+      if (this.mode === 'fresh') return '처음 상태: 왼쪽 봉우리에서 발견될 확률 0.36, 오른쪽 봉우리에서 0.64예요.';
+      if (this.age < 0.05) return `방금 ${this.mu.toFixed(2)} 자리에서 발견됐어요. 상태가 그 자리에 좁게 몰렸으니, 곧바로 다시 재면 거의 같은 자리가 나와요.`;
+      return '재고 나서 그대로 두었더니 좁게 몰렸던 상태가 다시 퍼지고 있어요. 이제 다시 재면 결과가 조금씩 흩어져요.';
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const x0 = 14;
+      const x1 = w - 14;
+      const by = h * 0.6;
+      const bh = h * 0.5;
+      let max = 0;
+      for (let i = 0; i <= 400; i++) max = Math.max(max, this.dens(i / 400));
+      const scale = this.mode === 'fresh' ? 0.75 / 0.64 : Math.min(1, 1 / max);
+      this.line(x0, by, x1, by, c.text2, 1);
+      g.fillStyle = 'rgba(232, 190, 90, 0.22)';
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2;
+      g.beginPath();
+      g.moveTo(x0, by);
+      for (let i = 0; i <= 400; i++) {
+        const u = i / 400;
+        g.lineTo(x0 + u * (x1 - x0), by - Math.min(1, this.dens(u) * scale) * bh);
+      }
+      g.lineTo(x1, by);
+      g.closePath();
+      g.fill();
+      g.stroke();
+      this.text('자리마다 발견될 확률', x0, 12, c.energy, 10);
+      // 잰 결과들
+      const ty = h - 26;
+      this.line(x0, ty, x1, ty, c.line, 1);
+      this.text('잰 결과 (최근 것일수록 진하게)', x0, ty - 12, c.text2, 10);
+      this.hist.forEach((m, i) => {
+        const a = 0.3 + (0.7 * (i + 1)) / this.hist.length;
+        g.fillStyle = m.fresh ? `rgba(126, 200, 160, ${a})` : `rgba(96, 196, 200, ${a})`;
+        g.beginPath();
+        g.arc(x0 + m.x * (x1 - x0), ty, 5, 0, Math.PI * 2);
+        g.fill();
+      });
+      this.text('자리 →', x1, h - 8, c.space, 10, 'right');
+    }
+  }
+  define('qm-sim-collapse', SimCollapse);
+</script>
