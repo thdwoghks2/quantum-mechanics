@@ -1,0 +1,132 @@
+---
+/**
+ * 44·45강: 수소의 에너지 준위 E_n = −2.18 × 10⁻¹⁸ J ÷ n². 버튼으로 옮겨 갈 두 준위를 고르면
+ * 위에서 아래로 뛰어내릴 때 나오는 빛의 에너지(준위의 차이)와 진동수(차이 ÷ h)를 보인다.
+ * 세로축이 에너지다. 위로 갈수록 크다.
+ */
+interface Props {
+  /** 보일 옮겨 감 (쉼표로, "위-아래") */
+  jumps?: string;
+  /** 처음 고른 옮겨 감의 번호 */
+  start?: number;
+}
+const { jumps = '3-2,4-2,5-2,6-2', start = 0 } = Astro.props;
+const list = jumps.split(',').map((j) => j.trim().split('-').map(Number) as [number, number]);
+---
+<qm-sim-levels class="sim" data-ratio="0.72" data-jumps={jumps}>
+  <canvas aria-label="세로축이 에너지인 그림에 수소의 에너지 준위가 가로줄로 그려져 있다. 고른 두 준위 사이를 전자가 뛰어내리면 그 차이만큼의 에너지를 가진 빛 하나가 나간다."></canvas>
+  <input type="hidden" data-param="j" value={start} />
+  <div class="sim__buttons" aria-label="옮겨 갈 두 준위 고르기">
+    {list.map(([a, b], i) => (
+      <button type="button" class="btn" data-set={`j=${i}`} aria-pressed={i === start ? 'true' : 'false'}>{a} → {b}</button>
+    ))}
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-levels>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const E1 = 2.18; // × 10⁻¹⁸ J
+  const H = 6.626e-34;
+  const level = (n: number) => -E1 / (n * n);
+
+  function rgb(thz: number): string {
+    if (thz < 400 || thz > 790) return 'rgb(190,190,200)';
+    const nm = 299792 / thz;
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    if (nm < 440) [r, g, b] = [-(nm - 440) / 60, 0, 1];
+    else if (nm < 490) [r, g, b] = [0, (nm - 440) / 50, 1];
+    else if (nm < 510) [r, g, b] = [0, 1, -(nm - 510) / 20];
+    else if (nm < 580) [r, g, b] = [(nm - 510) / 70, 1, 0];
+    else if (nm < 645) [r, g, b] = [1, -(nm - 645) / 65, 0];
+    else [r, g, b] = [1, 0, 0];
+    return `rgb(${Math.round(r * 255)},${Math.round(g * 255)},${Math.round(b * 255)})`;
+  }
+
+  function kind(thz: number) {
+    if (thz < 400) return '눈에 안 보이는 적외선';
+    if (thz > 790) return '눈에 안 보이는 자외선';
+    if (thz < 480) return '붉은빛';
+    if (thz < 520) return '노란빛';
+    if (thz < 620) return '청록빛';
+    if (thz < 700) return '파란빛';
+    return '보랏빛';
+  }
+
+  class SimLevels extends Sim {
+    list: [number, number][] = [];
+
+    init() {
+      this.list = (this.dataset.jumps ?? '3-2').split(',').map((j) => j.trim().split('-').map(Number) as [number, number]);
+    }
+
+    jump() {
+      return this.list[this.p.j!] ?? this.list[0]!;
+    }
+
+    readout() {
+      const [a, b] = this.jump();
+      const dE = level(a) - level(b); // × 10⁻¹⁸ J
+      const f = (dE * 1e-18) / H; // Hz
+      const thz = f / 1e12;
+      return `${a} → ${b}: 에너지 차이 ${(dE * 10).toFixed(2)} × 10⁻¹⁹ J → 진동수 = 차이 ÷ h ≈ ${Math.round(thz).toLocaleString('ko-KR')}조 Hz (${kind(thz)})`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const [a, b] = this.jump();
+      const y0 = 18;
+      const y1 = h - 22;
+      const Y = (e: number) => y0 + ((0.15 - e) / (0.15 + E1 + 0.05)) * (y1 - y0);
+      const lx0 = 96;
+      const lx1 = w * 0.62;
+      // 세로축
+      this.line(24, y0, 24, y1, c.text2, 1);
+      g.save();
+      g.translate(12, (y0 + y1) / 2);
+      g.rotate(-Math.PI / 2);
+      this.text('에너지 (× 10⁻¹⁸ J) →', 0, 0, c.energy, 10, 'center');
+      g.restore();
+      // 0: 떨어져 나간 전자
+      g.setLineDash([4, 4]);
+      this.line(lx0, Y(0), lx1, Y(0), c.muted, 1);
+      g.setLineDash([]);
+      this.text('0: 전자가 떨어져 나간 상태', lx0, Y(0) - 8, c.muted, 10);
+      for (let n = 1; n <= 7; n++) {
+        const e = level(n);
+        const on = n === a || n === b;
+        this.line(lx0, Y(e), lx1, Y(e), on ? c.energy : c.text2, on ? 2.5 : 1.2);
+        if (n <= 4) this.text(`n=${n} (${e.toFixed(2)})`, lx0 - 4, Y(e), on ? c.energy : c.muted, 10, 'right');
+        else if (on) this.text(`n=${n}`, lx0 - 4, Y(e), c.energy, 10, 'right');
+      }
+      // 뛰어내리는 화살표
+      const ax = lx0 + (lx1 - lx0) * 0.45;
+      this.arrow(ax, Y(level(a)), ax, Y(level(b)) - 2, c.accent, 2.5);
+      this.dot(ax, Y(level(a)), 5, c.charge);
+      // 나가는 빛
+      const dE = level(a) - level(b);
+      const thz = (dE * 1e-18) / H / 1e12;
+      const col = rgb(thz);
+      const py = (Y(level(a)) + Y(level(b))) / 2;
+      const px0 = ax + 14;
+      const px1 = w - 12;
+      const k = Math.min(0.6, 0.06 + thz / 4000); // 진동수가 클수록 물결이 촘촘하게
+      g.strokeStyle = col;
+      g.lineWidth = 2;
+      g.beginPath();
+      for (let x = px0; x <= px1; x += 1) {
+        const yy = py - 7 * Math.sin((x - px0) * k - this.t * 8);
+        if (x === px0) g.moveTo(x, yy);
+        else g.lineTo(x, yy);
+      }
+      g.stroke();
+      this.text('나가는 빛 하나', px1, py - 16, col, 10, 'right');
+    }
+  }
+  define('qm-sim-levels', SimLevels);
+</script>
