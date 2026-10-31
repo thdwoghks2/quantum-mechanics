@@ -1,0 +1,122 @@
+---
+/**
+ * 슈테른-게를라흐 장치를 잇달아 놓는다. 첫째 장치는 위아래(Z)로 재서 '위'만 보낸다.
+ * 둘째 장치는 위아래(Z)나 옆(X)으로 재서 '+'(위, 또는 옆 +)만 보낸다. 셋째 장치는 다시 위아래로 잰다.
+ * 확률은 80강의 투영 규칙을 따른다: 상태 |위⟩를 X로 재면 반반, |옆 +⟩를 Z로 재면 반반.
+ */
+interface Props {
+  second?: 'z' | 'x';
+}
+const { second = 'x' } = Astro.props;
+---
+<qm-sim-p10-chain class="sim" data-ratio="0.48">
+  <canvas aria-label="은 원자가 장치 세 대를 차례로 지난다. 둘째 장치가 옆 방향이면 셋째 장치에서 위와 아래가 반반 나온다"></canvas>
+  <input type="hidden" data-param="s" value={second === 'x' ? 1 : 0} />
+  <div class="sim__buttons" aria-label="둘째 장치 고르기">
+    <button type="button" class="btn" data-set="s=0" aria-pressed={second === 'z' ? 'true' : 'false'}>둘째: 위아래</button>
+    <button type="button" class="btn" data-set="s=1" aria-pressed={second === 'x' ? 'true' : 'false'}>둘째: 옆</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p10-chain>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  type Atom = { x: number; st: 'up' | 'down' | 'xp' | 'xm'; stage: number; out?: 'up' | 'down'; gone: boolean };
+
+  class SimP10Chain extends Sim {
+    atoms: Atom[] = [];
+    up = 0;
+    down = 0;
+    acc = 0;
+
+    changed() {
+      this.atoms = [];
+      this.up = 0;
+      this.down = 0;
+    }
+
+    // 상태 st를 축(z 또는 x)으로 재서 결과를 고른다
+    measure(st: Atom['st'], axis: 'z' | 'x'): Atom['st'] {
+      if (axis === 'z') {
+        if (st === 'up' || st === 'down') return st;
+        return Math.random() < 0.5 ? 'up' : 'down';
+      }
+      if (st === 'xp' || st === 'xm') return st;
+      return Math.random() < 0.5 ? 'xp' : 'xm';
+    }
+
+    tick(dt: number) {
+      this.acc += dt * 10;
+      while (this.acc >= 1) {
+        this.acc -= 1;
+        // 화로에서 나온 원자는 제멋대로라, 첫째 장치에서 반반으로 갈린다
+        this.atoms.push({ x: 0, st: Math.random() < 0.5 ? 'up' : 'down', stage: 0, gone: false });
+      }
+      const gates = [0.22, 0.5, 0.78];
+      const axes: ('z' | 'x')[] = ['z', this.p.s ? 'x' : 'z', 'z'];
+      for (const a of this.atoms) {
+        if (a.gone) continue;
+        a.x += dt * 0.32;
+        while (a.stage < 3 && a.x >= gates[a.stage]!) {
+          const r = this.measure(a.st, axes[a.stage]!);
+          a.st = r;
+          if (a.stage < 2 && r !== 'up' && r !== 'xp') {
+            a.gone = true;
+            break;
+          }
+          if (a.stage === 2) {
+            a.out = r === 'up' ? 'up' : 'down';
+            if (a.out === 'up') this.up++;
+            else this.down++;
+          }
+          a.stage++;
+        }
+        if (a.x > 1) a.gone = true;
+      }
+      this.atoms = this.atoms.filter((a) => !a.gone);
+    }
+
+    readout() {
+      const n = this.up + this.down;
+      const tail = n ? `셋째 장치: 위 ${this.up}개, 아래 ${this.down}개` : '재생을 누르면 원자가 날아가요';
+      return `둘째 장치: ${this.p.s ? '옆으로 재서 +만 보내요' : '위아래로 재서 위만 보내요'} · ${tail}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const mid = h * 0.5;
+      const X = (x: number) => 10 + x * (w - 20);
+      const gates = [0.22, 0.5, 0.78];
+      const labels = ['위아래', this.p.s ? '옆' : '위아래', '위아래'];
+      this.line(X(0), mid, X(1), mid, c.line, 1);
+      g.fillStyle = c.heat;
+      g.fillRect(X(0), mid - 8, 12, 16);
+      gates.forEach((gx, i) => {
+        const cx = X(gx);
+        g.fillStyle = labels[i] === '옆' ? 'rgba(90,160,200,0.35)' : 'rgba(200,90,110,0.35)';
+        g.fillRect(cx - 18, mid - 26, 36, 52);
+        this.text(labels[i]!, cx, mid - 36, c.text, 11, 'center');
+        if (i < 2) this.text(i === 1 && this.p.s ? '+만 보내요' : '위만 보내요', cx, mid + 38, c.text2, 10, 'center');
+      });
+      for (const a of this.atoms) {
+        let y = mid;
+        if (a.stage === 3) y = mid + (a.out === 'up' ? -1 : 1) * Math.min(26, (a.x - 0.78) * 260);
+        this.dot(X(a.x), y, 3, c.energy);
+      }
+      // 셋째 장치 뒤의 세기 막대
+      const n = this.up + this.down || 1;
+      const bx = X(0.93);
+      const bh = h * 0.32;
+      g.fillStyle = c.space;
+      g.fillRect(bx - 6, mid - 6 - (this.up / n) * bh, 12, (this.up / n) * bh);
+      g.fillStyle = c.time;
+      g.fillRect(bx - 6, mid + 6, 12, (this.down / n) * bh);
+      this.text('위', bx + 12, mid - 14, c.space, 11);
+      this.text('아래', bx + 12, mid + 16, c.time, 11);
+    }
+  }
+  define('qm-sim-p10-chain', SimP10Chain);
+</script>
