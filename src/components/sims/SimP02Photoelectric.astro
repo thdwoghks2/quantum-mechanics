@@ -1,0 +1,150 @@
+---
+/**
+ * 34강: 광전 효과의 실험 사실. 금속판에 빛을 비춘다. 진동수와 밝기를 바꿀 수 있다.
+ * 문턱 진동수보다 낮으면 아무리 밝아도 전자가 나오지 않는다. 넘으면 바로 나오고, 밝기는 나오는 전자의 수만,
+ * 진동수는 가장 빠른 전자의 빠르기만 바꾼다.
+ */
+interface Props {
+  f?: number;
+  b?: number;
+  metal?: 0 | 1;
+}
+const { f = 600, b = 4, metal = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-photo class="sim" data-ratio="0.6">
+  <canvas aria-label="왼쪽 전등이 금속판에 빛을 비춘다. 진동수가 문턱보다 높으면 금속판에서 전자가 튀어나온다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`pe-f-${uid}`}>진동수</label>
+      <input id={`pe-f-${uid}`} type="range" min="300" max="1500" step="10" value={f} data-param="f" />
+      <output data-out="f"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`pe-b-${uid}`}>밝기</label>
+      <input id={`pe-b-${uid}`} type="range" min="0" max="10" step="1" value={b} data-param="b" />
+      <output data-out="b"></output>
+    </div>
+    <input type="hidden" data-param="metal" value={metal} />
+    <div class="sim__buttons" aria-label="금속 고르기">
+      <button type="button" class="btn" data-set="metal=0" aria-pressed={metal === 0 ? 'true' : 'false'}>나트륨</button>
+      <button type="button" class="btn" data-set="metal=1" aria-pressed={metal === 1 ? 'true' : 'false'}>아연</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-photo>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const F0 = [550, 1040]; // 문턱 진동수 (조 Hz): 나트륨, 아연
+  const NAME = ['나트륨', '아연'];
+
+  interface E {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  }
+
+  function lightColor(f: number) {
+    if (f < 400) return '#a33';
+    if (f > 750) return '#a8f';
+    const nm = 3e5 / f;
+    if (nm >= 620) return '#f33';
+    if (nm >= 590) return '#f93';
+    if (nm >= 570) return '#fe3';
+    if (nm >= 495) return '#4d4';
+    if (nm >= 450) return '#48f';
+    return '#a6f';
+  }
+
+  class SimPhoto extends Sim {
+    es: E[] = [];
+    acc = 0;
+
+    f0() {
+      return F0[this.p.metal ?? 0]!;
+    }
+
+    format(name: string) {
+      if (name === 'f') {
+        const f = this.p.f!;
+        const band = f < 400 ? '적외선' : f > 750 ? '자외선' : '가시광선';
+        return `${f}조 Hz (${band})`;
+      }
+      return String(this.p.b);
+    }
+
+    kmax() {
+      return Math.max(0, 6.63e-3 * (this.p.f! - this.f0()));
+    }
+
+    tick(dt: number) {
+      const over = this.p.f! - this.f0();
+      if (over > 0 && this.p.b! > 0) {
+        this.acc += this.p.b! * 3 * dt;
+        while (this.acc >= 1) {
+          this.acc -= 1;
+          const s = 0.15 + 0.55 * Math.sqrt(over / 500) * Math.random();
+          const a = (Math.random() - 0.5) * 1.2;
+          this.es.push({ x: 0.62, y: 0.25 + Math.random() * 0.5, vx: Math.cos(a) * s, vy: Math.sin(a) * s });
+        }
+      }
+      for (const e of this.es) {
+        e.x += e.vx * dt;
+        e.y += e.vy * dt;
+      }
+      this.es = this.es.filter((e) => e.x < 1.05 && e.y > -0.05 && e.y < 1.05);
+    }
+
+    changed() {
+      this.es = [];
+    }
+
+    readout() {
+      const over = this.p.f! - this.f0();
+      const metal = NAME[this.p.metal ?? 0];
+      if (this.p.b === 0) return `${metal}의 문턱 진동수: ${this.f0()}조 Hz · 빛이 꺼져 있어요`;
+      if (over <= 0) return `${metal}의 문턱 진동수: ${this.f0()}조 Hz · 문턱보다 낮아서 아무리 밝아도 전자가 안 나와요`;
+      return `${metal}의 문턱 진동수: ${this.f0()}조 Hz · 1초에 나오는 전자 수(상대값) ${this.p.b! * 10} · 가장 빠른 전자의 운동 에너지 약 ${this.kmax().toFixed(1)} × 10⁻¹⁹ J`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const plateX = w * 0.6;
+      // 전등
+      g.fillStyle = c.text2;
+      g.beginPath();
+      g.arc(w * 0.08, h * 0.5, 12, 0, Math.PI * 2);
+      g.fill();
+      // 빛줄기
+      const col = lightColor(this.p.f!);
+      const n = this.p.b!;
+      g.strokeStyle = col;
+      g.lineWidth = 2;
+      g.globalAlpha = 0.25 + 0.07 * n;
+      for (let i = 0; i < Math.max(1, n); i++) {
+        if (n === 0) break;
+        const y = h * (0.28 + (0.44 * (i + 0.5)) / Math.max(1, n));
+        g.setLineDash(this.p.f! > 750 || this.p.f! < 400 ? [6, 4] : []);
+        g.beginPath();
+        g.moveTo(w * 0.1, h * 0.5);
+        g.lineTo(plateX, y);
+        g.stroke();
+      }
+      g.setLineDash([]);
+      g.globalAlpha = 1;
+      // 금속판
+      g.fillStyle = c.muted;
+      g.fillRect(plateX, h * 0.18, 8, h * 0.64);
+      this.text(NAME[this.p.metal ?? 0]!, plateX + 4, h * 0.12, c.text2, 11, 'center');
+      // 전자
+      for (const e of this.es) this.dot(e.x * w, e.y * h, 3, c.charge);
+      this.text('전자', w - 12, 16, c.charge, 11, 'right');
+    }
+  }
+  define('qm-sim-photo', SimPhoto);
+</script>
