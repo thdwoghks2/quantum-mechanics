@@ -43,6 +43,8 @@ const data = JSON.stringify(lessons).replace(/</g, '\\u003c');
   <script type="application/json" id="lessons" set:html={data} />
   <script>
     import { QUESTIONS, recommend, shouldStop, type PlacementAnswer } from '../lib/placement.ts';
+    import { balancedAnswerSlots, placeAnswer } from '../lib/shuffle.ts';
+    const SLOTS = balancedAnswerSlots(QUESTIONS.length, 4, 'placement');
     import { applyPlacement, load, save } from '../lib/progress.ts';
 
     const lessons: { n: number; title: string; published: boolean }[] = JSON.parse(document.getElementById('lessons')!.textContent!);
@@ -57,7 +59,7 @@ const data = JSON.stringify(lessons).replace(/</g, '\\u003c');
       quiz.querySelector('.quiz__q')!.textContent = q.q;
       const ol = quiz.querySelector('.quiz__opts')!;
       ol.innerHTML = '';
-      const opts = [...q.options, { t: '모르겠다', ok: false }];
+      const opts = [...placeAnswer(q.options, SLOTS[i]!, q.id), { t: '모르겠다', ok: false }];
       opts.forEach((o) => {
         const li = document.createElement('li');
         const b = document.createElement('button');

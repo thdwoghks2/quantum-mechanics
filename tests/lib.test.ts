@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { balancedAnswerSlots, placeAnswer, shuffled } from '../src/lib/shuffle.ts';
 import { answerReview, dueItems, firstAnswer, INTERVAL_DAYS, isLearned } from '../src/lib/review.ts';
 import {
   applyPlacement,
@@ -172,5 +173,29 @@ describe('numeric answers', () => {
     expect(isCorrect(12, 10.44, 'value', 0.02)).toBe(false);
     expect(isCorrect(2e14, 6e14, 'order')).toBe(true);
     expect(isCorrect(1e14, 6e14, 'order')).toBe(false);
+  });
+});
+
+describe('선택지 섞기', () => {
+  it('같은 ID면 같은 순서, 원소는 그대로', () => {
+    const a = shuffled(['A', 'B', 'C', 'D'], 'q1-a');
+    expect(shuffled(['A', 'B', 'C', 'D'], 'q1-a')).toEqual(a);
+    expect([...a].sort()).toEqual(['A', 'B', 'C', 'D']);
+  });
+  it('첫 번째에 둔 정답이 네 자리에 고르게 퍼진다', () => {
+    const count = [0, 0, 0, 0];
+    for (let i = 0; i < 400; i++) count[shuffled(['정답', 'b', 'c', 'd'], `q${i}-x`).indexOf('정답')]!++;
+    for (const c of count) expect(c).toBeGreaterThan(60);
+  });
+});
+
+describe('진단 문제 정답 자리', () => {
+  it('문제 수가 적어도 네 자리에 고르게 나뉜다', () => {
+    const slots = balancedAnswerSlots(16, 4, 'placement');
+    expect([0, 1, 2, 3].map((k) => slots.filter((x) => x === k).length)).toEqual([4, 4, 4, 4]);
+  });
+  it('정답을 정한 자리에 둔다', () => {
+    const opts = [{ t: 'a', ok: true }, { t: 'b' }, { t: 'c' }, { t: 'd' }];
+    for (const slot of [0, 1, 2, 3]) expect(placeAnswer(opts, slot, 'k').findIndex((o) => o.ok)).toBe(slot);
   });
 });

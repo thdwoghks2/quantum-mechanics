@@ -3,7 +3,9 @@
  * 확인 문제(객관식). 질문은 본문(slot)에, 선택지는 options로 준다.
  * 선택지마다 why(왜 맞고 왜 틀린지)를 붙인다. 오답은 흔한 오해를 겨냥한다.
  * 처음 푼 결과는 복습 목록에 들어간다.
+ * 선택지는 문제 ID로 정해지는 순서로 섞어서 보여 준다. 정답을 어디에 적었든 자리가 고르게 퍼진다.
  */
+import { shuffled } from '../../lib/shuffle.ts';
 interface Option {
   t: string;
   ok?: boolean;
@@ -17,11 +19,12 @@ interface Props {
 }
 const { id, options, noReview = false } = Astro.props;
 if (!options.some((o) => o.ok)) throw new Error(`확인 문제 ${id}에 정답이 없다`);
+const shown = shuffled(options, id);
 ---
 <qm-check class="check" data-id={id} data-review={noReview ? '0' : '1'}>
   <div class="check__q"><slot /></div>
   <ol class="check__opts">
-    {options.map((o, i) => (
+    {shown.map((o, i) => (
       <li class="check__item">
         <button type="button" class="check__opt" data-i={i} data-ok={o.ok ? '1' : '0'}>
           <span class="check__mark" aria-hidden="true"></span>
