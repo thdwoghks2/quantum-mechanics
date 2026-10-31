@@ -1,0 +1,394 @@
+---
+number: 72
+title: 스핀
+short: 스핀
+question: 냉장고 자석의 힘은 어디서 오고, 원자들은 왜 자석 사이에서 두 갈래로만 갈라질까요?
+mechanism: 전자는 처음부터 작은 막대자석처럼 행동하는 성질, 스핀을 지녀요. 작은 자석은 고르지 않은 자석 사이에서 자기 방향에 따라 밀려나니까, 방향이 제멋대로라면 원자들은 고르게 퍼져야 해요. 그런데 은 원자들은 두 갈래로만 갈라졌고, 이건 전자의 스핀을 어느 축으로 재든 '위'와 '아래' 두 값 가운데 하나만 나온다는 뜻이에요. 그래서 전자의 상태를 다 적으려면 n, l, m에 더해 스핀의 위아래를 정하는 네 번째 양자수가 필요해요.
+part: 9
+minutes: 20
+assumes: [quantum-number, orbital, electron, atom, mass, charge, speed-of-light, line-spectrum, model]
+introduces: [spin, stern-gerlach]
+sources:
+  - "Gerlach, W., Stern, O. Der experimentelle Nachweis der Richtungsquantelung im Magnetfeld, Zeitschrift für Physik 9, 349 (1922)"
+  - "Friedrich, B., Herschbach, D. Stern and Gerlach: How a Bad Cigar Helped Reorient Atomic Physics, Physics Today 56(12), 53 (2003)"
+  - "Uhlenbeck, G. E., Goudsmit, S. Ersetzung der Hypothese vom unmechanischen Zwang durch eine Forderung bezüglich des inneren Verhaltens jedes einzelnen Elektrons, Die Naturwissenschaften 13, 953 (1925)"
+  - "Phipps, T. E., Taylor, J. B. The Magnetic Moment of the Hydrogen Atom, Physical Review 29, 309 (1927)"
+testout: [q72-sg, q72-rot, q72-zinc]
+status: published
+---
+
+<Screen kind="scene" title="네 번째 성질">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: 'n, l, m', caption: '양자수 셋' },
+      { big: '두 갈래', caption: '셋으로는 설명되지 않는 결과', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 은 원자들이 자석 사이를 지나며 딱 두 갈래로 갈라졌다고 했죠. 양자수 셋으로는 이 결과를 설명할 수 없었어요.
+
+<S n={2}>
+
+오늘은 그 까닭인 전자의 네 번째 성질을 봐요. 출발은 냉장고에 붙은 자석이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="냉장고 자석">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'magnet', title: '냉장고 자석', caption: '쇠문에 착 붙어요' },
+      { big: '전자 하나하나', caption: '아주 작은 자석이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+냉장고 자석은 쇠로 된 문에 착 붙죠. 그 힘은 쇠 속 전자 하나하나가 아주 작은 자석이고, 그 작은 자석들이 한 방향으로 줄 서 있는 데서 나와요.
+
+<S n={2}>
+
+전자는 크기를 잴 수 없을 만큼 작은데도, N극과 S극이 있는 막대자석처럼 행동해요. 오늘은 이 작은 자석을 재 볼 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="고르지 않은 자석 사이">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'N극이 위', caption: '위로 밀려나요' },
+      { big: 'N극이 옆', caption: '거의 안 밀려요' },
+      { big: 'N극이 아래', caption: '아래로 밀려나요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+작은 자석을 큰 자석의 두 극 사이에 넣어 볼게요. 두 극 사이의 힘이 고르면 작은 자석은 돌기만 할 뿐 밀려나지 않아요.
+
+<S n={2}>
+
+그런데 한쪽 극을 뾰족하게 깎아 힘이 고르지 않게 만들면, 작은 자석은 자기 방향에 따라 밀려나요. N극이 위를 향하면 위로, 아래를 향하면 아래로, 옆을 향하면 거의 밀리지 않죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="고전 물리의 예상">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '제멋대로인 방향', caption: '원자마다 작은 자석이 아무 쪽이나 향해요' },
+      { big: '세로로 긴 줄', caption: '화면에 고르게 퍼져야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+화로에서 나온 원자들의 작은 자석은 방향이 제멋대로예요. 많이 밀린 원자부터 거의 안 밀린 원자까지 골고루 있을 테죠.
+
+<S n={2}>
+
+그러니 고전 물리로는, 원자들이 위아래로 고르게 퍼져서 화면에 세로로 긴 줄이 생겨야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1922년 프랑크푸르트">
+  <Fragment slot="visual">
+    <BigNumber top="슈테른과 게를라흐가 은 원자를 자석 사이로 보낸 해" value="1922" bottom="독일 프랑크푸르트" />
+  </Fragment>
+
+1922년 오토 슈테른과 발터 게를라흐는 이 실험을 실제로 해 봤어요. 뜨거운 화로에서 은 원자를 내보내, 한쪽 극이 뾰족한 자석 사이를 지나게 했죠.
+
+<S n={2}>
+
+그 뒤 유리판에 닿은 자국을 봤더니, 원자들은 고르게 퍼지지 않고 딱 두 무더기로 갈라져 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="두 갈래">
+  <Fragment slot="visual">
+    <SimP09SG />
+  </Fragment>
+
+'고전 예상'과 '실제 결과'를 번갈아 눌러 보세요. 오른쪽은 원자가 닿는 화면을 정면에서 본 모습이에요.
+
+<S n={2}>
+
+고전 예상은 세로로 긴 줄이지만, 실제로는 위와 아래 두 점뿐이에요. 원자의 작은 자석은 '위' 아니면 '아래', 둘 가운데 하나로만 재지는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="슈테른-게를라흐 실험">
+  <Fragment slot="visual">
+    <Define term="stern-gerlach" />
+  </Fragment>
+
+원자를 고르지 않은 자석 사이로 보내 작은 자석의 방향을 재는 이 실험을 **슈테른-게를라흐 실험**이라고 불러요.
+
+<S n={2}>
+
+<Key>작은 자석의 방향이 제멋대로라면 원자들은 고르게 퍼져야 하는데, 실제로는 두 갈래로만 갈라지니까, 원자 속 작은 자석은 재면 두 값 가운데 하나만 나와요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="은 원자의 자석은 전자 하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전자 46개', caption: '둘씩 짝지어 자석 성질이 지워져요', tone: 'dim' },
+      { big: '바깥 전자 1개', caption: '은 원자의 자석이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+은 원자에는 전자가 47개 있어요. 그 가운데 46개는 둘씩 짝을 지어 자석 성질이 서로 지워지고, 가장 바깥의 전자 하나만 남아요.
+
+<S n={2}>
+
+그래서 은 원자의 작은 자석은 사실상 전자 하나의 자석이에요. 왜 꼭 둘씩 짝을 짓는지는 다음 강에서 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="스핀">
+  <Fragment slot="visual">
+    <Define term="spin" />
+  </Fragment>
+
+전자가 처음부터 지닌, 작은 막대자석처럼 행동하게 하는 성질을 **스핀**이라고 불러요. 어느 축으로 재든 결과는 그 축의 '위'나 '아래' 둘 가운데 하나예요.
+
+<S n={2}>
+
+그래서 전자의 상태를 다 적으려면, n, l, m에 더해 스핀의 위아래를 정하는 네 번째 양자수가 필요해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1925년의 제안">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1922', caption: '은 원자가 두 갈래로' },
+      { big: '1925', caption: '울렌벡과 하우트스밋의 제안', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1925년 네덜란드 레이던의 두 대학원생, 조지 울렌벡과 사뮈엘 하우트스밋이 전자가 스스로 작은 자석의 성질을 지닌다고 제안했어요. 선 스펙트럼의 어떤 선이 아주 가까운 두 줄로 갈라져 있는 까닭을 설명하려던 생각이었죠.
+
+<S n={2}>
+
+이 생각으로 1922년 은 원자 실험도 제대로 설명됐어요. 실험 당시에는 사람들이 이 결과를 다른 이유로 해석했었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="정말 도는 건 아니에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '팽이', caption: '정말 돌아요', tone: 'dim' },
+      { big: '전자의 스핀', caption: '처음부터 지닌 성질이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 전자가 팽이처럼 도는 그림을 떠올렸어요. 이름부터 '돈다'는 뜻이니까요.
+
+그런데 전자를 작은 공으로 보고 이 자석의 세기를 내려면, 공의 겉면이 빛보다 빨리 돌아야 해요. 그래서 지금은 스핀을 질량이나 전하처럼 전자가 처음부터 지닌 성질로 봐요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="두 갈래가 뜻하는 것">
+
+<Check id="q72-sg" options={[
+  { t: '원자 속 작은 자석을 재면 두 값 가운데 하나만 나와요.', ok: true, why: '방향이 제멋대로인 자석이라면 원자들이 고르게 퍼져야 해요. 두 갈래로만 갈라졌다는 건, 잰 결과가 두 값뿐이라는 뜻이에요.' },
+  { t: '화로에서 무게가 다른 두 종류의 은 원자가 나왔어요.', why: '이 실험은 무게가 아니라 작은 자석의 방향에 따라 원자를 가르는 실험이에요. 똑같은 은 원자들이 두 갈래로 갈라졌어요.' },
+  { t: '자석이 두 개라서 두 갈래가 생겼어요.', why: '자석은 한 쌍의 극일 뿐이에요. 고전 물리라면 이 자석 사이를 지난 원자들이 고르게 퍼져야 해요.' },
+  { t: '작은 자석들이 모두 옆을 향하고 있었어요.', why: '모두 옆을 향했다면 거의 밀리지 않아서 가운데 한 점에 모였을 거예요.' },
+]}>
+
+슈테른-게를라흐 실험에서 은 원자들이 고르게 퍼지지 않고 두 갈래로만 갈라졌어요. 이 결과가 뜻하는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="observe" title="자석을 눕히면">
+  <Fragment slot="visual">
+    <SimP09SG />
+  </Fragment>
+
+이번엔 '자석 돌리기'를 눌러 보세요. 자석을 옆으로 눕혀서 원자 속 작은 자석의 좌우 방향을 재는 거예요.
+
+<S n={2}>
+
+이번에도 결과는 두 갈래예요. 다만 왼쪽과 오른쪽으로 갈라지죠. 어느 축을 고르든, 그 축의 두 값만 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="비스듬한 자석">
+
+<Check id="q72-rot" options={[
+  { t: '그 비스듬한 축을 따라 두 갈래로 갈라져요.', ok: true, why: '스핀은 어느 축으로 재든 그 축의 위나 아래 두 값만 나와요. 자석을 비스듬히 놓으면 비스듬한 두 점이 생겨요.' },
+  { t: '세 갈래로 갈라져요.', why: '축을 비스듬히 놓아도 나오는 값의 가짓수는 그대로 둘이에요.' },
+  { t: '고르게 퍼져서 긴 줄이 생겨요.', why: '그건 고전 물리의 예상이에요. 어느 축으로 재든 실제로는 두 갈래예요.' },
+  { t: '모두 가운데 한 점에 모여요.', why: '비스듬히 재도 전자의 작은 자석은 그 축의 위나 아래로 나와서 밀려나요.' },
+]}>
+
+슈테른-게를라흐 실험의 자석을 위아래도 좌우도 아닌, 45° 비스듬히 기울여 놓았어요. 은 원자들은 화면에 어떻게 닿을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="나침반과 전자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '나침반 바늘', caption: '어느 방향이든 가리킬 수 있어요' },
+      { big: '전자의 스핀', caption: '잰 축의 위 아니면 아래', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+나침반 바늘은 어느 방향이든 가리킬 수 있어요. 그런데 전자의 스핀은 어느 축으로 재든 그 축의 '위' 아니면 '아래'로만 나와요.
+
+<S n={2}>
+
+그렇다면 재기 전에도 정말 위나 아래를 가리키고 있었던 걸까요? 이 질문은 쉽지 않아서, 83강에서 실험으로 다시 따져 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="냉장고 자석으로 돌아가서">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '흩어진 스핀', caption: '작은 자석들이 서로 지워요', tone: 'dim' },
+      { big: '줄 선 스핀', caption: '합쳐져서 센 자석이 돼요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+쇠 속에서는 이웃한 원자들의 전자 스핀이 같은 방향으로 줄을 서려고 해요. 수많은 스핀이 한 방향을 향하면, 작은 자석들이 합쳐져 손으로 느낄 만큼 센 자석이 되죠.
+
+<S n={2}>
+
+그러니까 냉장고 자석이 쇠문에 붙는 힘은, 결국 전자의 스핀에서 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="스핀으로 적는 0과 1">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '한 방향', caption: '0' },
+      { big: '반대 방향', caption: '1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+컴퓨터 하드디스크는 원판 위의 아주 작은 칸마다 스핀이 줄 선 방향을 바꿔서 0과 1을 적어요.
+
+<S n={2}>
+
+전원을 꺼도 줄 선 방향은 그대로라서 저장한 것이 남아요. 냉장고 자석이 밤새 붙어 있는 것과 같은 이유예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="아연 원자를 보내면">
+
+<Check id="q72-zinc" options={[
+  { t: '갈라지지 않고 가운데 한 점에 모여요.', ok: true, why: '짝을 지은 두 전자의 자석 성질은 서로 지워져요. 원자 전체에 작은 자석이 없으니 밀려나지 않아요.' },
+  { t: '은처럼 두 갈래로 갈라져요.', why: '두 갈래는 짝을 짓지 못한 전자 하나가 남을 때 생겨요. 아연에는 남는 전자가 없어요.' },
+  { t: '고르게 퍼져서 긴 줄이 생겨요.', why: '긴 줄은 고전 물리의 예상일 뿐, 실제로 나온 적이 없어요.' },
+  { t: '네 갈래로 갈라져요.', why: '짝을 지은 전자들은 자석 성질을 서로 지워서 아무 쪽으로도 밀려나지 않아요.' },
+]}>
+
+아연 원자는 전자 30개가 모두 둘씩 짝을 지어 있어요. 은 대신 아연 원자를 슈테른-게를라흐 실험의 자석 사이로 보내면 화면에 어떻게 닿을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['spin', 'stern-gerlach', 'quantum-number']}>
+
+1. 전자는 작은 막대자석처럼 행동하고, 작은 자석은 고르지 않은 자석 사이에서 방향에 따라 밀려나요.
+2. 방향이 제멋대로라면 원자들은 고르게 퍼져야 해요.
+3. 그런데 은 원자들은 두 갈래로만 갈라졌고, 자석을 돌려 놓아도 그 축으로 두 갈래였어요.
+4. 그래서 전자의 스핀은 어느 축으로 재든 '위'와 '아래' 두 값만 나와요.
+5. 전자의 상태를 다 적으려면 n, l, m에 스핀의 위아래를 더한 네 양자수가 필요해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="나트륨 원자를 보내면">
+
+<DailyProblem id="p72">
+
+나트륨 원자에는 전자가 11개 있어요. 전자들은 둘씩 짝을 지을 수 있는 만큼 짝을 지어요.
+
+나트륨 원자를 슈테른-게를라흐 실험의 자석 사이로 보내면 화면에 몇 갈래로 닿을까요? 까닭과 함께 적어 보세요.
+
+<Fragment slot="hint1">
+
+11개를 둘씩 짝지으면 몇 개가 남나요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+짝을 지은 두 전자의 자석 성질은 서로 지워져요.
+
+</Fragment>
+<Fragment slot="solution">
+
+두 갈래예요. 전자 10개는 둘씩 짝을 지어 자석 성질이 지워지고, 짝 없는 전자 하나가 남아요.
+
+원자 전체의 작은 자석은 그 전자 하나의 스핀이라서, 은 원자처럼 위와 아래 두 값만 나와요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+전자는 스핀이라는 작은 자석의 성질을 지니는데, 어느 축으로 재든 위와 아래 두 값만 나와서 은 원자들이 자석 사이에서 두 갈래로 갈라져요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="왜 꼭 둘씩일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '은의 전자 46개', caption: '둘씩 짝을 지어요' },
+      { big: '셋이나 넷은?', caption: '한자리에 들어가지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 은 원자의 전자 46개가 둘씩 짝을 짓는다고 했죠. 셋이나 넷이 아니라 꼭 둘인 데에는 1925년 볼프강 파울리가 내놓은 규칙 하나가 있어요.
+
+<S n={2}>
+
+다음 강에서는 그 규칙, <Later n={73}>파울리 배타 원리</Later>가 원자 속 전자들을 어떻게 자리 잡게 하는지 봐요. 같은 상태에는 전자가 둘 이상 들어갈 수 없다는 규칙이에요.
+
+</S>
+
+</Screen>

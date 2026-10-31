@@ -1,0 +1,136 @@
+---
+/**
+ * 슈테른-게를라흐 실험. 은 원자가 뾰족한 극을 가진 자석 사이를 지나 화면에 닿는다.
+ * 왼쪽은 옆에서 본 모습, 오른쪽은 화면을 정면에서 본 모습.
+ * '고전 예상': 작은 자석의 방향이 제멋대로라 화면에 긴 줄이 생긴다.
+ * '실제 결과': 두 점으로만 갈라진다. '자석 돌리기'로 자석을 옆으로 눕히면 좌우로 갈라진다.
+ */
+interface Props {
+  classic?: boolean;
+}
+const { classic = false } = Astro.props;
+---
+<qm-sim-p09-sg class="sim" data-ratio="0.56">
+  <canvas aria-label="화로에서 나온 은 원자가 자석 사이를 지나 화면에 닿는다. 고전 예상은 긴 줄, 실제 결과는 두 점이다"></canvas>
+  <input type="hidden" data-param="q" value={classic ? 0 : 1} />
+  <input type="hidden" data-param="rot" value="0" />
+  <div class="sim__buttons" aria-label="결과 고르기">
+    <button type="button" class="btn" data-set="q=0,rot=0" aria-pressed={classic ? 'true' : 'false'}>고전 예상</button>
+    <button type="button" class="btn" data-set="q=1,rot=0" aria-pressed={classic ? 'false' : 'true'}>실제 결과</button>
+    <button type="button" class="btn" data-set="q=1,rot=1" aria-pressed="false">자석 돌리기</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p09-sg>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const gauss = () => {
+    let u = 0;
+    while (!u) u = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
+  };
+
+  class SimP09SG extends Sim {
+    hits: [number, number][] = [];
+    fly: { x: number; v: number }[] = [];
+    acc = 0;
+
+    changed() {
+      this.hits = [];
+      this.fly = [];
+    }
+
+    shot(): [number, number] {
+      // v: 자석 축 방향으로 밀린 정도(−1~1), u: 그와 수직한 퍼짐
+      const v = this.p.q ? (Math.random() < 0.5 ? 1 : -1) + gauss() * 0.06 : Math.random() * 2 - 1 + gauss() * 0.04;
+      const u = gauss() * 0.08;
+      return this.p.rot ? [v, u] : [u, v];
+    }
+
+    tick(dt: number) {
+      this.acc += dt * 45;
+      while (this.acc >= 1) {
+        this.acc -= 1;
+        const s = this.shot();
+        this.fly.push({ x: 0, v: this.p.rot ? 0 : s[1] });
+        this.hits.push(s);
+      }
+      for (const f of this.fly) f.x += dt * 1.6;
+      this.fly = this.fly.filter((f) => f.x < 1);
+      if (this.hits.length > 1500) this.hits.splice(0, this.hits.length - 1500);
+    }
+
+    readout() {
+      const n = this.hits.length;
+      if (!this.p.q) return `고전 예상 · 원자 ${n}개 · 작은 자석의 방향이 제멋대로라 긴 줄로 퍼져요`;
+      let a = 0;
+      for (const h of this.hits) if ((this.p.rot ? h[0] : h[1]) > 0) a++;
+      const dir = this.p.rot ? ['오른쪽', '왼쪽'] : ['위', '아래'];
+      return `실제 결과 · 원자 ${n}개 · ${dir[0]} ${a}개, ${dir[1]} ${n - a}개 · 그 사이에는 하나도 없어요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      if (!this.playing && this.hits.length === 0) {
+        for (let i = 0; i < 400; i++) this.hits.push(this.shot());
+      }
+      const sideW = w * 0.6;
+      const mid = h / 2;
+      // 화로
+      g.fillStyle = c.heat;
+      g.fillRect(8, mid - 10, 16, 20);
+      this.text('화로', 16, mid + 22, c.text2, 10, 'center');
+      // 자석 (옆에서 본 모습)
+      const m0 = sideW * 0.3;
+      const m1 = sideW * 0.62;
+      g.fillStyle = 'rgba(200,90,110,0.35)';
+      g.beginPath();
+      g.moveTo(m0, mid - 34);
+      g.lineTo(m1, mid - 34);
+      g.lineTo(m1, mid - 52);
+      g.lineTo(m0, mid - 52);
+      g.closePath();
+      g.fill();
+      g.beginPath();
+      g.moveTo(m0, mid - 34);
+      g.lineTo((m0 + m1) / 2, mid - 18);
+      g.lineTo(m1, mid - 34);
+      g.closePath();
+      g.fill();
+      g.fillStyle = 'rgba(90,120,200,0.35)';
+      g.fillRect(m0, mid + 26, m1 - m0, 22);
+      this.text(this.p.rot ? '자석 (옆으로 눕힘)' : '자석', (m0 + m1) / 2, mid + 58, c.text2, 10, 'center');
+      // 화면 (옆모습)
+      const sx = sideW - 8;
+      this.line(sx, mid - 60, sx, mid + 60, c.text2, 2);
+      // 날아가는 원자
+      const spread = 46;
+      for (const f of this.fly) {
+        const x = 24 + f.x * (sx - 24);
+        const t = Math.max(0, (x - m0) / (sx - m0));
+        const y = mid - f.v * spread * t * t;
+        this.dot(x, y, 2, c.text);
+      }
+      // 화면 정면
+      const fx0 = sideW + 16;
+      const fx1 = w - 10;
+      const fy0 = 14;
+      const fy1 = h - 14;
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      g.strokeRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
+      this.text('화면 정면', (fx0 + fx1) / 2, fy0 - 6, c.text2, 10, 'center');
+      const cx = (fx0 + fx1) / 2;
+      const cy = (fy0 + fy1) / 2;
+      const R = Math.min(fx1 - fx0, fy1 - fy0) * 0.38;
+      g.fillStyle = c.space;
+      g.globalAlpha = 0.6;
+      for (const [u, v] of this.hits) g.fillRect(cx + u * R - 1, cy - v * R - 1, 2, 2);
+      g.globalAlpha = 1;
+    }
+  }
+  define('qm-sim-p09-sg', SimP09SG);
+</script>
