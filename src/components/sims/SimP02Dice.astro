@@ -1,0 +1,96 @@
+---
+/**
+ * 24강: 주사위 두 개의 합. 던질수록 합마다 나온 횟수가 막대로 쌓인다.
+ * 점선은 확률로 계산한 예상 횟수(던진 횟수 × 확률)다. 많이 던질수록 막대가 점선에 가까워진다.
+ */
+---
+<qm-sim-dice class="sim" data-ratio="0.62" data-autoplay="false">
+  <canvas aria-label="주사위 두 개의 합이 나온 횟수를 막대로 쌓는다. 점선은 확률로 예상한 횟수다."></canvas>
+  <input type="hidden" data-param="roll" value="0" />
+  <div class="sim__buttons" aria-label="던지기">
+    <button type="button" class="btn" data-set="roll=1">1번</button>
+    <button type="button" class="btn" data-set="roll=10">10번</button>
+    <button type="button" class="btn" data-set="roll=100">100번</button>
+    <button type="button" class="btn" data-set="roll=1000">1000번</button>
+    <button type="button" class="btn" data-reset>처음부터</button>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-dice>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const WAYS = [0, 0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+
+  class SimDice extends Sim {
+    animated = false;
+    counts = new Array<number>(13).fill(0);
+    total = 0;
+    sum = 0;
+    last: [number, number] | null = null;
+
+    reset() {
+      this.counts.fill(0);
+      this.total = 0;
+      this.sum = 0;
+      this.last = null;
+      this.renderOutputs();
+    }
+
+    changed(name: string) {
+      if (name !== 'set') return;
+      const n = this.p.roll ?? 0;
+      for (let i = 0; i < n; i++) {
+        const a = 1 + Math.floor(Math.random() * 6);
+        const b = 1 + Math.floor(Math.random() * 6);
+        this.counts[a + b]!++;
+        this.total++;
+        this.sum += a + b;
+        this.last = [a, b];
+      }
+      this.p.roll = 0;
+    }
+
+    readout() {
+      if (!this.total) return '버튼을 눌러 주사위 두 개를 던져 보세요.';
+      const avg = this.sum / this.total;
+      const r7 = this.counts[7]! / this.total;
+      const last = this.last ? `마지막: ${this.last[0]} + ${this.last[1]} = ${this.last[0] + this.last[1]} · ` : '';
+      return `${last}던진 횟수 ${this.total}번 · 합이 7인 비율 ${r7.toFixed(3)} (확률 0.167) · 합의 평균 ${avg.toFixed(2)} (기댓값 7)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const left = 30;
+      const right = w - 10;
+      const top = 14;
+      const bot = h - 30;
+      const bw = (right - left) / 11;
+      const expMax = (this.total * 6) / 36;
+      const maxC = Math.max(1, ...this.counts, expMax);
+      this.line(left, bot, right, bot, c.text2, 1);
+      for (let s = 2; s <= 12; s++) {
+        const x = left + (s - 2) * bw;
+        const hh = ((bot - top) * this.counts[s]!) / maxC;
+        g.fillStyle = s === 7 ? c.accent : c.space;
+        g.globalAlpha = 0.85;
+        g.fillRect(x + bw * 0.15, bot - hh, bw * 0.7, hh);
+        g.globalAlpha = 1;
+        if (this.total) {
+          const eh = ((bot - top) * this.total * WAYS[s]!) / 36 / maxC;
+          g.setLineDash([4, 3]);
+          g.strokeStyle = c.text;
+          g.lineWidth = 1.2;
+          g.strokeRect(x + bw * 0.15, bot - eh, bw * 0.7, eh);
+          g.setLineDash([]);
+        }
+        this.text(String(s), x + bw / 2, bot + 12, c.text2, 11, 'center');
+      }
+      this.text('두 눈의 합', right, bot + 24, c.muted, 10, 'right');
+      this.text('나온 횟수', 4, top, c.muted, 10);
+      this.text('점선: 확률로 예상한 횟수', right, top, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-dice', SimDice);
+</script>
