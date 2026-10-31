@@ -1,0 +1,117 @@
+---
+/**
+ * 23강: 상자 속 기체 분자. 절대온도를 바꾸면 분자들의 빠르기가 바뀐다.
+ * 평균 운동 에너지는 절대온도에 비례하므로 빠르기는 절대온도의 제곱근에 비례한다. 0 K에서는 거의 멈춘다.
+ */
+interface Props {
+  k?: number;
+}
+const { k = 300 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-gas class="sim" data-ratio="0.66">
+  <canvas aria-label="상자 속 기체 분자들이 제멋대로 날아다닌다. 절대온도를 올리면 빨라지고, 0 K에 가까워지면 거의 멈춘다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`gas-k-${uid}`}>절대온도</label>
+      <input id={`gas-k-${uid}`} type="range" min="0" max="600" step="10" value={k} data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-gas>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 60;
+  const r = 0.012;
+
+  interface M {
+    x: number;
+    y: number;
+    dx: number;
+    dy: number;
+    s: number;
+  }
+
+  /** 빠르기 분포를 흉내 내려고 2차원 정규분포 두 개를 섞는다 */
+  const randn = () => {
+    let u = 0;
+    while (u === 0) u = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
+  };
+
+  class SimGas extends Sim {
+    mols: M[] = [];
+
+    init() {
+      for (let i = 0; i < N; i++) {
+        const vx = randn();
+        const vy = randn();
+        const s = Math.hypot(vx, vy);
+        this.mols.push({ x: 0.05 + Math.random() * 0.9, y: 0.05 + Math.random() * 0.9, dx: vx / s, dy: vy / s, s });
+      }
+    }
+
+    scale() {
+      return 0.28 * Math.sqrt(this.p.k! / 300);
+    }
+
+    tick(dt: number) {
+      const sc = this.scale();
+      for (const m of this.mols) {
+        m.x += m.dx * m.s * sc * dt;
+        m.y += m.dy * m.s * sc * dt;
+        if (m.x < r) { m.x = r; m.dx = Math.abs(m.dx); }
+        if (m.x > 1 - r) { m.x = 1 - r; m.dx = -Math.abs(m.dx); }
+        if (m.y < r) { m.y = r; m.dy = Math.abs(m.dy); }
+        if (m.y > 1 - r) { m.y = 1 - r; m.dy = -Math.abs(m.dy); }
+      }
+    }
+
+    format() {
+      return `${this.p.k} K`;
+    }
+
+    readout() {
+      const K = this.p.k!;
+      const c = K - 273;
+      const ke = K / 300;
+      const v = Math.round(515 * Math.sqrt(K / 300));
+      return `${K} K = 약 ${c} ℃ · 평균 운동 에너지는 300 K의 ${ke.toFixed(2)}배 · 공기(질소) 분자의 평균적인 빠르기 약 ${v} m/s`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const S = Math.min(w * 0.72, h - 16);
+      const ox = 8;
+      const oy = (h - S) / 2;
+      g.strokeStyle = c.line;
+      g.lineWidth = 1.5;
+      g.strokeRect(ox, oy, S, S);
+      const sc = this.scale();
+      for (const m of this.mols) {
+        const x = ox + m.x * S;
+        const y = oy + m.y * S;
+        this.dot(x, y, r * S, c.heat);
+        if (sc > 0) this.line(x, y, x - m.dx * m.s * sc * S * 0.12, y - m.dy * m.s * sc * S * 0.12, c.heat, 1);
+      }
+      // 온도 막대
+      const bx = ox + S + 28;
+      const top = oy + 10;
+      const bot = oy + S - 10;
+      this.line(bx, top, bx, bot, c.line, 8);
+      const frac = this.p.k! / 600;
+      this.line(bx, bot, bx, bot - (bot - top) * frac, c.heat, 8);
+      this.text('600 K', bx + 10, top, c.muted, 10);
+      this.text('0 K', bx + 10, bot, c.muted, 10);
+      this.text('273 K (0 ℃)', bx + 10, bot - (bot - top) * (273 / 600), c.text2, 10);
+    }
+  }
+  define('qm-sim-gas', SimGas);
+</script>

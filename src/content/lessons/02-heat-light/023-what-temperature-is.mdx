@@ -1,0 +1,403 @@
+---
+number: 23
+title: 온도의 정체
+short: 온도의 정체
+question: 온도계가 재는 건 도대체 무엇일까요?
+mechanism: 물질 속 분자는 쉬지 않고 제멋대로 움직이고, 뜨거울수록 더 빠르게 움직여요. 온도계가 재는 건 이 수많은 분자의 평균 운동 에너지예요. 분자의 움직임이 가장 작아져 더 내려갈 수 없는 −273.15 ℃를 0으로 잡은 눈금이 절대온도이고, 평균 운동 에너지는 절대온도에 비례해요.
+part: 2
+minutes: 21
+assumes: [atom, molecule, brownian-motion, kinetic-energy, energy, speed, mass]
+introduces: [absolute-zero, absolute-temperature]
+sources:
+  - "Gay-Lussac, J. L. Recherches sur la dilatation des gaz et des vapeurs, Annales de Chimie 43 (1802)"
+  - "Thomson, W. (Lord Kelvin) On an Absolute Thermometric Scale, Proceedings of the Cambridge Philosophical Society (1848)"
+  - "BIPM, SI Brochure (9th edition, 2019): 켈빈의 정의, 0 ℃ = 273.15 K"
+  - "질소 분자의 평균적인 빠르기(제곱 평균 제곱근): 25 ℃에서 약 515 m/s (Atkins, Physical Chemistry)"
+testout: [q23-k, q23-double, q23-zero]
+status: published
+---
+
+<Screen kind="recall" from={22} title="따뜻한 물의 흔들림">
+  <Fragment slot="visual">
+    <SimP02Brownian show={1} size={1} />
+  </Fragment>
+
+22강에서 물에 뜬 작은 알갱이는 둘레의 분자들이 사방에서 부딪혀 흔들렸어요. 그리고 따뜻한 물에서는 그 흔들림이 더 활발했죠.
+
+<S n={2}>
+
+알갱이를 더 세게 흔든 건 더 빠르게 움직이는 분자들이었어요. 그렇다면 따뜻하다는 것 자체가 분자의 움직임과 관계있는 게 아닐까요?
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="손으로 느끼는 온도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'pot', title: '데운 우유', caption: '손을 대면 뜨거워요' },
+      { icon: 's1-ice', title: '얼음물', caption: '손을 대면 차가워요' },
+      { icon: 's1-thermo', title: '온도계', caption: '숫자로 적어 줘요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+우리는 손으로 뜨겁고 차가운 걸 느끼고, 온도계로 그걸 숫자로 적어요. 그런데 온도계가 재는 그 숫자는 무엇을 잰 값일까요?
+
+<S n={2}>
+
+오늘은 이 질문을 분자의 움직임으로 따라가 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="상자 속 기체 분자">
+  <Fragment slot="visual">
+    <SimP02Gas k={300} />
+  </Fragment>
+
+상자 속 기체 분자들을 그렸어요. 재생한 다음, 절대온도 슬라이더를 600까지 올렸다가 100까지 내려 보세요. 절대온도라는 눈금은 조금 뒤에 설명할게요.
+
+<S n={2}>
+
+뜨겁게 하면 분자들이 빨라지고, 차갑게 하면 느려져요. 다만 분자마다 빠르기는 제각각이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="온도는 분자의 빠르기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '뜨거운 물체', caption: '분자들이 평균적으로 빠르게 움직여요' },
+      { big: '차가운 물체', caption: '분자들이 평균적으로 느리게 움직여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그러니까 물체가 뜨겁다는 건, 그 속의 분자들이 평균적으로 빠르게 제멋대로 움직인다는 뜻이에요.
+
+<Key>온도계가 재는 건 분자 하나의 빠르기가 아니라, 셀 수 없이 많은 분자가 제멋대로 움직이는 운동 에너지의 평균이에요.</Key>
+
+</Screen>
+
+<Screen kind="worked" title="공기 분자의 빠르기">
+  <Fragment slot="visual">
+    <DataTable caption="공기의 질소 분자, 평균적인 빠르기 (어림)" head={['온도', '빠르기']} rows={[
+      ['0 ℃', '약 490 m/s'],
+      ['25 ℃', '약 515 m/s'],
+      ['100 ℃', '약 575 m/s'],
+    ]} />
+  </Fragment>
+
+공기 분자는 얼마나 빠를까요? 방 안 공기의 질소 분자는 평균적으로 1초에 약 500 m를 날아가요. 소리보다도 빠르죠.
+
+<S n={2}>
+
+그런데도 바람을 못 느끼는 건, 분자들이 사방으로 제멋대로 날아서 한쪽으로 쏠리지 않기 때문이에요. 게다가 1초에도 수십억 번 서로 부딪혀 방향을 바꿔요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="분자 하나의 온도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '분자 하나', caption: '빠르기는 있지만 온도는 없어요' },
+      { big: '분자 수없이 많이', caption: '빠르기의 평균으로 온도를 말해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 분자 하나도 뜨겁거나 차가울 수 있는 줄 알았어요.
+
+그런데 온도는 수많은 분자의 평균을 말하는 값이라, 분자 하나에는 빠르기가 있을 뿐 온도가 없어요. 반 학생 한 명의 키로 반 평균 키를 말할 수 없는 것과 같아요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="식히면 줄어드는 기체">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'balloon', title: '방 안의 풍선', caption: '빵빵해요' },
+      { icon: 's1-ice', title: '냉동실에 넣으면', caption: '쭈글쭈글해져요', tone: 'accent' },
+    ]} arrows />
+  </Fragment>
+
+풍선을 냉동실에 넣으면 쭈글쭈글해져요. 분자들이 느려져서 풍선 벽을 덜 세게 밀기 때문이에요.
+
+<S n={2}>
+
+1800년대에 정밀하게 재 보니, 기체를 1 ℃ 식힐 때마다 부피가 0 ℃ 때 부피의 약 273분의 1씩 줄었어요. 그럼 계속 식히면 어떻게 될까요?
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="부피가 0이 되는 온도">
+  <Fragment slot="visual">
+    <Plot
+      alt="기체의 부피와 온도. 0 ℃에서 273 mL인 기체는 1 ℃ 식힐 때마다 1 mL씩 줄고, 줄을 늘이면 −273 ℃에서 0이 된다"
+      x={[-300, 120]} y={[0, 420]}
+      xLabel="온도 (℃)" yLabel="기체의 부피 (mL)" xq="heat" yq="space"
+      xTicks={[-273, -200, -100, 0, 100]} yTicks={[0, 100, 200, 300, 400]}
+      axisSteps={[1, 1]}
+      curves={[
+        { pts: [[-60, 213], [100, 373]], q: 'heat', step: 2, label: '잰 값', labelAt: [10, 330] },
+        { pts: [[-273, 0], [-60, 213]], q: 'heat', dash: true, step: 3 },
+      ]}
+      points={[{ x: 0, y: 273, label: '0 ℃에서 273 mL', step: 2, q: 'heat' }, { x: -273, y: 0, label: '−273 ℃', step: 3, q: 'heat', dx: 6, dy: -14 }]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 섭씨온도, 세로축은 기체의 부피예요.
+
+</S>
+
+<S n={2}>
+
+0 ℃에서 273 mL인 기체는 1 ℃ 데우면 1 mL씩 늘고, 1 ℃ 식히면 1 mL씩 줄어서 곧은 선을 따라가요.
+
+</S>
+
+<S n={3}>
+
+이 선을 그대로 늘이면 약 −273 ℃에서 부피가 0이 돼요. 실제 기체는 그 전에 액체가 되지만, 분자의 움직임이 가장 작아지는 온도가 거기 있다는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="절대영도라는 이름">
+  <Fragment slot="visual">
+    <Define term="absolute-zero" />
+  </Fragment>
+
+분자의 움직임이 가장 작아져서 더는 내려갈 수 없는 온도를 **절대영도**라고 해요. 섭씨로는 −273.15 ℃예요.
+
+<Key>온도는 분자들의 평균 운동 에너지이고 운동 에너지는 0보다 작아질 수 없으니까, 분자의 움직임이 가장 작아지는 절대영도보다 낮은 온도는 없어요.</Key>
+
+</Screen>
+
+<Screen kind="story" title="켈빈의 눈금">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1848년', title: '윌리엄 톰슨 (켈빈 경)', caption: '가장 낮은 온도를 0으로 잡은 눈금을 내놓았어요' },
+      { big: 'K', title: '켈빈', caption: '그 눈금의 단위에 이름이 남았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1848년 영국의 윌리엄 톰슨은 이 가장 낮은 온도를 0으로 잡은 새 눈금을 내놓았어요. 톰슨은 뒤에 켈빈 경이라는 칭호를 받았고, 그 눈금의 단위에 켈빈이라는 이름이 남았어요.
+
+<S n={2}>
+
+섭씨는 물이 어는 온도를 0으로 잡았죠. 사람이 정하기 편한 기준이에요. 켈빈은 자연에 원래 있는 가장 낮은 자리를 0으로 잡은 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="절대온도라는 이름">
+  <Fragment slot="visual">
+    <Define term="absolute-temperature" />
+  </Fragment>
+
+절대영도를 0으로 잡고, 눈금 한 칸은 섭씨와 같게 잰 온도를 **절대온도**라고 해요. 단위는 K(켈빈)이에요.
+
+<S n={2}>
+
+섭씨에 273.15를 더하면 절대온도가 돼요. 이 책에서는 보통 273으로 어림해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="섭씨를 절대온도로">
+  <Fragment slot="visual">
+    <DataTable caption="절대온도 = 섭씨온도 + 273" head={['', '섭씨', '절대온도']} rows={[
+      ['물이 어는 온도', '0 ℃', '273 K'],
+      ['방 안', '27 ℃', '300 K'],
+      ['사람의 몸', '37 ℃', '310 K'],
+      ['물이 끓는 온도', '100 ℃', '373 K'],
+      ['액체 질소', '−196 ℃', '77 K'],
+    ]} steps={[undefined, undefined, undefined, undefined, 2]} />
+  </Fragment>
+
+섭씨에 273을 더하면 돼요. 물이 어는 0 ℃는 273 K, 방 안의 27 ℃는 300 K예요.
+
+<S n={2}>
+
+0보다 낮은 섭씨도 같아요. 액체 질소의 −196 ℃는 −196 + 273 = 77 K죠. 절대온도에는 −가 붙는 일이 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="영하 40도">
+
+<Numeric id="q23-k" answer={233} tol={0.01} unit="K">
+
+겨울 시베리아의 기온이 −40 ℃까지 내려갔어요. 이 온도는 절대온도로 몇 K일까요? (273을 더해요)
+
+<Fragment slot="solution">
+
+−40 + 273 = 233 K예요. 아주 추운 날씨지만 절대영도보다는 233칸이나 위에 있어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="절대온도에 비례해요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '300 K → 600 K', title: '절대온도 2배', caption: '평균 운동 에너지도 2배' },
+      { big: '27 ℃ → 327 ℃', title: '같은 변화를 섭씨로', caption: '12배가 아니에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+분자들의 평균 운동 에너지는 절대온도에 비례해요. 300 K에서 600 K로 2배가 되면, 평균 운동 에너지도 2배가 돼요.
+
+<S n={2}>
+
+그리고 온도가 같으면 분자의 종류와 상관없이 평균 운동 에너지가 같아요. 같은 방 안의 질소 분자와 산소 분자는 평균 운동 에너지가 같은 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="27도에서 327도로">
+
+<Check id="q23-double" options={[
+  { t: '2배', ok: true, why: '27 ℃는 300 K, 327 ℃는 600 K예요. 평균 운동 에너지는 절대온도에 비례하니까 2배예요.' },
+  { t: '약 12배', why: '섭씨 숫자 327 ÷ 27로 나눴어요. 평균 운동 에너지는 섭씨가 아니라 절대온도에 비례해요.' },
+  { t: '4배', why: '빠르기가 2배일 때 운동 에너지가 4배가 되는 것과 헷갈렸어요. 여기서는 절대온도가 2배라서 에너지가 2배예요.' },
+  { t: '그대로예요', why: '데우면 분자가 빨라져서 평균 운동 에너지가 커져요.' },
+]}>
+
+기체를 27 ℃에서 327 ℃로 데웠어요. 분자들의 평균 운동 에너지는 몇 배가 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="observe" title="0 K까지 내려 보기">
+  <Fragment slot="visual">
+    <SimP02Gas k={300} />
+  </Fragment>
+
+재생한 채로 절대온도를 천천히 0 K까지 내려 보세요.
+
+<S n={2}>
+
+분자들이 점점 느려지다가 거의 멈춰요. 그보다 느려질 수는 없으니 더 내려갈 온도가 없는 거예요. 실제로는 0 K에서도 완전히 멈추지는 않는데, 그 까닭은 62강에서 다뤄요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="더 낮은 온도는">
+
+<Check id="q23-zero" options={[
+  { t: '분자들의 평균 운동 에너지가 0보다 작아질 수 없어서', ok: true, why: '온도는 분자의 평균 운동 에너지이고, 운동 에너지는 0보다 작을 수 없어요. 그래서 그 아래 온도는 없어요.' },
+  { t: '온도계의 눈금이 거기서 끝나서', why: '눈금은 사람이 그린 거예요. 자연에 더 낮은 온도가 없다는 게 먼저예요.' },
+  { t: '물이 모두 얼어서', why: '물은 273 K에서 얼어요. 그보다 훨씬 낮은 온도도 있어요.' },
+  { t: '아직 냉장 기술이 부족해서', why: '기술의 문제가 아니에요. 원리상 그보다 더 낮은 온도는 없어요.' },
+]}>
+
+절대영도(−273.15 ℃)보다 낮은 온도가 없는 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="가장 차가운 곳들">
+  <Fragment slot="visual">
+    <DataTable caption="차가운 곳들의 절대온도" head={['곳', '절대온도']} rows={[
+      ['남극에서 잰 가장 낮은 기온', '약 184 K'],
+      ['액체 질소', '77 K'],
+      ['별과 별 사이의 텅 빈 우주', '약 2.7 K'],
+      ['실험실에서 식혀 본 가장 낮은 온도', '0 K보다 10억분의 1 K쯤 위'],
+    ]} />
+  </Fragment>
+
+자연에서 가장 차가운 곳은 별과 별 사이의 텅 빈 우주로, 약 2.7 K예요.
+
+<S n={2}>
+
+실험실에서는 원자를 0 K보다 10억분의 1 K쯤 높은 데까지 식혀 봤어요. 하지만 0 K에 딱 닿을 수는 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['absolute-zero', 'absolute-temperature']}>
+
+1. 뜨거울수록 분자가 빠르게 움직이니까, 온도는 분자들의 평균 운동 에너지를 잰 값이에요.
+2. 식힐수록 분자가 느려지고, 움직임이 가장 작아지는 −273.15 ℃가 절대영도예요.
+3. 절대영도를 0으로 잡은 눈금이 절대온도(K)이고, 섭씨에 273을 더해 구해요.
+4. 평균 운동 에너지는 절대온도에 비례하고, 온도가 같으면 분자 종류와 상관없이 같아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="헬륨과 질소">
+
+<DailyProblem id="p23">
+
+같은 방 안 공기에 가벼운 헬륨 분자와 무거운 질소 분자가 섞여 있어요. 헬륨 분자의 질량은 질소 분자의 약 7분의 1이에요.
+
+두 분자 가운데 평균적으로 더 빠르게 날아다니는 쪽은 어느 쪽일까요? 까닭도 적어 보세요.
+
+<Fragment slot="hint1">
+
+온도가 같으면 분자 종류와 상관없이 평균 운동 에너지 ½mv²이 같아요. m이 작으면 v는 어떻게 되어야 할까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+헬륨 분자가 더 빨라요. 같은 온도에서는 평균 운동 에너지 ½mv²이 같은데, 헬륨은 질량이 작으니 그만큼 빠르게 움직여야 같은 에너지가 되거든요.
+
+질량이 7분의 1이면 빠르기의 제곱이 7배라서, 빠르기는 약 2.6배예요. 헬륨이 지구 대기에서 우주로 조금씩 빠져나가는 까닭 가운데 하나예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+온도는 수많은 분자가 제멋대로 움직이는 평균 운동 에너지이고, 그 움직임이 가장 작아지는 절대영도를 0으로 잡은 절대온도에 평균 운동 에너지가 비례해요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="제각각인 빠르기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-dice', title: '주사위 두 개', caption: '합이 7이 가장 자주 나와요' },
+    ]} />
+  </Fragment>
+
+시뮬레이션에서 분자들은 빠르기가 제각각이었어요. 온도는 그 평균이었죠. 그런데 수많은 분자 가운데 빠른 분자가 얼마나 되는지, 평균이 정확히 무엇인지 말하려면 "얼마나 자주"를 숫자로 적는 방법이 필요해요.
+
+<S n={2}>
+
+다음 강에서는 주사위 두 개를 던져서 그 방법을 배워 볼게요. 합이 7이 가장 자주 나오는 까닭에서 출발해요.
+
+</S>
+
+</Screen>
