@@ -30,4 +30,10 @@ export default {
   's2-stairs': '<path d="M4 56h12V44h12V32h12V20h12V8h8"/><circle cx="34" cy="26" r="4"/>',
   // 경사로
   's2-ramp': '<path d="M4 56L60 12v44z"/><circle cx="34" cy="28" r="4"/>',
+  // 건포도 푸딩: + 반죽 속에 박힌 전자
+  's2-pudding': '<circle cx="32" cy="32" r="24"/><circle cx="22" cy="24" r="2.5" fill="currentColor"/><circle cx="40" cy="22" r="2.5" fill="currentColor"/><circle cx="30" cy="38" r="2.5" fill="currentColor"/><circle cx="44" cy="40" r="2.5" fill="currentColor"/><circle cx="20" cy="42" r="2.5" fill="currentColor"/><path d="M28 14h4M30 12v4M48 30h4M50 28v4M12 32h4M14 30v4" opacity=".6"/>',
+  // 작은 핵과 텅 빈 원자
+  's2-nucleus': '<circle cx="32" cy="32" r="24" stroke-dasharray="3 5"/><circle cx="32" cy="32" r="2.5" fill="currentColor"/><circle cx="14" cy="24" r="1.6"/><circle cx="48" cy="44" r="1.6"/>',
+  // 현미경
+  's2-microscope': '<path d="M26 6h8v6h-8zM28 12l-2 22h8l-2-22"/><path d="M30 34v6"/><path d="M14 56h36M20 50h24"/><path d="M40 20c10 4 12 16 6 26"/><path d="M24 40h12"/>',
 };

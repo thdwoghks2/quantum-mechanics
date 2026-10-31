@@ -343,6 +343,18 @@
   summary: 로버트 밀리컨과 하비 플레처가 전기를 띤 기름방울을 두 판 사이에 띄워 전하를 쟀어요. 어느 방울의 전하든 약 1.6 × 10⁻¹⁹ C의 정수배였어요. 1913년에 더 정확한 값을 발표했어요.
   lessons: [38]
   people: [millikan, fletcher]
+- id: thomson-1904
+  year: 1904
+  title: 톰슨의 원자 그림
+  summary: 톰슨이 + 전하가 원자 전체에 고르게 퍼져 있고 그 속에 전자가 박혀 있다는 원자의 그림을 내놓았어요. 뒤에 사람들은 이 그림을 건포도 푸딩에 빗대곤 했어요.
+  lessons: [39]
+  people: [thomson]
+- id: geiger-marsden-1913
+  year: 1913
+  title: 원자핵의 계산을 확인한 측정
+  summary: 가이거와 마스든이 여러 금속박과 여러 각도에서 알파 입자의 반짝임을 세어, 원자핵이 있다고 놓은 러더퍼드의 계산이 맞는다는 걸 확인했어요.
+  lessons: [39]
+  people: [geiger, marsden, rutherford]
 
 # ── 세션 3 (64~83강, 106~110강) ──
 # (여기 아래에 더한다)
