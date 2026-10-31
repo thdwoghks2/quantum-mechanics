@@ -1,0 +1,84 @@
+---
+/**
+ * 상자 속 같은 종류의 입자 두 개. 하나는 1번째 칸, 하나는 2번째 칸에 있다.
+ * 가로는 한 입자의 자리, 세로는 다른 입자의 자리이고, 밝을수록 그 짝으로 찾을 확률이 크다.
+ * 대각선은 두 입자가 같은 자리에 있는 경우. 페르미온은 대각선에서 0, 보손은 구별되는 입자의 2배.
+ */
+interface Props {
+  kind?: 0 | 1 | 2;
+}
+const { kind = 2 } = Astro.props;
+const labels = ['구별되는 입자', '보손', '페르미온'];
+---
+<qm-sim-p09-pair class="sim" data-ratio="0.78">
+  <canvas aria-label="두 입자의 자리를 가로와 세로로 둔 지도. 페르미온은 대각선이 어둡고, 보손은 대각선이 밝다"></canvas>
+  <input type="hidden" data-param="k" value={kind} />
+  <div class="sim__buttons" aria-label="입자 고르기">
+    {labels.map((t, i) => (
+      <button type="button" class="btn" data-set={`k=${i}`} aria-pressed={i === kind ? 'true' : 'false'}>{t}</button>
+    ))}
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p09-pair>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const s1 = (x: number) => Math.SQRT2 * Math.sin(Math.PI * x);
+  const s2 = (x: number) => Math.SQRT2 * Math.sin(2 * Math.PI * x);
+
+  class SimP09Pair extends Sim {
+    animated = false;
+
+    dens(a: number, b: number) {
+      const k = this.p.k ?? 0;
+      const p = s1(a) * s2(b);
+      const q = s2(a) * s1(b);
+      if (k === 0) return (p * p + q * q) / 2;
+      if (k === 1) return ((p + q) * (p + q)) / 2;
+      return ((p - q) * (p - q)) / 2;
+    }
+
+    readout() {
+      const k = this.p.k ?? 0;
+      if (k === 0) return '구별되는 입자 · 두 입자를 같은 자리에서 찾을 확률이 기준값이에요';
+      if (k === 1) return '보손 · 진폭이 더해져서, 같은 자리에서 찾을 확률이 구별되는 입자의 2배예요';
+      return '페르미온 · 진폭이 빼져서, 같은 자리에서 찾을 확률이 0이에요';
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const size = Math.min(w - 40, h - 40);
+      const x0 = (w - size) / 2 + 10;
+      const y0 = 10;
+      const N = 64;
+      const cell = size / N;
+      const max = 4.2;
+      g.fillStyle = c.space;
+      for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+          const a = (i + 0.5) / N;
+          const b = (j + 0.5) / N;
+          g.globalAlpha = Math.min(1, this.dens(a, b) / max);
+          g.fillRect(x0 + i * cell, y0 + size - (j + 1) * cell, cell + 0.5, cell + 0.5);
+        }
+      }
+      g.globalAlpha = 1;
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      g.strokeRect(x0, y0, size, size);
+      g.setLineDash([5, 5]);
+      this.line(x0, y0 + size, x0 + size, y0, c.accent, 1.5);
+      g.setLineDash([]);
+      this.text('같은 자리', x0 + size * 0.62, y0 + size * 0.3, c.accent, 11);
+      this.text('한 입자의 자리 →', x0 + size, y0 + size + 14, c.text2, 10, 'right');
+      g.save();
+      g.translate(x0 - 10, y0 + size);
+      g.rotate(-Math.PI / 2);
+      this.text('다른 입자의 자리 →', 0, 0, c.text2, 10);
+      g.restore();
+    }
+  }
+  define('qm-sim-p09-pair', SimP09Pair);
+</script>

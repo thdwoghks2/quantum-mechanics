@@ -1,0 +1,443 @@
+---
+number: 76
+title: 보손과 페르미온
+short: 보손과 페르미온
+question: 전자는 서로 같은 상태를 피하는데, 광자는 왜 한 상태에 모일 수 있을까요?
+mechanism: 같은 종류의 입자는 정말로 구별할 수 없어서, 두 입자가 자리를 바꿔도 찾을 확률이 같아야 해요. 그래서 진폭은 그대로이거나 부호만 바뀔 수 있고, 그대로인 입자가 보손, 부호가 바뀌는 입자가 페르미온이에요. 페르미온 둘이 같은 상태에 있으면 진폭이 그대로이면서 부호도 바뀌어야 하니 0이 되어 배타 원리가 나오고, 보손은 진폭이 더해져 오히려 같은 상태에 모이려 해요. 아주 차갑게 식힌 보손 원자들이 한 상태에 모인 것이 보스-아인슈타인 응축이에요.
+part: 9
+minutes: 20
+assumes: [pauli-exclusion, spin, orbital, electron, photon, atom, nucleus, probability-amplitude, born-rule, probability, absolute-temperature, absolute-zero, de-broglie-wavelength, particle-in-a-box, thermal-radiation, interference, quantum-state]
+introduces: [boson, fermion, bose-einstein-condensate]
+sources:
+  - "Bose, S. N. Plancks Gesetz und Lichtquantenhypothese, Zeitschrift für Physik 26, 178 (1924)"
+  - "Einstein, A. Quantentheorie des einatomigen idealen Gases, Sitzungsberichte der Preussischen Akademie der Wissenschaften (1924, 1925)"
+  - "Anderson, M. H., Ensher, J. R., Matthews, M. R., Wieman, C. E., Cornell, E. A. Observation of Bose-Einstein Condensation in a Dilute Atomic Vapor, Science 269, 198 (1995)"
+  - "Pauli, W. The Connection Between Spin and Statistics, Physical Review 58, 716 (1940)"
+  - "Fried, D. G. et al. Bose-Einstein Condensation of Atomic Hydrogen, Physical Review Letters 81, 3811 (1998)"
+  - "The Nobel Prize in Physics 2001, nobelprize.org"
+testout: [q76-pauli, q76-he3, q76-coin]
+status: published
+---
+
+<Screen kind="scene" title="두 무리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전자', caption: '같은 상태를 피해요' },
+      { big: '광자', caption: '같은 상태에 모여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 전자는 배타 원리를 따르지만 광자는 따르지 않는다고 했죠. 오늘은 입자들이 왜 이렇게 두 무리로 나뉘는지 봐요.
+
+<S n={2}>
+
+이야기는 1924년 인도에서 아인슈타인에게 온 편지 한 통에서 시작돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="다카에서 온 편지">
+  <Fragment slot="visual">
+    <BigNumber top="보스가 아인슈타인에게 논문과 편지를 보낸 해" value="1924" bottom="다카 대학 · 지금의 방글라데시" />
+  </Fragment>
+
+다카 대학의 사티엔드라 나트 보스는, 플랑크의 열복사 공식을 새 방법으로 이끌어 낸 논문을 아인슈타인에게 보냈어요. 영국의 학술지가 실어 주지 않은 논문이었죠.
+
+<S n={2}>
+
+아인슈타인은 이 논문을 직접 독일어로 옮겨 학술지에 실어 주었어요. 보스의 방법에는 빛의 알갱이들을 서로 구별하지 않고 세는, 새로운 생각이 들어 있었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="구별할 수 없는 입자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전자 A', caption: '질량, 전하, 스핀이 같아요' },
+      { big: '전자 B', caption: '이름표를 붙일 방법이 없어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+모든 전자는 질량, 전하, 스핀이 똑같아요. 이름표를 붙일 방법도 없어서, 두 전자가 자리를 바꿔도 달라지는 게 아무것도 없어요.
+
+<S n={2}>
+
+광자끼리도, 같은 종류의 원자끼리도 마찬가지예요. 양자역학에서 같은 종류의 입자는 정말로 구별할 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="동전 두 개 세기">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['구별되는 동전: 앞앞, 앞뒤, 뒤앞, 뒤뒤', '구별되는 입자: 같은 쪽일 확률 2분의 1'],
+        ['구별 못 하는 동전: 앞앞, 하나씩, 뒤뒤', '보손: 같은 쪽일 확률 3분의 2'],
+        ['같은 쪽은 금지: 하나씩뿐', '페르미온: 같은 쪽일 확률 0'],
+      ]}
+      fits="구별할 수 없으면 경우를 세는 방법이 달라지고, 그래서 두 입자가 같은 상태에 있을 확률이 달라진다는 점이 같아요."
+      breaks="실제 동전은 흠집으로 구별할 수 있어서 이렇게 행동하지 않아요. 양자 입자가 이렇게 행동하는 진짜 까닭은 경우를 세는 법이 아니라 확률 진폭이 더해지는 방식에 있어요."
+    />
+  </Fragment>
+
+보스의 생각을 동전 두 개로 따라가 볼게요. 구별되는 동전이면 '앞뒤'와 '뒤앞'이 다른 결과지만, 구별할 수 없다면 '하나씩'이라는 한 결과예요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="check" title="구별할 수 없는 동전">
+
+<Check id="q76-coin" options={[
+  { t: '3분의 2', ok: true, why: '결과가 앞앞, 하나씩, 뒤뒤 세 가지이고 셋이 똑같이 잘 나온다면, 같은 쪽인 경우는 둘이라 3분의 2예요.' },
+  { t: '2분의 1', why: '그건 구별되는 동전의 확률이에요. 앞뒤와 뒤앞을 따로 세서 네 가지 중 둘이었어요.' },
+  { t: '4분의 1', why: '앞앞 하나만 센 확률이에요. 뒤뒤도 같은 쪽이에요.' },
+  { t: '0', why: '0은 같은 쪽이 금지된 페르미온의 경우예요.' },
+]}>
+
+구별할 수 없는 동전 두 개를 던지면 결과는 앞앞, 하나씩, 뒤뒤 세 가지예요. 셋이 똑같이 잘 나온다면, 두 동전이 같은 쪽을 보일 확률은 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="자리를 바꾸면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '자리를 바꿔요', caption: '찾을 확률은 같아야 해요' },
+      { big: '진폭은', caption: '그대로이거나, 부호만 바뀌거나', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 입자가 자리를 바꿔도 찾을 확률은 같아야 해요. 확률은 진폭의 크기를 제곱한 값이니, 진폭은 그대로이거나 부호만 바뀔 수 있어요.
+
+<S n={2}>
+
+실제로 두 가지 입자가 다 있어요. 바꿔도 진폭이 그대로인 입자와, 바꾸면 진폭의 부호가 바뀌는 입자예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="보손">
+  <Fragment slot="visual">
+    <Define term="boson" />
+  </Fragment>
+
+같은 종류의 두 입자가 자리를 바꿔도 진폭이 그대로인 입자를 **보손**이라고 불러요. 보스의 이름을 딴 이름이에요.
+
+<S n={2}>
+
+광자와 헬륨-4 원자가 보손이에요. 보손은 같은 상태에 얼마든지 함께 있을 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="페르미온">
+  <Fragment slot="visual">
+    <Define term="fermion" />
+  </Fragment>
+
+자리를 바꾸면 진폭의 부호가 바뀌는 입자를 **페르미온**이라고 불러요. 엔리코 페르미의 이름을 딴 이름이에요.
+
+<S n={2}>
+
+전자, 그리고 원자핵을 이루는 알갱이들이 페르미온이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="부호가 바뀌면 배타 원리">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '같은 상태의 두 페르미온', caption: '바꿔도 그대로여야 해요' },
+      { big: '그런데 부호도 바뀌어야', caption: '진폭 = 0', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 페르미온이 똑같은 상태에 있다고 해 볼게요. 그러면 자리를 바꿔도 달라지는 게 없으니, 진폭이 그대로여야 해요.
+
+<S n={2}>
+
+그런데 페르미온은 자리를 바꾸면 부호가 바뀌어야 하죠. 그대로이면서 부호가 바뀌는 수는 0뿐이라서, 그런 상태의 진폭은 0이에요.
+
+<Key>페르미온은 자리를 바꾸면 진폭의 부호가 바뀌어야 해서, 두 페르미온이 똑같은 상태에 있을 진폭은 0이 되고, 그래서 배타 원리를 따라요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="같은 자리에서 찾을 확률">
+  <Fragment slot="visual">
+    <SimP09Pair kind={2} />
+  </Fragment>
+
+상자 속 두 입자를 찾을 확률을 그렸어요. 가로는 한 입자의 자리, 세로는 다른 입자의 자리이고, 밝을수록 그 짝으로 찾을 확률이 커요.
+
+<S n={2}>
+
+점선 위는 두 입자가 같은 자리에 있는 경우예요. 페르미온이면 점선을 따라 어둡고, 보손이면 오히려 구별되는 입자보다 밝아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="보손은 모이려 해요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '페르미온', caption: '진폭이 빼져요 · 같은 자리 0', tone: 'dim' },
+      { big: '보손', caption: '진폭이 더해져요 · 같은 자리 2배', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+보손은 진폭이 더해져서, 같은 상태에 함께 있을 확률이 구별되는 입자보다 커져요. 방금 그림에서 같은 자리일 확률이 2배였죠.
+
+<S n={2}>
+
+그래서 보손들은 한 상태에 우르르 모이려는 경향이 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="스핀이 정해요">
+  <Fragment slot="visual">
+    <DataTable caption="스핀의 크기와 입자의 무리" head={['스핀의 크기', '무리', '예']} rows={[
+      ['½', '페르미온', '전자'],
+      ['1', '보손', '광자'],
+      ['0', '보손', '헬륨-4 원자'],
+    ]} />
+  </Fragment>
+
+어느 무리인지는 스핀이 정해요. 스핀의 크기를 h ÷ 2π를 단위로 적으면, ½이나 3/2처럼 반 정수인 입자는 페르미온, 0이나 1처럼 정수인 입자는 보손이에요.
+
+<S n={2}>
+
+1940년 파울리는 상대성이론과 양자역학을 함께 쓰면 스핀과 무리가 반드시 이렇게 짝지어진다는 것을 증명했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="알갱이를 모은 입자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '헬륨-4 원자', caption: '페르미온 6개 · 짝수라 보손' },
+      { big: '헬륨-3 원자', caption: '페르미온 5개', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+여러 알갱이로 된 입자는 그 안의 페르미온 수로 정해져요. 자리를 바꿀 때 페르미온마다 부호가 한 번씩 바뀌니, 짝수 개면 보손, 홀수 개면 페르미온이에요.
+
+<S n={2}>
+
+헬륨-4 원자는 전자 2개와 원자핵 속 알갱이 4개, 모두 6개의 페르미온으로 되어 있어서 보손이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="헬륨-3 원자">
+
+<Check id="q76-he3" options={[
+  { t: '페르미온', ok: true, why: '전자 2개와 원자핵 속 알갱이 3개, 모두 5개의 페르미온이에요. 홀수라서 자리를 바꾸면 부호가 바뀌어요.' },
+  { t: '보손', why: '보손이 되려면 페르미온이 짝수 개여야 해요. 헬륨-3은 5개예요.' },
+  { t: '헬륨이니까 헬륨-4와 같아요', why: '같은 원소라도 원자핵 속 알갱이 수가 다르면 무리가 달라질 수 있어요.' },
+  { t: '원자는 보손도 페르미온도 아니에요', why: '여러 알갱이로 된 원자도 자리를 바꿀 때 진폭이 그대로인지 부호가 바뀌는지에 따라 둘 중 하나예요.' },
+]}>
+
+헬륨-3 원자는 전자 2개와 원자핵 속 알갱이 3개로 되어 있어요. 알갱이는 모두 페르미온이에요. 헬륨-3 원자는 어느 무리일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="아인슈타인의 예언">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1924~1925', caption: '아인슈타인이 원자에 적용해요' },
+      { big: '70년 동안', caption: '만들 수 없었어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인은 보스의 셈을 원자에 적용해 봤어요. 그러자 보손인 원자들을 아주 차갑게 식히면, 많은 원자가 한꺼번에 가장 낮은 상태로 모여든다는 결과가 나왔죠.
+
+<S n={2}>
+
+하지만 그만큼 차갑게 식히는 방법이 없어서, 이 예언은 70년 동안 실험으로 확인되지 않았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="보스-아인슈타인 응축">
+  <Fragment slot="visual">
+    <Define term="bose-einstein-condensate" />
+  </Fragment>
+
+보손인 원자들을 아주 차갑게 식혀, 대부분이 가장 낮은 하나의 상태에 모인 것을 **보스-아인슈타인 응축**이라고 불러요.
+
+<S n={2}>
+
+원자 하나하나가 따로 움직이는 대신, 원자 수천 개가 하나의 파동처럼 함께 움직여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1995년 볼더">
+  <Fragment slot="visual">
+    <BigNumber top="보스-아인슈타인 응축을 처음 만든 해" value="1995" bottom="코넬, 위먼, 케털리 · 2001년 노벨 물리학상" />
+  </Fragment>
+
+1995년 6월 미국 볼더의 에릭 코넬과 칼 위먼은 루비듐 원자 약 2,000개를 <Later n={133}>레이저</Later> 빛과 자석으로 식혔어요. 그러자 원자들이 가장 낮은 상태 하나에 모여들었죠.
+
+<S n={2}>
+
+몇 달 뒤 볼프강 케털리도 나트륨 원자로 성공했고, 세 사람은 2001년 노벨 물리학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="얼마나 차가운가">
+  <Fragment slot="visual">
+    <DataTable caption="절대온도로 견준 차가움" head={['곳', '온도']} rows={[
+      ['방 안', '약 300 K'],
+      ['우주의 텅 빈 곳', '약 2.7 K'],
+      ['1995년의 루비듐 원자', '약 0.00000017 K'],
+    ]} highlight={[2]} />
+  </Fragment>
+
+절대온도로 견주면 방 안은 약 300 K, 우주의 텅 빈 곳은 약 2.7 K예요. 1995년의 원자들은 약 0.00000017 K였어요.
+
+<S n={2}>
+
+우주의 텅 빈 곳보다 1,000만 배 넘게 차가운 거죠. 이 정도로 차가워야 원자의 드브로이 파장이 원자 사이 거리만큼 길어져서, 원자들의 파동이 서로 겹쳐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="보손이 모이는 다른 곳">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '헬륨-4 액체', caption: '약 2.2 K 아래에서 마찰 없이 흘러요' },
+      { big: '광자', caption: '수많은 광자가 한 상태에', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+헬륨-4 액체를 약 2.2 K 아래로 식히면, 많은 원자가 같은 상태에 모여 마찰 없이 흐르는 액체가 돼요. 1937~1938년에 발견된 초유동이에요.
+
+<S n={2}>
+
+<Later n={133}>레이저</Later> 빛도 수많은 광자가 같은 상태에 모인 거예요. 보손이 모이려는 성질이 쓰이는 곳이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="같은 상태에 둘이 없는 까닭">
+
+<Check id="q76-pauli" options={[
+  { t: '자리를 바꾸면 부호가 바뀌어야 해서, 같은 상태에 있을 진폭이 0이 되기 때문이에요', ok: true, why: '같은 상태라면 바꿔도 그대로여야 하는데, 페르미온은 부호도 바뀌어야 해요. 둘을 함께 만족하는 진폭은 0뿐이에요.' },
+  { t: '페르미온끼리 서로 밀어내는 힘이 있기 때문이에요', why: '배타 원리는 힘이 아니라 규칙이에요. 전하가 없는 페르미온도 같은 상태에 함께 있지 못해요.' },
+  { t: '페르미온은 스핀이 0이기 때문이에요', why: '페르미온의 스핀은 ½, 3/2처럼 반 정수예요. 스핀이 0인 입자는 보손이에요.' },
+  { t: '페르미온은 무거워서 한자리에 둘이 들어가지 못하기 때문이에요', why: '무게와는 상관없어요. 가벼운 전자도 페르미온이에요.' },
+]}>
+
+두 페르미온이 똑같은 상태에 함께 있을 수 없는 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="끌거나 미는 힘이 아니에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '보손이 모여요', caption: '진폭이 더해지는 방식 때문' },
+      { big: '페르미온이 피해요', caption: '부호가 바뀌는 규칙 때문', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 보손끼리는 서로 끌어당기는 힘이 있다고 생각했어요. 그런데 보손이 모이는 건 힘 때문이 아니라 진폭이 더해지는 방식 때문이에요.
+
+페르미온이 서로 피하는 것도 밀어내는 힘이 아니라, 자리를 바꾸면 부호가 바뀌는 규칙 때문이에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['boson', 'fermion', 'bose-einstein-condensate']}>
+
+1. 같은 종류의 입자는 구별할 수 없어서, 자리를 바꿔도 찾을 확률이 같아야 해요.
+2. 그래서 진폭은 그대로이거나(보손) 부호만 바뀌어요(페르미온).
+3. 같은 상태의 페르미온 둘은 진폭이 0이라, 배타 원리가 나와요.
+4. 보손은 진폭이 더해져 한 상태에 모이고, 차가운 보손 원자들이 모이면 응축이 돼요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="수소 원자도 모일까">
+
+<DailyProblem id="p76">
+
+보통의 수소 원자는 전자 1개와 원자핵 속 알갱이 1개로 되어 있어요. 둘 다 페르미온이에요.
+
+수소 원자를 아주 차갑게 식히면 보스-아인슈타인 응축이 될 수 있을까요? 까닭과 함께 적어 보세요.
+
+<Fragment slot="hint1">
+
+페르미온이 몇 개 모이면 보손이 되었나요?
+
+</Fragment>
+<Fragment slot="solution">
+
+될 수 있어요. 수소 원자는 페르미온 2개, 짝수로 되어 있어서 원자 전체로는 보손이에요.
+
+보손이니 아주 차갑게 식히면 같은 상태에 모일 수 있어요. 실제로 1998년 미국 MIT 연구진이 수소 원자의 보스-아인슈타인 응축을 만들었어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+같은 종류의 입자는 자리를 바꿀 때 진폭이 그대로인 보손과 부호가 바뀌는 페르미온으로 나뉘어서, 페르미온은 같은 상태를 피하고 보손은 같은 상태에 모여요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="상태를 화살표로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '진폭을 더하고 빼기', caption: '오늘 계속 한 일' },
+      { icon: 'map', title: '지도 위의 이동', caption: '화살표로 다루는 법', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 진폭이 더해지거나 부호가 바뀐다는 말을 여러 번 썼죠. 양자역학은 이런 진폭들을 화살표처럼 더하고 견주는 계산으로 가득해요.
+
+<S n={2}>
+
+다음 부에서는 양자 상태 자체를 화살표 하나로 다루는 법을 배워요. 그 첫걸음은 지도 위의 이동을 화살표로 적는 <Later n={77}>벡터</Later>예요.
+
+</S>
+
+</Screen>
