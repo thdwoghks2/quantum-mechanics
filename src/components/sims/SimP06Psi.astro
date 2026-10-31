@@ -1,0 +1,121 @@
+---
+/**
+ * 58·59강: 파동함수를 자리마다 꽂힌 화살표(확률 진폭)로 그린다. 아래에는 화살표 길이의 제곱(발견될 확률)을 그린다.
+ * shape="standing": 정상파 모양 (화살표가 +와 − 방향을 오간다)
+ * shape="plane": 길이가 같은 화살표가 자리마다 일정하게 돈다 (어디서나 확률이 같다)
+ * shape="bump": 가운데에 몰린 모양
+ * 슬라이더로 모든 화살표를 같은 각도만큼 돌릴 수 있다. 아래의 확률은 바뀌지 않는다.
+ */
+interface Props {
+  shape?: 'standing' | 'plane' | 'bump';
+  spin?: boolean;
+}
+const { shape = 'standing', spin = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const SH: Record<string, number> = { standing: 0, plane: 1, bump: 2 };
+---
+<qm-sim-psi class="sim" data-ratio="0.72">
+  <canvas aria-label="가로로 늘어선 자리마다 작은 화살표가 하나씩 꽂혀 있다. 아래에는 화살표 길이를 제곱한 곡선, 곧 그 자리에서 발견될 확률이 그려진다."></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="s" value={SH[shape]} />
+    <div class="sim__buttons" aria-label="파동함수 고르기">
+      <button type="button" class="btn" data-set="s=0" aria-pressed={shape === 'standing' ? 'true' : 'false'}>정상파 모양</button>
+      <button type="button" class="btn" data-set="s=1" aria-pressed={shape === 'plane' ? 'true' : 'false'}>일정하게 도는 모양</button>
+      <button type="button" class="btn" data-set="s=2" aria-pressed={shape === 'bump' ? 'true' : 'false'}>가운데에 몰린 모양</button>
+    </div>
+    {spin ? (
+      <div class="sim__row">
+        <label for={`ps-g-${uid}`}>모두 함께 돌리기</label>
+        <input id={`ps-g-${uid}`} type="range" min="0" max="360" step="5" value="0" data-param="g" />
+        <output data-out="g"></output>
+      </div>
+    ) : <input type="hidden" data-param="g" value="0" />}
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-psi>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 41;
+
+  class SimPsi extends Sim {
+    animated = false;
+
+    /** 자리 u (0~1)에서의 확률 진폭 [길이, 각도] */
+    amp(u: number): [number, number] {
+      const s = this.p.s!;
+      const g = (this.p.g! * Math.PI) / 180;
+      if (s === 1) return [0.7, 2 * Math.PI * 3 * u + g];
+      if (s === 2) {
+        const env = Math.exp(-(((u - 0.5) / 0.18) ** 2));
+        return [env, 2 * Math.PI * 2.5 * u + g];
+      }
+      const v = Math.sin(2 * Math.PI * u);
+      return [Math.abs(v), (v >= 0 ? 0 : Math.PI) + g];
+    }
+
+    format() {
+      return `${this.p.g}°`;
+    }
+
+    readout() {
+      const s = this.p.s!;
+      const tail = this.p.g! ? ` 모든 화살표를 ${this.p.g}° 돌렸지만 아래의 확률은 그대로예요.` : '';
+      if (s === 1) return `화살표의 길이가 어디서나 같아서, 발견될 확률도 어디서나 같아요.${tail}`;
+      if (s === 2) return `화살표가 가운데에서 길고 가장자리에서 짧아서, 가운데 근처에서 발견되기 쉬워요.${tail}`;
+      return `화살표가 + 방향과 − 방향을 오가요. 방향은 달라도 제곱한 확률은 늘 0 이상이고, 길이가 0인 마디에서만 0이에요.${tail}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const x0 = 16;
+      const x1 = w - 16;
+      const ay = h * 0.3;
+      const L = h * 0.2;
+      // 자리 축
+      this.line(x0, ay, x1, ay, c.line, 1);
+      for (let i = 0; i < N; i++) {
+        const u = i / (N - 1);
+        const [len, ang] = this.amp(u);
+        const x = x0 + u * (x1 - x0);
+        // 화살표: 위로가 실수 +, 앞뒤 방향은 흐린 선으로 (복소평면을 세워서 본 모양)
+        const dx = len * L * Math.sin(ang) * 0.55;
+        const dy = -len * L * Math.cos(ang);
+        if (len > 0.03) this.arrow(x, ay, x + dx, ay + dy, c.charge, 1.6);
+        else this.dot(x, ay, 1.5, c.muted);
+      }
+      this.text('자리마다의 확률 진폭(화살표)', x0, 12, c.charge, 10);
+      // 확률
+      const by = h - 24;
+      const bh = h * 0.3;
+      this.line(x0, by, x1, by, c.text2, 1);
+      g.fillStyle = 'rgba(232, 190, 90, 0.25)';
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2;
+      g.beginPath();
+      g.moveTo(x0, by);
+      for (let i = 0; i <= 200; i++) {
+        const u = i / 200;
+        const [len] = this.amp(u);
+        g.lineTo(x0 + u * (x1 - x0), by - len * len * bh);
+      }
+      g.lineTo(x1, by);
+      g.closePath();
+      g.fill();
+      g.beginPath();
+      for (let i = 0; i <= 200; i++) {
+        const u = i / 200;
+        const [len] = this.amp(u);
+        const yy = by - len * len * bh;
+        if (i) g.lineTo(x0 + u * (x1 - x0), yy);
+        else g.moveTo(x0 + u * (x1 - x0), yy);
+      }
+      g.stroke();
+      this.text('길이² = 그 근처에서 발견될 확률', x0, by - bh - 8, c.energy, 10);
+      this.text('자리 →', x1, h - 8, c.space, 10, 'right');
+    }
+  }
+  define('qm-sim-psi', SimPsi);
+</script>
