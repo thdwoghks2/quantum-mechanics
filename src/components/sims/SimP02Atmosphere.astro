@@ -1,0 +1,137 @@
+---
+/**
+ * 25강: 중력 속의 공기 기둥. 분자들은 제멋대로 움직이며 서로 에너지를 주고받는다.
+ * 높이 올라가려면 위치 에너지가 필요하므로 높은 곳일수록 분자가 드물다(볼츠만 분포).
+ * 온도가 높으면 더 높이까지 퍼진다. 옆의 막대는 높이 3 km마다 분자 수이고, 점선은 볼츠만 분포로 계산한 값이다.
+ */
+interface Props {
+  k?: number;
+}
+const { k = 300 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-atmos class="sim" data-ratio="0.8">
+  <canvas aria-label="땅 위의 공기 기둥. 분자들이 아래에 많고 위로 갈수록 드물다. 온도를 올리면 더 높이 퍼진다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`at-k-${uid}`}>절대온도</label>
+      <input id={`at-k-${uid}`} type="range" min="100" max="600" step="10" value={k} data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-atmos>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 320;
+  const TOP = 30; // km
+  const BANDS = 10;
+
+  const randn = () => {
+    let u = 0;
+    while (u === 0) u = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
+  };
+
+  class SimAtmos extends Sim {
+    ys: number[] = [];
+    xs: number[] = [];
+
+    /** 공기가 e분의 1로 옅어지는 높이 (km). 0 ℃에서 약 8 km */
+    H() {
+      return (8.0 * this.p.k!) / 273;
+    }
+
+    sample() {
+      const H = this.H();
+      const cap = 1 - Math.exp(-TOP / H);
+      return -H * Math.log(1 - Math.random() * cap);
+    }
+
+    init() {
+      for (let i = 0; i < N; i++) {
+        this.ys.push(this.sample());
+        this.xs.push(Math.random());
+      }
+    }
+
+    tick(dt: number) {
+      const H = this.H();
+      const g = 1.2;
+      const D = g * H;
+      const step = dt * 3;
+      for (let i = 0; i < N; i++) {
+        let y = this.ys[i]! - g * step + Math.sqrt(2 * D * step) * randn();
+        if (y < 0) y = -y;
+        if (y > TOP) y = 2 * TOP - y;
+        this.ys[i] = y;
+        let x = this.xs[i]! + 0.04 * Math.sqrt(step) * randn();
+        if (x < 0) x = -x;
+        if (x > 1) x = 2 - x;
+        this.xs[i] = x;
+      }
+    }
+
+    counts() {
+      const c = new Array<number>(BANDS).fill(0);
+      for (const y of this.ys) c[Math.min(BANDS - 1, Math.floor((y / TOP) * BANDS))]!++;
+      return c;
+    }
+
+    format() {
+      return `${this.p.k} K`;
+    }
+
+    readout() {
+      const c = this.counts();
+      const half = (this.H() * Math.LN2).toFixed(1);
+      return `${this.p.k} K · 맨 아래 3 km에 ${c[0]}개, 9~12 km에 ${c[3]}개 · 볼츠만 분포로는 약 ${half} km 오를 때마다 절반으로 줄어요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const bot = h - 22;
+      const top = 14;
+      const colW = w * 0.42;
+      const ox = 34;
+      const Y = (y: number) => bot - (y / TOP) * (bot - top);
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      g.strokeRect(ox, top, colW, bot - top);
+      this.line(ox - 6, bot, ox + colW + 6, bot, c.text2, 2);
+      for (let km = 0; km <= TOP; km += 10) this.text(`${km} km`, ox - 4, Y(km), c.muted, 10, 'right');
+      for (let i = 0; i < N; i++) this.dot(ox + this.xs[i]! * colW, Y(this.ys[i]!), 2.2, c.space);
+      // 막대
+      const counts = this.counts();
+      const bx = ox + colW + 24;
+      const bw = w - bx - 12;
+      const maxC = Math.max(...counts, 1);
+      const H = this.H();
+      const z = 1 - Math.exp(-TOP / H);
+      const bandH = (bot - top) / BANDS;
+      for (let b = 0; b < BANDS; b++) {
+        const y0 = Y((b + 1) * (TOP / BANDS));
+        const len = (bw * counts[b]!) / maxC;
+        g.fillStyle = c.space;
+        g.globalAlpha = 0.75;
+        g.fillRect(bx, y0 + 2, len, bandH - 4);
+        g.globalAlpha = 1;
+        const a = (b * TOP) / BANDS;
+        const pBand = (Math.exp(-a / H) - Math.exp(-(a + TOP / BANDS) / H)) / z;
+        const eLen = (bw * pBand * N) / maxC;
+        g.setLineDash([4, 3]);
+        g.strokeStyle = c.text;
+        g.strokeRect(bx, y0 + 2, Math.min(eLen, bw + 6), bandH - 4);
+        g.setLineDash([]);
+      }
+      this.text('높이 3 km마다 분자 수', bx, top - 2, c.muted, 10);
+    }
+  }
+  define('qm-sim-atmos', SimAtmos);
+</script>

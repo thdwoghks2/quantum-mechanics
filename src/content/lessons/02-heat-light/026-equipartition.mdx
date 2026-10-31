@@ -1,0 +1,412 @@
+---
+number: 26
+title: 에너지 등분배
+short: 에너지 등분배
+question: 분자가 받은 에너지는 날아가기, 돌기, 떨기에 어떻게 나뉠까요?
+mechanism: 분자가 에너지를 담을 수 있는 자리, 그러니까 날아가는 세 방향, 도는 방향, 떨림의 운동과 위치를 저마다 하나씩 셀 수 있어요. 분자들이 부딪히며 에너지를 주고받으면 어느 자리도 편애받지 않아서, 온도 T에서 자리마다 평균 ½kT씩 돌아가요. 진동 하나는 운동과 위치 두 자리라서 평균 kT를 가져요.
+part: 2
+minutes: 21
+assumes: [boltzmann-distribution, absolute-temperature, expectation, kinetic-energy, potential-energy, vibration, molecule, atom]
+introduces: [degree-of-freedom, equipartition]
+sources:
+  - "Maxwell, J. C. Illustrations of the Dynamical Theory of Gases, Philosophical Magazine (1860)"
+  - "Boltzmann, L. Studien über das Gleichgewicht der lebendigen Kraft zwischen bewegten materiellen Punkten (1868)"
+  - "CRC Handbook of Chemistry and Physics: 정적 몰열용량 헬륨 약 12.5 J/(mol·K), 질소 약 20.8 J/(mol·K) (25 ℃)"
+  - "Feynman, R. P. The Feynman Lectures on Physics, Vol. I, Ch. 39-40"
+testout: [q26-he, q26-vib, q26-heat]
+status: published
+---
+
+<Screen kind="recall" from={25} title="kT라는 자">
+  <Fragment slot="visual">
+    <SimP02Atmosphere k={270} />
+  </Fragment>
+
+25강에서 분자들이 부딪히며 에너지를 주고받으면, 에너지가 높은 상태일수록 같은 비율로 드물어졌어요. 그 기준이 되는 에너지가 kT였죠.
+
+<S n={2}>
+
+그런데 분자는 날아다니기만 하는 게 아니에요. 오늘은 분자가 받은 에너지가 여러 움직임에 어떻게 나뉘는지 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="공과 아령">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '●', title: '헬륨 원자', caption: '공 하나처럼 날아다녀요' },
+      { big: '●—●', title: '질소 분자', caption: '아령처럼 원자 둘이 묶여 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+풍선에 넣는 헬륨은 원자 하나가 그대로 날아다녀요. 공기의 대부분을 차지하는 질소는 원자 둘이 묶인 분자라서 아령처럼 생겼고요.
+
+<S n={2}>
+
+공은 날아가기만 할 수 있지만, 아령은 날아가면서 빙글빙글 돌 수도 있어요. 에너지를 담을 곳이 더 많은 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="날아가는 세 방향">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '↔', title: '앞뒤', caption: '' },
+      { big: '↕', title: '위아래', caption: '' },
+      { big: '⤢', title: '좌우', caption: '' },
+    ]} />
+  </Fragment>
+
+먼저 날아가는 움직임이에요. 공간에는 앞뒤, 좌우, 위아래 세 방향이 있고, 분자는 세 방향으로 저마다 따로 빠르기를 가질 수 있어요.
+
+<S n={2}>
+
+그래서 날아가는 운동 에너지는 세 자리에 나눠 담긴다고 볼 수 있어요. 방향마다 ½ × 질량 × (그 방향의 빠르기)²만큼씩이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="아령은 돌 수 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '⟳', title: '이렇게 돌기', caption: '막대가 세로로 돌아요' },
+      { big: '⟲', title: '저렇게 돌기', caption: '막대가 가로로 돌아요' },
+      { big: '·', title: '막대 축으로 돌기', caption: '에너지를 거의 못 담아서 빼요', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+아령 모양의 질소 분자는 날아가는 것 말고 돌 수도 있어요. 막대를 세로로 돌리는 방향과 가로로 돌리는 방향, 두 가지가 에너지를 담아요.
+
+<S n={2}>
+
+막대 자체를 축으로 도는 회전은 에너지를 거의 못 담아서 세지 않아요. 왜 그런지는 양자역학을 배운 뒤에 알 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="떨 수도 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '●~~●', title: '질소 분자의 떨림', caption: '두 원자 사이가 용수철처럼 늘었다 줄었다 해요' },
+    ]} />
+  </Fragment>
+
+두 원자를 잇는 결합은 용수철처럼 늘었다 줄었다 할 수도 있어요. 9강의 용수철 추처럼 진동하는 거죠.
+
+<S n={2}>
+
+진동에는 움직이는 빠르기와 늘어난 정도가 함께 있어요. 그래서 운동 에너지와 위치 에너지, 두 자리에 에너지를 담아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="자유도라는 이름">
+  <Fragment slot="visual">
+    <Define term="degree-of-freedom" />
+  </Fragment>
+
+이렇게 분자가 에너지를 따로 담을 수 있는 자리 하나하나를 **자유도**라고 해요. 날아가는 세 방향이 자유도 셋, 아령의 두 회전이 자유도 둘이에요.
+
+<S n={2}>
+
+진동 하나는 운동과 위치로 자유도 둘을 차지해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="자유도 세기">
+  <Fragment slot="visual">
+    <DataTable caption="에너지를 담는 자리의 수" head={['분자', '날아가기', '돌기', '떨기', '합']} rows={[
+      ['헬륨 (원자 하나)', '3', '0', '0', '3'],
+      ['질소 (원자 둘, 떨지 않을 때)', '3', '2', '0', '5'],
+      ['질소 (떨기까지 셀 때)', '3', '2', '2', '7'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+헬륨 원자는 공 하나라서 날아가는 세 방향뿐이에요. 자유도가 3이죠.
+
+<S n={2}>
+
+질소 분자는 날아가기 3에 돌기 2를 더해 5예요.
+
+</S>
+
+<S n={3}>
+
+떨기까지 센다면 운동과 위치 2를 더해 7이에요. 이 마지막 줄은 조금 뒤에 다시 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="편애하지 않는 충돌">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '부딪힘', caption: '날아가던 에너지가 회전으로, 회전이 다시 날아가기로' },
+      { big: '고르게', caption: '오래 지나면 어느 자리도 더 받지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+분자들은 1초에 수십억 번 부딪혀요. 부딪힐 때마다 날아가던 에너지가 회전으로 가기도 하고, 회전하던 에너지가 다시 날아가기로 가기도 하죠.
+
+<S n={2}>
+
+이렇게 끝없이 섞이면 어느 자리도 다른 자리보다 더 많이 받을 까닭이 없어요. 그래서 오래 지나면 에너지가 자리마다 고르게 나뉘어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="에너지 등분배">
+  <Fragment slot="visual">
+    <Define term="equipartition" />
+  </Fragment>
+
+온도가 정해지면 자유도 하나하나가 평균적으로 같은 양의 에너지를 갖는다는 규칙을 **에너지 등분배**라고 해요. "같게 나눈다"는 뜻이에요.
+
+<Key>분자들이 부딪히며 에너지를 끝없이 섞으면 어느 자리도 편애받지 않으니까, 온도 T에서 자유도 하나마다 평균 ½kT씩, 그러니까 자유도 수 × ½kT가 분자 하나의 평균 에너지가 돼요.</Key>
+
+</Screen>
+
+<Screen kind="worked" title="헬륨 원자의 에너지">
+  <Fragment slot="visual">
+    <BigNumber top="300 K에서 헬륨 원자 하나의 평균 운동 에너지" value="3 × ½kT ≈ 6 × 10⁻²¹ J" bottom="23강에서 본 대로 절대온도에 비례해요" q="energy" />
+  </Fragment>
+
+헬륨 원자는 자유도가 3이니까 평균 에너지는 3 × ½kT = 1.5 kT예요. 300 K에서 kT는 약 4 × 10⁻²¹ J이니까 약 6 × 10⁻²¹ J이죠.
+
+<S n={2}>
+
+23강에서 평균 운동 에너지가 절대온도에 비례한다고 했어요. 그 비례의 정확한 크기가 이 1.5 kT예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="헬륨은 kT의 몇 배">
+
+<Numeric id="q26-he" answer={1.5} tol={0.02} unit="배">
+
+헬륨 원자는 날아가는 세 방향, 자유도 3을 가져요. 에너지 등분배에 따르면 온도 T에서 헬륨 원자 하나의 평균 에너지는 kT의 몇 배일까요?
+
+<Fragment slot="solution">
+
+자유도 하나마다 ½kT니까 3 × ½kT = 1.5 kT, 그러니까 1.5배예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="진동은 kT를 가져요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '½kT', title: '운동 에너지', caption: '빠르게 지날 때' },
+      { big: '+ ½kT', title: '위치 에너지', caption: '늘어나거나 눌렸을 때' },
+      { big: '= kT', title: '진동 하나', caption: '평균 에너지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+진동은 특별히 기억해 둘 게 있어요. 진동 하나는 운동 에너지와 위치 에너지, 두 자리를 가지니까 평균 에너지가 ½kT + ½kT = **kT**예요.
+
+<S n={2}>
+
+이건 분자뿐 아니라 진동하는 것이면 무엇에나 맞는 고전물리학의 결론이에요. 29강과 30강에서 이 결론이 아주 중요해져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="진동은 왜 두 자리일까">
+  <Fragment slot="visual">
+    <SimOscillator controls="amp" a={6} k={40} m={1} />
+  </Fragment>
+
+<Note>
+
+저는 진동도 움직임 하나니까 ½kT일 줄 알았어요.
+
+그런데 9강의 용수철 추를 보면, 가운데에서는 빠르게 지나가고 끝에서는 용수철이 늘어나 있어요. 에너지가 운동과 위치 두 자리를 오가니까, 두 자리 모두 ½kT씩 받아 kT가 돼요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="진동 하나의 에너지">
+
+<Check id="q26-vib" options={[
+  { t: 'kT', ok: true, why: '진동은 운동 에너지와 위치 에너지 두 자리를 가져서, 자리마다 ½kT씩 더해 kT예요.' },
+  { t: '½kT', why: '½kT는 자리 하나가 받는 에너지예요. 진동은 운동과 위치 두 자리를 가져요.' },
+  { t: '1.5 kT', why: '1.5 kT는 날아가는 세 방향(헬륨 원자)이 받는 에너지예요.' },
+  { t: '0', why: '온도가 0 K가 아니면 진동에도 에너지가 돌아가요.' },
+]}>
+
+에너지 등분배에 따르면, 온도 T에서 용수철처럼 진동하는 것 하나가 평균으로 갖는 에너지는 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="데우는 데 드는 에너지">
+  <Fragment slot="visual">
+    <DataTable caption="분자 6 × 10²³개를 1 K 데우는 데 드는 에너지 (25 ℃, 부피 일정)" head={['기체', '자유도', '잰 값']} rows={[
+      ['헬륨', '3', '약 12.5 J'],
+      ['질소', '5', '약 20.8 J'],
+      ['질소 ÷ 헬륨', '5 ÷ 3 ≈ 1.67', '20.8 ÷ 12.5 ≈ 1.66'],
+    ]} steps={[undefined, undefined, 2]} />
+  </Fragment>
+
+같은 수의 분자를 1 K 데우려면, 자리마다 ½k씩 에너지를 더 채워야 해요. 그래서 자유도가 많은 기체일수록 데우는 데 에너지가 더 들어요.
+
+<S n={2}>
+
+질소는 자유도가 5, 헬륨은 3이니까 질소가 5/3배 더 들어야 해요. 실제로 재 보면 1.66배로, 등분배와 아주 잘 맞아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="질소가 더 드는 까닭">
+
+<Check id="q26-heat" options={[
+  { t: '질소 분자는 돌기까지 해서 에너지를 담는 자리가 더 많으니까', ok: true, why: '자유도가 5로 헬륨(3)보다 많아서, 1 K 올릴 때 채워야 할 자리가 더 많아요.' },
+  { t: '질소 분자가 더 무거우니까', why: '등분배에서 자리마다 받는 에너지는 질량과 상관없이 ½kT예요. 무거우면 느릴 뿐 에너지는 같아요.' },
+  { t: '질소 분자가 더 빠르니까', why: '같은 온도에서 오히려 무거운 질소가 더 느려요. 데우는 데 드는 에너지는 자리의 수가 정해요.' },
+  { t: '헬륨은 원자라서 데워지지 않으니까', why: '헬륨도 데우면 날아가는 에너지가 늘어요. 다만 자리가 3개뿐이에요.' },
+]}>
+
+같은 개수의 헬륨 원자와 질소 분자를 1 K씩 데우면, 질소 쪽에 에너지가 더 들어요. 가장 정확한 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="맞지 않는 곳">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '7 × ½k', title: '떨기까지 셌을 때의 예상', caption: '방 온도에서 맞지 않아요', tone: 'no' },
+      { big: '5 × ½k', title: '실제로 잰 값', caption: '떨기 자리에 에너지가 안 가는 것처럼 보여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그런데 이상한 곳이 하나 있어요. 질소 분자도 떨 수 있으니 자유도를 7로 세야 할 것 같은데, 방 온도에서 잰 값은 5에 맞아요.
+
+<S n={2}>
+
+떨기 자리에만 에너지가 안 가는 것처럼 보이고, 수천 K로 아주 뜨겁게 해야 떨기에도 에너지가 가기 시작해요. 고전물리학으로는 설명할 수 없었던 이 문제가 31강의 '구름' 하나예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="맥스웰과 볼츠만">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1860', title: '맥스웰', caption: '기체 분자의 빠르기가 어떻게 퍼져 있는지 계산했어요' },
+      { big: '1868', title: '볼츠만', caption: '에너지가 자리마다 고르게 나뉜다는 걸 넓게 보였어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 규칙은 19강에서 빛이 전자기파라는 걸 계산한 제임스 클러크 맥스웰과, 25강의 루트비히 볼츠만이 분자의 충돌을 계산하며 얻었어요.
+
+<S n={2}>
+
+두 사람의 계산은 기체가 데워지는 방식을 거의 다 설명했어요. 그래서 19세기 말 물리학자들은 이 규칙을 아주 단단하게 믿었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="앞으로 쓸 곳">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'guitar', title: '20강', caption: '갇힌 파동의 진동 모드' },
+      { icon: 's1-box', title: '29강', caption: '상자 속 빛의 진동 모드 세기' },
+      { big: 'kT씩', title: '30강', caption: '모드마다 kT를 나눠 주면', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘의 결론, 진동 하나는 평균 kT를 갖는다는 걸 기억해 두세요. 20강에서 갇힌 파동은 진동 모드로 떨었죠.
+
+<S n={2}>
+
+29강에서는 뜨거운 상자 속 빛의 진동 모드를 세고, 30강에서는 모드마다 kT씩 나눠 주면 어떻게 되는지 계산해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['degree-of-freedom', 'equipartition']}>
+
+1. 분자는 날아가기, 돌기, 떨기로 에너지를 따로 담을 수 있고, 그 자리 하나하나가 자유도예요.
+2. 부딪히며 에너지가 끝없이 섞이니까, 온도 T에서 자유도마다 평균 ½kT씩 나뉘어요.
+3. 진동은 운동과 위치 두 자리라서 평균 kT를 가져요.
+4. 등분배는 기체를 데우는 에너지를 잘 맞혔지만, 떨기 자리에 에너지가 안 가는 수수께끼가 남았어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="날아가는 에너지만 견주면">
+
+<DailyProblem id="p26">
+
+같은 온도의 공기 속에 헬륨 원자와 질소 분자가 섞여 있어요. 질소 분자는 자유도가 5라서 헬륨(3)보다 평균 에너지가 많아요.
+
+그럼 날아가는 운동 에너지, 그러니까 앞뒤·좌우·위아래 세 방향의 에너지만 견주면 어느 쪽이 클까요?
+
+<Fragment slot="hint1">
+
+등분배에서는 자리마다 ½kT씩이에요. 두 분자가 날아가는 자리는 각각 몇 개인가요?
+
+</Fragment>
+<Fragment slot="solution">
+
+같아요. 날아가는 자리는 둘 다 세 개라서, 둘 다 3 × ½kT = 1.5 kT예요.
+
+질소가 더 가진 에너지는 돌기에 담긴 2 × ½kT예요. 그래서 23강에서 같은 온도면 분자 종류와 상관없이 평균 운동 에너지가 같다고 한 거예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+분자가 에너지를 담는 자리 하나하나에는 온도 T에서 평균 ½kT씩 고르게 돌아가서, 운동과 위치 두 자리를 가진 진동 하나는 평균 kT를 가져요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="뜨거운 물체의 빛">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-coil', title: '전기난로의 열선', caption: '뜨거워지면 빨갛게 빛나요' },
+      { icon: 's1-camera', title: '열화상 카메라', caption: '사람 몸도 빛을 내요' },
+    ]} />
+  </Fragment>
+
+분자와 원자 속에는 전하가 있어요. 뜨거운 물체 속에서는 이 전하들도 제멋대로 흔들리겠죠. 19강에서 흔들리는 전하는 전자기파를 낸다고 했어요.
+
+<S n={2}>
+
+그렇다면 뜨거운 물체는 모두 빛을 내야 해요. 다음 강에서는 전기난로의 열선부터 사람 몸까지, 뜨거운 물체가 내는 빛을 다뤄요.
+
+</S>
+
+</Screen>
