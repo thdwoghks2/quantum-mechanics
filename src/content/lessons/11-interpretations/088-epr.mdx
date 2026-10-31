@@ -1,0 +1,463 @@
+---
+number: 88
+title: EPR 논문
+short: EPR 논문
+question: 한쪽만 재고도 멀리 있는 다른 쪽의 값을 확실히 맞힐 수 있다면, 그 값은 재기 전부터 있었던 걸까요?
+mechanism: EPR은 두 가지를 믿었어요. 멀리 떨어진 곳에 빛보다 빠르게 영향을 줄 수 없다는 국소성과, 건드리지 않고 확실히 맞힐 수 있는 값은 재기 전부터 있는 값이라는 실재성이에요. 짝지은 두 입자 가운데 한쪽만 재면 다른 쪽을 건드리지 않고도 그 값을 확실히 맞힐 수 있으니, 두 믿음이 맞다면 다른 쪽의 값은 재기 전부터 정해져 있어야 해요. 그런데 양자역학은 그런 값을 말해 주지 않으니, EPR은 양자역학이 완전하지 않다고 결론 내렸어요.
+part: 11
+minutes: 20
+assumes: [spin, stern-gerlach, quantum-state, collapse, copenhagen-interpretation, measurement-problem, probability, speed-of-light, commutator]
+introduces: [locality, realism]
+sources:
+  - "Einstein, A., Podolsky, B. & Rosen, N. Can Quantum-Mechanical Description of Physical Reality Be Considered Complete? Physical Review 47, 777–780 (1935)"
+  - "Bohr, N. Can Quantum-Mechanical Description of Physical Reality Be Considered Complete? Physical Review 48, 696–702 (1935)"
+  - "Bohm, D. Quantum Theory (Prentice-Hall, 1951), 22장. 스핀으로 바꾼 EPR 사고 실험"
+  - "Fine, A. The Einstein-Podolsky-Rosen Argument in Quantum Theory. Stanford Encyclopedia of Philosophy (2020)"
+testout: [q88-a, q88-b, q88-c]
+status: published
+---
+
+<Screen kind="scene" title="멀어지는 두 입자">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'atom', title: '입자 A', caption: '이쪽 실험실로 가요' },
+      { icon: 'spark', title: '한곳에서 생겨요', caption: '' },
+      { icon: 'atom', title: '입자 B', caption: '저쪽 실험실로 가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 예고한 대로, 오늘은 한곳에서 함께 생긴 두 입자 이야기예요. 두 입자는 반대 방향으로 날아가 멀리 떨어진 두 실험실에 닿아요.
+
+<S n={2}>
+
+한쪽 실험실에서 입자 A만 재도 입자 B의 값을 확실히 맞힐 수 있는 경우가 있어요. 아인슈타인은 바로 여기서 양자역학의 빈틈을 찾았다고 봤어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1935년 5월의 논문">
+  <Fragment slot="visual">
+    <BigNumber top="미국 학술지 『피지컬 리뷰』, 1935년 5월" value="“물리적 실재에 대한 양자역학의 설명은 완전하다고 볼 수 있는가?”" bottom="아인슈타인, 포돌스키, 로젠" />
+  </Fragment>
+
+1935년 5월 아인슈타인은 프린스턴의 두 동료 보리스 포돌스키, 네이선 로젠과 함께 네 쪽짜리 논문을 냈어요. 세 사람 이름의 첫 글자를 따서 EPR 논문이라고 불러요.
+
+<S n={2}>
+
+제목이 곧 질문이었어요. 양자역학이 물체의 실제 모습을 빠짐없이 그리고 있느냐는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="스핀으로 바꿔 보기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1935년 원래 논문', caption: '두 입자의 위치와 운동량' },
+      { big: '1951년 데이비드 봄', caption: '두 입자의 스핀', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+원래 논문은 두 입자의 위치와 운동량을 썼어요. 1951년 물리학자 데이비드 봄이 같은 논증을 스핀으로 바꿨는데, 이쪽이 훨씬 따라가기 쉬워요.
+
+<S n={2}>
+
+그래서 오늘은 봄의 방식으로 따라갈게요. 논증의 뼈대는 원래 논문과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={72} title="스핀은 위나 아래">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '위아래로 재면', caption: '위 또는 아래만 나와요' },
+      { icon: 'atom', title: '좌우로 재면', caption: '왼편 또는 오른편만 나와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+72강에서 전자의 스핀을 슈테른-게를라흐 장치로 쟀어요. 위아래로 재면 결과는 늘 위나 아래 둘 중 하나였죠.
+
+<S n={2}>
+
+좌우로 재면 왼편이나 오른편 둘 중 하나가 나왔어요. 장치를 어느 방향으로 세우느냐가 무엇을 물을지 정해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={83} title="함께 정해지지 않는 두 값">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '위아래', caption: '위' },
+      { big: '좌우', caption: '왼편' },
+      { big: '위아래', caption: '반반', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+83강에서는 위아래 스핀과 좌우 스핀이 함께 정해지지 않는다는 걸 봤어요. 좌우를 재고 나면 위아래 값이 다시 반반으로 흐려졌죠.
+
+<S n={2}>
+
+양자역학에서 두 값은 서로 교환하지 않는 측정이에요. 그래서 한 입자가 위아래 값과 좌우 값을 동시에 확실히 갖는 상태는 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="늘 반대로 나오는 짝">
+  <Fragment slot="visual">
+    <DataTable caption="두 입자를 같은 방향으로 재면" head={['A의 결과', 'B의 결과']} rows={[
+      ['위', '아래'],
+      ['아래', '위'],
+      ['왼편', '오른편'],
+      ['오른편', '왼편'],
+    ]} />
+  </Fragment>
+
+이제 스핀을 더하면 0이 되는 짝으로 두 입자를 만들어요. 그러면 두 입자를 같은 방향으로 쟀을 때 결과는 **늘 반대**로 나와요.
+
+<S n={2}>
+
+A가 위면 B는 아래, A가 왼편이면 B는 오른편이에요. 어느 쪽이 나올지는 반반이지만, 반대라는 건 늘 지켜져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="B를 건드리지 않고">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: 'A를 위아래로 재요', caption: '위가 나왔어요' },
+      { big: 'B는 재지 않았어요', caption: '그래도 "아래"라고 확실히 말할 수 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+A를 위아래로 재서 위가 나왔다고 해 볼게요. 그러면 B를 재지 않고도 "B를 위아래로 재면 아래가 나온다"고 100% 확실히 말할 수 있어요.
+
+<S n={2}>
+
+B에는 손도 대지 않았는데 B의 값을 확실히 맞힌 거예요. EPR은 이 점에 주목했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="멀리 떨어져 있다면">
+  <Fragment slot="visual">
+    <BigNumber top="두 실험실 사이 거리" value="원하는 만큼 멀리" bottom="1 km든, 은하 반대편이든 반대로 나온다는 건 같아요" />
+  </Fragment>
+
+두 실험실은 얼마든지 멀리 떨어뜨릴 수 있어요. 1 km든, 지구 반대편이든 같은 방향으로 재면 늘 반대로 나와요.
+
+<S n={2}>
+
+A를 잰 일이 그 순간 멀리 있는 B를 바꿨다고 보기는 어려웠어요. 아인슈타인이 굳게 믿은 원칙 하나와 부딪히거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="영향에는 시간이 걸려요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'speaker', title: '서울에서 친 박수', caption: '부산까지 소리가 가는 데 시간이 걸려요' },
+      { icon: 's4-moon', title: '달에서 켠 손전등', caption: '지구에서는 약 1.3초 뒤에 보여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+서울에서 친 박수는 그 순간 부산의 컵을 흔들 수 없어요. 소리가 부산까지 가는 데 시간이 걸리거든요.
+
+<S n={2}>
+
+달에서 손전등을 켜도, 지구에서는 약 1.3초 뒤에야 그 빛이 보여요. 아인슈타인의 상대성이론에 따르면 어떤 영향도 빛보다 빨리 전해질 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="국소성이라는 이름">
+  <Fragment slot="visual">
+    <Define term="locality" />
+  </Fragment>
+
+멀리 떨어진 곳에는 빛보다 빠르게 영향을 줄 수 없다는 믿음을 **국소성**이라고 불러요. "국소"는 가까운 한 곳이라는 뜻이에요.
+
+<S n={2}>
+
+이 이름이 필요한 까닭은, 이 믿음이 너무 당연해서 보통은 아무도 따로 말하지 않기 때문이에요. 이름을 붙여야 나중에 이 믿음을 시험해 볼 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="EPR의 실재 기준">
+  <Fragment slot="visual">
+    <BigNumber top="EPR 논문, 1935년" value="“건드리지 않고 확실히 맞힐 수 있다면, 그에 대응하는 실재가 있다”" bottom="논문의 문장을 줄여 옮겼어요" />
+  </Fragment>
+
+EPR은 또 하나의 기준을 세웠어요. 어떤 물체를 전혀 건드리지 않고도 그 값을 확실히 맞힐 수 있다면, 그 값은 실제로 있는 거라는 기준이에요.
+
+<S n={2}>
+
+엎어 둔 컵을 들추지 않고도 동전이 앞면이라고 확실히 안다면, 그 동전은 정말 앞면인 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="실재성이라는 이름">
+  <Fragment slot="visual">
+    <Define term="realism" />
+  </Fragment>
+
+이렇게 재기 전에도 물체의 성질이 정해진 값으로 있다는 믿음을 **실재성**이라고 불러요. 측정은 그 값을 드러낼 뿐이라는 거예요.
+
+<S n={2}>
+
+84강의 코펜하겐 해석은 바로 이 믿음을 받아들이지 않았어요. 그래서 국소성과 실재성은 두 쪽의 생각을 가르는 칼이 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="두 믿음 가르기">
+
+<Check id="q88-a" options={[
+  { t: '국소성은 "재기 전에도 값이 정해져 있다", 실재성은 "멀리 빛보다 빨리 영향을 줄 수 없다"예요.', why: '둘이 뒤바뀌었어요. 멀리 영향을 주는 빠르기에 관한 건 국소성, 재기 전의 값에 관한 건 실재성이에요.' },
+  { t: '국소성은 "멀리 빛보다 빨리 영향을 줄 수 없다", 실재성은 "재기 전에도 값이 정해져 있다"예요.', ok: true, why: '맞아요. 국소성은 영향이 전해지는 빠르기에, 실재성은 재지 않은 성질의 값에 관한 믿음이에요.' },
+  { t: '둘 다 "측정은 결과를 바꾼다"는 뜻이에요.', why: '실재성은 오히려 측정이 원래 있던 값을 드러낼 뿐이라고 봐요.' },
+  { t: '둘 다 양자역학이 처음 밝혀낸 법칙이에요.', why: '둘은 법칙이 아니라 아인슈타인이 당연하게 여긴 믿음이에요. 이 믿음이 맞는지는 뒤에서 실험으로 시험해요.' },
+]}>
+
+EPR 논문이 기대고 있는 두 믿음, 국소성과 실재성을 바르게 짝지은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="논증 1: B의 위아래 값">
+  <Fragment slot="visual">
+    <Flow alt="A를 재서 B의 값을 확실히 맞히고, 국소성 때문에 B를 건드리지 않았고, 실재성 때문에 B의 값은 재기 전부터 있었다는 사슬" items={[
+      { t: 'A를 위아래로 재요', sub: 'B의 값을 확실히 맞혀요' },
+      { t: '국소성', sub: 'B는 건드려지지 않았어요', step: 2 },
+      { t: '실재성', sub: 'B의 위아래 값은 원래 있었어요', step: 2 },
+    ]} />
+  </Fragment>
+
+이제 두 믿음으로 논증을 따라가요. A를 위아래로 재면 B의 위아래 값을 확실히 맞힐 수 있어요.
+
+<S n={2}>
+
+국소성을 믿으면 멀리 있는 B는 건드려지지 않았어요. 그러면 실재성에 따라 B의 위아래 값은 재기 전부터 정해져 있었어야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="논증 2: B의 좌우 값">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'A를 위아래로 쟀다면', caption: 'B의 위아래 값이 원래 있었어요' },
+      { big: 'A를 좌우로 쟀다면', caption: 'B의 좌우 값도 원래 있었어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그런데 A를 위아래 대신 좌우로 잴 수도 있었어요. 그랬다면 같은 논증으로 B의 좌우 값도 재기 전부터 정해져 있었어야 하죠.
+
+<S n={2}>
+
+A를 어느 방향으로 잴지는 B가 멀리 떠난 뒤에 정해도 돼요. 국소성대로라면 그 선택이 B를 바꿀 수 없으니, B는 두 값을 처음부터 다 갖고 있었어야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그래서 불완전하다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'EPR의 결론', caption: 'B는 위아래 값과 좌우 값을 다 갖고 있어요' },
+      { big: '양자역학', caption: '두 값이 함께 정해진 상태는 없어요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+하지만 83강에서 봤듯, 양자역학에는 위아래 값과 좌우 값이 함께 정해진 상태가 없어요. EPR은 여기서 결론을 냈어요.
+
+<S n={2}>
+
+<Key>멀리 영향을 줄 수 없고 확실히 맞힐 수 있는 값은 원래 있는 값이라면, B는 재기 전부터 위아래 값과 좌우 값을 모두 갖고 있어야 하는데 양자역학은 그 값을 말하지 않으니, EPR은 양자역학이 완전하지 않다고 결론 내렸어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="EPR의 결론">
+
+<Check id="q88-b" options={[
+  { t: '양자역학의 예측은 실험과 맞지 않는다.', why: 'EPR은 예측이 틀렸다고 하지 않았어요. 예측은 맞지만 이론이 빠뜨린 값이 있다고 했어요.' },
+  { t: '양자역학은 B가 재기 전부터 가진 값을 다 말해 주지 못하니 완전하지 않다.', ok: true, why: '맞아요. 국소성과 실재성을 믿으면 B는 두 값을 다 갖고 있어야 하는데, 양자역학의 상태에는 그런 값이 없어요.' },
+  { t: 'A를 재면 B가 빛보다 빠르게 바뀐다.', why: 'EPR은 바로 그런 일을 받아들이지 않았어요. 국소성을 믿었으니까요.' },
+  { t: '스핀은 위아래와 좌우를 동시에 잴 수 있다.', why: '동시에 잴 수 있다고 한 게 아니에요. 재지 않아도 두 값이 원래 있어야 한다고 논증했어요.' },
+]}>
+
+같은 방향으로 재면 늘 반대로 나오는 두 입자 A와 B가 있어요. 국소성과 실재성을 함께 믿은 EPR은 이 짝을 두고 어떤 결론을 냈을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="틀렸다가 아니라 모자라다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '틀렸다', caption: 'EPR의 주장이 아니에요', tone: 'no' },
+      { big: '모자라다', caption: 'EPR의 주장이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note label="한 번 짚고 갈게요">
+
+EPR이 양자역학의 계산이 틀렸다고 한 건 아니에요. 늘 반대로 나온다는 예측도 양자역학에서 나온 거예요.
+
+EPR이 말한 건, 그 예측 뒤에 아직 이론에 적히지 않은 값들이 숨어 있다는 거예요. 더 완전한 이론이 언젠가 그 값을 적어 줄 거라고 기대했어요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="compare" title="재기 전의 B">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'EPR', caption: 'B의 값은 재기 전부터 정해져 있어요. 이론이 모를 뿐이에요.' },
+      { big: '코펜하겐 해석', caption: 'B의 값은 재기 전에는 정해져 있지 않아요.', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 쪽이 갈리는 곳은 재기 전의 B예요. EPR은 B의 값이 원래 있다고 봤고, 코펜하겐 해석은 정해져 있지 않다고 봤죠.
+
+<S n={2}>
+
+그렇다면 코펜하겐 해석은 A를 잴 때 멀리 있는 B에 무슨 일이 생긴다고 봐야 할까요? 이 물음이 남은 문제가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="보어의 답장">
+  <Fragment slot="visual">
+    <BigNumber top="같은 학술지, 1935년 10월" value="같은 제목의 반박 논문" bottom="보어는 실험 장치 전체를 함께 봐야 한다고 답했어요" />
+  </Fragment>
+
+보어는 다섯 달 뒤 같은 학술지에 같은 제목으로 답했어요. A를 어떤 방향으로 재느냐가 B에 대해 무엇을 말할 수 있는지를 정한다고 봤어요.
+
+<S n={2}>
+
+물리적으로 B를 밀거나 당기지는 않아요. 하지만 A와 B를 따로 떼어 "B의 원래 값"을 묻는 것부터가 맞지 않다는 거죠. 84강의 상보성을 두 입자로 넓힌 대답이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="1935년의 막다른 길">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'EPR의 그림', caption: '모든 실험 결과를 설명해요' },
+      { big: '보어의 그림', caption: '모든 실험 결과를 설명해요', tone: 'accent' },
+      { big: '가를 실험', caption: '1935년에는 없었어요', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+1935년에는 두 그림 가운데 어느 쪽이 맞는지 가를 실험이 없었어요. 같은 방향으로 재면 반대로 나온다는 결과는 두 그림 모두 설명했거든요.
+
+<S n={2}>
+
+그래서 이 논쟁은 오랫동안 철학의 문제처럼 여겨졌어요. 실험으로 가를 길은 1964년에야 열려요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="빛이 가는 시간">
+
+<Numeric id="q88-c" answer={0.00001} tol={0.1} unit="s">
+
+두 실험실이 3 km 떨어져 있어요. 빛은 1초에 약 300,000 km를 가요. 한 실험실에서 출발한 빛이 다른 실험실에 닿는 데 몇 초가 걸릴까요? (1e-5처럼 적어도 돼요.)
+
+<Fragment slot="solution">
+
+3 km ÷ 300,000 km/s = 0.00001 s, 곧 10만분의 1초예요. 두 실험실이 이보다 짧은 시간 안에 각자 재기를 끝내면, 국소성을 믿는 한 한쪽의 측정이 다른 쪽에 영향을 줄 수 없어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['locality', 'realism', 'spin']}>
+
+1. 스핀을 더하면 0인 두 입자는 같은 방향으로 재면 늘 반대로 나와요.
+2. 그래서 A만 재도 멀리 있는 B의 값을 확실히 맞힐 수 있어요.
+3. 국소성을 믿으면 A를 잰 일이 B를 바꾸지 않았고, 실재성을 믿으면 B의 값은 재기 전부터 있었어야 해요.
+4. A를 어느 방향으로 잴지는 나중에 골라도 되니, B는 위아래 값과 좌우 값을 모두 갖고 있어야 해요.
+5. 양자역학에는 그런 상태가 없으니, EPR은 양자역학이 완전하지 않다고 결론 내렸어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="1광년 떨어진 짝">
+
+<DailyProblem id="p88">
+
+같은 방향으로 재면 늘 반대로 나오는 두 입자를 1광년 떨어진 두 곳으로 보냈어요. 빛이 1년 걸려 가는 거리예요. A를 위아래로 재고 1초 뒤에 B를 위아래로 쟀더니, 정말 반대였어요.
+
+국소성을 믿는 사람이라면 이 결과를 어떻게 설명해야 할까요? 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+1초 동안 A에서 B까지 어떤 영향이 전해질 수 있을까요? 빛도 1년이 걸려요.
+
+</Fragment>
+<Fragment slot="solution">
+
+국소성을 믿는다면, A를 잰 일이 1초 만에 1광년 떨어진 B를 바꿀 수는 없어요. 그런데도 결과가 늘 반대라면, 두 입자가 한곳에서 생길 때부터 "A는 위, B는 아래" 같은 값을 이미 나눠 갖고 떠났다고 설명할 수밖에 없어요.
+
+이게 바로 EPR이 고른 길이에요. 국소성을 지키려면 재기 전부터 값이 정해져 있었다는 실재성이 함께 따라와요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+국소성과 실재성을 믿으면 멀리 있는 짝 입자는 재기 전부터 모든 값을 갖고 있어야 하는데, 양자역학은 그 값을 말하지 않으니 불완전하다는 것이 EPR의 논증이에요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="한 켤레의 장갑">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-glove', title: '상자 하나', caption: '왼손 장갑일까요, 오른손 장갑일까요' },
+      { icon: 's4-glove', title: '다른 상자', caption: '열지 않아도 반대짝이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+같은 해 슈뢰딩거는 이렇게 짝지어진 두 입자의 관계에 이름을 붙였어요. 독일어로 "<Later n={89}>얽힘</Later>"이라는 뜻의 말이었어요.
+
+<S n={2}>
+
+<Later n={89}>얽힘</Later>은 흔히 장갑 한 켤레를 나눠 담은 두 상자로 설명해요. 다음 강에서는 그 비유가 맞는 곳과, 결정적으로 틀리는 곳을 같이 따져 볼게요.
+
+</S>
+
+</Screen>
