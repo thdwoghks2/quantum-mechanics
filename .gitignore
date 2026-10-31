@@ -5,3 +5,5 @@ dist/
 *.log
 screenshots/
 .firebase/
+bgm/public/*
+!bgm/public/.gitkeep

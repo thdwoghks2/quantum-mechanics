@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "quantummechanics-9ad00"
+  },
+  "targets": {
+    "quantummechanics-9ad00": {
+      "hosting": {
+        "app": ["quantummechanics-9ad00"],
+        "bgm": ["quantummechanics-9ad00-bgm"]
+      }
+    }
   }
 }

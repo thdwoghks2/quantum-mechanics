@@ -41,6 +41,7 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_QUANTUMMECHANICS_9AD00 }}
           projectId: quantummechanics-9ad00
+          target: app
           channelId: live
       - name: 미리보기 주소에 올리기
         if: env.HAS_KEY == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
@@ -49,4 +50,5 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_QUANTUMMECHANICS_9AD00 }}
           projectId: quantummechanics-9ad00
+          target: app
           expires: 7d

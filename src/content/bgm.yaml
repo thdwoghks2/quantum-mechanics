@@ -1,0 +1,68 @@
+# 배경 음악 목록. 음원 파일은 저장소에 넣지 않고 따로 올린다 (bgm/README.md).
+# 파일 하나에 여러 곡이 이어져 있고, 곡마다 시작 시각(at)을 적는다. 시각은 따옴표로 감싼다.
+base: https://quantummechanics-9ad00-bgm.web.app/
+albums:
+  - id: oppenheimer
+    title: Oppenheimer
+    by: Ludwig Göransson
+    file: oppenheimer.mp3
+    tracks:
+      - { at: "0:00:00", title: Fission }
+      - { at: "0:04:38", title: Can You Hear The Music }
+      - { at: "0:06:29", title: A Lowly Shoe Salesman }
+      - { at: "0:10:03", title: Quantum Mechanics }
+      - { at: "0:13:03", title: Gravity Swallows Light }
+      - { at: "0:16:32", title: Meeting Kitty }
+      - { at: "0:22:21", title: Groves }
+      - { at: "0:25:24", title: Manhattan Project }
+      - { at: "0:28:25", title: American Prometheus }
+      - { at: "0:31:02", title: Atmospheric Ignition }
+      - { at: "0:34:31", title: Los Alamos }
+      - { at: "0:37:10", title: Fusion }
+      - { at: "0:41:06", title: Colonel Pash }
+      - { at: "0:46:03", title: Theorists }
+      - { at: "0:49:18", title: Ground Zero }
+      - { at: "0:53:39", title: Trinity }
+      - { at: "1:01:32", title: What We Have Done }
+      - { at: "1:07:17", title: Power Stays In The Shadows }
+      - { at: "1:11:28", title: The Trial }
+      - { at: "1:17:01", title: Dr. Hill }
+      - { at: "1:21:25", title: Kitty Comes To Testify }
+      - { at: "1:26:18", title: Something More Important }
+      - { at: "1:29:43", title: Destroyer Of Worlds }
+      - { at: "1:32:38", title: Oppenheimer }
+  - id: interstellar
+    title: Interstellar
+    by: Hans Zimmer
+    file: interstellar.mp3
+    tracks:
+      - { at: "0:00:00", title: Dreaming Of The Crash }
+      - { at: "0:03:55", title: Cornfield Chase }
+      - { at: "0:06:02", title: Dust }
+      - { at: "0:11:43", title: Day One }
+      - { at: "0:15:03", title: Stay }
+      - { at: "0:21:56", title: Message From Home }
+      - { at: "0:23:36", title: The Wormhole }
+      - { at: "0:25:07", title: Mountains }
+      - { at: "0:28:46", title: Afraid Of Time }
+      - { at: "0:31:19", title: A Place Among The Stars }
+      - { at: "0:34:45", title: Running Out }
+      - { at: "0:36:43", title: "I'm Going Home" }
+      - { at: "0:42:32", title: Coward }
+      - { at: "0:50:58", title: Detach }
+      - { at: "0:57:41", title: S.T.A.Y. }
+      - { at: "1:04:04", title: "Where We're Going" }
+      - { at: "1:11:45", title: First Step }
+      - { at: "1:13:33", title: Flying Drone }
+      - { at: "1:15:26", title: Atmospheric Entry }
+      - { at: "1:17:07", title: No Need To Come Back }
+      - { at: "1:21:42", title: Imperfect Lock }
+      - { at: "1:28:36", title: No Time For Caution }
+      - { at: "1:32:42", title: What Happens Now? }
+      - { at: "1:35:08", title: "Who's They?" }
+      - { at: "1:42:25", title: Murph }
+      - { at: "1:53:45", title: Organ Variation }
+      - { at: "1:58:37", title: Tick-Tock }
+      - { at: "2:06:56", title: Day One (Original Demo) }
+      - { at: "2:10:46", title: Day One Dark }
+      - { at: "2:17:43", title: Do Not Go Gentle Into That Good Night }
