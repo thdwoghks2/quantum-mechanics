@@ -6,7 +6,7 @@
 ## 1. 순서
 
 1. `src/content/curriculum.yaml`에서 강 번호와 제목을 확인한다.
-2. 이 강에서 새로 배우는 용어를 `src/content/glossary.yaml`에 넣는다. `taughtIn`은 이 강 번호다. 일상 예시는 2개 이상.
+2. 이 강에서 새로 배우는 용어를 `src/content/glossary.yaml`에 넣는다. `taughtIn`은 이 강 번호다. 일상 예시는 2개 이상. 앞 강들이 이 말을 이미 일상어로 쓰고 있으면 `previewIn: [강 번호들]`을 적는다(`npm run validate`가 어느 강인지 알려 준다).
 3. `src/content/lessons/NN-part/NNN-slug.mdx`를 만든다. 아래 틀을 복사한다.
 4. `mechanism`(이 강이 설명할 원리 한 문장)부터 쓰고, 화면을 쓴다.
 5. 검사한다.
