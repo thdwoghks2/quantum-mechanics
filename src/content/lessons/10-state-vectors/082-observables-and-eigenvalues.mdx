@@ -1,0 +1,409 @@
+---
+number: 82
+title: 관측가능량과 고윳값
+short: 고윳값
+question: 잴 수 있는 값과 잰 뒤의 상태를 행렬 하나에 담을 수 있을까요?
+mechanism: 행렬을 곱해도 방향이 바뀌지 않고 길이만 몇 배가 되는 화살표가 그 행렬의 고유 상태이고, 그 배수가 고윳값이에요. 잴 수 있는 양을 행렬 하나로 나타내면, 그 고윳값이 잴 때 나올 수 있는 값이고 고유 상태들이 재는 기저가 돼요. 그래서 고유 상태를 재면 늘 그 고윳값이 나오고, 다른 상태를 재면 고윳값들이 투영 길이의 제곱의 확률로 갈려 나와요. 스핀을 위아래로 재는 일은 파울리 행렬 Z로, 옆으로 재는 일은 X로 적혀요.
+part: 10
+minutes: 20
+assumes: [matrix, vector, dot-product, qubit, dirac-notation, basis, projection, spin, stern-gerlach, expectation, probability, stationary-state, energy-level, schrodinger-equation, collapse]
+introduces: [observable, eigenvalue, eigenstate]
+sources:
+  - "Pauli, W. Zur Quantenmechanik des magnetischen Elektrons, Zeitschrift für Physik 43, 601 (1927)"
+  - "Schrödinger, E. Quantisierung als Eigenwertproblem, Annalen der Physik 79, 361 (1926)"
+  - "Nielsen, M. A., Chuang, I. L. Quantum Computation and Quantum Information, Sec. 2.1.5, 2.2.5 (2010)"
+  - "Strang, G. Introduction to Linear Algebra, 5th ed., Ch. 6 Eigenvalues and Eigenvectors (2016)"
+testout: [q82-z, q82-exp, q82-x]
+status: published
+---
+
+<Screen kind="scene" title="돌지 않는 화살표">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '대부분의 화살표', caption: '행렬을 곱하면 방향이 바뀌어요' },
+      { big: '특별한 화살표', caption: '방향은 그대로, 길이만 바뀌어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 어떤 행렬은 특정한 화살표를 돌리지 않고 늘이거나 뒤집기만 한다고 했죠. 오늘은 그 특별한 화살표가 측정과 어떻게 이어지는지 봐요.
+
+<S n={2}>
+
+먼저 그런 방향이 일상에도 있다는 것부터 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="지구의 자전축">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'earth', title: '하루에 한 바퀴', caption: '땅 위의 거의 모든 점이 자리를 옮겨요' },
+      { big: '자전축', caption: '축 위의 방향은 그대로예요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지구가 하루에 한 바퀴 돌면, 땅 위의 거의 모든 점이 자리를 옮겨요. 그런데 자전축 위의 방향은 돌아도 그대로죠.
+
+<S n={2}>
+
+그래서 밤하늘의 별들은 모두 북극성 둘레를 돌고, 북극성만 거의 제자리에 있어요. 변환에는 이렇게 방향이 바뀌지 않는 특별한 방향이 있을 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="방향이 그대로인 화살표">
+  <Fragment slot="visual">
+    <SimP10Matrix eigen m="sym" />
+  </Fragment>
+
+흐린 화살표 16개가 행렬을 곱한 뒤 노란 화살표로 바뀌어요. 대부분은 방향이 바뀌는데, 점선 위의 화살표만 방향이 그대로예요.
+
+<S n={2}>
+
+(2 1 / 1 2)에서는 (1, 1) 방향이 3배로 늘고, (1, −1) 방향은 길이까지 그대로예요. 90° 돌리기를 고르면 방향이 그대로인 화살표가 하나도 없죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="고유 상태">
+  <Fragment slot="visual">
+    <Define term="eigenstate" />
+  </Fragment>
+
+행렬을 곱해도 방향이 바뀌지 않고 길이만 몇 배가 되는 화살표를 그 행렬의 **고유 상태**라고 불러요. 수학에서는 고유 벡터라고도 해요.
+
+<S n={2}>
+
+'고유'는 그 행렬만의 특별한 방향이라는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="고윳값">
+  <Fragment slot="visual">
+    <Define term="eigenvalue" />
+  </Fragment>
+
+고유 상태가 몇 배가 되는지, 그 배수를 **고윳값**이라고 불러요. (2 1 / 1 2)의 고윳값은 3과 1이에요.
+
+<S n={2}>
+
+고윳값이 0보다 작으면 방향이 정반대로 뒤집혀요. −1이면 길이는 그대로 두고 뒤집기만 하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="Z 행렬">
+  <Fragment slot="visual">
+    <DataTable caption="Z = (1 0 / 0 −1)" head={['상태', 'Z를 곱하면', '고윳값']} rows={[
+      ['|0⟩ = (1, 0)', '(1, 0) = 1 × |0⟩', '+1'],
+      ['|1⟩ = (0, 1)', '(0, −1) = −1 × |1⟩', '−1'],
+    ]} steps={[undefined, 2]} />
+  </Fragment>
+
+행렬 Z = (1 0 / 0 −1)을 볼게요. Z는 (1, 0)은 그대로 두고, (0, 1)은 뒤집어요.
+
+<S n={2}>
+
+그래서 |0⟩은 고윳값 +1의 고유 상태이고, |1⟩은 고윳값 −1의 고유 상태예요. 비스듬한 화살표는 Z를 곱하면 방향이 바뀌니까 고유 상태가 아니에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="Z의 짝">
+
+<Check id="q82-z" options={[
+  { t: '|0⟩은 +1, |1⟩은 −1', ok: true, why: 'Z는 |0⟩을 그대로 두니 1배, |1⟩을 뒤집으니 −1배예요.' },
+  { t: '|0⟩은 −1, |1⟩은 +1', why: 'Z의 첫째 세로줄 (1, 0)은 |0⟩이 그대로 간다는 뜻이에요. 그래서 |0⟩의 고윳값은 +1이에요.' },
+  { t: '|+⟩는 +1, |−⟩는 −1', why: '그건 X의 고유 상태예요. Z를 |+⟩에 곱하면 |−⟩가 되어 방향이 바뀌어요.' },
+  { t: 'Z에는 고유 상태가 없어요', why: 'Z는 가로와 세로 방향을 돌리지 않으니, 그 두 방향이 고유 상태예요.' },
+]}>
+
+행렬 Z = (1 0 / 0 −1)의 고유 상태와 고윳값을 바르게 짝지은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="측정과 이어지는 곳">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '스핀을 위아래로 재기', caption: '나오는 값: 위(+1), 아래(−1)' },
+      { big: 'Z의 고윳값', caption: '+1, −1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+72강에서 스핀을 위아래로 재면 '위'나 '아래' 두 값만 나왔죠. 위를 +1, 아래를 −1이라고 하면, 잰 값은 Z의 고윳값과 같아요.
+
+<S n={2}>
+
+그리고 잰 뒤의 상태 |0⟩과 |1⟩은 Z의 고유 상태예요. 그러니 Z 행렬 하나에, 위아래로 재는 일에 필요한 것이 다 들어 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="관측가능량">
+  <Fragment slot="visual">
+    <Define term="observable" />
+  </Fragment>
+
+이렇게 잴 수 있는 양 하나를 행렬 하나로 나타낸 것을 **관측가능량**이라고 불러요. 스핀을 위아래로 재는 양은 Z라는 관측가능량이에요.
+
+<S n={2}>
+
+<Key>관측가능량은 잴 수 있는 양을 나타내는 행렬이라서, 그 고윳값이 잴 때 나올 수 있는 값이고, 그 고유 상태들이 재는 기저가 되며, 잰 뒤의 상태는 나온 값의 고유 상태예요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="X는 옆으로 재기">
+  <Fragment slot="visual">
+    <DataTable caption="X = (0 1 / 1 0)" head={['상태', 'X를 곱하면', '고윳값']} rows={[
+      ['|+⟩ = (0.71, 0.71)', '(0.71, 0.71) = 1 × |+⟩', '+1'],
+      ['|−⟩ = (0.71, −0.71)', '(−0.71, 0.71) = −1 × |−⟩', '−1'],
+    ]} />
+  </Fragment>
+
+81강의 X = (0 1 / 1 0)도 관측가능량이에요. X를 |+⟩에 곱하면 그대로 |+⟩이고, |−⟩에 곱하면 −|−⟩가 돼요.
+
+<S n={2}>
+
+그래서 X는 80강의 |+⟩, |−⟩ 기저로 재는 관측가능량이에요. 스핀이라면 옆 방향으로 재는 일이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="X와 Z의 고유 상태">
+  <Fragment slot="visual">
+    <SimP10Matrix eigen m="z" />
+  </Fragment>
+
+이번엔 X와 Z를 번갈아 골라 보세요. 점선이 방향이 그대로인 고유 상태의 방향이에요.
+
+<S n={2}>
+
+Z는 가로와 세로가, X는 두 대각선이 고유 상태예요. 두 행렬의 고유 상태는 하나도 겹치지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="X로 재면 나오는 값">
+
+<Check id="q82-x" options={[
+  { t: '+1 또는 −1', ok: true, why: '관측가능량을 재면 그 고윳값 가운데 하나가 나와요. X의 고윳값은 +1과 −1이에요.' },
+  { t: '0 또는 1', why: '0과 1은 큐비트 상태의 이름이에요. X로 재서 나오는 값은 X의 고윳값이에요.' },
+  { t: '0과 1 사이의 아무 값', why: '측정에서는 고윳값만 나와요. 그 사이 값은 나오지 않아요.' },
+  { t: '행렬에 적힌 숫자 0 또는 1', why: '나오는 값은 행렬의 칸에 적힌 숫자가 아니라 고윳값이에요.' },
+]}>
+
+어떤 큐비트를 관측가능량 X = (0 1 / 1 0)으로 재면, 나올 수 있는 값은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="파울리 행렬">
+  <Fragment slot="visual">
+    <BigNumber top="파울리가 스핀을 행렬로 다룬 해" value="1927" bottom="X, Y, Z 세 행렬 · 파울리 행렬" />
+  </Fragment>
+
+1927년 볼프강 파울리는 전자의 스핀을 다루려고 2×2 행렬 세 개를 썼어요. 그 가운데 둘이 오늘의 X와 Z이고, 이 세 행렬을 파울리 행렬이라고 불러요.
+
+<S n={2}>
+
+스핀을 서로 직각인 세 방향으로 재는 일이 행렬 세 개로 적힌 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="기댓값 구하기">
+  <Fragment slot="visual">
+    <DataTable caption="0.87|0⟩ + 0.5|1⟩을 Z로 잴 때" head={['나오는 값', '확률', '값 × 확률']} rows={[
+      ['+1', '0.75', '+0.75'],
+      ['−1', '0.25', '−0.25'],
+      ['기댓값', '', '0.5'],
+    ]} steps={[undefined, undefined, 2]} />
+  </Fragment>
+
+고유 상태가 아닌 0.87|0⟩ + 0.5|1⟩을 Z로 여러 번 재면, +1과 −1이 0.75와 0.25의 확률로 섞여 나와요.
+
+<S n={2}>
+
+24강의 기댓값으로 평균을 내면 0.75 × (+1) + 0.25 × (−1) = 0.5예요. 감각으로 확인하면, '위'가 더 자주 나오니 평균이 0보다 큰 게 맞죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="|+⟩를 Z로 재면">
+
+<Check id="q82-exp" options={[
+  { t: '0', ok: true, why: '|+⟩를 Z로 재면 +1과 −1이 반반 나와요. ½ × (+1) + ½ × (−1) = 0이에요.' },
+  { t: '+1', why: '+1이 늘 나오려면 상태가 Z의 고유 상태 |0⟩이어야 해요. |+⟩는 반반이에요.' },
+  { t: '0.71', why: '0.71은 투영의 길이예요. 기댓값은 값과 확률을 곱해 더한 거예요.' },
+  { t: '½', why: '½은 +1이 나올 확률이에요. −1이 나오는 경우도 함께 더해야 해요.' },
+]}>
+
+상태 |+⟩를 관측가능량 Z로 여러 번 쟀을 때, 잰 값의 기댓값은 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="고윳값은 실수여야 해요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'X, Z', caption: '고윳값 +1, −1 · 눈금으로 읽을 수 있어요', tone: 'ok' },
+      { big: '90° 돌리기', caption: '그대로인 실수 방향이 없어요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+잰 값은 눈금으로 읽는 실수여야 해요. 그래서 관측가능량은 고윳값이 늘 실수인 특별한 행렬만 될 수 있어요.
+
+<S n={2}>
+
+90° 돌리기 행렬처럼 방향이 그대로인 실수 화살표가 없는 행렬은 관측가능량이 될 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="에너지도 관측가능량">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '정상 상태', caption: '에너지의 고유 상태' },
+      { big: '에너지 준위', caption: '에너지의 고윳값', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+에너지도 관측가능량이에요. 70강의 정상 상태가 에너지의 고유 상태이고, 에너지 준위가 그 고윳값이에요.
+
+<S n={2}>
+
+그래서 슈뢰딩거는 1926년 논문 제목을 '고윳값 문제로서의 양자화'라고 붙였어요. 허락되는 에너지를 찾는 일이 곧 고윳값을 찾는 일이었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="동전 분류기">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['동전 분류기 하나', '관측가능량 하나'],
+        ['분류기의 칸들', '고유 상태들'],
+        ['칸에 적힌 금액', '고윳값'],
+        ['동전이 칸 하나로 떨어져요', '재면 고유 상태 하나가 되고, 그 고윳값을 얻어요'],
+      ]}
+      fits="재면 정해진 칸 가운데 하나로 가고, 그 칸에 적힌 값만 얻는다는 점이 같아요."
+      breaks="동전은 넣기 전부터 어느 칸으로 갈지 정해져 있지만, 고유 상태가 아닌 상태는 재기 전에 정해져 있지 않고 확률로 갈려요. 또 X와 Z처럼 분류기마다 칸의 방향 자체가 달라요."
+    />
+  </Fragment>
+
+관측가능량을 동전 분류기에 빗대어 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="step" title="답이 확실한 상태">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '고유 상태를 재면', caption: '늘 같은 고윳값' },
+      { big: '다른 상태를 재면', caption: '고윳값들이 확률로 섞여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 고유 상태를 '그 양을 재면 답이 확실한 상태'라고 기억해요. |0⟩을 Z로 재면 늘 +1이 나오니까요.
+
+고유 상태가 아닌 상태를 재면, 고윳값들이 80강의 투영 규칙대로 확률로 섞여 나와요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['eigenstate', 'eigenvalue', 'observable']}>
+
+1. 행렬을 곱해도 방향이 그대로인 화살표가 고유 상태, 그 배수가 고윳값이에요.
+2. 잴 수 있는 양을 행렬로 나타낸 것이 관측가능량이에요.
+3. 관측가능량의 고윳값이 나올 수 있는 값이고, 고유 상태들이 재는 기저예요.
+4. 그래서 고유 상태를 재면 늘 그 값이, 다른 상태를 재면 값들이 확률로 나와요.
+5. 스핀을 위아래로 재는 일은 Z로, 옆으로 재는 일은 X로 적혀요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="새 관측가능량">
+
+<DailyProblem id="p82">
+
+(2 1 / 1 2)를 어떤 양을 재는 관측가능량이라고 해 볼게요. 고유 상태는 0.71|0⟩ + 0.71|1⟩(고윳값 3)과 0.71|0⟩ − 0.71|1⟩(고윳값 1)이에요.
+
+상태 |0⟩을 이 양으로 재면 어떤 값이 어떤 확률로 나올까요? 기댓값도 구해 보세요.
+
+<Fragment slot="hint1">
+
+|0⟩을 두 고유 상태로 투영한 그림자 길이는 각각 얼마인가요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+그림자 길이는 둘 다 0.71이에요. 확률은 그 제곱이에요.
+
+</Fragment>
+<Fragment slot="solution">
+
+3과 1이 각각 ½의 확률로 나와요. |0⟩은 두 고유 상태와 모두 45°를 이뤄서 그림자 길이가 0.71이고, 그 제곱이 ½이에요.
+
+기댓값은 ½ × 3 + ½ × 1 = 2예요. 행렬 (2 1 / 1 2)의 첫째 가로줄 첫째 칸에 적힌 2와 같은데, |0⟩ 상태에서 이 양의 기댓값이 바로 그 칸의 값이기 때문이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+잴 수 있는 양은 관측가능량이라는 행렬로 나타내고, 그 고윳값이 나올 수 있는 값, 고유 상태가 재는 기저이자 잰 뒤의 상태예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="둘 다 확실할 수 있을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'Z의 고유 상태', caption: '|0⟩, |1⟩' },
+      { big: 'X의 고유 상태', caption: '|+⟩, |−⟩ · 하나도 겹치지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+Z의 고유 상태와 X의 고유 상태는 하나도 겹치지 않았어요. 그러니 스핀의 위아래와 옆 방향 값이 둘 다 확실한 상태는 없어요.
+
+<S n={2}>
+
+다음 강에서는 슈테른-게를라흐 장치 세 대를 이어 붙여, 이 사실을 실험으로 확인해요. 그 까닭은 81강에서 본, 순서를 바꾸면 결과가 달라지는 행렬 곱셈에 있어요.
+
+</S>
+
+</Screen>
