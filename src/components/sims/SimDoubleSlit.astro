@@ -1,0 +1,139 @@
+---
+/** 영의 이중 슬릿: 빛의 색(파장), 슬릿 사이 간격, 화면까지 거리를 바꾸면 화면의 무늬 간격이 바뀐다. */
+interface Props {
+  nm?: number;
+  d?: number;
+  L?: number;
+}
+const { nm = 650, d = 0.25, L = 2 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-doubleslit class="sim" data-ratio="0.62" data-autoplay="false">
+  <canvas aria-label="이중 슬릿 뒤 화면에 생기는 밝고 어두운 줄무늬와 그 세기 그래프"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`ds-n-${uid}`}>빛의 파장</label>
+      <input id={`ds-n-${uid}`} type="range" min="400" max="700" step="10" value={nm} data-param="nm" />
+      <output data-out="nm"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`ds-d-${uid}`}>슬릿 사이 간격</label>
+      <input id={`ds-d-${uid}`} type="range" min="0.1" max="0.5" step="0.05" value={d} data-param="d" />
+      <output data-out="d"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`ds-l-${uid}`}>화면까지 거리</label>
+      <input id={`ds-l-${uid}`} type="range" min="0.5" max="4" step="0.5" value={L} data-param="L" />
+      <output data-out="L"></output>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-doubleslit>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  /** 파장(nm)을 대략의 색으로 바꾼다. */
+  function nmToRgb(nm: number): [number, number, number] {
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    if (nm < 440) [r, g, b] = [-(nm - 440) / 40, 0, 1];
+    else if (nm < 490) [r, g, b] = [0, (nm - 440) / 50, 1];
+    else if (nm < 510) [r, g, b] = [0, 1, -(nm - 510) / 20];
+    else if (nm < 580) [r, g, b] = [(nm - 510) / 70, 1, 0];
+    else if (nm < 645) [r, g, b] = [1, -(nm - 645) / 65, 0];
+    else [r, g, b] = [1, 0, 0];
+    return [r * 255, g * 255, b * 255];
+  }
+
+  const SLIT_W = 0.04; // 슬릿 폭 (mm)
+
+  class SimDoubleSlit extends Sim {
+    animated = false;
+
+    spacing() {
+      // 무늬 간격 (mm) = 파장 × 거리 ÷ 슬릿 간격
+      return ((this.p.nm! * 1e-9 * this.p.L!) / (this.p.d! * 1e-3)) * 1e3;
+    }
+
+    intensity(ymm: number) {
+      const lam = this.p.nm! * 1e-6; // mm
+      const Lmm = this.p.L! * 1e3;
+      const s = ymm / Math.hypot(ymm, Lmm);
+      const phase = (Math.PI * this.p.d! * s) / lam;
+      const beta = (Math.PI * SLIT_W * s) / lam;
+      const env = beta === 0 ? 1 : (Math.sin(beta) / beta) ** 2;
+      return Math.cos(phase) ** 2 * env;
+    }
+
+    format(name: string) {
+      if (name === 'nm') return `${this.p.nm} nm`;
+      if (name === 'd') return `${this.p.d} mm`;
+      return `${this.p.L} m`;
+    }
+
+    readout() {
+      return `무늬 간격 = 파장 × 거리 ÷ 슬릿 간격 = ${this.spacing().toFixed(1)} mm`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const [r, gg, b] = nmToRgb(this.p.nm!);
+      const range = 30; // 화면 가운데에서 ±30 mm
+      const X = (ymm: number) => w / 2 + (ymm / range) * (w / 2 - 10);
+      // 위: 장치 그림
+      const top = 12;
+      const midY = top + 34;
+      this.text('빛', 14, midY, c.text2, 11);
+      g.strokeStyle = `rgb(${r},${gg},${b})`;
+      g.lineWidth = 2;
+      for (let i = 0; i < 4; i++) this.line(34 + i * 10, midY - 10, 34 + i * 10, midY + 10, `rgba(${r},${gg},${b},0.8)`, 2);
+      const sx = w * 0.32;
+      g.fillStyle = c.text2;
+      g.fillRect(sx - 2, top, 4, 24);
+      g.fillRect(sx - 2, top + 30, 4, 8);
+      g.fillRect(sx - 2, top + 44, 4, 24);
+      this.text('슬릿 두 개', sx, top + 76, c.muted, 10, 'center');
+      this.line(w - 16, top, w - 16, top + 68, c.text2, 3);
+      this.text('화면', w - 16, top + 76, c.muted, 10, 'center');
+      this.text(`거리 ${this.p.L} m`, (sx + w - 16) / 2, midY, c.muted, 10, 'center');
+      // 화면의 무늬 (띠)
+      const bandTop = top + 92;
+      const bandH = h * 0.16;
+      for (let px = 10; px < w - 10; px++) {
+        const y = ((px - w / 2) / (w / 2 - 10)) * range;
+        const I = this.intensity(y);
+        g.fillStyle = `rgb(${r * I},${gg * I},${b * I})`;
+        g.fillRect(px, bandTop, 1, bandH);
+      }
+      this.text('화면에 보이는 무늬', 12, bandTop - 8, c.muted, 10);
+      // 세기 그래프
+      const gy0 = h - 34;
+      const gy1 = bandTop + bandH + 18;
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2;
+      g.beginPath();
+      for (let px = 10; px < w - 10; px++) {
+        const y = ((px - w / 2) / (w / 2 - 10)) * range;
+        const yy = gy0 - this.intensity(y) * (gy0 - gy1);
+        if (px === 10) g.moveTo(px, yy);
+        else g.lineTo(px, yy);
+      }
+      g.stroke();
+      this.line(10, gy0, w - 10, gy0, c.text2, 1);
+      for (const t of [-30, -20, -10, 0, 10, 20, 30]) this.text(`${t}`, X(t), gy0 + 11, c.muted, 9, 'center');
+      this.text('화면 가운데에서 떨어진 거리 (mm)', w / 2, h - 8, c.space, 10, 'center');
+      this.text('빛의 세기', 12, gy1 - 6, c.energy, 10);
+      // 무늬 간격 표시
+      const s = this.spacing();
+      if (s < range) {
+        const yb = bandTop + bandH + 6;
+        this.line(X(0), yb, X(s), yb, c.accent, 2);
+        this.text(`${s.toFixed(1)} mm`, X(s / 2), yb + 9, c.accent, 10, 'center');
+      }
+    }
+  }
+  define('qm-sim-doubleslit', SimDoubleSlit);
+</script>

@@ -15,6 +15,7 @@ import DataTable from './figures/DataTable.astro';
 import Flow from './figures/Flow.astro';
 import Panels from './figures/Panels.astro';
 import Icon from './figures/Icon.astro';
+import SlitGeometry from './figures/SlitGeometry.astro';
 import { sims } from './sims/index.ts';
 
 export const mdxComponents = {
@@ -34,5 +35,6 @@ export const mdxComponents = {
   Flow,
   Panels,
   Icon,
+  SlitGeometry,
   ...sims,
 };

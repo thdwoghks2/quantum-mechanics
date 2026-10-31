@@ -1,0 +1,159 @@
+---
+/**
+ * 두 파원에서 퍼지는 물결의 간섭. 파장과 두 파원 사이 거리를 바꾼다.
+ * '평균 세기'로 바꾸면 시간이 지나도 변하지 않는 잔잔한 줄과 출렁이는 줄만 남는다.
+ * mode="gap"이면 왼쪽에서 온 물결이 벽의 틈을 지나는 회절을 보여 준다.
+ */
+interface Props {
+  mode?: 'two' | 'gap';
+  lambda?: number;
+  d?: number;
+  gap?: number;
+}
+const { mode = 'two', lambda = 1, d = 3, gap = 4 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-ripple class="sim" data-ratio="0.64" data-mode={mode}>
+  <canvas aria-label={mode === 'two' ? '두 점에서 퍼지는 물결이 겹쳐 간섭 무늬를 만든다' : '왼쪽에서 오는 물결이 벽의 틈을 지나 퍼진다'}></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`rp-l-${uid}`}>파장</label>
+      <input id={`rp-l-${uid}`} type="range" min="0.4" max="3" step="0.1" value={lambda} data-param="lambda" />
+      <output data-out="lambda"></output>
+    </div>
+    {mode === 'two' ? (
+      <div class="sim__row">
+        <label for={`rp-d-${uid}`}>두 파원 사이</label>
+        <input id={`rp-d-${uid}`} type="range" min="1" max="8" step="0.5" value={d} data-param="d" />
+        <output data-out="d"></output>
+      </div>
+    ) : (
+      <div class="sim__row">
+        <label for={`rp-g-${uid}`}>틈의 폭</label>
+        <input id={`rp-g-${uid}`} type="range" min="0.5" max="10" step="0.5" value={gap} data-param="gap" />
+        <output data-out="gap"></output>
+      </div>
+    )}
+    <input type="hidden" data-param="avg" value="0" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="avg=0" aria-pressed="true">순간의 물결</button>
+      <button type="button" class="btn" data-set="avg=1" aria-pressed="false">평균 세기</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-ripple>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const W = 30; // 가로 길이 (임의 단위)
+  const GX = 168;
+
+  class SimRipple extends Sim {
+    off!: HTMLCanvasElement;
+    img!: ImageData;
+    gy = 108;
+
+    init() {
+      this.off = document.createElement('canvas');
+    }
+
+    sources(): [number, number][] {
+      const H = W * 0.64;
+      if (this.dataset.mode === 'two') {
+        const d = this.p.d!;
+        return [[3, H / 2 - d / 2], [3, H / 2 + d / 2]];
+      }
+      const g = this.p.gap!;
+      const n = Math.min(40, Math.max(2, Math.round(g / (this.p.lambda! / 4))));
+      return Array.from({ length: n }, (_, i) => [W * 0.32, H / 2 - g / 2 + (g * (i + 0.5)) / n] as [number, number]);
+    }
+
+    format(name: string) {
+      return `${this.p[name]}`;
+    }
+
+    readout() {
+      if (this.dataset.mode === 'two') return `파장 ${this.p.lambda} · 두 파원 사이 ${this.p.d} (같은 단위)`;
+      const r = this.p.gap! / this.p.lambda!;
+      return `틈의 폭은 파장의 ${r.toFixed(1)}배`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const gw = GX;
+      const gh = Math.round(GX * (h / w));
+      if (this.off.width !== gw || this.off.height !== gh) {
+        this.off.width = gw;
+        this.off.height = gh;
+        this.img = this.off.getContext('2d')!.createImageData(gw, gh);
+      }
+      const H = W * (gh / gw);
+      const k = (2 * Math.PI) / this.p.lambda!;
+      const omega = 2 * Math.PI * 0.8;
+      const src = this.sources();
+      const gap = this.dataset.mode === 'gap';
+      const wallX = W * 0.32;
+      const avg = this.p.avg === 1;
+      const data = this.img.data;
+      const amber = [231, 145, 58];
+      const blue = [132, 172, 216];
+      const norm = gap ? 1 / Math.sqrt(src.length) : 1;
+      for (let j = 0; j < gh; j++) {
+        for (let i = 0; i < gw; i++) {
+          const x = (i / gw) * W;
+          const y = (j / gh) * H;
+          let re = 0;
+          let im = 0;
+          if (gap && x < wallX) {
+            re = Math.cos(k * x);
+            im = Math.sin(k * x);
+          } else {
+            for (const [sx, sy] of src) {
+              const r = Math.hypot(x - sx, y - sy) + 0.3;
+              const a = (gap ? 1.4 : 2.2) / Math.sqrt(r);
+              re += a * Math.cos(k * r + (gap ? k * wallX : 0));
+              im += a * Math.sin(k * r + (gap ? k * wallX : 0));
+            }
+            re *= norm * (gap ? 1.6 : 1);
+            im *= norm * (gap ? 1.6 : 1);
+          }
+          const p = (j * gw + i) * 4;
+          if (avg) {
+            const I = Math.min(1, (re * re + im * im) * 0.25);
+            data[p] = 13 + (amber[0]! - 13) * I;
+            data[p + 1] = 12 + (amber[1]! - 12) * I;
+            data[p + 2] = 10 + (amber[2]! - 10) * I;
+          } else {
+            const v = re * Math.cos(omega * this.t) + im * Math.sin(omega * this.t);
+            const s = Math.max(-1, Math.min(1, v * 0.5));
+            const col = s >= 0 ? amber : blue;
+            const m = Math.abs(s);
+            data[p] = 13 + (col[0]! - 13) * m;
+            data[p + 1] = 12 + (col[1]! - 12) * m;
+            data[p + 2] = 10 + (col[2]! - 10) * m;
+          }
+          data[p + 3] = 255;
+        }
+      }
+      this.off.getContext('2d')!.putImageData(this.img, 0, 0);
+      const g = this.ctx;
+      g.imageSmoothingEnabled = true;
+      g.drawImage(this.off, 0, 0, w, h);
+      // 파원과 벽
+      if (gap) {
+        const px = (wallX / W) * w;
+        const top = ((H / 2 - this.p.gap! / 2) / H) * h;
+        const bot = ((H / 2 + this.p.gap! / 2) / H) * h;
+        g.fillStyle = c.text2;
+        g.fillRect(px - 3, 0, 6, top);
+        g.fillRect(px - 3, bot, 6, h - bot);
+      } else {
+        for (const [sx, sy] of src) this.dot((sx / W) * w, (sy / H) * h, 4, c.text);
+      }
+      this.text(avg ? '밝을수록 크게 출렁인다 (평균)' : '주황: 솟은 곳 · 파랑: 꺼진 곳', w - 8, h - 10, c.text, 11, 'right');
+    }
+  }
+  define('qm-sim-ripple', SimRipple);
+</script>

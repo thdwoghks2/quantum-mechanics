@@ -8,5 +8,11 @@ import SimChaos from './SimChaos.astro';
 import SimOscillator from './SimOscillator.astro';
 import SimWave from './SimWave.astro';
 import SimCircleSine from './SimCircleSine.astro';
+import SimPulses from './SimPulses.astro';
+import SimRipple from './SimRipple.astro';
+import SimDoubleSlit from './SimDoubleSlit.astro';
 
-export const sims = { SimScale, SimMotion, SimForce, SimCoaster, SimCollision, SimChaos, SimOscillator, SimWave, SimCircleSine };
+export const sims = {
+  SimScale, SimMotion, SimForce, SimCoaster, SimCollision, SimChaos,
+  SimOscillator, SimWave, SimCircleSine, SimPulses, SimRipple, SimDoubleSlit,
+};

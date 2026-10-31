@@ -1,0 +1,326 @@
+---
+number: 16
+title: 영의 이중 슬릿 실험
+short: 영의 이중 슬릿
+question: 빛이 파동이라는 것을 어떻게 보이고, 빛의 파장을 어떻게 재는가
+mechanism: 빛 하나를 아주 좁은 틈 두 개에 비추면, 두 틈은 같은 위상으로 빛을 내보내는 두 파원이 된다. 화면의 한 점까지 두 빛의 경로차는 d sin θ이고, 이것이 파장의 정수배인 곳마다 밝은 줄이, 그 사이에 어두운 줄이 생긴다. 무늬 간격(파장 × 화면까지 거리 ÷ 틈 사이 간격)을 재면 빛의 파장을 계산할 수 있다.
+part: 1
+year: 1801
+minutes: 24
+assumes: [interference, constructive, destructive, path-difference, source, diffraction, wavelength, sine, phase, prefix]
+introduces: [slit, double-slit, fringe]
+sources:
+  - "Young, T. The Bakerian Lecture: On the Theory of Light and Colours, Philosophical Transactions 92 (1802)"
+  - "Young, T. A Course of Lectures on Natural Philosophy and the Mechanical Arts (1807)"
+  - "Hecht, E. Optics (5th ed.), Ch. 9.3: Wavefront-splitting Interferometers"
+testout: [q16-dy, q16-closer, q16-dark]
+status: published
+---
+
+<Screen kind="recall" from={14}>
+  <Fragment slot="visual">
+    <SimRipple mode="two" lambda={1.2} d={4} />
+  </Fragment>
+
+14강에서 같은 위상으로 진동하는 두 파원의 물결이 겹치면, 경로차가 파장의 정수배인 곳에서 보강되고 반 파장 어긋난 곳에서 상쇄되어 줄무늬가 생겼다.
+
+빛이 정말 파동이라면, 두 곳에서 나온 빛도 이런 줄무늬를 만들어야 한다. 그런데 방에 전등을 두 개 켜 놓아도 벽에 줄무늬는 생기지 않는다. 왜일까?
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { title: '전등 두 개', big: '박자가 제각각', caption: '두 빛의 위상 차이가 1초에도 수없이 바뀐다' },
+      { title: '빛 하나를 둘로 나누면', big: '박자가 같다', caption: '두 빛의 위상 차이가 그대로 유지된다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전등 두 개는 서로 아무 관계 없이 빛을 낸다. 두 빛의 위상 차이가 1초에도 수없이 마구 바뀌므로, 어떤 자리가 보강되었다가도 바로 다음 순간 상쇄된다. 눈에는 평균만 보이므로 줄무늬가 사라진다.
+
+간섭 무늬를 보려면 두 빛의 위상 차이가 일정해야 한다. 가장 쉬운 방법은 빛 하나를 둘로 나누는 것이다. 한 빛에서 나온 두 갈래는 처음부터 박자가 맞는다.
+
+</Screen>
+
+<Screen kind="story">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1801~1803년', title: '토머스 영', caption: '영국의 의사이자 물리학자. 빛 하나를 좁은 틈 두 개로 나눴다' },
+    ]} />
+  </Fragment>
+
+이 생각을 실험으로 옮긴 사람이 영국의 의사이자 물리학자 토머스 영이다. 1801년부터 1803년 사이 영국 왕립학회 강연과 논문에서, 영은 햇빛을 작은 구멍으로 좁게 들인 뒤 그 빛을 다시 아주 좁은 틈 두 개에 비췄다.
+
+15강에서 본 대로 아주 좁은 틈을 지난 빛은 회절해 둥글게 퍼진다. 두 틈에서 퍼진 빛은 한 빛에서 나왔으니 같은 위상이다. 두 틈이 14강의 두 파원 노릇을 하는 것이다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="slit" />
+  </Fragment>
+
+빛이 지나가도록 판에 낸 아주 좁고 긴 틈을 **슬릿**이라고 한다. 검게 칠한 유리를 면도날로 그어 만들 수 있다.
+
+슬릿이 빛의 파장과 견줄 만큼 좁아야 빛이 충분히 회절해 퍼진다. 실제로 쓰는 슬릿의 폭은 보통 0.1 mm 이하다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="double-slit" />
+  </Fragment>
+
+가까이 붙은 슬릿 두 개에 빛을 비추고 뒤쪽 화면에 생기는 무늬를 보는 실험을 **이중 슬릿 실험**이라고 한다.
+
+이 실험은 이 코스에서 두 번 나온다. 이 강에서는 빛이 파동이라는 증거로 쓰인다. 50강에서는 빛 대신 전자를 하나씩 쏘는 같은 실험이 양자역학의 가장 기묘한 사실을 보여 준다.
+
+</Screen>
+
+<Screen kind="observe">
+  <Fragment slot="visual">
+    <SimDoubleSlit nm={650} d={0.25} L={2} />
+  </Fragment>
+
+빨간 레이저(파장 650 nm)를 간격 0.25 mm인 두 슬릿에 비추고, 2 m 떨어진 화면을 본다. 화면에 무엇이 보이는지 먼저 보자.
+
+<S n={2}>
+
+화면에는 빨갛게 밝은 줄과 어두운 줄이 일정한 간격으로 번갈아 늘어선다. 아래 그래프는 화면의 자리마다 빛이 얼마나 센지를 그린 것이다. 밝은 줄 사이 간격은 약 5 mm다.
+
+</S>
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="fringe" />
+  </Fragment>
+
+간섭 때문에 밝은 곳과 어두운 곳이 번갈아 줄지어 생기는 무늬를 **간섭 무늬**라고 한다. 14강의 물웅덩이에서 본 출렁이는 줄과 잔잔한 줄을 빛으로 본 것이다.
+
+어두운 줄은 빛이 막혀서 생긴 그림자가 아니다. 두 슬릿에서 온 빛이 그 자리에 모두 도착했지만 반대 위상이라 서로 지운 곳이다.
+
+</Screen>
+
+<Screen kind="graph">
+  <Fragment slot="visual">
+    <SlitGeometry />
+  </Fragment>
+
+<S n={1}>
+
+밝은 줄이 어디에 생기는지 계산해 보자. 두 슬릿 S₁, S₂ 사이 간격을 d라고 하자.
+
+</S>
+
+<S n={2}>
+
+화면 위의 한 점 P에는 S₁과 S₂에서 출발한 빛이 각각 온다. 두 빛은 같은 위상으로 출발했으니, 도착할 때의 위상 차이는 경로차로 정해진다.
+
+</S>
+
+<S n={3}>
+
+화면은 슬릿에서 아주 멀리 있으므로 두 빛은 거의 나란히 간다. 그러면 S₂에서 온 빛이 더 지나온 거리, 곧 경로차는 그림의 굵은 선이고, 그 길이는 d × sin θ다. θ는 P가 가운데에서 벗어난 각도다.
+
+</S>
+
+<S n={4}>
+
+경로차 d sin θ가 파장 λ의 정수배(0, λ, 2λ …)인 곳이 밝은 줄이다. 식으로 쓰면 d sin θ = mλ (m = 0, 1, 2 …)다. m = 0인 한가운데 줄이 경로차 0인 곳이다.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked">
+  <Fragment slot="visual">
+    <DataTable caption="무늬 간격 계산" head={['단계', '내용']} rows={[
+      ['각도가 아주 작다', 'sin θ ≈ 화면 위 거리 y ÷ 화면까지 거리 L'],
+      ['m번째 밝은 줄', 'd × (y ÷ L) = mλ, 곧 y = mλL ÷ d'],
+      ['이웃한 밝은 줄 사이', '무늬 간격 = λL ÷ d'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+화면이 멀리 있어서 θ는 아주 작다. 각도가 아주 작을 때 sin θ는 (가운데에서 P까지 화면 위 거리 y) ÷ (화면까지 거리 L)과 거의 같다.
+
+<S n={2}>
+
+이것을 d sin θ = mλ에 넣으면 d × y ÷ L = mλ, 곧 m번째 밝은 줄의 자리는 y = mλL ÷ d다.
+
+</S>
+
+<S n={3}>
+
+m이 1 늘 때마다 y는 λL ÷ d씩 는다. 그래서 무늬 간격 = 파장 × 화면까지 거리 ÷ 슬릿 간격이다. 앞의 레이저라면 650 × 10⁻⁹ m × 2 m ÷ 0.25 × 10⁻³ m = 5.2 × 10⁻³ m, 곧 5.2 mm다.
+
+</S>
+
+</Screen>
+
+<Screen kind="check">
+
+<Numeric id="q16-dy" answer={4.0} tol={0.03} unit="mm">
+
+초록 레이저(파장 532 nm)를 간격 0.2 mm인 두 슬릿에 비추고 1.5 m 떨어진 화면을 본다. 밝은 줄 사이 간격은 몇 mm인가?
+
+<Fragment slot="solution">
+
+무늬 간격 = λL ÷ d = 532 × 10⁻⁹ × 1.5 ÷ (0.2 × 10⁻³) ≈ 3.99 × 10⁻³ m, 약 4.0 mm.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <BigNumber top="토머스 영이 계산한 빛의 파장" value="약 0.4 ~ 0.7 μm" bottom="보랏빛이 가장 짧고, 빨간빛이 가장 길다" q="space" />
+  </Fragment>
+
+이 식은 거꾸로 쓸 수 있다. 슬릿 간격 d와 화면까지 거리 L을 알고 무늬 간격을 자로 재면, 파장 = 무늬 간격 × d ÷ L로 빛의 파장을 계산할 수 있다.
+
+영은 이런 방법으로 빛의 파장을 처음 계산했다. 결과는 보랏빛이 약 0.4 μm, 빨간빛이 약 0.7 μm였다. 1 mm의 1,000분의 1보다도 작다. 15강에서 빛이 문을 지나며 거의 회절하지 않은 이유가 이 작은 값이다.
+
+</Screen>
+
+<Screen kind="observe">
+  <Fragment slot="visual">
+    <SimDoubleSlit nm={650} d={0.25} L={2} />
+  </Fragment>
+
+이번에는 빛의 파장을 바꿔 보자. 빨간빛(650 nm)에서 파란빛(450 nm)으로 바꾸면 무늬 간격이 어떻게 되는가? 그다음 슬릿 간격을 좁혀 보자.
+
+<S n={2}>
+
+파란빛은 빨간빛보다 무늬 간격이 좁다. 색마다 파장이 다르다는 뜻이다. 슬릿 간격을 좁히면 무늬 간격은 넓어진다. 무늬 간격 = λL ÷ d에서 d가 분모에 있기 때문이다.
+
+</S>
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q16-closer" options={[
+  { t: '넓어진다', ok: true, why: '무늬 간격 = λL ÷ d이므로 d가 작아지면 간격이 커진다. 슬릿이 가까우면 옆으로 더 멀리 가야 경로차가 파장 하나만큼 바뀐다.' },
+  { t: '좁아진다', why: '슬릿 간격을 넓힐 때의 결과다.' },
+  { t: '그대로다', why: '무늬 간격은 슬릿 간격 d에 따라 바뀐다.' },
+  { t: '무늬가 사라진다', why: '두 슬릿에서 같은 위상의 빛이 나오는 한 무늬는 생긴다. 간격이 바뀔 뿐이다.' },
+]}>
+
+같은 레이저와 같은 화면 거리에서, 두 슬릿 사이 간격만 절반으로 좁히면 무늬 간격은?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { title: '빛이 알갱이라면', big: '‖', caption: '두 슬릿 뒤에 밝은 줄이 두 개만 생긴다' },
+      { title: '빛이 파동이라면', big: '|||||||', caption: '밝고 어두운 줄이 여러 개 번갈아 생긴다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 실험이 왜 빛이 파동이라는 증거일까? 빛이 아주 작은 알갱이가 곧게 날아가는 것이라면, 두 슬릿을 지난 알갱이들은 각 슬릿 뒤에 하나씩, 밝은 줄 두 개만 만들어야 한다.
+
+실제로는 밝은 줄이 여러 개 생기고, 그 사이에 어두운 줄이 있다. 특히 어두운 줄은 알갱이로는 설명할 수 없다. 슬릿 하나만 열었을 때는 빛이 오던 자리가, 슬릿 두 개를 열자 오히려 어두워졌다. 빛에 빛을 더해 어둠이 생긴 것이다.
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q16-dark" options={[
+  { t: '두 슬릿에서 온 빛이 반대 위상으로 만나 서로 지워서', ok: true, why: '경로차가 반 파장 어긋난 자리에서 상쇄 간섭이 일어난다.' },
+  { t: '두 슬릿 사이의 판이 빛을 가려서 생긴 그림자라서', why: '그림자라면 어두운 줄이 하나뿐이어야 하고, 슬릿을 하나 막았을 때 오히려 그 자리가 밝아지는 일도 없어야 한다.' },
+  { t: '빛이 그 자리까지 오지 못해서', why: '두 슬릿의 빛은 모두 그 자리에 도착한다. 도착해서 서로 지울 뿐이다.' },
+  { t: '화면이 그 자리만 빛을 흡수해서', why: '화면은 어디나 같다. 슬릿 간격이나 빛의 색을 바꾸면 어두운 줄의 자리도 바뀐다.' },
+]}>
+
+이중 슬릿 무늬의 어두운 줄이 생기는 이유는?
+
+</Check>
+
+</Screen>
+
+<Screen kind="problem">
+
+<DailyProblem id="p16">
+
+레이저 포인터의 파장을 재려 한다. 슬릿 간격이 0.3 mm인 이중 슬릿에 레이저를 비추고 3 m 떨어진 벽에 무늬를 만들었다. 밝은 줄 11개의 양 끝 사이를 자로 재니 63 mm였다.
+
+<Numeric id="q16-laser" answer={630} tol={0.02} unit="nm">
+
+① 이 레이저의 파장은 몇 nm인가?
+
+<Fragment slot="solution">
+
+밝은 줄 11개 사이에는 간격이 10개 있으므로 무늬 간격은 6.3 mm다. 파장 = 무늬 간격 × d ÷ L = 6.3 × 10⁻³ × 0.3 × 10⁻³ ÷ 3 = 6.3 × 10⁻⁷ m = 630 nm.
+
+</Fragment>
+</Numeric>
+
+② 같은 장치에 파장 520 nm인 초록 레이저를 쓰면 무늬 간격은?
+
+③ 초록 레이저의 무늬 간격을 1 cm로 만들려면 벽까지 거리를 몇 m로 해야 하는가?
+
+④ 줄 하나의 간격을 재지 않고 11개 양 끝을 잰 이유는 무엇일까? 9강의 오늘의 문제를 떠올려 보자.
+
+<Fragment slot="hint1">
+
+밝은 줄 11개 사이에 간격이 몇 개 있는지부터 세자. 11개가 아니다.
+
+</Fragment>
+<Fragment slot="hint2">
+
+파장 = 무늬 간격 × d ÷ L. 모든 길이를 m로 바꾼 다음 계산하자.
+
+</Fragment>
+<Fragment slot="hint3">
+
+③은 무늬 간격 = λL ÷ d를 L에 대해 풀면 된다. L = 무늬 간격 × d ÷ λ.
+
+</Fragment>
+<Fragment slot="solution">
+
+① 630 nm. 빨간빛이다.
+
+② 무늬 간격 = 520 × 10⁻⁹ × 3 ÷ (0.3 × 10⁻³) = 5.2 × 10⁻³ m, 5.2 mm다.
+
+③ L = 0.01 × 0.3 × 10⁻³ ÷ (520 × 10⁻⁹) ≈ 5.8 m.
+
+④ 줄 하나의 간격은 6 mm 남짓이라, 자로 잴 때 0.5 mm만 틀려도 10% 가까이 틀린다. 간격 10개를 한 번에 재면 같은 0.5 mm 오차가 10개에 나뉘어 1%로 줄어든다. 9강에서 그네가 10번 오가는 시간을 잰 것과 같은 요령이다.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="three">
+
+오늘 배운 것을 자기 말로 세 줄로 적어 보자.
+
+<ThreeLines>
+
+1. 빛 하나를 아주 좁은 슬릿 두 개에 비추면 같은 위상의 두 파원이 되어 화면에 간섭 무늬가 생긴다.
+2. 경로차 d sin θ가 파장의 정수배인 곳이 밝은 줄이고, 무늬 간격은 λL ÷ d다. 이것을 재면 빛의 파장을 알 수 있다.
+3. 빛에 빛을 더해 어두운 줄이 생기는 것은 알갱이로는 설명할 수 없고, 빛이 파동이라는 증거다.
+
+</ThreeLines>
+
+</Screen>
+
+<Screen kind="next">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'pool', title: '수영장 물속', caption: '빛의 파장이 공기 중보다 짧아진다' },
+      { icon: 'rainbow', title: '그래도 빨간 수영복은 빨갛다', caption: '색은 그대로다' },
+    ]} />
+  </Fragment>
+
+이 강에서 빨간빛과 파란빛은 파장이 달랐다. 그렇다면 색은 파장으로 정해질까? 그런데 11강에서 소리가 공기에서 물로 들어가면 파장이 바뀌었다. 빛도 물에 들어가면 파장이 짧아진다.
+
+그런데 수영장 물속에서 보아도 빨간 수영복은 빨갛다. 파장이 바뀌었는데 색이 그대로라면, 색을 정하는 것은 무엇일까? 다음 강은 이 단서에서 출발해 빛의 색을 정하는 양을 찾는다.
+
+</Screen>
