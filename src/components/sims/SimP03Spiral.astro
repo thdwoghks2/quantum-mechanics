@@ -1,0 +1,138 @@
+---
+/**
+ * 41강: 고전 원자의 붕괴. 원을 그리는 전자가 빛을 내며 에너지를 잃고, 나선을 그리며 원자핵으로 떨어진다.
+ * 반지름 r(t) = r₀ (1 − t/T)^(1/3), T ≈ 1.6 × 10⁻¹¹ 초. 도는 진동수는 r^(−3/2)에 비례해 점점 커진다.
+ * 화면의 시간은 실제보다 엄청나게 느리게, 바퀴 수도 크게 줄여 그린다.
+ */
+---
+<qm-sim-spiral class="sim" data-ratio="0.62">
+  <canvas aria-label="원자핵 둘레를 돌던 전자가 빛의 물결을 내보내며 점점 작은 원을 그리다 원자핵에 떨어진다. 아래 작은 그래프에는 전자가 도는 진동수가 시간이 갈수록 커지는 모습이 그려진다."></canvas>
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-reset>처음부터</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-spiral>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+  import { prefersReducedMotion } from '../../lib/client/bus.ts';
+
+  const T_REAL = 1.56e-11; // 실제로 무너지는 데 걸리는 시간 (초)
+  const T_SHOW = 9; // 화면에서 무너지는 데 걸리는 시간 (초)
+  const TURNS0 = 0.55; // 처음 반지름에서 화면 1초에 도는 바퀴 수
+
+  class SimSpiral extends Sim {
+    phase = 0;
+    rings: { t0: number; r0: number }[] = [];
+    last = 0;
+
+    init() {
+      // 움직임을 줄이는 설정이면 거의 다 무너진 모습을 멈춘 그림으로 보여 준다.
+      if (prefersReducedMotion()) this.t = T_SHOW * 0.96;
+    }
+
+    frac() {
+      return Math.min(1, this.t / T_SHOW);
+    }
+
+    rad(f: number) {
+      return Math.cbrt(Math.max(0, 1 - f));
+    }
+
+    reset() {
+      this.phase = 0;
+      this.rings = [];
+      this.last = 0;
+    }
+
+    tick(dt: number) {
+      if (this.t > T_SHOW + 2) {
+        this.t = 0;
+        this.reset();
+      }
+      const r = this.rad(this.frac());
+      if (r > 0.02) this.phase += dt * TURNS0 * 2 * Math.PI * Math.pow(r, -1.5) * 0.6;
+      if (this.t - this.last > 0.35 && this.frac() < 1) {
+        this.last = this.t;
+        this.rings.push({ t0: this.t, r0: r });
+      }
+      this.rings = this.rings.filter((g) => this.t - g.t0 < 2.5);
+    }
+
+    readout() {
+      const f = this.frac();
+      const real = (f * T_REAL) / 1e-11;
+      if (f >= 1) return `실제 시간으로 약 ${(T_REAL / 1e-11).toFixed(1)} × 10⁻¹¹ 초 만에 원자핵에 떨어졌어요.`;
+      return `실제 시간으로 ${real.toFixed(2)} × 10⁻¹¹ 초 · 반지름은 처음의 ${(this.rad(f) * 100).toFixed(0)} % · 도는 진동수는 처음의 ${Math.pow(this.rad(f), -1.5).toFixed(1)}배`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const cx = w * 0.36;
+      const cy = h * 0.48;
+      const R = h * 0.38;
+      const f = this.frac();
+      const r = this.rad(f);
+      // 퍼져 나가는 빛의 물결
+      for (const ring of this.rings) {
+        const age = this.t - ring.t0;
+        const rr = ring.r0 * R + age * R * 0.9;
+        g.strokeStyle = `rgba(232, 190, 90, ${Math.max(0, 0.45 - age * 0.18)})`;
+        g.lineWidth = 1.5;
+        g.beginPath();
+        g.arc(cx, cy, rr, 0, Math.PI * 2);
+        g.stroke();
+      }
+      // 지나온 나선 (흐리게)
+      g.strokeStyle = 'rgba(120, 190, 200, 0.35)';
+      g.lineWidth = 1.2;
+      g.beginPath();
+      const n = 240;
+      let ph = 0;
+      for (let i = 0; i <= n; i++) {
+        const ff = (f * i) / n;
+        const rr = this.rad(ff);
+        if (i) ph += (TURNS0 * 2 * Math.PI * Math.pow(Math.max(rr, 0.05), -1.5) * 0.6 * (f * T_SHOW)) / n;
+        const x = cx + rr * R * Math.cos(ph);
+        const y = cy - rr * R * Math.sin(ph);
+        if (i) g.lineTo(x, y);
+        else g.moveTo(x, y);
+      }
+      g.stroke();
+      // 원자핵과 전자
+      this.dot(cx, cy, 4, c.accent);
+      this.text('원자핵', cx + 8, cy + 12, c.muted, 10);
+      if (f < 1) {
+        const x = cx + r * R * Math.cos(this.phase);
+        const y = cy - r * R * Math.sin(this.phase);
+        this.dot(x, y, 5, c.charge);
+      }
+      this.text('전자가 내는 빛', 8, 14, c.energy, 10);
+      // 작은 그래프: 도는 진동수
+      const gx0 = w * 0.7;
+      const gx1 = w - 10;
+      const gy0 = h * 0.86;
+      const gy1 = h * 0.16;
+      this.line(gx0, gy0, gx1, gy0, c.text2, 1);
+      this.line(gx0, gy0, gx0, gy1, c.text2, 1);
+      this.text('시간 →', (gx0 + gx1) / 2, gy0 + 12, c.time, 10, 'center');
+      this.text('전자가 도는 진동수', gx0, gy1 - 8, c.time, 10);
+      g.strokeStyle = c.time;
+      g.lineWidth = 2;
+      g.beginPath();
+      const maxF = 8;
+      for (let i = 0; i <= 100; i++) {
+        const ff = (f * i) / 100;
+        const fr = Math.min(maxF, Math.pow(Math.max(this.rad(ff), 1e-3), -1.5));
+        const x = gx0 + (ff) * (gx1 - gx0);
+        const y = gy0 - (fr / maxF) * (gy0 - gy1);
+        if (i) g.lineTo(x, y);
+        else g.moveTo(x, y);
+      }
+      g.stroke();
+    }
+  }
+  define('qm-sim-spiral', SimSpiral);
+</script>
