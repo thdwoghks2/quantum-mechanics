@@ -955,3 +955,24 @@
   lessons: [133]
   sources:
     - "Schawlow, A. L. & Townes, C. H. Physical Review 112, 1940 (1958)"
+- id: purcell
+  name: 에드워드 퍼셀
+  original: Edward Purcell
+  born: 1912
+  died: 1997
+  role: 미국의 물리학자
+  summary: 1945년 겨울부터 이듬해 사이, 고체 속 양성자의 핵자기 공명을 처음 잡아냈어요. 같은 때 따로 성공한 펠릭스 블로흐와 함께 1952년 노벨 물리학상을 받았어요. 노벨상 강연에서 눈더미를 '조용히 도는 양성자 무더기'로 보게 되었다고 말했어요.
+  lessons: [134]
+  sources:
+    - "Purcell, E. M., Torrey, H. C. & Pound, R. V. Physical Review 69, 37 (1946)"
+    - "Purcell, E. M. Nobel Lecture (1952)"
+- id: lauterbur
+  name: 폴 라우터버
+  original: Paul Lauterbur
+  born: 1929
+  died: 2007
+  role: 미국의 화학자
+  summary: 1973년, 자석의 세기를 자리마다 다르게 하면 핵자기 공명의 신호로 사진을 찍을 수 있다는 것을 보였어요. 피터 맨스필드와 함께 2003년 노벨 생리의학상을 받았어요.
+  lessons: [134]
+  sources:
+    - "Lauterbur, P. C. Nature 242, 190 (1973)"

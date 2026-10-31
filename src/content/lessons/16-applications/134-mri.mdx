@@ -1,0 +1,405 @@
+---
+number: 134
+title: MRI
+short: MRI
+question: 엑스선도 없이 어떻게 몸속을 사진으로 찍을까요?
+mechanism: 수소 원자핵인 양성자도 스핀을 가져서 아주 작은 자석처럼 행동해요. 센 자석 속에 두면 양성자의 스핀은 두 에너지 준위로 나뉘고, 자석 방향을 축으로 정해진 진동수로 팽이처럼 돌아요. 그 진동수와 똑같은 진동수의 전파를 쏘면 양성자들이 그 에너지를 흡수해 옆으로 누운 채 박자를 맞춰 돌고, 그동안 코일에 전파 신호를 되돌려 보내요. 신호가 사라지는 빠르기가 조직마다 다르고, 자석의 세기를 자리마다 조금씩 다르게 해 두면 신호의 진동수로 어디서 왔는지 알 수 있어서, 몸속 사진이 돼요.
+part: 16
+minutes: 20
+epigraph:
+  text: "첫 실험을 하던 그해 겨울, 나는 새로운 눈으로 눈(雪)을 바라보았다. 문간에 쌓인 눈더미는 지구의 자기장 속에서 조용히 돌고 있는 양성자 무더기였다."
+  by: 에드워드 퍼셀
+  source: 노벨상 강연 「핵자기 연구」 (1952)
+assumes: [spin, stern-gerlach, proton, nucleus, atom, energy-level, absorption-line, photon, frequency, planck-constant, radio-wave, em-wave, x-ray, field]
+introduces: [nuclear-spin, mri]
+sources:
+  - "Bloch, F., Hansen, W. W. & Packard, M. Nuclear Induction. Physical Review 69, 127 (1946)"
+  - "Purcell, E. M., Torrey, H. C. & Pound, R. V. Resonance Absorption by Nuclear Magnetic Moments in a Solid. Physical Review 69, 37–38 (1946)"
+  - "Purcell, E. M. Research in Nuclear Magnetism. Nobel Lecture, 11 December 1952"
+  - "Lauterbur, P. C. Image Formation by Induced Local Interactions: Examples Employing Nuclear Magnetic Resonance. Nature 242, 190–191 (1973)"
+  - "CODATA 2018: 양성자의 자기 회전 비율 γ/2π ≈ 42.577 MHz/T"
+testout: [q134-freq, q134-resonance, q134-where]
+status: published
+---
+
+<Screen kind="scene" title="병원의 커다란 원통">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-scanner', title: 'MRI 기계', caption: '커다란 원통 속에 누워요' },
+      { big: '쿵쿵, 지잉', caption: '찍는 동안 큰 소리가 나요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+병원에서 MRI를 찍어 본 적이 있나요? 커다란 원통 속에 누워 있으면, 찍는 동안 쿵쿵 지잉 하는 큰 소리가 나요.
+
+<S n={2}>
+
+그렇게 찍은 사진에는 뇌와 무릎 속까지 또렷하게 보여요. 그런데 이 기계는 엑스선을 쓰지 않아요. 센 자석과 전파만 써요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={72} title="작은 자석, 전자">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '전자 하나', caption: '스핀 때문에 작은 자석이에요' },
+      { big: '두 갈래', caption: '자석 속에서는 위 또는 아래 둘뿐이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+72강에서 전자는 스핀을 가져서 작은 자석처럼 행동한다고 배웠어요. 슈테른-게를라흐 실험에서는 그 자석이 위나 아래, 두 갈래로만 나뉘었죠.
+
+<S n={2}>
+
+그런데 스핀을 가진 건 전자만이 아니에요. 원자핵 속의 양성자도 스핀을 가져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="핵 스핀이라는 이름">
+  <Fragment slot="visual">
+    <Define term="nuclear-spin" />
+  </Fragment>
+
+원자핵이 가진 스핀을 **핵 스핀**이라고 불러요. 핵 스핀 때문에 원자핵도 아주 작은 자석처럼 행동해요.
+
+<S n={2}>
+
+양성자의 자석은 전자의 자석보다 660배쯤 약해요. 그래서 그만큼 센 자석이 있어야 다룰 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="몸은 양성자투성이">
+  <Fragment slot="visual">
+    <BigNumber top="우리 몸을 이루는 원자 가운데 수소 원자의 몫" value="약 62%" bottom="대부분 물과 지방 속에 있어요" />
+  </Fragment>
+
+우리 몸을 이루는 원자 가운데 62%쯤이 수소예요. 몸의 대부분이 물이고, 물 분자 하나에 수소가 둘씩 들어 있거든요.
+
+<S n={2}>
+
+수소의 원자핵은 양성자 하나뿐이에요. 그러니 우리 몸속에는 작은 자석 노릇을 하는 양성자가 어마어마하게 많아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="센 자석 속에서">
+  <Fragment slot="visual">
+    <BigNumber top="MRI 기계의 자석 세기 (지구 자기장과 비교)" value="3만~6만 배" bottom="1.5 T 또는 3 T예요" q="force" />
+  </Fragment>
+
+MRI 기계의 원통 속에는 지구 자기장보다 3만~6만 배 센 자석이 있어요. 세기를 테슬라(T)라는 단위로 1.5 T나 3 T라고 적어요.
+
+<S n={2}>
+
+이 자석 속에 들어가면 양성자의 스핀은 두 에너지 준위로 나뉘어요. 자석 방향과 같이 선 쪽은 에너지가 조금 낮고, 거꾸로 선 쪽은 조금 높아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="팽이처럼 돌아요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-top', title: '기울어진 팽이', caption: '중력 둘레로 고개를 돌려요' },
+      { icon: 's5-compass', title: '자석 속 양성자', caption: '자석 방향 둘레로 고개를 돌려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+기울어진 팽이는 쓰러지지 않고 고개를 빙빙 돌리잖아요. 자석 속의 양성자도 자석 방향을 축으로 그렇게 고개를 돌려요.
+
+<S n={2}>
+
+이 도는 진동수는 자석의 세기에 비례해요. 1 T마다 1초에 약 4,260만 번씩이라서, 1.5 T에서는 약 6,400만 번이에요. FM 라디오 전파와 비슷한 진동수죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="도는 진동수">
+  <Fragment slot="visual">
+    <DataTable caption="양성자가 도는 진동수 ≈ 1 T마다 약 42.6 MHz × 자석의 세기" head={['자석', '세기', '도는 진동수']} rows={[
+      ['지구 자기장', '약 0.00005 T', '약 2,100 Hz'],
+      ['병원 MRI', '1.5 T', '약 64 MHz'],
+      ['병원 MRI', '3 T', '약 128 MHz'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+도는 진동수는 자석의 세기에 42.6 MHz를 곱하면 나와요. MHz는 1초에 100만 번이에요.
+
+1. 1.5 T라면 42.6 × 1.5 ≈ 64 MHz예요.
+2. 3 T라면 42.6 × 3 ≈ 128 MHz로 두 배예요.
+3. 지구 자기장 0.00005 T에서는 42.6 MHz × 0.00005 ≈ 2,100 Hz예요.
+
+감각 확인: 퍼셀의 눈더미 속 양성자들은 1초에 2,000번쯤 돌고 있었던 거예요.
+
+</Screen>
+
+<Screen kind="step" title="같은 진동수의 전파로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '전파 hf', caption: '두 준위의 에너지 차이와 같을 때만' },
+      { big: '양성자', caption: '그 에너지를 흡수해요' },
+      { big: '옆으로 누워요', caption: '모두 박자를 맞춰 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 원통 속 코일에서 양성자가 도는 진동수와 똑같은 진동수의 전파를 짧게 쏴요. 그 전파의 광자 에너지 hf가 두 준위의 에너지 차이와 딱 맞거든요.
+
+<S n={2}>
+
+42강에서 원자가 정해진 진동수의 빛만 흡수했던 것과 같아요. 진동수가 맞으면 양성자들이 에너지를 흡수해서 옆으로 눕고, 모두 같은 박자로 돌기 시작해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="자기 공명 영상이라는 이름">
+  <Fragment slot="visual">
+    <Define term="mri" />
+  </Fragment>
+
+이렇게 진동수가 딱 맞을 때만 에너지를 주고받는 것을 공명이라고 해요. 자석 속 원자핵의 공명으로 몸속을 찍는 장치가 **자기 공명 영상**, 줄여서 MRI예요.
+
+<S n={2}>
+
+그네를 밀 때 그네가 오가는 박자에 맞춰 밀어야 높이 올라가잖아요. 공명은 그런 박자 맞추기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="전파를 쏘면">
+  <Fragment slot="visual">
+    <SimP16Spin />
+  </Fragment>
+
+처음에는 양성자들이 저마다 다른 박자로 돌아서, 아래 띠의 신호가 거의 없어요. 전파 쏘기를 눌러 보세요.
+
+<S n={2}>
+
+양성자들이 옆으로 누워 같은 박자로 돌자 코일에 신호가 잡혀요. 그런데 박자가 차츰 흐트러지면서 신호가 사라지죠. 지방이 많은 곳으로 바꾸고 다시 쏘면, 신호가 더 빨리 사라져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="되돌아오는 신호">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '같이 도는 양성자', caption: '수많은 작은 자석이 함께 돌아요' },
+      { big: '코일', caption: '19강처럼 전기가 흔들려요' },
+      { big: '조직마다 달라요', caption: '신호가 사라지는 빠르기', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+수많은 작은 자석이 같은 박자로 돌면, 둘레 코일 속의 전기가 그 박자로 흔들려요. 19강에서 흔들리는 전하가 전파를 내던 것을 거꾸로 받는 셈이에요.
+
+<S n={2}>
+
+이 신호가 얼마나 빨리 사라지는지는 양성자 둘레가 물인지, 지방인지, 뼈인지에 따라 달라요. 그래서 MRI 사진에서는 조직마다 밝기가 다르게 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="진동수 맞추기">
+
+<Check id="q134-resonance" options={[
+  { t: '전파의 광자 에너지 hf가 양성자 스핀의 두 준위 차이와 같아야 흡수되니까요.', ok: true, why: '42강의 원자처럼, 양성자도 준위 차이에 딱 맞는 에너지만 흡수해요. 그래서 도는 진동수와 같은 전파를 써요.' },
+  { t: '전파가 셀수록 좋으니, 진동수는 아무래도 상관없어요.', why: '진동수가 맞지 않으면 아무리 세게 쏴도 거의 흡수되지 않아요.' },
+  { t: '진동수가 높은 전파일수록 몸속을 잘 뚫고 들어가니까요.', why: '중요한 건 뚫고 들어가는 게 아니라, 양성자가 흡수할 수 있는 진동수인지예요.' },
+  { t: '양성자가 그 진동수의 소리를 내니까요.', why: '양성자가 내는 건 소리가 아니라 전파 신호예요.' },
+]}>
+
+1.5 T의 MRI 기계는 1초에 약 6,400만 번 진동하는 전파를 써요. 하필 그 진동수를 쓰는 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="어디서 온 신호일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'piano', title: '피아노 건반', caption: '음을 들으면 어느 건반인지 알아요' },
+      { big: '자리마다 다른 세기', caption: '진동수를 들으면 어느 자리인지 알아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+신호만으로는 몸의 어디서 왔는지 알 수 없어요. 그래서 자석의 세기를 자리마다 아주 조금씩 다르게 해요. 그러면 자리마다 양성자가 도는 진동수가 달라지죠.
+
+<S n={2}>
+
+피아노 소리를 듣고 어느 건반을 쳤는지 아는 것처럼, 신호의 진동수로 어느 자리에서 왔는지 알 수 있어요. 이 세기를 아주 빠르게 바꾸느라 코일이 떨려서, 찍는 동안 쿵쿵 소리가 나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="눈더미 속의 양성자">
+  <Fragment slot="visual">
+    <BigNumber top="펠릭스 블로흐와 에드워드 퍼셀이 따로따로 물질 속 원자핵의 공명을 잡아낸 해" value="1946" bottom="1973년 폴 라우터버가 이것으로 사진을 찍는 방법을 내놓았어요" />
+  </Fragment>
+
+1946년, 펠릭스 블로흐와 에드워드 퍼셀은 따로따로 물과 고체 속 원자핵의 공명을 처음 잡아냈어요. 퍼셀은 첫 실험을 하던 겨울, 문간의 눈더미 속에서도 양성자들이 지구 자기장을 따라 조용히 돌고 있다고 느꼈대요.
+
+<S n={2}>
+
+1973년, 폴 라우터버는 자석의 세기를 자리마다 다르게 하면 사진을 찍을 수 있다는 것을 보였어요. 라우터버와 피터 맨스필드는 2003년 노벨 생리의학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="자리를 아는 방법">
+
+<Check id="q134-where" options={[
+  { t: '자석의 세기를 자리마다 조금씩 다르게 해서, 자리마다 도는 진동수가 달라지게 해요.', ok: true, why: '도는 진동수는 자석의 세기에 비례해요. 그래서 신호의 진동수를 들으면 어느 자리에서 왔는지 알아요.' },
+  { t: '양성자마다 이름표가 붙어 있어요.', why: '양성자는 모두 똑같아서 이름표가 없어요. 자리를 나누는 건 자석의 세기예요.' },
+  { t: '전파를 몸의 한 점에만 가늘게 쏴요.', why: 'MRI의 전파는 레이저처럼 가늘게 모이지 않아요. 자리는 진동수로 가려내요.' },
+  { t: '엑스선으로 먼저 찍어서 자리를 알아내요.', why: 'MRI는 엑스선을 쓰지 않아요.' },
+]}>
+
+MRI 기계는 몸 전체에서 돌아오는 신호를 받으면서도, 그 신호가 몸의 어느 자리에서 왔는지 가려내요. 그 방법으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="'핵'이 빠진 이름">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '핵자기 공명', caption: '물리학자들이 처음 붙인 이름' },
+      { big: '자기 공명 영상', caption: '병원에서 쓰는 이름', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+처음 이름은 '핵자기 공명'이었어요. 그런데 '핵'이라는 말 때문에 방사능을 떠올리는 사람이 많아서, 병원에서는 '핵'을 빼고 불렀어요.
+
+실제로 MRI는 방사능도 엑스선도 쓰지 않아요. 원자핵의 스핀이라는 작은 자석만 쓰거든요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="몸을 다치지 않는 전파">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '64 MHz 전파의 광자', caption: '약 0.000 000 3 eV' },
+      { big: '엑스선 광자', caption: '수만 eV, 분자를 깨뜨릴 수 있어요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+MRI가 쓰는 전파는 광자 하나의 에너지가 아주 작아요. 엑스선의 광자보다 1,000억 배쯤 작아서, 몸속 분자를 깨뜨리지 못하죠.
+
+<S n={2}>
+
+**다만 자석이 아주 세서, 쇠붙이를 가지고 MRI 방에 들어가면 안 돼요**. 열쇠나 산소통 같은 쇠붙이가 자석에 끌려 날아가 사람을 다치게 할 수 있거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="양자역학으로 본 몸속">
+
+MRI의 모든 단계에 양자역학이 들어 있어요. 스핀, 두 에너지 준위, hf가 맞아야 하는 흡수까지요.
+
+<S n={2}>
+
+<Key>몸속 물에 든 수소 원자핵 하나하나가 스핀이라는 양자역학의 성질로 작은 자석이 되어, 센 자석 속에서 정해진 진동수로 돌고 그 진동수의 전파에만 대답하기 때문에, 엑스선 없이도 몸속을 볼 수 있어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="3 T 기계의 전파">
+
+<Numeric id="q134-freq" answer={128} tol={0.06} unit="MHz">
+
+양성자가 도는 진동수는 자석의 세기에 비례해서, 1 T마다 약 42.6 MHz예요. 3 T짜리 MRI 기계는 몇 MHz의 전파를 써야 양성자와 공명할까요?
+
+<Fragment slot="solution">
+
+42.6 × 3 ≈ 128 MHz예요. 1.5 T 기계의 64 MHz보다 두 배예요. 자석이 두 배 세면 도는 진동수도 두 배가 돼요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['nuclear-spin', 'mri']}>
+
+1. 수소 원자핵인 양성자도 스핀을 가져서 작은 자석이고, 우리 몸에는 그런 양성자가 아주 많아요.
+2. 센 자석 속에서 양성자의 스핀은 두 준위로 나뉘고, 자석의 세기에 비례하는 진동수로 돌아요.
+3. 그 진동수와 같은 전파를 쏘면 양성자들이 흡수해서 박자를 맞춰 돌고, 코일에 신호를 보내요.
+4. 신호가 사라지는 빠르기가 조직마다 달라서, 사진에 조직이 구별돼요.
+5. 자석의 세기를 자리마다 다르게 하면 신호의 진동수로 어디서 왔는지 알아서, 몸속 사진이 돼요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="전파를 막는 방">
+
+<DailyProblem id="p134">
+
+MRI 방은 벽과 문 속에 금속 그물을 넣어 바깥의 전파를 막아요. 1.5 T 기계는 약 64 MHz, 3 T 기계는 약 128 MHz의 신호를 들어요.
+
+바깥 전파를 막지 않으면 어떤 일이 생길지, 오늘 배운 것으로 생각해서 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+MRI가 듣는 신호는 몸속 양성자가 보내는 아주 약한 전파예요. 바깥에는 라디오와 휴대폰의 전파가 가득해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+바깥의 라디오나 무전기 전파 가운데 비슷한 진동수의 전파가 섞여 들어오면, 기계는 그 전파를 몸속 양성자의 신호로 잘못 들어요.
+
+MRI는 신호의 진동수로 자리를 가려내니까, 섞여 든 전파가 엉뚱한 자리에 줄무늬처럼 나타나서 사진을 망쳐요. 그래서 바깥 전파를 막는 방에서 찍어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+MRI는 몸속 양성자의 핵 스핀이 센 자석 속에서 정해진 진동수로 도는 것을 이용해, 같은 진동수의 전파로 흔든 뒤 돌아오는 신호로 몸속 사진을 찍어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="간섭으로 하는 계산">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0 또는 1', caption: '132강의 트랜지스터 스위치' },
+      { big: '0과 1의 중첩', caption: '79강의 큐비트', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 양성자의 스핀을 전파로 기울이고 돌렸어요. 이렇게 스핀 하나를 마음대로 다루는 기술은, 79강의 큐비트를 다루는 기술이기도 해요.
+
+<S n={2}>
+
+132강의 트랜지스터는 0 또는 1이었지만, 큐비트는 0과 1의 중첩일 수 있어요. 다음 강에서는 큐비트의 확률 진폭이 서로 보태지고 지워지는 간섭으로 계산하는 <Later n={135}>양자컴퓨터</Later>를 봐요.
+
+</S>
+
+</Screen>

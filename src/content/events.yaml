@@ -917,3 +917,15 @@
   summary: 아인슈타인이 빛의 흡수와 방출을 따지다가, 지나가는 광자에 이끌려 원자가 똑같은 광자를 내놓는 일이 있어야 한다는 것을 보였어요. 레이저의 바탕이에요.
   lessons: [133]
   people: [einstein]
+- id: nmr-1946
+  year: 1946
+  title: 물질 속 원자핵의 공명
+  summary: 블로흐와 퍼셀이 따로따로, 물과 고체 속 원자핵이 정해진 진동수의 전파와 공명하는 것을 잡아냈어요.
+  lessons: [134]
+  people: [bloch, purcell]
+- id: mri-1973
+  year: 1973
+  title: 자기 공명으로 찍은 첫 사진
+  summary: 라우터버가 자석의 세기를 자리마다 다르게 해서, 원자핵의 공명 신호로 사진을 찍는 방법을 내놓았어요.
+  lessons: [134]
+  people: [lauterbur]

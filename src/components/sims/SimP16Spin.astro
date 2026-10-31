@@ -1,0 +1,138 @@
+---
+/**
+ * 센 자석 속의 핵 스핀(134강). 양성자의 작은 자석들이 자석 방향을 축으로 팽이처럼 돈다(세차).
+ * 처음에는 저마다 다른 박자로 돌아서 합친 신호가 0이다. 정해진 진동수의 전파를 쏘면 모두 옆으로 눕고 박자가 맞춰져
+ * 코일에 신호가 잡힌다. 그 뒤 박자가 흐트러지고 다시 일어서면서 신호가 사라지는데, 사라지는 빠르기가 조직마다 다르다.
+ * 실제로는 1.5 T에서 1초에 약 6,400만 번 돌지만, 눈에 보이게 아주 느리게 그린다.
+ */
+---
+<qm-sim-p16-spin class="sim" data-ratio="0.7">
+  <canvas aria-label="센 자석 속에서 양성자의 작은 자석들이 팽이처럼 돌아요. 전파를 쏘면 모두 옆으로 누워 박자를 맞춰 돌고, 아래 띠에 신호가 잡혔다가 차츰 사라져요."></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="tissue" value="0" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-pulse>전파 쏘기</button>
+      <button type="button" class="btn" data-set="tissue=0" aria-pressed="true">물이 많은 곳</button>
+      <button type="button" class="btn" data-set="tissue=1" aria-pressed="false">지방이 많은 곳</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-spin>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  interface Spin {
+    phase: number;
+    tilt: number;
+    df: number;
+  }
+
+  const N = 16;
+
+  class SimP16Spin extends Sim {
+    spins: Spin[] = [];
+    hist: number[] = [];
+    since = 99;
+    timer = 0;
+
+    init() {
+      let s = 3;
+      const r = () => {
+        s = (s * 1664525 + 1013904223) >>> 0;
+        return s / 4294967296;
+      };
+      this.spins = Array.from({ length: N }, () => ({ phase: r() * Math.PI * 2, tilt: 0.25, df: (r() - 0.5) * 2 }));
+      this.querySelector('[data-pulse]')!.addEventListener('click', () => this.pulse());
+    }
+
+    pulse() {
+      for (const sp of this.spins) {
+        sp.tilt = Math.PI / 2;
+        sp.phase = 0;
+      }
+      this.since = 0;
+      if (!this.playing) this.play();
+    }
+
+    /** 박자가 흐트러지는 정도와 다시 일어서는 빠르기: 물이 많은 곳은 느리게, 지방이 많은 곳은 빠르게 */
+    get rates() {
+      return (this.p.tissue ?? 0) ? { spread: 0.9, back: 0.6 } : { spread: 0.35, back: 0.22 };
+    }
+
+    signal() {
+      let x = 0;
+      for (const sp of this.spins) x += Math.sin(sp.tilt) * Math.cos(sp.phase);
+      return x / N;
+    }
+
+    tick(dt: number) {
+      const { spread, back } = this.rates;
+      this.since += dt;
+      for (const sp of this.spins) {
+        sp.phase += dt * (Math.PI * 2 * 0.8 + sp.df * spread * 2);
+        sp.tilt += (0.25 - sp.tilt) * (1 - Math.exp(-back * dt));
+      }
+      this.timer += dt;
+      if (this.timer > 0.03) {
+        this.timer = 0;
+        this.hist.push(this.signal());
+        if (this.hist.length > 200) this.hist.shift();
+      }
+    }
+
+    readout() {
+      const sig = Math.abs(this.signal());
+      const tissue = (this.p.tissue ?? 0) ? '지방이 많은 곳' : '물이 많은 곳';
+      if (this.since > 30) return `${tissue} · 저마다 다른 박자로 돌아서 합친 신호가 거의 없어요 · 실제로는 1.5 T에서 1초에 약 6,400만 번 돌아요`;
+      return `${tissue} · 전파를 쏜 뒤 ${this.since.toFixed(1)}초 · 신호 세기 ${(sig * 100).toFixed(0)}% · 사라지는 빠르기가 조직마다 달라요`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const top = h * 0.6;
+      // 자석 방향
+      this.arrow(18, top - 14, 18, 22, c.accent, 1.6);
+      this.text('센 자석', 26, 20, c.accent, 10, 'left');
+      // 스핀들
+      const cols = 8;
+      const cellW = (w - 60) / cols;
+      const cellH = (top - 30) / 2;
+      this.spins.forEach((sp, i) => {
+        const cx = 50 + (i % cols) * cellW + cellW / 2;
+        const cy = 30 + Math.floor(i / cols) * cellH + cellH * 0.62;
+        const L = Math.min(cellW, cellH) * 0.42;
+        // 비스듬히 본 3차원 화살표: 옆으로 누운 만큼 둘레를 돈다
+        const sx = Math.sin(sp.tilt) * Math.cos(sp.phase);
+        const sz = Math.sin(sp.tilt) * Math.sin(sp.phase);
+        const sy = Math.cos(sp.tilt);
+        ctx.strokeStyle = 'rgba(189,181,165,0.25)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - sy * L, Math.sin(sp.tilt) * L, Math.sin(sp.tilt) * L * 0.3, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        this.arrow(cx, cy, cx + sx * L, cy - sy * L + sz * L * 0.3, c.charge, 1.8);
+        this.dot(cx, cy, 2.5, c.text2);
+      });
+      // 아래 띠: 코일에 잡히는 신호
+      const y0 = top + 10;
+      const y1 = h - 16;
+      const mid = (y0 + y1) / 2;
+      this.line(16, mid, w - 16, mid, c.line, 1);
+      this.text('코일에 잡히는 신호', 16, y0, c.energy, 10, 'left');
+      if (this.hist.length > 1) {
+        ctx.strokeStyle = c.energy;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        this.hist.forEach((v, i) => {
+          const x = 16 + (i / 200) * (w - 32);
+          const y = mid - v * (y1 - y0) * 0.45;
+          if (i) ctx.lineTo(x, y);
+          else ctx.moveTo(x, y);
+        });
+        ctx.stroke();
+      }
+    }
+  }
+  define('qm-sim-p16-spin', SimP16Spin);
+</script>
