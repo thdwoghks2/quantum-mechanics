@@ -1,0 +1,162 @@
+---
+/**
+ * 40강: 줄에 매단 공이 원을 그리며 돈다. 속도(원의 접선 방향)와 줄이 당기는 힘(원의 중심 방향)을 화살표로 보인다.
+ * 줄을 끊으면 공은 그 순간 가던 방향으로 곧게 날아간다. 빠르기와 반지름을 바꾸면 필요한 힘(m v² / r)이 바뀐다.
+ */
+interface Props {
+  /** 빠르기와 반지름 슬라이더를 보일지 */
+  sliders?: boolean;
+}
+const { sliders = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-circle-force class="sim" data-ratio="0.7">
+  <canvas aria-label="가운데 점에 줄로 매단 공이 원을 그리며 돈다. 공의 속도 화살표는 원에 닿는 방향, 줄이 당기는 힘의 화살표는 원의 중심을 향한다."></canvas>
+  <div class="sim__controls">
+    {sliders ? (
+      <>
+        <div class="sim__row">
+          <label for={`cf-v-${uid}`}>공의 빠르기</label>
+          <input id={`cf-v-${uid}`} type="range" min="1" max="4" step="0.5" value="2" data-param="v" />
+          <output data-out="v"></output>
+        </div>
+        <div class="sim__row">
+          <label for={`cf-r-${uid}`}>줄의 길이</label>
+          <input id={`cf-r-${uid}`} type="range" min="0.5" max="1.5" step="0.25" value="1" data-param="r" />
+          <output data-out="r"></output>
+        </div>
+      </>
+    ) : (
+      <>
+        <input type="hidden" data-param="v" value="2" />
+        <input type="hidden" data-param="r" value="1" />
+      </>
+    )}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="cut=1" aria-pressed="false">줄 끊기</button>
+      <button type="button" class="btn" data-set="cut=0" aria-pressed="true">다시 매달기</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-circle-force>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const MASS = 1; // kg
+
+  class SimCircleForce extends Sim {
+    ang = 0.6; // 공의 각도 (라디안)
+    fx = 0; // 줄을 끊은 뒤의 위치 (m, 중심 기준)
+    fy = 0;
+    fvx = 0;
+    fvy = 0;
+    cutAt: [number, number] | null = null;
+
+    init() {
+      if (this.p.cut === undefined) this.p.cut = 0;
+    }
+
+    changed(name: string) {
+      if (name !== 'set') return;
+      if (this.p.cut === 1 && !this.cutAt) {
+        const r = this.p.r!;
+        const v = this.p.v!;
+        this.fx = r * Math.cos(this.ang);
+        this.fy = r * Math.sin(this.ang);
+        // 시계 반대 방향으로 돌고 있으니 속도는 각도 + 90° 방향
+        this.fvx = -v * Math.sin(this.ang);
+        this.fvy = v * Math.cos(this.ang);
+        this.cutAt = [this.fx, this.fy];
+      } else if (this.p.cut === 0) {
+        this.cutAt = null;
+      }
+    }
+
+    tick(dt: number) {
+      const s = dt * 0.5; // 화면에서 보기 좋게 느리게
+      if (this.p.cut === 1 && this.cutAt) {
+        this.fx += this.fvx * s;
+        this.fy += this.fvy * s;
+        if (Math.hypot(this.fx, this.fy) > 3) {
+          // 화면 밖으로 나가면 다시 매단다
+          this.p.cut = 0;
+          this.cutAt = null;
+          this.querySelectorAll('button[data-set]').forEach((b) => b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === 'cut=0')));
+        }
+      } else {
+        this.ang += (this.p.v! / this.p.r!) * s;
+      }
+      this.renderOutputs();
+    }
+
+    format(name: string) {
+      if (name === 'v') return `${this.p.v} m/s`;
+      return `${this.p.r} m`;
+    }
+
+    readout() {
+      const v = this.p.v!;
+      const r = this.p.r!;
+      if (this.p.cut === 1) return '줄을 끊는 순간 공을 중심으로 당기던 힘이 사라져요. 공은 그때 가던 방향으로 곧게 날아가요.';
+      const f = (MASS * v * v) / r;
+      return `필요한 힘 = 1 kg × (${v} m/s)² ÷ ${r} m = ${f.toFixed(1)} N`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+      const S = h * 0.3; // 1 m의 픽셀 길이
+      const r = this.p.r!;
+      const v = this.p.v!;
+      const X = (x: number) => cx + x * S;
+      const Y = (y: number) => cy - y * S;
+      // 지나갈 원
+      g.strokeStyle = c.line;
+      g.setLineDash([4, 5]);
+      g.lineWidth = 1.2;
+      g.beginPath();
+      g.arc(cx, cy, r * S, 0, Math.PI * 2);
+      g.stroke();
+      g.setLineDash([]);
+      this.dot(cx, cy, 4, c.text2);
+      this.text('중심', cx + 8, cy + 12, c.muted, 10);
+      if (this.p.cut === 1 && this.cutAt) {
+        const [x0, y0] = this.cutAt;
+        g.strokeStyle = c.muted;
+        g.setLineDash([2, 4]);
+        g.beginPath();
+        g.moveTo(X(x0), Y(y0));
+        g.lineTo(X(this.fx), Y(this.fy));
+        g.stroke();
+        g.setLineDash([]);
+        this.dot(X(this.fx), Y(this.fy), 9, c.energy);
+        const k = 0.28;
+        this.arrow(X(this.fx), Y(this.fy), X(this.fx + this.fvx * k), Y(this.fy + this.fvy * k), c.motion, 2.5);
+        this.text('끊은 자리', X(x0) + 8, Y(y0) - 10, c.muted, 10);
+        return;
+      }
+      const bx = r * Math.cos(this.ang);
+      const by = r * Math.sin(this.ang);
+      // 줄
+      this.line(cx, cy, X(bx), Y(by), c.text2, 1.5);
+      // 힘 (중심 방향): 길이는 v²/r에 비례
+      const f = (v * v) / r;
+      const fl = Math.min(1.5, 0.07 * f);
+      this.arrow(X(bx), Y(by), X(bx - (bx / r) * fl), Y(by - (by / r) * fl), c.force, 3);
+      // 속도 (접선 방향)
+      const vl = 0.22 * v;
+      const tx = -Math.sin(this.ang);
+      const ty = Math.cos(this.ang);
+      this.arrow(X(bx), Y(by), X(bx + tx * vl), Y(by + ty * vl), c.motion, 2.5);
+      this.dot(X(bx), Y(by), 9, c.energy);
+      // 이름표
+      this.text('속도', 10, 14, c.motion, 11);
+      this.text('줄이 당기는 힘', 10, 30, c.force, 11);
+    }
+  }
+  define('qm-sim-circle-force', SimCircleForce);
+</script>
