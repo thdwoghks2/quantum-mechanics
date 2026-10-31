@@ -1,0 +1,441 @@
+---
+number: 106
+title: 원자핵과 결합 에너지
+short: 결합 에너지
+question: 원자핵은 왜 자기를 이루는 조각들을 따로 잰 것보다 가벼울까요?
+mechanism: 원자핵은 양전하를 띤 양성자와 전하가 없는 중성자로 되어 있고, 양성자끼리 전기력으로 밀어내는데도 아주 가까이에서만 작용하는 더 센 힘이 둘을 뭉쳐 놓아요. 뭉칠 때 에너지가 빠져나가니, E = mc²에 따라 원자핵은 조각들 질량의 합보다 그 에너지를 c²으로 나눈 만큼 가벼워요. 다시 떼어 놓는 데 드는 이 에너지가 결합 에너지예요. 원자핵은 원자보다 10만 배 작은 곳에 조각을 가두니 상자 속 입자처럼 에너지가 MeV 단위로 커지고, 조각 하나당 결합 에너지는 철 근처에서 가장 커요.
+part: 13
+minutes: 20
+assumes: [nucleus, atom, electron, alpha-particle, charge, elementary-charge, electric-force, coulomb-law, mass, energy, mass-energy-equivalence, speed-of-light, particle-in-a-box, pauli-exclusion, fermion, energy-level, scientific-notation]
+introduces: [proton, neutron, binding-energy]
+sources:
+  - "Chadwick, J. Possible Existence of a Neutron, Nature 129, 312 (1932)"
+  - "Rutherford, E. Collision of α particles with light atoms. IV. An anomalous effect in nitrogen, Philosophical Magazine 37, 581 (1919)"
+  - "Wang, M. et al. The AME 2020 atomic mass evaluation, Chinese Physics C 45, 030003 (2021)"
+  - "CODATA 2018: 양성자 질량 938.272 MeV/c², 중성자 질량 939.565 MeV/c²"
+  - "The Nobel Prize in Physics 1935, nobelprize.org"
+testout: [q106-mass, q106-per, q106-dd]
+status: published
+---
+
+<Screen kind="scene" title="원자의 한가운데로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '블랙홀', caption: '지난 부 · 아주 큰 것' },
+      { icon: 'atom', title: '원자핵', caption: '이번 부 · 원자의 10만분의 1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 부에서는 블랙홀처럼 아주 큰 것까지 갔어요. 이번 부에서는 거꾸로 원자의 한가운데, 원자핵으로 들어가요.
+
+<S n={2}>
+
+100강에서 원자핵은 조각들을 따로 잰 것보다 1%쯤 가볍다고 했죠. 오늘은 그 조각이 무엇이고, 가벼워진 만큼은 어디로 갔는지 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={39} title="작고 무거운 원자핵">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'stadium', title: '원자를 축구장만큼 키우면', caption: '지름 약 100 m' },
+      { icon: 'sand', title: '원자핵은', caption: '모래알만 하지만 질량은 거의 다 여기에', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+39강에서 러더퍼드는 원자 한가운데에 아주 작고 무거운 원자핵이 있다는 걸 찾았어요. 원자의 질량은 거의 다 원자핵에 있고, 크기는 원자의 10만분의 1쯤이에요.
+
+<S n={2}>
+
+그 원자핵을 이루는 조각은 두 가지예요. 하나는 1919년에, 다른 하나는 1932년에 찾았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="양성자">
+  <Fragment slot="visual">
+    <Define term="proton" />
+  </Fragment>
+
+가장 가벼운 원자핵인 수소의 원자핵을 **양성자**라고 불러요. 기본 전하만큼의 양전하를 띠고, 전자보다 약 1,836배 무거워요.
+
+<S n={2}>
+
+1919년 어니스트 러더퍼드는 질소에 알파 입자를 쏘아 수소 원자핵이 튀어나오는 걸 봤어요. 그래서 이 조각이 모든 원자핵에 들어 있다고 생각했죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="양성자만으로는 안 맞아요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '헬륨 원자핵의 전하', caption: '양성자 2개만큼' },
+      { big: '헬륨 원자핵의 질량', caption: '양성자의 약 4배', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+헬륨 원자핵은 양성자 2개만큼의 전하를 띠는데, 질량은 양성자의 약 4배예요. 전하는 없고 질량은 양성자와 비슷한 조각이 둘 더 있다고 보면 맞아떨어지죠.
+
+<S n={2}>
+
+하지만 1920년대에는 그런 조각을 아무도 본 적이 없었어요. 전하가 없으면 지나간 자국을 남기지 않아서 찾기가 아주 어렵거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1932년 케임브리지">
+  <Fragment slot="visual">
+    <BigNumber top="채드윅이 전하 없는 조각을 찾은 해" value="1932" bottom="1935년 노벨 물리학상" />
+  </Fragment>
+
+베릴륨에 알파 입자를 쏘면 투과력이 아주 센 무언가가 나와요. 1932년 초 이렌 졸리오퀴리와 프레데리크 졸리오는, 그것이 파라핀에서 양성자를 세게 튕겨 낸다는 걸 봤어요. 두 사람은 이것을 아주 센 빛이라고 해석했죠.
+
+<S n={2}>
+
+영국의 제임스 채드윅은 빛으로는 양성자를 그렇게 세게 튕겨 낼 수 없다는 걸 계산했어요. 그리고 질량이 양성자와 비슷하고 전하가 없는 입자라는 걸 실험으로 보였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="중성자">
+  <Fragment slot="visual">
+    <Define term="neutron" />
+  </Fragment>
+
+이렇게 전하가 없고 질량이 양성자와 거의 같은 원자핵의 조각을 **중성자**라고 불러요.
+
+<S n={2}>
+
+이제 원자핵은 양성자와 중성자로 되어 있고, 원자 번호는 양성자의 수예요. 헬륨-4의 4는 양성자 2개와 중성자 2개를 합한 조각의 수죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="밀어내는데도 뭉쳐 있어요">
+  <Fragment slot="visual">
+    <BigNumber top="1 fm(10⁻¹⁵ m) 떨어진 두 양성자가 서로 밀어내는 힘" value="약 230 N" bottom="23 kg짜리 물건의 무게쯤이에요" q="force" />
+  </Fragment>
+
+양성자들은 모두 양전하라서 서로 밀어내요. 원자핵 속처럼 1 fm 거리라면, 18강의 쿨롱 법칙으로 두 양성자가 약 230 N의 힘으로 밀어내요.
+
+<S n={2}>
+
+그런데도 원자핵이 흩어지지 않는 건, 양성자와 중성자를 끌어당기는 더 센 힘이 있기 때문이에요. 이 힘은 아주 가까울 때만, 대략 원자핵 크기 안에서만 작용해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={100} title="에너지를 내놓으면 가벼워져요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '조각들을 따로', caption: '질량의 합' },
+      { big: '뭉칠 때', caption: '에너지 E가 빠져나가요' },
+      { big: '원자핵', caption: 'E ÷ c²만큼 가벼워요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+100강에서 물체가 에너지 E를 내놓으면 질량이 E ÷ c²만큼 줄어든다고 했죠.
+
+<S n={2}>
+
+양성자와 중성자가 센 힘으로 뭉칠 때 에너지가 빠져나가요. 그래서 원자핵은 조각들을 따로 잰 것보다 가벼워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="헬륨-4의 사라진 질량">
+  <Fragment slot="visual">
+    <DataTable caption="질량을 에너지 단위 MeV로 적은 값" head={['', '질량 (MeV)']} rows={[
+      ['양성자 2개', '1,876.5'],
+      ['중성자 2개', '1,879.1'],
+      ['조각 넷의 합', '3,755.7'],
+      ['헬륨-4 원자핵', '3,727.4'],
+      ['차이', '28.3'],
+    ]} steps={[undefined, undefined, 2, 2, 3]} highlight={[4]} />
+  </Fragment>
+
+질량을 E = mc²으로 에너지 단위 MeV로 바꿔 적을게요. 양성자는 약 938.3 MeV, 중성자는 약 939.6 MeV예요.
+
+<S n={2}>
+
+조각 넷을 더하면 3,755.7 MeV인데, 헬륨-4 원자핵은 3,727.4 MeV예요.
+
+</S>
+
+<S n={3}>
+
+28.3 MeV, 약 0.75%가 사라졌어요. 감각으로 확인하면, 수소 원자에서 전자를 떼는 데 드는 13.6 eV보다 약 200만 배 큰 에너지예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="결합 에너지">
+  <Fragment slot="visual">
+    <Define term="binding-energy" />
+  </Fragment>
+
+원자핵을 조각들로 완전히 떼어 놓는 데 드는 에너지를 **결합 에너지**라고 불러요. 뭉칠 때 빠져나간 에너지와 같아서, 사라진 질량에 c²을 곱한 값이에요.
+
+<S n={2}>
+
+<Key>원자핵은 뭉칠 때 결합 에너지만큼 에너지를 내보냈기 때문에, 조각들을 따로 잰 질량의 합보다 결합 에너지를 c²으로 나눈 만큼 가벼워요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="원자핵의 질량">
+
+<Check id="q106-mass" options={[
+  { t: '조각들 질량의 합보다 조금 작아요', ok: true, why: '뭉칠 때 결합 에너지만큼 에너지가 빠져나가서, 그 에너지를 c²으로 나눈 만큼 가벼워요.' },
+  { t: '조각들 질량의 합과 똑같아요', why: '뭉칠 때 에너지가 빠져나가니, E = mc²에 따라 질량도 줄어요.' },
+  { t: '조각들 질량의 합보다 조금 커요', why: '뭉치게 하는 힘의 에너지가 더해진다고 생각하기 쉽지만, 실제로는 뭉칠 때 에너지가 밖으로 나가요.' },
+  { t: '양성자 질량만 더한 값과 같아요', why: '중성자도 원자핵 질량의 큰 몫을 차지해요.' },
+]}>
+
+양성자 6개와 중성자 6개로 된 탄소-12 원자핵의 질량은, 조각 12개를 따로 잰 질량의 합과 견주면 어떨까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="graph" title="조각 하나당 결합 에너지">
+  <Fragment slot="visual">
+    <Plot
+      alt="질량수에 따른 조각 하나당 결합 에너지. 가벼운 원자핵에서 빠르게 올라가 철 근처 질량수 56에서 약 8.8 MeV로 가장 높고, 무거운 원자핵으로 갈수록 천천히 낮아진다. 헬륨-4는 이웃보다 툭 높다"
+      x={[0, 240]} y={[0, 9.5]}
+      xLabel="질량수 (양성자와 중성자의 수)" yLabel="조각 하나당 결합 에너지 (MeV)" yq="energy"
+      xTicks={[0, 56, 120, 238]} yTicks={[0, 2, 4, 6, 8]}
+      axisSteps={[1, 1]}
+      curves={[{ pts: [[2, 1.11], [3, 2.57], [6, 5.33], [7, 5.61], [12, 7.68], [16, 7.98], [20, 8.03], [28, 8.45], [40, 8.55], [56, 8.79], [84, 8.72], [120, 8.5], [138, 8.39], [184, 8.01], [208, 7.87], [238, 7.57]], q: 'energy', step: 2 }]}
+      points={[
+        { x: 4, y: 7.07, label: '헬륨-4', step: 3, dx: 22 },
+        { x: 56, y: 8.79, label: '철-56', step: 2, dy: -10 },
+        { x: 238, y: 7.57, label: '우라늄-238', step: 2, dx: -30, dy: -12 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 원자핵 속 조각의 수인 질량수, 세로축은 조각 하나당 결합 에너지예요.
+
+</S>
+
+<S n={2}>
+
+가벼운 원자핵에서 빠르게 올라가다가, 철 근처인 질량수 56쯤에서 약 8.8 MeV로 가장 높아요. 거기서 무거운 원자핵으로 갈수록 천천히 낮아지죠.
+
+</S>
+
+<S n={3}>
+
+조각 하나당 결합 에너지가 높을수록 그 원자핵은 단단히 뭉쳐 있어요. 헬륨-4는 이웃보다 툭 높게 솟아 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="조각 하나당">
+
+<Numeric id="q106-per" answer={7.1} tol={0.03} unit="MeV">
+
+헬륨-4 원자핵의 결합 에너지는 28.3 MeV이고, 조각은 4개예요. 조각 하나당 결합 에너지는 몇 MeV일까요?
+
+<Fragment slot="solution">
+
+28.3 ÷ 4 ≈ 7.1 MeV예요. 그래프에서 헬륨-4가 이웃한 가벼운 원자핵들보다 높이 솟아 있던 값이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="가장 단단한 곳을 향해">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '가벼운 원자핵 둘이 뭉치면', caption: '철 근처를 향해 가요 · 에너지가 나와요' },
+      { big: '무거운 원자핵이 쪼개지면', caption: '철 근처를 향해 가요 · 에너지가 나와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+조각 하나당 결합 에너지가 높은 철 근처를 향해 가면 에너지가 나와요. 가벼운 원자핵 둘이 뭉치면 결합 에너지가 늘어서, 그 차이만큼 에너지가 나오죠.
+
+<S n={2}>
+
+무거운 원자핵이 둘로 쪼개져도 에너지가 나와요. 앞의 일은 <Later n={108}>핵융합</Later>, 뒤의 일은 <Later n={112}>핵분열</Later>이라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="왜 MeV일까">
+  <Fragment slot="visual">
+    <DataTable caption="상자 속 입자로 어림한 1번째 칸 에너지" head={['갇힌 것', '상자 크기', '에너지']} rows={[
+      ['원자 속 전자', '약 0.1 nm', '수십 eV'],
+      ['원자핵 속 양성자', '약 4 fm', '약 13 MeV'],
+    ]} steps={[undefined, 2]} />
+  </Fragment>
+
+66강의 상자 속 입자로 어림해 볼게요. 원자 크기의 상자에 가둔 전자는 1번째 칸 에너지가 수십 eV쯤이에요.
+
+<S n={2}>
+
+양성자를 지름 4 fm의 원자핵에 가두면 h² ÷ (8mL²) ≈ 13 MeV가 나와요. 상자가 10만 배 작아 L²에서 100억 배가 커지고, 질량이 1,800배쯤 커서 그만큼 줄어든 거예요.
+
+</S>
+
+<S n={3}>
+
+그래서 원자핵 속 에너지는 원자보다 수백만 배 커서 MeV 단위가 돼요. 결합 에너지가 MeV인 것도 같은 까닭이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="원자핵 속에도 칸이 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '양성자 · 중성자', caption: '76강의 페르미온' },
+      { big: '칸을 차례로 채워요', caption: '꽉 찬 원자핵은 특히 단단해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+양성자와 중성자도 76강의 페르미온이라서, 원자핵 속에서 배타 원리에 따라 칸을 차례로 채워요.
+
+<S n={2}>
+
+그래서 원자처럼 원자핵에도 칸이 꽉 차서 특히 단단한 경우가 있어요. 헬륨-4가 이웃보다 툭 높았던 까닭이 이거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="사라진 질량은 어디로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '뭉칠 때', caption: '빛과 빠른 입자의 에너지로 나가요' },
+      { big: '떼어 놓을 때', caption: '그만큼 되돌려 줘야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 '질량이 사라졌다'는 말이 이상했어요. 그런데 질량이 아무 데로나 없어진 게 아니라, 뭉칠 때 빛이나 빠른 입자의 에너지로 바뀌어 빠져나간 거예요.
+
+원자핵을 다시 떼어 놓으려면 그만큼의 에너지를 되돌려 줘야 하죠.
+
+</Note>
+
+</Screen>
+
+<Screen kind="analogy" title="딱 붙는 자석">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['아주 센 자석 두 개', '양성자와 중성자'],
+        ['딱 붙을 때 나는 소리와 열', '뭉칠 때 나오는 에너지'],
+        ['떼어 내는 데 드는 힘과 일', '결합 에너지'],
+      ]}
+      fits="붙을 때 에너지가 밖으로 나가고, 떼려면 그만큼을 다시 넣어야 한다는 점이 같아요."
+      breaks="자석은 붙어도 질량이 줄어든 걸 잴 수 없을 만큼 작지만, 원자핵은 1%쯤이 줄어요. 또 원자핵을 뭉치는 힘은 아주 가까이서만 작용하고, 양성자끼리는 그동안에도 전기력으로 서로 밀어내요."
+    />
+  </Fragment>
+
+결합 에너지를 센 자석에 빗대어 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="check" title="중수소 둘이 뭉치면">
+
+<Check id="q106-dd" options={[
+  { t: '약 23.9 MeV', ok: true, why: '중수소 둘의 결합 에너지는 2.2 × 2 = 4.4 MeV이고, 헬륨-4는 28.3 MeV예요. 늘어난 결합 에너지 28.3 − 4.4 ≈ 23.9 MeV만큼 에너지가 나와요.' },
+  { t: '약 28.3 MeV', why: '중수소 둘도 이미 뭉쳐 있어서 결합 에너지 4.4 MeV를 가지고 있어요. 늘어난 만큼만 나와요.' },
+  { t: '약 4.4 MeV', why: '그건 중수소 둘이 원래 가진 결합 에너지예요. 헬륨-4가 되면서 늘어나는 양을 봐야 해요.' },
+  { t: '에너지가 오히려 들어가요', why: '헬륨-4는 중수소보다 훨씬 단단히 뭉쳐 있어서, 뭉칠 때 에너지가 나와요.' },
+]}>
+
+중수소 원자핵(양성자 1개, 중성자 1개)의 결합 에너지는 약 2.2 MeV예요. 중수소 원자핵 둘이 뭉쳐 헬륨-4(결합 에너지 28.3 MeV)가 되면, 에너지가 대략 얼마나 나올까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['proton', 'neutron', 'binding-energy']}>
+
+1. 원자핵은 양전하의 양성자와 전하 없는 중성자로 되어 있어요.
+2. 양성자끼리 밀어내도, 아주 가까이서만 작용하는 더 센 힘이 둘을 뭉쳐요.
+3. 뭉칠 때 에너지가 나가니, 원자핵은 조각들의 합보다 (결합 에너지 ÷ c²)만큼 가벼워요.
+4. 원자핵은 아주 작은 곳에 조각을 가두니 에너지가 MeV 단위로 커요.
+5. 조각 하나당 결합 에너지는 철 근처에서 가장 커요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="우라늄을 둘로 나누면">
+
+<DailyProblem id="p106">
+
+우라늄-238은 조각 하나당 결합 에너지가 약 7.6 MeV예요. 이 원자핵이 질량수 119인 원자핵 두 개로 쪼개진다고 상상해 볼게요. 질량수 119 근처는 조각 하나당 약 8.5 MeV예요.
+
+에너지가 나올까요, 들어갈까요? 대략 얼마인지 어림해 보세요.
+
+<Fragment slot="hint1">
+
+쪼개기 전과 뒤의 결합 에너지 전체를 각각 구해 보세요. 조각 수 × 조각 하나당 결합 에너지예요.
+
+</Fragment>
+<Fragment slot="solution">
+
+에너지가 나와요. 쪼개기 전 결합 에너지는 238 × 7.6 ≈ 1,810 MeV, 쪼갠 뒤는 238 × 8.5 ≈ 2,020 MeV예요.
+
+결합 에너지가 약 200 MeV 늘어서, 그만큼 에너지가 나와요. 원자핵 하나에서 나오는 이 에너지는 화학 반응 하나의 수천만 배예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+양성자와 중성자는 뭉칠 때 결합 에너지만큼 에너지를 내보내서, 원자핵은 조각들의 합보다 그 에너지를 c²으로 나눈 만큼 가벼워요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="스스로 바뀌는 원자핵">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '원자핵 하나', caption: '언제 바뀔지 알 수 없어요' },
+      { big: '많이 모이면', caption: '절반이 바뀌는 시간이 정해져 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+원자핵 가운데에는 스스로 조각을 내보내며 다른 원자핵으로 바뀌는 것들이 있어요. 68강에서 우라늄이 알파 입자를 내보낸 일이 그 예였죠.
+
+<S n={2}>
+
+다음 강에서는 원자핵 하나가 언제 바뀔지는 알 수 없는데, 많이 모이면 절반이 바뀌는 시간이 딱 정해져 있다는 걸 봐요. 이 시간, <Later n={107}>반감기</Later>로 5,000년 전 사람이 언제 살았는지도 재요.
+
+</S>
+
+</Screen>
