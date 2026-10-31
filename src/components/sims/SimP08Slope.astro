@@ -1,0 +1,124 @@
+---
+/**
+ * 곡선 위의 한 점에서 기울기(닿는 직선)와 곡률(굽는 방향과 세기)을 보여 준다.
+ * curve: sine(물결) | parabola(높이가 x²인 곡선). show: slope | both.
+ */
+interface Props {
+  curve?: 'sine' | 'parabola';
+  show?: 'slope' | 'both';
+  x?: number;
+}
+const { curve = 'sine', show = 'slope', x = 0.2 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p08-slope class="sim" data-ratio="0.55" data-curve={curve} data-show={show}>
+  <canvas aria-label="곡선 위의 점에 닿는 직선이 그 자리의 기울기를 보여 주고, 화살표가 곡선이 굽는 방향과 세기를 보여 준다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p8s-x-${uid}`}>점의 자리</label>
+      <input id={`p8s-x-${uid}`} type="range" min="0" max="1" step="0.005" value={x} data-param="x" />
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p08-slope>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimP08Slope extends Sim {
+    animated = false;
+    kind = 'sine';
+    show = 'slope';
+
+    init() {
+      this.kind = this.dataset.curve || 'sine';
+      this.show = this.dataset.show || 'slope';
+    }
+
+    dom(): [number, number] {
+      return this.kind === 'sine' ? [0, 4 * Math.PI] : [-2, 2];
+    }
+    rng(): [number, number] {
+      return this.kind === 'sine' ? [-1.45, 1.45] : [-0.6, 4.6];
+    }
+    f(u: number) {
+      return this.kind === 'sine' ? Math.sin(u) : u * u;
+    }
+    d1(u: number) {
+      return this.kind === 'sine' ? Math.cos(u) : 2 * u;
+    }
+    d2(u: number) {
+      return this.kind === 'sine' ? -Math.sin(u) : 2;
+    }
+    u() {
+      const [a, b] = this.dom();
+      return a + (b - a) * (this.p.x ?? 0);
+    }
+
+    readout() {
+      const u = this.u();
+      const s = this.d1(u);
+      const k = this.d2(u);
+      const r = (v: number) => (Math.abs(v) < 0.005 ? '0' : v.toFixed(2));
+      const dir = s > 0.05 ? '올라가는 중' : s < -0.05 ? '내려가는 중' : '평평해요';
+      let out = `기울기 ${r(s)} (${dir})`;
+      if (this.show === 'both') {
+        const bend = k > 0.05 ? '위로 굽어요' : k < -0.05 ? '아래로 굽어요' : '굽지 않아요';
+        out += ` · 곡률 ${r(k)} (${bend})`;
+      }
+      return out;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const [a, b] = this.dom();
+      const [lo, hi] = this.rng();
+      const L = 18;
+      const R = w - 18;
+      const T = 14;
+      const B = h - 14;
+      const px = (u: number) => L + ((u - a) / (b - a)) * (R - L);
+      const py = (v: number) => B - ((v - lo) / (hi - lo)) * (B - T);
+
+      // 가로축 (높이 0)
+      this.line(L, py(0), R, py(0), c.line, 1);
+
+      // 곡선
+      g.strokeStyle = c.text;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let i = 0; i <= 300; i++) {
+        const u = a + ((b - a) * i) / 300;
+        const X = px(u);
+        const Y = py(this.f(u));
+        if (i) g.lineTo(X, Y);
+        else g.moveTo(X, Y);
+      }
+      g.stroke();
+
+      const u = this.u();
+      const X = px(u);
+      const Y = py(this.f(u));
+
+      // 닿는 직선(기울기)
+      const s = this.d1(u);
+      const span = (b - a) * 0.16;
+      this.line(px(u - span), py(this.f(u) - s * span), px(u + span), py(this.f(u) + s * span), c.motion, 2.5);
+
+      // 곡률: 굽는 방향을 가리키는 화살표, 길이는 곡률의 크기
+      if (this.show === 'both') {
+        const k = this.d2(u);
+        const len = Math.min(h * 0.28, Math.abs(k) * h * 0.14);
+        if (len > 3) {
+          this.arrow(X, Y, X, Y + (k > 0 ? -len : len), c.energy, 2.5);
+          this.text('굽는 쪽', X + 8, Y + (k > 0 ? -len : len) * 0.6, c.energy, 11);
+        }
+      }
+
+      this.dot(X, Y, 6, c.accent);
+      this.text('기울기', Math.min(R - 40, px(u + span) + 4), py(this.f(u) + s * span), c.motion, 11);
+    }
+  }
+  define('qm-sim-p08-slope', SimP08Slope);
+</script>
