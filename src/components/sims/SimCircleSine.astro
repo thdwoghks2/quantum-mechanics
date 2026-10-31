@@ -1,0 +1,128 @@
+---
+/** 반지름 1인 원을 도는 점과, 그 점의 높이를 각도에 따라 그린 곡선(사인 곡선). */
+interface Props {
+  phase?: boolean;
+}
+const { phase = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-circle class="sim" data-ratio="0.52" data-phase={phase ? '1' : '0'}>
+  <canvas aria-label="원을 도는 점의 높이가 오른쪽 그래프에 사인 곡선으로 그려진다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`cs-a-${uid}`}>돈 각도</label>
+      <input id={`cs-a-${uid}`} type="range" min="0" max="720" step="5" value="30" data-param="deg" />
+      <output data-out="deg"></output>
+    </div>
+    {phase ? (
+      <div class="sim__row">
+        <label for={`cs-p-${uid}`}>둘째 점의 위상</label>
+        <input id={`cs-p-${uid}`} type="range" min="0" max="360" step="15" value="90" data-param="ph" />
+        <output data-out="ph"></output>
+      </div>
+    ) : <input type="hidden" data-param="ph" value="0" />}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-circle>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimCircle extends Sim {
+    tick(dt: number) {
+      this.p.deg = (this.p.deg! + dt * 60) % 720;
+      const input = this.querySelector<HTMLInputElement>('input[data-param="deg"]');
+      if (input) input.value = String(Math.round(this.p.deg!));
+      this.renderOutputs();
+    }
+
+    format(name: string) {
+      return `${Math.round(this.p[name]!)}°`;
+    }
+
+    readout() {
+      const d = this.p.deg!;
+      const s = Math.sin((d * Math.PI) / 180);
+      let out = `sin ${Math.round(d)}° = ${s.toFixed(2)}`;
+      if (this.dataset.phase === '1') {
+        const s2 = Math.sin(((d - this.p.ph!) * Math.PI) / 180);
+        out += ` · 둘째 점의 높이 ${s2.toFixed(2)}`;
+      }
+      return out;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const R = Math.min(h * 0.36, w * 0.17);
+      const cx = R + 18;
+      const cy = h / 2;
+      const gx0 = cx + R + 28;
+      const gx1 = w - 10;
+      const X = (deg: number) => gx0 + (deg / 720) * (gx1 - gx0);
+      const deg = this.p.deg!;
+      const rad = (deg * Math.PI) / 180;
+      // 원
+      g.strokeStyle = c.line;
+      g.lineWidth = 1.5;
+      g.beginPath();
+      g.arc(cx, cy, R, 0, Math.PI * 2);
+      g.stroke();
+      this.line(cx - R - 6, cy, gx1, cy, c.line, 1);
+      // 각도 호
+      g.strokeStyle = c.time;
+      g.lineWidth = 2;
+      g.beginPath();
+      g.arc(cx, cy, 16, 0, -(rad % (Math.PI * 2)), true);
+      g.stroke();
+      // 점과 높이
+      const px = cx + R * Math.cos(rad);
+      const py = cy - R * Math.sin(rad);
+      this.line(cx, cy, px, py, c.text2, 1.5);
+      this.line(px, py, px, cy, c.space, 2);
+      this.dot(px, py, 6, c.accent);
+      g.setLineDash([3, 4]);
+      this.line(px, py, X(deg), py, c.muted, 1);
+      g.setLineDash([]);
+      // 그래프 눈금
+      for (const d of [0, 90, 180, 270, 360, 450, 540, 630, 720]) {
+        this.line(X(d), cy - 3, X(d), cy + 3, c.muted, 1);
+        if (d % 180 === 0) this.text(`${d}°`, X(d), cy + R + 14, c.muted, 10, 'center');
+      }
+      this.text('1', gx0 - 6, cy - R, c.muted, 10, 'right');
+      this.text('−1', gx0 - 6, cy + R, c.muted, 10, 'right');
+      this.text('돈 각도', (gx0 + gx1) / 2, h - 6, c.time, 10, 'center');
+      this.text('높이', gx0 - 4, 10, c.space, 10, 'left');
+      // 곡선 (지금까지)
+      g.strokeStyle = c.accent;
+      g.lineWidth = 2.2;
+      g.beginPath();
+      for (let d = 0; d <= deg; d += 2) {
+        const yy = cy - R * Math.sin((d * Math.PI) / 180);
+        if (d) g.lineTo(X(d), yy);
+        else g.moveTo(X(d), yy);
+      }
+      g.stroke();
+      this.dot(X(deg), py, 4.5, c.accent);
+      if (this.dataset.phase === '1') {
+        const ph = this.p.ph!;
+        g.strokeStyle = c.time;
+        g.setLineDash([5, 4]);
+        g.beginPath();
+        for (let d = 0; d <= deg; d += 2) {
+          const yy = cy - R * Math.sin(((d - ph) * Math.PI) / 180);
+          if (d) g.lineTo(X(d), yy);
+          else g.moveTo(X(d), yy);
+        }
+        g.stroke();
+        g.setLineDash([]);
+        const r2 = ((deg - ph) * Math.PI) / 180;
+        this.dot(cx + R * Math.cos(r2), cy - R * Math.sin(r2), 5, c.time);
+      }
+    }
+  }
+  define('qm-sim-circle', SimCircle);
+</script>

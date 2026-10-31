@@ -1,0 +1,118 @@
+---
+/**
+ * 줄 위를 지나가는 파동. 줄의 한 점(표시한 점)은 제자리에서 오르내리기만 하고, 모양이 나아간다.
+ * showLambda를 켜면 파장 자를 그리고, 진동수를 바꾸면 같은 속력에서 파장이 어떻게 바뀌는지 본다.
+ */
+interface Props {
+  f?: number;
+  showLambda?: boolean;
+  speed?: number;
+  controls?: boolean;
+}
+const { f = 1, showLambda = false, speed = 2, controls = true } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-wave class="sim" data-ratio="0.5" data-lambda={showLambda ? '1' : '0'} data-speed={speed}>
+  <canvas aria-label="줄 위를 지나가는 파동. 표시한 점 하나는 위아래로만 움직인다."></canvas>
+  <div class="sim__controls">
+    {controls ? (
+      <div class="sim__row">
+        <label for={`wv-f-${uid}`}>진동수</label>
+        <input id={`wv-f-${uid}`} type="range" min="0.5" max="3" step="0.25" value={f} data-param="f" />
+        <output data-out="f"></output>
+      </div>
+    ) : <input type="hidden" data-param="f" value={f} />}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-wave>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const LEN = 8; // 줄의 길이 (m)
+
+  class SimWave extends Sim {
+    get v() {
+      return Number(this.dataset.speed || 2);
+    }
+
+    get lambda() {
+      return this.v / this.p.f!;
+    }
+
+    // 파동은 왼쪽 끝에서 시작해 오른쪽으로 나아간다. 아직 닿지 않은 곳은 평평하다.
+    y(x: number) {
+      const front = this.v * this.t;
+      if (x > front) return 0;
+      return Math.sin(2 * Math.PI * (this.p.f! * this.t - x / this.lambda));
+    }
+
+    changed() {
+      this.t = 0;
+    }
+
+    format() {
+      return `${this.p.f} Hz`;
+    }
+
+    readout() {
+      const T = 1 / this.p.f!;
+      return `진동수 ${this.p.f} Hz · 주기 ${T.toFixed(2)} s · 파장 ${this.lambda.toFixed(2)} m · 속력 ${this.v} m/s`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const mid = h * 0.48;
+      const amp = h * 0.22;
+      const X = (x: number) => 16 + (x / LEN) * (w - 32);
+      // 줄
+      g.strokeStyle = c.text2;
+      g.lineWidth = 2;
+      g.beginPath();
+      for (let i = 0; i <= 400; i++) {
+        const x = (LEN * i) / 400;
+        const px = X(x);
+        const py = mid - amp * this.y(x);
+        if (i) g.lineTo(px, py);
+        else g.moveTo(px, py);
+      }
+      g.stroke();
+      // 손
+      this.dot(X(0), mid - amp * this.y(0), 6, c.force);
+      this.text('흔드는 손', X(0) + 2, h - 12, c.force, 10, 'left');
+      // 표시한 점: 제자리에서 오르내린다
+      const xm = LEN * 0.55;
+      g.setLineDash([2, 4]);
+      this.line(X(xm), mid - amp - 10, X(xm), mid + amp + 10, c.muted, 1);
+      g.setLineDash([]);
+      this.dot(X(xm), mid - amp * this.y(xm), 6, c.accent);
+      this.text('줄의 한 점', X(xm) + 8, mid + amp + 14, c.accent, 10, 'left');
+      // 파장 자
+      if (this.dataset.lambda === '1' && this.v * this.t > this.lambda * 2) {
+        // 가장 높이 솟은 곳 두 개를 찾는다.
+        const peaks: number[] = [];
+        const front = this.v * this.t;
+        for (let i = 1; i < 800 && peaks.length < 2; i++) {
+          const x = (LEN * i) / 800;
+          if (x > front) break;
+          const a = this.y(x - LEN / 800);
+          const b = this.y(x);
+          const cc = this.y(x + LEN / 800);
+          if (b > a && b >= cc && b > 0.95) peaks.push(x);
+        }
+        if (peaks.length === 2) {
+          const yy = mid - amp - 18;
+          this.line(X(peaks[0]!), yy, X(peaks[1]!), yy, c.space, 2);
+          this.line(X(peaks[0]!), yy - 5, X(peaks[0]!), yy + 5, c.space, 2);
+          this.line(X(peaks[1]!), yy - 5, X(peaks[1]!), yy + 5, c.space, 2);
+          this.text(`파장 ${this.lambda.toFixed(2)} m`, (X(peaks[0]!) + X(peaks[1]!)) / 2, yy - 10, c.space, 11, 'center');
+        }
+      }
+    }
+  }
+  define('qm-sim-wave', SimWave);
+</script>

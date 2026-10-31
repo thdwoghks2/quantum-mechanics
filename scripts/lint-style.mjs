@@ -79,8 +79,11 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
     }
 
     // 명사로 끝나는 문장: 마침표 앞 글자가 한글인데 "다/요/자/까/지/라/네/며/고/냐/서"로 끝나지 않는 것
+    // 풀이와 답(①, =)은 짧은 답 형식을 허용한다.
+    const answerKey = ['problem', 'check'].includes(kind);
     for (const s of plain.split(/(?<=[.?])\s+/)) {
       const t = s.trim();
+      if (answerKey && (/^[①②③④⑤]/.test(t) || t.includes('='))) continue;
       if (!/[가-힣][.]$/.test(t)) continue;
       if (/(다|요|자|까|지|라|네|며|고|냐|서|죠|군)\.$/.test(t)) continue;
       warn(rel, at, `명사로 끝나는 문장: "${t.slice(-24)}"`);

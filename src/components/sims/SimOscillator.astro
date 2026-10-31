@@ -1,0 +1,138 @@
+---
+/**
+ * 용수철에 매달린 추의 진동. 진폭, 용수철 세기, 질량을 바꾸고 주기와 진동수를 읽는다.
+ * 아래에는 시간에 따른 위치가 흘러가며 그려진다.
+ */
+interface Props {
+  controls?: 'amp' | 'km' | 'all';
+  a?: number;
+  k?: number;
+  m?: number;
+}
+const { controls = 'all', a = 6, k = 40, m = 1 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const showAmp = controls !== 'km';
+const showKm = controls !== 'amp';
+---
+<qm-sim-oscillator class="sim" data-ratio="0.62">
+  <canvas aria-label="용수철에 매달린 추가 좌우로 진동하고, 아래에 시간에 따른 위치가 그려진다"></canvas>
+  <div class="sim__controls">
+    {showAmp ? (
+      <div class="sim__row">
+        <label for={`os-a-${uid}`}>진폭</label>
+        <input id={`os-a-${uid}`} type="range" min="2" max="10" step="1" value={a} data-param="a" />
+        <output data-out="a"></output>
+      </div>
+    ) : <input type="hidden" data-param="a" value={a} />}
+    {showKm ? (
+      <>
+        <div class="sim__row">
+          <label for={`os-k-${uid}`}>용수철 세기</label>
+          <input id={`os-k-${uid}`} type="range" min="10" max="160" step="10" value={k} data-param="k" />
+          <output data-out="k"></output>
+        </div>
+        <div class="sim__row">
+          <label for={`os-m-${uid}`}>추의 질량</label>
+          <input id={`os-m-${uid}`} type="range" min="0.5" max="4" step="0.5" value={m} data-param="m" />
+          <output data-out="m"></output>
+        </div>
+      </>
+    ) : (
+      <>
+        <input type="hidden" data-param="k" value={k} />
+        <input type="hidden" data-param="m" value={m} />
+      </>
+    )}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-oscillator>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const WINDOW = 6;
+
+  class SimOscillator extends Sim {
+    hist: [number, number][] = [];
+
+    period() {
+      return 2 * Math.PI * Math.sqrt(this.p.m! / this.p.k!);
+    }
+
+    pos(t: number) {
+      return this.p.a! * Math.cos((2 * Math.PI * t) / this.period());
+    }
+
+    changed() {
+      this.t = 0;
+      this.hist = [];
+    }
+
+    tick() {
+      this.hist.push([this.t, this.pos(this.t)]);
+      while (this.hist.length && this.hist[0]![0] < this.t - WINDOW) this.hist.shift();
+    }
+
+    format(name: string) {
+      if (name === 'a') return `${this.p.a} cm`;
+      if (name === 'k') return `${this.p.k} N/m`;
+      return `${this.p.m} kg`;
+    }
+
+    readout() {
+      const T = this.period();
+      return `주기 ${T.toFixed(2)} s · 진동수 ${(1 / T).toFixed(2)} Hz (1초에 ${(1 / T).toFixed(2)}번)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const midY = h * 0.22;
+      const cx = w * 0.55;
+      const scale = (w * 0.3) / 10;
+      const x = this.pos(this.t);
+      // 벽
+      this.line(14, midY - 26, 14, midY + 26, c.text2, 3);
+      // 가운데 위치 표시
+      g.setLineDash([3, 4]);
+      this.line(cx, midY - 34, cx, h * 0.95, c.muted, 1);
+      g.setLineDash([]);
+      this.text('가운데', cx, midY - 40, c.muted, 10, 'center');
+      // 용수철
+      const bx = cx + x * scale;
+      const coils = 12;
+      g.strokeStyle = c.text2;
+      g.lineWidth = 1.6;
+      g.beginPath();
+      g.moveTo(14, midY);
+      for (let i = 0; i <= coils; i++) {
+        const px = 24 + ((bx - 22 - 24) * i) / coils;
+        g.lineTo(px, midY + (i % 2 ? -9 : 9) * (i === 0 || i === coils ? 0 : 1));
+      }
+      g.lineTo(bx - 22, midY);
+      g.stroke();
+      // 추
+      const size = 16 + this.p.m! * 4;
+      g.fillStyle = c.force;
+      g.fillRect(bx - 22, midY - size / 2, size + 6, size);
+      // 시간-위치 그래프 (세로로 흐르게: 위가 지금)
+      const top = h * 0.36;
+      const bot = h * 0.95;
+      const Y = (t: number) => top + ((this.t - t) / WINDOW) * (bot - top);
+      this.text('지금', cx + 10 * scale + 12, top, c.muted, 10, 'left');
+      this.text(`${WINDOW}초 전`, cx + 10 * scale + 12, bot, c.muted, 10, 'left');
+      g.strokeStyle = c.space;
+      g.lineWidth = 2;
+      g.beginPath();
+      this.hist.forEach(([t, xx], i) => (i ? g.lineTo(cx + xx * scale, Y(t)) : g.moveTo(cx + xx * scale, Y(t))));
+      g.stroke();
+      this.line(cx - this.p.a! * scale, top - 6, cx - this.p.a! * scale, top + 4, c.space, 1.5);
+      this.line(cx + this.p.a! * scale, top - 6, cx + this.p.a! * scale, top + 4, c.space, 1.5);
+      this.text('진폭', cx + this.p.a! * scale + 4, top - 2, c.space, 10, 'left');
+    }
+  }
+  define('qm-sim-oscillator', SimOscillator);
+</script>
