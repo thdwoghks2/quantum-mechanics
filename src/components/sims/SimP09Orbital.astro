@@ -1,0 +1,95 @@
+---
+/**
+ * 수소 원자의 오비탈. 원자핵을 지나는 한 평면에서 전자를 찾을 확률대로 점을 하나씩 찍는다.
+ * 점 하나 = 전자의 위치를 한 번 재서 찾은 자리. 여러 번 재면 오비탈의 모양이 드러난다.
+ */
+interface Props {
+  orb?: '1s' | '2s' | '2p' | '3d';
+}
+const { orb = '1s' } = Astro.props;
+const list = ['1s', '2s', '2p', '3d'];
+const idx = list.indexOf(orb);
+---
+<qm-sim-p09-orbital class="sim" data-ratio="0.8">
+  <canvas aria-label="원자핵을 가운데 두고, 전자를 찾은 자리를 점으로 하나씩 찍는다. 점이 쌓이면 1s는 공, 2s는 공 속의 공, 2p는 아령, 3d는 네잎클로버 모양이 된다"></canvas>
+  <input type="hidden" data-param="o" value={idx} />
+  <div class="sim__buttons" aria-label="오비탈 고르기">
+    {list.map((name, i) => (
+      <button type="button" class="btn" data-set={`o=${i}`} aria-pressed={i === idx ? 'true' : 'false'}>{name}</button>
+    ))}
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p09-orbital>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  // 원자핵을 지나는 평면(x, z)에서의 파동함수. 길이 단위는 보어 반지름(약 0.053 nm).
+  const ORBS = [
+    { name: '1s', n: 1, l: 0, R: 4.5, max: 1, psi: (x: number, z: number) => Math.exp(-Math.hypot(x, z)) },
+    { name: '2s', n: 2, l: 0, R: 14, max: 4, psi: (x: number, z: number) => { const r = Math.hypot(x, z); return (2 - r) * Math.exp(-r / 2); } },
+    { name: '2p', n: 2, l: 1, R: 12, max: 0.55, psi: (x: number, z: number) => z * Math.exp(-Math.hypot(x, z) / 2) },
+    { name: '3d', n: 3, l: 2, R: 22, max: 6, psi: (x: number, z: number) => x * z * Math.exp(-Math.hypot(x, z) / 3) },
+  ];
+  const E = [-13.6, -3.4, -1.51];
+
+  class SimP09Orbital extends Sim {
+    pts: [number, number][] = [];
+
+    changed() {
+      this.pts = [];
+    }
+
+    orb() {
+      return ORBS[this.p.o ?? 0]!;
+    }
+
+    sample(k: number) {
+      const o = this.orb();
+      let made = 0;
+      let tries = 0;
+      while (made < k && tries < k * 400) {
+        tries++;
+        const x = (Math.random() * 2 - 1) * o.R;
+        const z = (Math.random() * 2 - 1) * o.R;
+        const d = o.psi(x, z) ** 2;
+        if (Math.random() * o.max < d) {
+          this.pts.push([x, z]);
+          made++;
+        }
+      }
+      if (this.pts.length > 5000) this.pts.splice(0, this.pts.length - 5000);
+    }
+
+    tick(dt: number) {
+      this.sample(Math.max(1, Math.round(dt * 260)));
+    }
+
+    readout() {
+      const o = this.orb();
+      return `${o.name} 오비탈 · n = ${o.n}, l = ${o.l} · 에너지 ${E[o.n - 1]} eV · 찾은 횟수 ${this.pts.length}번`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const o = this.orb();
+      if (!this.playing && this.pts.length === 0) this.sample(2500);
+      const cx = w / 2;
+      const cy = h / 2;
+      const s = (Math.min(w, h) / 2 - 10) / o.R;
+      g.fillStyle = c.space;
+      g.globalAlpha = 0.55;
+      for (const [x, z] of this.pts) g.fillRect(cx + x * s - 1, cy - z * s - 1, 2, 2);
+      g.globalAlpha = 1;
+      this.dot(cx, cy, 3.5, c.accent);
+      // 0.1 nm 눈금 (보어 반지름 약 0.053 nm)
+      const bar = (0.1 / 0.0529) * s;
+      this.line(12, h - 12, 12 + bar, h - 12, c.text2, 2);
+      this.text('0.1 nm', 12, h - 24, c.text2, 10);
+      this.text('점 하나 = 전자를 한 번 찾은 자리', w - 10, 12, c.text2, 10, 'right');
+    }
+  }
+  define('qm-sim-p09-orbital', SimP09Orbital);
+</script>
