@@ -28,8 +28,8 @@ html:not(.js) .lbar__btn {
 .lbar {
   grid-area: bar;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  grid-template-areas: 'back title terms toc' 'prog prog prog prog';
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  grid-template-areas: 'back title music terms toc' 'prog prog prog prog prog';
   align-items: center;
   gap: 6px 12px;
   padding: 10px var(--gutter) 8px;
@@ -70,6 +70,10 @@ html:not(.js) .lbar__btn {
   font-size: var(--fs-xs);
   color: var(--text-2);
   cursor: pointer;
+}
+
+.lbar__music {
+  grid-area: music;
 }
 
 .lbar__btn[data-open='terms'] {

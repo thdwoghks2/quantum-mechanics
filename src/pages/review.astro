@@ -4,7 +4,7 @@ import '../styles/pages.css';
 import '../styles/lesson.css';
 ---
 <Base title="복습" description="오늘 다시 풀 문제">
-  <main class="page">
+  <main class="page" data-page="review">
     <header class="page__head">
       <p class="label">복습</p>
       <h1>오늘 다시 풀 문제</h1>
@@ -28,119 +28,125 @@ import '../styles/lesson.css';
     import { dueItems, isLearned } from '../lib/review.ts';
     import { isCorrect, parseNumber } from '../lib/numbers.ts';
 
-    interface Choice { kind: 'choice'; q: string; options: { t: string; ok: boolean; why: string }[] }
-    interface Num { kind: 'numeric'; q: string; answer: number; unit?: string; tol: number; mode: 'value' | 'order'; solution: string }
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
+    function init() {
+      if (!document.querySelector('[data-page="review"]')) return;
+      interface Choice { kind: 'choice'; q: string; options: { t: string; ok: boolean; why: string }[] }
+      interface Num { kind: 'numeric'; q: string; answer: number; unit?: string; tol: number; mode: 'value' | 'order'; solution: string }
 
-    const DAY = 86_400_000;
-    let queue = dueItems(Object.values(load().reviews), Date.now());
-    const total = queue.length;
-    let doneCount = 0;
+      const DAY = 86_400_000;
+      let queue = dueItems(Object.values(load().reviews), Date.now());
+      const total = queue.length;
+      let doneCount = 0;
 
-    function stats() {
-      const all = Object.values(load().reviews);
-      const learned = all.filter(isLearned).length;
-      const upcoming = all.filter((r) => !isLearned(r) && r.due > Date.now()).sort((a, b) => a.due - b.due)[0];
-      const next = upcoming ? Math.max(1, Math.ceil((upcoming.due - Date.now()) / DAY)) : null;
-      document.getElementById('stats')!.textContent =
-        `복습 목록 ${all.length}문제 · 익힌 문제 ${learned}개` + (next ? ` · 다음 복습은 ${next}일 안에` : '');
-    }
-
-    function answered(id: string, ok: boolean) {
-      save(recordReview(load(), id, ok, Date.now()));
-      doneCount++;
-      const next = document.getElementById('item-next')!;
-      next.hidden = false;
-      next.focus();
-      stats();
-    }
-
-    function render() {
-      const box = document.getElementById('item')!;
-      const empty = document.getElementById('empty')!;
-      const item = queue.shift();
-      if (!item) {
-        box.hidden = true;
-        empty.hidden = false;
-        empty.textContent = total === 0
-          ? '오늘 복습할 문제가 없다. 강을 공부하며 확인 문제를 풀면 여기에 쌓인다.'
-          : `오늘 복습 ${doneCount}문제를 마쳤다.`;
-        return;
+      function stats() {
+        const all = Object.values(load().reviews);
+        const learned = all.filter(isLearned).length;
+        const upcoming = all.filter((r) => !isLearned(r) && r.due > Date.now()).sort((a, b) => a.due - b.due)[0];
+        const next = upcoming ? Math.max(1, Math.ceil((upcoming.due - Date.now()) / DAY)) : null;
+        document.getElementById('stats')!.textContent =
+          `복습 목록 ${all.length}문제 · 익힌 문제 ${learned}개` + (next ? ` · 다음 복습은 ${next}일 안에` : '');
       }
-      box.hidden = false;
-      document.getElementById('item-next')!.hidden = true;
-      document.getElementById('item-meta')!.textContent = `${item.lesson}강 · ${doneCount + 1}/${total}`;
-      const body = document.getElementById('item-body')!;
-      body.innerHTML = '';
-      const p = item.payload as Choice | Num;
-      const q = document.createElement('div');
-      q.className = 'check__q';
-      q.innerHTML = p.q;
-      body.append(q);
-      if (p.kind === 'choice') {
-        const ol = document.createElement('ol');
-        ol.className = 'check__opts';
-        p.options.forEach((o) => {
-          const li = document.createElement('li');
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'check__opt';
-          b.innerHTML = '<span class="check__mark" aria-hidden="true"></span>';
-          b.append(o.t);
-          const why = document.createElement('p');
-          why.className = 'check__why';
-          why.hidden = true;
-          why.textContent = o.why;
-          b.addEventListener('click', () => {
-            ol.querySelectorAll('button').forEach((x) => (x.disabled = true));
-            b.classList.add(o.ok ? 'is-ok' : 'is-no');
-            why.hidden = false;
-            if (!o.ok) {
-              const idx = p.options.findIndex((x) => x.ok);
-              const li2 = ol.children[idx]!;
-              li2.querySelector('button')!.classList.add('is-answer');
-              (li2.querySelector('.check__why') as HTMLElement).hidden = false;
-            }
-            answered(item.id, o.ok);
+
+      function answered(id: string, ok: boolean) {
+        save(recordReview(load(), id, ok, Date.now()));
+        doneCount++;
+        const next = document.getElementById('item-next')!;
+        next.hidden = false;
+        next.focus();
+        stats();
+      }
+
+      function render() {
+        const box = document.getElementById('item')!;
+        const empty = document.getElementById('empty')!;
+        const item = queue.shift();
+        if (!item) {
+          box.hidden = true;
+          empty.hidden = false;
+          empty.textContent = total === 0
+            ? '오늘 복습할 문제가 없다. 강을 공부하며 확인 문제를 풀면 여기에 쌓인다.'
+            : `오늘 복습 ${doneCount}문제를 마쳤다.`;
+          return;
+        }
+        box.hidden = false;
+        document.getElementById('item-next')!.hidden = true;
+        document.getElementById('item-meta')!.textContent = `${item.lesson}강 · ${doneCount + 1}/${total}`;
+        const body = document.getElementById('item-body')!;
+        body.innerHTML = '';
+        const p = item.payload as Choice | Num;
+        const q = document.createElement('div');
+        q.className = 'check__q';
+        q.innerHTML = p.q;
+        body.append(q);
+        if (p.kind === 'choice') {
+          const ol = document.createElement('ol');
+          ol.className = 'check__opts';
+          p.options.forEach((o) => {
+            const li = document.createElement('li');
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'check__opt';
+            b.innerHTML = '<span class="check__mark" aria-hidden="true"></span>';
+            b.append(o.t);
+            const why = document.createElement('p');
+            why.className = 'check__why';
+            why.hidden = true;
+            why.textContent = o.why;
+            b.addEventListener('click', () => {
+              ol.querySelectorAll('button').forEach((x) => (x.disabled = true));
+              b.classList.add(o.ok ? 'is-ok' : 'is-no');
+              why.hidden = false;
+              if (!o.ok) {
+                const idx = p.options.findIndex((x) => x.ok);
+                const li2 = ol.children[idx]!;
+                li2.querySelector('button')!.classList.add('is-answer');
+                (li2.querySelector('.check__why') as HTMLElement).hidden = false;
+              }
+              answered(item.id, o.ok);
+            });
+            li.append(b, why);
+            ol.append(li);
           });
-          li.append(b, why);
-          ol.append(li);
-        });
-        body.append(ol);
-      } else {
-        const form = document.createElement('form');
-        form.className = 'numeric__form';
-        const input = document.createElement('input');
-        input.className = 'numeric__input mono';
-        input.setAttribute('aria-label', '답');
-        input.inputMode = 'decimal';
-        const unit = document.createElement('span');
-        unit.className = 'numeric__unit mono';
-        unit.textContent = p.unit ?? '';
-        const go = document.createElement('button');
-        go.className = 'btn';
-        go.textContent = '확인';
-        form.append(input, unit, go);
-        const verdict = document.createElement('p');
-        verdict.className = 'numeric__verdict';
-        const sol = document.createElement('div');
-        sol.className = 'numeric__solution';
-        sol.hidden = true;
-        sol.innerHTML = p.solution;
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const ok = isCorrect(parseNumber(input.value), p.answer, p.mode, p.tol);
-          verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
-          verdict.textContent = ok ? '맞았다.' : `아직 아니다. 정답은 약 ${p.answer.toLocaleString('ko-KR')} ${p.unit ?? ''}.`;
-          sol.hidden = false;
-          go.disabled = true;
-          answered(item.id, ok);
-        });
-        body.append(form, verdict, sol);
+          body.append(ol);
+        } else {
+          const form = document.createElement('form');
+          form.className = 'numeric__form';
+          const input = document.createElement('input');
+          input.className = 'numeric__input mono';
+          input.setAttribute('aria-label', '답');
+          input.inputMode = 'decimal';
+          const unit = document.createElement('span');
+          unit.className = 'numeric__unit mono';
+          unit.textContent = p.unit ?? '';
+          const go = document.createElement('button');
+          go.className = 'btn';
+          go.textContent = '확인';
+          form.append(input, unit, go);
+          const verdict = document.createElement('p');
+          verdict.className = 'numeric__verdict';
+          const sol = document.createElement('div');
+          sol.className = 'numeric__solution';
+          sol.hidden = true;
+          sol.innerHTML = p.solution;
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const ok = isCorrect(parseNumber(input.value), p.answer, p.mode, p.tol);
+            verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
+            verdict.textContent = ok ? '맞았다.' : `아직 아니다. 정답은 약 ${p.answer.toLocaleString('ko-KR')} ${p.unit ?? ''}.`;
+            sol.hidden = false;
+            go.disabled = true;
+            answered(item.id, ok);
+          });
+          body.append(form, verdict, sol);
+        }
       }
-    }
 
-    document.getElementById('item-next')!.addEventListener('click', render);
-    stats();
-    render();
+      document.getElementById('item-next')!.addEventListener('click', render);
+      stats();
+      render();
+    }
+    document.addEventListener('astro:page-load', init);
   </script>
 </Base>

@@ -8,7 +8,7 @@ const course = await getCourse();
 const total = course.reduce((s, p) => s + p.lessons.length, 0);
 ---
 <Base title="코스" description="137강 전체 궤적">
-  <main class="page">
+  <main class="page" data-page="course">
     <header class="page__head">
       <p class="label">한 줄로 이어진 {total}강</p>
       <h1>코스</h1>
@@ -47,20 +47,26 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
   <script>
     import { load } from '../lib/progress.ts';
 
-    const LABEL: Record<string, string> = { done: '끝냄', skipped: '건너뜀', 'tested-out': '통과', started: '보는 중' };
-    const state = load();
-    let done = 0;
-    for (const el of document.querySelectorAll<HTMLElement>('.node.is-open')) {
-      const st = state.lessons[el.dataset.n!]?.status;
-      if (!st) continue;
-      el.dataset.status = st;
-      el.querySelector('.node__state')!.textContent = LABEL[st] ?? '';
-      if (st === 'done' || st === 'tested-out') done++;
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
+    function init() {
+      if (!document.querySelector('[data-page="course"]')) return;
+      const LABEL: Record<string, string> = { done: '끝냄', skipped: '건너뜀', 'tested-out': '통과', started: '보는 중' };
+      const state = load();
+      let done = 0;
+      for (const el of document.querySelectorAll<HTMLElement>('.node.is-open')) {
+        const st = state.lessons[el.dataset.n!]?.status;
+        if (!st) continue;
+        el.dataset.status = st;
+        el.querySelector('.node__state')!.textContent = LABEL[st] ?? '';
+        if (st === 'done' || st === 'tested-out') done++;
+      }
+      const open = document.querySelectorAll('.node.is-open').length;
+      document.getElementById('summary')!.textContent = `공개된 ${open}강 가운데 ${done}강을 끝냈다.`;
+      const next = [...document.querySelectorAll<HTMLElement>('.node.is-open')].find((el) => !el.dataset.status || el.dataset.status === 'started');
+      next?.classList.add('is-next');
     }
-    const open = document.querySelectorAll('.node.is-open').length;
-    document.getElementById('summary')!.textContent = `공개된 ${open}강 가운데 ${done}강을 끝냈다.`;
-    const next = [...document.querySelectorAll<HTMLElement>('.node.is-open')].find((el) => !el.dataset.status || el.dataset.status === 'started');
-    next?.classList.add('is-next');
+    document.addEventListener('astro:page-load', init);
   </script>
 </Base>
 

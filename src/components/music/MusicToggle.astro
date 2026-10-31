@@ -1,0 +1,93 @@
+---
+/** 배경 음악 패널을 여는 버튼. 재생 중이면 막대 세 개가 움직인다. compact면 막대만 보인다. */
+interface Props {
+  compact?: boolean;
+  class?: string;
+}
+const { compact = false, class: cls = '' } = Astro.props;
+---
+<button type="button" class:list={['music-toggle', cls, { 'music-toggle--compact': compact }]} data-music-toggle aria-label="배경 음악" aria-expanded="false">
+  <span class="music-toggle__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  {!compact && <span class="music-toggle__t">음악</span>}
+</button>
+
+<style>
+  .music-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 2px;
+    background: none;
+    border: 0;
+    color: var(--text-2);
+    font: inherit;
+    font-size: var(--fs-sm);
+    cursor: pointer;
+  }
+
+  .music-toggle:hover,
+  .music-toggle[aria-expanded='true'] {
+    color: var(--text);
+  }
+
+  .music-toggle--compact {
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+  }
+
+  .music-toggle__bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+
+  .music-toggle__bars i {
+    display: block;
+    width: 3px;
+    height: 4px;
+    border-radius: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .music-toggle__bars i:nth-child(2) {
+    height: 8px;
+  }
+
+  .music-toggle__bars i:nth-child(3) {
+    height: 6px;
+  }
+
+  .music-toggle[data-playing='1'] {
+    color: var(--accent);
+  }
+
+  .music-toggle[data-playing='1'] .music-toggle__bars i {
+    opacity: 1;
+    animation: music-bar 0.9s ease-in-out infinite alternate;
+  }
+
+  .music-toggle[data-playing='1'] .music-toggle__bars i:nth-child(2) {
+    animation-duration: 0.7s;
+    animation-delay: -0.3s;
+  }
+
+  .music-toggle[data-playing='1'] .music-toggle__bars i:nth-child(3) {
+    animation-duration: 1.1s;
+    animation-delay: -0.6s;
+  }
+
+  @keyframes music-bar {
+    from {
+      height: 3px;
+    }
+    to {
+      height: 12px;
+    }
+  }
+</style>

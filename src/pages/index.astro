@@ -10,7 +10,7 @@ const published = all.filter((l) => l.published);
 const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).replace(/</g, '\\u003c');
 ---
 <Base title="137">
-  <main class="page home">
+  <main class="page home" data-page="index">
     <section class="hero">
       <p class="hero__num" aria-hidden="true">137</p>
       <h1>양자역학을 기초부터, 하루 한 강씩</h1>
@@ -83,29 +83,35 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
     import { load, nextLesson } from '../lib/progress.ts';
     import { dueItems } from '../lib/review.ts';
 
-    const published: { n: number; title: string }[] = JSON.parse(document.getElementById('published')!.textContent!);
-    const state = load();
-    const n = nextLesson(state, published.map((p) => p.n));
-    const btn = document.getElementById('continue') as HTMLAnchorElement;
-    const started = Object.keys(state.lessons).length > 0;
-    if (n && started) {
-      const t = published.find((p) => p.n === n)!;
-      btn.href = btn.href.replace(/lessons\/\d+\/$/, `lessons/${n}/`);
-      btn.textContent = `이어서: ${n}강 ${t.title}`;
-    } else if (!n && started) {
-      btn.textContent = '열린 강을 모두 마쳤어요';
-      btn.href = btn.href.replace(/lessons\/\d+\/$/, '../course/');
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
+    function init() {
+      if (!document.querySelector('[data-page="index"]')) return;
+      const published: { n: number; title: string }[] = JSON.parse(document.getElementById('published')!.textContent!);
+      const state = load();
+      const n = nextLesson(state, published.map((p) => p.n));
+      const btn = document.getElementById('continue') as HTMLAnchorElement;
+      const started = Object.keys(state.lessons).length > 0;
+      if (n && started) {
+        const t = published.find((p) => p.n === n)!;
+        btn.href = btn.href.replace(/lessons\/\d+\/$/, `lessons/${n}/`);
+        btn.textContent = `이어서: ${n}강 ${t.title}`;
+      } else if (!n && started) {
+        btn.textContent = '열린 강을 모두 마쳤어요';
+        btn.href = btn.href.replace(/lessons\/\d+\/$/, '../course/');
+      }
+      const due = dueItems(Object.values(state.reviews), Date.now()).length;
+      const note = document.getElementById('review-note')!;
+      if (due > 0) {
+        note.hidden = false;
+        note.innerHTML = '';
+        const a = document.createElement('a');
+        a.href = btn.href.replace(/lessons\/\d+\/$/, 'review/');
+        a.textContent = `오늘 복습할 문제 ${due}개`;
+        note.append(a);
+      }
     }
-    const due = dueItems(Object.values(state.reviews), Date.now()).length;
-    const note = document.getElementById('review-note')!;
-    if (due > 0) {
-      note.hidden = false;
-      note.innerHTML = '';
-      const a = document.createElement('a');
-      a.href = btn.href.replace(/lessons\/\d+\/$/, 'review/');
-      a.textContent = `오늘 복습할 문제 ${due}개`;
-      note.append(a);
-    }
+    document.addEventListener('astro:page-load', init);
   </script>
 </Base>
 

@@ -1,7 +1,10 @@
 ---
 import '../styles/global.css';
 import 'katex/dist/katex.min.css';
+import { ClientRouter } from 'astro:transitions';
 import { url } from '../lib/url.ts';
+import MusicPlayer from '../components/music/MusicPlayer.astro';
+import MusicToggle from '../components/music/MusicToggle.astro';
 
 interface Props {
   title: string;
@@ -37,6 +40,11 @@ const here = Astro.url.pathname;
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@400;700;800&display=swap"
     />
     <script is:inline>document.documentElement.classList.add('js');</script>
+    <ClientRouter />
+    <script>
+      // 페이지를 바꿔 끼울 때 새 문서의 html 속성으로 갈아 끼워지므로, 끼우기 전에 js 표시를 미리 붙여 둔다.
+      document.addEventListener('astro:before-swap', (e) => e.newDocument.documentElement.classList.add('js'));
+    </script>
   </head>
   <body class={bodyClass}>
     {!bare && (
@@ -46,10 +54,12 @@ const here = Astro.url.pathname;
           {nav.map((n) => (
             <a href={n.href} aria-current={here.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
+          <MusicToggle />
         </nav>
       </header>
     )}
     <slot />
+    <MusicPlayer />
   </body>
 </html>
 

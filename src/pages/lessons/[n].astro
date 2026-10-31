@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import '../../styles/lesson.css';
 import { lessonUrl, url } from '../../lib/url.ts';
+import MusicToggle from '../../components/music/MusicToggle.astro';
 import { mdxComponents } from '../../components/mdx.ts';
 
 export async function getStaticPaths() {
@@ -46,6 +47,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
     <header class="lbar">
       <a class="lbar__back" href={url('course/')} aria-label="코스로 돌아가기">137</a>
       <p class="lbar__title"><span class="mono">{d.number}강</span>{d.short}</p>
+      <MusicToggle compact class="lbar__music" />
       <button type="button" class="lbar__btn" data-open="terms" aria-controls="rail-terms" aria-expanded="false">용어</button>
       <button type="button" class="lbar__btn" data-open="toc" aria-controls="rail-toc" aria-expanded="false">목차</button>
       <div class="lbar__progress" aria-label="이 강의 화면"></div>

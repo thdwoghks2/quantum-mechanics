@@ -1,0 +1,398 @@
+---
+/**
+ * 배경 음악 패널. 곡 목록은 src/content/bgm.yaml에서 읽는다.
+ * 소리는 src/lib/client/music.ts의 player가 내고, 이 패널은 그 상태를 보여 주고 조작만 한다.
+ */
+import { parse } from 'yaml';
+import raw from '../../content/bgm.yaml?raw';
+import { clock } from '../../lib/client/music.ts';
+
+interface BgmFile {
+  base: string;
+  albums: { id: string; title: string; by: string; file: string; tracks: { at: string; title: string }[] }[];
+}
+const bgm = parse(raw) as BgmFile;
+const base = (import.meta.env.PUBLIC_BGM_BASE as string | undefined) ?? bgm.base;
+const toSec = (s: string) => s.split(':').reduce((acc, v) => acc * 60 + Number(v), 0);
+const albums = bgm.albums.map((a) => ({
+  id: a.id,
+  title: a.title,
+  by: a.by,
+  url: base.replace(/\/?$/, '/') + a.file,
+  tracks: a.tracks.map((t) => ({ at: toSec(t.at), title: t.title })),
+}));
+---
+<qm-music class="music">
+  <script type="application/json" class="music__data" set:html={JSON.stringify(albums)} />
+  <div class="music__scrim" hidden></div>
+  <section class="music__sheet" role="dialog" aria-modal="false" aria-labelledby="music-h" hidden>
+    <div class="music__head">
+      <h2 id="music-h" class="label">배경 음악</h2>
+      <button type="button" class="music__close">닫기</button>
+    </div>
+
+    <div class="music__albums" role="group" aria-label="앨범">
+      {albums.map((a) => (
+        <button type="button" class="music__album" data-album={a.id} aria-pressed="false">
+          <span class="music__album-t">{a.title}</span>
+          <span class="music__album-by">{a.by}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="music__now">
+      <p class="music__title">곡을 골라 보세요</p>
+      <p class="music__sub label"></p>
+      <input type="range" class="music__seek" min="0" max="1" step="1" value="0" aria-label="곡 안에서 위치" />
+      <p class="music__times mono"><span class="music__cur">0:00</span><span class="music__len">–:––</span></p>
+      <div class="music__controls">
+        <button type="button" class="music__btn music__prev" aria-label="앞 곡">‹‹</button>
+        <button type="button" class="btn btn--primary music__play">재생</button>
+        <button type="button" class="music__btn music__next" aria-label="다음 곡">››</button>
+      </div>
+      <label class="music__vol">
+        <span class="label">소리</span>
+        <input type="range" class="music__volume" min="0" max="1" step="0.05" value="0.6" aria-label="소리 크기" />
+      </label>
+      <p class="music__msg small" role="status" hidden></p>
+    </div>
+
+    {albums.map((a) => (
+      <ol class="music__list" data-album={a.id} hidden>
+        {a.tracks.map((t, i) => (
+          <li>
+            <button type="button" class="music__track" data-i={i}>
+              <span class="mono music__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="music__tt">{t.title}</span>
+              <span class="mono music__at">{clock(t.at)}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    ))}
+
+    <p class="music__note small">처음 누를 때부터 불러와요. 1시간 들으면 데이터를 약 50MB 써요.</p>
+  </section>
+</qm-music>
+
+<script>
+  import { clock, player, trackLength, type Album } from '../../lib/client/music.ts';
+
+  class QmMusic extends HTMLElement {
+    private off: (() => void) | null = null;
+    private dragging = false;
+    private shownIndex = -1;
+    private shownAlbum = '';
+
+    connectedCallback() {
+      if (this.off) return;
+      const albums = JSON.parse(this.querySelector('.music__data')!.textContent!) as Album[];
+      player.setAlbums(albums);
+      const $ = <T extends HTMLElement>(sel: string) => this.querySelector(sel) as T;
+
+      this.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        if (t.closest('.music__close') || t.closest('.music__scrim')) return close();
+        const album = t.closest<HTMLElement>('.music__album');
+        if (album) return player.selectAlbum(album.dataset.album!);
+        const track = t.closest<HTMLElement>('.music__track');
+        if (track) return player.playTrack(Number(track.dataset.i));
+        if (t.closest('.music__play')) return player.toggle();
+        if (t.closest('.music__prev')) return player.prev();
+        if (t.closest('.music__next')) return player.next();
+      });
+
+      const seek = $<HTMLInputElement>('.music__seek');
+      seek.addEventListener('input', () => {
+        this.dragging = true;
+        $('.music__cur').textContent = clock(Number(seek.value));
+      });
+      seek.addEventListener('change', () => {
+        this.dragging = false;
+        const start = player.album!.tracks[player.index]!.at;
+        player.seek(start + Number(seek.value));
+      });
+      const vol = $<HTMLInputElement>('.music__volume');
+      vol.addEventListener('input', () => player.setVolume(Number(vol.value)));
+
+      this.off = player.subscribe(() => this.render());
+      this.render();
+    }
+
+    disconnectedCallback() {
+      this.off?.();
+      this.off = null;
+    }
+
+    render() {
+      const album = player.album;
+      if (!album) return;
+      const $ = <T extends HTMLElement>(sel: string) => this.querySelector(sel) as T;
+      const i = player.index;
+      const tr = album.tracks[i]!;
+      const len = trackLength(album.tracks, i, player.duration);
+      const into = Math.max(0, player.time - tr.at);
+
+      if (this.shownAlbum !== album.id) {
+        this.shownAlbum = album.id;
+        this.shownIndex = -1;
+        this.querySelectorAll<HTMLElement>('.music__album').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.album === album.id)));
+        this.querySelectorAll<HTMLElement>('.music__list').forEach((ol) => (ol.hidden = ol.dataset.album !== album.id));
+      }
+      if (this.shownIndex !== i) {
+        this.shownIndex = i;
+        const list = this.querySelector(`.music__list[data-album="${album.id}"]`)!;
+        list.querySelectorAll('.music__track').forEach((b, k) => b.toggleAttribute('aria-current', k === i));
+      }
+      $('.music__title').textContent = tr.title;
+      $('.music__sub').textContent = `${album.title} · ${album.by} · ${i + 1}/${album.tracks.length}`;
+      const seek = $<HTMLInputElement>('.music__seek');
+      if (!this.dragging) {
+        seek.max = String(Number.isFinite(len) ? Math.floor(len) : 600);
+        seek.value = String(Math.floor(into));
+        $('.music__cur').textContent = clock(into);
+      }
+      $('.music__len').textContent = clock(len);
+      const play = $<HTMLButtonElement>('.music__play');
+      play.textContent = player.playing ? '멈춤' : '재생';
+      play.setAttribute('aria-pressed', String(player.playing));
+      const vol = $<HTMLInputElement>('.music__volume');
+      if (document.activeElement !== vol) vol.value = String(player.volume);
+      const msg = $('.music__msg');
+      msg.hidden = !player.error;
+      msg.textContent = player.error;
+    }
+  }
+  if (!customElements.get('qm-music')) customElements.define('qm-music', QmMusic);
+
+  /* 패널 열고 닫기. 버튼은 페이지마다 새로 생기므로 문서에 한 번만 건다. */
+  const w = window as unknown as { __qmMusicBound?: boolean };
+  function panel() {
+    return document.querySelector<HTMLElement>('qm-music');
+  }
+  function isOpen() {
+    return !!panel()?.querySelector<HTMLElement>('.music__sheet:not([hidden])');
+  }
+  function setOpen(open: boolean) {
+    const m = panel();
+    if (!m) return;
+    m.querySelector<HTMLElement>('.music__sheet')!.hidden = !open;
+    m.querySelector<HTMLElement>('.music__scrim')!.hidden = !open;
+    if (open) m.querySelector<HTMLElement>('.music__play')!.focus({ preventScroll: true });
+    syncToggles();
+  }
+  function close() {
+    setOpen(false);
+  }
+  function syncToggles() {
+    const open = isOpen();
+    document.querySelectorAll<HTMLElement>('[data-music-toggle]').forEach((b) => {
+      b.dataset.playing = player.playing ? '1' : '0';
+      b.setAttribute('aria-expanded', String(open));
+    });
+  }
+  if (!w.__qmMusicBound) {
+    w.__qmMusicBound = true;
+    document.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('[data-music-toggle]')) setOpen(!isOpen());
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) close();
+    });
+    player.subscribe(syncToggles);
+    document.addEventListener('astro:page-load', syncToggles);
+  }
+</script>
+
+<style>
+  .music__scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 59;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .music__sheet {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 60;
+    max-height: 82%;
+    overflow-y: auto;
+    display: grid;
+    gap: 14px;
+    width: min(560px, 100%);
+    margin: 0 auto;
+    padding: 18px var(--gutter) max(22px, env(safe-area-inset-bottom));
+    background: var(--ink-2);
+    border-top: 1px solid var(--line-2);
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+    animation: music-up 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .music__sheet[hidden],
+  .music__scrim[hidden] {
+    display: none;
+  }
+
+  @keyframes music-up {
+    from {
+      transform: translateY(24px);
+      opacity: 0;
+    }
+  }
+
+  .music__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .music__close {
+    background: none;
+    border: 0;
+    color: var(--text-2);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .music__albums {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .music__album {
+    display: grid;
+    gap: 2px;
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--text-2);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .music__album[aria-pressed='true'] {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-soft);
+  }
+
+  .music__album-t {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .music__album-by {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .music__now {
+    display: grid;
+    gap: 6px;
+  }
+
+  .music__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-lg);
+    color: var(--text);
+  }
+
+  .music__seek,
+  .music__volume {
+    width: 100%;
+    accent-color: var(--accent);
+  }
+
+  .music__times {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .music__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 4px 0;
+  }
+
+  .music__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: none;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .music__play {
+    min-width: 96px;
+  }
+
+  .music__vol {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .music__msg {
+    color: var(--no);
+  }
+
+  .music__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+  }
+
+  .music__track {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2em 1fr auto;
+    gap: 10px;
+    align-items: baseline;
+    padding: 8px 6px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--text-2);
+    font: inherit;
+    font-size: var(--fs-sm);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .music__track:hover {
+    color: var(--text);
+  }
+
+  .music__track[aria-current] {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  .music__n,
+  .music__at {
+    color: var(--muted);
+    font-size: var(--fs-xs);
+  }
+
+  .music__note {
+    color: var(--muted);
+  }
+</style>

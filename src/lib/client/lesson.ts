@@ -38,6 +38,7 @@ class QmLesson extends HTMLElement {
   glossary = new Map<string, Gloss>();
   touchX = 0;
   touchY = 0;
+  onKey: ((e: KeyboardEvent) => void) | null = null;
 
   connectedCallback() {
     this.n = Number(this.dataset.lesson);
@@ -48,6 +49,10 @@ class QmLesson extends HTMLElement {
     this.highlightTerms();
     this.bind();
     this.restore();
+  }
+
+  disconnectedCallback() {
+    if (this.onKey) document.removeEventListener('keydown', this.onKey);
   }
 
   /* ── 상태 ── */
@@ -78,9 +83,9 @@ class QmLesson extends HTMLElement {
     this.updateChrome();
     if (this.i > 0) {
       save(setScreen(load(), this.n, this.i, Date.now()));
-      history.replaceState(null, '', `#s${this.i}`);
+      history.replaceState(history.state, '', `#s${this.i}`);
     } else if (location.hash) {
-      history.replaceState(null, '', location.pathname);
+      history.replaceState(history.state, '', location.pathname);
     }
     if (opts.focus) screen.querySelector<HTMLElement>('.screen__text')?.focus({ preventScroll: true });
   }
@@ -238,7 +243,8 @@ class QmLesson extends HTMLElement {
       if (term && !t.closest('.defcard')) this.openTerm(term.dataset.term!);
     });
 
-    document.addEventListener('keydown', (e) => {
+    // 페이지를 바꿔 끼워도 문서는 그대로라, 문서에 건 키보드 처리는 강을 떠날 때 떼어 낸다.
+    this.onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement;
       if (el.closest('input, textarea, [contenteditable]')) return;
       if (e.key === 'Escape') {
@@ -249,7 +255,8 @@ class QmLesson extends HTMLElement {
       if (!this.querySelector('.testout')!.hidden) return;
       if (e.key === 'ArrowRight') this.next();
       if (e.key === 'ArrowLeft') this.prev();
-    });
+    };
+    document.addEventListener('keydown', this.onKey);
 
     const stage = this.querySelector<HTMLElement>('.stage')!;
     stage.addEventListener('touchstart', (e) => {

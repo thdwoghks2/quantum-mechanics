@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import '../styles/pages.css';
 ---
 <Base title="기록" description="학습 기록 옮기기와 지우기">
-  <main class="page">
+  <main class="page" data-page="settings">
     <header class="page__head">
       <p class="label">학습 기록</p>
       <h1>기록</h1>
@@ -46,44 +46,50 @@ import '../styles/pages.css';
   <script>
     import { emptyState, exportText, importText, load, save } from '../lib/progress.ts';
 
-    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-    function refresh() {
-      const s = load();
-      const lessons = Object.values(s.lessons);
-      const done = lessons.filter((l) => l.status === 'done' || l.status === 'tested-out').length;
-      $('summary').textContent = `끝낸 강 ${done}개 · 복습 목록 ${Object.keys(s.reviews).length}문제 · 메모가 있는 강 ${Object.keys(s.notes).length}개`;
-      $<HTMLTextAreaElement>('export').value = exportText(s);
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
+    function init() {
+      if (!document.querySelector('[data-page="settings"]')) return;
+      const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+      function refresh() {
+        const s = load();
+        const lessons = Object.values(s.lessons);
+        const done = lessons.filter((l) => l.status === 'done' || l.status === 'tested-out').length;
+        $('summary').textContent = `끝낸 강 ${done}개 · 복습 목록 ${Object.keys(s.reviews).length}문제 · 메모가 있는 강 ${Object.keys(s.notes).length}개`;
+        $<HTMLTextAreaElement>('export').value = exportText(s);
+      }
+      $('copy').addEventListener('click', async () => {
+        const text = $<HTMLTextAreaElement>('export').value;
+        try {
+          await navigator.clipboard.writeText(text);
+          $('copy-msg').textContent = '복사했다.';
+        } catch {
+          $<HTMLTextAreaElement>('export').select();
+          $('copy-msg').textContent = '자동 복사가 막혀 있다. 글이 선택되었으니 직접 복사하자.';
+        }
+      });
+      $('load').addEventListener('click', () => {
+        const s = importText($<HTMLTextAreaElement>('import').value);
+        if (!s) {
+          $('load-msg').textContent = '읽을 수 없는 글이다. qm137:로 시작하는 글 전체를 붙여 넣었는지 확인하자.';
+          return;
+        }
+        save(s);
+        $('load-msg').textContent = '불러왔다.';
+        refresh();
+      });
+      $('reset').addEventListener('click', () => {
+        $('reset-yes').hidden = false;
+        $('reset-msg').textContent = '한 번 더 누르면 지워진다.';
+      });
+      $('reset-yes').addEventListener('click', () => {
+        save(emptyState());
+        $('reset-yes').hidden = true;
+        $('reset-msg').textContent = '지웠다.';
+        refresh();
+      });
+      refresh();
     }
-    $('copy').addEventListener('click', async () => {
-      const text = $<HTMLTextAreaElement>('export').value;
-      try {
-        await navigator.clipboard.writeText(text);
-        $('copy-msg').textContent = '복사했다.';
-      } catch {
-        $<HTMLTextAreaElement>('export').select();
-        $('copy-msg').textContent = '자동 복사가 막혀 있다. 글이 선택되었으니 직접 복사하자.';
-      }
-    });
-    $('load').addEventListener('click', () => {
-      const s = importText($<HTMLTextAreaElement>('import').value);
-      if (!s) {
-        $('load-msg').textContent = '읽을 수 없는 글이다. qm137:로 시작하는 글 전체를 붙여 넣었는지 확인하자.';
-        return;
-      }
-      save(s);
-      $('load-msg').textContent = '불러왔다.';
-      refresh();
-    });
-    $('reset').addEventListener('click', () => {
-      $('reset-yes').hidden = false;
-      $('reset-msg').textContent = '한 번 더 누르면 지워진다.';
-    });
-    $('reset-yes').addEventListener('click', () => {
-      save(emptyState());
-      $('reset-yes').hidden = true;
-      $('reset-msg').textContent = '지웠다.';
-      refresh();
-    });
-    refresh();
+    document.addEventListener('astro:page-load', init);
   </script>
 </Base>
