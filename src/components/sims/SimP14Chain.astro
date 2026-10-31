@@ -1,0 +1,135 @@
+---
+/**
+ * 연쇄 반응의 세대. 한 번의 반응이 다음 반응을 평균 k번 일으킨다.
+ * 세대마다 반응 수를 막대로 쌓는다(세로축은 10배마다 한 칸). k < 1이면 꺼지고, k = 1이면 그대로, k > 1이면 불어난다.
+ * 원리 수준의 그림이다. 어떤 물질이나 장치의 숫자도 담지 않는다.
+ */
+interface Props {
+  /** 한 번의 반응이 다음 반응을 평균 몇 번 일으키는지 */
+  k?: number;
+  /** k 슬라이더를 보일지 */
+  controls?: boolean;
+  /** 슬라이더가 고를 수 있는 가장 큰 k */
+  kMax?: number;
+}
+const { k = 2, controls = true, kMax = 2 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p14-chain class="sim" data-ratio="0.62">
+  <canvas aria-label="세대마다 반응이 몇 번 일어났는지를 막대로 쌓은 그림. 한 번의 반응이 다음 반응을 평균 몇 번 일으키느냐에 따라 막대가 줄어들거나, 그대로이거나, 빠르게 커진다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row" hidden={!controls}>
+      <label for={`ch-k-${uid}`}>한 번이 일으키는 다음 반응 (평균)</label>
+      <input id={`ch-k-${uid}`} type="range" min="0.5" max={kMax} step="0.1" value={k} data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-step-gen>한 세대씩</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-p14-chain>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const GENS = 30; // 보여 줄 세대 수
+  const TOP = 1e9; // 세로축 끝 (10억)
+  const STEP_S = 0.35; // 재생할 때 한 세대가 지나가는 시간 (초)
+
+  class SimP14Chain extends Sim {
+    counts: number[] = [1];
+    acc = 0;
+
+    init() {
+      this.querySelector<HTMLButtonElement>('button[data-step-gen]')?.addEventListener('click', () => {
+        this.pause();
+        this.next();
+        this.renderOutputs();
+        this.frame();
+      });
+    }
+
+    reset() {
+      this.counts = [1];
+      this.acc = 0;
+    }
+
+    changed() {
+      this.reset();
+    }
+
+    format(name: string) {
+      return name === 'k' ? `${(this.p.k ?? 1).toFixed(1)}번` : super.format(name);
+    }
+
+    next() {
+      if (this.counts.length >= GENS) return;
+      const k = this.p.k ?? 1;
+      const n = this.counts[this.counts.length - 1]!;
+      let m: number;
+      if (n === 0) m = 0;
+      else if (n < 2000) {
+        // 반응 하나하나가 다음 반응을 floor(k)번, 또는 확률적으로 한 번 더 일으킨다
+        const base = Math.floor(k);
+        const frac = k - base;
+        m = 0;
+        for (let i = 0; i < n; i++) m += base + (Math.random() < frac ? 1 : 0);
+      } else {
+        m = Math.round(n * k * (1 + (Math.random() - 0.5) * 0.02));
+      }
+      this.counts.push(Math.min(m, TOP * 10));
+    }
+
+    tick(dt: number) {
+      this.acc += dt;
+      while (this.acc >= STEP_S) {
+        this.acc -= STEP_S;
+        this.next();
+        this.renderOutputs();
+      }
+      if (this.counts.length >= GENS) this.pause();
+    }
+
+    readout() {
+      const g = this.counts.length;
+      const n = this.counts[g - 1]!;
+      const shown = n >= TOP ? '10억 넘게' : `${n.toLocaleString('ko-KR')}번`;
+      const k = this.p.k ?? 1;
+      const note = n === 0 ? ' · 반응이 꺼졌어요' : '';
+      return `${g}세대 · 이번 세대 반응 ${shown} · 평균 ${k.toFixed(1)}배씩${note}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const left = 44;
+      const bottom = h - 26;
+      const top = 14;
+      const H = bottom - top;
+      const bw = (w - left - 10) / GENS;
+      const yOf = (n: number) => bottom - (Math.log10(Math.max(1, n)) / Math.log10(TOP)) * H;
+      // 세로축: 10배마다 한 칸
+      for (let e = 0; e <= 9; e += 3) {
+        const y = yOf(10 ** e);
+        this.line(left, y, w - 6, y, c.line, 1);
+        const lab = e === 0 ? '1' : e === 3 ? '1천' : e === 6 ? '100만' : '10억';
+        this.text(lab, left - 6, y, c.muted, 10, 'right');
+      }
+      this.text('세대 →', w - 8, h - 8, c.muted, 10, 'right');
+      this.counts.forEach((n, i) => {
+        const x = left + i * bw + 2;
+        if (n <= 0) {
+          this.text('0', x + bw / 2 - 2, bottom - 8, c.no, 10, 'center');
+          return;
+        }
+        const y = yOf(Math.min(n, TOP));
+        this.ctx.fillStyle = n >= TOP ? c.no : c.energy;
+        this.ctx.fillRect(x, y, bw - 4, Math.max(2, bottom - y));
+      });
+      this.line(left, bottom, w - 6, bottom, c.text2, 1.5);
+    }
+  }
+  define('qm-sim-p14-chain', SimP14Chain);
+</script>
