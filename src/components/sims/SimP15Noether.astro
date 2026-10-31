@@ -1,0 +1,184 @@
+---
+/**
+ * 대칭과 보존(125강).
+ * kind="place": 마찰 없는 바닥을 미끄러지는 원반. 바닥이 어디서나 같으면(평평) 운동량이 그대로이고,
+ *   자리에 따라 높이가 다르면(언덕) 운동량이 바뀐다.
+ * kind="time": 튀는 공. 중력이 언제나 같으면 에너지가 그대로이고, 중력이 시간에 따라 바뀌면 에너지가 바뀐다.
+ * 아래 띠에 운동량(또는 에너지)이 시간에 따라 어떻게 바뀌는지 그린다.
+ */
+interface Props {
+  kind?: 'place' | 'time';
+}
+const { kind = 'place' } = Astro.props;
+---
+<qm-sim-p15-noether class="sim" data-ratio="0.66" data-kind={kind}>
+  <canvas aria-label={kind === 'place'
+    ? '마찰 없는 바닥을 미끄러지는 원반과, 시간에 따른 원반의 운동량. 평평한 바닥에서는 운동량이 그대로이고, 언덕이 있으면 바뀌어요.'
+    : '바닥에서 튀는 공과, 시간에 따른 공의 에너지. 중력이 늘 같으면 에너지가 그대로이고, 중력이 시간에 따라 바뀌면 에너지도 바뀌어요.'}></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="mode" value="0" />
+    <div class="sim__buttons">
+      {kind === 'place' ? (
+        <>
+          <button type="button" class="btn" data-set="mode=0" aria-pressed="true">어디서나 같은 바닥</button>
+          <button type="button" class="btn" data-set="mode=1" aria-pressed="false">언덕이 있는 바닥</button>
+        </>
+      ) : (
+        <>
+          <button type="button" class="btn" data-set="mode=0" aria-pressed="true">늘 같은 중력</button>
+          <button type="button" class="btn" data-set="mode=1" aria-pressed="false">시간에 따라 바뀌는 중력</button>
+        </>
+      )}
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-noether>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const G = 9.8;
+
+  class SimP15Noether extends Sim {
+    x = 0;
+    v = 0;
+    /** 공의 높이(m). this.h는 바탕 클래스가 캔버스 높이로 쓴다. */
+    yb = 0;
+    hist: number[] = [];
+    timer = 0;
+
+    get place() {
+      return this.dataset.kind !== 'time';
+    }
+
+    init() {
+      this.reset();
+    }
+
+    reset() {
+      this.t = 0;
+      this.hist = [];
+      if (this.place) {
+        this.x = 0.05;
+        this.v = 3;
+      } else {
+        this.yb = 2;
+        this.v = 0;
+      }
+    }
+
+    changed() {
+      this.reset();
+    }
+
+    /** 바닥의 높이(m). 바닥 길이는 10 m로 본다. */
+    ground(x: number) {
+      return this.p.mode ? 0.32 * Math.exp(-(((x % 10) - 5) ** 2) / 1.4) : 0;
+    }
+
+    g(t: number) {
+      return this.p.mode ? G * (1 + 0.55 * Math.sin(t * 2.3)) : G;
+    }
+
+    energy() {
+      return 0.5 * this.v * this.v + this.g(this.t) * this.yb;
+    }
+
+    tick(dt: number) {
+      // Sim이 이미 this.t를 dt만큼 늘려 두었다. 그 사이를 잘게 나눠 따라간다.
+      const steps = 8;
+      const d = dt / steps;
+      let tt = this.t - dt;
+      for (let i = 0; i < steps; i++) {
+        if (this.place) {
+          // 마찰이 없으니 에너지(4.5 J)는 그대로다. 높이가 자리에 따라 다르면 그만큼 빠르기가 바뀐다.
+          this.v = Math.sqrt(Math.max(0.04, 2 * (4.5 - G * this.ground(this.x))));
+          this.x += this.v * d;
+          if (this.x > 10) this.x -= 10;
+        } else {
+          this.v -= this.g(tt) * d;
+          this.yb += this.v * d;
+          if (this.yb < 0) {
+            this.yb = -this.yb;
+            this.v = Math.abs(this.v);
+          }
+        }
+        tt += d;
+      }
+      // 너무 높이 튀어 화면을 벗어나면 처음 높이에서 다시 시작한다.
+      if (!this.place && this.yb > 6) {
+        this.yb = 2;
+        this.v = 0;
+      }
+      this.timer += dt;
+      if (this.timer > 0.05) {
+        this.timer = 0;
+        this.hist.push(this.place ? this.v : this.energy());
+        if (this.hist.length > 160) this.hist.shift();
+      }
+    }
+
+    readout() {
+      if (this.place) {
+        const p = this.v; // 질량 1 kg
+        return this.p.mode
+          ? `운동량 ${p.toFixed(2)} kg·m/s · 언덕을 오르면 줄고 내려오면 다시 늘어요`
+          : `운동량 ${p.toFixed(2)} kg·m/s · 바닥이 어디서나 같아서 그대로예요`;
+      }
+      const E = this.energy();
+      return this.p.mode
+        ? `중력 ${this.g(this.t).toFixed(1)} m/s² · 에너지 ${E.toFixed(1)} J · 그대로 있지 않아요`
+        : `중력 ${G} m/s² · 에너지 ${E.toFixed(1)} J · 그대로예요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const top = h * 0.62;
+      if (this.place) {
+        const X = (x: number) => 16 + (x / 10) * (w - 32);
+        const Y = (y: number) => top - 18 - y * (h * 0.5);
+        const g = this.ctx;
+        g.strokeStyle = c.line;
+        g.lineWidth = 2;
+        g.beginPath();
+        for (let i = 0; i <= 100; i++) {
+          const x = (i / 100) * 10;
+          if (i) g.lineTo(X(x), Y(this.ground(x)));
+          else g.moveTo(X(x), Y(this.ground(x)));
+        }
+        g.stroke();
+        this.dot(X(this.x), Y(this.ground(this.x)) - 9, 9, c.force);
+        this.text('바닥 길이 10 m · 마찰 없음 · 원반 1 kg', 16, 14, c.muted, 10);
+      } else {
+        const groundY = top - 12;
+        const scale = (h * 0.48) / 5;
+        this.line(w * 0.2, groundY, w * 0.8, groundY, c.line, 2);
+        this.dot(w * 0.5, groundY - 9 - Math.min(this.yb, 5.4) * scale, 9, c.energy);
+        this.text(`중력 ${this.g(this.t).toFixed(1)} m/s²`, 16, 14, this.p.mode ? c.accent : c.muted, 10);
+      }
+      // 아래 띠: 시간에 따른 운동량(또는 에너지)
+      const y0 = top + 8;
+      const y1 = h - 18;
+      this.line(16, y1, w - 16, y1, c.line, 1);
+      const label = this.place ? '운동량 (시간에 따라)' : '에너지 (시간에 따라)';
+      this.text(label, 16, y0 + 2, this.place ? c.force : c.energy, 10);
+      if (this.hist.length > 1) {
+        const max = this.place ? 3.4 : 60;
+        const g = this.ctx;
+        g.strokeStyle = this.place ? c.force : c.energy;
+        g.lineWidth = 1.6;
+        g.beginPath();
+        this.hist.forEach((v, i) => {
+          const x = 16 + (i / 160) * (w - 32);
+          const y = y1 - (Math.min(v, max) / max) * (y1 - y0 - 10);
+          if (i) g.lineTo(x, y);
+          else g.moveTo(x, y);
+        });
+        g.stroke();
+      }
+      this.text('시간 →', w - 16, h - 6, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-p15-noether', SimP15Noether);
+</script>
