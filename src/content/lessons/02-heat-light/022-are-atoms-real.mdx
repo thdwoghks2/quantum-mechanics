@@ -1,0 +1,419 @@
+---
+number: 22
+title: 원자는 정말 있을까
+short: 원자는 정말 있을까
+question: 아무도 직접 본 적 없는 원자가 실제로 있다는 걸 어떻게 알 수 있을까요?
+mechanism: 물 분자들은 쉬지 않고 제멋대로 움직이며 물에 뜬 작은 알갱이를 사방에서 들이받아요. 알갱이가 충분히 작으면 이쪽저쪽에서 받는 충돌이 고르지 않아서 알갱이가 제멋대로 흔들려요(브라운 운동). 아인슈타인은 분자가 실제로 있다면 알갱이가 얼마나 퍼져야 하는지 계산했고, 페랭이 그 퍼짐을 재서 맞혔어요. 그래서 원자와 분자가 실제로 있다는 게 받아들여졌어요.
+part: 2
+year: 1905
+minutes: 21
+assumes: [atom, molecule, momentum, momentum-conservation, scientific-notation, prefix]
+introduces: [brownian-motion]
+sources:
+  - "Brown, R. A brief account of microscopical observations made in the months of June, July and August 1827 on the particles contained in the pollen of plants (1828)"
+  - "Einstein, A. Über die von der molekularkinetischen Theorie der Wärme geforderte Bewegung von in ruhenden Flüssigkeiten suspendierten Teilchen, Annalen der Physik 17 (1905)"
+  - "Perrin, J. Mouvement brownien et réalité moléculaire, Annales de Chimie et de Physique 18 (1909)"
+  - "Nye, M. J. Molecular Reality: A Perspective on the Scientific Work of Jean Perrin (1972)"
+testout: [q22-why, q22-time, q22-perrin]
+status: published
+---
+
+<Screen kind="recall" from={21} title="원자와 분자">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '원자', caption: '물질을 이루는 아주 작은 알갱이' },
+      { big: '분자', caption: '원자가 묶여 물질의 성질을 지닌 가장 작은 알갱이', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+21강에서 물질은 원자로, 그리고 원자가 묶인 분자로 되어 있다고 했어요. 설탕이 녹으면 설탕 분자가 물 분자 사이로 흩어졌죠.
+
+<S n={2}>
+
+그런데 1900년 무렵까지도 원자를 직접 본 사람은 없었어요. 그래서 원자는 계산을 편하게 해 주는 상상일 뿐이라고 보는 학자들도 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="원자를 의심한 사람들">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '의심', title: '마흐, 오스트발트', caption: '볼 수 없는 것을 있다고 말하면 안 돼요' },
+      { big: '믿음', title: '볼츠만', caption: '원자의 움직임으로 기체를 설명해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+에른스트 마흐나 빌헬름 오스트발트 같은 학자들은, 볼 수 없는 원자를 실제로 있다고 말해서는 안 된다고 했어요. 반대로 루트비히 볼츠만은 원자의 움직임으로 기체의 성질을 설명했죠.
+
+<S n={2}>
+
+논쟁을 끝내려면 원자가 실제로 있다는 걸 눈으로 확인할 수 있는 증거가 필요했어요. 그 실마리는 의외로 70년도 더 전의 관찰에 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="현미경 속의 흔들림">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-scope', title: '1827년, 로버트 브라운', caption: '물에 뜬 꽃가루 속 알갱이를 현미경으로 봤어요' },
+      { icon: 's1-pollen', title: '쉬지 않는 흔들림', caption: '오래된 돌가루도 똑같이 흔들렸어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1827년 스코틀랜드의 식물학자 로버트 브라운은 현미경으로 물에 뜬 꽃가루 속의 아주 작은 알갱이를 봤어요. 그런데 알갱이들이 쉬지 않고 제멋대로 흔들렸어요.
+
+<S n={2}>
+
+처음엔 꽃가루가 살아 있어서 그런 줄 알았지만, 오래된 돌가루나 유리 가루도 똑같이 흔들렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="브라운이 본 모습">
+  <Fragment slot="visual">
+    <SimP02Brownian show={0} size={1} />
+  </Fragment>
+
+브라운이 본 모습을 흉내 낸 그림이에요. 재생해서 가운데 알갱이와 그 지나온 자국을 보세요.
+
+<S n={2}>
+
+아무도 밀지 않는 것 같은데 알갱이는 쉬지 않고 흔들리고, 자국은 지그재그로 엉켜요. 물이 흐르지도 않는데 이렇게 흔들려서, 70년 넘게 아무도 그 까닭을 확실히 밝히지 못했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="브라운 운동">
+  <Fragment slot="visual">
+    <Define term="brownian-motion" />
+  </Fragment>
+
+물이나 공기에 뜬 아주 작은 알갱이의 이런 흔들림을, 처음 자세히 기록한 사람의 이름을 따서 **브라운 운동**이라고 해요.
+
+<S n={2}>
+
+정의 카드에는 그 까닭까지 적혀 있어요. 둘레의 분자들이 사방에서 고르지 않게 부딪히기 때문이라고요. 다음 화면에서 그걸 직접 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="보이지 않던 분자">
+  <Fragment slot="visual">
+    <SimP02Brownian show={1} size={1} />
+  </Fragment>
+
+이번엔 보이지 않던 물 분자까지 그렸어요. 재생해서 알갱이 둘레를 보세요.
+
+<S n={2}>
+
+물 분자들이 쉬지 않고 움직이며 사방에서 알갱이를 들이받아요. 어느 순간 한쪽에서 더 많이 부딪히면 알갱이는 반대로 밀려나요. 7강의 운동량 보존 그대로죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="왜 작은 알갱이만">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'ball', title: '공이나 우리 몸', caption: '사방에서 엄청나게 많이 부딪혀 차이가 지워져요' },
+      { icon: 's1-pollen', title: '1 μm쯤의 알갱이', caption: '부딪히는 수가 적어 한쪽으로 쏠림이 보여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그럼 공이나 우리 몸은 왜 이렇게 흔들리지 않을까요? 큰 물체는 사방에서 엄청나게 많이 부딪혀서, 이쪽과 저쪽의 차이가 거의 지워지거든요.
+
+<S n={2}>
+
+알갱이가 작을수록 부딪히는 수가 적어서 한쪽으로 쏠리는 차이가 눈에 띄어요. 그래서 1 μm쯤의 작은 알갱이에서만 흔들림이 보여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="크기를 키우면">
+  <Fragment slot="visual">
+    <SimP02Brownian show={1} size={1} />
+  </Fragment>
+
+"큰 알갱이"를 눌러 알갱이를 키운 뒤 재생해 보세요. 그다음 다시 "작은 알갱이"로 바꿔 견줘 보세요.
+
+<S n={2}>
+
+알갱이가 크면 부딪히는 분자는 더 많은데, 흔들림은 확 줄어요. 사방의 충돌이 서로 지워지고, 무거워서 잘 안 밀리기 때문이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="광장의 큰 공">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['광장을 제멋대로 뛰어다니는 사람들', '쉬지 않고 움직이는 물 분자'],
+        ['사람들 사이에 놓인 커다란 공', '물에 뜬 작은 알갱이'],
+        ['공이 이리저리 굴러다녀요', '알갱이가 제멋대로 흔들려요'],
+        ['멀리서는 사람은 안 보이고 공만 보여요', '현미경으로는 분자는 안 보이고 알갱이만 보여요'],
+      ]}
+      fits="보이지 않는 것들이 사방에서 고르지 않게 부딪혀서, 보이는 것이 제멋대로 움직여요."
+      breaks="사람은 공을 보고 피하거나 차기도 하지만, 분자는 그냥 부딪힐 뿐이에요. 그리고 분자는 알갱이보다 수천 배 작아요."
+    />
+  </Fragment>
+
+사람이 가득한 광장에 커다란 공이 하나 놓여 있다고 해 볼게요. 사람들이 제멋대로 뛰어다니며 부딪히면 공은 이리저리 굴러다녀요.
+
+<S n={2}>
+
+높은 곳에서 내려다보면 사람은 너무 작아 안 보이고, 공만 제멋대로 움직이는 것처럼 보이겠죠. 현미경 속의 알갱이가 그 공이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="흔들림의 까닭">
+
+<Check id="q22-why" options={[
+  { t: '둘레의 물 분자들이 사방에서 고르지 않게 부딪혀서', ok: true, why: '쉬지 않고 움직이는 분자들이 알갱이를 들이받는데, 알갱이가 작으면 어느 순간 한쪽에서 더 많이 부딪혀 그 반대로 밀려나요.' },
+  { t: '알갱이가 살아 있어서', why: '브라운도 처음엔 그렇게 생각했지만, 오래된 돌가루나 유리 가루도 똑같이 흔들렸어요.' },
+  { t: '물이 한쪽으로 흘러서', why: '물이 흐르면 알갱이들이 한 방향으로 같이 떠내려가야 해요. 브라운 운동은 알갱이마다 제멋대로예요.' },
+  { t: '현미경의 빛이 알갱이를 밀어서', why: '빛을 약하게 해도 흔들림은 그대로예요. 그리고 빛이 민다면 한 방향으로 밀려야 해요.' },
+]}>
+
+물에 뜬 아주 작은 알갱이가 쉬지 않고 제멋대로 흔들리는 가장 정확한 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="보이는 건 알갱이">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '약 1 μm', title: '현미경에 보이는 알갱이', caption: '흔들리는 모습이 보여요' },
+      { big: '약 0.0003 μm', title: '물 분자', caption: '여전히 안 보여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 처음에 브라운이 현미경으로 분자를 본 줄 알았어요. 그런데 보인 건 분자보다 수천 배 큰 알갱이예요.
+
+분자는 여전히 안 보이고, 분자가 들이받은 결과만 보이는 거예요. 보이지 않는 것을, 보이는 것의 흔들림으로 확인하는 셈이죠.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="아인슈타인의 계산">
+  <Fragment slot="visual">
+    <BigNumber top="1905년, 알베르트 아인슈타인" value="분자가 정말 있다면" bottom="알갱이는 얼마나 멀리 퍼져야 할까요" />
+  </Fragment>
+
+1905년에 알베르트 아인슈타인은 이 흔들림을 계산으로 다뤘어요. 분자가 정말 있고 크기가 얼마라면, 물에 뜬 알갱이가 시간에 따라 얼마나 멀리 퍼져야 하는지 구한 거예요.
+
+<S n={2}>
+
+이 계산은 거꾸로도 쓸 수 있어요. 알갱이가 퍼지는 거리를 재면 분자의 크기와 개수를 알아낼 수 있다는 뜻이었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="똑바로와 비틀비틀">
+  <Fragment slot="visual">
+    <DataTable caption="출발점에서 떨어진 거리 (1분 뒤를 1로)" head={['지난 시간', '똑바로 가면', '비틀비틀 퍼지면 (평균)']} rows={[
+      ['1분', '1', '1'],
+      ['4분', '4', '2'],
+      ['9분', '9', '3'],
+      ['100분', '100', '10'],
+    ]} steps={[undefined, 2, 2, 3]} />
+  </Fragment>
+
+아인슈타인의 계산에서 중요한 결과 하나가 있어요. 제멋대로 흔들리는 알갱이는 똑바로 가는 물체처럼 멀어지지 않아요.
+
+<S n={2}>
+
+똑바로 가면 4분 동안 4배 멀리 가지만, 비틀비틀 퍼지는 알갱이는 평균 2배만 멀어져요. 앞으로 갔다 뒤로 갔다 하며 많이 되돌아오거든요.
+
+</S>
+
+<S n={3}>
+
+그래서 평균 거리는 시간의 제곱근에 비례해요. 시간이 100배면 거리는 10배예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="9분 뒤의 거리">
+
+<Numeric id="q22-time" answer={6} tol={0.03} unit="μm">
+
+물에 뜬 알갱이가 브라운 운동으로 퍼져서, 1분 뒤에는 출발점에서 평균 2 μm 떨어진 곳에 있었어요. 평균 거리가 시간의 제곱근에 비례한다면, 9분 뒤에는 평균 몇 μm 떨어져 있을까요?
+
+<Fragment slot="solution">
+
+시간이 9배니까 거리는 √9 = 3배예요. 2 × 3 = 6 μm이에요. 똑바로 갔다면 18 μm였겠죠.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="story" title="페랭의 측정">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1908년', title: '장 페랭', caption: '크기가 고른 아주 작은 알갱이를 만들었어요' },
+      { icon: 's1-scope', title: '30초마다 기록', caption: '알갱이의 자리를 수백 번 적었어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1908년부터 프랑스의 장 페랭은 나무 수지로 크기가 고른 아주 작은 알갱이를 만들었어요. 그리고 현미경으로 알갱이가 30초마다 어디에 있는지 수백 번 기록했죠.
+
+<S n={2}>
+
+알갱이들은 정말로 시간의 제곱근에 비례해 퍼졌고, 퍼진 거리는 아인슈타인의 계산과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="분자의 수를 세다">
+  <Fragment slot="visual">
+    <BigNumber top="페랭이 알갱이의 흔들림으로 구한 물 18 g 속 분자 수" value="약 7 × 10²³개" bottom="오늘날 값 6.02 × 10²³개와 자릿수가 같아요" />
+  </Fragment>
+
+페랭은 퍼진 거리로 거꾸로 분자의 개수를 계산했어요. 물 18 g 속 물 분자가 약 7 × 10²³개라는 값을 얻었죠.
+
+<S n={2}>
+
+오늘날 값은 6.02 × 10²³개예요. 보이지 않는 분자의 수를, 보이는 알갱이의 흔들림만으로 자릿수까지 맞힌 거예요. 21강에서 물 한 컵에 분자가 약 7 × 10²⁴개라고 한 것도 이 값에서 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="논쟁이 끝나요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1905', caption: '아인슈타인이 원자를 가정하고 계산했어요' },
+      { big: '1908~1909', caption: '페랭이 재서 맞혔어요' },
+      { big: '1926', caption: '페랭이 노벨 물리학상을 받았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+원자를 가정한 계산이, 원자를 모르는 상태에서 잰 값과 맞은 거예요. 원자를 의심하던 오스트발트도 이 결과들을 보고 원자가 실제로 있다고 받아들였어요.
+
+<S n={2}>
+
+페랭은 이 연구로 1926년 노벨 물리학상을 받았어요. 원자는 이제 상상이 아니라 실제로 있는 것이 됐죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="논쟁을 끝낸 까닭">
+
+<Check id="q22-perrin" options={[
+  { t: '원자가 있다고 가정한 계산을 실제 측정이 맞혔으니까', ok: true, why: '아인슈타인의 계산은 분자가 실제로 있어야 나오는 값이었고, 페랭이 잰 퍼짐이 그 값과 맞았어요.' },
+  { t: '현미경으로 원자를 직접 봤으니까', why: '페랭이 본 건 분자보다 수천 배 큰 알갱이였어요. 원자는 여전히 보이지 않았어요.' },
+  { t: '꽃가루가 살아 있다는 걸 밝혔으니까', why: '흔들림은 살아 있지 않은 돌가루에서도 일어나요. 생명과는 상관없어요.' },
+  { t: '알갱이가 흔들리는 걸 처음 봤으니까', why: '흔들림은 1827년에 브라운이 이미 봤어요. 페랭의 공은 그 흔들림을 정밀하게 재서 계산과 맞춰 본 거예요.' },
+]}>
+
+페랭의 실험이 원자가 실제로 있느냐는 논쟁을 끝낸 가장 큰 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="오늘날에는">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1827', caption: '흔들림을 봤어요' },
+      { big: '1908', caption: '흔들림으로 분자를 셌어요' },
+      { big: '오늘날', caption: '원자 하나하나를 그림으로 찍어요 (68강)', tone: 'accent' },
+    ]} arrows />
+  </Fragment>
+
+오늘날에는 원자 하나하나를 그림으로 찍는 현미경도 있어요. 그 현미경이 어떤 원리로 작동하는지는 68강에서 다뤄요.
+
+<S n={2}>
+
+하지만 원자가 실제로 있다는 걸 처음 확인한 건, 이렇게 보이지 않는 것이 남긴 흔들림을 재는 방법이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['brownian-motion']}>
+
+1. 물에 뜬 작은 알갱이는 둘레의 분자들에게 사방에서 고르지 않게 부딪혀 제멋대로 흔들려요.
+2. 큰 물체는 충돌이 서로 지워져서, 작은 알갱이에서만 흔들림이 보여요.
+3. 아인슈타인은 분자가 있다면 알갱이가 얼마나 퍼져야 하는지 계산했어요.
+4. 페랭이 그 퍼짐을 재서 계산과 맞혔고, 원자가 실제로 있다는 게 받아들여졌어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="따뜻한 물에서는">
+
+<DailyProblem id="p22">
+
+같은 알갱이를 차가운 물과 따뜻한 물에 각각 띄우고 현미경으로 보면, 따뜻한 물에서 브라운 운동이 더 활발해요.
+
+이 관찰은 물 분자의 움직임에 대해 무엇을 알려 줄까요? 알갱이를 흔드는 게 무엇이었는지 떠올려 보세요.
+
+<Fragment slot="hint1">
+
+알갱이는 둘레의 분자들이 부딪혀서 흔들려요. 알갱이가 더 세게 흔들린다면, 부딪히는 분자들은 어떻게 달라졌을까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+따뜻한 물에서는 물 분자들이 더 빠르게, 더 세게 움직인다는 뜻이에요. 분자가 세게 부딪힐수록 알갱이가 받는 충돌이 커져서 더 크게 흔들리거든요.
+
+그러니 물이 따뜻하다는 것과 물 분자가 빠르게 움직인다는 건 서로 이어져 있어요. 다음 강에서 이걸 온도의 정체로 따라가요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+물에 뜬 작은 알갱이는 보이지 않는 분자들에게 사방에서 고르지 않게 부딪혀 흔들리고, 그 흔들림을 재서 계산과 맞혀 본 덕분에 원자가 실제로 있다는 걸 알게 됐어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="따뜻함의 정체">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-thermo', title: '온도계의 눈금', caption: '무엇을 잰 값일까요' },
+      { icon: 's1-ice', title: '얼음과 끓는 물', caption: '분자는 어떻게 다를까요' },
+    ]} />
+  </Fragment>
+
+따뜻한 물에서는 분자가 더 빠르게 움직였어요. 그렇다면 우리가 늘 쓰는 온도라는 말은, 사실 분자가 얼마나 빨리 움직이는지를 잰 값이 아닐까요?
+
+<S n={2}>
+
+다음 강에서는 온도계의 눈금이 분자의 움직임과 어떻게 이어지는지 보고, 더는 내려갈 수 없는 가장 낮은 온도가 있다는 것도 확인해 볼게요.
+
+</S>
+
+</Screen>

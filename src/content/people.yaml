@@ -297,6 +297,15 @@
 
 # ── 세션 1 (21~36강) ──
 # (여기 아래에 더한다)
+- id: brown
+  name: 로버트 브라운
+  original: Robert Brown
+  born: 1773
+  died: 1858
+  role: 스코틀랜드의 식물학자
+  summary: "1827년 현미경으로 물에 뜬 꽃가루 속의 아주 작은 알갱이가 쉬지 않고 제멋대로 흔들리는 걸 자세히 기록했어요. 오래된 돌가루나 유리 가루도 똑같이 흔들린다는 걸 확인해, 이 흔들림이 생명 때문이 아니라는 걸 보였어요. 이 움직임에 그의 이름이 붙었어요."
+  lessons: [22]
+  sources: ["Brown, R. A brief account of microscopical observations … on the particles contained in the pollen of plants (1828)"]
 
 # ── 세션 2 (37~63강) ──
 # (여기 아래에 더한다)
