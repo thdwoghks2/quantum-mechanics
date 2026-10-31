@@ -1,0 +1,435 @@
+---
+number: 30
+title: "고전 계산의 실패: 자외선 파탄"
+short: 자외선 파탄
+question: 상자 속 빛의 모드마다 kT씩 나눠 주면 흑체의 곡선이 나올까요?
+mechanism: 상자 속 빛의 모드 수는 진동수의 제곱에 비례해 끝없이 늘어나고, 에너지 등분배는 모드마다 kT를 줘요. 둘을 곱하면 진동수가 높을수록 빛이 더 세져서, 모두 더한 에너지가 무한대가 돼요(자외선 파탄). 실제 흑체의 빛은 낮은 진동수에서만 이 계산과 맞고 높은 진동수에서는 줄어드니까, 높은 진동수의 모드에는 kT가 돌아가지 않는다는 뜻이에요.
+part: 2
+year: 1900
+minutes: 21
+epigraph:
+  text: "과학의 큰 비극은 아름다운 가설이 추한 사실에 살해되는 것이다."
+  by: 토머스 헨리 헉슬리
+  source: 「생물 발생과 무생물 발생」 (1870)
+assumes: [mode, equipartition, degree-of-freedom, blackbody, wien-law, thermal-radiation, ultraviolet, absolute-temperature, frequency, energy]
+introduces: [ultraviolet-catastrophe]
+sources:
+  - "Rayleigh, Lord. Remarks upon the Law of Complete Radiation, Philosophical Magazine 49 (1900); Jeans, J. H. (1905)"
+  - "Rubens, H. & Kurlbaum, F. Über die Emission langwelliger Wärmestrahlen durch den schwarzen Körper bei verschiedenen Temperaturen (1900)"
+  - "Lummer, O. & Pringsheim, E. Die Vertheilung der Energie im Spectrum des schwarzen Körpers (1899)"
+  - "Ehrenfest, P. Welche Züge der Lichtquantenhypothese spielen in der Theorie der Wärmestrahlung eine wesentliche Rolle? Annalen der Physik 36 (1911): '자외선 파탄'이라는 이름"
+testout: [q30-low, q30-why, q30-suspect]
+status: published
+---
+
+<Screen kind="recall" from={29} title="끝없이 많은 모드">
+  <Fragment slot="visual">
+    <SimP02Modes f={10} />
+  </Fragment>
+
+29강에서 상자 속 빛의 진동 모드를 셌어요. 같은 폭의 진동수 구간에 드는 모드 수는 진동수의 제곱에 비례해 늘어나고, 끝이 없었죠.
+
+<S n={2}>
+
+진동수가 2배면 모드는 4배, 10배면 100배였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={26} title="모드마다 kT">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '½kT', title: '운동 에너지', caption: '' },
+      { big: '+ ½kT', title: '위치 에너지', caption: '' },
+      { big: '= kT', title: '진동 하나', caption: '', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+26강에서는 에너지 등분배를 배웠어요. 온도 T에서 자유도마다 평균 ½kT씩 돌아가서, 진동 하나는 운동과 위치 두 자리로 평균 kT를 가졌어요.
+
+<S n={2}>
+
+상자 속 빛의 모드도 하나하나가 진동이에요. 그러니 고전물리학대로라면 모드마다 kT씩 돌아가야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="두 결론을 곱하면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '모드 수', caption: '진동수의 제곱에 비례' },
+      { big: '× kT', caption: '모드마다 같아요' },
+      { big: '빛의 세기', caption: '진동수의 제곱에 비례', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 두 결론을 곱해 볼게요. 어떤 진동수 구간의 빛이 얼마나 센지는, 그 구간의 모드 수에 모드 하나의 에너지 kT를 곱하면 돼요.
+
+<S n={2}>
+
+모드 수가 진동수의 제곱에 비례하니까, 빛의 세기도 진동수의 제곱에 비례해야 해요. 레일리와 진스가 얻은 결론이 이거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="진동수가 오를수록">
+  <Fragment slot="visual">
+    <DataTable caption="고전 계산: 같은 폭의 진동수 구간에 담긴 빛 에너지 (기준을 1로)" head={['진동수', '모드 수', '× kT', '빛 에너지']} rows={[
+      ['1배', '1', 'kT', '1'],
+      ['2배', '4', 'kT', '4'],
+      ['10배', '100', 'kT', '100'],
+      ['100배', '10,000', 'kT', '10,000'],
+    ]} steps={[undefined, 2, 2, 3]} />
+  </Fragment>
+
+모드마다 kT로 같으니까, 빛 에너지는 모드 수를 그대로 따라가요.
+
+<S n={2}>
+
+진동수가 2배면 4배, 10배면 100배예요.
+
+</S>
+
+<S n={3}>
+
+100배면 1만 배예요. 진동수가 높을수록 빛이 끝없이 세져야 한다는 결론이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="고전 계산의 곡선">
+  <Fragment slot="visual">
+    <Plot
+      alt="5000 K 흑체에 대한 고전 계산의 곡선. 진동수의 제곱에 비례해 끝없이 올라간다"
+      x={[0, 1000]} y={[0, 2.5]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (실제 꼭대기를 1로)" xq="time" yq="energy"
+      xTicks={[0, 200, 400, 600, 800, 1000]} yTicks={[0, 1, 2]}
+      axisSteps={[1, 1]}
+      bands={[{ x0: 400, x1: 750, rainbow: true, label: '가시광선' }]}
+      curves={[
+        { fn: 'x*x*6.48e-5 <= 2.55 ? x*x*6.48e-5 : NaN', q: 'force', step: 2, label: '고전 계산', labelAt: [210, 2.35] },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+5,000 K 흑체에 대해 고전 계산을 그려 볼게요. 가로축은 진동수, 세로축은 그 진동수의 빛이 얼마나 센지예요.
+
+</S>
+
+<S n={2}>
+
+고전 계산의 곡선은 진동수의 제곱을 따라 가파르게 올라가서, 가시광선에 닿기도 전에 그래프 밖으로 뚫고 나가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="실제로 잰 곡선">
+  <Fragment slot="visual">
+    <Plot
+      alt="5000 K 흑체의 실제 곡선과 고전 계산. 진동수가 낮은 쪽에서는 겹치지만, 높은 쪽에서 실제 곡선은 꺾여 내려오고 고전 계산은 끝없이 올라간다"
+      x={[0, 1000]} y={[0, 2.5]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (실제 꼭대기를 1로)" xq="time" yq="energy"
+      xTicks={[0, 200, 400, 600, 800, 1000]} yTicks={[0, 1, 2]}
+      axisSteps={[1, 1]}
+      bands={[{ x0: 400, x1: 750, rainbow: true, label: '가시광선' }]}
+      curves={[
+        { fn: 'x*x*6.48e-5 <= 2.55 ? x*x*6.48e-5 : NaN', q: 'force', dash: true, label: '고전 계산', labelAt: [210, 2.35] },
+        { fn: 'x*x*x/(exp(48*x/5000)-1)/1.607e6', q: 'heat', step: 2, label: '실제', labelAt: [330, 1.12] },
+      ]}
+      points={[{ x: 60, y: 0.2, label: '여기선 맞아요', step: 3, dx: 6, dy: -20 }]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+같은 그래프에 실제로 잰 흑체의 곡선을 겹쳐 그렸어요.
+
+</S>
+
+<S n={2}>
+
+실제 곡선은 올라가다가 꺾여서, 진동수가 높은 쪽에서는 다시 0으로 내려와요.
+
+</S>
+
+<S n={3}>
+
+그런데 진동수가 낮은 쪽에서는 두 곡선이 거의 겹쳐요. 고전 계산이 다 틀린 건 아닌 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="베를린의 측정">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1899~1900', title: '베를린의 국립 물리기술연구소', caption: '흑체의 빛을 진동수마다 정밀하게 쟀어요' },
+      { big: '낮은 쪽은 맞고 높은 쪽은 틀려요', caption: '고전 계산의 결과', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1899년부터 1900년까지 베를린의 국립 물리기술연구소에서 흑체의 빛을 아주 정밀하게 쟀어요. 오토 루머, 에른스트 프링스하임, 하인리히 루벤스 같은 실험가들이었죠.
+
+<S n={2}>
+
+전등 산업에 쓸 표준을 정하려는 측정이었어요. 이 측정 덕분에, 고전 계산이 낮은 진동수에서는 맞고 높은 진동수에서는 크게 틀린다는 게 분명해졌죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="맞는 곳은 어디">
+
+<Check id="q30-low" options={[
+  { t: '진동수가 낮은 쪽', ok: true, why: '그래프에서 진동수가 낮은 쪽은 두 곡선이 거의 겹쳐요. 그곳에서는 모드마다 kT를 준 계산이 맞아요.' },
+  { t: '진동수가 높은 쪽', why: '높은 쪽에서는 고전 계산이 끝없이 올라가지만, 실제 곡선은 0으로 내려와요.' },
+  { t: '가시광선 근처의 꼭대기', why: '꼭대기 근처에서 고전 계산은 이미 실제보다 몇 배나 커요.' },
+  { t: '어디에서도 맞지 않아요', why: '진동수가 낮은 쪽에서는 거의 겹쳐요. 고전 계산이 다 틀린 건 아니에요.' },
+]}>
+
+흑체의 빛에 대한 고전 계산(모드 수 × kT)이 실제로 잰 곡선과 잘 맞는 곳은 어디일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="모두 더하면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '적외선', caption: '조금' },
+      { big: '가시광선', caption: '더 많이' },
+      { big: '자외선, X선, …', caption: '끝없이 더 많이', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+고전 계산의 결론을 끝까지 따라가 볼게요. 흑체가 내는 에너지 전체는 모든 진동수 구간의 에너지를 다 더한 값이에요.
+
+<S n={2}>
+
+그런데 진동수가 높을수록 구간마다 에너지가 더 커지고, 진동수에는 끝이 없어요. 그러니 다 더한 값은 끝없이 커져서 무한대가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="자외선 파탄">
+  <Fragment slot="visual">
+    <Define term="ultraviolet-catastrophe" />
+  </Fragment>
+
+고전물리학대로 계산하면 흑체가 내는 에너지가 무한대가 된다는 이 모순을 **자외선 파탄**이라고 해요. 1911년 파울 에렌페스트가 붙인 이름이에요.
+
+<Key>모드 수는 진동수의 제곱에 비례해 끝없이 늘고 모드마다 kT를 주면 진동수가 높을수록 에너지가 커지니까, 고전물리학으로 계산한 흑체의 에너지는 자외선 너머에서 무한대로 터져 버려요.</Key>
+
+</Screen>
+
+<Screen kind="story" title="계산이 말하는 것">
+  <Fragment slot="visual">
+    <BigNumber top="고전물리학으로 계산한, 켜 놓은 전기난로가 내는 에너지" value="무한대" bottom="그리고 그 대부분이 자외선과 X선이어야 해요" q="energy" />
+  </Fragment>
+
+이 계산대로라면, 켜 놓은 전기난로 하나가 무한한 에너지를 내야 해요. 그것도 대부분 자외선과 X선으로요.
+
+<S n={2}>
+
+뉴턴 이후 200년 넘게 거의 모든 걸 맞혀 온 고전물리학이, 난로 하나 앞에서 무한대라는 답을 내놓은 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="정말 무한대일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '아주 큰 수', caption: '언젠가는 멈춰요' },
+      { big: '무한대', caption: '더할 것이 끝없이 나와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 '무한대'가 그냥 아주 크다는 말인 줄 알았어요.
+
+그런데 정말로 끝이 없다는 뜻이에요. 진동수에 끝이 없으니 더할 모드가 끝없이 나오고, 높은 진동수일수록 오히려 더 큰 값이 더해지거든요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="우리가 타지 않는 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'heater', title: '실제 전기난로', caption: '적외선과 약간의 빨간빛만 나와요' },
+      { icon: 'runner', title: '난로 앞의 우리', caption: '자외선에 타지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+물론 실제 난로는 적외선과 약간의 빨간빛만 내요. 난로 앞에 앉아도 X선에 타는 사람은 없죠.
+
+<S n={2}>
+
+그러니 우리가 난로 앞에서 멀쩡하다는 사실 자체가, 고전물리학의 어딘가가 틀렸다는 증거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="파탄의 까닭">
+
+<Check id="q30-why" options={[
+  { t: '모드가 진동수에 따라 끝없이 많아지는데, 모드마다 kT를 줘서', ok: true, why: '진동수가 높을수록 모드가 많고 모드마다 같은 kT를 주니, 다 더하면 무한대가 돼요.' },
+  { t: '상자의 벽이 빛을 흡수하지 않아서', why: '흑체 상자는 빛을 잘 흡수하고 잘 내요. 파탄은 모드 수와 kT를 곱한 데서 생겨요.' },
+  { t: '온도가 너무 높아서', why: '온도가 아무리 낮아도 0 K가 아니면 고전 계산은 무한대가 나와요.' },
+  { t: '측정 장비가 자외선을 못 재서', why: '측정의 문제가 아니라 계산의 문제예요. 계산이 무한대를 내놓았어요.' },
+]}>
+
+고전물리학으로 계산한 흑체의 에너지가 무한대가 되는 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="두 용의자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '용의자 1', title: '모드 세기', caption: '모드 수가 진동수의 제곱에 비례해요' },
+      { big: '용의자 2', title: '에너지 등분배', caption: '모드마다 kT를 줘요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+계산에 쓴 건 두 가지뿐이에요. 29강의 모드 세기와 26강의 에너지 등분배죠. 둘 가운데 하나가 높은 진동수에서 틀렸어요.
+
+<S n={2}>
+
+모드 세기는 상자 크기와 파장만으로 하는 계산이라 의심할 곳이 적어요. 줄과 판의 모드, 전자기파의 정상파에서도 늘 맞았거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="등분배가 의심스러워요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '26강', title: '질소 분자의 떨기', caption: '방 온도에서 kT를 못 받았어요' },
+      { big: '30강', title: '진동수가 높은 빛의 모드', caption: 'kT를 못 받는 것 같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+남은 건 에너지 등분배예요. 26강에서도 질소 분자의 떨기는 방 온도에서 kT를 받지 못했어요. 그 떨림은 1초에 약 70조 번으로 아주 빨랐죠.
+
+<S n={2}>
+
+빛의 모드도 진동수가 높을수록 kT보다 훨씬 적게 받는 것처럼 보여요. 같은 범인이 두 곳에 흔적을 남긴 셈이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="의심할 것">
+
+<Check id="q30-suspect" options={[
+  { t: '진동수가 높은 진동에도 kT가 돌아간다는 생각', ok: true, why: '낮은 진동수에서는 kT가 맞지만, 높은 진동수의 빛 모드와 질소 분자의 떨기는 kT를 받지 못해요.' },
+  { t: '상자 속 빛의 모드 수를 센 방법', why: '모드 세기는 줄, 판, 전파의 정상파에서 늘 맞았어요. 의심할 곳이 적어요.' },
+  { t: '빛이 파동이라는 생각', why: '16강의 간섭 무늬처럼 빛이 파동이라는 증거는 단단해요. 모드를 셀 수 있는 것도 그 덕분이에요.' },
+  { t: '에너지 보존 법칙', why: '에너지 보존은 어디서나 맞았어요. 파탄은 에너지를 나누는 방법에서 생겨요.' },
+]}>
+
+자외선 파탄을 풀려면 고전물리학의 무엇을 가장 먼저 의심해야 할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="실제 곡선이 주는 단서">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '진동수가 낮은 모드', caption: '거의 kT를 받아요' },
+      { big: '진동수가 높은 모드', caption: 'kT보다 훨씬 적게, 거의 0을 받아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+실제 곡선을 모드 수로 나눠 보면, 모드 하나가 받는 평균 에너지를 거꾸로 구할 수 있어요. 낮은 진동수의 모드는 거의 kT를 받고, 높은 진동수의 모드는 거의 0을 받아요.
+
+<S n={2}>
+
+진동수가 높은 진동일수록 에너지를 받기 어려운 까닭이 있어야 해요. 그 까닭은 32강에서 막스 플랑크가 찾아내요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['ultraviolet-catastrophe']}>
+
+1. 상자 속 빛의 모드 수는 진동수의 제곱에 비례하고, 등분배는 모드마다 kT를 줘요.
+2. 둘을 곱하면 진동수가 높을수록 빛이 세져서, 다 더한 에너지가 무한대가 돼요(자외선 파탄).
+3. 실제 흑체의 곡선은 낮은 진동수에서만 이 계산과 맞고, 높은 쪽에서는 0으로 내려와요.
+4. 그러니 진동수가 높은 진동에는 kT가 돌아가지 않는다는 뜻이고, 등분배를 의심해야 해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="kT를 받는 모드">
+
+<DailyProblem id="p30">
+
+5,000 K 흑체 상자 속에 1초에 10조 번 진동하는 빛의 모드와, 1,000조 번 진동하는 빛의 모드가 있어요.
+
+이 가운데 실제로 kT에 가까운 에너지를 가진 모드는 어느 쪽일까요? 오늘의 두 곡선을 떠올려 근거를 대 보세요.
+
+<Fragment slot="hint1">
+
+두 곡선이 거의 겹치는 곳에서는 고전 계산, 그러니까 모드마다 kT를 준 계산이 맞아요. 10조 번과 1,000조 번은 각각 어디쯤인가요?
+
+</Fragment>
+<Fragment slot="solution">
+
+1초에 10조 번 진동하는 모드예요. 이 진동수에서는 실제 곡선과 고전 계산이 거의 겹치니까, 모드마다 kT를 받는다는 계산이 맞아요.
+
+1,000조 번은 자외선이라 실제 곡선이 거의 0이에요. 고전 계산과 달리 이 모드는 kT보다 훨씬 적은 에너지만 가져요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+끝없이 많은 빛의 모드에 kT씩 나눠 주면 흑체의 에너지가 무한대가 되는데 실제로는 그렇지 않으니, 진동수가 높은 모드에는 kT가 돌아가지 않는다는 뜻이에요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="1900년의 두 구름">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cloud', title: '첫째 구름', caption: '' },
+      { icon: 'cloud', title: '둘째 구름', caption: '' },
+    ]} />
+  </Fragment>
+
+1900년, 물리학자들은 몇 가지 풀리지 않는 문제를 안고 새 세기를 맞았어요. 그해 4월 켈빈 경은 물리학의 맑은 하늘에 '구름 두 조각'이 떠 있다고 말했죠.
+
+<S n={2}>
+
+다음 강에서는 그 두 구름이 무엇이었는지, 그리고 그 두 구름이 각각 상대성이론과 양자역학이라는 두 혁명으로 이어진 이야기를 따라가 볼게요.
+
+</S>
+
+</Screen>
