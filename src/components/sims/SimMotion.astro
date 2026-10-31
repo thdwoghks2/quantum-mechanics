@@ -1,0 +1,133 @@
+---
+/** 자동차의 가속: 가속도와 처음 속도를 정하면, 시간에 따른 속도 그래프가 그려진다. */
+interface Props {
+  a?: number;
+  v0?: number;
+}
+const { a = 2, v0 = 0 } = Astro.props;
+---
+<qm-sim-motion class="sim" data-ratio="0.66">
+  <canvas aria-label="도로 위 자동차와 속도-시간 그래프. 가속도와 처음 속도를 바꿀 수 있다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for="mo-a">가속도</label>
+      <input id="mo-a" type="range" min="-3" max="4" step="0.5" value={a} data-param="a" />
+      <output data-out="a"></output>
+    </div>
+    <div class="sim__row">
+      <label for="mo-v">처음 속도</label>
+      <input id="mo-v" type="range" min="0" max="20" step="1" value={v0} data-param="v0" />
+      <output data-out="v0"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="off"></p>
+</qm-sim-motion>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const T = 8;
+  const VMAX = 40;
+
+  class SimMotion extends Sim {
+    trail: [number, number][] = [];
+
+    v(t: number) {
+      return Math.max(0, this.p.v0! + this.p.a! * t);
+    }
+
+    x(t: number) {
+      // 멈춘 뒤에는 더 가지 않는다.
+      const { a, v0 } = this.p as { a: number; v0: number };
+      if (a < 0) {
+        const tStop = v0 / -a;
+        const tt = Math.min(t, tStop);
+        return v0 * tt + 0.5 * a * tt * tt;
+      }
+      return v0 * t + 0.5 * a * t * t;
+    }
+
+    changed() {
+      this.t = 0;
+      this.trail = [];
+    }
+
+    reset() {
+      this.trail = [];
+    }
+
+    tick() {
+      if (this.t > T) {
+        this.t = 0;
+        this.trail = [];
+      }
+      this.trail.push([this.t, this.v(this.t)]);
+    }
+
+    format(name: string) {
+      return name === 'a' ? `${this.p.a} m/s²` : `${this.p.v0} m/s`;
+    }
+
+    readout() {
+      return `시간 ${this.t.toFixed(1)} s · 속도 ${this.v(this.t).toFixed(1)} m/s · 간 거리 ${this.x(this.t).toFixed(0)} m`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      // 도로
+      const roadY = h * 0.18;
+      this.line(0, roadY + 14, w, roadY + 14, c.line, 2);
+      const dist = this.x(this.t);
+      const stripe = 40;
+      const off = (dist * 6) % stripe;
+      for (let sx = -off; sx < w; sx += stripe) this.line(sx, roadY + 26, sx + 18, roadY + 26, c.muted, 1.5);
+      // 자동차 (가운데 고정, 바닥이 흘러간다)
+      const cx = w * 0.3;
+      const g = this.ctx;
+      g.fillStyle = c.motion;
+      g.fillRect(cx - 22, roadY - 6, 44, 14);
+      g.fillRect(cx - 12, roadY - 15, 24, 10);
+      this.dot(cx - 13, roadY + 9, 4.5, c.text2);
+      this.dot(cx + 13, roadY + 9, 4.5, c.text2);
+      const v = this.v(this.t);
+      if (v > 0.1) this.arrow(cx + 26, roadY, cx + 26 + Math.min(120, v * 4), roadY, c.motion, 2);
+      this.text(`${v.toFixed(1)} m/s`, cx + 34 + Math.min(120, v * 4), roadY, c.motion, 12);
+
+      // 그래프
+      const gx0 = 44;
+      const gx1 = w - 14;
+      const gy0 = h - 30;
+      const gy1 = h * 0.42;
+      const X = (t: number) => gx0 + (t / T) * (gx1 - gx0);
+      const Y = (vv: number) => gy0 - (vv / VMAX) * (gy0 - gy1);
+      for (let vv = 0; vv <= VMAX; vv += 10) {
+        this.line(gx0, Y(vv), gx1, Y(vv), c.line, 1);
+        this.text(String(vv), gx0 - 6, Y(vv), c.muted, 10, 'right');
+      }
+      for (let t = 0; t <= T; t += 2) this.text(String(t), X(t), gy0 + 12, c.muted, 10, 'center');
+      this.line(gx0, gy0, gx1, gy0, c.text2, 1.2);
+      this.line(gx0, gy0, gx0, gy1, c.text2, 1.2);
+      this.text('시간 (s)', (gx0 + gx1) / 2, h - 6, c.time, 11, 'center');
+      this.text('속도 (m/s)', gx0 + 4, gy1 - 10, c.motion, 11, 'left');
+      // 미리 그린 옅은 선 + 지나온 진한 선
+      g.strokeStyle = c.line;
+      g.setLineDash([4, 4]);
+      g.beginPath();
+      for (let t = 0; t <= T; t += 0.1) (t ? g.lineTo : g.moveTo).call(g, X(t), Y(Math.min(VMAX, this.v(t))));
+      g.stroke();
+      g.setLineDash([]);
+      g.strokeStyle = c.motion;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      const pts = this.trail.length ? this.trail : [[0, this.v(0)] as [number, number]];
+      pts.forEach(([t, vv], i) => (i ? g.lineTo(X(t), Y(Math.min(VMAX, vv))) : g.moveTo(X(t), Y(Math.min(VMAX, vv)))));
+      g.stroke();
+      this.dot(X(Math.min(this.t, T)), Y(Math.min(VMAX, v)), 4, c.accent);
+    }
+  }
+  define('qm-sim-motion', SimMotion);
+</script>

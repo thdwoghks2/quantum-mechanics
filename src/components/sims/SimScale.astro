@@ -1,0 +1,96 @@
+---
+/** 크기의 사다리: 10⁻¹⁰ m(원자)에서 10²⁷ m(관측 가능한 우주)까지. 한 칸이 10배. */
+interface Props {
+  start?: number;
+}
+const { start = 0 } = Astro.props;
+---
+<qm-sim-scale class="sim" data-ratio="0.56" data-autoplay="false">
+  <canvas aria-label="10의 거듭제곱 크기 사다리. 슬라이더로 크기를 바꾸면 그 크기에 있는 물체가 표시된다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for="scale-exp">크기 (m)</label>
+      <input id="scale-exp" type="range" min="-10" max="27" step="1" value={start} data-param="e" />
+      <output data-out="e"></output>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-scale>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const THINGS: [number, string, string][] = [
+    [-10, '원자 하나의 지름', '약 1 × 10⁻¹⁰ m'],
+    [-9, 'DNA 가닥의 굵기', '약 2 × 10⁻⁹ m'],
+    [-7, '감기 바이러스', '약 1 × 10⁻⁷ m'],
+    [-6, '세균 하나', '약 2 × 10⁻⁶ m'],
+    [-4, '머리카락 굵기', '약 1 × 10⁻⁴ m'],
+    [-3, '모래알 하나', '약 5 × 10⁻⁴ m'],
+    [0, '사람의 키', '약 1.6 m'],
+    [2, '30층 건물의 높이', '약 1 × 10² m'],
+    [4, '에베레스트의 높이', '약 8.8 × 10³ m'],
+    [5, '서울에서 부산까지', '약 3.3 × 10⁵ m'],
+    [7, '지구의 지름', '약 1.3 × 10⁷ m'],
+    [8, '지구에서 달까지', '약 3.8 × 10⁸ m'],
+    [11, '지구에서 태양까지', '약 1.5 × 10¹¹ m'],
+    [12, '태양에서 해왕성까지', '약 4.5 × 10¹² m'],
+    [16, '가장 가까운 별까지', '약 4 × 10¹⁶ m'],
+    [21, '우리 은하의 지름', '약 1 × 10²¹ m'],
+    [22, '안드로메다 은하까지', '약 2.4 × 10²² m'],
+    [27, '관측 가능한 우주의 지름', '약 8.8 × 10²⁶ m'],
+  ];
+  const SUP: Record<string, string> = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+  const sup = (n: number) => [...String(n)].map((c) => SUP[c]).join('');
+
+  class SimScale extends Sim {
+    animated = false;
+
+    nearest() {
+      const e = this.p.e!;
+      return THINGS.reduce((best, t) => (Math.abs(t[0] - e) < Math.abs(best[0] - e) ? t : best));
+    }
+
+    format() {
+      return `10${sup(this.p.e!)} m`;
+    }
+
+    readout() {
+      const [e, name, v] = this.nearest();
+      return e === this.p.e ? `${name}: ${v}` : `가장 가까운 것: ${name} (${v})`;
+    }
+
+    draw() {
+      const { ctx: g, w, h, c } = this;
+      const pad = 24;
+      const x = (e: number) => pad + ((e + 10) / 37) * (w - pad * 2);
+      const axisY = h * 0.62;
+      this.line(pad, axisY, w - pad, axisY, c.text2, 1.2);
+      for (let e = -10; e <= 27; e++) {
+        const big = e % 5 === 0;
+        this.line(x(e), axisY - (big ? 7 : 4), x(e), axisY + (big ? 7 : 4), c.muted, 1);
+        if (big) this.text(`10${sup(e)}`, x(e), axisY + 20, c.muted, 11, 'center');
+      }
+      for (const [e] of THINGS) this.dot(x(e), axisY, 3.5, c.space);
+      this.text('사람', x(0), axisY - 16, c.text2, 11, 'center');
+      // 현재 위치
+      const e = this.p.e!;
+      g.fillStyle = c.accent;
+      g.beginPath();
+      g.moveTo(x(e), axisY - 10);
+      g.lineTo(x(e) - 7, axisY - 22);
+      g.lineTo(x(e) + 7, axisY - 22);
+      g.closePath();
+      g.fill();
+      const [te, name, v] = this.nearest();
+      const exact = te === e;
+      this.text(exact ? name : '…', w / 2, h * 0.2, exact ? c.text : c.muted, 17, 'center');
+      this.text(exact ? v : `10${sup(e)} m 근처에는 표시한 물체가 없다`, w / 2, h * 0.2 + 26, c.text2, 13, 'center');
+      // 사람과의 차이
+      const diff = e;
+      const msg = diff === 0 ? '사람과 같은 자릿수' : diff > 0 ? `사람보다 ${diff}단계 크다 (10${sup(diff)}배)` : `사람보다 ${-diff}단계 작다 (10${sup(-diff)}분의 1)`;
+      this.text(msg, w / 2, h * 0.88, c.accent, 12, 'center');
+    }
+  }
+  define('qm-sim-scale', SimScale);
+</script>

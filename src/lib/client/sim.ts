@@ -162,6 +162,8 @@ export abstract class Sim extends HTMLElement {
     if (!this.w) return;
     this.ctx.clearRect(0, 0, this.w, this.h);
     this.draw();
+    const r = this.querySelector('.sim__readout');
+    if (r) r.textContent = this.readout();
   }
 
   renderOutputs() {

@@ -22,6 +22,7 @@ const BANNED = [
 ];
 const FLIP = [/문제는 [^.]{0,40}(였다|이다)\./, /가 아니라 [^.]{0,30}(이다|였다)\./];
 const DIRECTION = /(오른쪽|왼쪽|꼭대기|위쪽|아래쪽|쪽으로|언덕)/;
+const LITERAL = /(북|남|동|서|산|봉우리|에베레스트|롤러코스터|코스터|건물|탑|나무|미끄럼틀|그네|관람차|첫|두 번째)\s*$|(산|코스터|언덕|건물|탑|미끄럼틀)\s?\S*\s*$/;
 const GRAPHY = /<(Plot|Sim[A-Z]\w*|Spectrum|Flow)\b/;
 
 function walk(dir) {
@@ -66,7 +67,14 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
     const free = ['problem', 'three', 'check', 'worked', 'analogy', 'next'].includes(kind);
     if (!free && len > 320) warn(rel, at, `글이 ${len}자다. 한 화면 120~250자를 목표로 나눈다`);
 
-    if (DIRECTION.test(plain) && !GRAPHY.test(block)) warn(rel, at, `그래프가 없는 화면의 방향어 "${plain.match(DIRECTION)[0]}"`);
+    if (!GRAPHY.test(block)) {
+      for (const d of plain.matchAll(new RegExp(DIRECTION, 'g'))) {
+        // 산꼭대기, 롤러코스터 언덕처럼 실제 사물을 가리키면 괜찮다.
+        const before = plain.slice(Math.max(0, d.index - 10), d.index);
+        if (LITERAL.test(before)) continue;
+        warn(rel, at, `그래프가 없는 화면의 방향어 "${d[0]}"`);
+      }
+    }
 
     // 명사로 끝나는 문장: 마침표 앞 글자가 한글인데 "다/요/자/까/지/라/네/며/고/냐/서"로 끝나지 않는 것
     for (const s of plain.split(/(?<=[.?])\s+/)) {

@@ -1,0 +1,379 @@
+---
+number: 4
+title: 속도와 가속도
+short: 속도와 가속도
+question: 움직임을 숫자로 적으려면 무엇을 재야 하는가
+mechanism: 속력은 1초 동안 간 거리이고, 여기에 방향을 붙인 것이 속도다. 가속도는 1초 동안 속도가 바뀐 양이며, 속도-시간 그래프의 기울기로 보인다. 우리 몸이 느끼는 것은 속도가 아니라 가속도다.
+part: 0
+minutes: 22
+assumes: [unit, si, prefix, model, scientific-notation]
+introduces: [speed, velocity, acceleration]
+sources:
+  - "World Athletics: 남자 100 m 9.58초 (우사인 볼트, 2009 베를린 세계선수권)"
+  - "Graubner, R. & Nixdorf, E. Biomechanical Analysis of the Sprint and Hurdles Events at the 2009 IAAF World Championships, New Studies in Athletics (2011): 60~80 m 구간 최고 속력 약 12.4 m/s"
+testout: [q4-speed, q4-zero, q4-fall]
+status: published
+---
+
+<Screen kind="scene">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'runner', title: '우사인 볼트', caption: '100 m를 9.58초에 (2009년)' },
+      { icon: 'car', title: '고속도로의 자동차', caption: '계기판 100 km/h' },
+    ]} />
+  </Fragment>
+
+자메이카의 육상 선수 우사인 볼트는 2009년 베를린 세계선수권에서 100 m를 9.58초에 달렸다. 남자 100 m 세계 기록이다.
+
+고속도로를 달리는 자동차의 계기판에는 100 km/h가 찍혀 있다. 하나는 "100 m를 몇 초에", 다른 하나는 "1시간에 몇 km"로 적혀 있어서 이대로는 누가 빠른지 바로 비교할 수 없다.
+
+</Screen>
+
+<Screen kind="worked">
+  <Fragment slot="visual">
+    <DataTable caption="1초 동안 간 거리로 맞추기" head={['', '계산', '1초 동안 간 거리']} rows={[
+      ['볼트', '100 m ÷ 9.58 s', '약 10.4 m'],
+      ['자동차', '100,000 m ÷ 3,600 s', '약 27.8 m'],
+    ]} steps={[undefined, 2]} />
+  </Fragment>
+
+두 빠르기를 비교하려면 같은 기준으로 맞춰야 한다. 가장 쉬운 기준은 "1초 동안 몇 m를 가는가"다. 볼트는 100 m를 9.58초에 갔으니 100 ÷ 9.58로 1초에 약 10.4 m를 갔다.
+
+<S n={2}>
+
+자동차의 100 km/h는 3강에서 한 대로 바꾸면 100,000 m ÷ 3,600 s, 1초에 약 27.8 m다. 자동차가 볼트보다 2.7배쯤 빠르다.
+
+</S>
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="speed" />
+  </Fragment>
+
+1초 동안 움직인 거리를 **속력**이라고 한다. 움직인 거리를 걸린 시간으로 나눠 구하고, 단위는 m/s다.
+
+볼트의 속력은 약 10.4 m/s, 고속도로 자동차의 속력은 약 27.8 m/s다. 단위가 같아졌으니 이제 수만 비교하면 된다.
+
+</Screen>
+
+<Screen kind="compare">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { title: '100 m 전체의 평균', big: '10.4 m/s', caption: '100 m ÷ 9.58 s' },
+      { title: '가장 빨랐던 구간 (60~80 m)', big: '약 12.4 m/s', caption: '그 순간 속도계가 있었다면 가리켰을 값', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+볼트가 처음부터 끝까지 10.4 m/s로 달린 것은 아니다. 출발선에서는 멈춰 있었고, 점점 빨라져 60~80 m 구간에서 약 12.4 m/s까지 올라갔다.
+
+100 m를 9.58초로 나눈 10.4 m/s는 전체를 고르게 달렸다고 쳤을 때의 값, 곧 평균 속력이다. 자동차 계기판의 바늘이 가리키는 것은 그와 달리 바로 그 순간의 속력이다.
+
+</Screen>
+
+<Screen kind="check">
+
+<Numeric id="q4-speed" answer={1} tol={0.02} unit="m/s">
+
+집에서 학교까지 1.2 km를 걸어서 20분 걸렸다. 평균 속력은 몇 m/s인가?
+
+<Fragment slot="solution">
+
+1.2 km는 1,200 m이고 20분은 1,200초다. 1,200 m ÷ 1,200 s = 1 m/s다. 사람이 보통 걷는 빠르기가 1초에 1 m쯤이다.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '↑ 60 km/h', title: '북쪽으로', caption: '1시간 뒤 서울에서 60 km 북쪽' },
+      { big: '↓ 60 km/h', title: '남쪽으로', caption: '1시간 뒤 서울에서 60 km 남쪽' },
+    ]} />
+  </Fragment>
+
+서울에서 두 자동차가 똑같이 60 km/h로 출발했다. 한 대는 북쪽으로, 다른 한 대는 남쪽으로 갔다. 속력은 같지만 1시간 뒤 두 차는 120 km 떨어져 있다.
+
+어디에 도착할지 예측하려면 빠르기만으로는 부족하다. 어느 방향으로 가는지도 알아야 한다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="velocity" />
+  </Fragment>
+
+속력에 움직이는 방향까지 붙인 양을 **속도**라고 한다. "60 km/h"는 속력이고, "북쪽으로 60 km/h"는 속도다.
+
+일상에서는 속력과 속도를 섞어 쓰지만, 이 코스에서는 구별한다. 방향이 바뀌기만 해도 속도는 바뀐 것이다.
+
+</Screen>
+
+<Screen kind="step">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'field', title: '운동장 트랙을 같은 빠르기로 돈다', caption: '속력은 그대로다' },
+      { icon: 'clock', title: '그런데 방향이 계속 바뀐다', caption: '그래서 속도는 계속 바뀐다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+운동장 트랙을 똑같은 빠르기로 도는 사람을 생각해 보자. 속력은 그대로다. 그런데 직선 구간에서는 앞으로 가다가, 곡선 구간을 돌면서 방향이 바뀌고, 반대편 직선에서는 거꾸로 간다.
+
+방향이 바뀌니 속도는 계속 바뀐다. "같은 빠르기로 움직인다"와 "속도가 바뀌지 않는다"는 같은 말이 아니다.
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q4-const" options={[
+  { t: '곧은 도로를 계속 60 km/h로 달리는 자동차', ok: true, why: '빠르기도 방향도 그대로다. 속도가 바뀌지 않는다.' },
+  { t: '같은 빠르기로 도는 회전목마', why: '빠르기는 같아도 방향이 계속 바뀐다. 속도가 바뀐다.' },
+  { t: '초록불에 출발하는 자동차', why: '멈춰 있다가 빨라진다. 속력이 바뀌므로 속도도 바뀐다.' },
+  { t: '위로 던진 공', why: '올라가며 느려지고, 멈췄다가, 방향을 바꿔 떨어진다. 속도가 계속 바뀐다.' },
+]}>
+
+다음 가운데 **속도**가 바뀌지 않는 것은?
+
+</Check>
+
+</Screen>
+
+<Screen kind="scene">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'bus', title: '버스가 같은 빠르기로 달릴 때', caption: '눈을 감으면 움직이는지 잘 모른다' },
+      { icon: 'elevator', title: '엘리베이터가 출발하는 순간', caption: '몸이 바닥에 눌리는 느낌이 든다', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+곧은 고속도로를 같은 빠르기로 달리는 버스에서는, 눈을 감으면 움직이고 있는지 잘 모른다. 그런데 버스가 출발하거나 서거나 커브를 돌 때는 몸이 쏠린다.
+
+엘리베이터도 같다. 올라가는 동안에는 아무 느낌이 없다가, 출발하는 순간과 멈추는 순간에만 몸이 눌리거나 가벼워지는 느낌이 든다. 몸이 느끼는 것은 속도가 바뀌는 순간이다.
+
+</Screen>
+
+<Screen kind="define">
+  <Fragment slot="visual">
+    <Define term="acceleration" />
+  </Fragment>
+
+1초 동안 속도가 얼마나 바뀌었는지를 **가속도**라고 한다. 바뀐 속도를 걸린 시간으로 나눠 구한다.
+
+단위는 (m/s) ÷ s = m/s²로, "1초마다 몇 m/s씩 바뀌는가"라는 뜻이다. 속도가 그대로이면 아무리 빨리 달려도 가속도는 0이다.
+
+</Screen>
+
+<Screen kind="worked">
+  <Fragment slot="visual">
+    <DataTable caption="손에서 놓은 공 (공기를 무시한 모형)" head={['놓은 뒤', '속도', '1초 동안 바뀐 속도']} rows={[
+      ['0초', '0 m/s', ''],
+      ['1초', '9.8 m/s', '+9.8 m/s'],
+      ['2초', '19.6 m/s', '+9.8 m/s'],
+      ['3초', '29.4 m/s', '+9.8 m/s'],
+    ]} steps={[undefined, undefined, 2, 2]} />
+  </Fragment>
+
+손에서 놓은 공은 떨어지면서 점점 빨라진다. 공기를 무시하는 모형(1강)에서는 1초 뒤 9.8 m/s, 2초 뒤 19.6 m/s가 된다.
+
+<S n={2}>
+
+매초 9.8 m/s씩 빨라지므로 이 공의 가속도는 9.8 m/s²다. 이 값은 공이 무겁든 가볍든 같다. 지구 위에서 떨어지는 모든 물체의 가속도가 같다는 것은 17세기 이탈리아의 물리학자 갈릴레오 갈릴레이가 실험으로 보인 사실이다.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph">
+  <Fragment slot="visual">
+    <Plot
+      alt="떨어지는 공의 속도-시간 그래프. 시간이 1초 늘 때마다 속도가 9.8 m/s씩 늘어나는 곧은 선"
+      x={[0, 3.2]} y={[0, 32]}
+      xLabel="시간 (s)" yLabel="속도 (m/s)" xq="time" yq="motion"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 10, 20, 30]}
+      axisSteps={[1, 2]}
+      curves={[{ fn: '9.8 * x', q: 'motion', step: 3 }]}
+      points={[{ x: 2, y: 19.6, label: '2초 뒤 19.6 m/s', q: 'motion', step: 4 }]}
+    />
+  </Fragment>
+
+이 공의 움직임을 그래프로 그려 보자. 처음 나오는 그래프이니 한 부분씩 읽는다.
+
+<S n={1}>
+
+가로축은 공을 놓은 뒤 지난 시간이다. 오른쪽으로 갈수록 시간이 지난 것이다.
+
+</S>
+
+<S n={2}>
+
+세로축은 그 순간의 속도다. 위로 갈수록 빠르다.
+
+</S>
+
+<S n={3}>
+
+시간마다 속도를 점으로 찍고 이으면 곧은 선이 된다. 1초마다 같은 만큼 빨라지기 때문이다.
+
+</S>
+
+<S n={4}>
+
+선 위의 한 점은 "2초가 지났을 때 속도는 19.6 m/s"처럼 읽는다. 이런 그래프를 속도-시간 그래프라고 부른다.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph">
+  <Fragment slot="visual">
+    <Plot
+      alt="기울기가 다른 세 직선. 가속도 9.8, 3, 0인 경우"
+      x={[0, 3.2]} y={[0, 32]}
+      xLabel="시간 (s)" yLabel="속도 (m/s)" xq="time" yq="motion"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 10, 20, 30]}
+      curves={[
+        { fn: '9.8 * x', q: 'motion', label: '가속도 9.8', labelAt: [2.05, 26] },
+        { fn: '3 * x + 2', q: 'time', label: '가속도 3', labelAt: [2.5, 13] },
+        { fn: '15', q: 'plain', label: '가속도 0', labelAt: [2.4, 17.5], dash: true },
+      ]}
+    />
+  </Fragment>
+
+속도-시간 그래프에서 선이 가파를수록 속도가 빨리 바뀐다. 시간이 1초 늘 때 선이 몇 m/s 올라가는지가 바로 가속도다. 이 올라가는 정도를 선의 기울기라고 한다.
+
+선이 가로로 평평하면 시간이 지나도 속도가 그대로라는 뜻이다. 그 물체의 가속도는 0이다. 선이 오른쪽으로 갈수록 내려가면 속도가 줄고 있는 것이다.
+
+</Screen>
+
+<Screen kind="observe">
+  <Fragment slot="visual">
+    <SimMotion a={2} v0={0} />
+  </Fragment>
+
+가속도를 0, 2, 4로 바꿔 가며 그래프의 기울기를 보자. 그다음 처음 속도를 20 m/s로 놓고 가속도를 −2로 해 보자.
+
+<S n={2}>
+
+가속도가 음수이면 속도가 줄어든다. 브레이크를 밟은 자동차다. 물리학에서는 느려지는 것도 속도가 바뀌는 것이므로 가속도가 있다고 말한다. 방향이 반대인 가속도다.
+
+</S>
+
+</Screen>
+
+<Screen kind="check">
+
+<Check id="q4-zero" options={[
+  { t: '0', ok: true, why: '속도가 바뀌지 않으니 가속도는 0이다. 빠르다는 것과 가속도가 크다는 것은 다른 이야기다.' },
+  { t: '100 km/h', why: '이것은 속력이다. 단위도 가속도의 단위(m/s²)가 아니다.' },
+  { t: '약 27.8 m/s²', why: '100 km/h를 m/s로 바꾼 값 27.8에 가속도의 단위를 붙였다. 속력을 가속도로 착각한 것이다.' },
+  { t: '알 수 없다', why: '곧은 길에서 같은 빠르기를 유지한다는 정보만으로 충분하다. 속도가 그대로이므로 가속도는 0이다.' },
+]}>
+
+곧은 고속도로에서 계속 100 km/h로 달리는 자동차의 가속도는?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked">
+  <Fragment slot="visual">
+    <Plot
+      alt="떨어지는 공의 속도-시간 그래프 아래 삼각형 넓이가 3초 동안 떨어진 거리 44.1 m"
+      x={[0, 3.2]} y={[0, 32]}
+      xLabel="시간 (s)" yLabel="속도 (m/s)" xq="time" yq="motion"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 10, 20, 30]}
+      curves={[{ pts: [[0, 0], [3, 29.4]], q: 'motion', fill: true }]}
+      lines={[{ y: 14.7, label: '평균 14.7 m/s', step: 2 }]}
+      points={[{ x: 3, y: 29.4, label: '3초 뒤 29.4 m/s', q: 'motion', dx: -110, dy: -10 }]}
+    />
+  </Fragment>
+
+3초 동안 공은 얼마나 떨어졌을까? 속도가 0에서 29.4 m/s까지 고르게 늘었으므로, 3초 동안의 평균 속도는 그 중간인 14.7 m/s다.
+
+<S n={2}>
+
+거리는 평균 속도 × 시간이므로 14.7 m/s × 3 s = 44.1 m다. 그래프에서는 선 아래 삼각형의 넓이(밑변 3 × 높이 29.4 ÷ 2)와 같은 값이다. 속도-시간 그래프 아래의 넓이가 간 거리다.
+
+</S>
+
+</Screen>
+
+<Screen kind="problem">
+
+<DailyProblem id="p4">
+
+다리 위에서 돌을 가만히 놓았더니, 물에 닿기까지 2.5초가 걸렸다. 공기를 무시하는 모형으로 계산하자.
+
+① 물에 닿는 순간 돌의 속도는?
+
+<Numeric id="q4-fall" answer={30.6} tol={0.03} unit="m">
+
+② 다리는 물 위로 몇 m 높이에 있는가?
+
+<Fragment slot="solution">
+
+닿는 순간의 속도는 9.8 × 2.5 = 24.5 m/s. 평균 속도는 (0 + 24.5) ÷ 2 = 12.25 m/s. 높이는 12.25 × 2.5 ≈ 30.6 m.
+
+</Fragment>
+</Numeric>
+
+③ 실제로는 공기가 돌을 조금 붙잡는다. 공기를 무시한 이 계산은 다리 높이를 실제보다 크게 잡았을까, 작게 잡았을까?
+
+<Fragment slot="hint1">
+
+가속도가 9.8 m/s²이면 1초마다 9.8 m/s씩 빨라진다. 2.5초면 몇 m/s가 되는가?
+
+</Fragment>
+<Fragment slot="hint2">
+
+속도가 고르게 늘었으므로 평균 속도는 처음과 마지막의 한가운데다. 거리는 평균 속도에 시간을 곱한 값이다.
+
+</Fragment>
+<Fragment slot="hint3">
+
+공기가 붙잡으면 돌은 계산보다 느리게 빨라진다. 같은 2.5초 동안 계산보다 더 많이 떨어질까, 덜 떨어질까?
+
+</Fragment>
+<Fragment slot="solution">
+
+① 24.5 m/s (약 88 km/h).
+
+② 약 30.6 m. 10층 건물 높이쯤이다.
+
+③ 크게 잡았다. 공기가 있으면 돌은 계산보다 느리게 빨라지므로, 같은 2.5초 동안 실제로는 30.6 m보다 덜 떨어진다. 그러니 실제 다리는 30.6 m보다 조금 낮다. 돌처럼 작고 무거운 물체라면 이 차이는 작다. 1강에서 본 것처럼 모형이 맞는 정도는 물체에 따라 다르다.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="three">
+
+오늘 배운 것을 자기 말로 세 줄로 적어 보자.
+
+<ThreeLines>
+
+1. 속력은 1초 동안 간 거리이고, 거기에 방향을 붙인 것이 속도다. 방향만 바뀌어도 속도는 바뀐다.
+2. 가속도는 1초 동안 속도가 바뀐 양이고, 속도-시간 그래프의 기울기로 보인다. 떨어지는 물체의 가속도는 9.8 m/s²다.
+3. 우리 몸이 느끼는 것은 빠르기가 아니라 속도가 바뀌는 순간, 곧 가속도다.
+
+</ThreeLines>
+
+</Screen>
+
+<Screen kind="next">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cart', title: '카트를 밀면', caption: '움직인다' },
+      { icon: 'cart', title: '손을 떼면', caption: '곧 멈춘다', tone: 'dim' },
+    ]} arrows />
+  </Fragment>
+
+마트에서 카트를 밀면 움직이고, 손을 떼면 얼마 안 가 멈춘다. 그래서 많은 사람이 물체가 움직이려면 누군가 계속 밀어 줘야 한다고 생각한다. 2,000년 가까이 학자들도 그렇게 생각했다.
+
+다음 강에서는 이 생각이 어디서 틀렸는지 보고, 무엇이 속도를 바꾸는지, 같은 원인이 물체마다 얼마나 다른 가속도를 만드는지 다룬다.
+
+</Screen>
