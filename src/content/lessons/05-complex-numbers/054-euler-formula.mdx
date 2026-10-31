@@ -1,0 +1,415 @@
+---
+number: 54
+title: 오일러 공식
+short: 오일러 공식
+question: 이자를 옆으로 붙이면 돈은 어떻게 될까요?
+mechanism: 이자를 아주 잘게 쪼개 자주 붙이면 1년 뒤의 돈은 (1 + 1/n)ⁿ배가 되고, n이 커질수록 e ≈ 2.718에 다가가요. 이번엔 실수 대신 i를 붙여, 1에 (1 + iθ/n)을 n번 곱해 봐요. i를 곱한 몫은 옆으로 붙으니까 한 번 곱할 때마다 길이는 거의 그대로이고 아주 조금씩 돌아가서, n이 커질수록 결과는 길이 1이고 θ만큼 돈 화살표에 다가가요. 그 화살표의 가로는 cos θ, 세로는 sin θ라서 e^(iθ) = cos θ + i sin θ예요. 일정한 빠르기로 돌아가는 이 화살표의 높이가 파동이에요.
+part: 5
+year: 1748
+minutes: 22
+epigraph:
+  text: "수학에서 가장 놀라운 공식, e^(iθ) = cos θ + i sin θ. 이것이 우리의 보석이다."
+  by: 리처드 파인먼
+  source: 『파인먼의 물리학 강의』 1권 22장 (1963)
+assumes: [complex-number, complex-plane, modulus, argument, imaginary-number, sine, phase, wave, period, power-of-ten]
+introduces: [euler-formula]
+sources:
+  - "Euler, L. Introductio in analysin infinitorum (1748), Vol. 1, Ch. 8"
+  - "Bernoulli, J. Quæstiones nonnullæ de usuris (1690): 복리 문제"
+  - "Feynman, R. P., Leighton, R. B. & Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 22 (1963)"
+  - "Wells, D. Are these the most beautiful? The Mathematical Intelligencer 12(3), 37–41 (1990)"
+  - "Needham, T. Visual Complex Analysis (1997), Ch. 2"
+testout: [q54-pi, q54-half, q54-add]
+status: published
+---
+
+<Screen kind="scene" title="불어나는 돈">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '해마다 10 %', caption: '7년 남짓이면 2배' },
+      { big: '이자에 또 이자', caption: '복리라고 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+주식이나 예금의 수익이 해마다 10 %씩 붙으면, 7년 남짓 만에 돈이 2배가 돼요. 이자에 또 이자가 붙어 불어나기 때문이에요. 이런 계산을 복리라고 하죠.
+
+<S n={2}>
+
+53강 끝에서 아주 작게 아주 많이 돌면 어떻게 되는지 물었어요. 그 답은 뜻밖에도 이 복리 계산에서 시작해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="이자를 쪼개면">
+  <Fragment slot="visual">
+    <DataTable caption="1년 이자율 100 %를 쪼개 붙이면" head={['붙이는 횟수', '1년 뒤']} rows={[
+      ['1년에 한 번 (100 %)', '2배'],
+      ['반년마다 (50 %씩 두 번)', '1.5 × 1.5 = 2.25배'],
+      ['달마다 (12번)', '약 2.613배'],
+      ['날마다 (365번)', '약 2.715배'],
+    ]} />
+  </Fragment>
+
+1년 이자율이 100 %라고 해 볼게요. 1년 뒤에 한 번 붙이면 돈은 2배예요.
+
+<S n={2}>
+
+반년마다 50 %씩 두 번 붙이면 1.5 × 1.5 = 2.25배로 더 많아져요. 앞서 붙은 이자에도 이자가 붙거든요. 달마다, 날마다로 더 잘게 쪼개면 조금씩 더 늘어나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="더 잘게 쪼개기">
+  <Fragment slot="visual">
+    <SimP05Euler mode="interest" />
+  </Fragment>
+
+버튼을 눌러 이자를 붙이는 횟수를 늘려 보세요. 1년 뒤의 돈이 어떻게 바뀌는지 보세요.
+
+<S n={2}>
+
+횟수를 늘릴수록 돈은 늘지만, 늘어나는 폭은 점점 줄어요. 아무리 잘게 쪼개도 2.718배쯤을 넘지 못해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="e라는 수">
+  <Fragment slot="visual">
+    <BigNumber top="1년 이자율 100 %를 한없이 잘게 쪼개 붙이면" value="e ≈ 2.71828…" bottom="1683년 야코프 베르누이가 이 복리 문제에서 처음 마주쳤어요" q="energy" />
+  </Fragment>
+
+(1 + 1/n)을 n번 곱한 값은 n이 커질수록 2.71828…이라는 수에 다가가요. 1683년 스위스의 야코프 베르누이가 이 복리 문제를 풀다 처음 마주친 수예요.
+
+<S n={2}>
+
+이 수에 e라는 이름을 붙인 사람은 레온하르트 오일러예요. 저절로 불어나는 것들을 계산할 때마다 나와서, 원주율 π만큼 중요한 수가 됐어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={53} title="길이 1인 수를 곱하면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '절댓값은 곱하고', caption: '1을 곱하면 길이는 그대로' },
+      { big: '편각은 더해요', caption: '곱할 때마다 같은 각도씩 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+53강에서 복소수를 곱하면 절댓값은 곱해지고 편각은 더해진다고 했어요. 그래서 길이가 1인 수를 거듭 곱하면 시계 바늘처럼 같은 각도씩 돌아갔죠.
+
+<S n={2}>
+
+이제 복리 계산에서 붙이던 이자를 실수 대신 허수로 바꿔 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="이자를 옆으로 붙이면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1 × (1 + 0.01)', caption: '같은 방향으로 1 % 붙어요. 자라요' },
+      { big: '1 × (1 + 0.01i)', caption: '옆으로 1 % 붙어요. 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1에 1.01을 곱하면 같은 방향으로 1 %가 붙어서 길이가 자라요. 그런데 1에 1 + 0.01i를 곱하면 0.01이 i 방향, 곧 **옆으로** 붙어요.
+
+<S n={2}>
+
+옆으로 아주 조금 붙으면 길이는 거의 그대로이고 방향만 아주 조금 틀어져요. 1 + 0.01i의 길이는 약 1.00005이고, 아주 작은 각도만큼 돌아가 있죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="각도를 길이로 재기">
+  <Fragment slot="visual">
+    <DataTable caption="반지름 1인 원에서 호의 길이로 잰 각도 (라디안)" head={['각도', '호의 길이']} rows={[
+      ['한 바퀴 360°', '2π ≈ 6.28'],
+      ['반 바퀴 180°', 'π ≈ 3.14'],
+      ['4분의 1바퀴 90°', 'π/2 ≈ 1.57'],
+      ['약 57.3°', '1'],
+    ]} />
+  </Fragment>
+
+여기서 각도를 재는 새 방법이 하나 필요해요. 반지름 1인 원에서 돌아간 만큼의 호의 길이로 각도를 재는 방법이고, **라디안**이라고 해요.
+
+<S n={2}>
+
+원둘레가 2π이니 한 바퀴는 2π, 반 바퀴는 π예요. 1 + 0.01i를 곱하면 거의 정확히 0.01라디안만큼 돌아가요. 옆으로 붙인 몫이 곧 돌아간 호의 길이가 되거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="잘게 쪼개 돌기">
+  <Fragment slot="visual">
+    <SimP05Euler mode="steps" />
+  </Fragment>
+
+1에 (1 + iθ/n)을 n번 곱한 점들을 이어 그렸어요. θ는 π, 곧 반 바퀴로 두고 n을 1부터 점점 늘려 보세요.
+
+<S n={2}>
+
+n이 작으면 점들이 원 바깥으로 삐져나가요. n을 키울수록 점들이 원에 붙고, 끝점은 반 바퀴 돈 자리인 −1에 다가가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="복리와 회전">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '(1 + 1/n)ⁿ → e', title: '같은 방향으로 붙이면', caption: '2.718배로 자라요' },
+      { big: '(1 + iθ/n)ⁿ → e^(iθ)', title: '옆으로 붙이면', caption: '길이 1 그대로, θ만큼 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+같은 방향으로 잘게 쪼개 붙이면 e배로 자랐어요. 옆으로 잘게 쪼개 붙이면 자라지 않고 θ만큼 돌아요.
+
+<S n={2}>
+
+그래서 수학자들은 이 끝점을 e의 iθ 제곱, $e^{i\theta}$라고 써요. 복리의 e와 똑같은 계산에서 나왔으니까요.
+
+<Key>(1 + 1/n)을 n번 곱하면 e로 자라지만, 이자를 옆으로 붙여 (1 + iθ/n)을 n번 곱하면 한 번마다 아주 조금씩 돌기만 해서, 결과는 길이 1이고 θ만큼 돈 화살표, 곧 e의 iθ 제곱이 돼요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="화살표의 가로와 세로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '세로 = sin θ', caption: '12강: 원 위 점의 높이' },
+      { big: '가로 = cos θ', caption: '원 위 점의 가로 자리', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+길이 1이고 편각이 θ인 화살표의 끝은 반지름 1인 원 위에 있어요. 12강에서 그 점의 높이를 sin θ라고 했죠.
+
+<S n={2}>
+
+그 점의 가로 자리는 cos θ라고 불러요. 그러니 이 화살표는 실수부가 cos θ, 허수부가 sin θ인 복소수예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="오일러 공식이라는 이름">
+  <Fragment slot="visual">
+    <Define term="euler-formula" />
+  </Fragment>
+
+두 이야기를 합치면 $e^{i\theta} = \cos\theta + i\sin\theta$예요. 1748년 오일러가 책으로 펴낸 이 식을 **오일러 공식**이라고 불러요.
+
+<S n={2}>
+
+등호 앞은 복리처럼 잘게 쪼개 돈 결과이고, 등호 뒤는 원 위 점의 가로와 세로예요. 같은 화살표를 두 가지로 말한 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="몇 가지 각도">
+  <Fragment slot="visual">
+    <DataTable caption="e^(iθ) = cos θ + i sin θ" head={['θ', '돌아간 만큼', 'e^(iθ)']} rows={[
+      ['0', '안 돎', '1'],
+      ['π/2', '4분의 1바퀴', 'i'],
+      ['π', '반 바퀴', '−1'],
+      ['2π', '한 바퀴', '1'],
+    ]} />
+  </Fragment>
+
+θ = 0이면 돌지 않았으니 1이에요. θ = π/2면 4분의 1바퀴 돌아서 i, θ = π면 반 바퀴 돌아서 −1이에요.
+
+<S n={2}>
+
+θ = 2π면 한 바퀴를 돌아 다시 1이에요. 52강에서 i를 네 번 곱해 제자리로 온 것과 같은 그림이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="가장 아름다운 식">
+  <Fragment slot="visual">
+    <BigNumber top="오일러 공식에 θ = π를 넣으면" value="e^(iπ) + 1 = 0" bottom="1990년 수학 잡지 독자들이 가장 아름다운 정리로 고른 식" />
+  </Fragment>
+
+θ = π를 넣으면 $e^{i\pi} = -1$이에요. 옮겨 쓰면 $e^{i\pi} + 1 = 0$이죠. 수학에서 가장 중요한 수 e, i, π, 1, 0이 한 줄에 모였어요.
+
+<S n={2}>
+
+1990년 한 수학 잡지가 독자들에게 가장 아름다운 정리를 묻자 이 식이 1위에 올랐어요. 파인먼은 오일러 공식을 우리의 보석이라고 불렀고요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="반 바퀴">
+
+<Check id="q54-pi" options={[
+  { t: '−1', ok: true, why: 'e^(iπ)는 길이 1인 화살표를 π, 곧 반 바퀴 돌린 거예요. 1을 반 바퀴 돌리면 −1이에요.' },
+  { t: '1', why: '1이 되려면 한 바퀴, 곧 2π를 돌아야 해요. π는 반 바퀴예요.' },
+  { t: 'i', why: 'i는 4분의 1바퀴, 곧 π/2만큼 돈 화살표예요.' },
+  { t: '약 23.1', why: 'e를 π번 곱한 값(실수의 거듭제곱)과 달라요. iπ는 크기를 키우지 않고 반 바퀴 돌려요.' },
+]}>
+
+오일러 공식으로 볼 때, $e^{i\pi}$는 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="4분의 1바퀴">
+
+<Check id="q54-half" options={[
+  { t: 'i', ok: true, why: 'π/2는 4분의 1바퀴예요. cos(π/2) = 0, sin(π/2) = 1이니 0 + 1i = i예요.' },
+  { t: '−i', why: '−i는 4분의 3바퀴, 곧 3π/2만큼 돈 화살표예요.' },
+  { t: '0', why: 'e^(iθ)의 길이는 늘 1이에요. 0이 될 수 없어요.' },
+  { t: '1/2', why: '각도를 반으로 나눈 값이 아니에요. π/2만큼 돈 화살표의 끝을 찾아요.' },
+]}>
+
+$e^{i\pi/2}$는 무엇일까요? π/2는 90°예요.
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="두 번 돌기">
+
+<Check id="q54-add" options={[
+  { t: 'e^(i·3)', ok: true, why: '곱하면 편각이 더해지니, 1라디안 돈 뒤 2라디안 더 돌면 3라디안 돈 화살표예요.' },
+  { t: 'e^(i·2)', why: '편각은 곱하지 않고 더해요. 1 × 2가 아니라 1 + 2예요.' },
+  { t: '2e^(i·3)', why: '두 화살표 모두 길이가 1이라, 곱해도 길이는 1이에요.' },
+  { t: 'e^(i·1) + e^(i·2)', why: '곱셈을 덧셈으로 바꾸면 안 돼요. 곱하면 각도가 더해진 화살표 하나가 돼요.' },
+]}>
+
+53강에서 복소수를 곱하면 편각이 더해진다고 했어요. $e^{i\cdot 1} \times e^{i\cdot 2}$는 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="observe" title="돌아가는 화살표의 그림자">
+  <Fragment slot="visual">
+    <SimCircleSine />
+  </Fragment>
+
+이제 θ를 시간에 따라 일정하게 키워 볼게요. 재생하면 화살표가 일정한 빠르기로 돌고, 그 끝의 높이가 곡선으로 그려져요.
+
+<S n={2}>
+
+화살표의 높이 sin θ가 12강의 사인 곡선, 곧 파동의 모양이에요. **일정하게 돌아가는 화살표 하나가 파동 하나**를 담고 있는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="화살표 전체가 필요해요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '그림자만', title: '보통의 파동', caption: '높이 sin θ만 있으면 돼요' },
+      { big: '화살표 전체', title: '양자역학', caption: '크기와 각도를 함께 써요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+물결이나 소리 같은 보통의 파동은 높이만 알면 돼요. 그래서 화살표의 그림자만 써도 충분하죠.
+
+<S n={2}>
+
+그런데 50강의 전자가 두 길을 지나 화면에서 만날 때는 사정이 달라요. 두 길의 파동을 더하려면 각각이 얼마나 돌았는지, 곧 화살표 전체가 필요해요. 그 계산을 다음 강에서 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="자라기와 돌기">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['같은 방향으로 붙는 이자', '1 + 1/n을 곱하기'],
+        ['1년 뒤 e배로 불어난 돈', '(1 + 1/n)ⁿ → e'],
+        ['옆으로 붙는 이자', '1 + iθ/n을 곱하기'],
+        ['길이는 그대로, θ만큼 돈 화살표', '(1 + iθ/n)ⁿ → e^(iθ)'],
+      ]}
+      fits="둘 다 아주 작게 여러 번 곱하는 같은 계산이에요. 붙는 방향만 다르고, 그래서 하나는 자라고 하나는 돌아요."
+      breaks="실제 돈에 허수 이자를 붙일 수는 없어요. 옆으로 붙는 이자는 복소평면 위에서만 뜻이 있는 그림이에요. 그리고 돈은 끝없이 불어나지만, 화살표는 아무리 돌아도 길이가 1로 그대로예요."
+    />
+  </Fragment>
+
+오늘의 두 이야기를 나란히 놓아 볼게요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['euler-formula', 'modulus', 'argument']}>
+
+1. 이자를 잘게 쪼개 붙이면 (1 + 1/n)ⁿ이 되고, n이 커질수록 e ≈ 2.718에 다가가요.
+2. 이자를 옆으로 붙여 (1 + iθ/n)을 n번 곱하면, 한 번마다 길이는 거의 그대로이고 조금씩 돌기만 해요.
+3. 그래서 결과는 길이 1이고 θ만큼 돈 화살표, $e^{i\theta} = \cos\theta + i\sin\theta$예요. 이게 오일러 공식이에요.
+4. θ를 일정하게 키우면 화살표가 돌고, 그 높이가 파동이 되니, 돌아가는 화살표 하나가 파동 하나를 담아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="세 번 곱해 1이 되는 수">
+
+<DailyProblem id="p54">
+
+세 번 곱해서 1이 되는 수는 실수 가운데에는 1 하나뿐이에요. 그런데 복소수에서는 1 말고도 두 개가 더 있어요. 오일러 공식과 회전으로 생각해서 찾아보세요.
+
+<Fragment slot="hint1">
+
+길이가 1인 화살표를 세 번 곱하면 각도가 세 번 더해져요. 세 번 더해서 한 바퀴(2π)가 되는 각도는 무엇일까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+세 번 돌아 한 바퀴가 되려면 한 번에 2π/3, 곧 120°씩 돌면 돼요. 그래서 $e^{i\cdot 2\pi/3}$는 세 번 곱하면 $e^{i\cdot 2\pi} = 1$이에요.
+
+240°, 곧 4π/3씩 돌아도 세 번이면 720°, 두 바퀴라서 1이 돼요. 그러니 1, $e^{i\cdot 2\pi/3}$, $e^{i\cdot 4\pi/3}$ 세 개가 답이에요. 복소평면에서 보면 반지름 1인 원 위에 120°씩 떨어져 정삼각형을 이루는 세 점이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+이자를 옆으로 잘게 쪼개 붙이면 자라지 않고 돌기만 해서, e의 iθ 제곱은 θ만큼 돈 길이 1인 화살표 cos θ + i sin θ가 돼요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="두 길의 화살표">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길 A의 화살표', caption: '' },
+      { big: '길 B의 화살표', caption: '' },
+      { big: '더한 뒤 제곱', caption: '닿을 확률', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 연장은 다 갖췄어요. 50강에서 전자는 두 길을 지나 화면에 닿았고, 어떤 자리에는 오히려 거의 닿지 않았죠.
+
+<S n={2}>
+
+다음 강에서는 리처드 파인먼의 방법을 배워요. 길마다 돌아가는 화살표를 하나씩 붙이고, 화살표들을 더한 뒤 그 길이를 제곱하면 전자가 닿을 확률이 나와요.
+
+</S>
+
+</Screen>
