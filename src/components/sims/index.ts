@@ -11,8 +11,13 @@ import SimCircleSine from './SimCircleSine.astro';
 import SimPulses from './SimPulses.astro';
 import SimRipple from './SimRipple.astro';
 import SimDoubleSlit from './SimDoubleSlit.astro';
+import SimLightColor from './SimLightColor.astro';
+import SimCharges from './SimCharges.astro';
+import SimAntenna from './SimAntenna.astro';
+import SimString from './SimString.astro';
 
 export const sims = {
   SimScale, SimMotion, SimForce, SimCoaster, SimCollision, SimChaos,
   SimOscillator, SimWave, SimCircleSine, SimPulses, SimRipple, SimDoubleSlit,
+  SimLightColor, SimCharges, SimAntenna, SimString,
 };

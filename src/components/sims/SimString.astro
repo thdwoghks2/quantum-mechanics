@@ -1,0 +1,92 @@
+---
+/** 양 끝이 고정된 줄의 진동 모드. n번째 모드는 반 파장 n개가 들어가고 진동수는 기본 진동수의 n배다. */
+interface Props {
+  n?: number;
+}
+const { n = 1 } = Astro.props;
+---
+<qm-sim-string class="sim" data-ratio="0.46">
+  <canvas aria-label="양 끝이 고정된 줄이 정상파로 떤다. 흔들리지 않는 점(마디)이 표시된다."></canvas>
+  <input type="hidden" data-param="n" value={n} />
+  <div class="sim__buttons" aria-label="진동 모드 고르기">
+    {[1, 2, 3, 4, 5].map((k) => (
+      <button type="button" class="btn" data-set={`n=${k}`} aria-pressed={k === n ? 'true' : 'false'}>{k}번째</button>
+    ))}
+    <button type="button" class="btn" data-set="n=0" aria-pressed={n === 0 ? 'true' : 'false'}>섞기 (1+2+3)</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-string>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const F1 = 0.5; // 화면에서 보기 좋게 느리게 (기본 진동수 0.5 Hz로 그린다)
+
+  class SimString extends Sim {
+    y(x: number) {
+      const n = this.p.n!;
+      const mode = (k: number) => Math.sin(k * Math.PI * x) * Math.cos(2 * Math.PI * k * F1 * this.t);
+      if (n === 0) return 0.7 * mode(1) + 0.35 * mode(2) + 0.25 * mode(3);
+      return mode(n);
+    }
+
+    readout() {
+      const n = this.p.n!;
+      if (n === 0) return '1, 2, 3번째 모드를 섞었다. 실제 악기 줄은 여러 모드로 동시에 떤다.';
+      return `${n}번째 모드 · 줄 위에 반 파장 ${n}개 · 파장 = 줄 길이의 ${n === 1 ? '2' : `2/${n}`}배 · 진동수 = 기본 진동수의 ${n}배 · 마디 ${n + 1}개(양 끝 포함)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const x0 = 24;
+      const x1 = w - 24;
+      const mid = h * 0.5;
+      const amp = h * 0.3;
+      // 고정된 양 끝
+      this.line(x0, mid - 22, x0, mid + 22, c.text2, 4);
+      this.line(x1, mid - 22, x1, mid + 22, c.text2, 4);
+      // 감싸는 모양 (흔들리는 범위)
+      const n = this.p.n!;
+      if (n > 0) {
+        g.fillStyle = 'rgba(143,198,163,0.10)';
+        g.beginPath();
+        for (let i = 0; i <= 200; i++) {
+          const x = i / 200;
+          const px = x0 + x * (x1 - x0);
+          const py = mid - amp * Math.abs(Math.sin(n * Math.PI * x));
+          if (i) g.lineTo(px, py);
+          else g.moveTo(px, py);
+        }
+        for (let i = 200; i >= 0; i--) {
+          const x = i / 200;
+          g.lineTo(x0 + x * (x1 - x0), mid + amp * Math.abs(Math.sin(n * Math.PI * x)));
+        }
+        g.closePath();
+        g.fill();
+      }
+      // 줄
+      g.strokeStyle = c.text;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let i = 0; i <= 300; i++) {
+        const x = i / 300;
+        const px = x0 + x * (x1 - x0);
+        const py = mid - amp * this.y(x);
+        if (i) g.lineTo(px, py);
+        else g.moveTo(px, py);
+      }
+      g.stroke();
+      // 마디
+      if (n > 0) {
+        for (let k = 0; k <= n; k++) {
+          const px = x0 + (k / n) * (x1 - x0);
+          this.dot(px, mid, 5, c.accent);
+        }
+        this.text('주황 점: 마디 (흔들리지 않는 점)', w / 2, h - 8, c.accent, 10, 'center');
+      }
+    }
+  }
+  define('qm-sim-string', SimString);
+</script>

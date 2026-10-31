@@ -1,0 +1,73 @@
+---
+/** 두 전하 사이의 전기력. 거리와 둘째 전하의 종류를 바꾸면 힘의 방향과 크기가 바뀐다. 두 힘은 늘 크기가 같고 방향이 반대다. */
+interface Props {
+  r?: number;
+}
+const { r = 2 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-charges class="sim" data-ratio="0.48" data-autoplay="false">
+  <canvas aria-label="두 전하와 서로에게 작용하는 전기력 화살표"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`ch-r-${uid}`}>두 전하 사이 거리</label>
+      <input id={`ch-r-${uid}`} type="range" min="1" max="4" step="0.5" value={r} data-param="r" />
+      <output data-out="r"></output>
+    </div>
+    <input type="hidden" data-param="sign" value="-1" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="sign=1" aria-pressed="false">B를 양(+)으로</button>
+      <button type="button" class="btn" data-set="sign=-1" aria-pressed="true">B를 음(−)으로</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-charges>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimCharges extends Sim {
+    animated = false;
+
+    format() {
+      return `${this.p.r} (단위 거리)`;
+    }
+
+    readout() {
+      const F = 1 / this.p.r! ** 2;
+      const kind = this.p.sign! > 0 ? '서로 민다' : '서로 당긴다';
+      return `${kind} · 거리 1일 때의 힘을 1로 잡으면 지금 힘은 ${F >= 0.1 ? F.toFixed(2) : F.toFixed(3)} (= 1 ÷ ${this.p.r}²)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const cy = h * 0.5;
+      const unit = (w - 80) / 4.4;
+      const ax = 40;
+      const bx = ax + this.p.r! * unit;
+      // 거리 표시
+      this.line(ax, cy + 40, bx, cy + 40, c.space, 1.5);
+      this.text(`거리 ${this.p.r}`, (ax + bx) / 2, cy + 52, c.space, 11, 'center');
+      // 전하
+      const draw = (x: number, sign: number, label: string) => {
+        this.dot(x, cy, 16, sign > 0 ? c.heat : c.charge);
+        this.text(sign > 0 ? '+' : '−', x, cy + 1, c.ink, 20, 'center');
+        this.text(label, x, cy - 28, c.text2, 11, 'center');
+      };
+      draw(ax, 1, 'A (+)');
+      draw(bx, this.p.sign!, `B (${this.p.sign! > 0 ? '+' : '−'})`);
+      // 힘 화살표: 길이는 1/r²에 비례
+      const len = Math.min(120, 80 / this.p.r! ** 2);
+      const repel = this.p.sign! > 0;
+      if (repel) {
+        this.arrow(ax - 18, cy, ax - 18 - len, cy, c.charge, 3);
+        this.arrow(bx + 18, cy, bx + 18 + len, cy, c.charge, 3);
+      } else {
+        this.arrow(ax + 18, cy, ax + 18 + len, cy, c.charge, 3);
+        this.arrow(bx - 18, cy, bx - 18 - len, cy, c.charge, 3);
+      }
+      this.text('화살표 길이 = 힘의 크기 (두 힘은 늘 크기가 같고 방향이 반대)', w / 2, h - 10, c.muted, 10, 'center');
+    }
+  }
+  define('qm-sim-charges', SimCharges);
+</script>

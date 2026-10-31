@@ -1,0 +1,116 @@
+---
+/**
+ * 빛의 진동수를 고르면 색과 파장이 나온다. 공기와 물을 바꾸면 파장과 속력은 바뀌지만 진동수와 색은 그대로다.
+ */
+interface Props {
+  thz?: number;
+  water?: 0 | 1;
+}
+const { thz = 460, water = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-light class="sim" data-ratio="0.5">
+  <canvas aria-label="고른 진동수의 빛의 색과 파장. 공기와 물에서의 파장을 비교한다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`lc-f-${uid}`}>진동수</label>
+      <input id={`lc-f-${uid}`} type="range" min="400" max="750" step="10" value={thz} data-param="f" />
+      <output data-out="f"></output>
+    </div>
+    <input type="hidden" data-param="water" value={water} />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="water=0" aria-pressed={water === 0 ? 'true' : 'false'}>공기 속</button>
+      <button type="button" class="btn" data-set="water=1" aria-pressed={water === 1 ? 'true' : 'false'}>물속</button>
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-light>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const C = 3e8;
+  const N_WATER = 1.33;
+
+  /** 공기 중 파장(nm)에서 대략의 색 */
+  function nmToRgb(nm: number): string {
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    if (nm < 440) [r, g, b] = [-(nm - 440) / 40, 0, 1];
+    else if (nm < 490) [r, g, b] = [0, (nm - 440) / 50, 1];
+    else if (nm < 510) [r, g, b] = [0, 1, -(nm - 510) / 20];
+    else if (nm < 580) [r, g, b] = [(nm - 510) / 70, 1, 0];
+    else if (nm < 645) [r, g, b] = [1, -(nm - 645) / 65, 0];
+    else [r, g, b] = [1, 0, 0];
+    const f = nm > 700 ? 0.3 + (0.7 * (750 - nm)) / 50 : nm < 420 ? 0.3 + (0.7 * (nm - 380)) / 40 : 1;
+    return `rgb(${Math.round(r * 255 * f)},${Math.round(g * 255 * f)},${Math.round(b * 255 * f)})`;
+  }
+
+  function name(nm: number) {
+    if (nm >= 620) return '빨강';
+    if (nm >= 590) return '주황';
+    if (nm >= 570) return '노랑';
+    if (nm >= 495) return '초록';
+    if (nm >= 450) return '파랑';
+    return '보라';
+  }
+
+  class SimLight extends Sim {
+    airNm() {
+      return (C / (this.p.f! * 1e12)) * 1e9;
+    }
+
+    nm() {
+      return this.airNm() / (this.p.water ? N_WATER : 1);
+    }
+
+    format() {
+      return `${this.p.f}조 Hz`;
+    }
+
+    readout() {
+      const v = this.p.water ? C / N_WATER : C;
+      return `1초에 ${this.p.f}조 번 진동 · 파장 ${this.nm().toFixed(0)} nm · 속력 ${(v / 1e8).toFixed(2)} × 10⁸ m/s · 색: ${name(this.airNm())}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const col = nmToRgb(this.airNm());
+      // 색 견본
+      g.fillStyle = col;
+      g.fillRect(12, 12, 54, 54);
+      this.text('눈에 보이는 색', 76, 24, c.text2, 11);
+      this.text(name(this.airNm()), 76, 46, c.text, 16);
+      this.text(this.p.water ? '물속' : '공기 속', w - 12, 24, c.text2, 12, 'right');
+      // 파동: 화면 폭이 3,000 nm에 해당
+      const span = 3000;
+      const mid = h * 0.66;
+      const amp = h * 0.16;
+      const lam = this.nm();
+      const speed = this.p.water ? 1 / N_WATER : 1;
+      g.strokeStyle = col;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let px = 12; px <= w - 12; px++) {
+        const x = ((px - 12) / (w - 24)) * span;
+        const y = mid - amp * Math.sin((2 * Math.PI * x) / lam - this.t * 6 * speed * (700 / lam));
+        if (px === 12) g.moveTo(px, y);
+        else g.lineTo(px, y);
+      }
+      g.stroke();
+      // 파장 자
+      const x0 = 12;
+      const x1 = 12 + (lam / span) * (w - 24);
+      const yy = mid + amp + 16;
+      this.line(x0, yy, x1, yy, c.space, 2);
+      this.line(x0, yy - 5, x0, yy + 5, c.space, 2);
+      this.line(x1, yy - 5, x1, yy + 5, c.space, 2);
+      this.text(`파장 ${lam.toFixed(0)} nm`, x1 + 8, yy, c.space, 11);
+      this.text('화면 폭 = 3,000 nm', w - 12, h - 8, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-light', SimLight);
+</script>

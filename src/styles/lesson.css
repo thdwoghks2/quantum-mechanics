@@ -767,7 +767,7 @@ html.js .screen--title.is-active .title__q {
 }
 
 .sim__readout {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--fs-xs);
   color: var(--text-2);
   font-variant-numeric: tabular-nums;

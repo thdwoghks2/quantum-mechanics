@@ -1,0 +1,86 @@
+---
+/**
+ * 안테나의 전하를 위아래로 흔들면, 멀리 있는 전하가 받는 힘의 변화가 늦게 도착한다.
+ * 그 변화가 퍼져 나가는 물결이 전자기파다.
+ */
+interface Props {
+  f?: number;
+}
+const { f = 1 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-antenna class="sim" data-ratio="0.56">
+  <canvas aria-label="안테나의 전하가 위아래로 흔들리고, 퍼져 나가는 물결이 오른쪽의 다른 전하에 늦게 도착해 그 전하를 흔든다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`an-f-${uid}`}>흔드는 진동수</label>
+      <input id={`an-f-${uid}`} type="range" min="0.5" max="2" step="0.25" value={f} data-param="f" />
+      <output data-out="f"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-antenna>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const SPEED = 120; // 화면에서 물결이 퍼지는 빠르기 (px/s)
+
+  class SimAntenna extends Sim {
+    changed() {
+      this.t = 0;
+    }
+
+    format() {
+      return `${this.p.f} (상대값)`;
+    }
+
+    src(t: number) {
+      return t < 0 ? 0 : Math.sin(2 * Math.PI * this.p.f! * t);
+    }
+
+    readout() {
+      return this.t < this.delay() ? `변화가 오는 중 · 도착까지 ${(this.delay() - this.t).toFixed(1)}초` : '변화가 도착해 오른쪽 전하도 흔들린다';
+    }
+
+    delay() {
+      return (this.w * 0.62) / SPEED;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const ax = w * 0.14;
+      const cy = h * 0.5;
+      const amp = h * 0.18;
+      // 퍼지는 물결 (반원 고리, 솟은 곳은 진하게)
+      const maxR = SPEED * this.t;
+      for (let r = 4; r < Math.min(maxR, w); r += 3) {
+        const v = this.src(this.t - r / SPEED);
+        if (Math.abs(v) < 0.2) continue;
+        g.strokeStyle = v > 0 ? `rgba(114,201,201,${0.6 * v})` : `rgba(229,128,106,${-0.6 * v})`;
+        g.lineWidth = 3;
+        g.beginPath();
+        g.arc(ax, cy, r, -Math.PI / 2.4, Math.PI / 2.4);
+        g.stroke();
+      }
+      // 안테나와 흔들리는 전하
+      this.line(ax, cy - amp - 16, ax, cy + amp + 16, c.text2, 3);
+      this.dot(ax, cy - amp * this.src(this.t), 9, c.charge);
+      this.text('흔드는 전하', ax, h - 8, c.charge, 10, 'center');
+      // 멀리 있는 전하: 늦게 따라 흔들린다
+      const bx = ax + w * 0.62;
+      const lag = this.t - (bx - ax) / SPEED;
+      g.setLineDash([3, 4]);
+      this.line(bx, cy - amp - 10, bx, cy + amp + 10, c.muted, 1);
+      g.setLineDash([]);
+      this.dot(bx, cy - amp * 0.45 * this.src(lag), 7, c.charge);
+      this.text('멀리 있는 전하', bx, h - 8, c.text2, 10, 'center');
+    }
+  }
+  define('qm-sim-antenna', SimAntenna);
+</script>
