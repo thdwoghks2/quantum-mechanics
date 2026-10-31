@@ -1,0 +1,126 @@
+---
+/**
+ * 터널 효과. 에너지 1 eV인 입자가 얇은 벽에 부딪힌다.
+ * 벽 두께와 '벽보다 모자란 에너지'를 바꾸면 한 번 부딪힐 때 벽을 지날 확률을 계산해 보여 준다.
+ * 그림은 개념도다: 들어오는 파동, 벽 속에서 잦아드는 모양, 지난 파동의 높이(확률의 제곱근).
+ */
+interface Props {
+  a?: number;
+  d?: number;
+}
+const { a = 0.5, d = 1 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p08-tunnel class="sim" data-ratio="0.55">
+  <canvas aria-label="왼쪽에서 들어온 파동이 벽 속에서 잦아들고, 벽 너머에 작아진 파동이 이어진다. 벽이 두꺼울수록 너머의 파동이 작다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p8t-a-${uid}`}>벽 두께</label>
+      <input id={`p8t-a-${uid}`} type="range" min="0.1" max="1.2" step="0.05" value={a} data-param="a" />
+      <output data-out="a"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`p8t-d-${uid}`}>벽보다 모자란 에너지</label>
+      <input id={`p8t-d-${uid}`} type="range" min="0.2" max="4" step="0.1" value={d} data-param="d" />
+      <output data-out="d"></output>
+    </div>
+  </div>
+  <input type="hidden" data-param="m" value="1" />
+  <div class="sim__buttons" aria-label="입자 고르기">
+    <button type="button" class="btn" data-set="m=1" aria-pressed="true">전자</button>
+    <button type="button" class="btn" data-set="m=1836" aria-pressed="false">전자보다 1,836배 무거운 입자</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p08-tunnel>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const E = 1; // 입자의 에너지 (eV)
+  const K0 = 5.123; // 전자, 모자란 에너지 1 eV일 때 벽 속에서 잦아드는 빠르기 (1/nm)
+
+  class SimP08Tunnel extends Sim {
+    animated = false;
+
+    T() {
+      const a = this.p.a!;
+      const d = this.p.d!;
+      const m = this.p.m ?? 1;
+      const kap = K0 * Math.sqrt(d * m);
+      const V0 = E + d;
+      const x = kap * a;
+      // sinh²가 너무 크면 바로 근삿값으로
+      if (x > 300) return { T: 0, log10: Math.log10((16 * E * d) / (V0 * V0)) - (2 * x) / Math.LN10 };
+      const s = Math.sinh(x);
+      const T = 1 / (1 + (V0 * V0 * s * s) / (4 * E * d));
+      return { T, log10: Math.log10(T) };
+    }
+
+    format(name: string) {
+      if (name === 'a') return `${this.p.a!.toFixed(2)} nm`;
+      if (name === 'd') return `${this.p.d!.toFixed(1)} eV`;
+      return '';
+    }
+
+    readout() {
+      const { T, log10 } = this.T();
+      let s: string;
+      if (T >= 1e-5) s = `약 ${(T * 100).toPrecision(2)}%`;
+      else {
+        const e = Math.floor(log10);
+        const mant = Math.pow(10, log10 - e);
+        const sup = String(e).replace(/[-0-9]/g, (ch) => '⁻⁰¹²³⁴⁵⁶⁷⁸⁹'['-0123456789'.indexOf(ch)]!);
+        s = `약 ${mant.toFixed(1)} × 10${sup}`;
+      }
+      return `한 번 부딪힐 때 벽을 지날 확률: ${s}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const a = this.p.a!;
+      const { T, log10 } = this.T();
+      const amp = h * 0.26;
+      const mid = h * 0.5;
+      const span = 3.2; // 그림 전체 폭 (nm)
+      const X = (x: number) => 12 + (x / span) * (w - 24);
+      const b0 = 1.2;
+      const b1 = b0 + a;
+      const k = 2 * Math.PI / 0.45; // 그림용 파수
+
+      // 벽
+      const hd = Math.min(1, 0.25 + this.p.d! / 5);
+      g.fillStyle = `rgba(214,170,60,${0.12 + 0.18 * hd})`;
+      g.fillRect(X(b0), mid - amp * 1.25, X(b1) - X(b0), amp * 2.5);
+      this.line(X(b0), mid - amp * 1.25, X(b0), mid + amp * 1.25, c.energy, 1.5);
+      this.line(X(b1), mid - amp * 1.25, X(b1), mid + amp * 1.25, c.energy, 1.5);
+      this.text('벽 (금지 영역)', (X(b0) + X(b1)) / 2, mid - amp * 1.25 - 9, c.energy, 10, 'center');
+      this.line(12, mid, w - 12, mid, c.line, 1);
+
+      const r = T > 0 ? Math.sqrt(T) : Math.pow(10, log10 / 2);
+      const kin = r > 1e-12 ? -Math.log(r) / a : 1e12;
+
+      g.strokeStyle = c.text;
+      g.lineWidth = 2.2;
+      g.beginPath();
+      const N = 500;
+      for (let i = 0; i <= N; i++) {
+        const x = (i / N) * span;
+        let y: number;
+        if (x < b0) y = Math.cos(k * (x - b0));
+        else if (x <= b1) y = Math.exp(-kin * (x - b0));
+        else y = r * Math.cos(k * (x - b1));
+        const Y = mid - amp * y;
+        if (i) g.lineTo(X(x), Y);
+        else g.moveTo(X(x), Y);
+      }
+      g.stroke();
+
+      this.text('들어오는 파동', 14, mid + amp * 1.25 + 4, c.text2, 10);
+      this.text('지난 파동', X(b1) + 6, mid + amp * 1.25 + 4, c.text2, 10);
+      // 지난 파동의 높이가 너무 작아 안 보일 때
+      if (r < 0.02) this.text('너무 작아 보이지 않아요', X(b1) + 6, mid - 12, c.muted, 10);
+    }
+  }
+  define('qm-sim-p08-tunnel', SimP08Tunnel);
+</script>

@@ -343,6 +343,30 @@
 
 # ── 세션 3 (64~83강, 106~110강) ──
 # (여기 아래에 더한다)
+- id: gamow
+  name: 조지 가모프
+  original: George Gamow
+  born: 1904
+  died: 1968
+  role: 러시아 제국 출신의 미국 물리학자
+  summary: 1928년 괴팅겐에 머물 때, 원자핵이 알파 입자를 내보내는 일을 터널 효과로 설명했어요. 알파 입자의 에너지가 조금만 달라도 내보내는 데 걸리는 시간이 엄청나게 달라진다는 것까지 계산으로 맞혔어요. 1948년에는 제자 랠프 앨퍼와 함께 우주 초기에 가벼운 원소가 만들어졌다는 생각을 내놓았어요.
+  lessons: [68]
+  sources: ["Gamow, G. Zur Quantentheorie des Atomkernes, Zeitschrift für Physik 51, 204 (1928)"]
+- id: binnig
+  name: 게르트 비니히
+  original: Gerd Binnig
+  born: 1947
+  role: 독일의 물리학자
+  summary: 1981년 IBM 취리히 연구소에서 하인리히 로러와 함께 주사 터널링 현미경을 처음 작동시켰어요. 바늘과 표면 사이를 터널 효과로 건너는 전자를 재서 원자 하나하나의 높낮이를 읽는 장치예요. 1986년 노벨 물리학상을 받았어요.
+  lessons: [68]
+- id: rohrer
+  name: 하인리히 로러
+  original: Heinrich Rohrer
+  born: 1933
+  died: 2013
+  role: 스위스의 물리학자
+  summary: IBM 취리히 연구소에서 게르트 비니히와 함께 주사 터널링 현미경을 만들었어요(1981). 1986년 노벨 물리학상을 받았어요.
+  lessons: [68]
 
 # ── 세션 4 (84~105강, 111~120강) ──
 # (여기 아래에 더한다)
