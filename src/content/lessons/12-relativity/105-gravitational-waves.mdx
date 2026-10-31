@@ -1,0 +1,457 @@
+---
+number: 105
+title: 중력파
+short: 중력파
+question: 13억 년 전 두 블랙홀이 합쳐질 때 생긴 흔들림을, 지구에서 어떻게 잡아냈을까요?
+mechanism: 무거운 천체가 빠르게 움직이면 시공간의 휘어짐이 물결처럼 빛의 속력으로 퍼져 나가요. 이 중력파가 지나가면 한 방향의 길이는 늘고 그와 수직인 방향의 길이는 줄기를 되풀이해요. LIGO는 서로 수직인 4 km 길이의 두 팔에 빛을 오가게 해서, 두 팔의 길이 차이를 97강의 마이컬슨 장치처럼 간섭으로 재요. 그래서 원자 지름의 1,000만분의 1보다 작은 흔들림을 잡아낼 수 있었어요.
+part: 12
+minutes: 22
+assumes: [general-relativity, spacetime, black-hole, wave, interference, speed-of-light, constancy-of-light-speed, mass-energy-equivalence, frequency]
+introduces: [gravitational-wave]
+sources:
+  - "Einstein, A. Näherungsweise Integration der Feldgleichungen der Gravitation. Sitzungsberichte der Preußischen Akademie der Wissenschaften, 688–696 (1916)"
+  - "Hulse, R. A. & Taylor, J. H. Discovery of a pulsar in a binary system. Astrophysical Journal 195, L51–L53 (1975)"
+  - "LIGO Scientific Collaboration and Virgo Collaboration. Observation of Gravitational Waves from a Binary Black Hole Merger. Physical Review Letters 116, 061102 (2016)"
+  - "The Nobel Prize in Physics 1993 (Hulse, Taylor), 2017 (Weiss, Barish, Thorne)"
+  - "LIGO Scientific Collaboration and Virgo Collaboration. GW170817. Physical Review Letters 119, 161101 (2017)"
+testout: [q105-a, q105-b, q105-c]
+status: published
+---
+
+<Screen kind="scene" title="서로 도는 두 블랙홀">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's4-blackhole', title: '서로 도는 두 블랙홀', caption: '점점 가까워져요' },
+      { icon: 's4-blackhole', title: '하나로 합쳐져요', caption: '' },
+      { icon: 'wave', title: '시공간의 물결', caption: '우주로 퍼져 나가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 말한 장면이에요. 블랙홀 두 개가 서로의 둘레를 돌며 점점 가까워지다가, 마지막 순간 엄청난 빠르기로 휘감아 돌고 하나로 합쳐져요.
+
+<S n={2}>
+
+그때 둘레의 시공간이 크게 흔들리고, 그 흔들림이 물결처럼 우주로 퍼져 나가요. 오늘은 그 물결을 2015년 지구에서 처음 잡아낸 이야기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={103} title="질량은 시공간을 휘게 해요">
+  <Fragment slot="visual">
+    <BigNumber top="존 휠러가 줄인 일반상대성이론" value="시공간은 물질에 움직임을, 물질은 시공간에 휘어짐을" bottom="서로 알려 줘요" />
+  </Fragment>
+
+103강에서 질량과 에너지가 시공간을 휘게 하고, 물체는 그 휘어진 시공간을 따라 움직인다고 배웠어요.
+
+<S n={2}>
+
+그럼 질량이 움직이면 어떻게 될까요? 휘어짐도 함께 바뀌어야 해요. 그런데 그 바뀜은 순간에 온 우주로 전해지지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="물결처럼 퍼지는 휘어짐">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'wave', title: '연못의 배', caption: '흔들리면 물결이 퍼져요' },
+      { icon: 's4-blackhole', title: '서로 도는 천체', caption: '시공간의 물결이 퍼져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+연못 위의 작은 배가 흔들리면 물결이 둘레로 퍼져 나가죠. 10강에서 본 것처럼 흔들림이 전해지는 거예요.
+
+<S n={2}>
+
+무거운 천체가 빠르게 움직이면, 시공간의 휘어짐이 바뀐 소식도 물결처럼 빛의 속력으로 퍼져 나가요. 아인슈타인은 1916년 자기 방정식에서 이 물결을 찾아냈어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="늘였다 줄였다">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '○', caption: '물결이 오기 전, 둥근 고리' },
+      { big: '⬭', caption: '가로로 늘고 세로로 줄어요' },
+      { big: '⬯', caption: '세로로 늘고 가로로 줄어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 물결이 지나가는 곳에 작은 공들을 둥글게 늘어놓았다고 해 볼게요. 물결이 지나가면 고리는 가로로 늘고 세로로 줄었다가, 다시 세로로 늘고 가로로 줄기를 되풀이해요.
+
+<S n={2}>
+
+공들이 움직인 게 아니라, 공들 사이의 공간 자체가 늘었다 줄었다 하는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="중력파라는 이름">
+  <Fragment slot="visual">
+    <Define term="gravitational-wave" />
+  </Fragment>
+
+이렇게 시공간의 휘어짐이 물결처럼 퍼져 나가는 것을 **중력파**라고 불러요. 소리처럼 공기를 흔드는 게 아니라, 시공간 자체가 흔들리는 거예요.
+
+<S n={2}>
+
+그래서 매질이 없는 텅 빈 우주도 지나갈 수 있어요. 빛과 같은 빠르기로요. 다만 이 흔들림은 상상하기 어려울 만큼 작아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="아인슈타인의 걱정">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1916', caption: '중력파를 예측해요' },
+      { big: '그런데', caption: '너무 약해서 잴 수 없을 거라고 봤어요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+아인슈타인은 중력파를 예측하면서도, 너무 약해서 실제로 잴 수는 없을 거라고 봤어요. 시공간은 아주 뻣뻣해서 잘 휘지 않거든요.
+
+<S n={2}>
+
+지구에 닿는 중력파는 지구와 해 사이의 거리를 원자 하나 크기만큼 바꿀까 말까 할 정도예요. 이걸 재는 데 100년이 걸렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="간접 증거, 1974년">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '서로 도는 두 별', caption: '1974년 헐스와 테일러가 찾았어요' },
+      { big: '궤도가 줄어들어요', caption: '중력파로 에너지를 잃는 만큼', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+첫 증거는 간접적이었어요. 1974년 미국의 헐스와 테일러는 아주 무겁고 작은 두 별, 곧 <Later n={110}>중성자별</Later> 두 개가 서로 도는 짝을 찾았어요.
+
+<S n={2}>
+
+몇 해 동안 지켜보니 두 별의 궤도가 조금씩 줄어들었어요. 중력파로 에너지를 내보내는 만큼 정확히 줄었고, 두 사람은 1993년 노벨 물리학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={97} title="두 팔의 간섭">
+  <Fragment slot="visual">
+    <Flow alt="빛을 둘로 나눠 서로 수직인 두 팔로 보내고, 거울에 반사해 다시 모아 간섭을 보는 장치" items={[
+      { t: '빛을 둘로', sub: '반만 비치는 거울' },
+      { t: '수직인 두 팔', sub: '끝의 거울에서 되돌아와요' },
+      { t: '다시 모아요', sub: '간섭으로 길이 차이를 재요' },
+    ]} />
+  </Fragment>
+
+중력파를 직접 잡은 장치는 97강의 마이컬슨과 몰리의 장치와 같은 모양이에요. 빛을 둘로 나눠 서로 수직인 두 팔로 보내고, 되돌아온 빛을 다시 모으죠.
+
+<S n={2}>
+
+두 팔의 길이가 조금만 달라져도 간섭 결과가 바뀌어요. 1887년에는 에테르를 찾지 못했던 장치가, 이번엔 시공간의 물결을 찾는 데 쓰였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="LIGO">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-detector', title: 'L자 모양의 두 팔', caption: '팔 하나의 길이가 4 km' },
+      { big: '중력파가 지나가면', caption: '한 팔은 늘고 다른 팔은 줄어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+미국의 중력파 관측소 LIGO는 길이 4 km인 팔 두 개를 L자 모양으로 놓았어요. 팔은 진공 관 속에 있고, 끝마다 아주 매끈한 거울이 매달려 있어요.
+
+<S n={2}>
+
+중력파가 지나가면 한 팔은 늘고 다른 팔은 줄어요. 아까 본 고리처럼요. 그 길이 차이가 간섭으로 나타나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="얼마나 작은 흔들림일까">
+  <Fragment slot="visual">
+    <DataTable caption="2015년 첫 중력파가 지나갈 때" head={['양', '값']} rows={[
+      ['길이가 변하는 비율', '약 10⁻²¹'],
+      ['팔 길이', '4 km = 4 × 10³ m'],
+      ['팔 길이의 변화', '10⁻²¹ × 4 × 10³ = 4 × 10⁻¹⁸ m'],
+      ['원자 하나의 지름과 견주면', '약 2,500만분의 1'],
+    ]} />
+  </Fragment>
+
+2015년의 첫 중력파는 길이를 약 10⁻²¹배만큼 바꿨어요. 4 km 팔에 곱하면 4 × 10⁻¹⁸ m예요.
+
+원자 하나의 지름이 약 10⁻¹⁰ m이니, 그 2,500만분의 1이에요. LIGO는 이렇게 작은 흔들림을 재도록 만들어진 장치예요.
+
+</Screen>
+
+<Screen kind="check" title="팔이 변하는 길이">
+
+<Numeric id="q105-a" answer={4e-18} mode="order" unit="m">
+
+중력파가 지나가면서 길이를 약 10⁻²¹배만큼 바꿨어요. 길이 4 km(4 × 10³ m)인 LIGO의 팔은 몇 m쯤 늘거나 줄었을까요? 자릿수만 맞히면 돼요.
+
+<Fragment slot="solution">
+
+10⁻²¹ × 4 × 10³ = 4 × 10⁻¹⁸ m예요. 원자 하나의 지름 10⁻¹⁰ m의 약 2,500만분의 1이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="흔들림과의 싸움">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'car', title: '지나가는 트럭', caption: '땅을 흔들어요' },
+      { icon: 'wave', title: '먼 바다의 파도', caption: '땅을 흔들어요' },
+      { icon: 's4-detector', title: '3,000 km 떨어진 두 관측소', caption: '둘 다 같은 신호를 봐야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이렇게 작은 흔들림을 재려면, 지나가는 트럭이나 먼 바다의 파도가 땅을 흔드는 것도 큰 방해가 돼요. 그래서 거울은 여러 겹의 흔들림 막이 장치에 매달아 둬요.
+
+<S n={2}>
+
+그리고 LIGO는 약 3,000 km 떨어진 두 곳, 미국 워싱턴주 핸퍼드와 루이지애나주 리빙스턴에 관측소를 하나씩 뒀어요. 땅의 흔들림은 한 곳에만 오지만, 중력파는 두 곳에 거의 함께 와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="2015년 9월 14일">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '리빙스턴', caption: '먼저 잡았어요' },
+      { big: '약 7밀리초 뒤', caption: '' },
+      { big: '핸퍼드', caption: '같은 모양의 신호를 잡았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2015년 9월 14일, 두 관측소가 정식 관측을 시작하기 직전 시험 가동 중이었어요. 리빙스턴이 먼저 신호를 잡았고, 약 7밀리초(1,000분의 7초) 뒤 핸퍼드도 같은 모양의 신호를 잡았어요.
+
+<S n={2}>
+
+빛이 두 곳 사이를 가는 데는 약 10밀리초가 걸려요. 그보다 짧은 차이로 두 곳에 같은 신호가 왔으니, 빛의 속력으로 온 물결이라는 것과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="뾰롱 하는 신호">
+  <Fragment slot="visual">
+    <Plot
+      alt="중력파 신호의 모양. 시간이 지날수록 흔들림이 점점 커지고 빨라지다가 마지막에 가장 크게 흔들린 뒤 잦아든다"
+      x={[0, 1]} y={[-1.3, 1.3]}
+      xLabel="시간 (마지막 0.2초를 늘려 그린 모양)" yLabel="팔 길이의 변화 (상대값)"
+      xTicks={[0, 0.5, 1]} yTicks={[-1, 0, 1]}
+      xq="time" yq="space"
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'x < 0.85 ? (0.15 + pow(x, 3)) * sin(40 * x + 90 * pow(x, 4)) : 1.05 * exp(-25 * (x - 0.85)) * sin(40 * x + 90 * pow(x, 4))', q: 'space', samples: 600, step: 2 }]}
+    />
+  </Fragment>
+
+가로축은 시간, 세로축은 팔 길이의 변화예요. 실제 신호의 마지막 0.2초를 늘려서 모양만 그렸어요.
+
+<S n={2}>
+
+두 블랙홀이 가까워질수록 더 빨리 돌아서, 흔들림이 점점 커지고 잦아져요. 합쳐지는 순간 가장 크게 흔들린 뒤 잦아들죠. 이 신호를 소리로 바꾸면 "뾰롱" 하고 올라가는 소리가 나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="첫 중력파의 숫자">
+  <Fragment slot="visual">
+    <DataTable caption="GW150914 (2015년 9월 14일의 신호)" head={['양', '값']} rows={[
+      ['합쳐진 두 블랙홀', '해 질량의 약 36배와 29배'],
+      ['합쳐진 뒤', '해 질량의 약 62배'],
+      ['중력파로 빠져나간 질량', '해 질량의 약 3배'],
+      ['거리', '약 13억 광년'],
+    ]} />
+  </Fragment>
+
+신호의 모양을 일반상대성이론의 계산과 맞춰 보니, 해 질량의 약 36배와 29배인 두 블랙홀이 약 13억 광년 떨어진 곳에서 합쳐진 거였어요.
+
+36 + 29 = 65인데 합쳐진 블랙홀은 약 62배였어요. 사라진 약 3배의 질량은 100강의 E = mc²대로 에너지가 되어, 중력파로 1초도 안 되는 사이에 빠져나갔어요.
+
+</Screen>
+
+<Screen kind="step" title="가장 밝았던 0.2초">
+  <Fragment slot="visual">
+    <BigNumber top="해 질량 3배에 해당하는 에너지" value="약 5 × 10⁴⁷ J" bottom="이 가운데 대부분이 마지막 0.2초쯤에 나왔어요" q="energy" />
+  </Fragment>
+
+해 질량 3배에 c²을 곱하면 약 5 × 10⁴⁷ J이에요. 해가 100억 년 동안 내놓는 빛 에너지의 수천 배예요.
+
+<S n={2}>
+
+이 에너지 대부분이 마지막 0.2초쯤에 나왔어요. 그 짧은 순간 이 블랙홀들은 보이는 우주의 모든 별빛을 합친 것보다 더 큰 힘으로 중력파를 내뿜었어요.
+
+<Key>서로 도는 두 블랙홀은 질량의 일부를 시공간의 물결인 중력파로 내보내고, 이 물결이 빛의 속력으로 지구에 닿아 서로 수직인 두 팔의 길이를 다르게 바꾸기 때문에, 간섭으로 그 아주 작은 차이를 재서 13억 년 전의 충돌을 알아낼 수 있었어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="두 관측소의 까닭">
+
+<Check id="q105-b" options={[
+  { t: '한 곳만으로는 팔이 하나뿐이라서', why: '관측소마다 서로 수직인 팔 두 개가 다 있어요. 두 곳을 둔 까닭은 다른 데 있어요.' },
+  { t: '땅의 흔들림은 한 곳에만 오지만, 중력파는 두 곳에 빛의 속력 이내의 차이로 함께 오니까', ok: true, why: '맞아요. 두 곳에 같은 모양의 신호가 10밀리초 안의 차이로 오면, 트럭이나 지진이 아니라 우주에서 온 물결이라고 믿을 수 있어요.' },
+  { t: '중력파가 한 곳에서는 늘리기만 하고, 다른 곳에서는 줄이기만 해서', why: '중력파는 어느 곳에서나 한 방향을 늘리고 수직 방향을 줄이기를 되풀이해요.' },
+  { t: '한 곳은 낮에, 한 곳은 밤에 재려고', why: '두 관측소는 하루 종일 함께 재요. 시간대를 나누려는 게 아니에요.' },
+]}>
+
+LIGO는 약 3,000 km 떨어진 두 곳에 관측소를 두었어요. 가장 중요한 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="발표와 노벨상">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '2016년 2월 11일', caption: '첫 중력파 검출 발표' },
+      { big: '2017', caption: '와이스, 배리시, 손이 노벨 물리학상', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+연구진은 다섯 달 가까이 결과를 꼼꼼히 확인한 뒤 2016년 2월 11일 첫 검출을 발표했어요. 아인슈타인의 예측 뒤 꼭 100년 만이었어요.
+
+<S n={2}>
+
+2017년 노벨 물리학상은 LIGO를 설계하고 이끈 라이너 와이스, 배리 배리시, 킵 손에게 돌아갔어요. 킵 손은 103강의 밀러 행성을 계산한 바로 그 물리학자예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="새로 열린 창">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '2017년 8월', caption: '중력파와 빛을 함께 받았어요' },
+      { big: '지금까지', caption: '수백 번의 중력파 신호', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2017년 8월에는 <Later n={110}>중성자별</Later> 두 개가 합쳐질 때 나온 중력파와 빛을 함께 받았어요. 1억 3천만 광년을 달려온 두 신호가 거의 함께 도착해서, 중력파가 빛과 같은 빠르기로 간다는 게 확인됐어요.
+
+<S n={2}>
+
+이탈리아의 Virgo, 일본의 KAGRA도 함께 관측하면서 지금까지 수백 번의 신호가 잡혔어요. 빛으로만 보던 우주를 이제 시공간의 흔들림으로도 들을 수 있게 된 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="헷갈리기 쉬운 이름">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '중력파', caption: '시공간 자체의 물결 (오늘의 주제)' },
+      { big: '날씨의 중력파', caption: '공기와 물이 출렁이는 물결', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 일기 예보에서 들은 "중력파 구름"과 같은 건 줄 알았어요.
+
+날씨에서 말하는 중력파는 공기나 물이 중력 때문에 오르내리며 출렁이는 물결이에요. 오늘의 중력파는 그런 물질 없이 시공간 자체가 흔들리는 물결이라 전혀 다른 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="중력파가 하는 일">
+
+<Check id="q105-c" options={[
+  { t: '지나가는 곳의 공기를 흔들어 소리를 내요.', why: '중력파는 공기를 흔드는 게 아니라 시공간 자체를 흔들어요. 텅 빈 우주도 지나갈 수 있어요.' },
+  { t: '한 방향의 길이는 늘리고 그와 수직인 방향은 줄이기를 되풀이해요.', ok: true, why: '맞아요. 그래서 서로 수직인 두 팔의 길이 차이를 재면 중력파를 잡을 수 있어요.' },
+  { t: '지나가는 물체를 모두 한 방향으로 밀어내요.', why: '한 방향으로 밀어내는 게 아니라, 공간을 한 방향은 늘리고 수직 방향은 줄여요.' },
+  { t: '빛보다 훨씬 빠르게 퍼져 나가요.', why: '2017년 관측에서 중력파와 빛이 거의 함께 도착했어요. 중력파는 빛과 같은 빠르기로 가요.' },
+]}>
+
+중력파가 지나가는 곳에서는 무슨 일이 일어날까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['gravitational-wave']}>
+
+1. 무거운 천체가 움직이면 시공간의 휘어짐이 물결처럼 퍼져요.
+2. 이 중력파는 한 방향을 늘리고 수직 방향을 줄여요.
+3. LIGO는 수직인 두 팔의 길이 차이를 간섭으로 재요.
+4. 2015년 13억 년 전 블랙홀 충돌의 신호를 잡았어요.
+5. 사라진 질량 3배가 중력파의 에너지가 됐어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="7밀리초의 뜻">
+
+<DailyProblem id="p105">
+
+리빙스턴과 핸퍼드는 약 3,000 km 떨어져 있어요. 2015년의 신호는 리빙스턴에 먼저, 약 7밀리초 뒤 핸퍼드에 닿았어요.
+
+만약 같은 모양의 신호가 30밀리초 차이로 왔다면, 그걸 중력파로 믿을 수 있었을까요? 빛의 속력으로 메모 칸에 따져 보세요.
+
+<Fragment slot="hint1">
+
+빛이 3,000 km를 가는 데 걸리는 시간을 먼저 구해 보세요. 빛은 1초에 30만 km를 가요.
+
+</Fragment>
+<Fragment slot="solution">
+
+빛이 3,000 km를 가는 데는 3,000 ÷ 300,000 = 0.01초, 곧 10밀리초가 걸려요. 중력파도 빛의 속력으로 가니, 두 곳의 도착 시간 차이는 아무리 커도 10밀리초예요. 7밀리초는 그 안에 들어가요.
+
+30밀리초 차이였다면 빛보다 느리게 온 셈이라, 우주에서 온 하나의 중력파로 보기 어려워요. 각각 다른 원인의 땅 흔들림이 우연히 겹쳤다고 의심했을 거예요. 도착 시간 차이는 신호가 진짜인지 가리는 중요한 시험이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+중력파는 무거운 천체가 움직일 때 빛의 속력으로 퍼지는 시공간의 물결이고, 수직인 두 팔의 길이 차이를 간섭으로 재서 2015년 처음 잡아냈어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="아주 큰 것에서 아주 작은 것으로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's4-blackhole', title: '블랙홀', caption: '해 질량의 수십 배' },
+      { icon: 'atom', title: '원자핵', caption: '원자의 10만분의 1 크기', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이번 부에서는 블랙홀처럼 아주 큰 것까지 갔어요. 다음 부에서는 거꾸로 원자의 한가운데, 원자핵으로 들어가요.
+
+<S n={2}>
+
+100강에서 원자핵은 조각들을 따로 잰 것보다 1%쯤 가볍다고 했죠. 다음 강에서는 1932년 채드윅이 찾아낸 원자핵의 숨은 조각, <Later n={106}>중성자</Later>와 그 1%의 정체인 <Later n={106}>결합 에너지</Later>를 배워요.
+
+</S>
+
+</Screen>
