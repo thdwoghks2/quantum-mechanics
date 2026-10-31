@@ -82,6 +82,12 @@ const turn = isPartEnd && part
         <p class="title__n">{String(d.number).padStart(3, '0')}</p>
         <h1 class="title__h">{d.title}</h1>
         <p class="title__q">{d.question}</p>
+        {d.epigraph && (
+          <figure class="title__epigraph">
+            <blockquote>{d.epigraph.text}</blockquote>
+            <figcaption>{d.epigraph.by}{d.epigraph.source && <span>, {d.epigraph.source}</span>}</figcaption>
+          </figure>
+        )}
         <div class="title__meta">
           <span class="label">{d.part}부 · {part?.data.title}</span>
           <span class="label">약 {d.minutes}분</span>

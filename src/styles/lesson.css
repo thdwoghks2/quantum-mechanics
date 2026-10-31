@@ -1258,3 +1258,32 @@ html.js .screen--title.is-active .title__q {
 .stage .screen.is-densest .recap__flow li {
   font-size: 0.8125rem;
 }
+
+/* 강 첫 화면의 한 줄(제사). 책의 장이 시작될 때 앞에 새기는 인용처럼 */
+.title__epigraph {
+  margin: 4px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  display: grid;
+  gap: 6px;
+  max-width: 30em;
+}
+
+.title__epigraph blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.title__epigraph figcaption {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.title__epigraph figcaption::before {
+  content: '— ';
+}

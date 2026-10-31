@@ -15,6 +15,14 @@ const lessons = defineCollection({
     part: z.number().int().min(0),
     year: z.union([z.string(), z.number()]).optional(),
     place: z.string().optional(),
+    /** 강 첫 화면에 새기는 한 줄. 누구나 아는 사람의 실제 말이나 영화의 유명한 대사. 출처를 꼭 적는다. */
+    epigraph: z
+      .object({
+        text: z.string(),
+        by: z.string(),
+        source: z.string().optional(),
+      })
+      .optional(),
     minutes: z.number().int().positive(),
     assumes: z.array(z.string()).default([]),
     introduces: z.array(z.string()).default([]),
