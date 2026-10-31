@@ -798,3 +798,24 @@
   lessons: [127]
   sources:
     - "Guth, A. H. Physical Review D 23, 347 (1981)"
+- id: vera-rubin
+  name: 베라 루빈
+  original: Vera Rubin
+  born: 1928
+  died: 2016
+  role: 미국의 천문학자
+  summary: 켄트 포드와 함께 은하 곳곳의 가스가 도는 빠르기를 재서, 은하 가장자리도 중심 근처만큼 빨리 돈다는 것을 보였어요. 1970년 안드로메다 은하에서 시작해 1980년까지 은하 수십 개를 쟀고, 이 결과가 암흑물질의 가장 단단한 증거가 되었어요.
+  lessons: [128]
+  sources:
+    - "Rubin, V. C. & Ford, W. K. The Astrophysical Journal 159, 379 (1970)"
+    - "Rubin, V. C., Ford, W. K. & Thonnard, N. The Astrophysical Journal 238, 471 (1980)"
+- id: zwicky
+  name: 프리츠 츠비키
+  original: Fritz Zwicky
+  born: 1898
+  died: 1974
+  role: 스위스의 천문학자, 미국 캘리포니아 공과대학에서 일했어요
+  summary: 1933년, 머리털자리 은하단의 은하들이 보이는 질량으로는 붙잡아 둘 수 없을 만큼 빨리 움직인다는 것을 찾고 '어두운 물질'이라는 말을 처음 썼어요. 초신성과 중성자별이라는 말도 처음 쓴 사람 가운데 하나예요.
+  lessons: [128]
+  sources:
+    - "Zwicky, F. Helvetica Physica Acta 6, 110 (1933)"
