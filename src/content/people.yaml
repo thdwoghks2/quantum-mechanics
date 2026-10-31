@@ -556,3 +556,22 @@
   lessons: [123]
   sources:
     - "Yukawa, H. Proceedings of the Physico-Mathematical Society of Japan 17, 48 (1935)"
+- id: higgs
+  name: 피터 힉스
+  original: Peter Higgs
+  born: 1929
+  died: 2024
+  role: 영국의 이론물리학자
+  summary: 1964년, 온 공간을 채운 장과 주고받으면서 입자에 질량이 생기고, 그 장이 들뜬 입자도 있어야 한다는 논문을 썼어요. 그 입자가 2012년에 발견되어, 2013년 프랑수아 앙글레르와 함께 노벨 물리학상을 받았어요.
+  lessons: [124]
+  sources:
+    - "Higgs, P. W. Physical Review Letters 13, 508 (1964)"
+- id: englert
+  name: 프랑수아 앙글레르
+  original: François Englert
+  born: 1932
+  role: 벨기에의 이론물리학자
+  summary: 1964년 로베르 브라우트와 함께, 힉스와 거의 같은 때에 같은 생각을 따로 발표했어요. 2013년 피터 힉스와 함께 노벨 물리학상을 받았어요.
+  lessons: [124]
+  sources:
+    - "Englert, F. & Brout, R. Physical Review Letters 13, 321 (1964)"

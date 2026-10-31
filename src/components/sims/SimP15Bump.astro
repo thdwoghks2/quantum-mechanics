@@ -1,0 +1,151 @@
+---
+/**
+ * 광자 쌍을 모아 봉우리 찾기(124강). 충돌에서 나온 광자 두 개마다, 그 둘을 만든 입자의 질량을 거꾸로 계산해 칸에 쌓는다.
+ * 대부분은 힉스와 상관없는 배경이라 질량이 클수록 드물어지고, 아주 적은 몫만 125 GeV 근처에 모인다.
+ * 적게 모으면 봉우리가 들쭉날쭉한 흔들림에 묻히고, 많이 모을수록 드러난다. 수는 실제보다 줄이고 모양만 살렸다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p15-bump class="sim" data-ratio="0.62" data-autoplay="false">
+  <canvas aria-label="두 광자로 계산한 질량마다 모은 수를 막대로 쌓아요. 질량이 클수록 막대가 낮아지고, 많이 모으면 125 GeV 근처에 작은 봉우리가 드러나요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-add="300" id={`b1-${uid}`}>300쌍 더 모으기</button>
+      <button type="button" class="btn" data-add="5000">5,000쌍 더</button>
+      <button type="button" class="btn" data-clear>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-bump>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const LO = 100;
+  const HI = 160;
+  const BINS = 30;
+  /** 배경이 줄어드는 정도(GeV)와 신호의 몫, 폭 */
+  const SLOPE = 28;
+  const SIGNAL = 0.02;
+  const WIDTH = 1.8;
+
+  class SimP15Bump extends Sim {
+    animated = false;
+    counts: number[] = new Array(BINS).fill(0);
+    total = 0;
+    /** 같은 순서로 다시 모으도록 씨앗이 있는 난수 */
+    seed = 12345;
+
+    init() {
+      for (const b of this.querySelectorAll<HTMLButtonElement>('[data-add]')) {
+        b.addEventListener('click', () => this.add(Number(b.dataset.add)));
+      }
+      this.querySelector('[data-clear]')!.addEventListener('click', () => {
+        this.counts.fill(0);
+        this.total = 0;
+        this.seed = 12345;
+        this.frame();
+      });
+    }
+
+    rand() {
+      this.seed = (this.seed * 1664525 + 1013904223) >>> 0;
+      return this.seed / 4294967296;
+    }
+
+    gauss() {
+      const u = Math.max(1e-9, this.rand());
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * this.rand());
+    }
+
+    add(n: number) {
+      for (let i = 0; i < n; i++) {
+        let m: number;
+        if (this.rand() < SIGNAL) m = 125 + this.gauss() * WIDTH;
+        else {
+          // LO 위에서 지수적으로 줄어드는 배경을 HI 안에서만 뽑는다.
+          const span = 1 - Math.exp(-(HI - LO) / SLOPE);
+          m = LO - SLOPE * Math.log(1 - this.rand() * span);
+        }
+        const k = Math.floor(((m - LO) / (HI - LO)) * BINS);
+        if (k >= 0 && k < BINS) this.counts[k]!++;
+      }
+      this.total += n;
+      this.frame();
+    }
+
+    /** 배경만 있을 때 칸 하나에 기대하는 수 */
+    expected(k: number) {
+      const a = LO + ((HI - LO) * k) / BINS;
+      const b = LO + ((HI - LO) * (k + 1)) / BINS;
+      const span = 1 - Math.exp(-(HI - LO) / SLOPE);
+      const p = (Math.exp(-(a - LO) / SLOPE) - Math.exp(-(b - LO) / SLOPE)) / span;
+      return this.total * (1 - SIGNAL) * p;
+    }
+
+    readout() {
+      if (!this.total) return '버튼을 눌러 광자 쌍을 모아 보세요.';
+      let extra = 0;
+      let bg = 0;
+      for (let k = 0; k < BINS; k++) {
+        const mid = LO + ((HI - LO) * (k + 0.5)) / BINS;
+        if (Math.abs(mid - 125) <= 3) {
+          extra += this.counts[k]! - this.expected(k);
+          bg += this.expected(k);
+        }
+      }
+      const z = bg > 0 ? extra / Math.sqrt(bg) : 0;
+      return `모은 광자 쌍 ${this.total.toLocaleString('ko-KR')}개 · 122~128 GeV에서 배경보다 많은 수 약 ${Math.max(0, Math.round(extra))}개 · 우연한 흔들림(표준편차)의 ${z.toFixed(1)}배`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const pad = { l: 34, r: 10, t: 14, b: 34 };
+      const W = w - pad.l - pad.r;
+      const H = h - pad.t - pad.b;
+      const max = Math.max(10, ...this.counts, ...Array.from({ length: BINS }, (_, k) => this.expected(k))) * 1.15;
+      const bw = W / BINS;
+      // 125 GeV 자리
+      const x125 = pad.l + ((125 - LO) / (HI - LO)) * W;
+      this.ctx.globalAlpha = 0.25;
+      this.line(x125, pad.t, x125, pad.t + H, c.accent, 1);
+      this.ctx.globalAlpha = 1;
+      for (let k = 0; k < BINS; k++) {
+        const v = this.counts[k]!;
+        const bh = (v / max) * H;
+        this.ctx.fillStyle = c.energy;
+        this.ctx.globalAlpha = 0.75;
+        this.ctx.fillRect(pad.l + k * bw + 1, pad.t + H - bh, bw - 2, bh);
+      }
+      this.ctx.globalAlpha = 1;
+      // 배경만 있을 때의 모양(점선)
+      if (this.total) {
+        const g = this.ctx;
+        g.setLineDash([4, 4]);
+        g.strokeStyle = c.text2;
+        g.lineWidth = 1.2;
+        g.beginPath();
+        for (let k = 0; k < BINS; k++) {
+          const x = pad.l + (k + 0.5) * bw;
+          const y = pad.t + H - (this.expected(k) / max) * H;
+          if (k) g.lineTo(x, y);
+          else g.moveTo(x, y);
+        }
+        g.stroke();
+        g.setLineDash([]);
+      }
+      // 축
+      this.line(pad.l, pad.t + H, pad.l + W, pad.t + H, c.line, 1);
+      this.line(pad.l, pad.t, pad.l, pad.t + H, c.line, 1);
+      for (const t of [100, 110, 120, 130, 140, 150, 160]) {
+        const x = pad.l + ((t - LO) / (HI - LO)) * W;
+        this.text(String(t), x, pad.t + H + 10, c.muted, 10, 'center');
+      }
+      this.text('두 광자로 계산한 질량 (GeV)', pad.l + W / 2, h - 8, c.energy, 10, 'center');
+      this.text('모은 수', pad.l + 4, pad.t + 4, c.text2, 10, 'left');
+      this.text('125', x125 + 4, pad.t + 12, c.accent, 10, 'left');
+      if (this.total) this.text('점선: 힉스가 없을 때 기대하는 모양', pad.l + W, pad.t + 4, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-p15-bump', SimP15Bump);
+</script>
