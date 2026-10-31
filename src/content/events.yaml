@@ -355,6 +355,25 @@
   summary: 가이거와 마스든이 여러 금속박과 여러 각도에서 알파 입자의 반짝임을 세어, 원자핵이 있다고 놓은 러더퍼드의 계산이 맞는다는 걸 확인했어요.
   lessons: [39]
   people: [geiger, marsden, rutherford]
+- id: fraunhofer-1814
+  year: 1814
+  title: 햇빛 속의 검은 선
+  summary: 프라운호퍼가 햇빛의 스펙트럼에서 500개가 넘는 검은 선의 자리를 기록했어요.
+  lessons: [42]
+  people: [fraunhofer]
+- id: kirchhoff-bunsen-1859
+  year: 1859
+  title: 선 스펙트럼으로 원소 가려내기
+  summary: 키르히호프와 분젠이 원소마다 선의 무늬가 다르다는 것과, 기체가 자기가 내는 진동수의 빛을 흡수한다는 것을 밝혔어요. 1860년과 1861년에는 이 방법으로 세슘과 루비듐을 발견했어요.
+  lessons: [42]
+  people: [kirchhoff, bunsen]
+- id: helium-1868
+  year: 1868
+  date: 8월 18일
+  title: 태양에서 먼저 찾은 헬륨
+  summary: 개기일식 때 장센이 태양 가장자리에서 노란 선을 봤고, 같은 해 로키어가 이 선이 새 원소의 것이라고 보았어요. 지구에서는 1895년 윌리엄 램지가 헬륨을 찾았어요.
+  lessons: [42]
+  people: [janssen, lockyer]
 
 # ── 세션 3 (64~83강, 106~110강) ──
 # (여기 아래에 더한다)
