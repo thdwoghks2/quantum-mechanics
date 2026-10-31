@@ -1,0 +1,415 @@
+---
+number: 92
+title: 국소 실재론이 틀렸다는 것의 의미
+short: 국소 실재론
+question: 국소성과 실재성을 함께 지킬 수 없다면, 아무도 보지 않을 때 달은 그 자리에 있을까요?
+mechanism: 벨 실험은 국소성과 실재성을 함께 지키는 국소 실재론으로는 자연을 설명할 수 없다는 것을 보였어요. 그래서 멀리 떨어진 것이 곧장 이어져 있다고 받아들이거나, 재지 않은 성질에는 미리 정해진 값이 없다고 받아들이거나 해야 해요. 하지만 이건 얽힌 입자의 스핀 같은 성질 하나하나에 관한 이야기이고, 달처럼 큰 물체가 보지 않으면 사라진다는 뜻이 아니에요. 그리고 어느 쪽을 버려도 빛보다 빠른 소식은 보낼 수 없어요.
+part: 11
+minutes: 20
+assumes: [locality, realism, bell-inequality, entanglement, copenhagen-interpretation, measurement-problem, uncertainty-principle, speed-of-light]
+introduces: [local-realism]
+sources:
+  - "Pais, A. Einstein and the quantum theory. Reviews of Modern Physics 51, 863–914 (1979)"
+  - "Mermin, N. D. Is the moon there when nobody looks? Reality and the quantum theory. Physics Today 38(4), 38–47 (1985)"
+  - "Bell, J. S. Bertlmann's Socks and the Nature of Reality. Journal de Physique Colloques 42, C2-41–C2-62 (1981)"
+  - "Bohm, D. A Suggested Interpretation of the Quantum Theory in Terms of 'Hidden' Variables I, II. Physical Review 85, 166–193 (1952)"
+  - "Ghirardi, G. C., Rimini, A. & Weber, T. A general argument against superluminal transmission through the quantum mechanical measurement process. Lettere al Nuovo Cimento 27, 293–298 (1980)"
+  - "Maudlin, T. Quantum Non-Locality and Relativity, 3rd ed. (Wiley-Blackwell, 2011)"
+testout: [q92-a, q92-b, q92-c]
+status: published
+---
+
+<Screen kind="scene" title="산책길의 질문">
+  <Fragment slot="visual">
+    <BigNumber top="물리학자 에이브러햄 파이스의 회고, 1979년" value="“달은 당신이 볼 때만 있다고 정말 믿나요?”" bottom="산책하던 아인슈타인이 갑자기 멈춰 서서 물은 말" />
+  </Fragment>
+
+지난 강 끝에서 말한 산책 이야기예요. 물리학자 에이브러햄 파이스는 1979년의 글에서, 아인슈타인과 프린스턴에서 함께 걷던 날을 떠올렸어요.
+
+<S n={2}>
+
+아인슈타인은 갑자기 멈춰 서서, 달은 우리가 볼 때만 있다고 정말 믿느냐고 물었다고 해요. 양자역학의 해석을 두고 한 물음이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="아인슈타인의 뜻">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-moon', title: '보지 않을 때의 달', caption: '그래도 정해진 자리에 있어요' },
+      { icon: 'atom', title: '재지 않을 때의 전자', caption: '그래도 정해진 값이 있어야 해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인의 물음은 달 자체보다 전자를 겨눈 거였어요. 보지 않을 때도 달이 정해진 자리에 있듯, 재지 않을 때도 전자의 성질은 정해져 있어야 한다는 거죠.
+
+<S n={2}>
+
+88강에서 배운 실재성이에요. 아인슈타인에게 이건 물리학이 설 바탕이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={91} title="실험이 말한 것">
+  <Fragment slot="visual">
+    <Flow alt="국소성과 실재성으로 벨 부등식을 만들고, 실험이 그 부등식을 깨서, 두 믿음을 함께 지킬 수 없다는 사슬" items={[
+      { t: '국소성 + 실재성', sub: '벨 부등식을 지켜야 해요' },
+      { t: '실험', sub: '벨 부등식이 깨져요', step: 2 },
+      { t: '결론', sub: '둘을 함께 지킬 수는 없어요', step: 2 },
+    ]} />
+  </Fragment>
+
+90강과 91강을 이어 볼게요. 국소성과 실재성을 함께 믿으면 벨 부등식을 지켜야 했어요.
+
+<S n={2}>
+
+그런데 빈틈을 다 막은 실험에서도 벨 부등식은 깨졌죠. 그러니 두 믿음을 함께 지킬 수는 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="국소 실재론이라는 이름">
+  <Fragment slot="visual">
+    <Define term="local-realism" />
+  </Fragment>
+
+두 믿음을 따로 말하면 길어서, 둘을 한데 묶어 **국소 실재론**이라고 불러요. 실험이 틀렸다고 보인 건 이 묶음이에요.
+
+<S n={2}>
+
+이름을 따로 붙이는 데는 까닭이 있어요. 둘 가운데 하나만 버려도 되는지, 둘 다 버려야 하는지는 따로 따져야 하거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="국소 실재론 고르기">
+
+<Check id="q92-a" options={[
+  { t: '재기 전에도 값이 정해져 있고, 멀리 떨어진 곳에 빛보다 빠르게 영향을 줄 수 없다.', ok: true, why: '맞아요. 실재성과 국소성을 함께 지키는 생각이 국소 실재론이에요.' },
+  { t: '재기 전에는 값이 없고, 멀리 떨어진 곳끼리 곧장 이어져 있다.', why: '이건 두 믿음을 모두 버린 생각이에요. 국소 실재론과 정반대예요.' },
+  { t: '물체는 재기 전에 사라졌다가, 재면 나타난다.', why: '국소 실재론과 상관없는 말이에요. 실재성을 버린다는 말도 물체가 사라진다는 뜻은 아니에요.' },
+  { t: '양자역학의 예측은 늘 맞는다.', why: '이건 실험이 지지하는 사실이지, 국소 실재론의 정의가 아니에요. 오히려 양자역학의 예측은 국소 실재론과 맞지 않아요.' },
+]}>
+
+다음 가운데 **국소 실재론**을 바르게 말한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="갈림길">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길 1', caption: '값은 있어요. 대신 멀리 떨어진 것이 곧장 이어져 있어요' },
+      { big: '길 2', caption: '멀리 영향은 없어요. 대신 재기 전엔 값이 없어요', tone: 'accent' },
+      { big: '길 3', caption: '숨은 가정을 따져요', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+국소 실재론이 틀렸다면 우리 앞에는 갈림길이 있어요. 실재성을 지키고 국소성을 버리는 길, 국소성을 지키고 실재성을 버리는 길이에요.
+
+<S n={2}>
+
+벨 부등식을 만들 때 쓴 다른 가정, 예를 들어 측정 방향을 자유롭게 고른다는 가정을 의심하는 길도 있어요. 하나씩 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="길 1: 값은 있다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1952', caption: '데이비드 봄의 이론' },
+      { big: '값은 정해져 있어요', caption: '입자는 늘 정해진 자리에 있어요' },
+      { big: '대신', caption: '한쪽을 재면 멀리 있는 쪽이 곧장 영향을 받아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+첫 번째 길은 1952년 데이비드 봄이 실제로 보여 줬어요. 입자가 늘 정해진 자리에 있으면서도 양자역학과 똑같은 예측을 내는 이론을 만들었거든요.
+
+<S n={2}>
+
+대가는 국소성이에요. 이 이론에서는 한쪽 입자를 재면 멀리 있는 짝의 움직임이 곧장 바뀌어요. 벨 자신도 이 이론을 진지하게 여겼어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="길 2: 값은 없다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '멀리 영향은 없어요', caption: 'A를 재도 B는 그대로예요' },
+      { big: '대신', caption: '재기 전 스핀에는 미리 정해진 값이 없어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 번째 길은 84강의 코펜하겐 해석에 가까워요. 재기 전의 스핀에는 정해진 값이 없으니, 지시서도 없다는 거예요.
+
+<S n={2}>
+
+그러면 벨 부등식을 만든 첫 단계부터 서지 않아요. 두 결과가 맞춰지는 건 두 입자를 묶은 하나의 상태가 그렇게 생겼기 때문이라고 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="길 3: 숨은 가정">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '자유로운 선택', caption: '방향 고르기가 입자와 상관없다는 가정' },
+      { big: '결과는 하나', caption: '잴 때마다 결과가 하나만 나온다는 가정', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+세 번째 길은 다른 가정을 의심해요. 방향 고르기까지 우주의 시작부터 입자와 맞춰져 있었다면, 벨 부등식이 깨져도 국소 실재론을 지킬 수 있어요.
+
+<S n={2}>
+
+잴 때마다 결과가 하나만 나온다는 가정을 의심하는 해석도 있어요. 이 길들은 93강과 94강에서 다시 만나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="무엇을 내주나">
+  <Fragment slot="visual">
+    <DataTable head={['길', '지키는 것', '내주는 것']} rows={[
+      ['길 1', '재기 전의 값', '국소성'],
+      ['길 2', '국소성', '재기 전의 값'],
+      ['길 3', '국소성과 실재성', '자유로운 선택이나 하나의 결과'],
+    ]} />
+  </Fragment>
+
+어느 길이든 무언가를 내줘야 해요. 아인슈타인이 바란 대로 둘을 다 지키는 길은 실험이 막았어요.
+
+<S n={2}>
+
+그리고 어느 길이 맞는지는 아직 정해지지 않았어요. 세 길 모두 지금까지의 실험 결과를 똑같이 설명하거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="실재성을 버린다는 말">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이런 뜻이 아니에요', caption: '세상은 내가 볼 때만 있어요', tone: 'no' },
+      { big: '이런 뜻이에요', caption: '재지 않은 스핀에 미리 정한 값이 없어요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 "실재성을 버린다"는 말이 "세상이 실제로 없다"는 말처럼 들렸어요.
+
+여기서 실재성은 재지 않은 성질에도 정해진 값이 있느냐는 좁은 뜻이에요. 그 값이 없다고 해서 전자가 없다는 건 아니에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="worked" title="달의 흐림">
+  <Fragment slot="visual">
+    <DataTable caption="불확정성 원리로 본 달" head={['양', '값']} rows={[
+      ['달의 질량', '약 7 × 10²² kg'],
+      ['위치를 원자 하나 크기(10⁻¹⁰ m)까지 정하면', '속도의 흐림은 약 7 × 10⁻⁴⁸ m/s'],
+      ['그 흐림으로 우주의 나이 동안 벗어나는 거리', '약 3 × 10⁻³⁰ m'],
+    ]} />
+  </Fragment>
+
+그럼 달은 어떨까요? 61강의 불확정성 원리로 달의 위치를 원자 하나 크기까지 정해 볼게요.
+
+그래도 달의 속도는 약 7 × 10⁻⁴⁸ m/s밖에 흐려지지 않아요. 이 흐림으로는 우주의 나이만큼 기다려도 원자 하나 크기보다 훨씬 작게 벗어날 뿐이에요.
+
+</Screen>
+
+<Screen kind="step" title="달은 늘 보여지고 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'sun', title: '햇빛', caption: '1초에 셀 수 없이 많은 광자가 부딪혀요' },
+      { icon: 's4-moon', title: '달', caption: '그 광자들이 달의 자리를 늘 실어 날라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+게다가 달에는 1초에도 셀 수 없이 많은 햇빛 광자가 부딪혀요. 그 광자들은 달의 자리를 우주로 실어 날라요.
+
+<S n={2}>
+
+사람이 안 봐도 달은 주변과 끊임없이 부딪히며 자기 자리를 남기고 있는 셈이에요. 이게 큰 물체의 겹침이 안 보이는 까닭과 이어지는데, 93강의 <Later n={93}>결어긋남</Later>에서 다뤄요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="벨 실험이 겨눈 곳">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-moon', title: '달의 자리', caption: '벨 실험과 상관없이 늘 정해져 있어요' },
+      { icon: 'atom', title: '얽힌 전자의 스핀', caption: '재기 전의 값이 문제가 돼요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그러니 벨 실험이 흔든 건 달의 자리가 아니에요. 주변과 떨어져 있는 얽힌 입자, 그 입자의 스핀처럼 아직 재지 않은 성질이에요.
+
+<S n={2}>
+
+<Key>벨 실험은 국소성과 실재성을 함께 지키는 이론이 틀렸다는 것을 보였지만, 그건 주변과 떨어진 얽힌 입자의 재지 않은 성질에 관한 이야기이므로 아무도 보지 않으면 달이 사라진다는 뜻은 아니에요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="벨 실험이 보이지 않은 것">
+
+<Check id="q92-b" options={[
+  { t: '국소성과 실재성을 함께 지키는 이론으로는 결과를 설명할 수 없어요.', why: '이건 벨 실험이 실제로 보인 거예요.' },
+  { t: '달은 아무도 보지 않을 때 그 자리에 없어요.', ok: true, why: '맞아요. 이건 벨 실험이 보이지 않은 거예요. 달은 주변과 끊임없이 부딪히고, 불확정성도 아주 작아서 자리가 늘 정해져 있어요.' },
+  { t: '얽힌 입자의 결과는 미리 정한 지시서로 흉내 낼 수 없어요.', why: '이건 벨 부등식이 깨진다는 데서 바로 나오는 결론이에요.' },
+  { t: '아인슈타인이 바란 대로 두 믿음을 다 지킬 수는 없어요.', why: '이것도 벨 실험이 보인 거예요. 두 믿음 가운데 적어도 하나는 내줘야 해요.' },
+]}>
+
+다음 가운데 벨 실험의 결과로 말할 수 **없는** 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="그래도 소식은 못 보내요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길 1을 골라도', caption: '한쪽 결과만 보면 늘 반반이에요' },
+      { big: '길 2를 골라도', caption: '한쪽 결과만 보면 늘 반반이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+길 1처럼 멀리 떨어진 것이 곧장 이어져 있다고 봐도, 그걸로 소식을 보낼 수는 없어요. 1980년 이탈리아의 물리학자들은 양자역학의 규칙만으로 이것을 증명했어요.
+
+<S n={2}>
+
+89강에서 본 대로, 한쪽 결과만 보면 상대가 무엇을 하든 늘 반반이거든요. 그래서 어느 길을 골라도 상대성이론이 금지한 빛보다 빠른 통신은 생기지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="봄의 이론이 고른 길">
+
+<Check id="q92-c" options={[
+  { t: '국소성과 실재성을 모두 지켜요.', why: '그런 이론은 벨 부등식을 지켜야 해서 실험과 맞지 않아요. 봄의 이론은 실험과 맞아요.' },
+  { t: '실재성을 지키고 국소성을 내줘요.', ok: true, why: '맞아요. 입자가 늘 정해진 자리에 있으니 실재성을 지키고, 대신 멀리 있는 짝이 곧장 영향을 받으니 국소성을 내줘요.' },
+  { t: '국소성을 지키고 실재성을 내줘요.', why: '그건 길 2예요. 봄의 이론에서는 입자의 자리가 늘 정해져 있어요.' },
+  { t: '두 믿음을 모두 내줘요.', why: '봄의 이론에서 입자의 자리는 늘 정해져 있으니 실재성은 지켜요.' },
+]}>
+
+1952년 데이비드 봄의 이론에서는 입자가 늘 정해진 자리에 있고, 한쪽 입자를 재면 멀리 있는 짝의 움직임이 곧장 바뀌어요. 이 이론은 국소성과 실재성 가운데 무엇을 지키고 무엇을 내줄까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" label="생각해 보기" title="생각해 볼 물음">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길 1', caption: '멀리 떨어진 것이 이어져 있어요' },
+      { big: '길 2', caption: '재기 전엔 값이 없어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Reflect id="r92">
+
+<Fragment slot="question">
+
+길 1과 길 2 가운데 어느 쪽이 덜 이상하게 느껴지나요? 그 까닭도 적어 보세요.
+
+</Fragment>
+
+**길 1을 고른 사람**: 물체에 정해진 성질이 없다는 건 받아들이기 어려워요. 멀리 이어져 있는 게 이상해도, 그걸로 소식을 보낼 수 없으니 상대성이론과 부딪히지는 않아요.
+
+**길 2를 고른 사람**: 빛보다 빠른 영향은 상대성이론의 정신과 맞지 않아요. 재기 전의 값을 말하지 않는 건 코펜하겐 해석이 처음부터 해 온 일이에요.
+
+**아직 못 고른 사람**: 두 길 모두 지금의 실험을 똑같이 설명하니, 정할 근거가 아직 없어요. 그것도 정직한 대답이에요.
+
+</Reflect>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['local-realism']}>
+
+1. 벨 실험으로 국소 실재론은 틀렸어요.
+2. 그래서 국소성이나 실재성 가운데 하나는 내줘야 해요.
+3. 어느 길도 지금의 실험을 똑같이 설명해요.
+4. 이건 얽힌 입자의 재지 않은 성질에 관한 이야기예요.
+5. 달은 그대로 있고, 소식도 빛보다 빨리 못 보내요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="친구의 두 주장">
+
+<DailyProblem id="p92">
+
+벨 실험 기사를 읽은 친구가 두 가지를 말해요. "첫째, 이제 빛보다 빠르게 문자를 보낼 수 있어요. 둘째, 내가 안 보는 동안 내 방 책상은 그 자리에 없어요."
+
+두 주장이 왜 틀렸는지 오늘 배운 것으로 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+첫째 주장은 한쪽 결과만 볼 때 무엇이 보이는지 떠올려 보세요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+둘째 주장은 책상이 주변과 얼마나 많이 부딪히는지, 그리고 책상이 얼마나 무거운지 떠올려 보세요.
+
+</Fragment>
+<Fragment slot="solution">
+
+첫째, 얽힌 짝의 한쪽 결과만 보면 상대가 무엇을 하든 늘 반반이에요. 맞춰진 결과는 두 목록을 보통의 방법으로 보내 비교해야 보이니, 빛보다 빠른 문자는 보낼 수 없어요.
+
+둘째, 벨 실험이 흔든 건 주변과 떨어진 얽힌 입자의 재지 않은 성질이에요. 책상은 공기 분자와 빛에 끊임없이 부딪히고, 무거워서 불확정성도 아주 작아요. 그래서 책상의 자리는 아무도 안 봐도 정해져 있어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+벨 실험은 국소 실재론이 틀렸다는 것을 보여서 국소성이나 실재성 가운데 하나를 내줘야 하지만, 그건 얽힌 입자의 재지 않은 성질에 관한 것이라 달이 사라지거나 빛보다 빠른 통신이 생기지는 않아요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="해석들을 나란히">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '다세계', caption: '' },
+      { big: '봄 역학', caption: '' },
+      { big: '큐비즘', caption: '' },
+      { big: '객관적 붕괴', caption: '', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 본 갈림길마다 실제로 그 길을 걷는 해석이 있어요. 87강의 측정 문제에도 저마다 다르게 대답하죠.
+
+<S n={2}>
+
+다음 강에서는 대표적인 해석 넷과, 큰 물체의 겹침이 왜 안 보이는지 설명하는 <Later n={93}>결어긋남</Later>을 나란히 놓아요. 각자 무엇을 설명하고 무엇을 대가로 치르는지 공정하게 견줘 볼게요.
+
+</S>
+
+</Screen>
