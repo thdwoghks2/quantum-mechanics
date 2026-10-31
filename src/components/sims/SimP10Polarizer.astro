@@ -1,0 +1,167 @@
+---
+/**
+ * 편광판. 빛이 왼쪽에서 들어와 편광판들을 지난다. 첫째 판의 축은 가로(0°).
+ * mid가 켜지면 가운데 판이 하나 더 있다. 각 판을 지날 때 세기는 cos²(사이 각도)배.
+ * photon 버튼: 광자를 하나씩 보내, 판마다 cos²(사이 각도)의 확률로 지나가게 한다.
+ */
+interface Props {
+  three?: boolean;
+  t?: number;
+  m?: number;
+}
+const { three = false, t = 30, m = 45 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p10-polarizer class="sim" data-ratio="0.5" data-three={three ? '1' : '0'}>
+  <canvas aria-label="빛이 편광판들을 지나며 세기가 줄어든다. 판마다 축 방향이 선으로 그려져 있다"></canvas>
+  <div class="sim__controls">
+    {three && (
+      <div class="sim__row">
+        <label for={`p10p-m-${uid}`}>가운데 판의 각도</label>
+        <input id={`p10p-m-${uid}`} type="range" min="0" max="90" step="5" value={m} data-param="m" />
+        <output data-out="m"></output>
+      </div>
+    )}
+    {!three && <input type="hidden" data-param="m" value="0" />}
+    <div class="sim__row">
+      <label for={`p10p-t-${uid}`}>마지막 판의 각도</label>
+      <input id={`p10p-t-${uid}`} type="range" min="0" max="90" step="5" value={three ? 90 : t} data-param="t" />
+      <output data-out="t"></output>
+    </div>
+  </div>
+  <input type="hidden" data-param="ph" value="0" />
+  <div class="sim__buttons" aria-label="빛 고르기">
+    <button type="button" class="btn" data-set="ph=0" aria-pressed="true">빛의 세기</button>
+    <button type="button" class="btn" data-set="ph=1" aria-pressed="false">광자 하나씩</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p10-polarizer>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const rad = (d: number) => (d * Math.PI) / 180;
+
+  class SimP10Polarizer extends Sim {
+    three = false;
+    photons: { x: number; stage: number; dead: boolean }[] = [];
+    sent = 0;
+    passed = 0;
+    acc = 0;
+
+    init() {
+      this.three = this.dataset.three === '1';
+    }
+
+    changed() {
+      this.photons = [];
+      this.sent = 0;
+      this.passed = 0;
+    }
+
+    angles() {
+      return this.three ? [0, this.p.m!, this.p.t!] : [0, this.p.t!];
+    }
+
+    probs() {
+      const a = this.angles();
+      const out: number[] = [];
+      for (let i = 1; i < a.length; i++) out.push(Math.cos(rad(a[i]! - a[i - 1]!)) ** 2);
+      return out;
+    }
+
+    expect() {
+      return this.probs().reduce((s, p) => s * p, 1);
+    }
+
+    format(name: string) {
+      return name === 't' || name === 'm' ? `${this.p[name]}°` : '';
+    }
+
+    tick(dt: number) {
+      if (!this.p.ph) return;
+      this.acc += dt * 6;
+      while (this.acc >= 1) {
+        this.acc -= 1;
+        this.photons.push({ x: 0, stage: 0, dead: false });
+      }
+      const n = this.angles().length;
+      const px = (i: number) => 0.18 + (i / (n - 1)) * 0.64;
+      const pr = this.probs();
+      for (const ph of this.photons) {
+        if (ph.dead) continue;
+        ph.x += dt * 0.45;
+        // 판을 지날 때마다 확률로 지나가거나 막힌다
+        while (ph.stage < n && ph.x >= px(ph.stage)) {
+          if (ph.stage > 0 && Math.random() > pr[ph.stage - 1]!) {
+            ph.dead = true;
+            this.sent++;
+            break;
+          }
+          ph.stage++;
+        }
+        if (!ph.dead && ph.x > 1) {
+          ph.dead = true;
+          this.sent++;
+          this.passed++;
+        }
+      }
+      this.photons = this.photons.filter((p) => !p.dead || p.x < 0);
+    }
+
+    readout() {
+      const e = this.expect();
+      if (!this.p.ph) return `첫째 판을 지난 빛을 1로 두면, 마지막 판을 지난 빛의 세기: ${e.toFixed(2)}`;
+      return `첫째 판을 지난 광자 ${this.sent}개 가운데 ${this.passed}개가 끝까지 지나갔어요 · 지날 확률 ${e.toFixed(2)}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const a = this.angles();
+      const n = a.length;
+      const mid = h * 0.5;
+      const R = Math.min(h * 0.32, w * 0.09);
+      const X = (x: number) => 10 + x * (w - 20);
+      const px = (i: number) => X(0.18 + (i / (n - 1)) * 0.64);
+
+      // 빛줄기 (세기에 따라 굵기와 밝기)
+      let I = 1;
+      const segs: [number, number, number][] = [[X(0), px(0), 1]];
+      for (let i = 0; i < n; i++) {
+        if (i > 0) I *= Math.cos(rad(a[i]! - a[i - 1]!)) ** 2;
+        segs.push([px(i), i < n - 1 ? px(i + 1) : X(1), I]);
+      }
+      if (!this.p.ph) {
+        for (const [x0, x1, s] of segs) {
+          g.globalAlpha = 0.15 + 0.75 * s;
+          this.line(x0, mid, x1, mid, c.energy, 2 + 10 * s);
+        }
+        g.globalAlpha = 1;
+      } else {
+        this.line(X(0), mid, X(1), mid, c.line, 1);
+        for (const ph of this.photons) if (!ph.dead) this.dot(X(ph.x), mid, 4, c.energy);
+      }
+
+      // 편광판 (빛이 오는 쪽에서 본 모습): 선이 축 방향이에요. 0°는 가로.
+      for (let i = 0; i < n; i++) {
+        const cx = px(i);
+        g.fillStyle = 'rgba(120,140,170,0.16)';
+        g.beginPath();
+        g.arc(cx, mid, R, 0, Math.PI * 2);
+        g.fill();
+        g.strokeStyle = c.text2;
+        g.lineWidth = 1;
+        g.stroke();
+        const th = rad(a[i]!);
+        const dx = Math.cos(th) * R * 0.9;
+        const dy = Math.sin(th) * R * 0.9;
+        this.line(cx - dx, mid + dy, cx + dx, mid - dy, c.accent, 2.5);
+        this.text(`${a[i]}°`, cx, mid + R + 12, c.text2, 11, 'center');
+      }
+      if (!this.p.ph) this.text(`세기 ${I.toFixed(2)}`, X(1) - 2, mid - 16, c.energy, 11, 'right');
+    }
+  }
+  define('qm-sim-p10-polarizer', SimP10Polarizer);
+</script>

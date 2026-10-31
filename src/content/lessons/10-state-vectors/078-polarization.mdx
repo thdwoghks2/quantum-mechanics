@@ -1,0 +1,454 @@
+---
+number: 78
+title: 빛의 편광
+short: 편광
+question: 편광 선글라스 두 개를 겹쳐 돌리면 왜 어느 순간 깜깜해질까요?
+mechanism: 빛의 전기는 진행 방향과 직각으로 흔들리고, 그 흔들리는 방향이 편광이라서 벡터로 나타내요. 편광판은 흔들림 벡터 가운데 자기 축 방향의 성분만 통과시키니, 흔들림은 cos(사이 각도)배, 세기는 그 제곱인 cos²(사이 각도)배가 돼요. 그래서 축이 직각인 두 판은 빛을 모두 막지만, 그 사이에 45° 판을 넣으면 흔들림 방향이 돌아가서 빛이 다시 나와요. 광자 하나에게 이 세기 규칙은 cos²(사이 각도)의 확률로 지나가는 규칙이 돼요.
+part: 10
+minutes: 20
+assumes: [em-wave, vector, dot-product, photon, probability, amplitude, sine, visible-light]
+introduces: [polarization]
+sources:
+  - "Malus, É.-L. Sur une propriété de la lumière réfléchie, Mémoires de physique et de chimie de la Société d'Arcueil 2, 143 (1809)"
+  - "Hecht, E. Optics, 5th ed., Ch. 8 Polarization (2017)"
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 33 Polarization (1963)"
+testout: [q78-60, q78-mid, q78-photon]
+status: published
+---
+
+<Screen kind="scene" title="흔들림의 방향">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '흔들림의 방향', caption: '지난 강 끝의 예고' },
+      { big: '선글라스 두 개', caption: '오늘 직접 확인해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 빛이 흔들리는 방향도 벡터라고 했죠. 오늘은 그 방향을 선글라스 두 개로 직접 확인해 봐요.
+
+<S n={2}>
+
+선글라스가 하나뿐이라면, 휴대폰이나 노트북의 액정 화면을 앞에 두고 해 볼 수도 있어요. 이건 오늘 끝에서 다시 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="선글라스 두 개">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '나란히 겹치면', caption: '조금 어두워질 뿐이에요' },
+      { big: '90° 돌려 겹치면', caption: '거의 깜깜해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+편광 선글라스 두 개를 겹쳐 놓고 하나를 천천히 돌려 보면, 어느 순간 거의 깜깜해져요. 색이 짙어진 것도 아닌데 빛이 막히는 거예요.
+
+<S n={2}>
+
+거기서 90°를 더 돌리면 다시 밝아지죠. 빛에는 색과 세기 말고도 방향이라는 성질이 있다는 증거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={19} title="옆으로 흔들리는 빛">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '나아가는 방향', caption: '앞으로' },
+      { big: '흔들리는 방향', caption: '나아가는 방향과 직각', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+19강에서 빛은 전기와 자기가 흔들리며 퍼지는 전자기파였어요. 이때 전기가 흔들리는 방향은 빛이 나아가는 방향과 직각이에요.
+
+<S n={2}>
+
+빛이 앞으로 나아갈 때, 전기는 위아래로도, 좌우로도, 비스듬히도 흔들릴 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="편광">
+  <Fragment slot="visual">
+    <Define term="polarization" />
+  </Fragment>
+
+빛의 전기가 흔들리는 방향을 **편광**이라고 불러요. 나아가는 방향과 직각인 평면 위의 화살표, 그러니까 벡터로 나타내요.
+
+<S n={2}>
+
+햇빛이나 전등 빛은 온갖 방향으로 흔들리는 빛이 섞여 있어요. 이런 빛을 편광되지 않은 빛이라고 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="편광판이 하는 일">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '축과 같은 방향', caption: '다 지나가요', tone: 'ok' },
+      { big: '축과 직각', caption: '다 막혀요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+편광 선글라스에 붙은 편광판에는 축이 하나 있어요. 축과 같은 방향으로 흔들리는 빛은 지나가고, 축과 직각으로 흔들리는 빛은 막혀요.
+
+<S n={2}>
+
+편광되지 않은 빛을 편광판에 비추면 세기의 절반만 지나가요. 그리고 지나간 빛은 모두 축 방향으로 흔들려요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="비스듬히 흔들리는 빛">
+  <Fragment slot="visual">
+    <SimP10Vector deg={50} />
+  </Fragment>
+
+그럼 축과 비스듬히 흔들리는 빛은 어떻게 될까요? 흔들림 화살표 가운데 축 방향 성분만 지나가요.
+
+<S n={2}>
+
+77강에서 길이 1인 화살표와 내적하면 그 방향의 성분이 나왔죠. 그래서 지나가는 흔들림은 원래 흔들림의 cos(사이 각도)배예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="세기는 제곱으로">
+  <Fragment slot="visual">
+    <BigNumber top="편광판을 지난 빛의 세기" value="cos²(사이 각도)배" bottom="1809년 말뤼스가 찾은 규칙" q="energy" />
+  </Fragment>
+
+빛의 세기는 흔들림 크기의 제곱에 비례해요. 그래서 지나가는 빛의 세기는 cos²(사이 각도)배가 돼요.
+
+<S n={2}>
+
+1809년 에티엔루이 말뤼스가 실험으로 찾은 규칙이라, 말뤼스 법칙이라고 불러요.
+
+<Key>편광판은 빛의 흔들림 가운데 축 방향 성분만 통과시켜서, 흔들림은 cos(사이 각도)배, 빛의 세기는 그 제곱인 cos²(사이 각도)배로 줄어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="각도마다 남는 빛">
+  <Fragment slot="visual">
+    <DataTable caption="편광된 빛이 축과 이루는 각도와 지나가는 세기" head={['각도', 'cos', '세기 cos²']} rows={[
+      ['0°', '1', '1'],
+      ['30°', '약 0.87', '0.75'],
+      ['45°', '약 0.71', '0.5'],
+      ['60°', '0.5', '0.25'],
+      ['90°', '0', '0'],
+    ]} steps={[undefined, 2, 2, 3, 3]} />
+  </Fragment>
+
+이미 한 방향으로 흔들리는 빛을, 축이 기운 편광판에 비춘다고 해 볼게요.
+
+<S n={2}>
+
+30°면 세기의 4분의 3이, 45°면 딱 절반이 지나가요.
+
+</S>
+
+<S n={3}>
+
+60°면 흔들림은 절반, 세기는 4분의 1이에요. 90°면 하나도 못 지나가죠. 감각으로 확인하면, 겹친 선글라스가 직각에서 깜깜해진 것과 맞아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="두 편광판">
+  <Fragment slot="visual">
+    <SimP10Polarizer t={30} />
+  </Fragment>
+
+마지막 판의 각도를 바꿔 보세요. 원 안의 선이 판의 축이고, 첫째 판을 지난 빛을 1로 두었을 때 끝까지 지나간 빛의 세기가 나와요.
+
+<S n={2}>
+
+0°에서는 다 지나가고, 90°에서는 하나도 못 지나가요. 45°에서는 딱 절반이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="60° 기운 판">
+
+<Check id="q78-60" options={[
+  { t: '4분의 1', ok: true, why: 'cos 60° = 0.5라서 흔들림은 절반이 되고, 세기는 그 제곱인 0.25가 돼요.' },
+  { t: '2분의 1', why: '흔들림의 크기가 절반이에요. 세기는 흔들림의 제곱이라 4분의 1이에요.' },
+  { t: '4분의 3', why: '4분의 3은 30°일 때예요. 60°면 축과 더 많이 어긋나서 덜 지나가요.' },
+  { t: '0', why: '0은 90°일 때예요. 60°면 흔들림의 축 방향 성분이 아직 남아 있어요.' },
+]}>
+
+가로로 흔들리는 빛이, 축이 가로에서 60° 기운 편광판을 만났어요. 지나간 빛의 세기는 처음의 몇 배일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="눈부심을 막는 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '반사된 빛', caption: '물이나 도로에서 주로 가로로 흔들려요' },
+      { big: '선글라스의 축', caption: '세로라서 그 빛을 막아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+물이나 젖은 도로에 반사된 빛은 주로 가로로 흔들려요. 편광 선글라스는 축을 세로로 둬서 이 빛을 막아요.
+
+<S n={2}>
+
+그래서 편광 선글라스를 쓰면 물 표면의 번쩍임이 줄고, 물속이 더 잘 보여요. 낚시하는 사람들이 이 선글라스를 즐겨 쓰는 까닭이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="말뤼스의 창문">
+  <Fragment slot="visual">
+    <BigNumber top="반사된 빛이 한 방향으로 흔들린다는 것을 찾은 해" value="1808" bottom="에티엔루이 말뤼스 · 프랑스 파리" />
+  </Fragment>
+
+1808년 프랑스의 에티엔루이 말뤼스는 궁전 유리창에 반사된 햇빛을, 방해석이라는 투명한 돌을 통해 들여다봤어요. 돌을 돌리자 반사된 빛의 밝기가 바뀌었죠.
+
+<S n={2}>
+
+반사된 빛이 특정 방향으로 흔들린다는 걸 처음 알아낸 순간이었어요. 이듬해 말뤼스는 세기가 cos²로 줄어든다는 규칙도 내놓았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="세 번째 판">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '0°', caption: '첫째 판' },
+      { big: '45°', caption: '사이에 끼운 판', tone: 'accent' },
+      { big: '90°', caption: '마지막 판' },
+    ]} />
+  </Fragment>
+
+이제 이상한 실험을 해 볼게요. 축이 직각이라 깜깜해진 두 판 사이에, 45° 기운 판 하나를 끼워 넣어요.
+
+<S n={2}>
+
+빛을 막는 판을 하나 더 넣었는데, 오히려 빛이 다시 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="가운데 판의 각도">
+  <Fragment slot="visual">
+    <SimP10Polarizer three m={45} />
+  </Fragment>
+
+가운데 판의 각도를 바꿔 보세요. 첫째 판은 0°, 마지막 판은 90°예요.
+
+<S n={2}>
+
+가운데가 45°일 때 첫째 판을 지난 빛의 4분의 1이 끝까지 나와요. 가운데 판이 빛의 흔들림 방향을 45°로 돌려놓았거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="4분의 1의 계산">
+  <Fragment slot="visual">
+    <Flow alt="첫째 판을 지난 가로 흔들림 빛이 45° 판에서 절반이 남고 45° 방향이 된 뒤, 90° 판에서 다시 절반이 남는다" items={[
+      { t: '0° 판 뒤', sub: '세기 1 · 가로로 흔들려요' },
+      { t: '45° 판 뒤', sub: '세기 ½ · 45°로 흔들려요', step: 2 },
+      { t: '90° 판 뒤', sub: '세기 ¼', step: 3 },
+    ]} />
+  </Fragment>
+
+첫째 판을 지난 빛은 가로로 흔들려요. 이 빛의 세기를 1로 둘게요.
+
+<S n={2}>
+
+45° 판을 지나면 cos²45° = ½이 남고, 흔들림 방향은 45°가 돼요.
+
+</S>
+
+<S n={3}>
+
+그 빛이 90° 판과 이루는 각도는 다시 45°라서, 또 절반이 남아요. ½ × ½ = ¼이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="가운데 판을 0°로">
+
+<Check id="q78-mid" options={[
+  { t: '0', ok: true, why: '가운데 판이 0°면 빛은 그대로 가로로 흔들려요. 그 빛이 90° 판과 이루는 각도가 90°라서 하나도 못 지나가요.' },
+  { t: '¼', why: '¼은 가운데 판이 45°일 때예요. 0°면 흔들림 방향을 돌려놓지 못해요.' },
+  { t: '½', why: '가운데 판 0°는 빛을 그대로 통과시키지만, 마지막 90° 판에서 모두 막혀요.' },
+  { t: '1', why: '마지막 판의 축이 빛의 흔들림과 직각이라 다 막혀요.' },
+]}>
+
+첫째 판 0°, 마지막 판 90°인 상태에서 가운데 판의 각도를 0°로 돌렸어요. 첫째 판을 지난 빛의 세기를 1로 두면, 끝까지 나오는 빛은 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="광자 하나라면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '빛줄기', caption: '세기의 절반이 지나가요' },
+      { big: '광자 하나', caption: '통째로 지나가거나, 통째로 막혀요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 빛을 아주 약하게 해서 광자가 하나씩 오게 해 볼게요. 가로로 흔들리는 광자 하나가 45° 판에 오면 어떻게 될까요?
+
+<S n={2}>
+
+광자는 쪼개지지 않으니, 절반만 지나갈 수는 없어요. 통째로 지나가거나 통째로 막히는데, 지나갈 확률이 ½이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="광자 하나씩">
+  <Fragment slot="visual">
+    <SimP10Polarizer t={45} />
+  </Fragment>
+
+'광자 하나씩'을 누르고 재생해 보세요. 광자가 하나씩 와서 지나가거나 막혀요.
+
+<S n={2}>
+
+많이 보내면 지나간 비율이 cos²(사이 각도)에 다가가요. 빛의 세기 규칙이, 광자 하나에게는 확률의 규칙이 되는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="광자 하나의 확률">
+
+<Check id="q78-photon" options={[
+  { t: '4분의 3의 확률로 통째로 지나가요', ok: true, why: '빛줄기라면 세기의 cos²30° = ¾이 지나가요. 광자 하나는 쪼개지지 않으니, 그 비율이 지나갈 확률이 돼요.' },
+  { t: '광자의 4분의 3만큼이 지나가요', why: '광자는 쪼개지지 않아요. 통째로 지나가거나 통째로 막혀요.' },
+  { t: '반드시 지나가요', why: '축과 어긋난 만큼 막힐 확률이 있어요. 30°면 4분의 1의 확률로 막혀요.' },
+  { t: '반드시 막혀요', why: '광자의 흔들림에는 축 방향 성분이 남아 있어서, 지나갈 확률이 0이 아니에요.' },
+]}>
+
+가로로 흔들리는 광자 하나가, 축이 30° 기운 편광판에 와요. 이 광자는 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="광자는 미리 정해져 있었을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '첫째 판을 지난 광자들', caption: '모두 똑같이 가로로 흔들려요' },
+      { big: '45° 판 앞에서', caption: '어떤 것은 지나가고 어떤 것은 막혀요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 광자마다 '지나갈 광자'와 '막힐 광자'가 미리 정해져 있다고 생각했어요. 그런데 첫째 판을 지난 광자는 모두 똑같은 상태예요.
+
+그런데도 45° 판 앞에서 결과가 갈려요. 이 이야기는 다음 두 강에서 이어 가요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="액정 화면으로 해 보기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'phone', title: '액정 화면', caption: '편광판 두 장이 들어 있어요' },
+      { big: '고개를 기울이면', caption: '어느 각도에서 화면이 어두워져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+노트북이나 모니터의 액정 화면(LCD)에는 편광판 두 장이 들어 있어요. 그 사이의 액정이 빛의 흔들림 방향을 얼마나 돌리느냐로 칸마다 밝기를 정하죠.
+
+<S n={2}>
+
+편광 선글라스를 쓰고 액정 화면을 보며 고개를 천천히 기울여 보세요. 어느 각도에서 화면이 어두워져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['polarization', 'dot-product']}>
+
+1. 빛의 전기는 나아가는 방향과 직각으로 흔들리고, 그 방향이 편광이에요.
+2. 편광판은 흔들림 벡터 가운데 축 방향 성분만 통과시켜요.
+3. 그래서 흔들림은 cos, 세기는 cos²(사이 각도)배가 돼요.
+4. 직각인 두 판 사이에 45° 판을 넣으면, 흔들림 방향이 돌아가 ¼이 나와요.
+5. 광자 하나에게 이 규칙은 cos²의 확률로 통째로 지나가는 규칙이에요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="판을 더 끼우면">
+
+<DailyProblem id="p78">
+
+첫째 판 0°와 마지막 판 90° 사이에, 30°와 60° 판 두 장을 차례로 끼웠어요. 판은 모두 네 장이고, 이웃한 판끼리 30°씩 어긋나 있어요.
+
+첫째 판을 지난 빛을 1로 두면, 끝까지 나오는 빛은 얼마일까요? 45° 판 하나를 끼웠을 때의 ¼과 견줘 보세요.
+
+<Fragment slot="hint1">
+
+이웃한 판 사이마다 cos²30°가 곱해져요. cos²30° = ¾이에요.
+
+</Fragment>
+<Fragment slot="solution">
+
+¾ × ¾ × ¾ = 27/64 ≈ 0.42예요. 45° 판 하나일 때의 0.25보다 더 많이 나와요.
+
+판을 촘촘히 끼울수록 이웃한 판 사이 각도가 작아져서, 판마다 잃는 빛이 줄어요. 흔들림 방향을 조금씩 여러 번 돌리면, 거의 잃지 않고 90°까지 돌릴 수 있어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+편광판은 빛의 흔들림 벡터 가운데 축 방향 성분만 통과시켜서 세기가 cos²(사이 각도)배가 되고, 광자 하나에게는 그 값이 지나갈 확률이 돼요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="두 값 가운데 하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '가로 또는 세로', caption: '광자의 편광을 재면' },
+      { big: '두 방향을 섞은 상태', caption: '재기 전의 광자', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 비스듬히 흔들리는 광자는 가로 흔들림과 세로 흔들림을 섞은 화살표였어요. 그런데 재면 '지나감' 아니면 '막힘', 둘 중 하나만 나왔죠.
+
+<S n={2}>
+
+다음 강에서는 이렇게 재면 두 값 중 하나가 나오는 양자 상태를 적는 법을 배워요. 그 상태가 <Later n={79}>큐비트</Later>이고, 적는 방법이 <Later n={79}>디랙 표기</Later>예요.
+
+</S>
+
+</Screen>
