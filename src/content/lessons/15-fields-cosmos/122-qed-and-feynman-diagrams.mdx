@@ -1,0 +1,419 @@
+---
+number: 122
+title: 양자전기역학과 파인먼 다이어그램
+short: 양자전기역학
+question: 빛과 전자가 주고받는 일을 사람은 얼마나 정확하게 계산할 수 있을까요?
+mechanism: 양자전기역학은 빛의 장과 전자의 장이 광자를 내놓고 흡수하며 주고받는 일을 확률 진폭으로 계산해요. 일이 일어나는 방법마다 파인먼 다이어그램을 하나씩 그리고, 그림마다 진폭을 구해 모두 더해요. 전자가 광자를 한 번 내놓거나 흡수할 때마다 진폭에 작은 수가 곱해지는데, 그 크기를 정하는 수가 미세 구조 상수 약 1/137이에요. 그래서 광자를 한 번 더 주고받는 그림일수록 기여가 100분의 1보다 더 작아지고, 앞의 몇 단계만 더해도 전자의 자석 세기를 12자리 가까이 맞힐 수 있어요.
+part: 15
+minutes: 20
+assumes: [field, photon, electron, spin, probability-amplitude, born-rule, complex-number, electric-force, energy, interference]
+introduces: [qed, feynman-diagram, fine-structure-constant]
+sources:
+  - "Kusch, P. & Foley, H. M. The Magnetic Moment of the Electron. Physical Review 74, 250–263 (1948)"
+  - "Schwinger, J. On Quantum-Electrodynamics and the Magnetic Moment of the Electron. Physical Review 73, 416–417 (1948)"
+  - "Feynman, R. P. QED: The Strange Theory of Light and Matter. Princeton University Press (1985)"
+  - "Aoyama, T., Hayakawa, M., Kinoshita, T. & Nio, M. Tenth-Order QED Contribution to the Electron g−2 and an Improved Value of the Fine Structure Constant. Physical Review Letters 109, 111807 (2012)"
+  - "Fan, X., Myers, T. G., Sukra, B. A. D. & Gabrielse, G. Measurement of the Electron Magnetic Moment. Physical Review Letters 130, 071801 (2023)"
+  - "CODATA 2018: 미세 구조 상수 α = 1/137.035 999 084(21)"
+testout: [q122-diagram, q122-small, q122-schwinger]
+status: published
+---
+
+<Screen kind="scene" title="전자라는 작은 자석">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-compass', title: '전자 하나', caption: '스핀 때문에 작은 자석처럼 행동해요' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 전자가 띤 작은 자석의 세기를 열두 자리 가까이 맞히는 계산이 있다고 했어요. 오늘은 그 계산을 따라가요.
+
+<S n={2}>
+
+72강에서 전자는 스핀을 가져서 작은 자석처럼 행동한다고 배웠죠. 이 자석이 얼마나 센지는 원자 속에서 전자를 재 보면 알 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="디랙이 내놓은 값">
+  <Fragment slot="visual">
+    <BigNumber top="1928년 디랙의 방정식이 내놓은 전자의 자석 세기 (이 값을 기준으로 잡아요)" value="1" bottom="전자의 질량과 전하만으로 정해지는 깔끔한 값이에요" />
+  </Fragment>
+
+1928년, 폴 디랙은 전자를 다루는 방정식을 세웠어요. 그 방정식은 전자의 자석 세기도 계산해 냈죠.
+
+<S n={2}>
+
+계산한 값은 전자의 질량과 전하로 정해지는 깔끔한 값이었어요. 이 값을 1로 잡고 실제 전자와 비교해 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="0.1% 더 센 자석">
+  <Fragment slot="visual">
+    <BigNumber top="1947년 폴리카프 쿠시와 헨리 폴리가 잰 전자의 자석 세기" value="1.00119" bottom="디랙의 값 1보다 0.1%쯤 더 셌어요" />
+  </Fragment>
+
+1947년, 컬럼비아 대학의 폴리카프 쿠시와 헨리 폴리는 원자 속 전자의 자석 세기를 아주 정밀하게 쟀어요.
+
+<S n={2}>
+
+잰 값은 1.00119로, 디랙의 값보다 0.1%쯤 더 셌어요. 작은 차이지만 측정의 오차로는 설명할 수 없는 크기였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="혼자 있는 전자는 없어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-loop', title: '광자를 내놓았다가 다시 흡수하는 전자', caption: '혼자 있을 때도 이런 일이 일어나요' },
+    ]} />
+  </Fragment>
+
+디랙의 방정식은 전자 하나만 따로 떼어 놓고 계산했어요. 그런데 121강에서 본 것처럼, 전자의 장과 빛의 장은 늘 함께 있거든요.
+
+<S n={2}>
+
+그래서 혼자 있는 전자도 광자를 내놓았다가 다시 흡수하는 일을 끊임없이 겪어요. 이 일까지 넣어서 계산하면 자석 세기가 조금 달라져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={56} title="진폭을 더해요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: 'a', title: '첫째 방법', caption: '확률 진폭 a' },
+      { big: 'b', title: '둘째 방법', caption: '확률 진폭 b' },
+      { big: '|a + b|²', title: '일어날 확률', caption: '진폭을 더한 뒤 크기를 제곱해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이런 계산에는 55강과 56강의 규칙을 써요. 같은 일이 여러 방법으로 일어날 수 있으면, 방법마다 확률 진폭을 하나씩 구해요.
+
+<S n={2}>
+
+그 진폭들을 모두 더한 뒤, 더한 값의 크기를 제곱하면 그 일이 일어날 확률이 나와요. 진폭은 복소수라서 서로 보태지기도 하고 지워지기도 하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="양자전기역학이라는 이름">
+  <Fragment slot="visual">
+    <Define term="qed" />
+  </Fragment>
+
+빛과 전자가 주고받는 모든 일을 이 규칙으로 계산하는 이론을 **양자전기역학**이라고 불러요. 1940년대 말에 줄리언 슈윙거, 리처드 파인먼, 도모나가 신이치로가 저마다 완성했어요.
+
+<S n={2}>
+
+전자가 빛을 내놓는 일도, 두 전자가 밀어내는 일도 이 이론 하나로 계산해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그림의 세 조각">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-e-line', title: '곧은 선', caption: '전자가 한 자리에서 다른 자리로 가요' },
+      { icon: 's5-photon', title: '물결선', caption: '광자가 한 자리에서 다른 자리로 가요' },
+      { icon: 's5-vertex', title: '점', caption: '전자가 광자를 내놓거나 흡수해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+파인먼은 이 계산을 그림으로 정리했어요. 그림에 쓰는 조각은 셋뿐이에요.
+
+<S n={2}>
+
+전자가 가는 곧은 선, 광자가 가는 물결선, 그리고 전자가 광자를 내놓거나 흡수하는 점이에요. 이 조각을 이어 붙이면 빛과 전자가 할 수 있는 모든 일을 그릴 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="파인먼 다이어그램이라는 이름">
+  <Fragment slot="visual">
+    <Define term="feynman-diagram" />
+  </Fragment>
+
+이렇게 선과 점으로 그린 그림을 **파인먼 다이어그램**이라고 해요. 그림 하나가 일이 일어나는 방법 하나예요.
+
+<S n={2}>
+
+그림마다 확률 진폭을 하나씩 정하는 규칙이 있어요. 그래서 그림을 다 그리면 계산할 진폭의 목록이 생기는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="두 전자가 밀어내는 그림">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-exchange', title: '광자 하나를 주고받는 두 전자', caption: '그래서 서로 밀려나요' },
+    ]} />
+  </Fragment>
+
+18강의 전기력도 이 그림으로 볼 수 있어요. 두 전자가 광자 하나를 주고받는 그림이 가장 간단한 방법이에요.
+
+<S n={2}>
+
+이때 주고받는 광자는 눈에 들어오는 빛과 달리, 두 전자 사이에만 잠깐 있다가 사라지는 광자예요. 이 광자를 주고받은 두 전자는 서로 밀려나죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그림은 사진이 아니에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '사진', caption: '전자가 실제로 지나간 길', tone: 'no' },
+      { big: '목록의 한 줄', caption: '일이 일어나는 방법 하나와 그 진폭', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 물결선이 실제로 날아가는 광자의 길을 찍은 사진 같았어요. 그런데 이 그림은 전자가 지나간 길을 보여 주지 않아요.
+
+그림은 진폭을 계산할 목록의 한 줄이에요. 일이 일어나는 방법이 여럿이면 그림도 여럿이고, 그 진폭을 모두 더해요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="그림 하나의 뜻">
+
+<Check id="q122-diagram" options={[
+  { t: '일이 일어나는 방법 하나와, 그 방법의 확률 진폭', ok: true, why: '파인먼 다이어그램은 계산할 진폭의 목록이에요. 방법이 여럿이면 그림의 진폭을 모두 더해요.' },
+  { t: '전자가 실제로 지나간 길을 찍은 사진', why: '그림은 전자의 길을 보여 주지 않아요. 같은 일을 여러 그림으로 그리고, 진폭을 더해요.' },
+  { t: '그 일이 일어날 확률 그 자체', why: '그림 하나는 진폭 하나를 정해요. 확률은 모든 진폭을 더한 뒤 크기를 제곱해서 구해요.' },
+  { t: '전자 하나의 실제 모양', why: '곧은 선은 전자가 한 자리에서 다른 자리로 가는 것을 나타낼 뿐, 전자의 모양이 아니에요.' },
+]}>
+
+양자전기역학에서 파인먼 다이어그램 하나가 나타내는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="점마다 작은 수">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's5-vertex', title: '점 하나', caption: '진폭에 작은 수가 곱해져요' },
+      { icon: 's5-loop', title: '점 둘', caption: '그 작은 수가 두 번 곱해져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그림의 점, 그러니까 전자가 광자를 내놓거나 흡수하는 자리마다, 그 그림의 진폭에 작은 수가 하나씩 곱해져요.
+
+<S n={2}>
+
+그래서 점이 많은 그림일수록 진폭이 작아요. 광자를 한 번 더 주고받는 그림은 그 일이 일어날 몫이 훨씬 작아지는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="미세 구조 상수라는 이름">
+  <Fragment slot="visual">
+    <Define term="fine-structure-constant" />
+  </Fragment>
+
+그 작은 수의 크기를 정하는 값을 **미세 구조 상수**라고 불러요. 기호로는 α(알파)라고 쓰고, 값은 약 137분의 1이에요.
+
+<S n={2}>
+
+단위가 없는 수라서, 어느 나라의 단위로 계산해도 똑같이 1/137.036이 나와요. 빛과 전자가 얼마나 세게 주고받는지를 이 수 하나가 정해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="첫 단계의 계산">
+  <Fragment slot="visual">
+    <BigNumber top="광자를 한 번 내놓았다가 흡수하는 그림의 몫" value="α ÷ 2π ≈ 0.00116" bottom="1948년 줄리언 슈윙거가 처음 계산했어요" q="energy" />
+  </Fragment>
+
+1948년, 슈윙거는 전자가 광자를 한 번 내놓았다가 다시 흡수하는 그림 하나를 계산했어요. 그 그림이 자석 세기에 보태는 몫은 α ÷ 2π였어요.
+
+1. α는 1 ÷ 137.036 ≈ 0.0072974예요.
+2. 2π는 약 6.2832예요.
+3. 0.0072974 ÷ 6.2832 ≈ 0.00116이에요.
+
+그래서 자석 세기는 1 + 0.00116 = 1.00116이 돼요. 쿠시와 폴리가 잰 1.00119와 거의 같죠. 감각 확인: 남은 차이 0.00003은 그때 측정의 오차 안에 들어가요.
+
+</Screen>
+
+<Screen kind="check" title="슈윙거의 몫">
+
+<Numeric id="q122-schwinger" answer={0.00116} tol={0.04} unit="">
+
+미세 구조 상수를 α = 1/137로 어림할게요. 전자가 광자를 한 번 내놓았다가 흡수하는 그림이 자석 세기에 보태는 몫 α ÷ 2π는 얼마일까요? π는 3.14로 계산하세요.
+
+<Fragment slot="solution">
+
+α = 1 ÷ 137 ≈ 0.0073이고, 2π ≈ 6.28이에요. 0.0073 ÷ 6.28 ≈ 0.00116이에요. 디랙의 값 1에 이만큼을 더하면 1.00116이 돼요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="worked" title="단계마다 작아지는 몫">
+  <Fragment slot="visual">
+    <DataTable caption="전자의 자석 세기에 단계마다 더해지는 몫 (대략)" head={['단계', '그림의 수', '더해지는 몫']} rows={[
+      ['1단계', '1개', '+0.001 16'],
+      ['2단계', '7개', '−0.000 001 8'],
+      ['3단계', '72개', '+0.000 000 015'],
+      ['4단계', '891개', '−0.000 000 000 06'],
+      ['5단계', '12,672개', '+0.000 000 000 000 4'],
+    ]} />
+  </Fragment>
+
+단계가 하나 오를 때마다 그림마다 광자를 한 번 더 주고받거나, 점이 두 개씩 더 생겨요. 그래서 몫이 단계마다 100분의 1보다 더 작아져요.
+
+1. 1단계는 슈윙거가 계산한 그림 하나예요.
+2. 단계가 오를수록 그릴 그림은 7개, 72개, 891개로 늘어나요.
+3. 5단계에는 그림이 12,672개나 되지만, 더해지는 몫은 1조분의 1보다 작아요.
+
+그래서 앞의 다섯 단계만 더해도 소수점 아래 열두 자리 가까이까지 값이 정해져요. 5단계 그림은 2012년에 슈퍼컴퓨터로 다 계산했어요.
+
+</Screen>
+
+<Screen kind="check" title="계산이 정확한 까닭">
+
+<Check id="q122-small" options={[
+  { t: '광자를 한 번 더 주고받는 그림마다 몫이 100분의 1보다 더 작아져서, 앞의 몇 단계만 더해도 충분해서', ok: true, why: '점마다 α에서 나온 작은 수가 곱해지니까, 그림이 복잡해질수록 몫이 빠르게 작아져요.' },
+  { t: '그릴 수 있는 그림이 하나뿐이라서', why: '그림은 단계마다 늘어서, 5단계에만 12,672개예요. 그래도 그 몫이 아주 작아요.' },
+  { t: '측정값에 맞도록 계산을 나중에 고쳐서', why: '슈윙거의 계산은 측정을 보고 맞춘 값이 아니에요. α 하나와 그림의 규칙만으로 나온 값이에요.' },
+  { t: '혼자 있는 전자는 광자를 전혀 주고받지 않아서', why: '오히려 혼자 있는 전자도 광자를 내놓았다가 흡수해요. 그 일을 넣어야 디랙의 값과의 차이가 설명돼요.' },
+]}>
+
+양자전기역학은 그릴 수 있는 그림이 끝없이 많은데도 전자의 자석 세기를 아주 정확하게 계산해요. 그 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="열두 자리">
+  <Fragment slot="visual">
+    <BigNumber top="2023년 가브리엘스 연구진이 잰 전자의 자석 세기" value="1.001 159 652 180 59" bottom="마지막 두 자리 정도만 흔들려요. 계산값도 이만큼까지 같아요" />
+  </Fragment>
+
+2023년, 노스웨스턴 대학의 제럴드 가브리엘스 연구진은 전자 하나를 가두어 놓고 자석 세기를 쟀어요. 잰 값은 1.001 159 652 180 59였어요.
+
+<S n={2}>
+
+5단계까지 더한 양자전기역학의 계산은 이 값과 소수점 아래 열두 자리 가까이까지 같아요. 사람이 해 본 예측 가운데 가장 정확한 축에 들어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="얼마나 정확한가">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'map', title: '서울에서 부산까지', caption: '약 330 km' },
+      { icon: 'hair', title: '이 정도로 정확히 재면', caption: '오차가 머리카락 굵기의 100분의 1보다 작아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1조분의 1이 얼마나 작은지 거리로 바꿔 볼게요. 서울에서 부산까지 약 330 km를 이만큼 정확히 잰다고 해 봐요.
+
+<S n={2}>
+
+그러면 오차는 0.000 33 mm쯤이에요. 머리카락 굵기가 0.1 mm쯤이니까, 그 100분의 1보다도 작은 오차죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="137이라는 수">
+  <Fragment slot="visual">
+    <BigNumber top="미세 구조 상수" value="1 / 137.036" bottom="왜 이 값인지는 아직 아무도 몰라요" />
+  </Fragment>
+
+양자전기역학은 α를 재서 넣어야 쓸 수 있어요. 이론 안에는 α가 왜 하필 1/137.036인지 알려 주는 규칙이 없거든요.
+
+<S n={2}>
+
+파인먼은 이 수를 물리학의 가장 큰 수수께끼 가운데 하나로 꼽았어요. 이 책의 강 수 137도 이 수에서 따왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['qed', 'feynman-diagram', 'fine-structure-constant']}>
+
+1. 전자의 자석 세기는 디랙의 값 1보다 0.1%쯤 컸는데, 혼자 있는 전자도 광자를 내놓았다가 흡수하기 때문이에요.
+2. 양자전기역학은 이런 일이 일어나는 방법마다 확률 진폭을 구해 모두 더해서 계산해요.
+3. 방법 하나하나를 선과 점으로 그린 것이 파인먼 다이어그램이에요.
+4. 점마다 미세 구조 상수 α에서 나온 작은 수가 곱해지니까, 복잡한 그림일수록 몫이 빠르게 작아져요.
+5. 그래서 앞의 다섯 단계만 더해도 측정과 열두 자리 가까이 맞아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="몫이 천천히 줄어든다면">
+
+<DailyProblem id="p122">
+
+어떤 힘의 이론에서는 그림이 한 단계 복잡해질 때마다, 몫이 100분의 1보다 더 작아지는 대신 겨우 2분의 1씩만 작아진다고 해 볼게요.
+
+이 이론으로도 앞의 몇 단계만 더해서 정확한 값을 얻을 수 있을까요? 오늘 배운 것으로 생각해서 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+단계가 오를 때마다 그릴 그림의 수는 크게 늘어나요. 양자전기역학에서는 1개, 7개, 72개, 891개로 늘었어요.
+
+</Fragment>
+<Fragment slot="solution">
+
+어려워요. 몫이 2분의 1씩만 작아지면, 열 단계를 더해도 남은 몫이 처음의 1,000분의 1쯤이에요. 그동안 그릴 그림은 수십만, 수백만 개로 늘어나요.
+
+양자전기역학이 정확한 건 α가 아주 작아서, 몫이 단계마다 빠르게 작아지기 때문이에요. 주고받는 세기를 정하는 수가 크면 이 방법은 잘 통하지 않아요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+양자전기역학은 빛과 전자가 주고받는 방법마다 파인먼 다이어그램을 그려 확률 진폭을 더하는데, 점마다 약 1/137의 작은 수가 곱해져서 몇 단계만 더해도 아주 정확한 값이 나와요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="원자핵을 묶는 힘">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '원자핵', caption: '+ 전하를 띤 양성자가 가까이 모여 있어요' },
+      { big: '밀어내는 전기력', caption: '그런데도 원자핵은 흩어지지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+양성자는 모두 + 전하를 띠어서 서로 밀어내요. 그런데 원자핵 안에서는 양성자들이 아주 가까이 붙어 있어도 흩어지지 않아요.
+
+<S n={2}>
+
+전기력보다 훨씬 센 힘이 따로 있다는 뜻이에요. 다음 강에서는 자연에 있는 힘 네 가지를 놓고, 세기와 닿는 거리가 어떻게 다른지 비교해 봐요.
+
+</S>
+
+</Screen>

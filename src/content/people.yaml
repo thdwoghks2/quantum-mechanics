@@ -459,3 +459,33 @@
 
 # ── 세션 5 (121~137강) ──
 # (여기 아래에 더한다)
+- id: kusch
+  name: 폴리카프 쿠시
+  original: Polykarp Kusch
+  born: 1911
+  died: 1993
+  role: 독일 태생의 미국 물리학자
+  summary: 1947년 컬럼비아 대학에서 헨리 폴리와 함께 원자 속 전자의 자석 세기를 정밀하게 재서, 디랙의 방정식이 내놓은 값보다 0.1%쯤 크다는 것을 찾았어요. 이 차이가 양자전기역학을 시험하는 첫 과녁이 됐어요. 1955년 노벨 물리학상을 받았어요.
+  lessons: [122]
+  sources:
+    - "Kusch, P. & Foley, H. M. Physical Review 74, 250 (1948)"
+- id: schwinger
+  name: 줄리언 슈윙거
+  original: Julian Schwinger
+  born: 1918
+  died: 1994
+  role: 미국의 이론물리학자
+  summary: 1948년, 전자가 광자를 한 번 내놓았다가 다시 흡수하는 일을 계산해서 전자의 자석 세기가 α ÷ 2π만큼 커진다는 것을 보였어요. 파인먼, 도모나가와 함께 양자전기역학을 완성해 1965년 노벨 물리학상을 받았어요.
+  lessons: [122]
+  sources:
+    - "Schwinger, J. Physical Review 73, 416 (1948)"
+- id: tomonaga
+  name: 도모나가 신이치로
+  original: 朝永振一郎 (Sin-Itiro Tomonaga)
+  born: 1906
+  died: 1979
+  role: 일본의 이론물리학자
+  summary: 1940년대에 전쟁으로 바깥과 소식이 끊긴 채 도쿄에서 양자전기역학의 계산 방법을 따로 세웠어요. 슈윙거, 파인먼과 함께 1965년 노벨 물리학상을 받았어요.
+  lessons: [122]
+  sources:
+    - "Tomonaga, S. Progress of Theoretical Physics 1, 27 (1946)"

@@ -5,4 +5,9 @@ export default {
   's5-compass': '<circle cx="32" cy="32" r="22"/><path d="M32 14l6 18-6 18-6-18z"/><path d="M32 14l6 18h-12z" fill="currentColor" opacity=".35"/><circle cx="32" cy="32" r="2" fill="currentColor"/>',
   's5-temp-map': '<rect x="6" y="10" width="52" height="44" rx="3"/><path d="M14 22h7M29 22h7M44 22h7M14 33h7M29 33h7M44 33h7M14 44h7M29 44h7M44 44h7"/><path d="M20 10c4 10 0 18 8 24s4 14 10 20" opacity=".4"/>',
   's5-wind-map': '<rect x="6" y="10" width="52" height="44" rx="3"/><path d="M13 21l8 3M29 19l8 5M45 18l7 6M13 33l8 1M29 32l8 2M45 31l7 3M13 45l8-1M29 45l8 0M45 44l7 1"/><path d="M21 24l-3 1M37 24l-3 1M52 24l-3 0" />',
+  's5-e-line': '<path d="M12 54L52 12"/><path d="M38 14l14-2-2 14"/>',
+  's5-photon': '<path d="M4 32c3-7 6-7 8 0s5 7 8 0 5-7 8 0 5 7 8 0 5-7 8 0 5 7 8 0 4-5 6-3"/>',
+  's5-vertex': '<path d="M10 58L32 32L10 6"/><circle cx="32" cy="32" r="3" fill="currentColor"/><path d="M32 32c2-5 4-5 5.5 0s3.5 5 5.5 0 3.5-5 5.5 0 3.5 5 5.5 0 3-4 4-3"/>',
+  's5-exchange': '<path d="M20 60L14 32L20 4M44 60L50 32L44 4"/><path d="M14 32c2.4-5 4.4-5 6 0s4 5 6 0 4-5 6 0 4 5 6 0 4-5 6 0 2-3 2-3"/><circle cx="14" cy="32" r="2.5" fill="currentColor"/><circle cx="50" cy="32" r="2.5" fill="currentColor"/>',
+  's5-loop': '<path d="M6 56L58 8"/><path d="M16 46c-6-10 0-24 12-26M28 20c8-2 14 0 14 4" stroke-dasharray="3 3"/><circle cx="16" cy="46" r="2.5" fill="currentColor"/><circle cx="42" cy="24" r="2.5" fill="currentColor"/>',
 };
