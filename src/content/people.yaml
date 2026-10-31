@@ -889,3 +889,33 @@
   sources:
     - "Bloch, F. Zeitschrift für Physik 52, 555 (1929)"
     - "Bloch, F. Physical Review 70, 460 (1946)"
+- id: bardeen
+  name: 존 바딘
+  original: John Bardeen
+  born: 1908
+  died: 1991
+  role: 미국의 물리학자
+  summary: 1947년 벨 연구소에서 월터 브래튼과 함께 첫 트랜지스터를 작동시켰어요. 1956년 브래튼, 쇼클리와 함께 노벨 물리학상을 받았고, 1972년 초전도 이론으로 한 번 더 받았어요. 노벨 물리학상을 두 번 받은 사람은 지금까지 바딘뿐이에요.
+  lessons: [132]
+  sources:
+    - "Bardeen, J. & Brattain, W. H. Physical Review 74, 230 (1948)"
+- id: brattain
+  name: 월터 브래튼
+  original: Walter Brattain
+  born: 1902
+  died: 1987
+  role: 미국의 물리학자
+  summary: 존 바딘과 함께 저마늄 조각에 금속 접점 두 개를 대어, 1947년 12월 첫 트랜지스터를 만들었어요. 실험 장치를 손으로 만드는 솜씨가 뛰어났어요.
+  lessons: [132]
+  sources:
+    - "Bardeen, J. & Brattain, W. H. Physical Review 74, 230 (1948)"
+- id: kahng
+  name: 강대원
+  original: Dawon Kahng
+  born: 1931
+  died: 1992
+  role: 서울에서 태어난 한국계 미국 공학자
+  summary: 1959년 벨 연구소에서 모하메드 아탈라와 함께, 오늘날 거의 모든 칩에 쓰는 모스펫(MOSFET) 트랜지스터를 처음 만들었어요. 1967년에는 전원이 꺼져도 기억이 남는 메모리의 바탕이 되는 구조도 내놓았어요.
+  lessons: [132]
+  sources:
+    - "Kahng, D. & Atalla, M. M. IRE Solid-State Device Research Conference (1960)"

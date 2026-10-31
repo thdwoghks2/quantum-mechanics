@@ -1,0 +1,100 @@
+---
+/**
+ * 전압으로 켜고 끄는 스위치(132강). 오늘날 칩에 쓰는 트랜지스터의 단면을 그린다.
+ * 게이트에 문턱(0.7 V)보다 큰 전압을 걸면, 얇은 절연층 바로 아래로 전자가 끌려와 소스와 드레인을 잇는 길이 생기고 전기가 흐른다.
+ * 문턱보다 작으면 길이 없어서 흐르지 않는다. 그림의 크기와 빠르기는 보기 좋게 바꿨다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p16-gate class="sim" data-ratio="0.62">
+  <canvas aria-label="트랜지스터의 단면. 게이트에 전압을 문턱보다 크게 걸면 절연층 아래에 전자의 길이 생겨, 소스에서 드레인으로 전자가 흘러요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`g-${uid}`}>게이트 전압</label>
+      <input id={`g-${uid}`} type="range" min="0" max="3" step="0.1" value="0" data-param="v" />
+      <output data-out="v"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="v=0">끄기 (0 V)</button>
+      <button type="button" class="btn" data-set="v=2">켜기 (2 V)</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-gate>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const VTH = 0.7;
+
+  class SimP16Gate extends Sim {
+    flow: number[] = Array.from({ length: 18 }, (_, i) => i / 18);
+
+    format() {
+      return `${(this.p.v ?? 0).toFixed(1)} V`;
+    }
+
+    get on() {
+      return Math.max(0, (this.p.v ?? 0) - VTH);
+    }
+
+    readout() {
+      const v = (this.p.v ?? 0).toFixed(1);
+      return this.on > 0
+        ? `게이트 ${v} V · 켜짐: 절연층 아래에 전자의 길이 생겨 소스에서 드레인으로 흘러요`
+        : `게이트 ${v} V · 꺼짐: 문턱 0.7 V보다 작아서 길이 없고, 전기가 흐르지 않아요`;
+    }
+
+    tick(dt: number) {
+      const speed = this.on * 0.18;
+      this.flow = this.flow.map((f) => (f + dt * speed) % 1);
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const x0 = 16;
+      const x1 = w - 16;
+      const top = h * 0.42;
+      const bottom = h - 24;
+      const sW = (x1 - x0) * 0.24;
+      // 실리콘 몸체 (p형)
+      ctx.fillStyle = 'rgba(229, 128, 106, 0.12)';
+      ctx.fillRect(x0, top, x1 - x0, bottom - top);
+      this.text('p형 실리콘', (x0 + x1) / 2, bottom - 12, c.heat, 11, 'center');
+      // 소스와 드레인 (n형)
+      ctx.fillStyle = 'rgba(132, 172, 216, 0.28)';
+      ctx.fillRect(x0, top, sW, (bottom - top) * 0.45);
+      ctx.fillRect(x1 - sW, top, sW, (bottom - top) * 0.45);
+      this.text('소스 (n형)', x0 + sW / 2, top - 10, c.time, 11, 'center');
+      this.text('드레인 (n형)', x1 - sW / 2, top - 10, c.time, 11, 'center');
+      // 소스, 드레인 속 전자
+      for (let k = 0; k < 14; k++) {
+        const fx = ((k * 37) % 100) / 100;
+        const fy = ((k * 61) % 100) / 100;
+        this.dot(x0 + 6 + fx * (sW - 12), top + 6 + fy * ((bottom - top) * 0.45 - 12), 2.6, c.charge);
+        this.dot(x1 - sW + 6 + fx * (sW - 12), top + 6 + fy * ((bottom - top) * 0.45 - 12), 2.6, c.charge);
+      }
+      // 절연층과 게이트
+      const gx0 = x0 + sW + 4;
+      const gx1 = x1 - sW - 4;
+      ctx.fillStyle = 'rgba(236, 230, 217, 0.18)';
+      ctx.fillRect(gx0, top - 8, gx1 - gx0, 8);
+      ctx.fillStyle = this.on > 0 ? c.accent : 'rgba(231, 145, 58, 0.35)';
+      ctx.fillRect(gx0, top - 34, gx1 - gx0, 24);
+      this.text(`게이트 ${(this.p.v ?? 0).toFixed(1)} V · 아래는 얇은 절연층`, (gx0 + gx1) / 2, top - 22, c.ink, 11, 'center');
+      // 전자의 길: 문턱을 넘으면 절연층 바로 아래에 생긴다
+      if (this.on > 0) {
+        const depth = Math.min(1, this.on / 2.3);
+        ctx.fillStyle = `rgba(114, 201, 201, ${0.15 + depth * 0.35})`;
+        ctx.fillRect(x0 + sW, top, x1 - x0 - 2 * sW, 4 + depth * 10);
+        for (const f of this.flow) {
+          const x = x0 + sW * 0.5 + f * (x1 - x0 - sW);
+          this.dot(x, top + 3 + depth * 4, 2.8, c.charge);
+        }
+        this.arrow(gx0 + 8, top + 28 + depth * 8, gx1 - 8, top + 28 + depth * 8, c.charge, 1.4);
+        this.text('전자의 흐름', (gx0 + gx1) / 2, top + 40 + depth * 8, c.charge, 10, 'center');
+      }
+    }
+  }
+  define('qm-sim-p16-gate', SimP16Gate);
+</script>
