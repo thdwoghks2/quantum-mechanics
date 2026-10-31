@@ -13,6 +13,7 @@ import Key from './kinds/Key.astro';
 import Note from './kinds/Note.astro';
 import Recap from './kinds/Recap.astro';
 import OneLine from './kinds/OneLine.astro';
+import Quote from './kinds/Quote.astro';
 import Plot from './figures/Plot.astro';
 import BigNumber from './figures/BigNumber.astro';
 import DataTable from './figures/DataTable.astro';
@@ -37,6 +38,7 @@ export const mdxComponents = {
   Note,
   Recap,
   OneLine,
+  Quote,
   Plot,
   BigNumber,
   DataTable,

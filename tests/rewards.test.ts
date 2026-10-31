@@ -184,3 +184,27 @@ describe('내 칠판', () => {
     expect(plainText('  $E = hf$ 에서  {/* 메모 */} *f*는 진동수  ')).toBe('E = hf 에서 f는 진동수');
   });
 });
+
+import { countable } from '../src/lib/count.ts';
+
+describe('큰 숫자 세어 올리기', () => {
+  it('숫자 하나만 있는 값을 같은 모양으로 센다', () => {
+    const p = countable('약 5,000번')!;
+    expect(p.target).toBe(5000);
+    expect(p.render(2500)).toBe('약 2,500번');
+    expect(p.render(5000)).toBe('약 5,000번');
+    expect(countable('2.725 K')!.render(1.5)).toBe('1.500 K');
+    expect(countable('299,792,458 m/s')!.render(299792458)).toBe('299,792,458 m/s');
+  });
+
+  it('연도, 식, 위 첨자, 숫자가 여럿인 값은 세지 않는다', () => {
+    expect(countable('1687')).toBeNull();
+    expect(countable('2012년 7월 4일')).toBeNull();
+    expect(countable('E = mc²')).toBeNull();
+    expect(countable('1.5 × 10¹¹')).toBeNull();
+    expect(countable('1 / 137.036')).toBeNull();
+    expect(countable('1.001 159 652 18')).toBeNull();
+    expect(countable('1')).toBeNull();
+    expect(countable('1.00119')).toBeNull();
+  });
+});

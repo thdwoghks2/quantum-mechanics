@@ -70,7 +70,17 @@ const { panels, arrows = false } = Astro.props;
 
   .panel--accent {
     color: var(--accent);
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+    background: linear-gradient(180deg, rgba(231, 145, 58, 0.09), var(--ink-2) 70%);
+    box-shadow: 0 18px 44px -22px rgba(231, 145, 58, 0.45);
+  }
+
+  .panel--accent :global(.icon) {
+    filter: drop-shadow(0 0 10px rgba(231, 145, 58, 0.45));
+  }
+
+  .panel--accent .panel__big {
+    color: var(--accent-2);
   }
 
   .panel--ok {
@@ -88,7 +98,7 @@ const { panels, arrows = false } = Astro.props;
   .panel__big {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: var(--panel-big, var(--fs-xl));
+    font-size: var(--panel-big, clamp(1.45rem, 6.5vw, 1.85rem));
     color: var(--text);
     line-height: 1.2;
   }

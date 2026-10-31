@@ -7,12 +7,12 @@
 <p class="key chalk"><slot /></p>
 
 <style>
-  /* 화면 가운데에 크게. 칠판에 한 줄 적어 둔 것처럼 둘레에 여백을 넉넉히 둔다. */
+  /* 화면 가운데에 크게, 칠판에 새기듯. 글이 왼쪽부터 써지듯 드러나고, 뒤에 은은한 빛이 퍼진다. */
   .key {
     position: relative;
     margin: 10px 0 6px;
-    padding: 24px 20px 22px;
-    border: 1px solid rgba(228, 223, 210, 0.07);
+    padding: 26px 20px 24px;
+    border: 1px solid rgba(228, 223, 210, 0.08);
     border-radius: var(--radius-lg);
     font-family: var(--font-display);
     font-weight: 700;
@@ -21,6 +21,8 @@
     color: var(--chalk);
     text-align: center;
     text-wrap: pretty;
+    text-shadow: 0 0 1px rgba(228, 223, 210, 0.35);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 24px 60px -28px rgba(231, 145, 58, 0.28);
   }
 
   .key::before {
@@ -33,17 +35,43 @@
     margin-left: -18px;
     border-radius: 1px;
     background: var(--accent);
-    opacity: 0.7;
+    opacity: 0.75;
   }
 
+  /* 화면이 열릴 때, 또는 단계로 나타날 때 한 번 써진다 */
   :global(html.js .screen.is-active) .key {
-    animation: key-in 0.9s 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: key-write 1.7s 0.25s cubic-bezier(0.45, 0, 0.2, 1) both, key-glow 3.2s 1.6s ease-in-out both;
   }
 
-  @keyframes key-in {
+  :global(html.js .step-enter) .key {
+    animation: key-write-again 1.7s 0.1s cubic-bezier(0.45, 0, 0.2, 1) both, key-glow 3.2s 1.4s ease-in-out both;
+  }
+
+  @keyframes key-write {
     from {
-      opacity: 0;
-      transform: translateY(8px);
+      clip-path: inset(0 100% 0 0);
+      opacity: 0.4;
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes key-write-again {
+    from {
+      clip-path: inset(0 100% 0 0);
+      opacity: 0.4;
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes key-glow {
+    50% {
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 24px 70px -20px rgba(231, 145, 58, 0.42);
     }
   }
 

@@ -5,6 +5,7 @@ import '../../styles/lesson.css';
 import { lessonUrl, url } from '../../lib/url.ts';
 import MusicToggle from '../../components/music/MusicToggle.astro';
 import { mdxComponents } from '../../components/mdx.ts';
+import Dust from '../../components/figures/Dust.astro';
 import { firstYearOf, hasBatchim, turnLines } from '../../lib/rewards.ts';
 
 export async function getStaticPaths() {
@@ -40,6 +41,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
 const events = (await getCollection('events')).map((e) => ({ year: e.data.year, title: e.data.title, lessons: e.data.lessons }));
 const isPartEnd = part?.data.lessons.at(-1)?.n === d.number;
 const nextPart = parts.find((p) => p.data.number === d.part + 1);
+const turnYear = isPartEnd && nextPart ? firstYearOf(nextPart.data.lessons.map((l) => l.n), events) : null;
 const turn = isPartEnd && part
   ? turnLines({
       part: d.part,
@@ -79,6 +81,7 @@ const turn = isPartEnd && part
 
     <main class="stage">
       <section class="screen screen--title is-active" data-kind="title" data-label="시작">
+        <Dust count={34} />
         <p class="title__n">{String(d.number).padStart(3, '0')}</p>
         <h1 class="title__h">{d.title}</h1>
         <p class="title__q">{d.question}</p>
@@ -88,21 +91,21 @@ const turn = isPartEnd && part
             <figcaption>{d.epigraph.by}{d.epigraph.source && <span>, {d.epigraph.source}</span>}</figcaption>
           </figure>
         )}
-        <div class="title__meta">
+        <div class="title__meta title__late">
           <span class="label">{d.part}부 · {part?.data.title}</span>
           <span class="label">약 {d.minutes}분</span>
           {d.year && <span class="label">{d.year}</span>}
           {d.place && <span class="label">{d.place}</span>}
         </div>
         <p class="title__status" hidden></p>
-        <div class="title__actions">
+        <div class="title__actions title__late">
           <button type="button" class="btn btn--primary" data-action="start">시작</button>
           {d.testout.length > 0 && (
             <button type="button" class="btn" data-action="testout">이미 안다면: 문제 {d.testout.length}개로 건너뛰기</button>
           )}
         </div>
-        <p class="title__save">어디까지 봤는지와 푼 문제는 이 기기에 저절로 저장돼요. <a href={url('settings/')}>기록</a>에서 확인하고 내보낼 수 있어요.</p>
-        <p class="title__links label">
+        <p class="title__save title__late">어디까지 봤는지와 푼 문제는 이 기기에 저절로 저장돼요. <a href={url('settings/')}>기록</a>에서 확인하고 내보낼 수 있어요.</p>
+        <p class="title__links label title__late">
           <a href={url('')}>← 처음 화면</a>
           <a href={url('course/')}>코스 전체</a>
           {prev && <a href={lessonUrl(prev)}>{prev}강으로</a>}
@@ -171,6 +174,7 @@ const turn = isPartEnd && part
         <div class="turn__inner">
           <p class="turn__n mono">{d.part}부 · {part?.data.title}</p>
           <p class="turn__l1" id="turn-l1">{turn[0]}</p>
+          {turnYear != null && <p class="turn__year" aria-hidden="true">{turnYear < 0 ? `기원전 ${-turnYear}` : turnYear}</p>}
           <p class="turn__l2">{turn[1]}</p>
           <div class="turn__actions">
             <a class="btn btn--primary turn__go" href={next ? lessonUrl(next) : url('course/')}>{next ? `${next}강으로 ›` : '코스로'}</a>

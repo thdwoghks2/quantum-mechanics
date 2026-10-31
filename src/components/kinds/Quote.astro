@@ -1,0 +1,81 @@
+---
+/**
+ * 화면 하나를 통째로 쓰는 인용. 시각 자료 자리(slot="visual")에 두고, 본문은 짧게 쓴다.
+ * 출처가 확인된 말만 쓴다(by, source). 화면이 열리면 글이 천천히 밝아지며 떠오른다.
+ */
+interface Props {
+  by: string;
+  source?: string;
+}
+const { by, source } = Astro.props;
+---
+<figure class="quote">
+  <blockquote class="quote__text"><slot /></blockquote>
+  <figcaption class="quote__by">{by}{source && <span class="quote__src">{source}</span>}</figcaption>
+</figure>
+
+<style>
+  .quote {
+    margin: 0;
+    width: 100%;
+    max-width: 30rem;
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+    text-align: center;
+    padding: 18px 4px;
+  }
+
+  .quote::before {
+    content: '“';
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 0.6;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  .quote__text {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.3rem, 5.6vw, 1.7rem);
+    line-height: 1.6;
+    color: var(--star);
+    text-wrap: balance;
+    text-shadow: 0 0 40px rgba(242, 180, 107, 0.12);
+  }
+
+  .quote__text :global(p) {
+    margin: 0;
+  }
+
+  .quote__by {
+    display: grid;
+    gap: 2px;
+    font-size: var(--fs-sm);
+    color: var(--text-2);
+    letter-spacing: 0.04em;
+  }
+
+  .quote__src {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  :global(html.js .screen.is-active) .quote__text {
+    animation: quote-in 1.8s 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  :global(html.js .screen.is-active) .quote__by {
+    animation: quote-in 1.2s 1.2s ease-out both;
+  }
+
+  @keyframes quote-in {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(8px);
+    }
+  }
+</style>

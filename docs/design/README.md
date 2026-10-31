@@ -9,3 +9,9 @@
   - `l001-s02-continue.jpg`: 단계가 남은 화면. 아래 버튼이 "계속"이 되고 단계 점이 보여요
 
 바꾸기 전에는 1강 「모형이라는 이름」 화면의 글 영역이 37px 넘쳤어요(`before/report.json`). 바꾼 뒤에는 1강 모든 화면이 넘치지 않아요.
+
+## 영화처럼 (handoff 6-4)
+
+- `after/cinematic-title.jpg`: 강 첫 화면. 큰 강 번호, 제목, 질문, 한 줄(epigraph)이 차례로 떠오르고 뒤에 먼지가 떠다녀요
+- `after/cinematic-key.jpg`: 칠판에 새기듯 써지는 핵심 문장
+- `after/cinematic-part-turn.jpg`: 장 넘김. 다음 시대의 연도를 크게

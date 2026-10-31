@@ -91,11 +91,16 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* 아주 옅은 별. 소수 간격으로 겹쳐서 무늬가 되풀이되어 보이지 않게 한다. */
+/* 아주 옅은 별. 가로는 소수 간격으로 겹쳐서 무늬가 되풀이되어 보이지 않게 하고,
+   세로 간격은 모두 1,200px의 약수라서 1,200px 흘러내린 뒤 이음매 없이 처음으로 돌아간다.
+   10분에 한 바퀴, 1초에 2px쯤 아주 천천히 흐른다. 움직임을 줄이는 설정이면 멈춘다. */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  top: -1200px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   pointer-events: none;
   z-index: -1;
   opacity: 0.55;
@@ -105,7 +110,21 @@ body::before {
     radial-gradient(1.4px 1.4px at 89px 173px, rgba(244, 234, 214, 0.4), transparent 60%),
     radial-gradient(1px 1px at 233px 97px, rgba(242, 180, 107, 0.35), transparent 60%),
     radial-gradient(1px 1px at 17px 239px, rgba(244, 234, 214, 0.3), transparent 60%);
-  background-size: 211px 263px, 307px 211px, 389px 431px, 463px 353px, 523px 487px;
+  background-size: 211px 240px, 307px 200px, 389px 400px, 463px 300px, 523px 600px;
+  will-change: transform;
+  animation: star-drift 600s linear infinite;
+}
+
+@keyframes star-drift {
+  to {
+    transform: translateY(1200px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
 }
 
 /* 필름 그레인 */

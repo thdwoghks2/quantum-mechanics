@@ -135,7 +135,8 @@ status: draft                         # 다 쓰면 published
 | `Reflect id` | 채점 없는 사고 실험. `question` 슬롯, 본문에 여러 입장 |
 | `Analogy rows fits breaks` | 비유 대응표와 그 한계 |
 | `Plot` | 그래프. `axisSteps`, 요소마다 `step`으로 그래프 읽기 화면을 만든다 |
-| `Panels`, `Icon`, `BigNumber`, `DataTable`, `Flow` | 장면, 비교, 큰 숫자, 표, 흐름도 |
+| `Quote by source` | 화면 하나를 통째로 쓰는 인용. `slot="visual"`에 두고 본문은 짧게. 출처가 확인된 말만 |
+| `Panels`, `Icon`, `BigNumber`, `DataTable`, `Flow` | 장면, 비교, 큰 숫자, 표, 흐름도. `BigNumber`는 화면이 열릴 때 숫자가 세어지며 올라간다(숫자가 하나이고 2 이상일 때만, 연도와 식은 세지 않는다. `count={false}`로 끈다) |
 | `Sim…` | 시뮬레이션 (`src/components/sims/`) |
 
 ## 4. 화면이 보이는 모양
@@ -153,6 +154,19 @@ status: draft                         # 다 쓰면 published
   - `recap`: 오늘 온 길이 칠판 위에 번호와 함께 한 줄씩 나타난다
   - 시각 자료 없이 글만 있는 장면·설명·이야기·비교·다음 강 화면: 큰 글씨(20px)
 - 그래서 글만 있는 화면은 글이 짧을수록 좋다. 큰 글씨로 3문장이면 한 화면이 꽉 찬다.
+- 영화처럼 움직인다(움직임을 줄이는 설정이면 모두 꺼진다).
+  - 강 첫 화면: 큰 강 번호, 제목, 질문, `epigraph`가 차례로 떠오르고, 뒤에 먼지가 천천히 떠다닌다
+  - 화면을 넘기면 짧게 어두워졌다 밝아지고, 글이 한 줄씩 떠오른다
+  - `<Key>`는 칠판에 쓰듯 글이 차례로 드러나고, 뒤에 은은한 빛이 번진다
+  - `BigNumber`의 숫자는 세어지며 올라간다
+  - 부의 마지막 강을 처음 마치면 장 넘김 화면이 다음 시대의 연도를 크게 보여 준다
+- `epigraph`(강 첫 화면의 한 줄)는 frontmatter에 적는다. 1강이 본보기다.
+  ```yaml
+  epigraph:
+    text: "인용문"
+    by: 말한 사람
+    source: 출처 (연도)
+  ```
 
 ## 5. 새 시뮬레이션
 

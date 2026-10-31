@@ -408,16 +408,49 @@ html.js .step-enter {
   font-size: 1.0625rem;
 }
 
-/* ── 타이틀 카드 ───────────────────────── */
+/* ── 타이틀 카드: 영화 타이틀처럼 ───────────
+   큰 강 번호 → 제목 → 질문 → 한 줄(epigraph)이 차례로 떠오르고, 그 뒤에 버튼들이 조용히 나타난다. */
 .screen--title {
-  gap: 22px;
+  position: relative;
+  gap: 20px;
+}
+
+.screen--title > .dust {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.screen--title > .title__n {
+  margin-top: auto;
+}
+
+.screen--title > .title__links {
+  margin-bottom: auto;
+}
+
+.screen--title > :not(.dust) {
+  position: relative;
+  z-index: 1;
 }
 
 .title__n {
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  letter-spacing: 0.4em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4.4rem, 25vw, 7.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
   color: var(--accent);
+  text-shadow: 0 0 48px rgba(231, 145, 58, 0.25);
+}
+
+.title__n::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  margin-top: 18px;
+  background: var(--accent);
+  opacity: 0.6;
 }
 
 .title__h {
@@ -442,7 +475,7 @@ html.js .step-enter {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .title__status {
@@ -463,26 +496,140 @@ html.js .step-enter {
   gap: 6px 16px;
 }
 
-html.js .screen--title.is-active .title__n,
-html.js .screen--title.is-active .title__h,
-html.js .screen--title.is-active .title__q {
-  animation: title-in 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+html.js .screen--title.is-active .title__n {
+  animation: title-num 2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+html.js .screen--title.is-active .title__n::after {
+  animation: title-rule 1.4s 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 html.js .screen--title.is-active .title__h {
-  animation-delay: 0.15s;
+  animation: title-in 1.4s 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 html.js .screen--title.is-active .title__q {
-  animation-delay: 0.45s;
+  animation: title-in 1.4s 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+html.js .screen--title.is-active .title__epigraph {
+  animation: title-in 2s 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+html.js .screen--title.is-active .title__late {
+  animation: title-late 1s 2.3s ease-out both;
+}
+
+@keyframes title-num {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 0 rgba(231, 145, 58, 0);
+  }
+}
+
+@keyframes title-rule {
+  from {
+    width: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes title-in {
   from {
     opacity: 0;
     filter: blur(6px);
-    letter-spacing: 0.06em;
+    transform: translateY(6px);
   }
+}
+
+@keyframes title-late {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── 화면이 바뀔 때: 짧은 암전, 그리고 글이 한 줄씩 떠오르기 ── */
+.stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+}
+
+html.js .stage.is-cut::after {
+  animation: stage-cut 0.55s ease-out;
+}
+
+@keyframes stage-cut {
+  from {
+    opacity: 0.72;
+  }
+}
+
+/* 가장자리를 조금 어둡게: 깊은 어둠 속 가운데만 밝은 화면 */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.stage > .screen {
+  position: relative;
+  z-index: 1;
+}
+
+html.js .screen.is-active:not(.screen--title) .screen__body > * {
+  animation: line-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+html.js .screen.is-active .screen__body > :nth-child(1) {
+  animation-delay: 0.12s;
+}
+
+html.js .screen.is-active .screen__body > :nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+html.js .screen.is-active .screen__body > :nth-child(3) {
+  animation-delay: 0.48s;
+}
+
+html.js .screen.is-active .screen__body > :nth-child(n + 4) {
+  animation-delay: 0.66s;
+}
+
+html.js .screen.is-active .screen__visual {
+  animation: visual-in 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes line-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+}
+
+@keyframes visual-in {
+  from {
+    opacity: 0;
+    filter: blur(4px) brightness(0.6);
+  }
+}
+
+/* 단계가 열릴 때의 떠오름이 위의 한 줄씩 떠오르기보다 앞서게 */
+html.js .screen.is-active .screen__body > .step.step-enter,
+html.js .screen.is-active [data-step].step-enter {
+  animation: step-enter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 0s;
 }
 
 /* ── 아래 넘김: 얇게 ───────────────────── */
@@ -1128,7 +1275,7 @@ html.js .screen--title.is-active .title__q {
   display: grid;
   place-items: center;
   padding: 32px var(--gutter);
-  background: rgba(5, 4, 3, 0.97);
+  background: radial-gradient(ellipse 80% 60% at 50% 45%, #0f0c09, #040302 75%);
   overflow: hidden;
   animation: turn-bg 0.9s ease-out both;
 }
@@ -1167,13 +1314,32 @@ html.js .screen--title.is-active .title__q {
   animation: turn-in 1.1s 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+.turn__year {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 24vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--star);
+  text-shadow: 0 0 60px rgba(242, 180, 107, 0.3);
+  animation: turn-year 2.2s 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes turn-year {
+  from {
+    opacity: 0;
+    filter: blur(16px);
+    letter-spacing: 0.1em;
+  }
+}
+
 .turn__l2 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fs-lg);
   color: var(--star);
   line-height: 1.6;
-  animation: turn-in 1.2s 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: turn-in 1.2s 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 .turn__actions {
@@ -1181,7 +1347,7 @@ html.js .screen--title.is-active .title__q {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 14px;
-  animation: turn-in 0.8s 2.4s ease-out both;
+  animation: turn-in 0.8s 3.2s ease-out both;
 }
 
 @keyframes turn-bg {

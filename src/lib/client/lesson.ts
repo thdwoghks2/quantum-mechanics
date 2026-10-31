@@ -86,6 +86,13 @@ class QmLesson extends HTMLElement {
       prev.dispatchEvent(new CustomEvent('qm:hide'));
     }
     screen.classList.add('is-active');
+    // 화면이 바뀔 때 짧은 암전. 같은 화면에서 단계만 열 때는 하지 않는다.
+    if (prev && prev !== screen) {
+      const stage = this.querySelector<HTMLElement>('.stage')!;
+      stage.classList.remove('is-cut');
+      void stage.offsetWidth;
+      stage.classList.add('is-cut');
+    }
     const { max } = this.stepsOf(screen);
     this.step = opts.allSteps ? max : Math.min(1, max);
     this.applySteps();
