@@ -5,6 +5,8 @@
  * 1. 용어 계약: 강 본문에 쓴 용어는 그 강 이전(또는 그 강)에서 정식 도입된 것이어야 한다.
  *    정식 도입하는 강에는 그 용어의 정의 카드(<Define term="…">)가 있어야 한다.
  *    일부러 미리 언급할 때는 <Later n={강}>…</Later>로 감싼다.
+ *    앞 강들이 일상어로 이미 쓰고 있던 말(원자, 전자 …)은 용어집 항목의 previewIn에 그 강 번호를 적는다.
+ *    previewIn에 적힌 강에서는 그 용어를 정식 도입 전에도 쓸 수 있다.
  * 2. frontmatter: assumes는 앞 강에서 배운 용어, introduces는 이 강에서 배우는 용어.
  * 3. 강 번호는 커리큘럼에 있고, 부 번호가 맞아야 한다.
  * 4. 통과 시험 문제 ID는 본문에 있어야 하고, 문제 ID는 전체에서 겹치지 않아야 한다.
@@ -31,6 +33,9 @@ const gById = new Map(glossary.map((g) => [g.id, g]));
 if (gById.size !== glossary.length) err('glossary.yaml', '용어 id가 겹친다');
 for (const g of glossary) {
   if (!g.examples || g.examples.length < 2) err('glossary.yaml', `${g.id}: 일상 예시가 2개 이상 필요하다`);
+  for (const k of g.previewIn ?? []) {
+    if (!Number.isInteger(k) || k >= g.taughtIn) err('glossary.yaml', `${g.id}: previewIn의 ${k}강은 정식 도입(${g.taughtIn}강)보다 앞이어야 한다`);
+  }
 }
 
 const planned = new Map();
@@ -91,7 +96,8 @@ for (const { file, fm, body, fmLines } of lessons) {
   text = blank(text, /\{\/\*[\s\S]*?\*\/\}/g);
   text = blank(text, /<Later\b[^>]*>[\s\S]*?<\/Later>/g);
   text = blank(text, /\b(?:term|id|name|icon|kind|from|q|xq|yq)="[^"]*"/g);
-  for (const v of contractViolations(text, n, glossary)) {
+  const usable = glossary.filter((g) => !(g.previewIn ?? []).includes(n));
+  for (const v of contractViolations(text, n, usable)) {
     const line = text.slice(0, v.index).split('\n').length + fmLines;
     err(`${file}:${line}`, `'${v.surface}'은 ${v.taughtIn}강에서 정식으로 배운다. ${n}강에서는 풀어 쓰거나 <Later n={${v.taughtIn}}>로 감싼다`);
   }

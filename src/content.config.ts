@@ -36,6 +36,8 @@ const glossary = defineCollection({
     examples: z.array(z.string()).min(1),
     notThis: z.string().optional(),
     taughtIn: z.number().int().positive(),
+    /** 정식 도입 전에도 이 말을 일상어로 쓰는 앞 강들 (예: 원자는 21강에서 배우지만 1, 2강에서도 쓴다) */
+    previewIn: z.array(z.number().int().positive()).default([]),
     q: z.enum(QUANTITY).default('plain'),
     /** 글 속에서 색 밑줄을 칠지 */
     highlight: z.boolean().default(false),

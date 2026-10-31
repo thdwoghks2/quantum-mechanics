@@ -9,6 +9,9 @@
  * - 그래프 없는 화면의 방향어 ("오른쪽", "꼭대기", "쪽으로")
  * - "그는/그녀는" 남발, 줄표(—)로 극적 효과 내기
  * - 말투 섞임: 해요체로 쓴 강(문장 끝의 60% 이상이 '요')에서 '~다.'로 끝나는 문장
+ * - 속도와 밀도(STYLE 2-3): 한 번에 보이는 글은 3문장까지, 화면 전체는 5문장까지,
+ *   한 문장은 띄어쓰기 포함 75자를 넘지 않게(핵심 문장 <Key>는 예외), 같은 끝맺음이 네 번 넘게 이어지지 않게,
+ *   <Key>와 <Note>는 한 화면에 함께 두지 않는다. 목록 줄과 <Note> 안의 글은 따로 센다.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -44,6 +47,36 @@ function prose(block) {
   return s;
 }
 
+
+/** 글을 문장으로 나눈다. 따옴표 안의 마침표에서는 끊지 않는다. */
+function sentencesOf(text) {
+  const plain = text.replace(/\s+/g, ' ').trim();
+  const masked = plain.replace(/["“][^"”]*["”]/g, (m) => m.replace(/[.?]/g, '·'));
+  const out = [];
+  let start = 0;
+  for (const m of masked.matchAll(/[.?](?=\s|$)/g)) {
+    out.push(plain.slice(start, m.index + 1).trim());
+    start = m.index + 1;
+  }
+  const rest = plain.slice(start).trim();
+  if (rest) out.push(rest);
+  return out.filter((t) => /[가-힣]/.test(t));
+}
+
+/** 해요체 끝맺음의 종류. 같은 종류가 네 번 이어지면 단조롭게 읽힌다. */
+function endingOf(t) {
+  const e = t.replace(/[.?\s]+$/, '');
+  if (/거든요$/.test(e)) return '거든요';
+  if (/잖아요$/.test(e)) return '잖아요';
+  if (/죠$/.test(e)) return '죠';
+  if (/[까까]요$/.test(e) || /\?$/.test(t.trim())) return '물음';
+  if (/(니까|으니까)요$/.test(e)) return '니까요';
+  if (/(이에|예|에)요$/.test(e)) return '이에요';
+  if (/(게|래|네)요$/.test(e)) return e.slice(-2);
+  if (/요$/.test(e)) return '어요';
+  return e.slice(-1);
+}
+
 const warnings = [];
 const warn = (file, line, msg) => warnings.push(`${file}:${line}  ${msg}`);
 
@@ -58,7 +91,8 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
     .map((t) => t.trim())
     .filter((t) => /[가-힣][.?]$/.test(t));
   const yo = endings.filter((t) => /요[.?]$/.test(t)).length;
-  if (endings.length && yo / endings.length >= 0.6) {
+  const voiceYo = endings.length > 0 && yo / endings.length >= 0.6;
+  if (voiceYo) {
     for (const t of endings) if (/다\.$/.test(t)) warn(rel, 0, `해요체 강에 '~다'로 끝나는 문장: "${t.slice(-30)}"`);
   }
 
@@ -87,6 +121,31 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
         if (LITERAL.test(before) || /(이|저|그|양|한|반대)\s*$/.test(before)) continue;
         warn(rel, at, `그래프가 없는 화면의 방향어 "${d[0]}"`);
       }
+    }
+
+    // 속도와 밀도: 해요체로 쓴 강에만 적용한다(예전 강은 다시 쓸 때 맞춘다).
+    if (voiceYo && !free) {
+      if (/<Key>/.test(block) && /<Note\b/.test(block)) warn(rel, at, '<Key>와 <Note>를 한 화면에 함께 두었다. 화면을 나눈다');
+      const chunks = block
+        .replace(/<Key>[\s\S]*?<\/Key>/g, ' ')
+        .replace(/<Note\b[\s\S]*?<\/Note>/g, ' ')
+        .split(/<S\s+n=\{\d+\}>/);
+      let total = 0;
+      chunks.forEach((c, k) => {
+        const lines = prose(c).split('\n').filter((l) => !/^\s*(\d+\.|[-*])\s/.test(l)).join(' ');
+        const ss = sentencesOf(lines);
+        total += ss.length;
+        if (ss.length > 3) warn(rel, at, `${k ? `단계 ${k + 1}` : '처음 보이는 글'}이 ${ss.length}문장이다. 한 번에 3문장까지, 넘으면 <S>로 나누거나 화면을 쪼갠다`);
+        for (const t of ss) if (t.length > 75) warn(rel, at, `긴 문장(${t.length}자, 띄어쓰기 포함): "${t.slice(0, 28)}…"`);
+        let run = 1;
+        for (let j = 1; j < ss.length; j++) {
+          run = endingOf(ss[j]) === endingOf(ss[j - 1]) ? run + 1 : 1;
+          if (run === 4) warn(rel, at, `같은 끝맺음이 네 번 이어진다: "…${ss[j].slice(-8)}"`);
+        }
+      });
+      if (total > 5) warn(rel, at, `화면 글이 ${total}문장이다. 5문장까지, 넘으면 화면을 쪼갠다`);
+      const note = (block.match(/<Note\b[^>]*>([\s\S]*?)<\/Note>/) ?? [])[1];
+      if (note && sentencesOf(prose(note)).length > 4) warn(rel, at, '<Note>가 4문장을 넘는다');
     }
 
     // 명사로 끝나는 문장: 마침표 앞 글자가 한글인데 "다/요/자/까/지/라/네/며/고/냐/서"로 끝나지 않는 것
