@@ -1,0 +1,167 @@
+---
+/**
+ * 21강: 각설탕이 물에 녹는 모습. "아주 크게"로 보면 물 알갱이 사이로 설탕 알갱이가 하나씩 떨어져 나와 퍼진다.
+ * "눈으로"로 보면 같은 순간의 컵이다. 각설탕은 작아지고 보이지 않게 되지만 설탕 알갱이의 수는 그대로다.
+ */
+interface Props {
+  view?: 0 | 1;
+}
+const { view = 1 } = Astro.props;
+---
+<qm-sim-dissolve class="sim" data-ratio="0.62">
+  <canvas aria-label="물속에 각설탕이 있다. 크게 보면 물 알갱이 사이로 설탕 알갱이가 떨어져 나와 퍼진다. 눈으로 보면 각설탕이 작아지다 사라진다."></canvas>
+  <input type="hidden" data-param="view" value={view} />
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-set="view=0" aria-pressed={view === 0 ? 'true' : 'false'}>눈으로</button>
+    <button type="button" class="btn" data-set="view=1" aria-pressed={view === 1 ? 'true' : 'false'}>아주 크게</button>
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-reset>처음부터</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-dissolve>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const SIDE = 6;
+  const N_WATER = 150;
+
+  interface P {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    bound: boolean;
+    gx: number;
+    gy: number;
+  }
+
+  const randn = () => {
+    let u = 0;
+    while (u === 0) u = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
+  };
+
+  class SimDissolve extends Sim {
+    water: P[] = [];
+    sugar: P[] = [];
+
+    init() {
+      this.reset();
+    }
+
+    reset() {
+      this.water = [];
+      this.sugar = [];
+      const s = 0.035;
+      for (let gx = 0; gx < SIDE; gx++) {
+        for (let gy = 0; gy < SIDE; gy++) {
+          this.sugar.push({ x: 0.08 + gx * s, y: 0.92 - gy * s, vx: 0, vy: 0, bound: true, gx, gy });
+        }
+      }
+      for (let i = 0; i < N_WATER; i++) {
+        let x = Math.random();
+        let y = Math.random();
+        while (x < 0.08 + SIDE * s && y > 0.92 - SIDE * s) {
+          x = Math.random();
+          y = Math.random();
+        }
+        this.water.push({ x, y, vx: randn() * 0.08, vy: randn() * 0.08, bound: false, gx: 0, gy: 0 });
+      }
+    }
+
+    boundAt(gx: number, gy: number) {
+      return this.sugar.some((p) => p.bound && p.gx === gx && p.gy === gy);
+    }
+
+    move(p: P, dt: number, kick: number) {
+      p.vx += randn() * kick * Math.sqrt(dt);
+      p.vy += randn() * kick * Math.sqrt(dt);
+      p.vx *= 0.96;
+      p.vy *= 0.96;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      if (p.x < 0.02) { p.x = 0.02; p.vx = Math.abs(p.vx); }
+      if (p.x > 0.98) { p.x = 0.98; p.vx = -Math.abs(p.vx); }
+      if (p.y < 0.04) { p.y = 0.04; p.vy = Math.abs(p.vy); }
+      if (p.y > 0.98) { p.y = 0.98; p.vy = -Math.abs(p.vy); }
+    }
+
+    tick(dt: number) {
+      for (const p of this.water) this.move(p, dt, 0.5);
+      for (const p of this.sugar) {
+        if (p.bound) {
+          let open = 0;
+          for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+            const nx = p.gx + dx;
+            const ny = p.gy + dy;
+            if (nx < 0 || ny < 0 || !this.boundAt(nx, ny)) open++;
+          }
+          if (open > 0 && Math.random() < 0.4 * open * dt) p.bound = false;
+        } else {
+          this.move(p, dt, 0.28);
+        }
+      }
+    }
+
+    freeCount() {
+      return this.sugar.filter((p) => !p.bound).length;
+    }
+
+    readout() {
+      const free = this.freeCount();
+      const left = this.sugar.length - free;
+      return this.p.view
+        ? `각설탕 덩어리에 남은 설탕 알갱이 ${left}개, 물속으로 흩어진 설탕 알갱이 ${free}개 (합 ${this.sugar.length}개)`
+        : left > 0
+          ? `각설탕이 녹는 중이에요. 물은 점점 달아져요.`
+          : `각설탕은 안 보이지만, 설탕 알갱이 ${this.sugar.length}개는 모두 물속에 있어요.`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const free = this.freeCount();
+      const frac = free / this.sugar.length;
+      if (!this.p.view) {
+        // 눈으로 본 컵
+        const cx = w / 2;
+        const top = h * 0.12;
+        const bot = h * 0.9;
+        const half = h * 0.3;
+        g.fillStyle = c.energy;
+        g.globalAlpha = 0.08 + 0.22 * frac;
+        g.beginPath();
+        g.moveTo(cx - half, top + 16);
+        g.lineTo(cx + half, top + 16);
+        g.lineTo(cx + half * 0.82, bot);
+        g.lineTo(cx - half * 0.82, bot);
+        g.closePath();
+        g.fill();
+        g.globalAlpha = 1;
+        this.line(cx - half, top, cx - half * 0.82, bot, c.text2, 2);
+        this.line(cx + half, top, cx + half * 0.82, bot, c.text2, 2);
+        this.line(cx - half * 0.82, bot, cx + half * 0.82, bot, c.text2, 2);
+        const left = 1 - frac;
+        if (left > 0) {
+          const size = h * 0.16 * Math.cbrt(left);
+          g.fillStyle = c.text;
+          g.fillRect(cx - size / 2, bot - size - 2, size, size);
+        }
+        this.text('눈으로 본 컵', 12, 18, c.text2, 12);
+        return;
+      }
+      // 아주 크게 본 모습
+      const x = (v: number) => 8 + v * (w - 16);
+      const y = (v: number) => 8 + v * (h - 16);
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      g.strokeRect(6, 6, w - 12, h - 12);
+      for (const p of this.water) this.dot(x(p.x), y(p.y), 2.6, c.muted);
+      for (const p of this.sugar) this.dot(x(p.x), y(p.y), 4.2, c.energy);
+      this.text('물 알갱이', w - 12, 20, c.muted, 11, 'right');
+      this.text('설탕 알갱이', w - 12, 36, c.energy, 11, 'right');
+    }
+  }
+  define('qm-sim-dissolve', SimDissolve);
+</script>
