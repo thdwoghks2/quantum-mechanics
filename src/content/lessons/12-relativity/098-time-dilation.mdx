@@ -1,0 +1,403 @@
+---
+number: 98
+title: 시간 지연
+short: 시간 지연
+question: 빛의 속력이 늘 같다면, 움직이는 시계는 어떻게 가야 할까요?
+mechanism: 두 거울 사이를 빛이 오가는 빛 시계를 움직이면, 땅에서 볼 때 빛은 비스듬한 더 긴 길을 가요. 빛의 속력은 어느 기준틀에서나 같으니 한 번 오가는 데 시간이 더 걸리고, 그래서 땅에서 보면 움직이는 시계는 느리게 가요. 빠르기 v로 움직이는 시계는 1/√(1 − v²/c²)배 느려지고, 우주에서 날아오는 뮤온이 수명보다 훨씬 먼 땅까지 닿는 것이 그 증거예요.
+part: 12
+minutes: 22
+assumes: [constancy-of-light-speed, reference-frame, speed-of-light, velocity, period]
+introduces: [time-dilation]
+sources:
+  - "Einstein, A. Zur Elektrodynamik bewegter Körper. Annalen der Physik 17, 891–921 (1905)"
+  - "Rossi, B. & Hall, D. B. Variation of the Rate of Decay of Mesotrons with Momentum. Physical Review 59, 223–228 (1941)"
+  - "Frisch, D. H. & Smith, J. H. Measurement of the Relativistic Time Dilation Using μ-Mesons. American Journal of Physics 31, 342–355 (1963)"
+  - "Bailey, J. et al. Measurements of relativistic time dilatation for positive and negative muons in a circular orbit. Nature 268, 301–305 (1977)"
+  - "Particle Data Group. 뮤온의 평균 수명 2.197 μs. Review of Particle Physics (2024)"
+testout: [q98-a, q98-b, q98-c]
+status: published
+---
+
+<Screen kind="scene" title="빛으로 만든 시계">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'clock', title: '시계의 똑딱', caption: '같은 일이 같은 간격으로 되풀이돼요' },
+      { icon: 'laser', title: '빛 시계', caption: '두 거울 사이를 빛이 오가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 예고한 빛 시계부터 만들어 볼게요. 거울 두 장을 마주 보게 세우고, 그 사이를 빛이 오가게 해요.
+
+<S n={2}>
+
+빛이 한 번 갔다 올 때마다 "똑딱" 한 번이에요. 빛의 속력은 늘 같으니, 이보다 믿을 만한 시계는 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={9} title="시계는 되풀이예요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'swing', title: '그네', caption: '한 번 오가는 시간이 주기예요' },
+      { icon: 'clock', title: '시계', caption: '주기가 같은 되풀이를 세요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+9강에서 한 번 오가는 데 걸리는 시간을 주기라고 했어요. 시계는 주기가 늘 같은 되풀이를 세는 장치예요.
+
+<S n={2}>
+
+진자시계는 추의 흔들림을, 손목시계는 수정 조각의 떨림을 세요. 빛 시계는 빛이 거울 사이를 오가는 걸 세는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="두 시계를 나란히">
+  <Fragment slot="visual">
+    <SimP12LightClock b={0} />
+  </Fragment>
+
+똑같은 빛 시계 두 개를 나란히 놓았어요. 움직이는 시계의 빠르기를 0으로 두고 "재생"을 눌러 보세요.
+
+<S n={2}>
+
+두 시계는 똑같이 똑딱여요. 아래 글자의 두 숫자도 늘 같죠. 여기까지는 당연해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="기차에 실은 시계">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's4-train', title: '기차 안에서 보면', caption: '빛은 곧게 오르내려요' },
+      { icon: 'globe', title: '땅에서 보면', caption: '빛은 비스듬히 지그재그로 가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이번엔 한 시계를 고르게 달리는 기차에 실어요. 기차 안의 승객이 보면 빛은 96강의 공처럼 거울 사이를 곧게 오르내려요.
+
+<S n={2}>
+
+땅에서 보면 빛이 위 거울에 닿는 동안 기차가 앞으로 가니, 빛은 비스듬히 올라가요. 96강의 공이 땅에서 포물선을 그린 것과 같은 까닭이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="더 긴 길, 같은 빠르기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '곧은 길', caption: '기차 안에서 본 빛' },
+      { big: '비스듬한 길', caption: '땅에서 본 빛, 더 길어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+비스듬한 길은 곧은 길보다 길어요. 공이라면 기차의 빠르기가 더해져서 더 빨리 가니까 시간이 같았을 거예요.
+
+<S n={2}>
+
+하지만 97강의 광속 불변 때문에 빛은 땅에서 봐도 같은 빠르기로 가요. 더 긴 길을 같은 빠르기로 가니, 한 번 오가는 데 **시간이 더 걸려요**.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="움직이는 시계">
+  <Fragment slot="visual">
+    <SimP12LightClock b={0.6} />
+  </Fragment>
+
+이번엔 움직이는 시계를 빛의 0.6배로 달리게 했어요. "재생"을 누르고 아래 시계의 빛이 그리는 자취를 보세요.
+
+<S n={2}>
+
+멈춘 시계가 10번 똑딱이는 동안 움직이는 시계는 8번만 똑딱여요. 빠르기를 0.9까지 올리면 차이가 훨씬 커지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="3, 4, 5의 삼각형">
+  <Fragment slot="visual">
+    <DataTable caption="빛의 0.6배로 움직이는 시계, 땅에서 본 빛의 한 번 오르기" head={['변', '빛이 1만큼 가는 동안', '까닭']} rows={[
+      ['비스듬한 길', '1', '빛은 늘 빛의 속력으로 가요'],
+      ['옆으로 간 거리', '0.6', '시계가 빛의 0.6배로 가요'],
+      ['위로 간 거리', '0.8', '1² = 0.6² + 0.8² (피타고라스)'],
+    ]} />
+  </Fragment>
+
+빛이 비스듬히 1만큼 가는 동안, 시계는 옆으로 0.6만큼 가요. 그러면 위로 올라간 거리는 피타고라스 정리로 0.8이에요. 3, 4, 5 삼각형을 줄인 모양이죠.
+
+기차 안에서는 빛이 1만큼 갈 때 위로 1만큼 올라가요. 땅에서는 0.8만큼만 올라가니, 같은 높이를 오르는 데 1 ÷ 0.8 = 1.25배의 시간이 걸려요. 그래서 땅에서 보면 움직이는 시계는 1.25배 느려요.
+
+</Screen>
+
+<Screen kind="define" title="시간 지연이라는 이름">
+  <Fragment slot="visual">
+    <Define term="time-dilation" />
+  </Fragment>
+
+이렇게 움직이는 시계가 느리게 가는 현상을 **시간 지연**이라고 불러요. 빛 시계만 그런 게 아니에요.
+
+<S n={2}>
+
+96강에서 고르게 움직이는 기준틀에서는 모든 법칙이 똑같다고 했죠. 그러니 기차 안의 손목시계도, 심장 박동도, 빛 시계와 똑같이 느려져야 해요. 기차 안에서 빛 시계만 다르게 가면 그걸로 움직임을 알아낼 수 있게 되니까요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="시간이 느려져요">
+  <Fragment slot="visual">
+    <Flow alt="움직이는 빛 시계의 빛은 땅에서 볼 때 더 긴 길을 가고, 빛의 속력은 같으니, 똑딱이 느려진다는 사슬" items={[
+      { t: '더 긴 길', sub: '땅에서 본 빛은 비스듬해요' },
+      { t: '같은 빠르기', sub: '광속 불변', step: 2 },
+      { t: '느린 똑딱', sub: '움직이는 시계', step: 2 },
+    ]} />
+  </Fragment>
+
+정리하면 이래요. 땅에서 보면 움직이는 시계의 빛은 더 긴 길을 같은 빠르기로 가요.
+
+<S n={2}>
+
+<Key>빛의 속력은 어느 기준틀에서나 같은데 움직이는 빛 시계의 빛은 땅에서 볼 때 더 긴 비스듬한 길을 가야 하므로, 땅에서 보면 움직이는 시계는 느리게 가고, 기준틀 안의 모든 일이 함께 느려져요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="시계가 느린 까닭">
+
+<Check id="q98-a" options={[
+  { t: '움직이면 시계 속 부품이 흔들려서 고장 나기 때문이에요.', why: '고장이 아니에요. 고르게 움직이는 기준틀 안에서 모든 것은 평소대로 가요. 땅에서 볼 때만 느려 보여요.' },
+  { t: '땅에서 보면 빛이 더 긴 길을 같은 빠르기로 가야 하기 때문이에요.', ok: true, why: '맞아요. 광속 불변 때문에 빛은 빨라지지 못하고, 더 긴 길만큼 시간이 더 걸려요.' },
+  { t: '움직이면 빛이 더 느려지기 때문이에요.', why: '빛의 속력은 어느 기준틀에서나 같아요. 느려지는 건 빛이 아니라 시계가 세는 시간이에요.' },
+  { t: '빛 시계만 그렇고, 다른 시계는 그대로 가요.', why: '그렇다면 기차 안에서 빛 시계와 다른 시계를 견줘 움직임을 알아낼 수 있게 돼요. 96강의 원리에 따라 모든 시계가 함께 느려져요.' },
+]}>
+
+땅에서 보면 빠르게 달리는 기차 안의 빛 시계가 느리게 가요. 그 까닭으로 가장 알맞은 건 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="얼마나 느려질까">
+  <Fragment slot="visual">
+    <DataTable caption="빠르기에 따라 느려지는 비율 1/√(1 − v²/c²)" head={['빠르기 (빛의 몇 배)', '느려지는 비율']} rows={[
+      ['0.1', '1.005'],
+      ['0.6', '1.25'],
+      ['0.8', '1.67'],
+      ['0.9', '2.29'],
+      ['0.99', '7.09'],
+      ['0.995', '10.0'],
+    ]} />
+  </Fragment>
+
+3, 4, 5 삼각형의 계산을 아무 빠르기에나 하면, 움직이는 시계가 느려지는 비율은 1 ÷ √(1 − v²/c²)이 나와요. v는 시계의 빠르기, c는 빛의 속력이에요.
+
+빛의 0.1배일 때는 0.5%밖에 안 느려지지만, 빛의 속력에 가까워질수록 비율이 아주 빨리 커져요. 빛의 0.995배면 10배나 느려지죠.
+
+</Screen>
+
+<Screen kind="step" title="KTX에서는">
+  <Fragment slot="visual">
+    <BigNumber top="시속 300 km(초속 약 83 m)로 하루 동안 달린 KTX 승객의 시계" value="약 10억분의 3초" bottom="땅의 시계보다 그만큼 덜 가요" q="time" />
+  </Fragment>
+
+그럼 우리는 왜 이걸 못 느낄까요? KTX의 빠르기는 빛의 속력의 약 360만분의 1밖에 안 되거든요.
+
+<S n={2}>
+
+계산해 보면 KTX 승객의 시계는 하루에 약 10억분의 3초 덜 가요. 사람이 느끼기에는 너무 작은 차이예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="누가 느린가">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '땅에서 보면', caption: '기차의 시계가 느려요' },
+      { big: '기차에서 보면', caption: '땅의 시계가 느려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 여기서 막혔어요. 기차에서 보면 움직이는 건 땅이니, 기차의 승객에게는 땅의 시계가 느리게 가야 하거든요.
+
+실제로 두 사람 모두 상대의 시계가 느리다고 봐요. 이게 모순이 아닌 까닭은 "같은 순간"이라는 말이 두 기준틀에서 다르기 때문인데, 다음 강에서 풀어요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="하늘에서 오는 뮤온">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'sun', title: '우주에서 온 입자', caption: '대기 꼭대기에 부딪혀요' },
+      { icon: 'cloud', title: '높이 약 15 km', caption: '뮤온이 생겨요' },
+      { icon: 'globe', title: '땅', caption: '뮤온이 내려와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+시간 지연은 하늘에서 매일 일어나고 있어요. 우주에서 날아온 빠른 입자가 대기 높은 곳의 공기 원자에 부딪히면, 높이 약 15 km에서 뮤온이라는 입자가 생겨요.
+
+<S n={2}>
+
+뮤온은 전자의 무거운 사촌 같은 입자로, 평균 2.2마이크로초(100만분의 2.2초)만 살고 다른 입자로 바뀌어요. 그리고 빛의 속력에 아주 가깝게 땅으로 내려와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="시간 지연이 없다면">
+  <Fragment slot="visual">
+    <DataTable caption="빛의 0.995배로 내려오는 뮤온" head={['양', '값']} rows={[
+      ['평균 수명', '2.2 × 10⁻⁶ s'],
+      ['평균 수명 동안 가는 거리', '약 3 × 10⁸ m/s × 2.2 × 10⁻⁶ s ≈ 660 m'],
+      ['땅까지의 거리', '약 15,000 m'],
+    ]} />
+  </Fragment>
+
+빛에 가까운 빠르기로 2.2마이크로초를 가면 약 660 m예요. 그런데 땅까지는 약 15 km, 곧 15,000 m예요.
+
+평균 수명 동안 가는 거리의 20배가 넘죠. 시간 지연이 없다면 뮤온은 땅에 닿기 훨씬 전에 거의 다 사라져야 해요.
+
+</Screen>
+
+<Screen kind="step" title="그런데 땅에 닿아요">
+  <Fragment slot="visual">
+    <BigNumber top="바닷가 높이에서 하늘을 향한 손톱만 한 넓이(1 cm²)" value="1분에 약 1개" bottom="지금도 뮤온이 지나가고 있어요" />
+  </Fragment>
+
+실제로 뮤온은 땅까지 많이 내려와요. 바닷가 높이에서도 하늘을 향한 손톱만 한 넓이로 1분에 약 1개씩 지나가요.
+
+<S n={2}>
+
+빛의 0.995배로 움직이는 뮤온의 시간은 땅에서 볼 때 10배 느리게 가요. 그래서 평균 약 6.6 km를 가고, 많은 뮤온이 땅까지 살아서 닿아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="세어 보고, 돌려 보고">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1963', caption: '산꼭대기와 바닷가에서 뮤온 수를 견줬어요' },
+      { big: '1977', caption: '빛의 0.9994배로 원을 돌린 뮤온이 약 29배 오래 살았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1963년 미국의 프리시와 스미스는 높이 약 1,900 m의 워싱턴산 꼭대기와 바닷가에서 뮤온 수를 세어 견줬어요. 시간 지연이 없다면 바닷가에서 크게 줄어야 했지만, 대부분 살아 있었어요.
+
+<S n={2}>
+
+1977년 유럽입자물리연구소는 뮤온을 빛의 약 0.9994배로 고리 안에서 돌렸어요. 뮤온은 약 29배 오래 살았고, 예측과 0.1% 안에서 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="우주선의 8시간">
+
+<Numeric id="q98-b" answer={10} tol={0.02} unit="시간">
+
+지구에서 볼 때 빛의 0.6배로 날아가는 우주선이 있어요. 지구에서 보면 우주선 안의 시계는 1.25배 느리게 가요. 우주선 안의 시계가 8시간 가는 동안, 지구의 시계는 몇 시간 갈까요?
+
+<Fragment slot="solution">
+
+우주선의 시계가 1.25배 느리니, 지구의 시계는 8 × 1.25 = 10시간 가요. 3, 4, 5 삼각형에서 본 0.8과 1의 비율 그대로예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="check" title="뮤온이 닿는 까닭">
+
+<Check id="q98-c" options={[
+  { t: '뮤온이 빛보다 빨리 내려오기 때문이에요.', why: '어떤 입자도 빛보다 빨리 가지 못해요. 뮤온은 빛보다 조금 느려요.' },
+  { t: '땅에서 보면 빠르게 움직이는 뮤온의 시간이 느리게 가서, 수명이 길어지기 때문이에요.', ok: true, why: '맞아요. 빛의 0.995배로 움직이는 뮤온은 땅에서 볼 때 시간이 10배 느리게 가서 평균 약 6.6 km를 갈 수 있어요.' },
+  { t: '뮤온은 원래 몇 초씩 살기 때문이에요.', why: '멈춰 있는 뮤온의 평균 수명은 약 2.2마이크로초로 아주 짧아요.' },
+  { t: '공기가 뮤온을 밀어 줘서 빨라지기 때문이에요.', why: '공기는 뮤온을 빨라지게 하지 않아요. 땅에 닿는 까닭은 빠르기가 아니라 시간 지연이에요.' },
+]}>
+
+높이 약 15 km에서 생긴 뮤온은 평균 2.2마이크로초만 살아서, 빛의 속력으로 가도 평균 660 m밖에 못 갈 것 같아요. 그런데도 많은 뮤온이 땅까지 닿는 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['time-dilation']}>
+
+1. 땅에서 보면 움직이는 빛 시계의 빛은 더 긴 길을 가요.
+2. 빛의 속력은 같으니 한 번 오가는 시간이 길어져요.
+3. 그래서 움직이는 시계와 그 안의 모든 일이 느려져요.
+4. 느려지는 비율은 1/√(1 − v²/c²)이에요.
+5. 뮤온이 땅까지 닿는 게 그 증거예요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="뮤온에게 물어보면">
+
+<DailyProblem id="p98">
+
+이번엔 뮤온의 기준틀에서 볼게요. 뮤온에게는 자기 시계가 평소대로 가니, 뮤온 자신은 여전히 평균 2.2마이크로초만 살아요.
+
+그런데도 뮤온은 땅에 닿아요. 뮤온의 기준틀에서는 무엇이 달라져야 이 일이 설명될까요? 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+뮤온의 기준틀에서는 뮤온이 멈춰 있고 땅이 빛에 가까운 빠르기로 다가와요. 2.2마이크로초 동안 땅이 다가오려면 땅까지의 거리가 어때야 할까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+뮤온의 기준틀에서는 대기의 두께가 짧아져야 해요. 뮤온에게 수명은 2.2마이크로초 그대로이니, 그 사이 땅이 다가오려면 땅까지의 거리가 15 km가 아니라 10분의 1인 약 1.5 km쯤이어야 하죠.
+
+땅의 기준틀에서는 "시간이 느려서" 닿고, 뮤온의 기준틀에서는 "거리가 짧아서" 닿아요. 같은 사건을 두 기준틀에서 다르게 설명하는 거예요. 이 거리의 줄어듦이 다음 강의 주제예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+빛의 속력은 같은데 움직이는 빛 시계의 빛은 더 긴 길을 가야 하므로, 움직이는 시계는 느리게 가고, 뮤온이 땅까지 살아서 닿는 게 그 증거예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="짧아지는 길, 엇갈리는 순간">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'ruler', title: '길이', caption: '움직이는 쪽에서 보면 짧아져요' },
+      { icon: 'lightning', title: '동시에 친 번개', caption: '기준틀마다 동시가 아닐 수 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+뮤온의 기준틀에서는 대기가 짧아져야 했어요. 그리고 두 사람이 서로의 시계가 느리다고 보는 수수께끼도 남았죠.
+
+<S n={2}>
+
+다음 강에서는 움직이는 물체의 길이가 줄어드는 <Later n={99}>길이 수축</Later>과, 기차의 앞뒤에 동시에 친 번개로 "동시"라는 말이 기준틀마다 다르다는 걸 같이 따져 볼게요.
+
+</S>
+
+</Screen>

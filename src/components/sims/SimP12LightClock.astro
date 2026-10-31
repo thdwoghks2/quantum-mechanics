@@ -1,0 +1,116 @@
+---
+/**
+ * 빛 시계 두 개. 위는 멈춘 시계, 아래는 빠르기 v로 움직이는 시계다(땅에서 본 모습).
+ * 빛은 두 거울 사이를 오가고, 한 번 갔다 오면 한 번 "똑딱"이다.
+ * 땅에서 보면 움직이는 시계의 빛은 비스듬한 더 긴 길을 같은 빠르기로 가서, 똑딱이 느려진다.
+ */
+interface Props {
+  /** 움직이는 시계의 빠르기 (빛의 속력의 몇 배) */
+  b?: number;
+  controls?: boolean;
+}
+const { b = 0.6, controls = true } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p12-light-clock class="sim" data-ratio="0.72">
+  <canvas aria-label="위에는 멈춘 빛 시계, 아래에는 옆으로 움직이는 빛 시계가 있다. 움직이는 시계의 빛은 비스듬한 길을 지그재그로 가서, 같은 시간 동안 덜 똑딱인다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row" hidden={!controls}>
+      <label for={`lc-b-${uid}`}>움직이는 시계의 빠르기</label>
+      <input id={`lc-b-${uid}`} type="range" min="0" max="0.9" step="0.1" value={b} data-param="b" />
+      <output data-out="b"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p12-light-clock>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const C = 110; // 화면에서 빛이 가는 빠르기 (px/s)
+
+  class SimP12LightClock extends Sim {
+    trail: [number, number][] = [];
+    lastX = 0;
+
+    changed() {
+      this.t = 0;
+      this.trail = [];
+    }
+
+    reset() {
+      this.trail = [];
+    }
+
+    gamma() {
+      const b = this.p.b ?? 0;
+      return 1 / Math.sqrt(1 - b * b);
+    }
+
+    format(name: string) {
+      return name === 'b' ? `빛의 ${(this.p.b ?? 0).toFixed(1)}배` : super.format(name);
+    }
+
+    L() {
+      return this.h * 0.26;
+    }
+
+    readout() {
+      if (!this.h) return '';
+      const T0 = (2 * this.L()) / C;
+      const g = this.gamma();
+      const nRest = Math.floor(this.t / T0);
+      const nMove = Math.floor(this.t / (T0 * g));
+      return `멈춘 시계 ${nRest}번 · 움직이는 시계 ${nMove}번 똑딱 · 느려지는 비율 ${g.toFixed(2)}배`;
+    }
+
+    clock(x: number, yTop: number, phase: number, color: string) {
+      const L = this.L();
+      const half = 22;
+      this.line(x - half, yTop, x + half, yTop, this.c.text2, 3);
+      this.line(x - half, yTop + L, x + half, yTop + L, this.c.text2, 3);
+      const up = phase < 0.5 ? phase * 2 : 2 - phase * 2;
+      const y = yTop + L - up * L;
+      this.dot(x, y, 4.5, color);
+      return y;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const L = this.L();
+      const b = this.p.b ?? 0;
+      const T0 = (2 * L) / C;
+      const T = T0 * this.gamma();
+
+      // 위: 멈춘 시계
+      const y1 = h * 0.1;
+      this.text('멈춘 시계', 8, y1 - 2, c.text, 12, 'left');
+      this.clock(w * 0.5, y1 + 8, (this.t % T0) / T0, c.time);
+
+      // 아래: 움직이는 시계 (땅에서 본 모습)
+      const y2 = h * 0.55;
+      this.text(`움직이는 시계 (빛의 ${b.toFixed(1)}배로 →)`, 8, y2 - 2, c.text, 12, 'left');
+      const span = w + 60;
+      const x = ((30 + b * C * this.t) % span) - 30;
+      if (x < this.lastX) this.trail = [];
+      this.lastX = x;
+      const py = this.clock(x, y2 + 8, (this.t % T) / T, c.time);
+      const lastP = this.trail[this.trail.length - 1];
+      if (!lastP || Math.hypot(lastP[0] - x, lastP[1] - py) > 2) this.trail.push([x, py]);
+      if (this.trail.length > 400) this.trail.shift();
+      const g = this.ctx;
+      g.setLineDash([3, 4]);
+      g.strokeStyle = c.time;
+      g.lineWidth = 1.2;
+      g.beginPath();
+      this.trail.forEach(([tx, ty], i) => (i ? g.lineTo(tx, ty) : g.moveTo(tx, ty)));
+      g.stroke();
+      g.setLineDash([]);
+    }
+  }
+  define('qm-sim-p12-light-clock', SimP12LightClock);
+</script>
