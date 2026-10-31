@@ -1,0 +1,417 @@
+---
+number: 53
+title: 복소수의 곱셈은 회전이다
+short: 곱셈은 회전
+question: 복소수를 곱하면 복소평면에서 무슨 일이 생길까요?
+mechanism: 복소수 z에 a + bi를 곱하면 a × z와 b × (i × z)를 더한 값이 돼요. a × z는 z를 같은 방향으로 늘인 것이고, i × z는 z를 4분의 1바퀴 돌린 것이라, 둘을 더하면 z가 a + bi의 각도만큼 돌아가고 a + bi의 길이만큼 늘어난 화살표가 돼요. 그래서 복소수를 곱하면 절댓값은 곱해지고 편각은 더해져요. 길이가 1인 복소수를 거듭 곱하면 시계 바늘처럼 같은 각도씩 돌아가요.
+part: 5
+year: 1797
+minutes: 20
+epigraph:
+  text: "+1, −1, √−1을 양의 단위, 음의 단위, 허수 단위라고 부르는 대신 앞으로의 단위, 뒤로의 단위, 옆으로의 단위라고 불렀다면, 이런 어둠이 끼어들 여지는 거의 없었을 것이다."
+  by: 카를 프리드리히 가우스
+  source: 『괴팅겐 학술 소식』에 쓴 글 (1831)
+assumes: [imaginary-number, complex-number, complex-plane, phase, sine]
+introduces: [modulus, argument]
+sources:
+  - "Gauss, C. F. Theoria residuorum biquadraticorum, Commentatio secunda (1831), 그리고 Göttingische gelehrte Anzeigen (1831년 4월 23일)의 소개 글"
+  - "Needham, T. Visual Complex Analysis (1997), Ch. 1"
+  - "Nahin, P. J. An Imaginary Tale: The Story of √−1 (1998)"
+testout: [q53-length, q53-angle, q53-spiral]
+status: published
+---
+
+<Screen kind="scene" title="시계 바늘">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'clock', title: '시계 바늘', caption: '길이는 그대로, 방향만 돌아가요' },
+      { big: '× i', title: '52강', caption: '4분의 1바퀴 돌았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+시계의 분침은 길이가 늘 그대로인데, 1분마다 같은 각도만큼 돌아가요. 한 시간이면 정확히 한 바퀴를 돌죠.
+
+<S n={2}>
+
+52강에서 i를 곱하면 복소평면에서 4분의 1바퀴 돈다고 했어요. 오늘은 다른 복소수를 곱해도 돌아간다는 걸, 그리고 얼마나 돌고 얼마나 늘어나는지를 알아봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={52} title="i를 곱하면">
+  <Fragment slot="visual">
+    <DataTable caption="1에 i를 거듭 곱하기" head={['값', '자리']} rows={[
+      ['1', '가로축 위, 0에서 1만큼'],
+      ['i', '세로축 위로 1'],
+      ['−1', '가로축 위, 0에서 반대편으로 1'],
+      ['−i', '세로축 아래로 1'],
+    ]} />
+  </Fragment>
+
+52강에서 1에 i를 거듭 곱하면 1 → i → −1 → −i → 1로 돌아왔어요. 복소평면에서 4분의 1바퀴씩 돈 거죠.
+
+<S n={2}>
+
+그런데 그건 1이라는 특별한 수에서 시작했을 때였어요. 다른 점에서 시작해도 i를 곱하면 4분의 1바퀴 돌까요?
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="2 + i에 i를 곱하면">
+  <Fragment slot="visual">
+    <DataTable caption="(2 + i) × i" head={['계산', '결과']} rows={[
+      ['2 × i + i × i', '2i + i²'],
+      ['i² = −1이니', '−1 + 2i'],
+      ['자리', '(2, 1) → (−1, 2)'],
+    ]} highlight={[2]} />
+  </Fragment>
+
+(2 + i)에 i를 곱하면 2i + i² = −1 + 2i예요. 점 (2, 1)이 점 (−1, 2)로 옮겨 갔죠.
+
+<S n={2}>
+
+가로 2, 세로 1이던 화살표가 가로 −1, 세로 2가 됐어요. 그림으로 그려 보면 화살표의 길이는 그대로이고, 시곗바늘과 반대 방향으로 딱 90° 돌아가 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="어떤 점이든 90°">
+  <Fragment slot="visual">
+    <SimP05Complex mode="mul" a={2} b={1} r={1} t={90} />
+  </Fragment>
+
+곱하는 수가 i일 때예요. "곱한 결과에 한 번 더 곱하기"를 몇 번 눌러 보세요.
+
+<S n={2}>
+
+어느 점에서 시작하든 i를 곱할 때마다 길이는 그대로이고 90°씩 돌아가요. 네 번 곱하면 제자리로 와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="절댓값이라는 이름">
+  <Fragment slot="visual">
+    <Define term="modulus" />
+  </Fragment>
+
+이제 화살표를 두 가지로 재 볼게요. 첫째는 길이예요. 0에서 그 점까지의 거리를 그 복소수의 **절댓값**이라고 해요.
+
+<S n={2}>
+
+3 + 4i라면 가로 3, 세로 4인 직각삼각형의 빗변이니, 피타고라스 정리로 √(9 + 16) = 5예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="편각이라는 이름">
+  <Fragment slot="visual">
+    <Define term="argument" />
+  </Fragment>
+
+둘째는 방향이에요. 양의 실수 축에서부터 화살표까지, 시곗바늘과 반대 방향으로 잰 각도를 **편각**이라고 해요.
+
+<S n={2}>
+
+1의 편각은 0°, i는 90°, −1은 180°, −i는 270°예요. i를 곱할 때마다 편각이 90°씩 커진 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="1 + i를 곱하면">
+  <Fragment slot="visual">
+    <DataTable caption="(2 + i) × (1 + i) = 1 + 3i" head={['', '절댓값', '편각']} rows={[
+      ['2 + i', '√5 ≈ 2.24', '약 26.6°'],
+      ['1 + i', '√2 ≈ 1.41', '45°'],
+      ['곱 1 + 3i', '√10 ≈ 3.16', '약 71.6°'],
+    ]} highlight={[2]} />
+  </Fragment>
+
+이번엔 i 대신 1 + i를 곱해 볼게요. (2 + i)(1 + i) = 2 + 2i + i + i² = 1 + 3i예요.
+
+<S n={2}>
+
+절댓값을 보면 √5 × √2 = √10으로, 두 길이를 곱한 값이에요. 편각은 26.6° + 45° = 71.6°로, 두 각도를 더한 값이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="왜 돌아갈까">
+  <Fragment slot="visual">
+    <Flow alt="z에 a + bi를 곱하면, z를 a배로 늘인 것과 z를 90° 돌려 b배로 늘인 것을 더한 화살표가 된다" items={[
+      { t: 'a × z', sub: 'z와 같은 방향, a배 길이' },
+      { t: 'b × (i × z)', sub: 'z를 90° 돌려 b배 길이', step: 2 },
+      { t: '둘을 이어 붙이기', sub: 'z를 돌리고 늘인 화살표', step: 3 },
+    ]} />
+  </Fragment>
+
+z에 a + bi를 곱하면 a × z + b × (i × z)예요. 앞의 것은 z와 같은 방향으로 a배 늘인 화살표예요.
+
+<S n={2}>
+
+뒤의 것은 z를 90° 돌린 다음 b배 늘인 화살표예요.
+
+</S>
+
+<S n={3}>
+
+직각으로 만나는 두 화살표를 이어 붙이면, a + bi를 그린 직각삼각형과 닮은 모양이 생겨요. 그래서 결과는 z를 a + bi의 편각만큼 돌리고 a + bi의 절댓값만큼 늘인 화살표가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="곱셈의 두 규칙">
+  <Fragment slot="visual">
+    <BigNumber top="복소수를 곱하면" value="길이는 곱하고, 각도는 더해요" bottom="절댓값은 곱해지고 편각은 더해져요" />
+  </Fragment>
+
+복소수의 곱셈은 늘이기와 돌리기를 한꺼번에 하는 일이에요. 길이가 2인 수를 곱하면 2배로 늘고, 편각이 30°인 수를 곱하면 30° 돌아가요.
+
+<Key>z에 a + bi를 곱하면 z를 그대로 늘인 것과 90° 돌려 늘인 것이 더해지니까, 결과는 z를 a + bi의 편각만큼 돌리고 절댓값만큼 늘인 것이에요. 그래서 복소수를 곱하면 절댓값은 곱해지고 편각은 더해져요.</Key>
+
+</Screen>
+
+<Screen kind="observe" title="길이와 각도를 바꿔 곱하기">
+  <Fragment slot="visual">
+    <SimP05Complex mode="mul" a={2} b={1} r={1.5} t={45} />
+  </Fragment>
+
+곱하는 수의 길이와 각도를 바꿔 보세요. 결과 화살표가 얼마나 늘고 얼마나 도는지 보세요.
+
+<S n={2}>
+
+길이를 2로 두면 결과는 2배로 길어지고, 각도를 60°로 두면 결과는 60° 돌아가요. 길이가 1이고 각도가 180°면 −1을 곱한 것과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="곱의 절댓값">
+
+<Numeric id="q53-length" answer={7.07} tol={0.02}>
+
+3 + 4i의 절댓값은 5이고, 1 + i의 절댓값은 √2 ≈ 1.414예요. (3 + 4i) × (1 + i)의 절댓값은 얼마일까요?
+
+<Fragment slot="solution">
+
+절댓값은 곱해지니까 5 × 1.414 ≈ 7.07이에요. 직접 곱해 보면 (3 + 4i)(1 + i) = 3 + 3i + 4i + 4i² = −1 + 7i이고, √(1 + 49) = √50 ≈ 7.07로 같아요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="check" title="곱의 편각">
+
+<Check id="q53-angle" options={[
+  { t: '90°', ok: true, why: '편각은 더해지니 30° + 60° = 90°예요.' },
+  { t: '1800°', why: '편각은 곱하지 않고 더해요. 30 × 60이 아니라 30 + 60이에요.' },
+  { t: '30°', why: '곱하는 수의 편각만큼 더 돌아가요. 처음 각도에 60°를 더해요.' },
+  { t: '2°', why: '각도를 나누지 않아요. 곱셈에서 편각은 더해져요.' },
+]}>
+
+편각이 30°인 복소수에 편각이 60°인 복소수를 곱했어요. 곱의 편각은 몇 도일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="음수 곱하기 음수">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '−1', caption: '편각 180°' },
+      { big: '× (−1)', caption: '180° 더 돌기', tone: 'accent' },
+      { big: '+1', caption: '편각 360° = 0°' },
+    ]} />
+  </Fragment>
+
+이 규칙으로 보면 음수 곱하기 음수가 양수인 까닭도 새롭게 보여요. −1의 편각은 180°예요.
+
+<S n={2}>
+
+−1 × −1은 180°에서 180°를 더 돌아 360°, 곧 제자리예요. 그래서 1이 되죠. 실수의 부호 규칙도 사실은 반 바퀴씩 도는 규칙이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="같은 수를 거듭 곱하기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '길이 1, 각도 30°', caption: '한 번 곱할 때마다 30° 돌아요' },
+      { big: '12번 곱하면', caption: '360°, 한 바퀴', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+길이가 1이고 편각이 30°인 복소수를 거듭 곱해 볼게요. 길이는 1 × 1 × … = 1로 그대로이고, 각도만 30°씩 커져요.
+
+<S n={2}>
+
+12번 곱하면 360°, 한 바퀴예요. 시계의 시침이 1시간에 30°씩 돌아 12시간에 한 바퀴 도는 것과 똑같죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="원과 나선">
+  <Fragment slot="visual">
+    <SimP05Complex mode="mul" a={2} b={0} r={1} t={30} />
+  </Fragment>
+
+곱하는 수를 길이 1, 각도 30°로 두고 "한 번 더 곱하기"를 여러 번 눌러 보세요. 그다음 "처음으로"를 누르고 길이를 1.25나 0.75로 바꿔서 다시 해 보세요.
+
+<S n={2}>
+
+길이가 1이면 점들이 원을 따라 돌아요. 길이가 1보다 크면 돌면서 바깥으로 퍼지는 나선이, 1보다 작으면 안으로 말려드는 나선이 그려져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="거듭 곱한 점들">
+
+<Check id="q53-spiral" options={[
+  { t: '0을 가운데 둔 원을 따라 돌아요.', ok: true, why: '길이가 1인 수를 곱하면 절댓값은 그대로이고 편각만 커지니, 점들은 늘 0에서 같은 거리에 있어요.' },
+  { t: '0에서 점점 멀어지는 곧은 선을 따라가요.', why: '편각이 더해지니 방향이 계속 바뀌어요. 곧은 선이 아니에요.' },
+  { t: '바깥으로 퍼지는 나선을 그려요.', why: '바깥으로 퍼지려면 곱하는 수의 길이가 1보다 커야 해요.' },
+  { t: '한 자리에 머물러요.', why: '편각이 0°가 아니면 곱할 때마다 돌아가요.' },
+]}>
+
+어떤 복소수에, 절댓값이 1이고 편각이 20°인 수를 거듭 곱해서 나온 점들을 복소평면에 찍었어요. 점들은 어떤 모양으로 늘어설까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="시계 바늘과 복소수">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['바늘의 길이', '절댓값'],
+        ['바늘이 가리키는 방향', '편각'],
+        ['한 번 째깍할 때마다 같은 각도만큼', '길이 1인 같은 수를 한 번 곱할 때마다'],
+      ]}
+      fits="길이는 그대로 두고 같은 각도씩 거듭 돌린다는 점이 같아요."
+      breaks="시계는 시곗바늘 방향으로 돌지만, 편각이 +인 복소수를 곱하면 그 반대 방향으로 돌아요. 그리고 시계 바늘은 길이가 바뀌지 않지만, 길이가 1이 아닌 복소수를 곱하면 화살표가 늘거나 줄어요."
+    />
+  </Fragment>
+
+복소수의 곱셈을 처음 장면의 시계 바늘에 빗대 볼게요.
+
+</Screen>
+
+<Screen kind="step" title="곱셈이 회전이라니">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '× 3', title: '실수의 곱셈', caption: '수직선 위에서 늘이기' },
+      { big: '× (1 + i)', title: '복소수의 곱셈', caption: '평면 위에서 늘이고 돌리기', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 곱셈은 늘이는 일이라고만 생각해 왔어요. 그래서 곱했더니 돌아간다는 말이 처음엔 영 받아들여지지 않았어요.
+
+그런데 음수를 곱하면 반 바퀴 돌았으니, 실수의 곱셈도 이미 돌리기를 하고 있었어요. 복소수는 그 사이의 모든 각도를 쓸 수 있게 해 준 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="파동과 무슨 상관일까">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '12강', title: '돌아가는 점', caption: '그림자가 사인 곡선을 그려요' },
+      { big: '복소수', title: '돌아가는 화살표', caption: '길이 1인 수를 거듭 곱하기', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+12강에서 원을 도는 점의 높이가 사인 곡선을 그린다고 했어요. 그리고 진동이 한 번 되풀이되는 동안 어디쯤인지를 각도, 곧 위상으로 나타냈죠.
+
+<S n={2}>
+
+길이 1인 복소수를 거듭 곱하면 화살표가 원을 따라 돌아요. 그러니 파동의 위상은 복소수의 편각으로, 파동의 크기는 절댓값으로 나타낼 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['modulus', 'argument', 'complex-plane']}>
+
+1. 어떤 복소수에 i를 곱해도 길이는 그대로이고 90° 돌아가요.
+2. 그래서 a + bi를 곱하면 그대로 늘인 것과 90° 돌려 늘인 것이 더해져, a + bi의 편각만큼 돌고 절댓값만큼 늘어나요.
+3. 복소수를 곱하면 절댓값은 곱해지고 편각은 더해져요. 음수 곱하기 음수가 양수인 것도 반 바퀴씩 두 번 돈 거예요.
+4. 길이 1인 수를 거듭 곱하면 시계 바늘처럼 원을 따라 같은 각도씩 돌아가요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="(1 + i)⁸">
+
+<DailyProblem id="p53">
+
+(1 + i)⁸, 곧 1 + i를 여덟 번 곱한 값을 구해 보세요. 괄호를 하나하나 풀지 말고, 오늘 배운 절댓값과 편각의 규칙으로 계산해 보세요.
+
+<Fragment slot="hint1">
+
+1 + i의 절댓값은 √2, 편각은 45°예요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+여덟 번 곱하면 절댓값은 √2를 여덟 번 곱한 값, 편각은 45°를 여덟 번 더한 값이에요.
+
+</Fragment>
+<Fragment slot="solution">
+
+절댓값은 (√2)⁸ = 2⁴ = 16이고, 편각은 45° × 8 = 360°, 곧 제자리 방향이에요. 그러니 (1 + i)⁸ = 16이에요.
+
+허수가 잔뜩 섞인 수를 여덟 번 곱했는데 깔끔한 실수가 나왔어요. 한 바퀴를 딱 맞게 돌았기 때문이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+복소수를 곱하면 복소평면에서 화살표가 돌고 늘어나는데, 절댓값은 곱해지고 편각은 더해져요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="아주 작게 여러 번 돌기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '30°씩 12번', caption: '한 바퀴' },
+      { big: '1°씩 360번', caption: '한 바퀴' },
+      { big: '아주 작게 아주 많이', caption: '어떤 수가 나올까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+30°씩 12번 돌아도, 1°씩 360번 돌아도 한 바퀴예요. 그렇다면 아주 작은 각도씩 아주 많이 돌면 어떻게 될까요?
+
+<S n={2}>
+
+다음 강에서는 은행 이자를 아주 잘게 쪼개 붙이는 계산에서 나오는 수 e를 만나고, 그 수가 돌아가는 화살표와 어떻게 이어지는지 <Later n={54}>오일러 공식</Later>으로 봐요.
+
+</S>
+
+</Screen>

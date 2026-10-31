@@ -44,6 +44,10 @@ const rows =
           <button type="button" class="btn" data-set="r=2,t=0">× 2</button>
           <button type="button" class="btn" data-set="r=1.5,t=45">× (1 + i)쯤</button>
         </div>
+        <div class="sim__buttons">
+          <button type="button" class="btn" data-again>곱한 결과에 한 번 더 곱하기</button>
+          <button type="button" class="btn" data-reset>처음으로</button>
+        </div>
       </>
     )}
   </div>
@@ -66,6 +70,35 @@ const rows =
 
   class SimComplex extends Sim {
     animated = false;
+    trail: [number, number][] = [];
+    start: [number, number] = [0, 0];
+
+    init() {
+      this.start = [this.p.a ?? 0, this.p.b ?? 0];
+      this.querySelector<HTMLButtonElement>('button[data-again]')?.addEventListener('click', () => {
+        const [wr, wi] = this.mulBy();
+        const a = this.p.a!;
+        const b = this.p.b!;
+        this.trail.push([a, b]);
+        this.setZ(a * wr - b * wi, a * wi + b * wr);
+      });
+    }
+
+    setZ(a: number, b: number) {
+      this.p.a = a;
+      this.p.b = b;
+      const ia = this.querySelector<HTMLInputElement>('input[data-param="a"]');
+      const ib = this.querySelector<HTMLInputElement>('input[data-param="b"]');
+      if (ia) ia.value = String(a);
+      if (ib) ib.value = String(b);
+      this.renderOutputs();
+      this.frame();
+    }
+
+    reset() {
+      this.trail = [];
+      this.setZ(this.start[0], this.start[1]);
+    }
 
     format(name: string) {
       const v = this.p[name]!;
@@ -73,7 +106,7 @@ const rows =
       return `${v}`;
     }
 
-    w(): [number, number] {
+    mulBy(): [number, number] {
       const r = this.p.r!;
       const t = (this.p.t! * Math.PI) / 180;
       return [r * Math.cos(t), r * Math.sin(t)];
@@ -89,13 +122,13 @@ const rows =
         const d = this.p.d!;
         return `(${fmt(a, b)}) + (${fmt(c, d)}) = ${fmt(a + c, b + d)}`;
       }
-      const [wr, wi] = this.w();
+      const [wr, wi] = this.mulBy();
       const pr = a * wr - b * wi;
       const pi = a * wi + b * wr;
       const lz = Math.hypot(a, b);
       const az = (Math.atan2(b, a) * 180) / Math.PI;
       const lp = Math.hypot(pr, pi);
-      return `z = ${fmt(a, b)} (길이 ${lz.toFixed(2)}, 각도 ${((az + 360) % 360).toFixed(0)}°) × (길이 ${this.p.r}, 각도 ${this.p.t}°) = ${fmt(pr, pi)} (길이 ${lp.toFixed(2)}, 각도 ${(((az + this.p.t!) % 360) + 360) % 360}°)`;
+      return `z = ${fmt(a, b)} (길이 ${lz.toFixed(2)}, 각도 ${((az + 360) % 360).toFixed(0)}°) × (길이 ${this.p.r}, 각도 ${this.p.t}°) = ${fmt(pr, pi)} (길이 ${lp.toFixed(2)}, 각도 ${((((az + this.p.t!) % 360) + 360) % 360).toFixed(0)}°)`;
     }
 
     draw() {
@@ -151,7 +184,8 @@ const rows =
         return;
       }
       // 곱하기
-      const [wr, wi] = this.w();
+      for (const [x, y] of this.trail) this.dot(X(x), Y(y), 3, c.muted);
+      const [wr, wi] = this.mulBy();
       const pr = a * wr - b * wi;
       const pi = a * wi + b * wr;
       const az = Math.atan2(b, a);
