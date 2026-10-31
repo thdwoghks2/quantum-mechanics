@@ -804,6 +804,25 @@
   summary: 뉴멕시코의 사막 고원에 로버트 오펜하이머가 이끄는 비밀 무기 연구소가 문을 열었어요.
   lessons: [115]
   people: [oppenheimer]
+- id: franck-report-1945
+  year: 1945
+  date: 6월 11일
+  title: 프랑크 보고서
+  summary: 시카고 과학자 위원회가 원자폭탄을 경고 없이 쓰면 끝없는 군비 경쟁이 시작될 거라 경고하고, 먼저 사람이 없는 곳에서 시연하자고 정부에 권했어요.
+  lessons: [117]
+  people: [franck, szilard]
+- id: szilard-petition-1945
+  year: 1945
+  date: 7월 17일
+  title: 실라르드 청원
+  summary: 시카고 등의 과학자 약 70명이 일본에 항복 조건을 알리기 전에는 원자폭탄을 쓰지 말라는 청원서에 서명했어요. 청원서는 폭탄이 떨어지기 전에 대통령에게 닿지 못했어요.
+  lessons: [117]
+  people: [szilard]
+- id: hidankyo-2024
+  year: 2024
+  title: 피폭자 단체에 노벨 평화상
+  summary: 히로시마와 나가사키의 생존자들이 만든 니혼 히단쿄가 핵무기 없는 세계를 위해 증언해 온 공로로 노벨 평화상을 받았어요.
+  lessons: [117]
 
 # ── 세션 5 (121~137강) ──
 # (여기 아래에 더한다)
