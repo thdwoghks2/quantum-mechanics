@@ -1,0 +1,95 @@
+---
+/**
+ * 두 벡터와 내적. a는 가로 방향, b는 각도와 길이를 바꿀 수 있다.
+ * b가 a 방향으로 드리우는 그림자(점선)와, 내적 = |a| × |b| × cos(각도)를 보여 준다.
+ */
+interface Props {
+  deg?: number;
+  shadow?: boolean;
+}
+const { deg = 40, shadow = true } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p10-vector class="sim" data-ratio="0.62" data-shadow={shadow ? '1' : '0'}>
+  <canvas aria-label="가로 방향 화살표 a와, 각도를 바꿀 수 있는 화살표 b. b가 a 방향으로 드리우는 그림자와 내적 값이 보인다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p10v-t-${uid}`}>사이 각도</label>
+      <input id={`p10v-t-${uid}`} type="range" min="0" max="180" step="5" value={deg} data-param="t" />
+      <output data-out="t"></output>
+    </div>
+    <div class="sim__row">
+      <label for={`p10v-b-${uid}`}>b의 길이</label>
+      <input id={`p10v-b-${uid}`} type="range" min="0.5" max="3" step="0.5" value="2" data-param="b" />
+      <output data-out="b"></output>
+    </div>
+  </div>
+  <input type="hidden" data-param="a" value="3" />
+  <p class="sim__readout"></p>
+</qm-sim-p10-vector>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimP10Vector extends Sim {
+    animated = false;
+
+    format(name: string) {
+      if (name === 't') return `${this.p.t}°`;
+      if (name === 'b') return String(this.p.b);
+      return '';
+    }
+
+    readout() {
+      const t = (this.p.t! * Math.PI) / 180;
+      const cos = Math.cos(t);
+      const dot = this.p.a! * this.p.b! * cos;
+      const r = (v: number) => (Math.abs(v) < 0.005 ? '0' : v.toFixed(2));
+      return `a의 길이 3 · b의 길이 ${this.p.b} · cos ${this.p.t}° = ${r(cos)} · 내적 a · b = ${r(dot)}`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const unit = Math.min(w / 8, h / 4.2);
+      const ox = w / 2;
+      const oy = h * 0.78;
+      // 모눈
+      g.strokeStyle = c.line;
+      g.globalAlpha = 0.5;
+      g.lineWidth = 1;
+      for (let i = -4; i <= 4; i++) {
+        g.beginPath(); g.moveTo(ox + i * unit, 6); g.lineTo(ox + i * unit, h - 6); g.stroke();
+      }
+      for (let j = -1; j <= 4; j++) {
+        g.beginPath(); g.moveTo(6, oy - j * unit); g.lineTo(w - 6, oy - j * unit); g.stroke();
+      }
+      g.globalAlpha = 1;
+      const t = (this.p.t! * Math.PI) / 180;
+      const a = this.p.a!;
+      const b = this.p.b!;
+      const bx = ox + b * unit * Math.cos(t);
+      const by = oy - b * unit * Math.sin(t);
+      // 그림자
+      if (this.dataset.shadow === '1') {
+        const sx = ox + b * unit * Math.cos(t);
+        g.setLineDash([4, 4]);
+        this.line(bx, by, sx, oy, c.text2, 1.2);
+        g.setLineDash([]);
+        this.line(ox, oy + 6, sx, oy + 6, c.accent, 4);
+        this.text('그림자', (ox + sx) / 2, oy + 18, c.accent, 11, 'center');
+      }
+      this.arrow(ox, oy, ox + a * unit, oy, c.space, 3);
+      this.text('a', ox + a * unit + 8, oy - 8, c.space, 13);
+      this.arrow(ox, oy, bx, by, c.energy, 3);
+      this.text('b', bx + 8, by - 6, c.energy, 13);
+      // 각도 호
+      g.strokeStyle = c.text2;
+      g.lineWidth = 1.2;
+      g.beginPath();
+      g.arc(ox, oy, unit * 0.45, -t, 0);
+      g.stroke();
+    }
+  }
+  define('qm-sim-p10-vector', SimP10Vector);
+</script>

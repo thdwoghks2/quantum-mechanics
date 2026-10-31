@@ -1,0 +1,452 @@
+---
+number: 77
+title: 벡터와 내적
+short: 벡터와 내적
+question: 두 화살표가 얼마나 같은 쪽을 향하는지 수 하나로 나타낼 수 있을까요?
+mechanism: 크기와 방향을 함께 가진 양은 화살표, 그러니까 벡터로 다루고, 지도 위에서는 (동쪽으로 간 거리, 북쪽으로 간 거리) 같은 성분으로 적어요. 벡터를 더할 때는 화살표를 이어 붙이고 성분끼리 더해요. 두 벡터의 내적은 길이끼리 곱하고 사이 각도의 코사인을 곱한 값이라서, 같은 쪽일수록 크고 직각이면 0, 반대쪽이면 0보다 작아요. 성분끼리 곱해 더해도 같은 값이 나와서, 각도를 몰라도 두 벡터가 얼마나 같은 쪽을 향하는지 계산할 수 있어요.
+part: 10
+minutes: 20
+assumes: [speed, velocity, force, sine, em-wave, quantum-state, probability-amplitude, boson, fermion]
+introduces: [vector, dot-product]
+sources:
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 11 Vectors (1963)"
+  - "Strang, G. Introduction to Linear Algebra, 5th ed., Ch. 1 (2016)"
+testout: [q77-perp, q77-sign, q77-angle]
+status: published
+---
+
+<Screen kind="scene" title="화살표로 생각하기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '진폭을 더하고 빼기', caption: '지난 강까지' },
+      { big: '화살표로 계산하기', caption: '오늘부터', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 양자 상태를 화살표 하나로 다룰 거라고 했죠. 오늘은 그 준비로, 화살표 자체를 계산하는 법을 배워요.
+
+<S n={2}>
+
+출발은 지도예요. 지도 위에서 어디로 얼마나 갔는지는 화살표 하나로 그릴 수 있잖아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="지도 위의 이동">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'map', title: '길을 따라 걸으면', caption: '동쪽 3 km + 북쪽 4 km = 7 km' },
+      { big: '5 km', title: '곧게 이으면', caption: '학교에서 도서관까지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+학교에서 동쪽으로 3 km, 북쪽으로 4 km 간 곳에 도서관이 있다고 해 볼게요. 길을 따라 걸으면 모두 7 km를 걸어요.
+
+<S n={2}>
+
+하지만 학교에서 도서관까지 곧게 이은 화살표는 5 km예요. 걸은 거리와 따로, 어느 방향으로 얼마나 떨어졌는지가 있는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={4} title="속력과 속도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'car', title: '북쪽으로 60 km/h', caption: '속력 60 km/h' },
+      { icon: 'car', title: '남쪽으로 60 km/h', caption: '속력 60 km/h · 속도는 달라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+4강에서 속력은 빠르기만, 속도는 빠르기와 방향을 함께 말한다고 했어요. 북쪽으로 60 km/h와 남쪽으로 60 km/h는 속력은 같아도 속도는 달라요.
+
+<S n={2}>
+
+이렇게 크기와 방향을 함께 가진 양은 화살표로 그리면 한눈에 보여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="벡터">
+  <Fragment slot="visual">
+    <Define term="vector" />
+  </Fragment>
+
+크기와 방향을 함께 가진 양을 **벡터**라고 불러요. 화살표의 길이가 크기이고, 화살표가 향한 쪽이 방향이에요.
+
+<S n={2}>
+
+이동, 속도, 힘이 모두 벡터예요. 온도나 질량처럼 크기만 있는 양은 벡터가 아니죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="성분으로 적기">
+  <Fragment slot="visual">
+    <Plot
+      alt="원점에서 (3, 4)까지 이어진 화살표. 가로 성분 3과 세로 성분 4가 점선으로 표시되어 있다"
+      x={[-0.5, 5.5]} y={[-0.5, 5]}
+      xLabel="동쪽으로 간 거리 (km)" yLabel="북쪽으로 간 거리 (km)" xq="space" yq="space"
+      xTicks={[0, 1, 2, 3, 4, 5]} yTicks={[0, 1, 2, 3, 4]}
+      curves={[
+        { pts: [[0, 0], [3, 4]], q: 'space', label: '5 km', labelAt: [1.0, 2.2] },
+        { pts: [[0, 0], [3, 0]], q: 'plain', dash: true, label: '3', labelAt: [1.4, 0.25] },
+        { pts: [[3, 0], [3, 4]], q: 'plain', dash: true, label: '4', labelAt: [3.15, 2] },
+      ]}
+      points={[{ x: 3, y: 4, label: '도서관 (3, 4)' }]}
+    />
+  </Fragment>
+
+지도 위의 벡터는 두 수로 적을 수 있어요. 동쪽으로 간 거리와 북쪽으로 간 거리예요.
+
+<S n={2}>
+
+학교에서 도서관까지는 (3, 4)라고 적고, 이 두 수를 벡터의 성분이라고 해요. 길이는 피타고라스 정리로 √(3² + 4²) = 5 km죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="더하기는 이어 붙이기">
+  <Fragment slot="visual">
+    <Plot
+      alt="(3, 4) 화살표 끝에 (2, −1) 화살표를 이어 붙이면, 원점에서 (5, 3)까지 가는 화살표와 같다"
+      x={[-0.5, 6]} y={[-0.5, 5]}
+      xLabel="동쪽으로 간 거리 (km)" yLabel="북쪽으로 간 거리 (km)" xq="space" yq="space"
+      xTicks={[0, 1, 2, 3, 4, 5]} yTicks={[0, 1, 2, 3, 4]}
+      axisSteps={[1, 1]}
+      curves={[
+        { pts: [[0, 0], [3, 4]], q: 'space', label: '(3, 4)', labelAt: [0.6, 2.6], step: 2 },
+        { pts: [[3, 4], [5, 3]], q: 'energy', label: '(2, −1)', labelAt: [4.1, 4.0], step: 2 },
+        { pts: [[0, 0], [5, 3]], q: 'plain', dash: true, label: '(5, 3)', labelAt: [3.2, 1.4], step: 3 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 동쪽으로, 세로축은 북쪽으로 간 거리예요.
+
+</S>
+
+<S n={2}>
+
+두 이동을 잇따라 하면, 둘째 화살표의 꼬리를 첫째 화살표의 머리에 붙여요.
+
+</S>
+
+<S n={3}>
+
+처음 자리에서 끝 자리까지 이은 화살표가 합이에요. 성분으로는 같은 자리끼리 더해서 (3 + 2, 4 − 1) = (5, 3)이 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="같은 쪽을 얼마나 향하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'cart', title: '줄을 비스듬히 끌면', caption: '힘의 일부만 수레를 앞으로 끌어요' },
+      { big: '각도가 클수록', caption: '앞으로 끄는 힘이 줄어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+수레를 줄로 비스듬히 끌면, 끄는 힘 가운데 일부만 수레를 앞으로 끌어요. 줄이 수레가 가는 길과 이루는 각도가 클수록 그 크기가 줄죠.
+
+<S n={2}>
+
+두 화살표가 얼마나 같은 쪽을 향하는지를 수 하나로 나타내면 이런 계산이 쉬워져요. 그 수에는 각도에 따라 바뀌는 값이 하나 필요해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={12} title="코사인">
+  <Fragment slot="visual">
+    <SimCircleSine />
+  </Fragment>
+
+12강에서 원을 도는 점의 높이가 사인이었죠. 같은 점의 가로 위치는 코사인(cos)이라고 불러요.
+
+<S n={2}>
+
+반지름이 1인 원에서, 각도가 0°면 cos은 1, 90°면 0, 180°면 −1이에요. 길이 1인 화살표가 가로로 드리우는 길이라고 생각하면 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="내적">
+  <Fragment slot="visual">
+    <Define term="dot-product" />
+  </Fragment>
+
+두 벡터의 길이를 곱하고, 사이 각도의 코사인을 한 번 더 곱한 값을 **내적**이라고 불러요. a · b처럼 가운데 점을 찍어 적어요.
+
+<S n={2}>
+
+<Key>내적은 두 벡터의 길이와 사이 각도의 코사인을 곱한 값이라서, 같은 쪽을 향할수록 크고, 직각이면 0이고, 반대쪽이면 0보다 작아요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="각도를 바꿔 보기">
+  <Fragment slot="visual">
+    <SimP10Vector deg={40} />
+  </Fragment>
+
+두 화살표 사이의 각도를 바꿔 보세요. 아래에 cos과 내적 값이 나와요.
+
+<S n={2}>
+
+같은 쪽일 때 가장 크고, 직각일 때 0이 되고, 그보다 벌어지면 0보다 작아져요. 내적은 a의 길이에 b가 a 방향으로 드리우는 그림자 길이를 곱한 값이기도 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="성분으로 계산하기">
+  <Fragment slot="visual">
+    <DataTable caption="성분끼리 곱해서 더하기" head={['두 벡터', '계산', '내적']} rows={[
+      ['(3, 4) · (4, −3)', '3 × 4 + 4 × (−3)', '0'],
+      ['(3, 4) · (3, 4)', '3 × 3 + 4 × 4', '25'],
+      ['(1, 0) · (3, 4)', '1 × 3 + 0 × 4', '3'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+성분을 알면 각도를 몰라도 내적을 계산할 수 있어요. 같은 자리 성분끼리 곱해서 더하면 되거든요.
+
+(3, 4)와 (4, −3)은 내적이 0이라서, 두 화살표는 서로 직각이에요.
+
+<S n={2}>
+
+자기 자신과의 내적은 25로, 길이 5의 제곱과 같아요. 각도가 0°라서 cos이 1이니 당연한 결과죠.
+
+</S>
+
+<S n={3}>
+
+동쪽으로 길이 1인 화살표 (1, 0)과의 내적은 3이에요. 길이 1인 화살표와 내적하면, 그 방향으로의 성분이 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="직각인지 알아보기">
+
+<Check id="q77-perp" options={[
+  { t: '내적이 0이라서 직각이에요', ok: true, why: '2 × (−1) + 1 × 2 = 0이에요. 내적이 0이면 cos이 0이라서 사이 각도가 90°예요.' },
+  { t: '내적이 4라서 같은 쪽을 향해요', why: '2 × (−1)은 −2예요. 더하면 −2 + 2 = 0이에요.' },
+  { t: '내적이 0보다 작아서 반대쪽을 향해요', why: '계산하면 정확히 0이에요. 0보다 작지 않아요.' },
+  { t: '길이가 같으니 같은 벡터예요', why: '길이는 둘 다 √5로 같지만 방향이 달라요. 벡터는 길이와 방향이 모두 같아야 같아요.' },
+]}>
+
+두 벡터 (2, 1)과 (−1, 2)가 있어요. 내적을 계산해 보고, 두 화살표 사이의 관계로 알맞은 것을 고르세요.
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="길이 1인 화살표">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '(1, 0)', caption: '동쪽으로 길이 1' },
+      { big: '(0, 1)', caption: '북쪽으로 길이 1 · 서로 직각', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+길이가 1인 벡터를 단위 벡터라고 해요. 동쪽 단위 벡터 (1, 0)과 북쪽 단위 벡터 (0, 1)은 서로 직각이죠.
+
+<S n={2}>
+
+어떤 벡터든 이 둘과 내적하면 동쪽 성분과 북쪽 성분이 나와요. 이 생각은 80강에서 양자역학의 측정을 설명하는 열쇠가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="내적이 0보다 작으면">
+
+<Check id="q77-sign" options={[
+  { t: '두 벡터 사이 각도가 90°보다 커요', ok: true, why: '길이는 늘 0보다 크니, 내적의 부호는 cos이 정해요. cos은 90°와 180° 사이에서 0보다 작아요.' },
+  { t: '두 벡터 가운데 하나의 길이가 0보다 작아요', why: '벡터의 길이는 늘 0 이상이에요. 부호를 정하는 건 각도예요.' },
+  { t: '두 벡터가 서로 직각이에요', why: '직각이면 내적이 정확히 0이에요.' },
+  { t: '두 벡터가 같은 쪽을 향해요', why: '같은 쪽을 향하면 cos이 0보다 커서 내적도 0보다 커요.' },
+]}>
+
+두 벡터의 내적이 0보다 작게 나왔어요. 두 벡터에 대해 알 수 있는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="각도 구하기">
+  <Fragment slot="visual">
+    <DataTable caption="(1, 0)과 (1, 1) 사이의 각도" head={['단계', '값']} rows={[
+      ['내적', '1 × 1 + 0 × 1 = 1'],
+      ['길이의 곱', '1 × √2 ≈ 1.41'],
+      ['cos', '1 ÷ 1.41 ≈ 0.71'],
+      ['각도', '45°'],
+    ]} steps={[undefined, undefined, 2, 2]} />
+  </Fragment>
+
+내적을 거꾸로 쓰면 두 벡터 사이 각도를 알 수 있어요. (1, 0)과 (1, 1)로 해 볼게요.
+
+내적은 1이고, 길이는 1과 √2예요.
+
+<S n={2}>
+
+내적을 길이의 곱으로 나누면 cos ≈ 0.71이 나오고, cos이 0.71인 각도는 45°예요. 그림으로 그려 봐도 (1, 1)은 동쪽과 북쪽의 딱 가운데를 향하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="거의 같은 쪽">
+
+<Check id="q77-angle" options={[
+  { t: '0°에 가까운 작은 각도', ok: true, why: '내적은 3 × 4 + 4 × 3 = 24이고 길이는 둘 다 5라서, cos = 24 ÷ 25 = 0.96이에요. cos이 1에 가까우니 각도가 작아요(약 16°).' },
+  { t: '90°에 가까운 각도', why: '90°라면 내적이 0에 가까워야 해요. 24는 길이의 곱 25에 거의 가까워요.' },
+  { t: '180°에 가까운 각도', why: '180°라면 내적이 −25에 가까워야 해요.' },
+  { t: '길이가 같으니 0°', why: '두 벡터는 방향이 조금 달라서 cos이 정확히 1이 아니에요.' },
+]}>
+
+(3, 4)와 (4, 3) 사이의 각도는 어느 쪽에 가까울까요? 내적과 두 길이로 cos을 구해 보세요.
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="둘이서 줄 끌기">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['두 사람이 줄을 끄는 방향', '두 벡터의 방향'],
+        ['같은 쪽으로 끌면 서로 도와요', '내적이 커요'],
+        ['직각으로 끌면 돕지도 막지도 않아요', '내적이 0이에요'],
+        ['반대로 끌면 서로 방해해요', '내적이 0보다 작아요'],
+      ]}
+      fits="두 방향이 얼마나 같은 쪽을 향하는지를 재고, 그 결과가 돕는지, 상관없는지, 방해하는지로 나뉜다는 점이 같아요."
+      breaks="두 사람의 힘을 합친 결과는 화살표지만, 내적은 수 하나예요. 또 내적은 두 길이를 곱한 값이라서, 두 힘을 더한 크기와 같지 않아요."
+    />
+  </Fragment>
+
+내적이 말하는 것을 두 사람이 줄을 끄는 모습에 빗대어 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="step" title="결과는 수 하나">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '화살표 둘', caption: 'a와 b' },
+      { big: '수 하나', caption: 'a · b', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 내적의 결과도 화살표일 줄 알았어요. 두 화살표를 넣고 계산하니까요.
+
+그런데 내적은 두 화살표를 넣으면 수 하나가 나오는 계산이에요. 그 수는 두 화살표가 얼마나 같은 쪽을 향하는지를 말해 줘요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="화살표로 다룰 것들">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이동 · 속도 · 힘', caption: '지금까지의 벡터' },
+      { big: '빛이 흔들리는 방향', caption: '다음 강' },
+      { big: '양자 상태', caption: '그다음', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+크기와 방향을 가진 것이면 무엇이든 벡터로 다룰 수 있어요. 19강에서 본 빛의 전기가 흔들리는 방향도 그렇죠.
+
+<S n={2}>
+
+다음 강부터는 빛이 흔들리는 방향, 그리고 양자 상태까지 벡터로 다뤄요. 오늘 배운 더하기와 내적이 거기서 그대로 쓰여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['vector', 'dot-product']}>
+
+1. 크기와 방향을 함께 가진 양은 화살표, 그러니까 벡터로 다뤄요.
+2. 벡터는 (3, 4)처럼 성분으로 적고, 더할 때는 이어 붙이며 성분끼리 더해요.
+3. 내적은 길이끼리 곱하고 사이 각도의 cos을 곱한 수예요.
+4. 그래서 같은 쪽일수록 크고, 직각이면 0, 반대쪽이면 0보다 작아요.
+5. 성분끼리 곱해 더해도 같은 값이라, 각도를 몰라도 계산할 수 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="직각인 화살표 찾기">
+
+<DailyProblem id="p77">
+
+벡터 (1, 2)와 직각인 벡터를 하나 찾아보세요. 길이는 상관없어요.
+
+찾은 벡터가 정말 직각인지 내적으로 확인해 보세요.
+
+<Fragment slot="hint1">
+
+직각이면 내적이 0이에요. 1 × (첫째 성분) + 2 × (둘째 성분) = 0이 되게 하면 돼요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+두 성분의 자리를 바꾸고, 하나에 마이너스를 붙여 보세요.
+
+</Fragment>
+<Fragment slot="solution">
+
+(2, −1)이 하나의 답이에요. 내적은 1 × 2 + 2 × (−1) = 0이라서 직각이에요.
+
+(−2, 1)이나 (4, −2)도 같은 방향이거나 정반대 방향이라 모두 직각이에요. 성분의 자리를 바꾸고 하나의 부호를 바꾸면, 평면에서는 언제나 직각인 벡터가 나와요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+벡터는 크기와 방향을 가진 화살표이고, 두 벡터의 내적은 길이와 사이 각도의 cos을 곱한 수라서 같은 쪽을 얼마나 향하는지를 말해 줘요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="빛이 흔들리는 방향">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '빛의 흔들림', caption: '진행 방향과 직각으로 흔들려요' },
+      { big: '선글라스 두 개', caption: '겹쳐 돌리면 어두워져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+19강에서 빛은 전기와 자기가 진행 방향에 직각으로 흔들리며 퍼지는 파동이었죠. 그 흔들리는 방향도 화살표, 그러니까 벡터예요.
+
+<S n={2}>
+
+다음 강에서는 <Later n={78}>편광</Later> 선글라스 두 개를 겹쳐 돌리며, 빛이 흔들리는 방향을 벡터로 따라가요. 그 흔들림의 방향이 <Later n={78}>편광</Later>이고, 오늘의 내적이 그대로 쓰여요.
+
+</S>
+
+</Screen>
