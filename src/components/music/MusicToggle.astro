@@ -67,6 +67,18 @@ const { compact = false, class: cls = '' } = Astro.props;
     color: var(--accent);
   }
 
+  /* 휴대폰에서는 메뉴가 한 줄에 들어가도록 막대만 보인다 */
+  @media (max-width: 480px) {
+    .music-toggle__t {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+
   .music-toggle[data-playing='1'] .music-toggle__bars i {
     opacity: 1;
     animation: music-bar 0.9s ease-in-out infinite alternate;

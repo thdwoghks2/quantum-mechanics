@@ -169,6 +169,10 @@ canvas {
   border-color: var(--text-2);
 }
 
+.btn:active {
+  transform: translateY(1px);
+}
+
 .btn[disabled] {
   opacity: 0.4;
   cursor: default;

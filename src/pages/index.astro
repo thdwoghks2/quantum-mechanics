@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Dust from '../components/figures/Dust.astro';
 import '../styles/pages.css';
 import { getCourse } from '../lib/course.ts';
 import { lessonUrl, url } from '../lib/url.ts';
@@ -12,6 +13,7 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
 <Base title="137">
   <main class="page home" data-page="index">
     <section class="hero">
+      <Dust />
       <p class="hero__num" aria-hidden="true">137</p>
       <h1>양자역학을 기초부터, 하루 한 강씩</h1>
       <p class="page__lead">
@@ -117,9 +119,15 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
 
 <style>
   .hero {
+    position: relative;
     display: grid;
     gap: 18px;
     padding-top: 12px;
+  }
+
+  .hero > :global(:not(.dust)) {
+    position: relative;
+    z-index: 1;
   }
 
   .hero__num {
@@ -130,13 +138,22 @@ const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).
     color: var(--accent);
     letter-spacing: -0.02em;
     margin-bottom: 4px;
-    animation: hero-in 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation:
+      hero-in 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+      hero-glow 7s 1.4s ease-in-out infinite;
   }
 
   @keyframes hero-in {
     from {
       opacity: 0;
       filter: blur(10px);
+    }
+  }
+
+  /* 137이 아주 천천히 숨을 쉰다 */
+  @keyframes hero-glow {
+    50% {
+      text-shadow: 0 0 28px rgba(231, 145, 58, 0.28);
     }
   }
 

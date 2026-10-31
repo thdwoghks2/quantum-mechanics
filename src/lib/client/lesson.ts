@@ -68,7 +68,9 @@ class QmLesson extends HTMLElement {
 
   show(i: number, opts: { allSteps?: boolean; focus?: boolean } = {}) {
     const prev = this.screens[this.i];
+    const from = this.i;
     this.i = Math.max(0, Math.min(this.last, i));
+    this.dataset.dir = this.i > from ? 'fwd' : this.i < from ? 'back' : '';
     const screen = this.screens[this.i]!;
     if (prev && prev !== screen) {
       prev.classList.remove('is-active');

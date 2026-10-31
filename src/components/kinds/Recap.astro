@@ -77,6 +77,37 @@ const entries = await Promise.all(
     gap: 6px;
   }
 
+  :global(html.js .screen.is-active) .recap__flow :global(li) {
+    animation: recap-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .recap__flow :global(li:nth-child(2)) {
+    animation-delay: 0.12s;
+  }
+
+  .recap__flow :global(li:nth-child(3)) {
+    animation-delay: 0.24s;
+  }
+
+  .recap__flow :global(li:nth-child(4)) {
+    animation-delay: 0.36s;
+  }
+
+  .recap__flow :global(li:nth-child(5)) {
+    animation-delay: 0.48s;
+  }
+
+  .recap__flow :global(li:nth-child(n + 6)) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes recap-in {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+  }
+
   .recap__flow :global(li) {
     line-height: 1.6;
     font-size: var(--fs-sm);

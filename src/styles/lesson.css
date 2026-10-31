@@ -155,6 +155,29 @@ html:not(.js) .screen {
   }
 }
 
+/* 넘기는 방향으로 살짝 밀려 들어온다. 방향은 lesson.ts가 data-dir로 알려 준다. */
+html.js .lesson[data-dir='fwd'] .screen.is-active {
+  animation: screen-fwd 0.34s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+html.js .lesson[data-dir='back'] .screen.is-active {
+  animation: screen-back 0.34s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes screen-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+}
+
+@keyframes screen-back {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+}
+
 .screen__visual {
   flex: 0 1 auto;
   min-height: min(170px, 30%);
@@ -220,11 +243,12 @@ html:not(.js) .screen {
 html.js [data-step].step-hidden {
   visibility: hidden;
   opacity: 0;
+  transform: translateY(6px);
 }
 
 html.js .step:not(.step-hidden),
 html.js [data-step]:not(.step-hidden) {
-  transition: opacity 0.25s;
+  transition: opacity 0.4s, transform 0.4s;
 }
 
 html.js .screen__body .step.step-hidden {
@@ -661,6 +685,35 @@ html.js .screen--title.is-active .title__q {
 .check__opt.is-answer .check__mark {
   border-color: var(--ok);
   background: var(--ok);
+}
+
+.check__opt.is-ok,
+.check__opt.is-answer {
+  animation: answer-glow 1s ease-out;
+}
+
+.check__opt.is-no {
+  animation: answer-shake 0.38s ease-in-out;
+}
+
+@keyframes answer-glow {
+  from {
+    box-shadow: 0 0 0 0 rgba(143, 198, 163, 0.45);
+  }
+  to {
+    box-shadow: 0 0 0 12px rgba(143, 198, 163, 0);
+  }
+}
+
+@keyframes answer-shake {
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 .check__opt.is-no {
