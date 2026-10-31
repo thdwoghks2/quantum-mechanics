@@ -1,0 +1,130 @@
+---
+/**
+ * 55강: 파인먼의 화살표. 화면 위 한 자리에 닿는 두 길(위 틈, 아래 틈)마다 길이 0.5인 화살표를 붙인다.
+ * 화살표의 각도는 길이 한 파장만큼 길어질 때마다 한 바퀴 돈다. 화살표를 이어 붙여 더한 뒤 길이를 제곱하면 확률.
+ * mode=1(경로를 앎)이면 화살표를 더하지 않고 각각을 제곱해 더한다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-arrows class="sim" data-ratio="0.78">
+  <canvas aria-label="왼쪽에는 두 길의 화살표를 이어 붙여 더한 그림, 오른쪽에는 그 결과의 길이를 제곱한 확률 막대가 있다. 아래에는 화면 위 자리마다의 확률 곡선과 지금 고른 자리가 표시된다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`ar-x-${uid}`}>경로차</label>
+      <input id={`ar-x-${uid}`} type="range" min="-2" max="2" step="0.05" value="0" data-param="x" />
+      <output data-out="x"></output>
+    </div>
+    <input type="hidden" data-param="m" value="0" />
+    <div class="sim__buttons" aria-label="계산 방법">
+      <button type="button" class="btn" data-set="m=0" aria-pressed="true">경로를 모를 때: 화살표를 더하기</button>
+      <button type="button" class="btn" data-set="m=1" aria-pressed="false">경로를 알 때: 확률을 더하기</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-arrows>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const A = 0.5; // 화살표 하나의 길이
+
+  class SimArrows extends Sim {
+    animated = false;
+
+    /** 두 길의 화살표 각도 (라디안). 자리 x는 '경로차 ÷ 파장'과 같게 둔다. */
+    angles(x: number): [number, number] {
+      const base = 0.6; // 두 길 공통으로 도는 몫 (확률에는 영향 없음)
+      return [base + Math.PI * x, base - Math.PI * x];
+    }
+
+    prob(x: number) {
+      if (this.p.m === 1) return 2 * A * A;
+      const [a1, a2] = this.angles(x);
+      const re = A * Math.cos(a1) + A * Math.cos(a2);
+      const im = A * Math.sin(a1) + A * Math.sin(a2);
+      return re * re + im * im;
+    }
+
+    format() {
+      return `${this.p.x!.toFixed(2)} 파장`;
+    }
+
+    readout() {
+      const x = this.p.x!;
+      const pr = this.prob(x);
+      if (this.p.m === 1) return `경로를 알면 확률끼리 더해요: 0.5² + 0.5² = 0.25 + 0.25 = 0.5. 어느 자리든 같아서 무늬가 없어요.`;
+      const len = Math.sqrt(pr);
+      return `두 화살표를 더한 길이 ${len.toFixed(2)} → 확률 = ${len.toFixed(2)}² = ${pr.toFixed(2)} (한 틈만 열면 0.25)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const x = this.p.x!;
+      const [a1, a2] = this.angles(x);
+      // 위: 화살표 더하기
+      const ox = w * 0.18;
+      const oy = h * 0.34;
+      const S = h * 0.26;
+      g.strokeStyle = c.line;
+      g.setLineDash([3, 4]);
+      g.beginPath();
+      g.arc(ox, oy, S * A * 2, 0, Math.PI * 2);
+      g.stroke();
+      g.setLineDash([]);
+      const p1 = [ox + S * A * Math.cos(a1), oy - S * A * Math.sin(a1)];
+      if (this.p.m === 1) {
+        this.arrow(ox, oy, p1[0]!, p1[1]!, c.space, 2.5);
+        this.arrow(ox, oy, ox + S * A * Math.cos(a2), oy - S * A * Math.sin(a2), c.time, 2.5);
+        this.text('더하지 않아요', ox, oy + S * 1.15, c.muted, 10, 'center');
+      } else {
+        const p2 = [p1[0]! + S * A * Math.cos(a2), p1[1]! - S * A * Math.sin(a2)];
+        this.arrow(ox, oy, p1[0]!, p1[1]!, c.space, 2.5);
+        this.arrow(p1[0]!, p1[1]!, p2[0]!, p2[1]!, c.time, 2.5);
+        const len = Math.hypot(p2[0]! - ox, p2[1]! - oy);
+        if (len > 3) this.arrow(ox, oy, p2[0]!, p2[1]!, c.accent, 3);
+        this.text('합', p2[0]! + 6, p2[1]! - 8, c.accent, 11);
+      }
+      this.text('위 틈의 화살표', 8, 12, c.space, 10);
+      this.text('아래 틈의 화살표', 8, 26, c.time, 10);
+      // 위 오른쪽: 확률 막대
+      const bx = w * 0.62;
+      const bw = w * 0.3;
+      const by = h * 0.6;
+      const bh = h * 0.46;
+      const pr = this.prob(x);
+      g.strokeStyle = c.line;
+      g.strokeRect(bx, by - bh, bw, bh);
+      g.fillStyle = c.accent;
+      g.fillRect(bx + 1, by - bh * pr, bw - 2, bh * pr);
+      this.text('닿을 확률', bx - 6, by - bh + 6, c.text2, 10, 'right');
+      this.text(pr.toFixed(2), bx - 6, by - bh * pr, c.text, 11, 'right');
+      g.setLineDash([3, 3]);
+      this.line(bx, by - bh * 0.25, bx + bw, by - bh * 0.25, c.muted, 1);
+      g.setLineDash([]);
+      this.text('한 틈만: 0.25', bx + bw, by - bh * 0.25 + 10, c.muted, 9, 'right');
+      // 아래: 자리마다의 확률
+      const gx0 = 14;
+      const gx1 = w - 14;
+      const gy0 = h - 22;
+      const gh = h * 0.22;
+      const X = (v: number) => gx0 + ((v + 2) / 4) * (gx1 - gx0);
+      this.line(gx0, gy0, gx1, gy0, c.text2, 1);
+      g.strokeStyle = c.accent;
+      g.lineWidth = 2;
+      g.beginPath();
+      for (let i = 0; i <= 200; i++) {
+        const v = -2 + (4 * i) / 200;
+        const y = gy0 - this.prob(v) * gh;
+        if (i) g.lineTo(X(v), y);
+        else g.moveTo(X(v), y);
+      }
+      g.stroke();
+      this.line(X(x), gy0, X(x), gy0 - gh * 1.05, c.text, 1);
+      this.dot(X(x), gy0 - this.prob(x) * gh, 4, c.text);
+      this.text('화면 위 자리 →', gx1, h - 8, c.space, 10, 'right');
+      this.text('자리마다 닿을 확률', gx0, gy0 - gh - 6, c.text2, 10);
+    }
+  }
+  define('qm-sim-arrows', SimArrows);
+</script>
