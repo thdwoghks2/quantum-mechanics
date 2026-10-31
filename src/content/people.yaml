@@ -878,3 +878,14 @@
   sources:
     - "Hawking, S. W. Nature 248, 30 (1974)"
     - "Hawking, S. W. A Brief History of Time (1988)"
+- id: bloch
+  name: 펠릭스 블로흐
+  original: Felix Bloch
+  born: 1905
+  died: 1983
+  role: 스위스 태생의 미국 물리학자
+  summary: 1928년 박사 논문에서, 결정 속 전자가 원자 하나에 붙어 있지 않고 결정 전체에 퍼진 파동으로 움직인다는 것을 보였어요. 고체의 에너지 띠 이론의 출발점이에요. 1946년에는 원자핵의 스핀을 재는 핵자기 공명을 찾아 1952년 노벨 물리학상을 받았어요.
+  lessons: [131, 134]
+  sources:
+    - "Bloch, F. Zeitschrift für Physik 52, 555 (1929)"
+    - "Bloch, F. Physical Review 70, 460 (1946)"

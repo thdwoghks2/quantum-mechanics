@@ -1,0 +1,100 @@
+---
+/**
+ * 에너지 띠(131강). 원자가 N개 모이면 원자 하나의 에너지 준위 하나가 N개로 갈라지고, N이 크면 띠가 된다.
+ * 준위 하나에는 전자가 둘까지(파울리 배타 원리) 들어간다. 아래 띠가 얼마나 찼는지, 두 띠 사이가 얼마나 벌어졌는지에 따라
+ * 금속(반쯤 찬 띠), 반도체(작은 띠틈), 부도체(넓은 띠틈)가 된다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p16-bands class="sim" data-ratio="0.72" data-autoplay="false">
+  <canvas aria-label="원자 수를 늘리면 에너지 준위가 원자 수만큼 갈라져 띠가 돼요. 전자가 찬 준위는 밝게, 빈 준위는 흐리게 보여요. 두 띠 사이의 빈 곳이 띠틈이에요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`nb-${uid}`}>모인 원자 수</label>
+      <input id={`nb-${uid}`} type="range" min="0" max="6" step="1" value="0" data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    <input type="hidden" data-param="mode" value="1" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="mode=0" aria-pressed="false">구리처럼</button>
+      <button type="button" class="btn" data-set="mode=1" aria-pressed="true">실리콘처럼</button>
+      <button type="button" class="btn" data-set="mode=2" aria-pressed="false">다이아몬드처럼</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-bands>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  /** [띠틈(eV), 원자 하나가 내놓는 전자 수] */
+  const KIND: [number, number, string][] = [
+    [1.1, 1, '구리처럼: 아래 띠가 반만 차 있어요'],
+    [1.1, 2, '실리콘처럼: 아래 띠가 꽉 차고, 띠틈이 1.1 eV로 좁아요'],
+    [5.5, 2, '다이아몬드처럼: 아래 띠가 꽉 차고, 띠틈이 5.5 eV로 넓어요'],
+  ];
+
+  class SimP16Bands extends Sim {
+    animated = false;
+
+    get N() {
+      return Math.pow(2, this.p.k ?? 0);
+    }
+
+    format() {
+      return `${this.N}개`;
+    }
+
+    readout() {
+      const [, , text] = KIND[this.p.mode ?? 1]!;
+      const N = this.N;
+      return N === 1 ? `원자 하나: 준위가 하나씩 · ${text}` : `원자 ${N}개: 준위 하나가 ${N}개로 갈라져요 · ${text}`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const [gap, perAtom] = KIND[this.p.mode ?? 1]!;
+      const N = this.N;
+      const top = 18;
+      const bot = h - 24;
+      // 에너지 눈금: 0 ~ 10 eV를 화면 높이에 맞춘다.
+      const E = (e: number) => bot - (e / 10) * (bot - top);
+      const maxW = 2.6; // 띠의 가장 넓은 폭(eV)
+      const width = maxW * (1 - 1 / Math.sqrt(N)) + 0.05;
+      const lowC = 2.2;
+      const upC = lowC + width / 2 + gap + width / 2;
+      const x0 = w * 0.3;
+      const x1 = w * 0.88;
+      const filled = perAtom * N; // 전자 수
+      const levels = (center: number) =>
+        Array.from({ length: N }, (_, i) => center + (N === 1 ? 0 : (i / (N - 1) - 0.5) * width));
+      const drawBand = (center: number, electronsLeft: number) => {
+        let left = electronsLeft;
+        for (const e of levels(center)) {
+          const n = Math.max(0, Math.min(2, left));
+          left -= n;
+          const y = E(e);
+          ctx.globalAlpha = n ? 0.95 : 0.35;
+          this.line(x0, y, x1, y, n ? c.energy : c.text2, N > 16 ? 1 : 1.6);
+          ctx.globalAlpha = 1;
+          if (N <= 8) {
+            for (let k = 0; k < n; k++) this.dot(x0 + 16 + k * 14, y, 3.5, c.charge);
+          }
+        }
+        return left;
+      };
+      const rest = drawBand(lowC, filled);
+      drawBand(upC, rest);
+      // 띠틈 표시
+      const yLowTop = E(lowC + width / 2);
+      const yUpBot = E(upC - width / 2);
+      ctx.fillStyle = 'rgba(231, 145, 58, 0.08)';
+      ctx.fillRect(x0, yUpBot, x1 - x0, yLowTop - yUpBot);
+      this.arrow(x0 - 12, yLowTop, x0 - 12, yUpBot, c.accent, 1.4);
+      this.text(`띠틈 ${gap} eV`, x0 - 18, (yLowTop + yUpBot) / 2, c.accent, 11, 'right');
+      this.text('에너지', 10, top, c.energy, 11, 'left');
+      this.text(N > 8 ? '밝은 줄: 전자가 찬 준위 · 흐린 줄: 빈 준위' : '청록 점: 전자 · 준위 하나에 둘까지', w - 10, h - 8, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-p16-bands', SimP16Bands);
+</script>
