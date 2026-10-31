@@ -1,0 +1,154 @@
+---
+/**
+ * 상자 속 입자. n번째 모양의 파동함수(선)와 입자를 찾을 확률(색칠)을 그리고,
+ * 옆에 에너지 사다리(1번째의 1, 4, 9, 16배)를 둔다.
+ * sizer: 상자 길이 슬라이더. time: 시간에 따라 파동함수의 값이 돈다(확률은 그대로).
+ * mix: 1번째와 2번째 모양을 섞는 버튼(확률이 양쪽을 오간다).
+ */
+interface Props {
+  n?: number;
+  sizer?: boolean;
+  time?: boolean;
+  mix?: boolean;
+}
+const { n = 1, sizer = false, time = false, mix = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p08-box class="sim" data-ratio="0.6" data-time={time ? '1' : '0'} data-autoplay={time ? undefined : 'false'}>
+  <canvas aria-label="양쪽 벽 사이에 갇힌 입자의 파동함수와 입자를 찾을 확률, 그리고 허락되는 에너지 사다리"></canvas>
+  <input type="hidden" data-param="n" value={n} />
+  {sizer ? (
+    <div class="sim__controls">
+      <div class="sim__row">
+        <label for={`p8b-l-${uid}`}>상자 길이</label>
+        <input id={`p8b-l-${uid}`} type="range" min="0.4" max="1" step="0.05" value="1" data-param="L" />
+        <output data-out="L"></output>
+      </div>
+    </div>
+  ) : <input type="hidden" data-param="L" value="1" />}
+  <div class="sim__buttons" aria-label="모양 고르기">
+    {[1, 2, 3, 4].map((k) => (
+      <button type="button" class="btn" data-set={`n=${k}`} aria-pressed={k === n ? 'true' : 'false'}>{k}번째</button>
+    ))}
+    {mix && <button type="button" class="btn" data-set="n=0" aria-pressed={n === 0 ? 'true' : 'false'}>1번째 + 2번째</button>}
+    {time && <button type="button" class="btn" data-play>재생</button>}
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p08-box>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const F1 = 0.25; // 화면에서 보기 좋게 느리게: 1번째 모양이 1초에 0.25바퀴 돈다
+
+  class SimP08Box extends Sim {
+    init() {
+      this.animated = this.dataset.time === '1';
+    }
+
+    format(name: string) {
+      return name === 'L' ? `${Math.round((this.p.L ?? 1) * 100)}%` : '';
+    }
+
+    readout() {
+      const n = this.p.n!;
+      const L = this.p.L ?? 1;
+      if (n === 0) return '1번째와 2번째 모양을 반씩 섞었어요. 입자를 찾을 확률이 양쪽을 오가요.';
+      let s = `${n}번째 모양 · 반 파장 ${n}개 · 에너지는 1번째의 ${n * n}배`;
+      if (L < 0.999) s += ` · 처음 상자보다 에너지가 ${(1 / (L * L)).toFixed(2)}배`;
+      if (this.animated) s += ' · 선은 돌지만 색칠한 확률은 그대로예요';
+      return s;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const n = this.p.n!;
+      const L = this.p.L ?? 1;
+      const boxW = w * 0.66;
+      const full = boxW - 30;
+      const bw = full * L;
+      const x0 = 15 + (full - bw) / 2;
+      const x1 = x0 + bw;
+      const mid = h * 0.55;
+      const amp = h * 0.3;
+      const t = this.t;
+      const w1 = 2 * Math.PI * F1;
+
+      // 벽
+      g.fillStyle = 'rgba(214,170,60,0.22)';
+      g.fillRect(x0 - 10, 8, 10, h - 16);
+      g.fillRect(x1, 8, 10, h - 16);
+      this.line(x0, 8, x0, h - 8, c.energy, 2);
+      this.line(x1, 8, x1, h - 8, c.energy, 2);
+      this.line(x0, mid, x1, mid, c.line, 1);
+
+      const S = 240;
+      const re = (x: number) => {
+        if (n === 0) {
+          const a = Math.sin(Math.PI * x) * Math.cos(w1 * t);
+          const b = Math.sin(2 * Math.PI * x) * Math.cos(4 * w1 * t);
+          return (a + b) / Math.SQRT2;
+        }
+        return Math.sin(n * Math.PI * x) * Math.cos(n * n * w1 * t);
+      };
+      const dens = (x: number) => {
+        if (n === 0) {
+          const a = Math.sin(Math.PI * x);
+          const b = Math.sin(2 * Math.PI * x);
+          return (a * a + b * b + 2 * a * b * Math.cos(3 * w1 * t)) / 2;
+        }
+        const s = Math.sin(n * Math.PI * x);
+        return s * s;
+      };
+
+      // 확률 (색칠)
+      g.fillStyle = 'rgba(143,198,163,0.28)';
+      g.beginPath();
+      g.moveTo(x0, mid);
+      for (let i = 0; i <= S; i++) {
+        const x = i / S;
+        g.lineTo(x0 + x * bw, mid - amp * 0.85 * dens(x));
+      }
+      g.lineTo(x1, mid);
+      g.closePath();
+      g.fill();
+
+      // 파동함수 (선)
+      g.strokeStyle = c.text;
+      g.lineWidth = 2.2;
+      g.beginPath();
+      for (let i = 0; i <= S; i++) {
+        const x = i / S;
+        const X = x0 + x * bw;
+        const Y = mid - amp * 0.8 * re(x);
+        if (i) g.lineTo(X, Y);
+        else g.moveTo(X, Y);
+      }
+      g.stroke();
+      this.text('선: 파동함수 · 색칠: 찾을 확률', 15, h - 6, c.text2, 10);
+
+      // 에너지 사다리
+      const lx0 = boxW + 10;
+      const lx1 = w - 10;
+      const top = 14;
+      const bot = h - 18;
+      const Emax = 18;
+      this.line(lx0, bot, lx1, bot, c.line, 1);
+      this.text('에너지', lx0, top - 4, c.energy, 10);
+      let above = 0;
+      for (let k = 1; k <= 4; k++) {
+        const E = (k * k) / (L * L);
+        const on = n === k || (n === 0 && k <= 2);
+        if (E > Emax) {
+          if (!above++) this.text('↑ 더 높은 칸', lx1, top + 8, on ? c.accent : c.muted, 10, 'right');
+          continue;
+        }
+        const Y = bot - (E / Emax) * (bot - top);
+        this.line(lx0, Y, lx1 - 26, Y, on ? c.accent : c.energy, on ? 3 : 1.5);
+        this.text(`${Math.round(E * 10) / 10}`, lx1, Y, on ? c.accent : c.muted, 10, 'right');
+      }
+    }
+  }
+  define('qm-sim-p08-box', SimP08Box);
+</script>

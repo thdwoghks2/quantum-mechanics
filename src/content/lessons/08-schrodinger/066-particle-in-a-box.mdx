@@ -1,0 +1,488 @@
+---
+number: 66
+title: 상자 속 입자
+short: 상자 속 입자
+question: 같은 물질로 만든 알갱이가 왜 크기만 바꾸면 다른 색으로 빛날까요?
+mechanism: 넘을 수 없는 벽 사이에 갇힌 입자는 벽에서 파동함수가 0이어야 해서, 상자 안에 반 파장이 정수 개 들어가는 파동만 될 수 있어요. 파장이 1번째의 n분의 1이면 곡률과 에너지는 n²배라서, 에너지는 1, 4, 9, 16배처럼 정해진 값으로만 나뉘어요. 상자가 작을수록 모든 파장이 짧아져 에너지 간격이 상자 길이의 제곱에 반비례해 넓어지고, 그래서 작은 양자점일수록 진동수가 높은 빛을 내요.
+part: 8
+minutes: 20
+assumes: [standing-wave, node, mode, wavelength, curvature, schrodinger-equation, wavefunction, energy-level, photon, planck-constant, zero-point-energy, model, frequency, visible-light, electron]
+introduces: [particle-in-a-box, quantum-dot]
+sources:
+  - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Sec. 2.2 The Infinite Square Well (2018)"
+  - "The Royal Swedish Academy of Sciences. Popular science background: They added colour to nanotechnology, Nobel Prize in Chemistry 2023"
+  - "Ekimov, A. I., Onushchenko, A. A. Quantum size effect in three-dimensional microscopic semiconductor crystals, JETP Letters 34, 345 (1981)"
+  - "Brus, L. E. A simple model for the ionization potential, electron affinity, and aqueous redox potentials of small semiconductor crystallites, J. Chem. Phys. 79, 5566 (1983)"
+  - "Murray, C. B., Norris, D. J., Bawendi, M. G. Synthesis and characterization of nearly monodisperse CdE semiconductor nanocrystallites, J. Am. Chem. Soc. 115, 8706 (1993)"
+testout: [q66-level, q66-size, q66-dot]
+status: published
+---
+
+<Screen kind="scene" title="벽 사이에 가두기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '열린 길', caption: '어떤 에너지든 그릴 수 있어요' },
+      { big: '양쪽이 막힌 상자', caption: '벽에서 파동함수가 0', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 입자를 벽 사이에 가두면 벽에서 파동함수가 0이어야 한다고 했죠. 오늘은 그 조건이 무엇을 바꾸는지 계산해 봐요.
+
+<S n={2}>
+
+가장 단순한 경우부터 할게요. 한 줄로만 움직일 수 있는 입자를, 절대 넘을 수 없는 두 벽 사이에 넣는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="QLED TV의 색">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'tv', title: 'QLED TV', caption: '빛을 내는 아주 작은 알갱이가 들어 있어요' },
+      { big: '크기만 달라요', caption: '같은 물질인데 색이 달라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+QLED TV 화면 안에는 지름이 몇 nm밖에 안 되는 알갱이들이 들어 있어요. 같은 물질로 만들었는데, 알갱이 크기만 바꾸면 내는 빛의 색이 달라지죠.
+
+<S n={2}>
+
+물감은 색마다 다른 물질을 쓰잖아요. 이 알갱이는 크기로 색을 고르는 거예요. 오늘 할 계산이 그 이유를 알려 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="가장 단순한 상자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '벽', caption: '위치 에너지가 끝없이 높아요', tone: 'no' },
+      { big: '상자 안', caption: '위치 에너지 0', tone: 'accent' },
+      { big: '벽', caption: '위치 에너지가 끝없이 높아요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+상자 안에서는 위치 에너지가 0이라서, 전체 에너지가 모두 운동 에너지예요. 벽은 위치 에너지가 끝없이 높아서 입자가 절대 넘지 못하고요.
+
+<S n={2}>
+
+입자가 벽 밖에 있을 확률이 0이니까, 파동함수는 벽에서 0이 되어야 해요. 이 조건 하나가 오늘의 모든 결과를 만들어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={20} title="양 끝이 묶인 줄">
+  <Fragment slot="visual">
+    <SimString n={3} />
+  </Fragment>
+
+이 조건은 20강의 기타 줄과 똑같아요. 양 끝이 묶인 줄은 끝에서 흔들리지 않으니, 반 파장이 1개, 2개, 3개처럼 딱 맞게 들어가는 모양만 남았죠.
+
+<S n={2}>
+
+상자 속 파동함수도 이런 모양만 될 수 있어요. 상자 길이를 L이라고 하면, 파장은 2L, 2L의 2분의 1, 2L의 3분의 1처럼 정해져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="상자 속 파동함수">
+  <Fragment slot="visual">
+    <SimP08Box n={1} />
+  </Fragment>
+
+버튼으로 1번째부터 4번째 모양까지 바꿔 보세요. 선은 파동함수이고, 색칠한 부분은 그 값의 제곱, 그러니까 입자를 찾을 확률이에요.
+
+<S n={2}>
+
+1번째 모양에서는 가운데에서 입자를 찾을 확률이 가장 높아요. 그런데 2번째 모양에서는 거꾸로 가운데에서 찾을 확률이 0이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="상자 속 입자">
+  <Fragment slot="visual">
+    <Define term="particle-in-a-box" />
+  </Fragment>
+
+이렇게 벽 사이에 갇혀 한 줄로만 움직이는 입자를 **상자 속 입자**라고 불러요. 실제 물체를 아주 단순하게 만든 모형이에요.
+
+<S n={2}>
+
+1강에서 본 것처럼, 모형은 상관없는 것을 일부러 버려요. 이 모형은 '갇혔다'는 것만 남겨서, 갇힌 입자에게 무슨 일이 생기는지 가장 깨끗하게 보여 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="파장에서 에너지로">
+  <Fragment slot="visual">
+    <DataTable caption="상자 속 입자의 n번째 모양" head={['n', '파장', '곡률', '에너지']} rows={[
+      ['1', '2L', '1배', '1배'],
+      ['2', '2L ÷ 2', '4배', '4배'],
+      ['3', '2L ÷ 3', '9배', '9배'],
+      ['4', '2L ÷ 4', '16배', '16배'],
+    ]} steps={[undefined, 2, 3, 3]} />
+  </Fragment>
+
+이제 에너지를 계산해 볼게요. 상자 안에서는 전체 에너지가 모두 운동 에너지라서, 파동함수의 곡률만 보면 돼요.
+
+<S n={2}>
+
+2번째 모양은 파장이 1번째의 절반이에요. 64강에서 파장이 절반이면 곡률이 4배였으니, 에너지도 4배죠.
+
+</S>
+
+<S n={3}>
+
+같은 방법으로 n번째 모양은 파장이 n분의 1이라서, 에너지는 n²배예요. 그래서 에너지는 1번째의 1배, 4배, 9배, 16배로만 있을 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="에너지 사다리">
+  <Fragment slot="visual">
+    <Plot
+      alt="상자 속 입자에게 허락되는 에너지. 1, 4, 9, 16 높이의 가로줄 네 개가 있고, 위로 갈수록 줄 사이가 넓어진다"
+      x={[0, 1]} y={[0, 18]}
+      xLabel="상자 속 자리" yLabel="에너지 (1번째의 몇 배)" yq="energy"
+      xTicks={[]} yTicks={[0, 1, 4, 9, 16]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: '1', q: 'energy', step: 2 },
+        { fn: '4', q: 'energy', step: 2 },
+        { fn: '9', q: 'energy', step: 2 },
+        { fn: '16', q: 'energy', step: 2 },
+      ]}
+      points={[
+        { x: 0.5, y: 2.5, label: '간격 3', step: 3 },
+        { x: 0.5, y: 6.5, label: '간격 5', step: 3 },
+        { x: 0.5, y: 12.5, label: '간격 7', step: 3 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 상자 속 자리, 세로축은 에너지예요.
+
+</S>
+
+<S n={2}>
+
+허락되는 에너지는 이 가로줄들뿐이고, 줄 사이의 에너지는 가질 수 없어요.
+
+</S>
+
+<S n={3}>
+
+줄 사이 간격은 3, 5, 7로 위로 갈수록 넓어져요.
+
+<Key>상자 속 입자는 반 파장이 정수 개 들어가는 파동만 될 수 있어서, 에너지가 1번째 에너지의 1배, 4배, 9배, 16배처럼 정해진 값으로만 나뉘어요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="3번째 에너지">
+
+<Check id="q66-level" options={[
+  { t: '6 eV', why: '에너지는 n배가 아니라 n²배로 커져요. 파장이 3분의 1이면 곡률은 3 × 3 = 9배거든요.' },
+  { t: '18 eV', ok: true, why: '3번째 모양은 파장이 3분의 1이라 곡률과 에너지가 9배예요. 2 × 9 = 18 eV예요.' },
+  { t: '9 eV', why: '9는 몇 배인지를 나타내는 수예요. 1번째 에너지 2 eV에 9를 곱해야 해요.' },
+  { t: '8 eV', why: '8 eV는 2번째 에너지예요. 2 × 4 = 8이죠. 3번째는 9배예요.' },
+]}>
+
+어떤 상자 속 입자의 1번째 에너지가 2 eV예요. 같은 상자에서 3번째 에너지는 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="가장 낮아도 0은 아니에요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '반 파장 하나', caption: '벽 사이에 적어도 이만큼은 굽어요' },
+      { big: '1번째 에너지 > 0', caption: '갇힌 입자는 멈추지 못해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1번째 에너지도 0이 아니에요. 벽 사이에 반 파장 하나는 들어가야 하니까, 파동함수는 어쩔 수 없이 굽거든요.
+
+<S n={2}>
+
+62강의 영점 에너지가 여기서도 나와요. 갇힌 입자는 가장 조용할 때도 운동 에너지를 가지고 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="상자가 작아지면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '상자 길이 L', caption: '1번째 에너지 1배' },
+      { big: '상자 길이 L ÷ 2', caption: '1번째 에너지 4배', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+상자 길이를 절반으로 줄이면 모든 모양의 파장이 절반이 돼요. 그래서 곡률과 에너지는 모두 4배가 되죠.
+
+<S n={2}>
+
+에너지는 상자 길이의 제곱에 반비례해요. 사다리 칸 사이의 간격도 함께 4배로 벌어지고요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="상자 길이 바꾸기">
+  <Fragment slot="visual">
+    <SimP08Box n={1} sizer />
+  </Fragment>
+
+이번엔 상자 길이를 줄여 보세요. 오른쪽 에너지 사다리의 칸 사이가 어떻게 바뀌는지 보세요.
+
+<S n={2}>
+
+상자가 좁아질수록 칸 사이가 빠르게 넓어져요. 길이가 절반이면 4배, 3분의 1이면 9배예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="상자를 늘리면">
+
+<Check id="q66-size" options={[
+  { t: '3배', why: '상자가 커지면 파장이 길어져서 덜 굽어요. 에너지는 오히려 작아져요.' },
+  { t: '3분의 1', why: '작아지는 건 맞지만, 에너지는 상자 길이의 제곱에 반비례해요. 곡률이 파장의 제곱에 반비례하거든요.' },
+  { t: '9분의 1', ok: true, why: '길이가 3배면 파장이 3배라서, 곡률과 에너지는 3 × 3 = 9분의 1이 돼요.' },
+  { t: '9배', why: '9라는 수는 맞지만 방향이 반대예요. 넓은 상자에서는 파동함수가 덜 굽어요.' },
+]}>
+
+상자 속 입자에서 상자 길이를 3배로 늘리면, 1번째 에너지는 처음의 몇 배가 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="1 nm 상자 속 전자">
+  <Fragment slot="visual">
+    <DataTable caption="상자에 가둔 전자의 1번째 에너지" head={['상자 길이', '1번째 에너지']} rows={[
+      ['0.5 nm', '약 1.5 eV'],
+      ['1 nm', '약 0.38 eV'],
+      ['2 nm', '약 0.094 eV'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+실제 크기로 계산해 볼게요. 1번째 모양의 파장은 2L이니까 운동량은 h를 2L로 나눈 값이고, 운동 에너지는 운동량의 제곱을 2m으로 나눈 값이에요.
+
+<S n={2}>
+
+이걸 한 줄로 쓰면 n번째 에너지는 n² × h² ÷ (8mL²)이에요. 전자를 길이 1 nm인 상자에 넣으면 1번째 에너지는 약 0.38 eV가 나와요.
+
+</S>
+
+<S n={3}>
+
+감각으로 확인해 볼게요. 가시광선 광자 하나의 에너지가 약 1.7~3.1 eV이니, nm 크기 상자 속 전자의 에너지는 빛과 견줄 만한 크기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="칸 사이를 내려오면 빛">
+  <Fragment slot="visual">
+    <Flow alt="높은 칸의 전자가 낮은 칸으로 내려오며, 그 차이만큼의 에너지를 가진 광자 하나를 내놓는다" items={[
+      { t: '높은 칸', sub: '에너지가 큰 모양' },
+      { t: '낮은 칸으로', sub: '전자가 내려와요', step: 2 },
+      { t: '광자 하나', sub: '에너지 = 두 칸의 차이', step: 2 },
+    ]} />
+  </Fragment>
+
+44강의 원자에서처럼, 높은 칸의 전자가 낮은 칸으로 내려오면 그 차이만큼의 에너지를 가진 광자가 나와요.
+
+<S n={2}>
+
+광자의 진동수는 그 에너지를 플랑크 상수로 나눈 값이에요. 그래서 칸 사이가 넓을수록 진동수가 높은 빛이 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="양자점">
+  <Fragment slot="visual">
+    <Define term="quantum-dot" />
+  </Fragment>
+
+전자를 아주 작은 알갱이 안에 가둬서, 알갱이 크기로 에너지 간격을 정하는 물질을 **양자점**이라고 불러요.
+
+<S n={2}>
+
+양자점이 작을수록 칸 사이가 넓어져서 진동수가 높은 빛을 내요. 큰 양자점은 붉은빛, 그보다 작은 양자점은 초록빛이나 푸른빛을 내죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="TV 속 두 가지 양자점">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '더 큰 양자점', caption: '칸 사이가 좁아요 · 붉은빛' },
+      { big: '더 작은 양자점', caption: '칸 사이가 넓어요 · 초록빛', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+QLED TV는 파란빛을 양자점 층에 비춰요. 양자점은 그 빛을 받아 높은 칸으로 올라갔다가, 자기 크기에 맞는 색의 빛을 내며 내려와요.
+
+<S n={2}>
+
+크기를 고른 양자점 두 종류로 초록빛과 붉은빛을 만들고, 파란빛은 그대로 써요. 그래서 세 가지 색을 모두 얻어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="모형이 맞히는 것">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '상자 모형', caption: '작을수록 진동수가 높아진다는 경향' },
+      { big: '실제 계산', caption: '정확히 어떤 색인지', tone: 'dim' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 여기서 한 번 의심했어요. 진짜 양자점은 한 줄짜리 상자가 아니라, 원자 수천 개가 모인 작은 결정이거든요.
+
+정확한 색을 맞히려면 결정 속 전자의 성질까지 넣어 더 복잡하게 계산해야 해요. 그래도 '작게 가둘수록 칸 사이가 넓어진다'는 경향은 상자 모형 그대로예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="어느 양자점이 더 높은 진동수">
+
+<Check id="q66-dot" options={[
+  { t: '지름 3 nm인 A', ok: true, why: '더 작게 가둘수록 파장이 짧아져서 에너지 칸 사이가 넓어져요. 넓은 칸 사이를 내려오면 에너지가 큰 광자, 그러니까 진동수가 높은 빛이 나와요.' },
+  { t: '지름 6 nm인 B', why: '큰 알갱이 속 전자는 덜 갇혀서 칸 사이가 좁아요. 그래서 진동수가 낮은 빛을 내요.' },
+  { t: '같은 물질이라 둘이 같아요', why: '양자점의 색은 물질만이 아니라 크기로도 정해져요. 이게 양자점의 특별한 점이에요.' },
+  { t: '알 수 없어요', why: '상자 모형만으로도 어느 쪽이 더 높은지는 알 수 있어요. 에너지 간격은 크기의 제곱에 반비례해요.' },
+]}>
+
+같은 물질로 만든 양자점 A는 지름이 3 nm, B는 6 nm예요. 둘 다 빛을 받아 빛날 때, 진동수가 더 높은 빛을 내는 것은 어느 양자점일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="유리 속의 색에서 TV까지">
+  <Fragment slot="visual">
+    <BigNumber top="양자점을 찾고 만든 세 사람이 노벨 화학상을 받은 해" value="2023" bottom="예키모프(1981), 브루스(1983), 바웬디(1993)" />
+  </Fragment>
+
+1981년 알렉세이 예키모프는 유리 속에 생긴 아주 작은 결정의 색이 결정 크기에 따라 달라진다는 걸 발견했어요. 1983년 루이스 브루스는 액체 속에 뜬 알갱이에서 같은 현상을 확인했죠.
+
+<S n={2}>
+
+1993년 문지 바웬디가 크기가 고른 양자점을 만드는 방법을 내놓았고, 그 뒤 양자점은 TV 화면에도 쓰이게 됐어요. 세 사람은 2023년 노벨 화학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="기타 줄과 상자">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['줄의 길이', '상자의 길이'],
+        ['묶여서 흔들리지 않는 양 끝', '파동함수가 0인 벽'],
+        ['정해진 음만 나요', '정해진 에너지만 허락돼요'],
+        ['짧은 줄일수록 높은 음', '작은 상자일수록 큰 에너지'],
+      ]}
+      fits="끝의 조건 때문에 정해진 파장만 남고, 그래서 정해진 값만 나온다는 구조가 같아요."
+      breaks="줄의 진동수는 길이에 반비례해서, 줄이 절반이면 2배예요. 상자 속 입자의 에너지는 길이의 제곱에 반비례해서, 상자가 절반이면 4배예요. 또 줄은 실제로 흔들리지만, 파동함수는 입자를 찾을 확률을 알려 줄 뿐 무엇이 흔들리는 게 아니에요."
+    />
+  </Fragment>
+
+오늘의 상자를 20강의 기타 줄과 나란히 놓아 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['particle-in-a-box', 'quantum-dot', 'zero-point-energy']}>
+
+1. 넘을 수 없는 벽 사이에 갇힌 입자는 벽에서 파동함수가 0이어야 해요.
+2. 그래서 상자 안에 반 파장이 정수 개 들어가는 파동만 될 수 있어요.
+3. 파장이 n분의 1이면 곡률과 에너지가 n²배라서, 에너지는 1, 4, 9, 16배로 나뉘어요.
+4. 상자가 작을수록 모든 파장이 짧아져서, 에너지 칸 사이가 상자 길이의 제곱에 반비례해 넓어져요.
+5. 그래서 작은 양자점일수록 칸 사이를 내려올 때 진동수가 높은 빛을 내요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="상자를 줄이면 빛은">
+
+<DailyProblem id="p66">
+
+상자 속 전자가 2번째 칸에서 1번째 칸으로 내려오며 광자 하나를 내요.
+
+상자 길이를 절반으로 줄이면, 같은 두 칸 사이를 내려올 때 나오는 빛의 진동수는 처음의 몇 배가 될까요?
+
+<Fragment slot="hint1">
+
+상자 길이가 절반이면 칸마다의 에너지는 몇 배가 되나요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+두 칸의 차이도 같은 비율로 바뀌어요. 광자의 진동수는 그 차이에 비례해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+4배예요. 상자가 절반이면 모든 파장이 절반이라서 칸마다의 에너지가 4배가 되고, 두 칸의 차이도 4배가 돼요.
+
+광자의 진동수는 에너지 차이를 플랑크 상수로 나눈 값이니까, 진동수도 4배가 돼요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+벽 사이에 갇힌 입자는 반 파장이 정수 개 들어가는 파동만 될 수 있어서 에너지가 정해진 값으로 나뉘고, 상자가 작을수록 그 간격이 넓어져요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="벽이 끝없이 높지 않다면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '오늘의 벽', caption: '위치 에너지가 끝없이 높아요' },
+      { big: '실제의 벽', caption: '조금 높을 뿐이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+실제 벽은 끝없이 높지 않아요. 양자점 속 전자도, 알갱이 바깥의 위치 에너지가 안보다 조금 높을 뿐이에요.
+
+<S n={2}>
+
+그러면 전체 에너지보다 위치 에너지가 높은 곳이 생기는데, 그곳에서는 운동 에너지가 0보다 작아져요. 다음 강에서는 그런 곳에서 파동함수가 어떻게 굽는지 봐요.
+
+</S>
+
+</Screen>
