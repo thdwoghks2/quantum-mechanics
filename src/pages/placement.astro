@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/pages.css';
+import '../styles/lesson.css';
+import { getCourse } from '../lib/course.ts';
+
+const course = await getCourse();
+const lessons = course.flatMap((p) => p.lessons).map((l) => ({ n: l.n, title: l.title, published: l.published }));
+const data = JSON.stringify(lessons).replace(/</g, '\\u003c');
+---
+<Base title="진단" description="어디서부터 시작할지 찾는 진단">
+  <main class="page">
+    <header class="page__head">
+      <p class="label">진단</p>
+      <h1>어디서부터 시작할까</h1>
+      <p class="page__lead">
+        쉬운 문제부터 어려운 문제까지 강 순서대로 나온다. 연달아 두 번 틀리면 멈추고, 처음 틀린 문제를 가르치는 강을 추천한다.
+        모르는 문제는 찍지 말고 "모르겠다"를 고르자. 그래야 맞는 강을 추천할 수 있다.
+      </p>
+    </header>
+
+    <section class="card quiz" aria-live="polite">
+      <p class="label quiz__count"></p>
+      <p class="quiz__q"></p>
+      <ol class="check__opts quiz__opts"></ol>
+      <p class="quiz__why small muted" hidden></p>
+      <div class="row">
+        <button type="button" class="btn btn--primary quiz__next" hidden>다음 문제</button>
+      </div>
+    </section>
+
+    <section class="card result" hidden>
+      <p class="label">결과</p>
+      <h2 class="result__t"></h2>
+      <p class="result__d muted"></p>
+      <div class="row">
+        <a class="btn btn--primary result__go" href="#">이 강부터 시작하기</a>
+        <a class="btn" href="../lessons/1/">1강부터 차근차근</a>
+        <button type="button" class="btn btn--ghost result__again">다시 하기</button>
+      </div>
+    </section>
+  </main>
+  <script type="application/json" id="lessons" set:html={data} />
+  <script>
+    import { QUESTIONS, recommend, shouldStop, type PlacementAnswer } from '../lib/placement.ts';
+    import { applyPlacement, load, save } from '../lib/progress.ts';
+
+    const lessons: { n: number; title: string; published: boolean }[] = JSON.parse(document.getElementById('lessons')!.textContent!);
+    const quiz = document.querySelector<HTMLElement>('.quiz')!;
+    const result = document.querySelector<HTMLElement>('.result')!;
+    let answers: PlacementAnswer[] = [];
+    let i = 0;
+
+    function show() {
+      const q = QUESTIONS[i]!;
+      quiz.querySelector('.quiz__count')!.textContent = `${i + 1}번째 문제`;
+      quiz.querySelector('.quiz__q')!.textContent = q.q;
+      const ol = quiz.querySelector('.quiz__opts')!;
+      ol.innerHTML = '';
+      const opts = [...q.options, { t: '모르겠다', ok: false }];
+      opts.forEach((o) => {
+        const li = document.createElement('li');
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'check__opt';
+        b.innerHTML = '<span class="check__mark" aria-hidden="true"></span>';
+        b.append(o.t);
+        b.addEventListener('click', () => pick(b, !!o.ok));
+        li.append(b);
+        ol.append(li);
+      });
+      const why = quiz.querySelector<HTMLElement>('.quiz__why')!;
+      why.hidden = true;
+      quiz.querySelector<HTMLElement>('.quiz__next')!.hidden = true;
+      (ol.querySelector('button') as HTMLButtonElement).focus();
+    }
+
+    function pick(btn: HTMLButtonElement, ok: boolean) {
+      const q = QUESTIONS[i]!;
+      quiz.querySelectorAll<HTMLButtonElement>('.check__opt').forEach((b) => (b.disabled = true));
+      btn.classList.add(ok ? 'is-ok' : 'is-no');
+      if (!ok) {
+        const right = [...quiz.querySelectorAll<HTMLButtonElement>('.check__opt')].find((b) => b.textContent === q.options.find((o) => o.ok)!.t);
+        right?.classList.add('is-answer');
+      }
+      answers.push({ id: q.id, ok });
+      const why = quiz.querySelector<HTMLElement>('.quiz__why')!;
+      const l = lessons.find((x) => x.n === q.lesson);
+      why.textContent = `${q.why} 이 내용은 ${q.lesson}강 「${l?.title ?? ''}」에서 배운다.`;
+      why.hidden = false;
+      const next = quiz.querySelector<HTMLButtonElement>('.quiz__next')!;
+      next.hidden = false;
+      next.textContent = shouldStop(answers) ? '결과 보기' : '다음 문제';
+      next.focus();
+    }
+
+    function finish() {
+      const n = recommend(answers);
+      const lesson = lessons.find((l) => l.n === n);
+      quiz.hidden = true;
+      result.hidden = false;
+      const go = result.querySelector<HTMLAnchorElement>('.result__go')!;
+      const right = answers.filter((a) => a.ok).length;
+      if (lesson?.published) {
+        result.querySelector('.result__t')!.textContent = `${n}강 「${lesson.title}」부터`;
+        result.querySelector('.result__d')!.textContent = `${answers.length}문제 가운데 ${right}개를 맞혔다. 앞의 강들은 "건너뜀"으로 표시해 둔다. 건너뛴 강도 언제든 열어 볼 수 있다.`;
+        go.href = `../lessons/${n}/`;
+        go.hidden = false;
+      } else {
+        const last = lessons.filter((l) => l.published).at(-1);
+        result.querySelector('.result__t')!.textContent = '공개된 강을 넘어선다';
+        result.querySelector('.result__d')!.textContent = `${answers.length}문제 가운데 ${right}개를 맞혔다. 추천 시작 강은 ${n}강인데 아직 준비 중이다. 지금 공개된 마지막 강은 ${last?.n}강이다. 1강부터 빠르게 훑으며 각 강 첫 화면의 "이미 안다면"으로 건너뛰는 방법도 있다.`;
+        go.hidden = true;
+      }
+      go.onclick = () => save(applyPlacement(load(), n, Date.now()));
+    }
+
+    quiz.querySelector('.quiz__next')!.addEventListener('click', () => {
+      if (shouldStop(answers)) finish();
+      else {
+        i++;
+        show();
+      }
+    });
+    result.querySelector('.result__again')!.addEventListener('click', () => {
+      answers = [];
+      i = 0;
+      result.hidden = true;
+      quiz.hidden = false;
+      show();
+    });
+    show();
+  </script>
+</Base>
+
+<style>
+  .quiz__q {
+    font-size: var(--fs-lg);
+    line-height: 1.6;
+  }
+
+  .result__t {
+    font-size: var(--fs-xl);
+  }
+</style>

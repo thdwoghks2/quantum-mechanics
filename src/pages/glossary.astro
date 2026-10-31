@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import '../styles/pages.css';
+import { lessonUrl } from '../lib/url.ts';
+import { publishedNumbers } from '../lib/course.ts';
+
+const terms = (await getCollection('glossary')).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
+const published = new Set(await publishedNumbers());
+const byLesson = new Map<number, typeof terms>();
+for (const t of terms) {
+  const list = byLesson.get(t.data.taughtIn) ?? [];
+  list.push(t);
+  byLesson.set(t.data.taughtIn, list);
+}
+---
+<Base title="용어집" description="137강에서 정식으로 배우는 용어들">
+  <main class="page">
+    <header class="page__head">
+      <p class="label">용어 {terms.length}개</p>
+      <h1>용어집</h1>
+      <p class="page__lead">
+        용어마다 그 용어를 처음 정식으로 가르치는 강이 하나 있다. 그 강보다 앞에서는 그 용어를 쓰지 않는다.
+        강 순서대로 정리했다.
+      </p>
+    </header>
+    {[...byLesson.entries()].map(([n, list]) => (
+      <section class="section">
+        <h2 class="gl__h">
+          {published.has(n) ? <a href={lessonUrl(n)}>{n}강</a> : <span>{n}강</span>}
+        </h2>
+        {list.map((t) => (
+          <article class="card gl" id={t.id} data-q={t.data.q}>
+            <h3 class="gl__term">{t.data.term}</h3>
+            <p>{t.data.definition}</p>
+            {t.data.unit && <p class="small muted">단위: <span class="mono">{t.data.unit}</span></p>}
+            <ul class="small muted gl__ex">{t.data.examples.map((e) => <li>{e}</li>)}</ul>
+            {t.data.notThis && <p class="small muted"><span class="label">이 말이 아닌 것</span> {t.data.notThis}</p>}
+          </article>
+        ))}
+      </section>
+    ))}
+  </main>
+</Base>
+
+<style>
+  .gl {
+    border-left: 3px solid var(--qc, var(--q-plain));
+  }
+
+  .gl__h {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--fs-md);
+    color: var(--accent);
+  }
+
+  .gl__h a {
+    color: inherit;
+  }
+
+  .gl__term {
+    font-size: var(--fs-lg);
+  }
+
+  .gl__ex {
+    margin: 0;
+    padding-left: 1.1em;
+  }
+</style>

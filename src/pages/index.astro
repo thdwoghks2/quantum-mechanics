@@ -1,7 +1,195 @@
 ---
 import Base from '../layouts/Base.astro';
-import { lessonUrl } from '../lib/url.ts';
+import '../styles/pages.css';
+import { getCourse } from '../lib/course.ts';
+import { lessonUrl, url } from '../lib/url.ts';
+
+const course = await getCourse();
+const all = course.flatMap((p) => p.lessons);
+const published = all.filter((l) => l.published);
+const meta = JSON.stringify(published.map((l) => ({ n: l.n, title: l.title }))).replace(/</g, '\\u003c');
 ---
 <Base title="137">
-  <main style="padding: 40px var(--gutter)"><a href={lessonUrl(1)}>1강</a></main>
+  <main class="page home">
+    <section class="hero">
+      <p class="hero__num" aria-hidden="true">137</p>
+      <h1>양자역학을 기초부터, 하루 한 강씩</h1>
+      <p class="page__lead">
+        던진 공이 떨어지는 법칙에서 출발해 빛과 원자를 지나 양자역학까지 137강으로 이어진다.
+        한 강은 20분 안팎이고, 핵심 개념 하나를 그림과 시뮬레이션과 문제로 끝까지 따라간다.
+      </p>
+      <div class="row hero__actions">
+        <a class="btn btn--primary" id="continue" href={lessonUrl(1)}>1강부터 시작</a>
+        <a class="btn" href={url('placement/')}>진단으로 시작할 강 찾기</a>
+        <a class="btn btn--ghost" href={url('course/')}>137강 전체 보기</a>
+      </div>
+      <p class="small muted" id="review-note" hidden></p>
+    </section>
+
+    <section class="section">
+      <h2>이렇게 공부한다</h2>
+      <ol class="how">
+        <li>
+          <p class="how__t">화면을 한 장씩 넘긴다</p>
+          <p class="muted small">화면마다 그림이나 시뮬레이션 하나와 글 몇 줄이 있다. 휴대폰 한 화면에 들어가는 분량이다.</p>
+        </li>
+        <li>
+          <p class="how__t">용어는 배운 다음에만 쓴다</p>
+          <p class="muted small">새 용어는 그 강에서 정의하고 예를 든다. 앞에서 배운 용어는 글에서 눌러 정의를 다시 볼 수 있다.</p>
+        </li>
+        <li>
+          <p class="how__t">강마다 오늘의 문제 하나</p>
+          <p class="muted small">여러 단계를 거쳐야 풀리는 문제다. 힌트가 세 단계로 하나씩 열리고, 마지막에 풀이가 있다.</p>
+        </li>
+        <li>
+          <p class="how__t">푼 문제는 다시 돌아온다</p>
+          <p class="muted small">강 안에서 푼 확인 문제는 1일, 3일, 7일, 21일 뒤에 복습으로 다시 나온다. 틀리면 1일부터 다시.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>지금 열린 강</h2>
+      <p class="muted">137강 가운데 {published.length}강이 공개되어 있다. 나머지는 부 단위로 차례로 열린다.</p>
+      <ol class="parts">
+        {course.map((p) => {
+          const open = p.lessons.filter((l) => l.published).length;
+          return (
+            <li class:list={['parts__item', { 'is-open': open > 0 }]}>
+              <span class="mono parts__n">{p.number}부</span>
+              <span class="parts__t">{p.title}</span>
+              <span class="mono parts__c">{open}/{p.lessons.length}</span>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>왜 137인가</h2>
+      <p class="muted">
+        빛과 전자가 서로 얼마나 세게 작용하는지를 나타내는 수가 있다. 그 값이 거의 정확히 137분의 1이다.
+        왜 하필 이 값인지는 아무도 모른다. 리처드 파인먼은 이 수를 물리학의 가장 큰 수수께끼 가운데 하나로 꼽았다.
+        이 코스의 강 수는 그 수에서 따왔고, 그 수가 무엇인지는 122강에서 다룬다.
+      </p>
+    </section>
+  </main>
+  <script type="application/json" id="published" set:html={meta} />
+  <script>
+    import { load, nextLesson } from '../lib/progress.ts';
+    import { dueItems } from '../lib/review.ts';
+
+    const published: { n: number; title: string }[] = JSON.parse(document.getElementById('published')!.textContent!);
+    const state = load();
+    const n = nextLesson(state, published.map((p) => p.n));
+    const btn = document.getElementById('continue') as HTMLAnchorElement;
+    const started = Object.keys(state.lessons).length > 0;
+    if (n && started) {
+      const t = published.find((p) => p.n === n)!;
+      btn.href = btn.href.replace(/lessons\/\d+\/$/, `lessons/${n}/`);
+      btn.textContent = `이어서: ${n}강 ${t.title}`;
+    } else if (!n && started) {
+      btn.textContent = '공개된 강을 모두 마쳤다';
+      btn.href = btn.href.replace(/lessons\/\d+\/$/, '../course/');
+    }
+    const due = dueItems(Object.values(state.reviews), Date.now()).length;
+    const note = document.getElementById('review-note')!;
+    if (due > 0) {
+      note.hidden = false;
+      note.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = btn.href.replace(/lessons\/\d+\/$/, 'review/');
+      a.textContent = `오늘 복습할 문제 ${due}개`;
+      note.append(a);
+    }
+  </script>
 </Base>
+
+<style>
+  .hero {
+    display: grid;
+    gap: 18px;
+    padding-top: 12px;
+  }
+
+  .hero__num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(5rem, 24vw, 9rem);
+    line-height: 0.9;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+    animation: hero-in 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+    }
+  }
+
+  .hero h1 {
+    font-size: clamp(1.7rem, 6vw, 2.4rem);
+  }
+
+  .hero__actions {
+    margin-top: 6px;
+  }
+
+  .how {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    counter-reset: how;
+  }
+
+  .how li {
+    display: grid;
+    grid-template-columns: 2.2em 1fr;
+    column-gap: 10px;
+    counter-increment: how;
+  }
+
+  .how li::before {
+    content: counter(how, decimal-leading-zero);
+    grid-row: span 2;
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: var(--fs-sm);
+    padding-top: 3px;
+  }
+
+  .how__t {
+    font-weight: 600;
+  }
+
+  .parts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .parts__item {
+    display: grid;
+    grid-template-columns: 3.4em 1fr auto;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: var(--fs-sm);
+  }
+
+  .parts__item.is-open {
+    color: var(--text);
+  }
+
+  .parts__item.is-open .parts__n {
+    color: var(--accent);
+  }
+</style>

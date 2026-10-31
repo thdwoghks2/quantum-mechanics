@@ -11,7 +11,8 @@
     "validate": "node scripts/validate.mjs",
     "lint:style": "node scripts/lint-style.mjs",
     "test": "vitest run",
-    "check": "npm run validate && npm run lint:style && npm test && astro build"
+    "check": "npm run validate && npm run lint:style && npm test && astro build",
+    "docs:curriculum": "node scripts/curriculum-md.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.14",

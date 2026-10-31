@@ -1,0 +1,72 @@
+/* 레슨 밖의 페이지들: 첫 화면, 코스, 진단, 복습, 용어집, 인물, 연대기, 기록 */
+.page {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 36px var(--gutter) 80px;
+  display: grid;
+  gap: 28px;
+}
+
+.page__head {
+  display: grid;
+  gap: 10px;
+}
+
+.page__head h1 {
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+}
+
+.page__lead {
+  color: var(--text-2);
+  max-width: 36em;
+}
+
+.section {
+  display: grid;
+  gap: 12px;
+}
+
+.section h2 {
+  font-size: var(--fs-xl);
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ink-2);
+  padding: 16px 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.muted {
+  color: var(--text-2);
+}
+
+.small {
+  font-size: var(--fs-sm);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.field {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--ink-2);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+}

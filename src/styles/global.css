@@ -225,3 +225,8 @@ canvas {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* hidden 속성은 display를 지정한 클래스보다 앞선다. */
+[hidden] {
+  display: none !important;
+}

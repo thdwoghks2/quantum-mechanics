@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import '../styles/pages.css';
+import { lessonUrl } from '../lib/url.ts';
+import { publishedNumbers } from '../lib/course.ts';
+
+const people = (await getCollection('people')).sort((a, b) => a.data.born - b.data.born);
+const published = new Set(await publishedNumbers());
+---
+<Base title="인물" description="코스에 나오는 사람들">
+  <main class="page">
+    <header class="page__head">
+      <p class="label">{people.length}명, 태어난 순서</p>
+      <h1>인물</h1>
+      <p class="page__lead">
+        레슨 본문에는 그 문제에 실제로 부딪힌 사람만 짧게 등장한다. 더 자세한 이야기는 여기에 모아 둔다.
+      </p>
+    </header>
+    <div class="section">
+      {people.map((p) => (
+        <article class="card" id={p.id}>
+          <p class="label">{p.data.born}–{p.data.died ?? ''} · {p.data.role}</p>
+          <h2 class="pp__name">{p.data.name} <span class="small muted">{p.data.original}</span></h2>
+          <p class="small">{p.data.summary}</p>
+          {p.data.lessons.length > 0 && (
+            <p class="small muted">
+              나오는 강:{' '}
+              {p.data.lessons.map((n, i) => (
+                <>
+                  {i > 0 && ', '}
+                  {published.has(n) ? <a href={lessonUrl(n)}>{n}강</a> : <span>{n}강</span>}
+                </>
+              ))}
+            </p>
+          )}
+          {p.data.sources.length > 0 && <p class="small muted">출처: {p.data.sources.join(' / ')}</p>}
+        </article>
+      ))}
+    </div>
+  </main>
+</Base>
+
+<style>
+  .pp__name {
+    font-size: var(--fs-lg);
+  }
+</style>

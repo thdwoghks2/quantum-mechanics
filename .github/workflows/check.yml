@@ -1,0 +1,21 @@
+# 모든 브랜치와 PR에서 콘텐츠 검사, 테스트, 빌드를 돌린다.
+name: Check
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint:style
+      - run: npm run build

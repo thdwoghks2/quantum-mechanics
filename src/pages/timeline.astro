@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import '../styles/pages.css';
+import { lessonUrl, url } from '../lib/url.ts';
+import { publishedNumbers } from '../lib/course.ts';
+
+const events = (await getCollection('events')).sort((a, b) => a.data.year - b.data.year);
+const people = new Map((await getCollection('people')).map((p) => [p.id, p.data.name]));
+const published = new Set(await publishedNumbers());
+---
+<Base title="연대기" description="코스에 나오는 사건을 한 줄로">
+  <main class="page">
+    <header class="page__head">
+      <p class="label">{events[0]?.data.year}년부터 {events.at(-1)?.data.year}년까지</p>
+      <h1>연대기</h1>
+      <p class="page__lead">코스에 나오는 사건을 일어난 순서대로 늘어놓았다. 사건마다 그 사건을 다루는 강으로 갈 수 있다.</p>
+    </header>
+    <ol class="tl">
+      {events.map((e) => (
+        <li class="tl__item">
+          <p class="tl__year mono">{e.data.year}</p>
+          <div class="tl__body">
+            <p class="tl__t">{e.data.title}{e.data.date && <span class="small muted"> · {e.data.date}</span>}</p>
+            <p class="small muted">{e.data.summary}</p>
+            <p class="small muted">
+              {e.data.lessons.map((n, i) => (
+                <>
+                  {i > 0 && ', '}
+                  {published.has(n) ? <a href={lessonUrl(n)}>{n}강</a> : <span>{n}강</span>}
+                </>
+              ))}
+              {e.data.people.length > 0 && (
+                <>
+                  {' · '}
+                  {e.data.people.map((id, i) => (
+                    <>
+                      {i > 0 && ', '}
+                      <a href={url(`people/#${id}`)}>{people.get(id)}</a>
+                    </>
+                  ))}
+                </>
+              )}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </main>
+</Base>
+
+<style>
+  .tl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+
+  .tl__item {
+    display: grid;
+    grid-template-columns: 4.2em minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tl__year {
+    color: var(--accent);
+    font-size: var(--fs-md);
+  }
+
+  .tl__body {
+    display: grid;
+    gap: 4px;
+  }
+
+  .tl__t {
+    font-weight: 600;
+  }
+</style>
