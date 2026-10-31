@@ -1202,3 +1202,58 @@ html.js .screen--title.is-active .title__q {
     transform: translateY(6px);
   }
 }
+
+/* 촘촘한 모양: 되짚기와 가장 촘촘한 단계 */
+.stage .screen.is-dense .recap {
+  gap: 14px;
+}
+
+.stage .screen.is-dense .recap__term {
+  padding-bottom: 5px;
+}
+
+.stage .screen.is-dense .recap__flow {
+  padding: 14px 14px 12px;
+}
+
+.stage .screen.is-dense .recap__flow ol {
+  gap: 6px;
+}
+
+.stage .screen.is-dense .recap__flow li {
+  line-height: 1.55;
+}
+
+.stage .screen.is-densest {
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+.stage .screen.is-densest .screen__eyebrow {
+  display: none;
+}
+
+.stage .screen.is-densest .screen__body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  gap: 0.6em;
+}
+
+.stage .screen.is-densest .key {
+  font-size: 1rem;
+  padding: 12px 12px 10px;
+}
+
+.stage .screen.is-densest .defcard__term {
+  font-size: 1.5rem;
+}
+
+.stage .screen.is-densest .defcard__def {
+  font-size: 0.875rem;
+}
+
+.stage .screen.is-densest .recap__term dd,
+.stage .screen.is-densest .recap__flow li {
+  font-size: 0.8125rem;
+}

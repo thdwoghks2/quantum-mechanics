@@ -111,13 +111,14 @@ class QmLesson extends HTMLElement {
     screen.querySelector<HTMLElement>(`.screen__body .step[data-step="${this.step + 1}"]`)?.classList.add('step-next');
   }
 
-  /** 화면이 무대보다 길면 한 단계씩 촘촘하게 한다. 단계는 자리를 미리 잡고 있으니 다 연 모양과 높이가 같다. */
+  /** 화면이 무대보다 길면 한 단계씩(세 단계까지) 촘촘하게 한다. 단계는 자리를 미리 잡고 있으니 다 연 모양과 높이가 같다. */
   fit(screen: HTMLElement) {
-    screen.classList.remove('is-dense', 'is-denser');
+    screen.classList.remove('is-dense', 'is-denser', 'is-densest');
     const over = () => screen.scrollHeight - screen.clientHeight > 1;
-    if (!over()) return;
-    screen.classList.add('is-dense');
-    if (over()) screen.classList.add('is-denser');
+    for (const cls of ['is-dense', 'is-denser', 'is-densest']) {
+      if (!over()) return;
+      screen.classList.add(cls);
+    }
   }
 
   next() {
