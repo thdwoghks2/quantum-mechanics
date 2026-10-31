@@ -10,7 +10,7 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 1 | 물리학은 무엇을 하는가 | 관찰에서 규칙을 찾고, 그 규칙으로 예측한다. 모형이란 무엇인가 | 공개 (`src/content/lessons/00-basics/001-what-physics-does.mdx`) |
+| 1 | 물리학이 하는 일 | 관찰에서 규칙을 찾고, 그 규칙으로 예측해요. 모형이란 무엇일까요 | 공개 (`src/content/lessons/00-basics/001-what-physics-does.mdx`) |
 | 2 | 큰 수와 작은 수 | 10의 거듭제곱으로 원자에서 우주까지의 크기를 적는다 | 공개 (`src/content/lessons/00-basics/002-big-and-small-numbers.mdx`) |
 | 3 | 단위와 측정 | 미터, 킬로그램, 초. 단위로 계산을 검산하고 어림한다 | 공개 (`src/content/lessons/00-basics/003-units-and-measurement.mdx`) |
 | 4 | 속도와 가속도 | 얼마나 빨리 움직이는지, 그 빠르기가 얼마나 빨리 바뀌는지 | 공개 (`src/content/lessons/00-basics/004-speed-and-acceleration.mdx`) |
