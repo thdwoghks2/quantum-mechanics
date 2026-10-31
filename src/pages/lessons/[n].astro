@@ -1,0 +1,159 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import '../../styles/lesson.css';
+import { lessonUrl, url } from '../../lib/url.ts';
+import { mdxComponents } from '../../components/mdx.ts';
+
+export async function getStaticPaths() {
+  const lessons = await getCollection('lessons', (l) => import.meta.env.DEV || l.data.status === 'published');
+  const numbers = lessons.map((l) => l.data.number).sort((a, b) => a - b);
+  return lessons.map((entry) => {
+    const i = numbers.indexOf(entry.data.number);
+    return {
+      params: { n: String(entry.data.number) },
+      props: { entry, prev: numbers[i - 1], next: numbers[i + 1] },
+    };
+  });
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const glossary = (await getCollection('glossary')).filter((g) => g.data.taughtIn <= d.number);
+const glossaryJson = JSON.stringify(
+  glossary.map((g) => ({ id: g.id, ...g.data })),
+).replace(/</g, '\\u003c');
+const term = (id: string) => glossary.find((g) => g.id === id);
+const assumes = d.assumes.map(term).filter((x) => !!x);
+const introduces = d.introduces.map(term).filter((x) => !!x);
+
+const parts = await getCollection('curriculum');
+const part = parts.find((p) => p.data.number === d.part);
+const nextTitle = next ? (await getCollection('lessons', (l) => l.data.number === next))[0]?.data.short : undefined;
+const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.number + 1);
+---
+<Base title={`${d.number}강 ${d.short}`} description={d.question} bare bodyClass="lesson-body">
+  <qm-lesson
+    class="lesson"
+    data-lesson={d.number}
+    data-testout={JSON.stringify(d.testout)}
+    data-next={next ? lessonUrl(next) : ''}
+    data-next-title={next ? `${next}강 ${nextTitle ?? ''}` : ''}
+    data-course={url('course/')}
+  >
+    <header class="lbar">
+      <a class="lbar__back" href={url('course/')} aria-label="코스로 돌아가기">137</a>
+      <p class="lbar__title"><span class="mono">{d.number}강</span>{d.short}</p>
+      <button type="button" class="lbar__btn" data-open="terms" aria-controls="rail-terms" aria-expanded="false">용어</button>
+      <button type="button" class="lbar__btn" data-open="toc" aria-controls="rail-toc" aria-expanded="false">목차</button>
+      <div class="lbar__progress" aria-label="이 강의 화면"></div>
+    </header>
+
+    <aside class="rail rail--toc" id="rail-toc" aria-label="이 강의 화면 목록">
+      <div class="rail__head">
+        <h2>화면</h2>
+        <button type="button" class="rail__close" data-close>닫기</button>
+      </div>
+      <ol class="toc"></ol>
+    </aside>
+
+    <main class="stage">
+      <section class="screen screen--title is-active" data-kind="title" data-label="시작">
+        <p class="title__n">{String(d.number).padStart(3, '0')}</p>
+        <h1 class="title__h">{d.title}</h1>
+        <p class="title__q">{d.question}</p>
+        <div class="title__meta">
+          <span class="label">{d.part}부 · {part?.data.title}</span>
+          <span class="label">약 {d.minutes}분</span>
+          {d.year && <span class="label">{d.year}</span>}
+          {d.place && <span class="label">{d.place}</span>}
+        </div>
+        <p class="title__status" hidden></p>
+        <div class="title__actions">
+          <button type="button" class="btn btn--primary" data-action="start">시작</button>
+          {d.testout.length > 0 && (
+            <button type="button" class="btn" data-action="testout">이미 안다면: 문제 {d.testout.length}개로 건너뛰기</button>
+          )}
+        </div>
+        {prev && <p class="label"><a href={lessonUrl(prev)}>← {prev}강</a></p>}
+      </section>
+      <Content components={mdxComponents} />
+    </main>
+
+    <aside class="rail rail--terms" id="rail-terms" aria-label="이 강의 용어">
+      <div class="rail__head">
+        <h2>이 강의 용어</h2>
+        <button type="button" class="rail__close" data-close>닫기</button>
+      </div>
+      <h3>앞에서 배운 용어</h3>
+      {assumes.length ? (
+        <div class="chips">
+          {assumes.map((g) => (
+            <button type="button" class="chip" data-term={g!.id} data-q={g!.data.q}>{g!.data.term}<span class="mono">{g!.data.taughtIn}강</span></button>
+          ))}
+        </div>
+      ) : <p class="rail__empty">없음. 이 강은 앞 강의 용어 없이 읽을 수 있다.</p>}
+      <h3>이 강에서 새로 배우는 용어</h3>
+      {introduces.length ? (
+        <div class="chips">
+          {introduces.map((g) => (
+            <button type="button" class="chip" data-term={g!.id} data-q={g!.data.q}>{g!.data.term}</button>
+          ))}
+        </div>
+      ) : <p class="rail__empty">없음</p>}
+      <h3>이 강이 설명하는 원리</h3>
+      <p class="rail__mech">{d.mechanism}</p>
+      {d.sources.length > 0 && (
+        <>
+          <h3>출처</h3>
+          <ul class="rail__sources">{d.sources.map((s) => <li>{s}</li>)}</ul>
+        </>
+      )}
+    </aside>
+
+    <nav class="lnav" aria-label="화면 넘기기">
+      <button type="button" class="btn btn--ghost lnav__prev" data-action="prev">‹ 이전</button>
+      <span class="lnav__count" aria-live="polite"></span>
+      <button type="button" class="btn btn--primary lnav__next" data-action="next">다음 ›</button>
+    </nav>
+
+    <div class="pop" role="dialog" aria-modal="false" aria-labelledby="pop-term" hidden></div>
+
+    <div class="testout" role="dialog" aria-modal="true" aria-label="통과 시험" hidden>
+      <div class="testout__inner">
+        <p class="label">통과 시험 · {d.number}강</p>
+        <h2>이 강의 핵심 문제 {d.testout.length}개</h2>
+        <p class="small">모두 맞히면 이 강을 건너뛴다. 하나라도 틀리면 처음부터 보는 편이 낫다.</p>
+        <div class="testout__items"></div>
+        <p class="testout__result" aria-live="polite"></p>
+        <div class="title__actions">
+          <button type="button" class="btn" data-action="testout-close">닫기</button>
+        </div>
+      </div>
+    </div>
+
+    <template id="next-planned">{plannedNext ? `${plannedNext.n}강 ${plannedNext.title}은 준비 중이다.` : ''}</template>
+  </qm-lesson>
+  <script type="application/json" id="qm-glossary" set:html={glossaryJson} />
+  <script>
+    import '../../lib/client/lesson.ts';
+  </script>
+</Base>
+
+<style>
+  .rail__mech {
+    font-size: var(--fs-sm);
+    color: var(--text-2);
+    line-height: 1.65;
+  }
+
+  .rail__sources {
+    margin: 0;
+    padding-left: 1.1em;
+    font-size: var(--fs-xs);
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+</style>

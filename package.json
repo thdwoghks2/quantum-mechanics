@@ -1,0 +1,28 @@
+{
+  "name": "qm137",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "137: 양자역학을 기초부터 배우는 하루 한 강 코스",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run validate && astro build",
+    "preview": "astro preview",
+    "validate": "node scripts/validate.mjs",
+    "lint:style": "node scripts/lint-style.mjs",
+    "test": "vitest run",
+    "check": "npm run validate && npm run lint:style && npm test && astro build"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "4.3.14",
+    "astro": "5.18.2",
+    "katex": "0.16.47",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "3.2.7",
+    "yaml": "2.9.1"
+  }
+}

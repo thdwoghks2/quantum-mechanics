@@ -1,0 +1,108 @@
+---
+/**
+ * 2~4칸 비교 그림. 칸마다 아이콘(또는 큰 글자)과 짧은 설명.
+ * 시간 변화(켠 직후 / 2분 뒤 / 5분 뒤)나 서로 다른 일상 예를 나란히 보여줄 때 쓴다.
+ */
+import Icon from './Icon.astro';
+
+interface Panel {
+  icon?: string;
+  big?: string;
+  title?: string;
+  caption: string;
+  tone?: 'accent' | 'dim' | 'ok' | 'no';
+  step?: number;
+}
+interface Props {
+  panels: Panel[];
+  arrows?: boolean;
+}
+const { panels, arrows = false } = Astro.props;
+---
+<div class:list={['panels', { 'panels--arrows': arrows }]} style={`--n:${panels.length}`}>
+  {panels.map((p) => (
+    <div class:list={['panel', p.tone && `panel--${p.tone}`]} data-step={p.step}>
+      {p.icon && <Icon name={p.icon} size={56} />}
+      {p.big && <p class="panel__big">{p.big}</p>}
+      {p.title && <p class="panel__title">{p.title}</p>}
+      <p class="panel__cap">{p.caption}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .panels {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  @media (max-width: 380px) {
+    .panels {
+      grid-template-columns: repeat(min(var(--n), 2), minmax(0, 1fr));
+    }
+  }
+
+  .panel {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 6px;
+    padding: 14px 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    color: var(--text-2);
+    text-align: center;
+  }
+
+  .panels--arrows .panel + .panel::before {
+    content: '→';
+    position: absolute;
+    left: -11px;
+    top: 34px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .panel--accent {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  }
+
+  .panel--ok {
+    color: var(--ok);
+  }
+
+  .panel--no {
+    color: var(--no);
+  }
+
+  .panel--dim {
+    opacity: 0.6;
+  }
+
+  .panel__big {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-xl);
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .panel__title {
+    font-weight: 600;
+    color: var(--text);
+    font-size: var(--fs-sm);
+    line-height: 1.4;
+  }
+
+  .panel__cap {
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+</style>

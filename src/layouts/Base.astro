@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import { url } from '../lib/url.ts';
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+  bare?: boolean;
+}
+const { title, description = '137강, 하루 한 강씩 양자역학을 기초부터 배우는 코스', bodyClass = '', bare = false } = Astro.props;
+const fullTitle = title === '137' ? '137 · 양자역학을 기초부터' : `${title} · 137`;
+const nav = [
+  { href: url('course/'), label: '코스' },
+  { href: url('review/'), label: '복습' },
+  { href: url('glossary/'), label: '용어집' },
+  { href: url('timeline/'), label: '연대기' },
+  { href: url('people/'), label: '인물' },
+  { href: url('settings/'), label: '기록' },
+];
+const here = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d0c0a" />
+    <title>{fullTitle}</title>
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&family=Nanum+Myeongjo:wght@400;700;800&display=swap"
+    />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class={bodyClass}>
+    {!bare && (
+      <header class="site">
+        <a class="site__mark" href={url('')} aria-label="137 처음 화면">137</a>
+        <nav class="site__nav" aria-label="사이트">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={here.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      </header>
+    )}
+    <slot />
+  </body>
+</html>
+
+<style>
+  .site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding: 14px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site__mark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-xl);
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .site__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+  }
+
+  .site__nav a {
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .site__nav a:hover,
+  .site__nav a[aria-current='page'] {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+</style>

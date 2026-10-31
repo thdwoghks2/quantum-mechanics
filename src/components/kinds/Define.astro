@@ -1,0 +1,73 @@
+---
+/**
+ * 정의 카드. 용어집(glossary.yaml)의 항목을 그대로 보여준다.
+ * 정의는 한 곳(용어집)에만 쓰고, 레슨과 용어집 페이지가 같은 내용을 쓴다.
+ */
+import { getEntry } from 'astro:content';
+
+interface Props {
+  term: string;
+}
+const { term } = Astro.props;
+const entry = await getEntry('glossary', term);
+if (!entry) throw new Error(`용어집에 없는 용어: ${term}`);
+const d = entry.data;
+---
+<article class="defcard" data-q={d.q} data-term={term}>
+  <p class="defcard__kicker label">정의</p>
+  <h3 class="defcard__term">{d.term}</h3>
+  <p class="defcard__def">{d.definition}</p>
+  {d.unit && <p class="defcard__unit"><span class="label">단위</span> <span class="mono">{d.unit}</span></p>}
+  <div class="defcard__ex">
+    <p class="label">예</p>
+    <ul>
+      {d.examples.map((e) => <li>{e}</li>)}
+    </ul>
+  </div>
+  {d.notThis && (
+    <div class="defcard__not">
+      <p class="label">이 말이 아닌 것</p>
+      <p>{d.notThis}</p>
+    </div>
+  )}
+</article>
+
+<style>
+  .defcard {
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid var(--line-2);
+    border-left: 3px solid var(--qc, var(--q-plain));
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    padding: 16px 18px;
+    display: grid;
+    gap: 8px;
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+
+  .defcard__term {
+    font-size: var(--fs-xl);
+    color: var(--text);
+  }
+
+  .defcard__def {
+    font-size: var(--fs-md);
+    color: var(--text);
+  }
+
+  .defcard__unit {
+    color: var(--text-2);
+  }
+
+  .defcard ul {
+    margin: 2px 0 0;
+    padding-left: 1.1em;
+    color: var(--text-2);
+  }
+
+  .defcard__not p:last-child {
+    color: var(--text-2);
+  }
+</style>

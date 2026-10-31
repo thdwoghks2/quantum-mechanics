@@ -1,0 +1,143 @@
+---
+/**
+ * 단계 흐름도. cycle이면 마지막에서 처음으로 돌아가는 고리 모양.
+ * 각 칸에 step을 주면 단계별로 나타난다.
+ */
+interface Item {
+  t: string;
+  sub?: string;
+  step?: number;
+}
+interface Props {
+  items: Item[];
+  cycle?: boolean;
+  alt: string;
+}
+const { items, cycle = false, alt } = Astro.props;
+const n = items.length;
+const R = 112;
+const cx = 240;
+const cy = 150;
+const pos = items.map((_, i) => {
+  const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
+  return { x: cx + R * 1.45 * Math.cos(a), y: cy + R * Math.sin(a) };
+});
+function arc(i: number) {
+  const a0 = -Math.PI / 2 + (2 * Math.PI * i) / n + 0.42;
+  const a1 = -Math.PI / 2 + (2 * Math.PI * (i + 1)) / n - 0.42;
+  const p = (a: number) => [cx + R * 1.45 * 0.78 * Math.cos(a), cy + R * 0.78 * Math.sin(a)];
+  const [x0, y0] = p(a0);
+  const [x1, y1] = p(a1);
+  return `M${x0!.toFixed(1)},${y0!.toFixed(1)} A${(R * 1.45 * 0.78).toFixed(1)},${(R * 0.78).toFixed(1)} 0 0 1 ${x1!.toFixed(1)},${y1!.toFixed(1)}`;
+}
+const mid = `flow-${Math.random().toString(36).slice(2, 8)}`;
+---
+{cycle ? (
+  <figure class="flow">
+    <svg viewBox="0 0 480 300" role="img" aria-label={alt}>
+      <defs>
+        <marker id={mid} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)" />
+        </marker>
+      </defs>
+      {items.map((_, i) => (
+        <path d={arc(i)} class="flow__arc" marker-end={`url(#${mid})`} data-step={items[(i + 1) % n]!.step} />
+      ))}
+      {items.map((it, i) => (
+        <g data-step={it.step}>
+          <rect x={pos[i]!.x - 70} y={pos[i]!.y - 26} width="140" height={it.sub ? 52 : 40} rx="8" class="flow__box" />
+          <text x={pos[i]!.x} y={pos[i]!.y + (it.sub ? -4 : 5)} class="flow__t">{it.t}</text>
+          {it.sub && <text x={pos[i]!.x} y={pos[i]!.y + 15} class="flow__sub">{it.sub}</text>}
+        </g>
+      ))}
+    </svg>
+  </figure>
+) : (
+  <ol class="flow flow--line" aria-label={alt}>
+    {items.map((it) => (
+      <li data-step={it.step}>
+        <span class="flow__t">{it.t}</span>
+        {it.sub && <span class="flow__sub">{it.sub}</span>}
+      </li>
+    ))}
+  </ol>
+)}
+
+<style>
+  .flow {
+    margin: 0;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .flow__box {
+    fill: var(--ink-3);
+    stroke: var(--line-2);
+  }
+
+  .flow__arc {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+  }
+
+  svg .flow__t {
+    fill: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    text-anchor: middle;
+    font-family: var(--font-body);
+  }
+
+  svg .flow__sub {
+    fill: var(--text-2);
+    font-size: 11.5px;
+    text-anchor: middle;
+    font-family: var(--font-body);
+  }
+
+  .flow--line {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+  }
+
+  .flow--line li {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    padding: 10px 14px;
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: var(--ink-3);
+    min-width: 96px;
+    text-align: center;
+  }
+
+  .flow--line li + li::before {
+    content: '→';
+    position: absolute;
+    left: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+  }
+
+  .flow--line .flow__t {
+    font-weight: 600;
+  }
+
+  .flow--line .flow__sub {
+    font-size: var(--fs-xs);
+    color: var(--text-2);
+  }
+</style>

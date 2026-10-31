@@ -1,0 +1,91 @@
+---
+/** 비유 대응표: 비유 속 ↔ 실제. 맞는 곳과 틀리는 곳을 함께 적는다. */
+interface Props {
+  title?: string;
+  rows: [string, string][];
+  fits: string;
+  breaks: string;
+}
+const { title = '비유', rows, fits, breaks } = Astro.props;
+---
+<figure class="analogy">
+  <table>
+    <caption class="label">{title}</caption>
+    <thead>
+      <tr><th scope="col">비유 속</th><th scope="col">실제</th></tr>
+    </thead>
+    <tbody>
+      {rows.map(([a, r]) => (
+        <tr><td>{a}</td><td>{r}</td></tr>
+      ))}
+    </tbody>
+  </table>
+  <div class="analogy__notes">
+    <p><span class="analogy__tag analogy__tag--ok">맞는 곳</span>{fits}</p>
+    <p><span class="analogy__tag analogy__tag--no">틀리는 곳</span>{breaks}</p>
+  </div>
+</figure>
+
+<style>
+  .analogy {
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+    display: grid;
+    gap: 12px;
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  caption {
+    text-align: left;
+    padding-bottom: 6px;
+  }
+
+  th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: var(--fs-xs);
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  td {
+    padding: 7px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  td:first-child {
+    color: var(--text-2);
+    width: 46%;
+  }
+
+  .analogy__notes {
+    display: grid;
+    gap: 6px;
+  }
+
+  .analogy__tag {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    border: 1px solid currentColor;
+  }
+
+  .analogy__tag--ok {
+    color: var(--ok);
+  }
+
+  .analogy__tag--no {
+    color: var(--no);
+  }
+</style>

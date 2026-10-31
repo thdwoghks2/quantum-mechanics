@@ -1,0 +1,82 @@
+---
+/**
+ * 확인 문제(객관식). 질문은 본문(slot)에, 선택지는 options로 준다.
+ * 선택지마다 why(왜 맞고 왜 틀린지)를 붙인다. 오답은 흔한 오해를 겨냥한다.
+ * 처음 푼 결과는 복습 목록에 들어간다.
+ */
+interface Option {
+  t: string;
+  ok?: boolean;
+  why: string;
+}
+interface Props {
+  id: string;
+  options: Option[];
+  /** 복습 목록에 넣지 않을 문제 */
+  noReview?: boolean;
+}
+const { id, options, noReview = false } = Astro.props;
+if (!options.some((o) => o.ok)) throw new Error(`확인 문제 ${id}에 정답이 없다`);
+---
+<qm-check class="check" data-id={id} data-review={noReview ? '0' : '1'}>
+  <div class="check__q"><slot /></div>
+  <ol class="check__opts">
+    {options.map((o, i) => (
+      <li class="check__item">
+        <button type="button" class="check__opt" data-i={i} data-ok={o.ok ? '1' : '0'}>
+          <span class="check__mark" aria-hidden="true"></span>
+          <span class="check__t">{o.t}</span>
+        </button>
+        <p class="check__why" hidden>{o.why}</p>
+      </li>
+    ))}
+  </ol>
+</qm-check>
+
+<script>
+  import { getLessonNumber, onCheckAnswered } from '../../lib/client/bus.ts';
+
+  class QmCheck extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.bound) return;
+      this.dataset.bound = '1';
+      this.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.check__opt');
+        if (!btn || this.dataset.answered) return;
+        this.answer(btn);
+      });
+    }
+
+    answer(btn: HTMLButtonElement) {
+      this.dataset.answered = '1';
+      const ok = btn.dataset.ok === '1';
+      btn.classList.add(ok ? 'is-ok' : 'is-no');
+      btn.setAttribute('aria-pressed', 'true');
+      // 고른 선택지의 해설과, 틀렸다면 정답의 해설을 연다.
+      btn.parentElement!.querySelector<HTMLElement>('.check__why')!.hidden = false;
+      if (!ok) {
+        const right = this.querySelector<HTMLButtonElement>('.check__opt[data-ok="1"]')!;
+        right.classList.add('is-answer');
+        right.parentElement!.querySelector<HTMLElement>('.check__why')!.hidden = false;
+      }
+      this.querySelectorAll<HTMLButtonElement>('.check__opt').forEach((b) => (b.disabled = true));
+      this.dispatchEvent(new CustomEvent('qm:answered', { bubbles: true, detail: { id: this.dataset.id, ok } }));
+      if (this.dataset.review === '1' && !this.closest('[data-no-record]')) {
+        onCheckAnswered(this.dataset.id!, getLessonNumber(this), this.payload(), ok);
+      }
+    }
+
+    payload() {
+      return {
+        kind: 'choice',
+        q: this.querySelector('.check__q')!.innerHTML,
+        options: [...this.querySelectorAll('.check__item')].map((li) => ({
+          t: li.querySelector('.check__t')!.textContent,
+          ok: li.querySelector<HTMLElement>('.check__opt')!.dataset.ok === '1',
+          why: li.querySelector('.check__why')!.textContent,
+        })),
+      };
+    }
+  }
+  if (!customElements.get('qm-check')) customElements.define('qm-check', QmCheck);
+</script>

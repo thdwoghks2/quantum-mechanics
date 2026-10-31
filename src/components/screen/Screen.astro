@@ -1,0 +1,62 @@
+---
+/**
+ * 화면 한 장. 위에는 시각 자료 하나(slot="visual"), 아래에는 글 2~4문장.
+ * kind는 화면 종류(장면, 떠올리기, 정의, 관찰, 그래프 읽기 …)이고 작은 라벨로 보인다.
+ */
+import { lessonUrl } from '../../lib/url.ts';
+
+type Kind = 'scene' | 'recall' | 'define' | 'observe' | 'graph' | 'step' | 'compare' | 'worked' | 'analogy' | 'check' | 'story' | 'problem' | 'three' | 'next';
+
+interface Props {
+  kind: Kind;
+  label?: string;
+  /** 떠올리기 화면: 원래 내용을 배운 강 */
+  from?: number;
+}
+
+const LABELS: Record<Kind, string> = {
+  scene: '장면',
+  recall: '떠올리기',
+  define: '정의',
+  observe: '관찰',
+  graph: '그래프 읽기',
+  step: '설명',
+  compare: '비교',
+  worked: '숫자로',
+  analogy: '비유',
+  check: '확인',
+  story: '이야기',
+  problem: '오늘의 문제',
+  three: '자기 말로 세 줄',
+  next: '다음 강으로',
+};
+
+const { kind, label, from } = Astro.props;
+const name = label ? `${LABELS[kind]} · ${label}` : LABELS[kind];
+const hasVisual = Astro.slots.has('visual');
+---
+<section
+  class:list={['screen', `screen--${kind}`, { 'screen--text-only': !hasVisual }]}
+  data-kind={kind}
+  data-label={from ? `${name} · ${from}강` : name}
+>
+  {hasVisual && (
+    <div class="screen__visual">
+      <slot name="visual" />
+    </div>
+  )}
+  <div class="screen__text">
+    <p class="screen__eyebrow label">
+      {name}
+      {from && (
+        <>
+          {' · '}
+          <a href={lessonUrl(from)}>{from}강</a>
+        </>
+      )}
+    </p>
+    <div class="screen__body">
+      <slot />
+    </div>
+  </div>
+</section>

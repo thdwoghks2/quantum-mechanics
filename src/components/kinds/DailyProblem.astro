@@ -1,0 +1,100 @@
+---
+/**
+ * 오늘의 문제. 문제(본문), 힌트 세 개(hint1~hint3), 풀이(solution).
+ * 힌트는 하나씩 열리고, 메모는 이 기기에 저장된다.
+ */
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const noteId = `note-${id}`;
+---
+<qm-problem class="problem" data-id={id}>
+  <div class="problem__q"><slot /></div>
+  <label class="label" for={noteId}>메모 (이 기기에 저장된다)</label>
+  <textarea id={noteId} class="problem__note" rows="3" placeholder="풀이 과정을 적어 보자"></textarea>
+  <div class="problem__hints">
+    <div class="problem__hint" data-hint="1" hidden><p class="label">힌트 1</p><slot name="hint1" /></div>
+    <div class="problem__hint" data-hint="2" hidden><p class="label">힌트 2</p><slot name="hint2" /></div>
+    <div class="problem__hint" data-hint="3" hidden><p class="label">힌트 3</p><slot name="hint3" /></div>
+    <div class="problem__solution" hidden><p class="label">풀이</p><slot name="solution" /></div>
+  </div>
+  <div class="problem__actions">
+    <button type="button" class="btn problem__more">힌트 1 보기</button>
+  </div>
+</qm-problem>
+
+<script>
+  import { getLessonNumber, readNotes, writeNotes } from '../../lib/client/bus.ts';
+
+  class QmProblem extends HTMLElement {
+    shown = 0;
+    connectedCallback() {
+      if (this.dataset.bound) return;
+      this.dataset.bound = '1';
+      const n = getLessonNumber(this);
+      const note = this.querySelector<HTMLTextAreaElement>('textarea')!;
+      note.value = readNotes(n).problem ?? '';
+      let t: ReturnType<typeof setTimeout> | undefined;
+      note.addEventListener('input', () => {
+        clearTimeout(t);
+        t = setTimeout(() => writeNotes(n, { problem: note.value }), 300);
+      });
+      this.querySelector('.problem__more')!.addEventListener('click', () => this.more());
+    }
+
+    more() {
+      const btn = this.querySelector<HTMLButtonElement>('.problem__more')!;
+      this.shown++;
+      if (this.shown <= 3) {
+        const hint = this.querySelector<HTMLElement>(`[data-hint="${this.shown}"]`)!;
+        hint.hidden = false;
+        hint.scrollIntoView({ block: 'nearest' });
+        btn.textContent = this.shown < 3 ? `힌트 ${this.shown + 1} 보기` : '풀이 보기';
+      } else {
+        const sol = this.querySelector<HTMLElement>('.problem__solution')!;
+        sol.hidden = false;
+        sol.scrollIntoView({ block: 'nearest' });
+        btn.hidden = true;
+      }
+    }
+  }
+  if (!customElements.get('qm-problem')) customElements.define('qm-problem', QmProblem);
+</script>
+
+<style>
+  .problem {
+    display: grid;
+    gap: 10px;
+  }
+
+  .problem__note {
+    width: 100%;
+    resize: vertical;
+    min-height: 72px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-2);
+    background: var(--ink-2);
+    color: var(--text);
+    font: inherit;
+    font-size: var(--fs-sm);
+  }
+
+  .problem__hints {
+    display: grid;
+    gap: 10px;
+  }
+
+  .problem__hint,
+  .problem__solution {
+    border-left: 2px solid var(--line-2);
+    padding: 4px 0 4px 12px;
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+  }
+
+  .problem__solution {
+    border-left-color: var(--accent);
+  }
+</style>

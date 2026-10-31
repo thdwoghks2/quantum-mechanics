@@ -1,0 +1,82 @@
+---
+/**
+ * 숫자로 답하는 문제. 질문은 본문에, 풀이는 slot="solution"에.
+ * mode="value": 정답과의 차이가 tol(비율) 안이면 맞음.
+ * mode="order": 어림 문제. 자릿수가 맞으면(정답의 1/3배~3배) 맞음.
+ */
+interface Props {
+  id: string;
+  answer: number;
+  unit?: string;
+  tol?: number;
+  mode?: 'value' | 'order';
+  noReview?: boolean;
+}
+const { id, answer, unit = '', tol = 0.05, mode = 'value', noReview = false } = Astro.props;
+const inputId = `num-${id}`;
+---
+<qm-numeric class="numeric" data-id={id} data-answer={answer} data-tol={tol} data-mode={mode} data-unit={unit} data-review={noReview ? '0' : '1'}>
+  <div class="numeric__q"><slot /></div>
+  <form class="numeric__form">
+    <label class="sr-only" for={inputId}>답</label>
+    <input id={inputId} class="numeric__input mono" inputmode="decimal" autocomplete="off" placeholder={mode === 'order' ? '예: 3e5 또는 300000' : '숫자'} />
+    {unit && <span class="numeric__unit mono">{unit}</span>}
+    <button class="btn" type="submit">확인</button>
+  </form>
+  <p class="numeric__verdict" aria-live="polite" hidden></p>
+  <div class="numeric__solution" hidden><slot name="solution" /></div>
+</qm-numeric>
+
+<script>
+  import { getLessonNumber, onCheckAnswered } from '../../lib/client/bus.ts';
+  import { isCorrect, parseNumber } from '../../lib/numbers.ts';
+
+  class QmNumeric extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.bound) return;
+      this.dataset.bound = '1';
+      this.querySelector('form')!.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.check();
+      });
+    }
+
+    check() {
+      const input = this.querySelector<HTMLInputElement>('input')!;
+      const value = parseNumber(input.value);
+      const verdict = this.querySelector<HTMLElement>('.numeric__verdict')!;
+      if (!Number.isFinite(value)) {
+        verdict.hidden = false;
+        verdict.textContent = '숫자로 읽을 수 없는 입력이다. 3e5나 300000처럼 써 보자.';
+        verdict.className = 'numeric__verdict';
+        return;
+      }
+      const answer = Number(this.dataset.answer);
+      const ok = isCorrect(value, answer, this.dataset.mode === 'order' ? 'order' : 'value', Number(this.dataset.tol));
+      const first = !this.dataset.answered;
+      this.dataset.answered = '1';
+      verdict.hidden = false;
+      verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
+      const unit = this.dataset.unit ? ` ${this.dataset.unit}` : '';
+      verdict.textContent = ok
+        ? `맞았다. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}.`
+        : `아직 아니다. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}. 아래 풀이와 비교해 보자.`;
+      this.querySelector<HTMLElement>('.numeric__solution')!.hidden = false;
+      if (first) {
+        this.dispatchEvent(new CustomEvent('qm:answered', { bubbles: true, detail: { id: this.dataset.id, ok } }));
+        if (this.dataset.review === '1' && !this.closest('[data-no-record]')) {
+          onCheckAnswered(this.dataset.id!, getLessonNumber(this), {
+            kind: 'numeric',
+            q: this.querySelector('.numeric__q')!.innerHTML,
+            answer,
+            unit: this.dataset.unit,
+            tol: Number(this.dataset.tol),
+            mode: this.dataset.mode,
+            solution: this.querySelector('.numeric__solution')!.innerHTML,
+          }, ok);
+        }
+      }
+    }
+  }
+  if (!customElements.get('qm-numeric')) customElements.define('qm-numeric', QmNumeric);
+</script>

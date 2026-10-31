@@ -1,0 +1,43 @@
+---
+/** 숫자 하나를 크게 보여주는 시각 자료. 위에 작은 설명, 아래에 비교 문장. */
+type Q = 'time' | 'space' | 'motion' | 'force' | 'energy' | 'charge' | 'heat' | 'plain';
+interface Props {
+  value: string;
+  top?: string;
+  bottom?: string;
+  q?: Q;
+}
+const { value, top, bottom, q = 'plain' } = Astro.props;
+---
+<div class="bignum" data-q={q}>
+  {top && <p class="bignum__top">{top}</p>}
+  <p class="bignum__value">{value}</p>
+  {bottom && <p class="bignum__bottom">{bottom}</p>}
+</div>
+
+<style>
+  .bignum {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+    text-align: center;
+    max-width: 460px;
+  }
+
+  .bignum__top,
+  .bignum__bottom {
+    color: var(--text-2);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+  .bignum__value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    line-height: 1.2;
+    color: var(--qc, var(--text));
+    font-variant-numeric: tabular-nums;
+    text-wrap: balance;
+  }
+</style>

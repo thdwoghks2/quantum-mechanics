@@ -1,0 +1,87 @@
+---
+/** 표. 숫자 열은 고정폭 글꼴로 줄을 맞춘다. 행에 step을 주면 단계별로 나타난다. */
+interface Props {
+  caption?: string;
+  head: string[];
+  rows: (string | number)[][];
+  /** 행마다 나타나는 단계 (없으면 처음부터 보임) */
+  steps?: (number | undefined)[];
+  /** 강조할 행 번호 (0부터) */
+  highlight?: number[];
+}
+const { caption, head, rows, steps = [], highlight = [] } = Astro.props;
+const isNum = (v: string | number) => typeof v === 'number' || /^[\d\s.,×⁰-⁹⁻~약+\-−/%:·]+[a-zA-Zμ℃°/²³·\s]*$/.test(String(v));
+---
+<figure class="dtable">
+  <table>
+    {caption && <caption class="label">{caption}</caption>}
+    <thead>
+      <tr>{head.map((h) => <th scope="col">{h}</th>)}</tr>
+    </thead>
+    <tbody>
+      {rows.map((r, i) => (
+        <tr data-step={steps[i]} class:list={{ 'is-hi': highlight.includes(i) }}>
+          {r.map((c, j) => (j === 0 ? <th scope="row">{c}</th> : <td class:list={{ num: isNum(c) }}>{c}</td>))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</figure>
+
+<style>
+  .dtable {
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+  caption {
+    text-align: left;
+    padding-bottom: 6px;
+  }
+
+  thead th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: var(--fs-xs);
+    border-bottom: 1px solid var(--line-2);
+    padding: 4px 10px;
+  }
+
+  tbody th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  tbody th,
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  td {
+    color: var(--text-2);
+  }
+
+  td.num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  tr.is-hi th,
+  tr.is-hi td {
+    color: var(--accent-2);
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+/**
+ * 선 그림 아이콘. 64×64 칸에 currentColor 선으로 그린다.
+ * 장면 화면에서 일상 물건을 가리킬 때 쓴다. 장식이 아니라 "무엇에 관한 장면인지"를 보여주는 용도.
+ */
+interface Props {
+  name: string;
+  size?: number;
+  label?: string;
+}
+const { name, size = 64, label } = Astro.props;
+
+// 각 아이콘은 SVG 조각(문자열). 선 굵기·색은 바깥에서 정한다.
+const ICONS: Record<string, string> = {
+  ball: '<circle cx="46" cy="16" r="6"/><path d="M6 56 C 18 14, 34 8, 42 20" stroke-dasharray="3 4"/><path d="M4 58h56"/>',
+  sunrise: '<path d="M4 46h56"/><path d="M14 46a18 18 0 0 1 36 0"/><path d="M32 18v-8M14 26l-5-5M50 26l5-5M8 38H2M62 38h-6"/><path d="M10 54h44" stroke-dasharray="4 4"/>',
+  pot: '<path d="M12 28h40v20a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z"/><path d="M6 30h6M52 30h6"/><path d="M22 20c-3-4 3-6 0-10M32 20c-3-4 3-6 0-10M42 20c-3-4 3-6 0-10"/><path d="M18 60h28"/>',
+  mountain: '<path d="M2 56 L22 20 L32 34 L42 14 L62 56 Z"/><path d="M38 22 L42 14 L46 22 L42 26 Z"/>',
+  metro: '<circle cx="12" cy="14" r="4"/><circle cx="32" cy="14" r="4"/><circle cx="32" cy="34" r="5"/><circle cx="52" cy="34" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="12" cy="34" r="4"/><path d="M16 14h12M32 18v11M32 39v11M16 34h11M37 34h11"/>',
+  eclipse: '<circle cx="32" cy="32" r="16"/><circle cx="32" cy="32" r="16" fill="currentColor" opacity=".25"/><path d="M32 8v-6M32 62v-6M8 32H2M62 32h-6M15 15l-4-4M49 49l4 4M49 15l4-4M15 49l-4 4"/>',
+  feather: '<path d="M50 6C26 10 14 30 14 50l-6 8"/><path d="M50 6c2 20-10 40-36 44"/><path d="M22 40l14-2M28 30l14-2M34 20l12-2"/>',
+  globe: '<circle cx="32" cy="32" r="24"/><path d="M8 32h48M32 8c-8 8-8 40 0 48M32 8c8 8 8 40 0 48"/>',
+  cloud: '<path d="M18 46h30a10 10 0 0 0 0-20 14 14 0 0 0-27-2A11 11 0 0 0 18 46z"/><path d="M22 54l-3 6M32 54l-3 6M42 54l-3 6"/>',
+  sand: '<circle cx="14" cy="44" r="3"/><circle cx="24" cy="48" r="2.5"/><circle cx="34" cy="43" r="3.2"/><circle cx="45" cy="47" r="2.6"/><circle cx="20" cy="38" r="2.2"/><circle cx="40" cy="37" r="2.4"/><circle cx="30" cy="34" r="2"/><circle cx="52" cy="40" r="2.8"/><path d="M4 54c16-4 40-4 56 0"/>',
+  atom: '<circle cx="32" cy="32" r="3" fill="currentColor"/><ellipse cx="32" cy="32" rx="26" ry="10"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="10" transform="rotate(120 32 32)"/>',
+  galaxy: '<path d="M32 32c0-8 10-10 14-4s-2 18-14 18-20-10-18-22S30 6 44 8"/><path d="M32 32c0 8-10 10-14 4s2-18 14-18 20 10 18 22-16 18-30 16"/><circle cx="32" cy="32" r="2" fill="currentColor"/>',
+  hand: '<path d="M10 40c-2-6 6-8 8-2l2 4V14a3 3 0 0 1 6 0v18V10a3 3 0 0 1 6 0v22V12a3 3 0 0 1 6 0v22-16a3 3 0 0 1 6 0v24c0 10-6 16-16 16h-4c-6 0-10-4-14-10z"/>',
+  ruler: '<rect x="4" y="22" width="56" height="20" rx="2"/><path d="M12 22v8M20 22v5M28 22v8M36 22v5M44 22v8M52 22v5"/>',
+  scale: '<path d="M32 10v40M14 50h36"/><path d="M10 18h44"/><path d="M10 18l-6 16h12zM54 18l-6 16h12z"/><circle cx="32" cy="10" r="3"/>',
+  clock: '<circle cx="32" cy="32" r="24"/><path d="M32 16v16l11 7"/>',
+  car: '<path d="M6 42v-8l6-12h36l8 12v8z"/><path d="M14 22l4-6h24l6 6"/><circle cx="18" cy="44" r="6"/><circle cx="46" cy="44" r="6"/>',
+  bottle: '<path d="M26 4h12v8l4 8v38a2 2 0 0 1-2 2H24a2 2 0 0 1-2-2V20l4-8z"/><path d="M22 32h20"/>',
+  field: '<rect x="4" y="12" width="56" height="40" rx="2"/><path d="M32 12v40"/><circle cx="32" cy="32" r="8"/><path d="M4 24h8v16H4M60 24h-8v16h8"/>',
+  runner: '<circle cx="38" cy="10" r="5"/><path d="M36 18l-6 16 10 6 2 16M30 34l-10 8-8-2M34 22l12 4 6-6M34 22l-12 2-6 8"/>',
+  speedometer: '<path d="M8 44a24 24 0 0 1 48 0"/><path d="M32 44l14-16"/><circle cx="32" cy="44" r="3"/><path d="M12 36l4 2M20 24l3 4M32 20v5M44 24l-3 4M52 36l-4 2"/>',
+  elevator: '<rect x="12" y="4" width="40" height="56" rx="2"/><path d="M32 4v56"/><path d="M22 26l4-6 4 6M34 38l4 6 4-6"/>',
+  bus: '<rect x="6" y="12" width="52" height="34" rx="6"/><path d="M6 30h52M18 12v18M32 12v18M46 12v18"/><circle cx="18" cy="50" r="5"/><circle cx="46" cy="50" r="5"/>',
+  cart: '<path d="M4 10h8l6 30h34l6-22H16"/><circle cx="22" cy="50" r="5"/><circle cx="46" cy="50" r="5"/>',
+  puck: '<ellipse cx="32" cy="40" rx="18" ry="6"/><path d="M14 40v-6c0-3 8-6 18-6s18 3 18 6v6"/><path d="M4 56h56" stroke-dasharray="6 4"/><path d="M52 22h8M48 16h8"/>',
+  skateboard: '<path d="M6 36c4 4 48 4 52 0"/><circle cx="18" cy="44" r="4"/><circle cx="46" cy="44" r="4"/><circle cx="34" cy="10" r="4"/><path d="M34 14v12l-8 8M34 26l6 8M28 18l12 2"/>',
+  apple: '<path d="M32 20c-12-8-24 0-22 14 2 16 14 24 22 20 8 4 20-4 22-20 2-14-10-22-22-14z"/><path d="M32 20c0-6 2-10 6-12"/><path d="M36 12c4-2 8-2 10 0-2 4-6 4-10 0z"/>',
+  coaster: '<path d="M2 50 C 10 50, 12 12, 22 12 S 32 44, 40 44 S 50 26, 62 26"/><path d="M8 50v10M22 14v46M40 46v14M56 28v32" opacity=".5"/><rect x="17" y="6" width="10" height="6" rx="2" fill="currentColor"/>',
+  bicycle: '<circle cx="14" cy="44" r="10"/><circle cx="50" cy="44" r="10"/><path d="M14 44l10-18h18l8 18M24 26l8 18h-18M32 44l10-18M40 20h6"/>',
+  battery: '<rect x="8" y="18" width="44" height="28" rx="4"/><path d="M52 26h4v12h-4"/><path d="M14 24v16M22 24v16M30 24v16" stroke-width="5" opacity=".6"/>',
+  catch: '<circle cx="14" cy="22" r="6"/><path d="M22 22h8" stroke-dasharray="3 3"/><path d="M60 40c-6-4-10-14-20-14-8 0-12 8-10 14 2 8 12 10 18 8l12 2"/><path d="M40 26l4-8M46 28l6-6"/>',
+  billiards: '<rect x="4" y="12" width="56" height="40" rx="6"/><circle cx="20" cy="32" r="5"/><circle cx="40" cy="28" r="5"/><circle cx="46" cy="38" r="5"/><path d="M2 40l12-6" stroke-width="3"/>',
+  rocket: '<path d="M32 4c10 8 12 24 8 36H24C20 28 22 12 32 4z"/><circle cx="32" cy="22" r="4"/><path d="M24 34l-8 10 8 0M40 34l8 10-8 0"/><path d="M28 46l-2 10M32 46v14M36 46l2 10"/>',
+  skaters: '<circle cx="20" cy="12" r="4"/><circle cx="44" cy="12" r="4"/><path d="M20 16v18l-6 14M20 34l6 14M44 16v18l-6 14M44 34l6 14M20 22l10 2M44 22l-10 2"/><path d="M8 54h16M36 54h16"/>',
+  swing: '<path d="M8 6h48"/><path d="M22 6l6 38M42 6l-6 38"/><rect x="24" y="44" width="16" height="4" rx="1"/><path d="M14 58c8-6 28-6 36 0" stroke-dasharray="3 4"/>',
+  heart: '<path d="M32 54C8 38 6 22 16 14s16 0 16 6c0-6 6-14 16-6s8 24-16 40z"/><path d="M8 32h10l4-8 6 16 4-8h24"/>',
+  phone: '<rect x="20" y="6" width="24" height="52" rx="4"/><path d="M28 12h8"/><path d="M12 22c-4 6-4 14 0 20M52 22c4 6 4 14 0 20M6 18c-6 9-6 19 0 28M58 18c6 9 6 19 0 28"/>',
+  metronome: '<path d="M22 58L28 6h8l6 52z"/><path d="M32 46L42 14"/><rect x="36" y="22" width="8" height="5" rx="1" transform="rotate(20 40 24)"/>',
+  bee: '<ellipse cx="32" cy="38" rx="12" ry="9"/><path d="M28 30v16M34 29v18"/><path d="M26 30c-10-14-20-4-12 2M38 30c10-14 20-4 12 2"/><circle cx="20" cy="38" r="3"/>',
+  stadium: '<path d="M4 50c8-26 48-26 56 0"/><path d="M10 44v6M16 38v12M22 33v17M28 31v19M34 31v19M40 34v16M46 39v11M52 44v6"/><circle cx="28" cy="27" r="2" fill="currentColor"/><circle cx="34" cy="27" r="2" fill="currentColor"/><circle cx="22" cy="29" r="2" fill="currentColor"/>',
+  rope: '<path d="M4 32c6-14 10-14 16 0s10 14 16 0 10-14 16 0 6 8 8 4"/><circle cx="4" cy="32" r="3" fill="currentColor"/>',
+  leaf: '<path d="M2 44c10-6 20 6 30 0s20 6 30 0"/><path d="M22 36c4-10 18-10 22 0-6 4-16 4-22 0z"/><path d="M33 34v-4"/><path d="M33 48v8M29 52l4 4 4-4" opacity=".6"/>',
+  speaker: '<rect x="10" y="8" width="26" height="48" rx="3"/><circle cx="23" cy="40" r="9"/><circle cx="23" cy="20" r="4"/><path d="M44 24c4 4 4 12 0 16M50 18c8 8 8 20 0 28"/>',
+  lightning: '<path d="M14 26h30a10 10 0 0 0 0-20 12 12 0 0 0-23 4A8 8 0 0 0 14 26z"/><path d="M30 28l-8 14h10l-6 16 16-20H32l6-10"/>',
+  piano: '<rect x="4" y="16" width="56" height="34" rx="2"/><path d="M12 16v34M20 16v34M28 16v34M36 16v34M44 16v34M52 16v34"/><path d="M10 16h4v20h-4zM18 16h4v20h-4zM34 16h4v20h-4zM42 16h4v20h-4zM50 16h4v20h-4z" fill="currentColor"/>',
+  radio: '<rect x="6" y="22" width="52" height="32" rx="4"/><circle cx="22" cy="38" r="8"/><path d="M38 32h14M38 38h14M38 44h14"/><path d="M14 22L46 6"/>',
+  wheel: '<circle cx="32" cy="28" r="22"/><circle cx="32" cy="28" r="3"/><path d="M32 6v44M10 28h44M16 12l32 32M48 12L16 44"/><path d="M24 50l8-22 8 22M18 58h28"/>',
+  wave: '<path d="M2 32c5-12 10-12 15 0s10 12 15 0 10-12 15 0 10 12 15 0"/>',
+  tide: '<path d="M2 40c5-6 10-6 15 0s10 6 15 0 10-6 15 0 10 6 15 0"/><path d="M2 50c5-6 10-6 15 0s10 6 15 0 10-6 15 0 10 6 15 0"/><path d="M50 8v24M44 14l6-6 6 6"/>',
+  headphones: '<path d="M12 40V32a20 20 0 0 1 40 0v8"/><rect x="8" y="38" width="10" height="18" rx="4"/><rect x="46" y="38" width="10" height="18" rx="4"/>',
+  drops: '<circle cx="20" cy="32" r="6"/><circle cx="20" cy="32" r="14" opacity=".6"/><circle cx="44" cy="32" r="6"/><circle cx="44" cy="32" r="14" opacity=".6"/><circle cx="20" cy="32" r="22" opacity=".3"/><circle cx="44" cy="32" r="22" opacity=".3"/>',
+  bubble: '<circle cx="32" cy="32" r="22"/><path d="M20 22a14 14 0 0 1 10-6" /><path d="M42 44a14 14 0 0 1-8 4" opacity=".6"/>',
+  speakers: '<rect x="4" y="10" width="14" height="22" rx="2"/><rect x="46" y="10" width="14" height="22" rx="2"/><circle cx="11" cy="24" r="4"/><circle cx="53" cy="24" r="4"/><circle cx="32" cy="50" r="4"/><path d="M32 54v8M28 58h8"/><path d="M18 26l11 21M46 26L35 47" stroke-dasharray="3 3"/>',
+  wall: '<path d="M30 4v56M36 4v56"/><path d="M30 12h6M30 24h6M30 36h6M30 48h6"/><path d="M8 26c4 4 4 8 0 12M14 22c6 6 6 14 0 20"/><path d="M42 18c10 4 14 10 14 14s-4 10-14 14" opacity=".6"/>',
+  harbor: '<path d="M2 20h24M38 20h24" stroke-width="4"/><path d="M4 8c6 3 12 3 18 0s12-3 18 0 12 3 18 0" opacity=".6"/><path d="M14 40a18 18 0 0 1 36 0M20 52a12 12 0 0 1 24 0M8 30a24 24 0 0 1 48 0" opacity=".8"/>',
+  laser: '<rect x="4" y="26" width="26" height="10" rx="3"/><path d="M30 31h30" stroke-dasharray="2 2"/><circle cx="12" cy="31" r="1.5" fill="currentColor"/>',
+  slits: '<path d="M30 4v18M30 28v8M30 42v18" stroke-width="4"/><path d="M4 32h20" /><path d="M36 18c10 6 10 22 0 28M36 32h24M36 24l22-10M36 40l22 10" opacity=".6"/>',
+  prism: '<path d="M32 10L10 50h44z"/><path d="M2 36l18-4"/><path d="M44 30l18-10M44 32l18-4M44 34l18 2M44 36l18 8" opacity=".8"/>',
+  rainbow: '<path d="M6 50a26 26 0 0 1 52 0"/><path d="M12 50a20 20 0 0 1 40 0" opacity=".75"/><path d="M18 50a14 14 0 0 1 28 0" opacity=".5"/><path d="M2 54h60"/>',
+  pool: '<path d="M2 26h60"/><path d="M2 34c5-3 10-3 15 0s10 3 15 0 10-3 15 0 10 3 15 0" opacity=".6"/><rect x="24" y="36" width="16" height="14" rx="3"/><path d="M4 58h56"/>',
+  balloon: '<ellipse cx="22" cy="24" rx="14" ry="17"/><path d="M22 41l-2 4h4zM22 45c0 6-4 8-2 14"/><path d="M44 30c4-4 8-4 14-2M44 36c4-2 10-2 14 0M44 42c4 0 10 2 14 4"/>',
+  spark: '<path d="M10 20h20v24H10z"/><path d="M30 32h8"/><path d="M42 24l4 6-4 4 6 6"/><path d="M50 22l2-6M54 30l6-2M52 40l6 4"/>',
+  antenna: '<path d="M32 8v48M24 56h16"/><path d="M32 14l-8 6M32 14l8 6"/><path d="M44 20c4 4 4 12 0 16M50 14c8 8 8 20 0 28M20 20c-4 4-4 12 0 16M14 14c-8 8-8 20 0 28"/>',
+  wifi: '<path d="M8 26c14-14 34-14 48 0M16 34c10-9 22-9 32 0M24 42c5-5 11-5 16 0"/><circle cx="32" cy="50" r="3" fill="currentColor"/>',
+  microwave: '<rect x="4" y="12" width="56" height="40" rx="4"/><rect x="10" y="18" width="34" height="28" rx="2"/><circle cx="52" cy="24" r="3"/><path d="M48 34h8M48 40h8"/>',
+  remote: '<rect x="20" y="14" width="24" height="46" rx="6"/><circle cx="32" cy="26" r="4"/><path d="M26 38h4M34 38h4M26 46h4M34 46h4"/><path d="M28 8l4-4 4 4M24 6l8-6 8 6" opacity=".6"/>',
+  xray: '<rect x="8" y="6" width="48" height="52" rx="4"/><path d="M32 12v40M24 18h16M22 24h20M22 30h20M24 36h16"/><path d="M26 46l6 6 6-6"/>',
+  guitar: '<path d="M44 6l14 14-6 2-16 16"/><circle cx="24" cy="42" r="14"/><circle cx="24" cy="42" r="4"/><path d="M14 52l20-20"/>',
+  jumprope: '<circle cx="10" cy="40" r="3" fill="currentColor"/><circle cx="54" cy="40" r="3" fill="currentColor"/><path d="M10 40c10-30 34-30 44 0"/><path d="M10 40c10 14 34 14 44 0" opacity=".4"/>',
+  recorder: '<path d="M26 4h12l-2 54h-8z"/><circle cx="32" cy="18" r="1.8" fill="currentColor"/><circle cx="32" cy="26" r="1.8" fill="currentColor"/><circle cx="32" cy="34" r="1.8" fill="currentColor"/><circle cx="32" cy="42" r="1.8" fill="currentColor"/><path d="M26 10h12"/>',
+  heater: '<rect x="8" y="8" width="48" height="40" rx="4"/><path d="M14 18c4-4 8 4 12 0s8 4 12 0 8 4 12 0M14 28c4-4 8 4 12 0s8 4 12 0 8 4 12 0M14 38c4-4 8 4 12 0s8 4 12 0 8 4 12 0"/><path d="M16 48v8M48 48v8"/>',
+  map: '<path d="M4 12l18-6 20 6 18-6v46l-18 6-20-6-18 6z"/><path d="M22 6v46M42 12v46"/>',
+  telescope: '<path d="M8 30l38-16 4 10-38 16z"/><path d="M28 34l-8 24M30 34l8 24"/><circle cx="52" cy="18" r="3"/>',
+  sun: '<circle cx="32" cy="32" r="12"/><path d="M32 4v8M32 52v8M4 32h8M52 32h8M12 12l6 6M46 46l6 6M52 12l-6 6M18 46l-6 6"/>',
+  earth: '<circle cx="32" cy="32" r="22"/><path d="M16 22c6 2 8 8 4 12s2 10 8 10M40 12c-2 6 4 8 8 6M44 40c-4 2-4 8 0 10"/>',
+  hair: '<path d="M4 50C20 40 40 20 60 10"/><path d="M4 56C22 46 42 28 60 18" opacity=".6"/><path d="M40 20l4 6" />',
+  bacteria: '<rect x="14" y="22" width="36" height="20" rx="10"/><path d="M50 32c6 0 6 8 12 6M14 32c-6 0-6-8-12-6"/><circle cx="26" cy="32" r="2" fill="currentColor"/><circle cx="36" cy="30" r="2" fill="currentColor"/>',
+};
+const body = ICONS[name];
+if (!body) throw new Error(`아이콘 없음: ${name}`);
+---
+<svg
+  class="icon"
+  viewBox="0 0 64 64"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  set:html={body}
+/>

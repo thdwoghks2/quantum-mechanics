@@ -1,0 +1,292 @@
+# 인물 카드. 레슨 본문에서는 이해에 필요한 사람만 등장하고, 나머지 이야기는 여기에 둔다.
+- id: galileo
+  name: 갈릴레오 갈릴레이
+  original: Galileo Galilei
+  born: 1564
+  died: 1642
+  role: 이탈리아의 물리학자, 천문학자
+  summary: 경사면에서 공을 굴려, 떨어지는 물체가 일정하게 빨라진다는 것을 보였다. 마찰이 없다면 움직이는 물체는 계속 움직일 것이라는 생각을 내놓아 관성 개념의 출발점을 놓았다. 직접 만든 망원경으로 목성의 위성 네 개를 발견했다.
+  lessons: [4, 5, 9, 96]
+- id: huygens
+  name: 크리스티안 하위헌스
+  original: Christiaan Huygens
+  born: 1629
+  died: 1695
+  role: 네덜란드의 물리학자, 수학자
+  summary: 1656년 진자시계를 처음 만들었다. 빛이 파동이라고 주장했고, 1690년 『빛에 관한 논고』에서 파동이 퍼지는 모습을 "앞선 물결의 모든 점이 새 물결을 내보낸다"는 방식으로 설명했다.
+  lessons: [9, 15]
+- id: newton
+  name: 아이작 뉴턴
+  original: Isaac Newton
+  born: 1643
+  died: 1727
+  role: 영국의 물리학자, 수학자
+  summary: 1687년 『자연철학의 수학적 원리』(프린키피아)에서 운동 법칙과 만유인력 법칙을 발표했다. 이 책의 물리학은 200년 넘게 거의 모든 운동을 설명했다. 1660년대에는 프리즘으로 햇빛을 여러 색으로 나누고 다시 합쳐, 흰빛이 여러 색의 빛이 섞인 것임을 보였다.
+  lessons: [1, 5, 7, 8, 17]
+  sources: ["Westfall, R. S. Never at Rest: A Biography of Isaac Newton (1980)"]
+- id: laplace
+  name: 피에르시몽 라플라스
+  original: Pierre-Simon Laplace
+  born: 1749
+  died: 1827
+  role: 프랑스의 수학자, 천문학자
+  summary: 뉴턴의 법칙으로 행성들의 움직임을 정밀하게 계산했다. 1814년 『확률에 관한 철학적 시론』에서, 어느 순간 자연의 모든 힘과 모든 것의 위치를 아는 지성이 있다면 그에게는 미래가 과거처럼 눈앞에 있을 것이라고 썼다. 훗날 이 지성을 '라플라스의 악마'라고 부르게 되었다.
+  lessons: [8, 94]
+  sources: ["Laplace, P.-S. Essai philosophique sur les probabilités (1814)"]
+- id: coulomb
+  name: 샤를오귀스탱 드 쿨롱
+  original: Charles-Augustin de Coulomb
+  born: 1736
+  died: 1806
+  role: 프랑스의 물리학자, 공학자
+  summary: 1785년 가는 실이 비틀리는 정도로 아주 작은 힘을 재는 비틀림 저울을 써서, 전기를 띤 두 공 사이의 힘이 거리의 제곱에 반비례한다는 것을 보였다. 전하의 단위 쿨롱(C)은 그의 이름에서 왔다.
+  lessons: [18]
+- id: young
+  name: 토머스 영
+  original: Thomas Young
+  born: 1773
+  died: 1829
+  role: 영국의 의사, 물리학자
+  summary: 1800년대 초 두 틈을 지난 빛이 밝고 어두운 줄무늬를 만든다는 것을 보여, 빛이 파동이라는 강력한 증거를 내놓았다. 무늬 간격으로 빛의 파장을 처음 계산했다. 로제타석의 이집트 문자 해독에도 이바지했다.
+  lessons: [14, 16]
+- id: poisson
+  name: 시메옹 드니 푸아송
+  original: Siméon Denis Poisson
+  born: 1781
+  died: 1840
+  role: 프랑스의 수학자
+  summary: 빛이 파동이라는 프레넬의 이론대로라면 둥근 원판 그림자 한가운데에 밝은 점이 생겨야 한다는 것을 계산해 냈다. 그런 일은 있을 수 없다고 보고 이론이 틀렸다는 근거로 내놓았다.
+  lessons: [15]
+- id: arago
+  name: 프랑수아 아라고
+  original: François Arago
+  born: 1786
+  died: 1853
+  role: 프랑스의 물리학자
+  summary: 푸아송이 말한 원판 그림자 한가운데의 밝은 점을 실험으로 실제로 찾아냈다. 이 점은 오늘날 '아라고의 점' 또는 '푸아송의 점'이라고 부른다.
+  lessons: [15]
+- id: fresnel
+  name: 오귀스탱 프레넬
+  original: Augustin-Jean Fresnel
+  born: 1788
+  died: 1827
+  role: 프랑스의 물리학자, 공학자
+  summary: 빛의 회절을 파동 이론으로 정밀하게 계산한 논문을 1818년 프랑스 과학 아카데미 현상 공모에 냈다. 얇은 띠를 겹친 등대 렌즈(프레넬 렌즈)를 고안했다.
+  lessons: [15]
+- id: faraday
+  name: 마이클 패러데이
+  original: Michael Faraday
+  born: 1791
+  died: 1867
+  role: 영국의 물리학자, 화학자
+  summary: 1831년 자석을 움직이면 전선에 전기가 흐른다는 것(전자기 유도)을 발견했다. 전기와 자기의 힘이 공간을 채운 '힘의 선'을 따라 전해진다고 생각했고, 이 생각이 맥스웰의 이론으로 이어졌다.
+  lessons: [19, 121]
+- id: maxwell
+  name: 제임스 클러크 맥스웰
+  original: James Clerk Maxwell
+  born: 1831
+  died: 1879
+  role: 스코틀랜드의 물리학자
+  summary: 전기와 자기에 관한 법칙들을 몇 개의 방정식으로 묶었다. 이 방정식에서 전기와 자기의 흔들림이 1초에 약 30만 km로 퍼져 나간다는 것을 계산했고, 이 값이 이미 잰 빛의 속력과 같다는 데서 빛이 전자기파라고 결론지었다(1865).
+  lessons: [19]
+- id: hertz
+  name: 하인리히 헤르츠
+  original: Heinrich Hertz
+  born: 1857
+  died: 1894
+  role: 독일의 물리학자
+  summary: 1887년 무렵 실험실에서 불꽃을 튀기는 장치로 전파를 만들고, 몇 미터 떨어진 곳에서 그것을 검출해 맥스웰이 예측한 전자기파가 실제로 있다는 것을 보였다. 진동수의 단위 헤르츠(Hz)는 그의 이름에서 왔다.
+  lessons: [9, 19]
+- id: kelvin
+  name: 켈빈 경 (윌리엄 톰슨)
+  original: William Thomson, Lord Kelvin
+  born: 1824
+  died: 1907
+  role: 영국의 물리학자
+  summary: 절대온도를 제안했고, 그 단위 켈빈(K)에 이름을 남겼다. 1900년 4월 27일 런던 왕립연구소 강연에서 열과 빛의 이론에 드리운 두 조각의 구름을 말했다. "이제 물리학에서 새로 발견할 것은 없다"는 말이 그의 것으로 자주 인용되지만, 그가 그렇게 말했다는 기록은 확인되지 않는다.
+  lessons: [23, 31]
+- id: boltzmann
+  name: 루트비히 볼츠만
+  original: Ludwig Boltzmann
+  born: 1844
+  died: 1906
+  role: 오스트리아의 물리학자
+  summary: 기체의 온도와 압력을 수많은 분자의 운동과 확률로 설명했다. 원자가 실제로 있다고 보지 않던 학자들과 오래 논쟁했다.
+  lessons: [22, 25]
+- id: perrin
+  name: 장 페랭
+  original: Jean Perrin
+  born: 1870
+  died: 1942
+  role: 프랑스의 물리학자
+  summary: 1908년부터 물에 뜬 작은 알갱이들이 제멋대로 흔들리는 브라운 운동을 정밀하게 재어, 아인슈타인이 원자의 존재를 가정하고 계산한 값과 맞는다는 것을 보였다. 원자가 실제로 있는지에 대한 오랜 논쟁이 이것으로 끝났다. 1926년 노벨 물리학상.
+  lessons: [22]
+- id: planck
+  name: 막스 플랑크
+  original: Max Planck
+  born: 1858
+  died: 1947
+  role: 독일의 물리학자
+  summary: 베를린 대학의 이론물리학 교수였다. 1900년 뜨거운 물체가 내는 빛의 세기를 설명하려고, 에너지가 정해진 크기의 덩어리로만 오간다는 가정을 세웠다. 그 자신은 이 가정을 계산을 위한 임시방편으로 여겼지만, 이 가정이 양자역학의 출발점이 되었다. 1918년 노벨 물리학상.
+  lessons: [32, 33]
+  sources: ["Kragh, H. Max Planck: the reluctant revolutionary, Physics World (2000)"]
+- id: thomson
+  name: 조지프 존 톰슨
+  original: J. J. Thomson
+  born: 1856
+  died: 1940
+  role: 영국의 물리학자
+  summary: 1897년 음극선이 원자보다 훨씬 가벼운, 음전하를 띤 알갱이의 흐름이라는 것을 보였다. 이 알갱이가 전자다. 1906년 노벨 물리학상. 아들 조지 패짓 톰슨은 1937년 전자가 파동처럼 회절한다는 것을 보여 노벨상을 받았다.
+  lessons: [37, 49]
+- id: einstein
+  name: 알베르트 아인슈타인
+  original: Albert Einstein
+  born: 1879
+  died: 1955
+  role: 독일 태생의 물리학자
+  summary: 스위스 베른 특허청에서 일하던 1905년, 광전 효과, 브라운 운동, 특수상대성이론에 관한 논문을 잇달아 냈다. 1915년 일반상대성이론을 완성했다. 1921년 노벨 물리학상은 광전 효과 연구에 주어졌다. 양자역학의 확률적 해석에는 끝까지 만족하지 않았다.
+  lessons: [22, 35, 85, 88, 97, 103, 113]
+- id: rutherford
+  name: 어니스트 러더퍼드
+  original: Ernest Rutherford
+  born: 1871
+  died: 1937
+  role: 뉴질랜드 출신의 물리학자
+  summary: 제자 가이거와 마스든의 금박 실험(1909) 결과를 분석해, 1911년 원자 한가운데에 아주 작고 무거운 원자핵이 있다고 발표했다. 1908년 노벨 화학상.
+  lessons: [39]
+- id: millikan
+  name: 로버트 밀리컨
+  original: Robert Millikan
+  born: 1868
+  died: 1953
+  role: 미국의 물리학자
+  summary: 기름방울 실험(1909)으로 전하의 최소 단위를 쟀다. 아인슈타인의 광전 효과 이론이 틀렸다고 보고 정밀하게 측정했지만, 결과는 그 이론을 확인했다(1916). 1923년 노벨 물리학상.
+  lessons: [35, 38]
+- id: bohr
+  name: 닐스 보어
+  original: Niels Bohr
+  born: 1885
+  died: 1962
+  role: 덴마크의 물리학자
+  summary: 1913년 원자 속 전자가 정해진 에너지에만 있을 수 있다는 모형을 내놓았다. 코펜하겐에 연구소를 세워 양자역학의 중심지로 만들었고, 아인슈타인과 양자역학의 해석을 두고 오래 논쟁했다. 1947년 기사 작위 문장에 "대립하는 것은 서로 보완한다"는 라틴어 문구를 새겼다. 1922년 노벨 물리학상.
+  lessons: [44, 51, 84, 85, 86, 120]
+- id: noether
+  name: 에미 뇌터
+  original: Emmy Noether
+  born: 1882
+  died: 1935
+  role: 독일의 수학자
+  summary: 1918년, 물리 법칙이 어떤 대칭을 가지면 그에 맞는 보존 법칙이 반드시 있다는 정리를 증명했다. 여성이라는 이유로 오랫동안 정식 교수직을 얻지 못했다.
+  lessons: [5, 125]
+- id: born
+  name: 막스 보른
+  original: Max Born
+  born: 1882
+  died: 1970
+  role: 독일의 물리학자
+  summary: 1926년 파동함수 크기의 제곱이 입자를 그 자리에서 찾을 확률을 준다고 해석했다. 이 생각은 논문의 각주에 처음 적혔다. 1954년 노벨 물리학상.
+  lessons: [56]
+- id: schrodinger
+  name: 에르빈 슈뢰딩거
+  original: Erwin Schrödinger
+  born: 1887
+  died: 1961
+  role: 오스트리아의 물리학자
+  summary: 1926년 파동함수가 따르는 방정식을 발표했다. 1935년 상자 속 고양이 사고 실험으로 양자역학의 측정 문제를 드러냈다. 1933년 노벨 물리학상.
+  lessons: [65, 87]
+- id: debroglie
+  name: 루이 드브로이
+  original: Louis de Broglie
+  born: 1892
+  died: 1987
+  role: 프랑스의 물리학자
+  summary: 1924년 박사 논문에서 전자 같은 물질도 파동의 성질을 가진다고 제안했다. 1929년 노벨 물리학상.
+  lessons: [47]
+- id: pauli
+  name: 볼프강 파울리
+  original: Wolfgang Pauli
+  born: 1900
+  died: 1958
+  role: 오스트리아의 물리학자
+  summary: 1925년 두 전자가 똑같은 상태에 있을 수 없다는 배타 원리를 내놓았다. 1945년 노벨 물리학상.
+  lessons: [73]
+- id: heisenberg
+  name: 베르너 하이젠베르크
+  original: Werner Heisenberg
+  born: 1901
+  died: 1976
+  role: 독일의 물리학자
+  summary: 1925년 행렬역학을, 1927년 불확정성 원리를 발표했다. 1932년 노벨 물리학상. 제2차 세계대전 동안 독일의 핵 연구를 이끌었고, 1941년 코펜하겐으로 보어를 찾아갔다.
+  lessons: [61, 84, 120]
+- id: dirac
+  name: 폴 디랙
+  original: Paul Dirac
+  born: 1902
+  died: 1984
+  role: 영국의 물리학자
+  summary: 1928년 상대성이론과 맞는 전자의 방정식을 세우고, 여기서 반물질의 존재를 예측했다. 양자역학에서 쓰는 표기법 상당수를 만들었다. 1933년 노벨 물리학상.
+  lessons: [79, 101]
+- id: fermi
+  name: 엔리코 페르미
+  original: Enrico Fermi
+  born: 1901
+  died: 1954
+  role: 이탈리아의 물리학자
+  summary: 1934년 로마에서 느린 중성자 실험을 했고, 1942년 시카고에서 처음으로 연쇄 반응을 제어하는 원자로를 가동했다. 적은 정보로 답의 자릿수를 맞히는 어림 계산에 뛰어났고, 트리니티 실험 때 떨어뜨린 종잇조각이 날아간 거리로 폭발 위력을 어림했다. 1938년 노벨 물리학상.
+  lessons: [3, 111, 114, 116]
+- id: szilard
+  name: 레오 실라르드
+  original: Leo Szilard
+  born: 1898
+  died: 1964
+  role: 헝가리 출신의 물리학자
+  summary: 1933년 중성자로 연쇄 반응을 일으킬 수 있다는 생각을 했다. 1939년 아인슈타인과 함께 미국 대통령에게 원자폭탄 가능성을 알리는 편지를 썼고, 1945년 7월에는 원자폭탄을 경고 없이 일본 도시에 쓰지 말자는 청원을 돌렸다.
+  lessons: [111, 113, 117]
+- id: meitner
+  name: 리제 마이트너
+  original: Lise Meitner
+  born: 1878
+  died: 1968
+  role: 오스트리아의 물리학자
+  summary: 1938년 말 조카 오토 프리슈와 함께, 우라늄 원자핵이 둘로 쪼개진다는 해석과 그때 나오는 에너지를 계산했다. 함께 연구하던 오토 한만 1944년 노벨 화학상을 받았다.
+  lessons: [112]
+- id: oppenheimer
+  name: J. 로버트 오펜하이머
+  original: J. Robert Oppenheimer
+  born: 1904
+  died: 1967
+  role: 미국의 물리학자
+  summary: 1943년부터 로스앨러모스 연구소를 이끌며 원자폭탄 개발을 지휘했다. 전쟁 뒤 수소폭탄 개발에 반대했고, 1954년 청문회 끝에 보안 인가를 잃었다. 2022년 미국 에너지부가 그 결정을 취소했다.
+  lessons: [115, 116, 119]
+- id: feynman
+  name: 리처드 파인먼
+  original: Richard Feynman
+  born: 1918
+  died: 1988
+  role: 미국의 물리학자
+  summary: 양자전기역학을 세운 사람 가운데 하나로, 입자들이 주고받는 작용을 그림으로 계산하는 방법을 고안했다. 1965년 노벨 물리학상.
+  lessons: [50, 55, 122]
+- id: chandrasekhar
+  name: 수브라마니안 찬드라세카르
+  original: Subrahmanyan Chandrasekhar
+  born: 1910
+  died: 1995
+  role: 인도 출신의 천체물리학자
+  summary: 1930년 인도에서 영국으로 가는 배 위에서, 죽은 별이 버틸 수 있는 질량에 한계가 있다는 것을 계산했다. 1983년 노벨 물리학상.
+  lessons: [110]
+- id: bell
+  name: 존 스튜어트 벨
+  original: John Stewart Bell
+  born: 1928
+  died: 1990
+  role: 북아일랜드의 물리학자
+  summary: 1964년, 측정하기 전부터 결과가 정해져 있고 멀리 떨어진 곳끼리 즉시 영향을 주지 않는다면 실험 결과가 반드시 따라야 하는 부등식을 유도했다. 이후 실험들은 자연이 이 부등식을 깬다는 것을 보였다.
+  lessons: [90, 91]
+- id: rotblat
+  name: 조지프 로트블랫
+  original: Joseph Rotblat
+  born: 1908
+  died: 2005
+  role: 폴란드 출신의 물리학자
+  summary: 맨해튼 프로젝트에 참여했다가, 1944년 말 독일이 원자폭탄을 만들지 못한다는 것이 분명해지자 스스로 프로젝트를 떠났다. 핵무기 반대 운동인 퍼그워시 회의를 이끌어 1995년 노벨 평화상을 받았다.
+  lessons: [118]

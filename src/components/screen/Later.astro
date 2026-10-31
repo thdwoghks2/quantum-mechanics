@@ -1,0 +1,23 @@
+---
+/**
+ * 아직 정식으로 배우지 않은 용어를 일부러 미리 언급할 때 쓴다.
+ * 용어 계약 검사는 이 안의 글을 건너뛰고, 화면에는 몇 강에서 배우는지 작게 붙는다.
+ */
+import { lessonUrl } from '../../lib/url.ts';
+interface Props {
+  n: number;
+}
+const { n } = Astro.props;
+---
+<span class="later"><slot /><a class="later__n" href={lessonUrl(n)}>{n}강</a></span>
+
+<style>
+  .later__n {
+    margin-left: 0.2em;
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    color: var(--muted);
+    text-decoration: none;
+    vertical-align: super;
+  }
+</style>

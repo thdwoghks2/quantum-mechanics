@@ -1,0 +1,248 @@
+---
+/**
+ * 그래프. 빌드할 때 SVG로 그린다.
+ * 축 이름은 말로 쓴다("진동수 (1초에 진동하는 횟수)"). 축 이름과 곡선 색은 물리량 색을 따른다.
+ * step을 주면 그 요소는 화면 안의 해당 단계에서 나타난다(그래프 읽기 화면).
+ */
+type Q = 'time' | 'space' | 'motion' | 'force' | 'energy' | 'charge' | 'heat' | 'plain';
+interface Curve {
+  fn?: string;
+  pts?: [number, number][];
+  q?: Q;
+  label?: string;
+  labelAt?: [number, number];
+  step?: number;
+  dash?: boolean;
+  fill?: boolean;
+  samples?: number;
+}
+interface Point {
+  x: number;
+  y: number;
+  label?: string;
+  q?: Q;
+  step?: number;
+  dx?: number;
+  dy?: number;
+}
+interface Band {
+  x0: number;
+  x1: number;
+  label?: string;
+  rainbow?: boolean;
+  step?: number;
+}
+interface Line {
+  x?: number;
+  y?: number;
+  label?: string;
+  step?: number;
+}
+interface Props {
+  alt: string;
+  x: [number, number];
+  y: [number, number];
+  xLabel: string;
+  yLabel: string;
+  xq?: Q;
+  yq?: Q;
+  xTicks?: (number | [number, string])[];
+  yTicks?: (number | [number, string])[];
+  curves?: Curve[];
+  points?: Point[];
+  bands?: Band[];
+  lines?: Line[];
+  /** [가로축이 나타나는 단계, 세로축이 나타나는 단계] */
+  axisSteps?: [number, number];
+  width?: number;
+  height?: number;
+}
+
+const {
+  alt, x, y, xLabel, yLabel, xq = 'plain', yq = 'plain', xTicks = [], yTicks = [],
+  curves = [], points = [], bands = [], lines = [], axisSteps, width = 480, height = 300,
+} = Astro.props;
+
+const pad = { l: 46, r: 16, t: 18, b: 44 };
+const W = width - pad.l - pad.r;
+const H = height - pad.t - pad.b;
+const sx = (v: number) => pad.l + ((v - x[0]) / (x[1] - x[0])) * W;
+const sy = (v: number) => pad.t + H - ((v - y[0]) / (y[1] - y[0])) * H;
+const clampY = (v: number) => Math.max(y[0] - (y[1] - y[0]) * 0.02, Math.min(y[1] + (y[1] - y[0]) * 0.02, v));
+const fmt = (v: number) => (Math.abs(v) >= 1000 ? v.toLocaleString('ko-KR') : String(Math.round(v * 1000) / 1000));
+
+function evalFn(src: string) {
+  return new Function('x', `const {sin,cos,tan,exp,log,log10,sqrt,PI,abs,pow,max,min,floor} = Math; return (${src});`) as (x: number) => number;
+}
+
+const paths = curves.map((c) => {
+  let pts: [number, number][] = c.pts ?? [];
+  if (c.fn) {
+    const f = evalFn(c.fn);
+    const n = c.samples ?? 240;
+    pts = Array.from({ length: n + 1 }, (_, i) => {
+      const xv = x[0] + ((x[1] - x[0]) * i) / n;
+      return [xv, f(xv)] as [number, number];
+    }).filter(([, yv]) => Number.isFinite(yv));
+  }
+  const d = pts.map(([a, b], i) => `${i ? 'L' : 'M'}${sx(a).toFixed(1)},${sy(clampY(b)).toFixed(1)}`).join(' ');
+  const area = c.fill && pts.length
+    ? `${d} L${sx(pts.at(-1)![0]).toFixed(1)},${sy(Math.max(y[0], 0)).toFixed(1)} L${sx(pts[0]![0]).toFixed(1)},${sy(Math.max(y[0], 0)).toFixed(1)} Z`
+    : undefined;
+  const at = c.labelAt;
+  return { ...c, d, area, lx: at ? sx(at[0]) : undefined, ly: at ? sy(at[1]) : undefined };
+});
+
+const tick = (t: number | [number, string]) => (Array.isArray(t) ? t : [t, fmt(t)] as [number, string]);
+const stepAttr = (s?: number) => (s ? { 'data-step': s } : {});
+const xs = axisSteps ? stepAttr(axisSteps[0]) : {};
+const ys = axisSteps ? stepAttr(axisSteps[1]) : {};
+const rainbowId = `rb-${Math.random().toString(36).slice(2, 8)}`;
+---
+<figure class="plot">
+  <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={alt}>
+    <defs>
+      <linearGradient id={rainbowId} x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#b8333a" />
+        <stop offset="20%" stop-color="#d9772f" />
+        <stop offset="38%" stop-color="#d8c23a" />
+        <stop offset="55%" stop-color="#4fa35a" />
+        <stop offset="75%" stop-color="#3f6fc1" />
+        <stop offset="100%" stop-color="#6b46b0" />
+      </linearGradient>
+    </defs>
+
+    {bands.map((b) => (
+      <g {...stepAttr(b.step)}>
+        <rect x={sx(b.x0)} y={pad.t} width={sx(b.x1) - sx(b.x0)} height={H}
+          style={b.rainbow ? `fill:url(#${rainbowId});opacity:.22` : 'fill:var(--text);opacity:.05'} />
+        {b.label && <text x={(sx(b.x0) + sx(b.x1)) / 2} y={pad.t + 12} class="plot__band">{b.label}</text>}
+      </g>
+    ))}
+
+    <g {...ys}>
+      {yTicks.map(tick).map(([v, t]) => (
+        <g>
+          <line x1={pad.l} x2={pad.l + W} y1={sy(v)} y2={sy(v)} class="plot__grid" />
+          <text x={pad.l - 6} y={sy(v) + 4} class="plot__tick plot__tick--y">{t}</text>
+        </g>
+      ))}
+      <line x1={pad.l} x2={pad.l} y1={pad.t} y2={pad.t + H} class="plot__axis" />
+      <text class="plot__label" style={`fill:var(--q-${yq})`} transform={`translate(13 ${pad.t + H / 2}) rotate(-90)`}>{yLabel}</text>
+    </g>
+
+    <g {...xs}>
+      {xTicks.map(tick).map(([v, t]) => (
+        <g>
+          <line x1={sx(v)} x2={sx(v)} y1={pad.t + H} y2={pad.t + H + 4} class="plot__axis" />
+          <text x={sx(v)} y={pad.t + H + 17} class="plot__tick">{t}</text>
+        </g>
+      ))}
+      <line x1={pad.l} x2={pad.l + W} y1={sy(Math.max(y[0], Math.min(0, y[1])))} y2={sy(Math.max(y[0], Math.min(0, y[1])))} class="plot__axis" />
+      <text x={pad.l + W / 2} y={height - 6} class="plot__label" style={`fill:var(--q-${xq})`}>{xLabel}</text>
+    </g>
+
+    {lines.map((l) => (
+      <g {...stepAttr(l.step)}>
+        {l.x !== undefined && <line x1={sx(l.x)} x2={sx(l.x)} y1={pad.t} y2={pad.t + H} class="plot__ref" />}
+        {l.y !== undefined && <line x1={pad.l} x2={pad.l + W} y1={sy(l.y)} y2={sy(l.y)} class="plot__ref" />}
+        {l.label && l.x !== undefined && <text x={sx(l.x) + 4} y={pad.t + 26} class="plot__note" text-anchor="start">{l.label}</text>}
+        {l.label && l.y !== undefined && <text x={pad.l + W - 2} y={sy(l.y) - 5} class="plot__note" text-anchor="end">{l.label}</text>}
+      </g>
+    ))}
+
+    {paths.map((p) => (
+      <g {...stepAttr(p.step)}>
+        {p.area && <path d={p.area} style={`fill:var(--q-${p.q ?? 'plain'});opacity:.12`} />}
+        <path d={p.d} class="plot__curve" style={`stroke:var(--q-${p.q ?? 'plain'})${p.dash ? ';stroke-dasharray:5 5' : ''}`} />
+        {p.label && p.lx !== undefined && (
+          <text x={p.lx} y={p.ly} class="plot__note" style={`fill:var(--q-${p.q ?? 'plain'})`} text-anchor="start">{p.label}</text>
+        )}
+      </g>
+    ))}
+
+    {points.map((p) => (
+      <g {...stepAttr(p.step)}>
+        <circle cx={sx(p.x)} cy={sy(p.y)} r="5" style={`fill:var(--q-${p.q ?? 'plain'})`} class="plot__pt" />
+        {p.label && (
+          <text x={sx(p.x) + (p.dx ?? 9)} y={sy(p.y) + (p.dy ?? -8)} class="plot__note" text-anchor="start">{p.label}</text>
+        )}
+      </g>
+    ))}
+  </svg>
+</figure>
+
+<style>
+  .plot {
+    margin: 0;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .plot__axis {
+    stroke: var(--text-2);
+    stroke-width: 1.2;
+  }
+
+  .plot__grid {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .plot__ref {
+    stroke: var(--muted);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+
+  .plot__curve {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .plot__pt {
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+
+  text {
+    font-family: var(--font-body);
+  }
+
+  .plot__tick {
+    fill: var(--muted);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    text-anchor: middle;
+  }
+
+  .plot__tick--y {
+    text-anchor: end;
+  }
+
+  .plot__label {
+    font-size: 12.5px;
+    text-anchor: middle;
+    font-weight: 500;
+  }
+
+  .plot__note {
+    fill: var(--text);
+    font-size: 12px;
+  }
+
+  .plot__band {
+    fill: var(--text-2);
+    font-size: 11px;
+    text-anchor: middle;
+  }
+</style>

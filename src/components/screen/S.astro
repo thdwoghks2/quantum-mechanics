@@ -1,0 +1,8 @@
+---
+/** 한 화면 안에서 차례로 나타나는 단계. "다음"을 누를 때마다 다음 단계가 열린다. */
+interface Props {
+  n: number;
+}
+const { n } = Astro.props;
+---
+<div class="step" data-step={n}><slot /></div>

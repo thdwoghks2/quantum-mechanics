@@ -1,0 +1,64 @@
+---
+/** 사고 실험. 채점하지 않는다. 학습자가 쓰고 나면 여러 입장(slot)이 열린다. */
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const fieldId = `reflect-${id}`;
+---
+<qm-reflect class="reflect" data-id={id}>
+  <div class="reflect__q"><slot name="question" /></div>
+  <label class="sr-only" for={fieldId}>내 생각</label>
+  <textarea id={fieldId} class="reflect__field" rows="3" placeholder="내 생각을 적어 보자. 정답은 없다."></textarea>
+  <button type="button" class="btn reflect__reveal">여러 입장 보기</button>
+  <div class="reflect__views" hidden><slot /></div>
+</qm-reflect>
+
+<script>
+  import { getLessonNumber, readNotes, writeNotes } from '../../lib/client/bus.ts';
+
+  class QmReflect extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.bound) return;
+      this.dataset.bound = '1';
+      const n = getLessonNumber(this);
+      const id = this.dataset.id!;
+      const field = this.querySelector<HTMLTextAreaElement>('textarea')!;
+      field.value = readNotes(n).reflect?.[id] ?? '';
+      field.addEventListener('change', () => {
+        const prev = readNotes(n).reflect ?? {};
+        writeNotes(n, { reflect: { ...prev, [id]: field.value } });
+      });
+      this.querySelector('.reflect__reveal')!.addEventListener('click', () => {
+        this.querySelector<HTMLElement>('.reflect__views')!.hidden = false;
+      });
+    }
+  }
+  if (!customElements.get('qm-reflect')) customElements.define('qm-reflect', QmReflect);
+</script>
+
+<style>
+  .reflect {
+    display: grid;
+    gap: 10px;
+  }
+
+  .reflect__field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    color: var(--text);
+    font: inherit;
+    font-size: var(--fs-sm);
+  }
+
+  .reflect__views {
+    border-left: 2px solid var(--accent);
+    padding-left: 12px;
+    font-size: var(--fs-sm);
+    display: grid;
+    gap: 8px;
+  }
+</style>
