@@ -1,0 +1,156 @@
+---
+/**
+ * 2×2 행렬이 평면을 옮기는 모습. (1, 0)이 가는 곳(첫째 세로줄)과 (0, 1)이 가는 곳(둘째 세로줄)을 화살표로,
+ * 격자 전체가 함께 옮겨지는 모습을 선으로 그린다. '변환 정도' 슬라이더로 천천히 옮긴다.
+ * eigen이 켜지면, 둘레의 화살표 16개와 그 옮겨진 모습을 그리고, 방향이 바뀌지 않는 화살표(고유 방향)를 표시한다.
+ */
+interface Props {
+  eigen?: boolean;
+  m?: 'rot' | 'stretch' | 'x' | 'z' | 'h' | 'shear' | 'sym';
+}
+const { eigen = false, m = 'rot' } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const P: Record<string, [string, number[]]> = {
+  rot: ['90° 돌리기', [0, -1, 1, 0]],
+  stretch: ['가로 2배', [2, 0, 0, 1]],
+  x: ['X (뒤집기)', [0, 1, 1, 0]],
+  z: ['Z', [1, 0, 0, -1]],
+  h: ['H', [0.707, 0.707, 0.707, -0.707]],
+  shear: ['비틀기', [1, 1, 0, 1]],
+  sym: ['(2 1 / 1 2)', [2, 1, 1, 2]],
+};
+const keys = eigen ? ['x', 'z', 'sym', 'rot'] : ['rot', 'stretch', 'x', 'h', 'shear'];
+const start = P[m]![1];
+---
+<qm-sim-p10-matrix class="sim" data-ratio="0.7" data-eigen={eigen ? '1' : '0'}>
+  <canvas aria-label="격자와 두 화살표가 행렬에 따라 함께 옮겨진다. 고유 방향을 보는 모드에서는 방향이 바뀌지 않는 화살표가 표시된다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p10m-s-${uid}`}>변환 정도</label>
+      <input id={`p10m-s-${uid}`} type="range" min="0" max="1" step="0.05" value="1" data-param="s" />
+      <output data-out="s"></output>
+    </div>
+  </div>
+  <input type="hidden" data-param="a" value={start[0]} />
+  <input type="hidden" data-param="b" value={start[1]} />
+  <input type="hidden" data-param="c" value={start[2]} />
+  <input type="hidden" data-param="d" value={start[3]} />
+  <div class="sim__buttons" aria-label="행렬 고르기">
+    {keys.map((k) => (
+      <button type="button" class="btn" data-set={`a=${P[k]![1][0]},b=${P[k]![1][1]},c=${P[k]![1][2]},d=${P[k]![1][3]}`} aria-pressed={k === m ? 'true' : 'false'}>{P[k]![0]}</button>
+    ))}
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p10-matrix>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimP10Matrix extends Sim {
+    animated = false;
+
+    M(): [number, number, number, number] {
+      const s = this.p.s ?? 1;
+      const { a, b, c, d } = this.p as Record<string, number>;
+      return [1 - s + s * a!, s * b!, s * c!, 1 - s + s * d!];
+    }
+
+    eig() {
+      const { a, b, c, d } = this.p as Record<string, number>;
+      const tr = a! + d!;
+      const det = a! * d! - b! * c!;
+      const disc = tr * tr - 4 * det;
+      if (disc < -1e-9) return [];
+      const out: { l: number; v: [number, number] }[] = [];
+      for (const sg of disc < 1e-9 ? [1] : [1, -1]) {
+        const l = (tr + sg * Math.sqrt(Math.max(0, disc))) / 2;
+        let v: [number, number];
+        if (Math.abs(b!) > 1e-9) v = [b!, l - a!];
+        else if (Math.abs(c!) > 1e-9) v = [l - d!, c!];
+        else v = Math.abs(l - a!) < 1e-9 ? [1, 0] : [0, 1];
+        const n = Math.hypot(v[0], v[1]);
+        out.push({ l, v: [v[0] / n, v[1] / n] });
+      }
+      return out;
+    }
+
+    format(name: string) {
+      return name === 's' ? `${Math.round((this.p.s ?? 1) * 100)}%` : '';
+    }
+
+    readout() {
+      const { a, b, c, d } = this.p as Record<string, number>;
+      const f = (v: number) => (Math.abs(v - Math.round(v)) < 1e-6 ? String(Math.round(v)) : v.toFixed(2));
+      let s = `행렬 (${f(a!)} ${f(b!)} / ${f(c!)} ${f(d!)}) · (1, 0) → (${f(a!)}, ${f(c!)}) · (0, 1) → (${f(b!)}, ${f(d!)})`;
+      if (this.dataset.eigen === '1') {
+        const e = this.eig();
+        s += e.length
+          ? ' · 방향이 그대로인 화살표: ' + e.map((x) => `(${f(x.v[0])}, ${f(x.v[1])})는 ${f(x.l)}배`).join(', ')
+          : ' · 방향이 그대로인 화살표가 없어요 (모두 돌아가요)';
+      }
+      return s;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const [A, B, C, D] = this.M();
+      const u = Math.min(w, h) / 6.2;
+      const ox = w / 2;
+      const oy = h / 2;
+      const P = (x: number, y: number): [number, number] => [ox + (A * x + B * y) * u, oy - (C * x + D * y) * u];
+      // 원래 격자 (흐리게)
+      g.globalAlpha = 0.25;
+      for (let i = -3; i <= 3; i++) {
+        this.line(ox + i * u, oy - 3 * u, ox + i * u, oy + 3 * u, c.line, 1);
+        this.line(ox - 3 * u, oy - i * u, ox + 3 * u, oy - i * u, c.line, 1);
+      }
+      g.globalAlpha = 1;
+      // 함께 옮겨지는 깃발 모양 (돌리기도 눈에 보이게)
+      const flag: [number, number][] = [[0.15, 0.15], [0.15, 1.9], [1.3, 1.5], [0.15, 1.1]];
+      g.fillStyle = 'rgba(214,170,60,0.28)';
+      g.beginPath();
+      flag.forEach(([x, y], k) => { const q = P(x, y); if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); });
+      g.closePath();
+      g.fill();
+      // 옮겨진 격자
+      g.lineWidth = 1;
+      g.strokeStyle = c.line;
+      for (let i = -3; i <= 3; i++) {
+        let p0 = P(i, -3), p1 = P(i, 3);
+        this.line(p0[0], p0[1], p1[0], p1[1], c.line, i === 0 ? 1.6 : 1);
+        p0 = P(-3, i); p1 = P(3, i);
+        this.line(p0[0], p0[1], p1[0], p1[1], c.line, i === 0 ? 1.6 : 1);
+      }
+      if (this.dataset.eigen === '1') {
+        for (let k = 0; k < 16; k++) {
+          const ph = (k / 16) * Math.PI * 2;
+          const x = Math.cos(ph), y = Math.sin(ph);
+          g.globalAlpha = 0.35;
+          this.arrow(ox, oy, ox + x * u * 1.4, oy - y * u * 1.4, c.text2, 1.2);
+          g.globalAlpha = 0.8;
+          const q = P(x * 1.4, y * 1.4);
+          this.arrow(ox, oy, q[0], q[1], c.energy, 1.4);
+          g.globalAlpha = 1;
+        }
+        for (const e of this.eig()) {
+          g.setLineDash([6, 5]);
+          this.line(ox - e.v[0] * u * 3.4, oy + e.v[1] * u * 3.4, ox + e.v[0] * u * 3.4, oy - e.v[1] * u * 3.4, c.accent, 2);
+          g.setLineDash([]);
+        }
+      }
+      const e1 = P(1, 0);
+      const e2 = P(0, 1);
+      this.arrow(ox, oy, e1[0], e1[1], c.space, 3);
+      this.arrow(ox, oy, e2[0], e2[1], c.time, 3);
+      const lab = (q: [number, number], t: string, col: string) => {
+        const dx = q[0] - ox, dy = q[1] - oy;
+        const n = Math.hypot(dx, dy) || 1;
+        this.text(t, q[0] + (dx / n) * 14, q[1] + (dy / n) * 14, col, 11, dx < -2 ? 'right' : 'left');
+      };
+      lab(e1, '(1, 0)이 간 곳', c.space);
+      lab(e2, '(0, 1)이 간 곳', c.time);
+    }
+  }
+  define('qm-sim-p10-matrix', SimP10Matrix);
+</script>
