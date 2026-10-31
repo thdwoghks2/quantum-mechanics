@@ -77,7 +77,12 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
             <button type="button" class="btn" data-action="testout">이미 안다면: 문제 {d.testout.length}개로 건너뛰기</button>
           )}
         </div>
-        {prev && <p class="label"><a href={lessonUrl(prev)}>← {prev}강</a></p>}
+        <p class="title__save">어디까지 봤는지와 푼 문제는 이 기기에 저절로 저장돼요. <a href={url('settings/')}>기록</a>에서 확인하고 내보낼 수 있어요.</p>
+        <p class="title__links label">
+          <a href={url('')}>← 처음 화면</a>
+          <a href={url('course/')}>코스 전체</a>
+          {prev && <a href={lessonUrl(prev)}>{prev}강으로</a>}
+        </p>
       </section>
       <Content components={mdxComponents} />
     </main>

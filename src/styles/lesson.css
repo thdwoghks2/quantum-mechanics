@@ -269,6 +269,18 @@ html.js .screen__body .step.step-hidden {
   color: var(--text-2);
 }
 
+.title__save {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  max-width: 34em;
+}
+
+.title__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
 html.js .screen--title.is-active .title__n,
 html.js .screen--title.is-active .title__h,
 html.js .screen--title.is-active .title__q {
@@ -375,10 +387,12 @@ html.js .screen--title.is-active .title__q {
 
 .toc button {
   all: unset;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2em 1fr;
+  align-items: start;
   gap: 10px;
   width: 100%;
-  padding: 6px 8px;
+  padding: 8px 8px;
   border-radius: 6px;
   cursor: pointer;
   font-size: var(--fs-sm);
@@ -395,16 +409,24 @@ html.js .screen--title.is-active .title__q {
   min-width: 1.8em;
 }
 
+.toc__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
 .toc__kind {
   color: var(--muted);
-  white-space: nowrap;
+  font-size: var(--fs-xs);
 }
 
 .toc__snip {
-  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.45;
 }
 
 .toc li.is-now button {

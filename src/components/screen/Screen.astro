@@ -12,6 +12,8 @@ interface Props {
   label?: string;
   /** 떠올리기 화면: 원래 내용을 배운 강 */
   from?: number;
+  /** 목차에 보일 짧은 제목. 없으면 본문 첫 문장을 쓴다. */
+  title?: string;
 }
 
 const LABELS: Record<Kind, string> = {
@@ -31,7 +33,7 @@ const LABELS: Record<Kind, string> = {
   next: '다음 강으로',
 };
 
-const { kind, label, from } = Astro.props;
+const { kind, label, from, title } = Astro.props;
 const name = label ? `${LABELS[kind]} · ${label}` : LABELS[kind];
 const hasVisual = Astro.slots.has('visual');
 ---
@@ -39,6 +41,7 @@ const hasVisual = Astro.slots.has('visual');
   class:list={['screen', `screen--${kind}`, { 'screen--text-only': !hasVisual }]}
   data-kind={kind}
   data-label={from ? `${name} · ${from}강` : name}
+  data-title={title}
 >
   {hasVisual && (
     <div class="screen__visual">

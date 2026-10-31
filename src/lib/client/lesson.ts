@@ -19,6 +19,17 @@ interface Gloss extends TermEntry {
 
 const SKIP = 'button, input, textarea, a, svg, .katex, .defcard, .term, .check__opt, .label, code';
 
+/** 목차에 보일 화면 이름. 글쓴이가 붙인 제목이 없으면 본문 첫 문장을 낱말 단위로 줄인다. */
+function tocTitle(screen: HTMLElement): string {
+  if (screen.dataset.title) return screen.dataset.title;
+  const el = screen.querySelector('.screen__body p, .check__q p, .title__h');
+  const text = (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
+  const first = text.match(/^.+?[.?!](?=\s|$)/)?.[0] ?? text;
+  if (first.length <= 60) return first;
+  const cut = first.slice(0, 58);
+  return cut.slice(0, Math.max(cut.lastIndexOf(' '), 40)) + '…';
+}
+
 class QmLesson extends HTMLElement {
   screens: HTMLElement[] = [];
   i = 0;
@@ -103,6 +114,7 @@ class QmLesson extends HTMLElement {
 
   prev() {
     if (this.i > 0) this.show(this.i - 1, { allSteps: true });
+    else location.href = this.dataset.course!;
   }
 
   finish() {
@@ -175,9 +187,11 @@ class QmLesson extends HTMLElement {
       kind.textContent = s.dataset.label ?? '';
       const snip = document.createElement('span');
       snip.className = 'toc__snip';
-      const body = s.querySelector('.screen__body p, .title__h');
-      snip.textContent = body?.textContent?.trim().slice(0, 28) ?? '';
-      b.append(num, kind, snip);
+      snip.textContent = tocTitle(s);
+      const text = document.createElement('span');
+      text.className = 'toc__text';
+      text.append(kind, snip);
+      b.append(num, text);
       b.addEventListener('click', () => {
         this.show(i, { allSteps: true });
         this.closeRails();
@@ -195,8 +209,9 @@ class QmLesson extends HTMLElement {
     this.querySelectorAll('.toc li').forEach((el, j) => el.classList.toggle('is-now', j === this.i));
     const count = this.querySelector('.lnav__count')!;
     if (!finished) count.textContent = `${this.i + 1} / ${this.screens.length}`;
+    // 첫 화면에서는 '이전' 자리가 코스로 나가는 버튼이 된다.
     const prev = this.querySelector<HTMLButtonElement>('.lnav__prev')!;
-    prev.disabled = this.i === 0;
+    prev.textContent = this.i === 0 ? '‹ 나가기' : '‹ 이전';
     const next = this.querySelector<HTMLButtonElement>('button.lnav__next');
     if (next) {
       const { max } = this.stepsOf(this.screens[this.i]!);
