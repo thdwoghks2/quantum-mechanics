@@ -1,0 +1,103 @@
+---
+/**
+ * 블랙홀의 온도(129강). 질량을 고르면 호킹 복사의 온도와, 그 복사만으로 다 사라지는 데 걸리는 시간을 보여 준다.
+ * 온도는 질량에 반비례하고(약 1.23 × 10²³ K·kg ÷ 질량), 사라지는 시간은 질량의 세제곱에 비례한다(약 8.4 × 10⁻¹⁷초 × 질량³).
+ * 지금 우주 배경 복사(2.725 K)보다 차가우면, 내놓는 것보다 흡수하는 것이 많아서 지금은 오히려 커진다.
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p15-hawking class="sim" data-ratio="0.6" data-autoplay="false">
+  <canvas aria-label="질량을 고른 블랙홀과 그 둘레의 빛. 가벼운 블랙홀일수록 뜨겁고 밝게 빛나요. 무거운 블랙홀은 우주 배경 복사보다 차가워서 빛을 흡수하는 쪽이 많아요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`bh-${uid}`}>블랙홀의 질량</label>
+      <input id={`bh-${uid}`} type="range" min="10" max="31" step="0.5" value="30.3" data-param="m" />
+      <output data-out="m"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-set="m=30.3">해만큼</button>
+      <button type="button" class="btn" data-set="m=22.87">달만큼</button>
+      <button type="button" class="btn" data-set="m=12">작은 산만큼</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-hawking>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const CMB = 2.725;
+
+  function pow10(x: number): string {
+    if (x >= 0 && x < 4) return Math.round(Math.pow(10, x)).toLocaleString('ko-KR');
+    const e = Math.floor(x);
+    const m = Math.pow(10, x - e);
+    const sup = String(e).replace(/-/g, '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(d)]!);
+    return `${m.toFixed(1)} × 10${sup}`;
+  }
+
+  class SimP15Hawking extends Sim {
+    animated = false;
+
+    get logM() {
+      return this.p.m ?? 30.3;
+    }
+
+    get logT() {
+      return Math.log10(1.227e23) - this.logM;
+    }
+
+    /** 사라지는 데 걸리는 시간(년)의 로그 */
+    get logLife() {
+      return Math.log10(8.41e-17) + 3 * this.logM - Math.log10(3.156e7);
+    }
+
+    format() {
+      return `${pow10(this.logM)} kg`;
+    }
+
+    readout() {
+      const T = Math.pow(10, this.logT);
+      const tText = this.logT > 3 || this.logT < -2 ? `${pow10(this.logT)} K` : `${T.toFixed(T < 10 ? 2 : 0)} K`;
+      const life = this.logLife;
+      const lifeText = life > 10.14 ? `${pow10(life)}년 (지금 우주 나이의 ${pow10(life - 10.14)}배)` : `${pow10(life)}년`;
+      const now = T < CMB ? '우주 배경 복사보다 차가워서 지금은 흡수하는 쪽이 많아요' : '우주 배경 복사보다 뜨거워서 내놓는 쪽이 많아요';
+      return `온도 ${tText} · 다 사라지는 데 ${lifeText} · ${now}`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+      // 크기: 사건의 지평선 반지름은 질량에 비례하지만, 화면에서는 로그로 줄여 그린다.
+      const r = 8 + ((this.logM - 10) / 21) * (h * 0.3);
+      // 빛: 온도가 높을수록 밝고 넓게
+      const hot = Math.max(0, Math.min(1, (this.logT + 1) / 12));
+      const g = ctx.createRadialGradient(cx, cy, r, cx, cy, r + 20 + hot * 90);
+      g.addColorStop(0, `rgba(242, 180, 107, ${0.15 + hot * 0.7})`);
+      g.addColorStop(1, 'rgba(242, 180, 107, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + 20 + hot * 90, 0, Math.PI * 2);
+      ctx.fill();
+      this.dot(cx, cy, r, '#000');
+      ctx.strokeStyle = c.line;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+      // 화살표: 바깥으로 내놓는 빛(주황), 안으로 들어오는 우주 배경 복사(파랑)
+      const out = this.logT > Math.log10(CMB);
+      for (let k = 0; k < 8; k++) {
+        const a = (k / 8) * Math.PI * 2 + 0.2;
+        const r0 = r + 10;
+        const r1 = r + 34;
+        if (out) this.arrow(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0, cx + Math.cos(a) * r1, cy + Math.sin(a) * r1, c.accent, 1.6);
+        else this.arrow(cx + Math.cos(a) * (r1 + 6), cy + Math.sin(a) * (r1 + 6), cx + Math.cos(a) * (r0 + 2), cy + Math.sin(a) * (r0 + 2), c.time, 1.4);
+      }
+      this.text(out ? '주황: 호킹 복사로 내놓는 빛이 더 많아요' : '파랑: 우주 배경 복사를 흡수하는 쪽이 더 많아요', 12, h - 10, out ? c.accent : c.time, 10, 'left');
+      this.text('크기는 줄여서 그렸어요', w - 12, 14, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-p15-hawking', SimP15Hawking);
+</script>

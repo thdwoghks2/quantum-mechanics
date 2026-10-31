@@ -835,3 +835,14 @@
   lessons: [128]
   sources:
     - "Zwicky, F. Helvetica Physica Acta 6, 110 (1933)"
+- id: hawking
+  name: 스티븐 호킹
+  original: Stephen Hawking
+  born: 1942
+  died: 2018
+  role: 영국의 이론물리학자
+  summary: 1974년, 블랙홀도 양자 요동 때문에 흑체처럼 빛을 낸다는 것을 보였어요. 1976년에는 그 때문에 블랙홀에서 정보가 사라진다고 주장했다가, 2004년 생각을 바꿨어요. 스물한 살에 근육이 굳어 가는 병을 진단받고도 평생 연구를 이어 갔고, 『시간의 역사』(1988)를 썼어요.
+  lessons: [129]
+  sources:
+    - "Hawking, S. W. Nature 248, 30 (1974)"
+    - "Hawking, S. W. A Brief History of Time (1988)"
