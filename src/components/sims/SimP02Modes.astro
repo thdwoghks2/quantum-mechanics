@@ -1,0 +1,101 @@
+---
+/**
+ * 29강: 상자 속 정상파의 진동 모드 세기. 정사각형 판(2차원)에서 모드는 두 정수 (가로 마디 수, 세로 마디 수)의 짝이고,
+ * 진동수는 원점에서 그 점까지의 거리에 비례한다. 진동수 고리 안에 드는 점의 수가 그 진동수 근처의 모드 수다.
+ * 고리가 바깥으로 갈수록 점이 많이 든다. 3차원 상자라면 더 빨리(진동수의 제곱에 비례해) 늘어난다.
+ */
+interface Props {
+  f?: number;
+}
+const { f = 6 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-modes class="sim" data-ratio="0.9" data-autoplay="false">
+  <canvas aria-label="격자 위의 점 하나하나가 정사각형 판의 진동 모드다. 진동수 고리를 바깥으로 옮길수록 고리 안에 드는 모드가 많아진다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`md-f-${uid}`}>진동수</label>
+      <input id={`md-f-${uid}`} type="range" min="2" max="28" step="1" value={f} data-param="f" />
+      <output data-out="f"></output>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-modes>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 30;
+
+  function count2(f: number) {
+    let c = 0;
+    for (let a = 1; a <= N + 2; a++) for (let b = 1; b <= N + 2; b++) {
+      const r = Math.hypot(a, b);
+      if (r >= f && r < f + 1) c++;
+    }
+    return c;
+  }
+  const cache3 = new Map<number, number>();
+  function count3(f: number) {
+    if (cache3.has(f)) return cache3.get(f)!;
+    let c = 0;
+    const M = f + 2;
+    for (let a = 1; a <= M; a++) for (let b = 1; b <= M; b++) for (let d = 1; d <= M; d++) {
+      const r = Math.sqrt(a * a + b * b + d * d);
+      if (r >= f && r < f + 1) c++;
+    }
+    cache3.set(f, c);
+    return c;
+  }
+
+  class SimModes extends Sim {
+    animated = false;
+
+    format() {
+      return `기본의 ${this.p.f}~${this.p.f! + 1}배`;
+    }
+
+    readout() {
+      const f = this.p.f!;
+      return `이 진동수 구간에 드는 모드: 줄이라면 1개 · 정사각형 판이라면 ${count2(f)}개 · 3차원 상자라면 ${count3(f)}개`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const f = this.p.f!;
+      const S = Math.min(w, h) - 30;
+      const ox = 24;
+      const oy = h - 18;
+      const u = S / (N + 1);
+      const X = (a: number) => ox + a * u;
+      const Y = (b: number) => oy - b * u;
+      this.line(ox, oy, ox + S, oy, c.text2, 1);
+      this.line(ox, oy, ox, oy - S, c.text2, 1);
+      this.text('가로 방향 반 파장 수', ox + S, oy + 12, c.muted, 10, 'right');
+      g.save();
+      g.translate(10, oy - S);
+      g.rotate(Math.PI / 2);
+      this.text('세로 방향 반 파장 수', 0, 0, c.muted, 10, 'left');
+      g.restore();
+      // 고리
+      g.fillStyle = c.time;
+      g.globalAlpha = 0.14;
+      g.beginPath();
+      g.arc(ox, oy, (f + 1) * u, -Math.PI / 2, 0);
+      g.arc(ox, oy, f * u, 0, -Math.PI / 2, true);
+      g.closePath();
+      g.fill();
+      g.globalAlpha = 1;
+      for (let a = 1; a <= N; a++) {
+        for (let b = 1; b <= N; b++) {
+          const r = Math.hypot(a, b);
+          const inRing = r >= f && r < f + 1;
+          this.dot(X(a), Y(b), inRing ? 2.8 : 1.4, inRing ? c.time : c.muted);
+        }
+      }
+      this.text(`고리 안의 점 ${count2(f)}개`, ox + S, oy - S + 4, c.time, 12, 'right');
+    }
+  }
+  define('qm-sim-modes', SimModes);
+</script>

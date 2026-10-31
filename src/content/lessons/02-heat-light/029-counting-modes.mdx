@@ -1,0 +1,407 @@
+---
+number: 29
+title: "상자 속의 빛: 진동 모드 세기"
+short: 상자 속 빛의 모드
+question: 흑체 상자 속에 갇힌 빛은 어떤 진동 모드로, 몇 개나 떨 수 있을까요?
+mechanism: 벽 사이에 갇힌 빛은 기타 줄처럼 벽에서 마디가 생기는 정상파로만 남아요. 상자에서는 가로, 세로, 높이 세 방향의 반 파장 수를 짝지어 모드 하나가 정해져서, 진동수가 높을수록 그 진동수가 되는 짝이 많아져요. 그래서 같은 폭의 진동수 구간에 드는 모드 수는 진동수의 제곱에 비례해 늘어나고, 진동수가 높아질수록 끝없이 많아져요.
+part: 2
+year: 1900
+minutes: 21
+epigraph:
+  text: "자연은 가장 긴 실만으로 무늬를 짠다. 그래서 그 천의 작은 조각 하나하나가 전체 무늬의 짜임을 드러낸다."
+  by: 리처드 파인먼
+  source: 『물리 법칙의 특성』 1장 (1965)
+assumes: [standing-wave, node, mode, fundamental, harmonic, wavelength, frequency, speed-of-light, em-wave, blackbody, equipartition]
+introduces: []
+sources:
+  - "Rayleigh, Lord. Remarks upon the Law of Complete Radiation, Philosophical Magazine 49 (1900)"
+  - "Jeans, J. H. On the Partition of Energy between Matter and Æther, Philosophical Magazine 10 (1905)"
+  - "Chladni, E. F. F. Entdeckungen über die Theorie des Klanges (1787)"
+  - "상자 속 빛의 모드 수: 부피 V, 진동수 f에서 폭 Δf 안에 8πf²VΔf/c³개 (편광 둘을 셈)"
+testout: [q29-string, q29-square, q29-light]
+status: published
+---
+
+<Screen kind="recall" from={20} title="기타 줄의 진동 모드">
+  <Fragment slot="visual">
+    <SimString n={1} />
+  </Fragment>
+
+20강에서 양 끝이 고정된 기타 줄은 양 끝이 마디인 정상파로만 떨었어요. 반 파장이 1개, 2개, 3개 들어가는 진동 모드들이었죠.
+
+<S n={2}>
+
+그래서 진동수는 기본 진동수의 1배, 2배, 3배로 띄엄띄엄 정해졌어요. 오늘은 같은 생각을 흑체 상자 속의 빛에 써 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="흑체 상자 속">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-box', title: '달군 상자', caption: '속에서 빛이 벽 사이를 오가요' },
+      { big: '구멍', title: '작은 창', caption: '여기서 흑체의 빛이 나와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+28강의 흑체 상자를 달구면, 속에는 벽이 내고 흡수하는 빛이 가득 차서 벽 사이를 오가요. 구멍으로 나오는 빛은 그 빛을 조금 엿본 거예요.
+
+<S n={2}>
+
+그러니 흑체의 곡선을 계산하려면, 상자 속에 어떤 빛이 얼마나 들어 있는지부터 알아야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="벽에서는 마디">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'guitar', title: '기타 줄', caption: '고정된 양 끝이 마디예요' },
+      { icon: 's1-box', title: '금속 벽의 상자', caption: '빛의 흔들림이 벽에서 0이 돼요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+금속 벽 안에서는 빛의 흔들림이 벽에 닿는 곳에서 0이 돼요. 기타 줄의 고정된 끝처럼, 벽이 늘 마디인 거죠.
+
+<S n={2}>
+
+그래서 상자 속 빛도 벽 사이에 반 파장이 정수 개 들어가는 정상파로만 남아요. 19강의 초콜릿 실험에서 금속 상자 속 전파가 정상파를 만든 것과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="줄의 모드는 고르게">
+  <Fragment slot="visual">
+    <DataTable caption="기본 진동수가 100 Hz인 줄의 모드" head={['진동수 구간', '든 모드', '개수']} rows={[
+      ['100 ~ 200 Hz', '100 Hz', '1개'],
+      ['1,000 ~ 1,100 Hz', '1,000 Hz', '1개'],
+      ['5,000 ~ 5,100 Hz', '5,000 Hz', '1개'],
+    ]} />
+  </Fragment>
+
+먼저 줄에서 모드를 세어 볼게요. 줄의 모드는 기본 진동수의 1배, 2배, 3배로 고르게 늘어서 있어요.
+
+<S n={2}>
+
+그래서 같은 폭의 진동수 구간이라면, 낮은 쪽이든 높은 쪽이든 드는 모드의 수가 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="줄의 두 구간">
+
+<Check id="q29-string" options={[
+  { t: '두 구간 모두 1개로 같아요', ok: true, why: '줄의 모드는 기본 진동수(100 Hz) 간격으로 고르게 있어서, 폭이 100 Hz인 구간에는 어디든 하나씩 들어요.' },
+  { t: '높은 구간에 더 많아요', why: '줄은 한 방향뿐이라 모드가 고르게 늘어서 있어요. 높은 진동수라고 더 촘촘해지지 않아요.' },
+  { t: '낮은 구간에 더 많아요', why: '모드 사이 간격은 늘 기본 진동수로 같아요.' },
+  { t: '높은 구간에는 모드가 없어요', why: '기본 진동수의 정수배라면 아무리 높아도 모드가 있어요.' },
+]}>
+
+기본 진동수가 100 Hz인 기타 줄에서, 300 Hz 이상 400 Hz 미만 구간과 2,000 Hz 이상 2,100 Hz 미만 구간에 드는 진동 모드 수를 견주면 어떨까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="scene" title="클라드니 판">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1787년', title: '에른스트 클라드니', caption: '금속판에 모래를 뿌리고 활로 켰어요' },
+      { big: '▦', title: '모래 무늬', caption: '흔들리지 않는 마디에만 모래가 모여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1787년 독일의 에른스트 클라드니는 얇은 금속판에 모래를 뿌리고 바이올린 활로 판의 가장자리를 켰어요. 그러자 모래가 춤추다가 아름다운 무늬로 모였죠.
+
+<S n={2}>
+
+모래는 판이 흔들리지 않는 마디에만 모여요. 판은 줄과 달리 가로와 세로 두 방향으로 마디가 생겨서, 무늬마다 두 수로 정해지는 모드예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="모드는 두 수의 짝">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '(가로, 세로)', title: '정사각형 판의 모드', caption: '두 방향의 반 파장 수를 짝지어요' },
+      { big: '거리 ∝ 진동수', title: '모눈 위의 점', caption: '원점에서 멀수록 진동수가 높아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+정사각형 판의 모드는 가로로 반 파장이 몇 개, 세로로 몇 개 들어가는지 두 정수의 짝으로 정해져요. (1, 1), (2, 1), (1, 2), (3, 5) 같은 식이죠.
+
+<S n={2}>
+
+이 짝을 모눈 위의 점으로 찍으면, 원점에서 그 점까지의 거리가 모드의 진동수에 비례해요. 가로와 세로 두 방향의 진동이 피타고라스 정리처럼 합쳐지거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="고리를 넓혀 보기">
+  <Fragment slot="visual">
+    <SimP02Modes f={4} />
+  </Fragment>
+
+모눈의 점 하나하나가 정사각형 판의 모드예요. 파란 고리 안의 점이 그 진동수 근처의 모드죠. 진동수를 4에서 28까지 올려 보세요.
+
+<S n={2}>
+
+고리가 바깥으로 갈수록 그 안에 드는 점이 많아져요. 아래 글의 3차원 상자는 판보다 훨씬 빨리 늘어나죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="고리가 클수록">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '줄', title: '1차원', caption: '모드 수가 그대로' },
+      { big: '판', title: '2차원', caption: '진동수에 비례해 늘어요' },
+      { big: '상자', title: '3차원', caption: '진동수의 제곱에 비례해 늘어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+왜 늘어날까요? 같은 폭의 고리라도 반지름이 클수록 고리가 길어서 점이 많이 들어가거든요. 판에서는 고리의 길이가 진동수에 비례해서, 모드 수도 진동수에 비례해요.
+
+<S n={2}>
+
+3차원 상자는 점들이 세 방향으로 퍼져 있어서, 고리 대신 공 껍질 안의 점을 세요. 공 껍질의 겉넓이는 반지름의 제곱에 비례하니까, 모드 수는 진동수의 제곱에 비례해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="왜 높은 쪽에 많을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '낮은 진동수', caption: '파장이 길어 상자에 들어갈 방법이 적어요' },
+      { big: '높은 진동수', caption: '파장이 짧아 들어갈 방법이 아주 많아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 처음에 상자도 줄처럼 모드가 고르게 있을 줄 알았어요.
+
+그런데 상자에서는 세 방향의 반 파장 수를 짝지어 모드를 만들어요. 진동수가 높으면 파장이 짧아서, 그 진동수가 되는 짝, 그러니까 상자에 들어가는 방법이 훨씬 많아지는 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="worked" title="진동수 2배면 4배">
+  <Fragment slot="visual">
+    <DataTable caption="3차원 상자, 같은 폭의 진동수 구간에 드는 모드 수 (기준을 1로)" head={['진동수', '모드 수']} rows={[
+      ['1배', '1'],
+      ['2배', '4'],
+      ['3배', '9'],
+      ['10배', '100'],
+    ]} steps={[undefined, 2, 2, 3]} />
+  </Fragment>
+
+3차원 상자에서는 모드 수가 진동수의 제곱에 비례해요.
+
+<S n={2}>
+
+진동수가 2배면 2 × 2 = 4배, 3배면 9배예요.
+
+</S>
+
+<S n={3}>
+
+10배면 100배예요. 진동수가 올라갈수록 모드가 걷잡을 수 없이 많아지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="진동수 3배">
+
+<Numeric id="q29-square" answer={9} tol={0.01} unit="배">
+
+3차원 상자에서 같은 폭의 진동수 구간에 드는 모드 수는 진동수의 제곱에 비례해요. 진동수를 3배로 높이면 그 구간에 드는 모드 수는 몇 배가 될까요?
+
+<Fragment slot="solution">
+
+3의 제곱이니까 3 × 3 = 9배예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="빛은 두 방향으로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '↕', title: '이렇게 흔들리는 빛', caption: '' },
+      { big: '↔', title: '저렇게 흔들리는 빛', caption: '' },
+      { big: '× 2', title: '그래서 모드도 둘씩', caption: '', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+빛에는 하나 더 셀 게 있어요. 빛은 나아가는 방향과 직각인 두 방향으로 따로 흔들릴 수 있어요.
+
+<S n={2}>
+
+그래서 상자 속 빛은 같은 정상파 모양마다 모드가 둘씩 있어요. 개수가 2배가 될 뿐, 진동수의 제곱에 비례한다는 건 그대로예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="1 L 상자의 모드">
+  <Fragment slot="visual">
+    <BigNumber top="1 L 상자 속, 1초에 500조~501조 번 진동하는 빛의 모드" value="약 2 × 10¹⁴개" bottom="10배 낮은 50조~51조 번 사이에는 그 100분의 1" q="time" />
+  </Fragment>
+
+실제로 세어 볼게요. 우유팩만 한 1 L 상자에서, 1초에 500조 번에서 501조 번 사이로 진동하는 빛의 모드는 약 2 × 10¹⁴개나 돼요.
+
+<S n={2}>
+
+진동수가 10배 낮은 50조~51조 번 사이에는 그 100분의 1인 약 2 × 10¹²개가 있어요. 진동수가 높을수록 모드가 엄청나게 많아지는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="끝이 없는 모드">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '가시광선', caption: '모드가 아주 많아요' },
+      { big: '자외선', caption: '더 많아요' },
+      { big: 'X선, 그 너머', caption: '끝없이 더 많아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그럼 진동수를 계속 올리면 어디서 멈출까요? 멈추지 않아요. 파장은 얼마든지 짧아질 수 있으니까요.
+
+<Key>상자 속 빛의 진동 모드는 같은 폭의 진동수 구간마다 진동수의 제곱에 비례해 늘어나서, 진동수를 높일수록 끝없이 많아지고 모두 더하면 무한히 많아요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="상자 속 빛의 모드">
+
+<Check id="q29-light" options={[
+  { t: '진동수가 높을수록 같은 폭의 구간에 모드가 더 많고, 끝없이 늘어나요', ok: true, why: '3차원 상자에서는 모드 수가 진동수의 제곱에 비례해 늘고, 파장은 얼마든지 짧아질 수 있어서 끝이 없어요.' },
+  { t: '줄처럼 어느 구간에나 모드가 같은 수만큼 있어요', why: '그건 1차원인 줄이에요. 3차원 상자에서는 진동수가 높을수록 모드가 많아요.' },
+  { t: '진동수가 높을수록 모드가 줄어들어요', why: '거꾸로예요. 파장이 짧을수록 상자에 들어갈 방법이 많아져요.' },
+  { t: '가시광선까지만 모드가 있어요', why: '상자 속 빛은 가시광선에서 멈추지 않아요. 자외선, X선의 모드도 있어요.' },
+]}>
+
+흑체 상자 속 빛의 진동 모드에 대한 설명으로 가장 맞는 건 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="레일리의 계산">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1900년 6월', title: '레일리 경', caption: '상자 속 빛의 모드를 세었어요' },
+      { big: '1905년', title: '제임스 진스', caption: '빠진 셈을 바로잡았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1900년 6월, 영국의 레일리 경은 오늘 우리가 한 것처럼 흑체 상자 속 빛의 모드를 세어 흑체의 곡선을 설명하려 했어요. 1905년 제임스 진스가 그 셈의 빠진 부분을 바로잡았죠.
+
+<S n={2}>
+
+모드를 세는 방법은 맞았어요. 문제는 그다음 걸음에서 생겨요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="남은 한 걸음">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '모드 수', title: '29강', caption: '진동수의 제곱에 비례해요' },
+      { big: 'kT씩', title: '26강', caption: '진동 하나는 평균 kT를 가져요' },
+      { big: '?', title: '30강', caption: '둘을 곱하면', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+26강에서 진동 하나는 평균 kT의 에너지를 가졌어요. 상자 속 빛의 모드도 하나하나가 진동이에요.
+
+<S n={2}>
+
+그러니 진동수마다 모드 수에 kT를 곱하면, 그 진동수의 빛이 얼마나 센지 나와야 해요. 그 곱셈을 다음 강에서 해 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['standing-wave', 'mode']}>
+
+1. 상자의 벽은 늘 마디라서, 상자 속 빛은 정상파의 진동 모드로만 남아요.
+2. 줄은 모드가 고르게 있지만, 판과 상자는 여러 방향의 반 파장 수를 짝지어 모드를 만들어요.
+3. 그래서 3차원 상자에서는 같은 폭의 구간에 드는 모드 수가 진동수의 제곱에 비례해요.
+4. 파장은 얼마든지 짧아질 수 있으니, 상자 속 빛의 모드는 끝없이 많아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="더 큰 상자">
+
+<DailyProblem id="p29">
+
+가로, 세로, 높이가 모두 2배인 상자, 그러니까 부피가 8배인 상자를 생각해 보세요.
+
+같은 진동수 구간에 드는 빛의 모드 수는 작은 상자와 견주어 어떻게 될까요? 줄의 길이가 2배일 때부터 떠올려 보세요.
+
+<Fragment slot="hint1">
+
+줄이 2배 길면 기본 진동수는 절반이 되고, 모드 사이 간격도 절반이 돼요. 같은 구간에 모드가 몇 배 들어갈까요? 상자는 세 방향이 모두 그래요.
+
+</Fragment>
+<Fragment slot="solution">
+
+8배가 돼요. 줄이 2배 길면 모드 사이 간격이 절반이라, 같은 구간에 모드가 2배 들어가요.
+
+상자는 가로, 세로, 높이 세 방향이 모두 그래서 2 × 2 × 2 = 8배예요. 그러니까 모드 수는 상자의 부피에 비례해요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+상자 속 빛은 벽이 마디인 진동 모드로만 떠는데, 같은 폭의 진동수 구간에 드는 모드 수가 진동수의 제곱에 비례해서 진동수가 높을수록 끝없이 많아져요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="모드마다 kT를 주면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '모드 수 × kT', caption: '고전물리학의 계산' },
+      { icon: 'heater', title: '전기난로', caption: '계산대로라면 어떻게 될까요' },
+    ]} />
+  </Fragment>
+
+모드 수는 진동수가 높을수록 끝없이 많아지고, 모드마다 kT의 에너지가 돌아가요. 이 둘을 곱하면 흑체의 곡선이 나와야 해요.
+
+<S n={2}>
+
+다음 강에서 그 곱셈을 해 보면 아주 이상한 결론이 나와요. 계산대로라면 전기난로 하나가 무한한 에너지를 내야 하거든요.
+
+</S>
+
+</Screen>
