@@ -691,3 +691,1271 @@
   notThis: 다른 음을 함께 치는 것(화음). 배음은 한 줄이 한 번에 내는 소리 안에 섞여 있다.
   taughtIn: 20
   q: time
+
+# ══ 21~137강 용어 지도 ════════════════════════════════════════
+# 아직 쓰지 않은 강의 용어다. 이름과 강 번호(taughtIn)만 정해 두었다(planned: true).
+# 그 강을 쓰는 세션이 정의와 예시를 채우고 planned 줄을 지운다. 다른 강의 구역은 고치지 않는다.
+# 앞 강들이 이미 일상어로 쓰는 말은 previewIn에 그 강 번호를 적는다.
+
+# ── 21강 ─────────────────────────────
+- id: atom
+  term: 원자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 21
+  previewIn: [1, 2, 3, 8, 18, 20]
+  planned: true
+- id: molecule
+  term: 분자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 21
+  previewIn: [11]
+  planned: true
+
+# ── 22강 ─────────────────────────────
+- id: brownian-motion
+  term: 브라운 운동
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 22
+  planned: true
+
+# ── 23강 ─────────────────────────────
+- id: absolute-temperature
+  term: 절대온도
+  definition: (준비 중)
+  unit: "K (켈빈)"
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 23
+  q: heat
+  planned: true
+- id: absolute-zero
+  term: 절대영도
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 23
+  q: heat
+  planned: true
+
+# ── 24강 ─────────────────────────────
+- id: probability
+  term: 확률
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 24
+  planned: true
+- id: expectation
+  term: 기댓값
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 24
+  planned: true
+
+# ── 25강 ─────────────────────────────
+- id: boltzmann-distribution
+  term: 볼츠만 분포
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 25
+  planned: true
+
+# ── 26강 ─────────────────────────────
+- id: degree-of-freedom
+  term: 자유도
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 26
+  planned: true
+- id: equipartition
+  term: 에너지 등분배
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 26
+  q: energy
+  planned: true
+
+# ── 27강 ─────────────────────────────
+- id: thermal-radiation
+  term: 열복사
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 27
+  q: heat
+  planned: true
+
+# ── 28강 ─────────────────────────────
+- id: blackbody
+  term: 흑체
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 28
+  planned: true
+- id: wien-law
+  term: 빈의 법칙
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 28
+  planned: true
+
+# ── 29강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 30강 ─────────────────────────────
+- id: ultraviolet-catastrophe
+  term: 자외선 파탄
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 30
+  planned: true
+
+# ── 31강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 32강 ─────────────────────────────
+- id: quantum
+  term: 양자
+  pattern: "양자(?=[은는이가을를의도와로에만]|[\\s.,)]|$)"
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 32
+  planned: true
+- id: planck-constant
+  term: 플랑크 상수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 32
+  planned: true
+
+# ── 33강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 34강 ─────────────────────────────
+- id: photoelectric-effect
+  term: 광전 효과
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 34
+  planned: true
+- id: threshold-frequency
+  term: 문턱 진동수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 34
+  q: time
+  planned: true
+
+# ── 35강 ─────────────────────────────
+- id: photon
+  term: 광자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 35
+  planned: true
+
+# ── 36강 ─────────────────────────────
+- id: compton-scattering
+  term: 콤프턴 산란
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 36
+  planned: true
+
+# ── 37강 ─────────────────────────────
+- id: electron
+  term: 전자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 37
+  previewIn: [16, 18, 19, 20, 34, 35, 36]
+  q: charge
+  planned: true
+- id: cathode-ray
+  term: 음극선
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 37
+  planned: true
+
+# ── 38강 ─────────────────────────────
+- id: elementary-charge
+  term: 기본 전하
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 38
+  q: charge
+  planned: true
+
+# ── 39강 ─────────────────────────────
+- id: nucleus
+  term: 원자핵
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 39
+  planned: true
+- id: alpha-particle
+  term: 알파 입자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 39
+  planned: true
+
+# ── 40강 ─────────────────────────────
+- id: circular-motion
+  term: 원운동
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 40
+  previewIn: [12]
+  q: motion
+  planned: true
+- id: centripetal-force
+  term: 구심력
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 40
+  q: force
+  planned: true
+
+# ── 41강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 42강 ─────────────────────────────
+- id: line-spectrum
+  term: 선 스펙트럼
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 42
+  planned: true
+- id: absorption-line
+  term: 흡수선
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 42
+  planned: true
+
+# ── 43강 ─────────────────────────────
+- id: balmer-formula
+  term: 발머 공식
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 43
+  planned: true
+
+# ── 44강 ─────────────────────────────
+- id: energy-level
+  term: 에너지 준위
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 44
+  q: energy
+  planned: true
+- id: ground-state
+  term: 바닥상태
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 44
+  q: energy
+  planned: true
+- id: bohr-model
+  term: 보어 모형
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 44
+  planned: true
+
+# ── 45강 ─────────────────────────────
+- id: rydberg-constant
+  term: 뤼드베리 상수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 45
+  planned: true
+
+# ── 46강 ─────────────────────────────
+- id: excited-state
+  term: 들뜬상태
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 46
+  q: energy
+  planned: true
+
+# ── 47강 ─────────────────────────────
+- id: matter-wave
+  term: 물질파
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 47
+  planned: true
+- id: de-broglie-wavelength
+  term: 드브로이 파장
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 47
+  q: space
+  planned: true
+
+# ── 48강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 49강 ─────────────────────────────
+- id: electron-diffraction
+  term: 전자 회절
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 49
+  planned: true
+
+# ── 50강 ─────────────────────────────
+- id: wave-particle-duality
+  term: 파동-입자 이중성
+  aliases: ["이중성"]
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 50
+  planned: true
+
+# ── 51강 ─────────────────────────────
+- id: complementarity
+  term: 상보성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 51
+  planned: true
+
+# ── 52강 ─────────────────────────────
+- id: imaginary-number
+  term: 허수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 52
+  planned: true
+- id: complex-number
+  term: 복소수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 52
+  planned: true
+- id: complex-plane
+  term: 복소평면
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 52
+  planned: true
+
+# ── 53강 ─────────────────────────────
+- id: modulus
+  term: 절댓값
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 53
+  planned: true
+- id: argument
+  term: 편각
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 53
+  planned: true
+
+# ── 54강 ─────────────────────────────
+- id: euler-formula
+  term: 오일러 공식
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 54
+  planned: true
+
+# ── 55강 ─────────────────────────────
+- id: probability-amplitude
+  term: 확률 진폭
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 55
+  planned: true
+
+# ── 56강 ─────────────────────────────
+- id: born-rule
+  term: 보른 규칙
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 56
+  planned: true
+
+# ── 57강 ─────────────────────────────
+- id: standard-deviation
+  term: 표준편차
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 57
+  planned: true
+
+# ── 58강 ─────────────────────────────
+- id: wavefunction
+  term: 파동함수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 58
+  planned: true
+
+# ── 59강 ─────────────────────────────
+- id: quantum-state
+  term: 양자 상태
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 59
+  planned: true
+- id: collapse
+  term: 파동함수의 붕괴
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 59
+  planned: true
+
+# ── 60강 ─────────────────────────────
+- id: wave-packet
+  term: 파동묶음
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 60
+  planned: true
+- id: fourier-decomposition
+  term: 푸리에 분해
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 60
+  planned: true
+
+# ── 61강 ─────────────────────────────
+- id: uncertainty-principle
+  term: 불확정성 원리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 61
+  planned: true
+
+# ── 62강 ─────────────────────────────
+- id: zero-point-energy
+  term: 영점 에너지
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 62
+  q: energy
+  planned: true
+
+# ── 63강 ─────────────────────────────
+- id: linewidth
+  term: 선폭
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 63
+  planned: true
+
+# ── 64강 ─────────────────────────────
+- id: derivative
+  term: 미분
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 64
+  planned: true
+- id: curvature
+  term: 곡률
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 64
+  planned: true
+
+# ── 65강 ─────────────────────────────
+- id: schrodinger-equation
+  term: 슈뢰딩거 방정식
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 65
+  planned: true
+
+# ── 66강 ─────────────────────────────
+- id: particle-in-a-box
+  term: 상자 속 입자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 66
+  planned: true
+- id: quantum-dot
+  term: 양자점
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 66
+  planned: true
+
+# ── 67강 ─────────────────────────────
+- id: potential-well
+  term: 퍼텐셜 우물
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 67
+  planned: true
+- id: forbidden-region
+  term: 금지 영역
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 67
+  planned: true
+
+# ── 68강 ─────────────────────────────
+- id: tunneling
+  term: 터널 효과
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 68
+  planned: true
+
+# ── 69강 ─────────────────────────────
+- id: harmonic-oscillator
+  term: 조화 진동자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 69
+  planned: true
+
+# ── 70강 ─────────────────────────────
+- id: stationary-state
+  term: 정상 상태
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 70
+  q: energy
+  planned: true
+
+# ── 71강 ─────────────────────────────
+- id: quantum-number
+  term: 양자수
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 71
+  planned: true
+- id: orbital
+  term: 오비탈
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 71
+  planned: true
+
+# ── 72강 ─────────────────────────────
+- id: spin
+  term: 스핀
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 72
+  planned: true
+- id: stern-gerlach
+  term: 슈테른-게를라흐 실험
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 72
+  planned: true
+
+# ── 73강 ─────────────────────────────
+- id: pauli-exclusion
+  term: 파울리 배타 원리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 73
+  planned: true
+
+# ── 74강 ─────────────────────────────
+- id: electron-configuration
+  term: 전자 배치
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 74
+  planned: true
+- id: periodic-table
+  term: 주기율표
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 74
+  planned: true
+
+# ── 75강 ─────────────────────────────
+- id: degeneracy-pressure
+  term: 축퇴압
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 75
+  planned: true
+
+# ── 76강 ─────────────────────────────
+- id: boson
+  term: 보손
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 76
+  planned: true
+- id: fermion
+  term: 페르미온
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 76
+  planned: true
+- id: bose-einstein-condensate
+  term: 보스-아인슈타인 응축
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 76
+  planned: true
+
+# ── 77강 ─────────────────────────────
+- id: vector
+  term: 벡터
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 77
+  planned: true
+- id: dot-product
+  term: 내적
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 77
+  planned: true
+
+# ── 78강 ─────────────────────────────
+- id: polarization
+  term: 편광
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 78
+  planned: true
+
+# ── 79강 ─────────────────────────────
+- id: qubit
+  term: 큐비트
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 79
+  planned: true
+- id: dirac-notation
+  term: 디랙 표기
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 79
+  planned: true
+
+# ── 80강 ─────────────────────────────
+- id: basis
+  term: 기저
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 80
+  planned: true
+- id: projection
+  term: 투영
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 80
+  planned: true
+
+# ── 81강 ─────────────────────────────
+- id: matrix
+  term: 행렬
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 81
+  planned: true
+
+# ── 82강 ─────────────────────────────
+- id: observable
+  term: 관측가능량
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 82
+  planned: true
+- id: eigenvalue
+  term: 고윳값
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 82
+  planned: true
+- id: eigenstate
+  term: 고유 상태
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 82
+  planned: true
+
+# ── 83강 ─────────────────────────────
+- id: commutator
+  term: 교환자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 83
+  planned: true
+
+# ── 84강 ─────────────────────────────
+- id: copenhagen-interpretation
+  term: 코펜하겐 해석
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 84
+  planned: true
+
+# ── 85강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 86강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 87강 ─────────────────────────────
+- id: measurement-problem
+  term: 측정 문제
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 87
+  planned: true
+
+# ── 88강 ─────────────────────────────
+- id: locality
+  term: 국소성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 88
+  planned: true
+- id: realism
+  term: 실재성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 88
+  planned: true
+
+# ── 89강 ─────────────────────────────
+- id: entanglement
+  term: 얽힘
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 89
+  planned: true
+
+# ── 90강 ─────────────────────────────
+- id: bell-inequality
+  term: 벨 부등식
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 90
+  planned: true
+
+# ── 91강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 92강 ─────────────────────────────
+- id: local-realism
+  term: 국소 실재론
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 92
+  planned: true
+
+# ── 93강 ─────────────────────────────
+- id: decoherence
+  term: 결어긋남
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 93
+  planned: true
+- id: many-worlds
+  term: 다세계 해석
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 93
+  planned: true
+
+# ── 94강 ─────────────────────────────
+# (새 용어 없음)
+
+# ── 95강 ─────────────────────────────
+- id: falsifiability
+  term: 반증 가능성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 95
+  planned: true
+- id: paradigm
+  term: 패러다임
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 95
+  planned: true
+
+# ── 96강 ─────────────────────────────
+- id: reference-frame
+  term: 기준틀
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 96
+  planned: true
+
+# ── 97강 ─────────────────────────────
+- id: constancy-of-light-speed
+  term: 광속 불변
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 97
+  planned: true
+
+# ── 98강 ─────────────────────────────
+- id: time-dilation
+  term: 시간 지연
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 98
+  q: time
+  planned: true
+
+# ── 99강 ─────────────────────────────
+- id: length-contraction
+  term: 길이 수축
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 99
+  q: space
+  planned: true
+- id: relativity-of-simultaneity
+  term: 동시성의 상대성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 99
+  planned: true
+
+# ── 100강 ────────────────────────────
+- id: mass-energy-equivalence
+  term: 질량-에너지 등가
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 100
+  q: energy
+  planned: true
+
+# ── 101강 ────────────────────────────
+- id: antimatter
+  term: 반물질
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 101
+  planned: true
+- id: positron
+  term: 양전자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 101
+  q: charge
+  planned: true
+
+# ── 102강 ────────────────────────────
+- id: equivalence-principle
+  term: 등가 원리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 102
+  planned: true
+
+# ── 103강 ────────────────────────────
+- id: general-relativity
+  term: 일반상대성이론
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 103
+  planned: true
+- id: spacetime
+  term: 시공간
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 103
+  planned: true
+
+# ── 104강 ────────────────────────────
+- id: black-hole
+  term: 블랙홀
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 104
+  planned: true
+- id: event-horizon
+  term: 사건의 지평선
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 104
+  planned: true
+
+# ── 105강 ────────────────────────────
+- id: gravitational-wave
+  term: 중력파
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 105
+  planned: true
+
+# ── 106강 ────────────────────────────
+- id: proton
+  term: 양성자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 106
+  q: charge
+  planned: true
+- id: neutron
+  term: 중성자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 106
+  planned: true
+- id: binding-energy
+  term: 결합 에너지
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 106
+  q: energy
+  planned: true
+
+# ── 107강 ────────────────────────────
+- id: radioactive-decay
+  term: 방사성 붕괴
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 107
+  planned: true
+- id: half-life
+  term: 반감기
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 107
+  q: time
+  planned: true
+
+# ── 108강 ────────────────────────────
+- id: nuclear-fusion
+  term: 핵융합
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 108
+  planned: true
+
+# ── 109강 ────────────────────────────
+- id: nucleosynthesis
+  term: 원소 합성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 109
+  planned: true
+
+# ── 110강 ────────────────────────────
+- id: white-dwarf
+  term: 백색왜성
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 110
+  planned: true
+- id: neutron-star
+  term: 중성자별
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 110
+  planned: true
+- id: chandrasekhar-limit
+  term: 찬드라세카르 한계
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 110
+  planned: true
+
+# ── 111강 ────────────────────────────
+- id: chain-reaction
+  term: 연쇄 반응
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 111
+  planned: true
+
+# ── 112강 ────────────────────────────
+- id: nuclear-fission
+  term: 핵분열
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 112
+  planned: true
+
+# ── 113강 ────────────────────────────
+# (새 용어 없음)
+
+# ── 114강 ────────────────────────────
+- id: nuclear-reactor
+  term: 원자로
+  pattern: "원자로(?=[가는를의에와])"
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 114
+  planned: true
+- id: criticality
+  term: 임계
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 114
+  planned: true
+
+# ── 115강 ────────────────────────────
+- id: critical-mass
+  term: 임계 질량
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 115
+  planned: true
+- id: implosion
+  term: 내폭
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 115
+  planned: true
+
+# ── 116강 ────────────────────────────
+# (새 용어 없음)
+
+# ── 117강 ────────────────────────────
+# (새 용어 없음)
+
+# ── 118강 ────────────────────────────
+- id: consequentialism
+  term: 결과주의
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 118
+  planned: true
+- id: deontology
+  term: 의무론
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 118
+  planned: true
+- id: virtue-ethics
+  term: 덕 윤리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 118
+  planned: true
+
+# ── 119강 ────────────────────────────
+# (새 용어 없음)
+
+# ── 120강 ────────────────────────────
+# (새 용어 없음)
+
+# ── 121강 ────────────────────────────
+- id: field
+  term: 장
+  pattern: "장\\(場\\)"
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 121
+  planned: true
+
+# ── 122강 ────────────────────────────
+- id: qed
+  term: 양자전기역학
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 122
+  planned: true
+- id: feynman-diagram
+  term: 파인먼 다이어그램
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 122
+  planned: true
+
+# ── 123강 ────────────────────────────
+- id: fundamental-interaction
+  term: 기본 상호작용
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 123
+  planned: true
+
+# ── 124강 ────────────────────────────
+- id: standard-model
+  term: 표준 모형
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 124
+  planned: true
+- id: higgs-boson
+  term: 힉스 입자
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 124
+  planned: true
+
+# ── 125강 ────────────────────────────
+- id: symmetry
+  term: 대칭
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 125
+  planned: true
+- id: noether-theorem
+  term: 뇌터 정리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 125
+  planned: true
+
+# ── 126강 ────────────────────────────
+- id: cmb
+  term: 우주 배경 복사
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 126
+  planned: true
+
+# ── 127강 ────────────────────────────
+- id: big-bang
+  term: 빅뱅
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 127
+  planned: true
+- id: inflation
+  term: 인플레이션
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 127
+  planned: true
+- id: quantum-fluctuation
+  term: 양자 요동
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 127
+  planned: true
+
+# ── 128강 ────────────────────────────
+- id: dark-matter
+  term: 암흑물질
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 128
+  planned: true
+- id: dark-energy
+  term: 암흑에너지
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 128
+  q: energy
+  planned: true
+
+# ── 129강 ────────────────────────────
+- id: hawking-radiation
+  term: 호킹 복사
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 129
+  planned: true
+- id: information-paradox
+  term: 정보 역설
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 129
+  planned: true
+
+# ── 130강 ────────────────────────────
+- id: quantum-gravity
+  term: 양자 중력
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 130
+  planned: true
+
+# ── 131강 ────────────────────────────
+- id: energy-band
+  term: 에너지 띠
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 131
+  q: energy
+  planned: true
+- id: band-gap
+  term: 띠틈
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 131
+  q: energy
+  planned: true
+- id: semiconductor
+  term: 반도체
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 131
+  planned: true
+
+# ── 132강 ────────────────────────────
+- id: transistor
+  term: 트랜지스터
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 132
+  planned: true
+
+# ── 133강 ────────────────────────────
+- id: stimulated-emission
+  term: 유도 방출
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 133
+  planned: true
+- id: laser
+  term: 레이저
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 133
+  previewIn: [15, 16]
+  planned: true
+
+# ── 134강 ────────────────────────────
+- id: nuclear-spin
+  term: 핵 스핀
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 134
+  planned: true
+- id: mri
+  term: 자기 공명 영상
+  aliases: ["MRI"]
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 134
+  planned: true
+
+# ── 135강 ────────────────────────────
+- id: quantum-computer
+  term: 양자컴퓨터
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 135
+  planned: true
+
+# ── 136강 ────────────────────────────
+- id: quantum-cryptography
+  term: 양자 암호
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 136
+  planned: true
+- id: no-cloning
+  term: 복제 불가 정리
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 136
+  planned: true
+- id: quantum-teleportation
+  term: 양자 순간이동
+  definition: (준비 중)
+  examples: [(준비 중), (준비 중)]
+  taughtIn: 136
+  planned: true
+
+# ── 137강 ────────────────────────────
+# (새 용어 없음)

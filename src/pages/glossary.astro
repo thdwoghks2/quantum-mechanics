@@ -5,7 +5,7 @@ import '../styles/pages.css';
 import { lessonUrl } from '../lib/url.ts';
 import { publishedNumbers } from '../lib/course.ts';
 
-const terms = (await getCollection('glossary')).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
+const terms = (await getCollection('glossary', (g) => !g.data.planned)).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
 const published = new Set(await publishedNumbers());
 const byLesson = new Map<number, typeof terms>();
 for (const t of terms) {

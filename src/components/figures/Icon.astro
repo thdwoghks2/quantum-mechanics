@@ -90,6 +90,14 @@ const ICONS: Record<string, string> = {
   hair: '<path d="M4 50C20 40 40 20 60 10"/><path d="M4 56C22 46 42 28 60 18" opacity=".6"/><path d="M40 20l4 6" />',
   bacteria: '<rect x="14" y="22" width="36" height="20" rx="10"/><path d="M50 32c6 0 6 8 12 6M14 32c-6 0-6-8-12-6"/><circle cx="26" cy="32" r="2" fill="currentColor"/><circle cx="36" cy="30" r="2" fill="currentColor"/>',
 };
+// icons/*.ts에 더한 아이콘도 함께 쓴다(세션마다 자기 파일에 더해서 서로 부딪히지 않게).
+const extra = import.meta.glob<Record<string, string>>('./icons/*.ts', { eager: true, import: 'default' });
+for (const [file, set] of Object.entries(extra)) {
+  for (const [k, v] of Object.entries(set)) {
+    if (k in ICONS && ICONS[k] !== v) throw new Error(`아이콘 이름이 겹친다: ${k} (${file})`);
+    ICONS[k] = v;
+  }
+}
 const body = ICONS[name];
 if (!body) throw new Error(`아이콘 없음: ${name}`);
 ---

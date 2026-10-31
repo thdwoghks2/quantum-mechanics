@@ -6,7 +6,7 @@
 ## 1. 순서
 
 1. `src/content/curriculum.yaml`에서 강 번호와 제목을 확인한다.
-2. 이 강에서 새로 배우는 용어를 `src/content/glossary.yaml`에 넣는다. `taughtIn`은 이 강 번호다. 일상 예시는 2개 이상. 앞 강들이 이 말을 이미 일상어로 쓰고 있으면 `previewIn: [강 번호들]`을 적는다(`npm run validate`가 어느 강인지 알려 준다).
+2. 이 강에서 새로 배우는 용어를 `src/content/glossary.yaml`에 넣는다. 21~137강 용어는 이미 이름과 강 번호가 정해져 있다(`planned: true`). 그 항목을 채우고 `planned` 줄을 지운다. `taughtIn`은 이 강 번호다. 일상 예시는 2개 이상. 앞 강들이 이 말을 이미 일상어로 쓰고 있으면 `previewIn: [강 번호들]`을 적는다(`npm run validate`가 어느 강인지 알려 준다).
 3. `src/content/lessons/NN-part/NNN-slug.mdx`를 만든다. 아래 틀을 복사한다.
 4. `mechanism`(이 강이 설명할 원리 한 문장)부터 쓰고, 화면을 쓴다.
 5. 검사한다.
@@ -142,4 +142,6 @@ status: draft                         # 다 쓰면 published
 `src/components/sims/SimXxx.astro`를 만들고 `src/lib/client/sim.ts`의 `Sim`을 상속한다.
 슬라이더는 `input[data-param]`, 버튼은 `button[data-set="이름=값"]`으로 매개변수에 묶인다.
 `draw()`만 채우면 화면이 보일 때만 움직이고, 움직임을 줄이는 설정이면 자동 재생하지 않는다.
-다 만들면 `src/components/sims/index.ts`에 등록한다. 입력칸 id에는 `uid`를 붙여 한 화면에 두 번 써도 겹치지 않게 한다.
+파일 이름이 `Sim`으로 시작하면 저절로 등록된다(`src/components/sims/index.ts`는 고치지 않는다). 입력칸 id에는 `uid`를 붙여 한 화면에 두 번 써도 겹치지 않게 한다.
+
+새 아이콘은 `src/components/figures/icons/` 아래 파일에 더한다(`icons/README.md`).

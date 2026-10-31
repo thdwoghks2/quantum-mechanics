@@ -13,6 +13,8 @@
  * 5. 공개된 강에는 마지막 점검, 한 문장으로(또는 예전의 세 줄), 다음 강으로 화면이 있어야 한다.
  *    되짚기(<Recap terms>)의 용어는 이 강까지 배운 것이어야 한다.
  * 6. 인물·사건이 가리키는 강과 사람이 실제로 있어야 한다.
+ * 7. 아직 쓰지 않은 강의 용어는 glossary.yaml에 planned: true로 이름과 강 번호만 정해 둔다.
+ *    공개한 강이 planned 용어를 가르치면 안 된다(내용을 채우고 planned를 지운다).
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -86,6 +88,7 @@ for (const { file, fm, body, fmLines } of lessons) {
     else if (g.taughtIn !== n) err(file, `introduces의 '${id}'는 용어집에서 ${g.taughtIn}강으로 되어 있다`);
   }
   for (const g of glossary.filter((x) => x.taughtIn === n)) {
+    if (published && g.planned) err(file, `용어 '${g.term}'이 아직 planned다. 정의와 예시를 채우고 planned를 지운다`);
     if (!(fm.introduces ?? []).includes(g.id)) err(file, `용어 '${g.term}'은 이 강에서 배우는데 introduces에 없다`);
     if (!new RegExp(`<Define\\s+term="${g.id}"`).test(body)) err(file, `용어 '${g.term}'의 정의 카드(<Define term="${g.id}" />)가 없다`);
   }

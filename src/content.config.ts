@@ -38,6 +38,8 @@ const glossary = defineCollection({
     taughtIn: z.number().int().positive(),
     /** 정식 도입 전에도 이 말을 일상어로 쓰는 앞 강들 (예: 원자는 21강에서 배우지만 1, 2강에서도 쓴다) */
     previewIn: z.array(z.number().int().positive()).default([]),
+    /** 아직 그 강을 쓰지 않아 이름과 강 번호만 정해 둔 용어. 그 강을 공개할 때 내용을 채우고 지운다. */
+    planned: z.boolean().default(false),
     q: z.enum(QUANTITY).default('plain'),
     /** 글 속에서 색 밑줄을 칠지 */
     highlight: z.boolean().default(false),

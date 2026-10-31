@@ -22,7 +22,7 @@ const { entry, prev, next } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
 
-const glossary = (await getCollection('glossary')).filter((g) => g.data.taughtIn <= d.number);
+const glossary = (await getCollection('glossary')).filter((g) => g.data.taughtIn <= d.number && !g.data.planned);
 const glossaryJson = JSON.stringify(
   glossary.map((g) => ({ id: g.id, ...g.data })),
 ).replace(/</g, '\\u003c');
