@@ -1,0 +1,398 @@
+---
+number: 49
+title: 전자 회절 실험
+short: 전자 회절
+question: 전자가 정말 파동처럼 회절할까요?
+mechanism: 결정 속 원자는 0.2 nm 남짓한 간격으로 줄지어 있어서, 파장이 비슷한 파동에게는 아주 가는 틈들처럼 작용해요. 이웃한 원자에서 튀어 나온 파동의 경로차가 파장의 정수배인 방향에서는 보강 간섭이 일어나 밝은 방향이 생겨요. 1927년 니켈 결정에 54 V 전자를 쏘자 50° 방향으로 전자가 몰렸고, 그 방향으로 계산한 파장이 드브로이 파장 0.167 nm와 맞았어요. 그래서 전자의 물질파는 실제로 있어요.
+part: 4
+year: 1927
+place: 뉴욕, 애버딘
+minutes: 22
+assumes: [de-broglie-wavelength, matter-wave, diffraction, interference, constructive, path-difference, slit, fringe, x-ray, electron, cathode-ray, sine, wavelength, atom]
+introduces: [electron-diffraction]
+sources:
+  - "Davisson, C. & Germer, L. H. Diffraction of Electrons by a Crystal of Nickel. Physical Review 30, 705–740 (1927)"
+  - "Thomson, G. P. & Reid, A. Diffraction of Cathode Rays by a Thin Film. Nature 119, 890 (1927)"
+  - "Gehrenbeck, R. K. Electron diffraction: fifty years ago. Physics Today 31(1), 34–41 (1978)"
+  - "Nobel Prize in Physics 1937: Clinton Joseph Davisson, George Paget Thomson"
+testout: [q49-angle, q49-voltage, q49-father]
+status: published
+---
+
+<Screen kind="scene" title="CD의 무지개">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's2-cd', title: 'CD 뒷면', caption: '가는 홈이 촘촘히 늘어서 있어요' },
+      { icon: 'rainbow', title: '비스듬히 보면', caption: '방향마다 다른 색이 보여요' },
+    ]} />
+  </Fragment>
+
+CD 뒷면을 불빛에 비스듬히 비추면 무지갯빛이 보여요. 아주 가는 홈이 1 mm에 수백 줄씩 촘촘히 늘어서 있어서, 홈에서 튀어 나온 빛들이 간섭하기 때문이에요.
+
+<S n={2}>
+
+48강 끝에서 전자가 파동이라면 원자 간격만 한 틈에서 회절해야 한다고 했어요. 그런데 원자 간격만 한 틈은 어디서 구할까요?
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={16} title="여러 틈과 경로차">
+  <Fragment slot="visual">
+    <SlitGeometry />
+  </Fragment>
+
+16강의 이중 슬릿을 떠올려 볼게요. 두 틈에서 화면의 한 점까지 오는 두 길이는 조금 달라요.
+
+<S n={2}>
+
+그 차이, 곧 14강의 경로차가 파장의 정수배인 곳에서는 보강 간섭이 일어나 밝아졌어요.
+
+</S>
+
+<S n={3}>
+
+틈 사이 간격을 d, 방향을 θ라 하면 경로차는 d × sin θ라서, d × sin θ = 파장인 방향이 첫째로 밝았죠.
+
+</S>
+
+<S n={4}>
+
+틈이 여럿으로 늘어나도 이 조건은 같고, 밝은 방향은 오히려 더 또렷해져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="자연이 만든 틈">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '결정 속 원자', caption: '0.2 nm 남짓한 간격으로 줄지어 있어요' },
+      { icon: 'xray', title: 'X선', caption: '1912년, 결정에서 회절했어요' },
+    ]} />
+  </Fragment>
+
+사람이 원자 간격만 한 틈을 만들 수는 없어요. 그런데 금속이나 소금 같은 결정 속에는 원자들이 0.2 nm 남짓한 간격으로 가지런히 줄지어 있어요.
+
+<S n={2}>
+
+1912년 독일의 막스 폰 라우에는 파장이 그만큼 짧은 X선을 결정에 비추면 회절 무늬가 생긴다는 걸 보였어요. 결정은 자연이 만든 아주 가는 틈의 묶음이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="전자라면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0.2 nm 남짓', title: '결정 속 원자 간격', caption: '' },
+      { big: '0.12 nm', title: '100 V 전자의 파장 (47강)', caption: '', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+47강에서 100 V로 가속한 전자의 드브로이 파장을 0.12 nm로 계산했어요. 결정 속 원자 간격과 비슷하죠.
+
+<S n={2}>
+
+그러니 전자가 정말 파동이라면, 결정에 쏜 전자도 X선처럼 정해진 방향으로만 몰려 나와야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="벨 연구소의 니켈">
+  <Fragment slot="visual">
+    <BigNumber top="클린턴 데이비슨과 레스터 거머가 니켈 결정에서 전자 회절을 확인한 해" value="1927" bottom="미국 뉴욕의 벨 전화 연구소" />
+  </Fragment>
+
+미국 벨 전화 연구소의 클린턴 데이비슨은 진공관을 더 좋게 만들려고, 전자를 금속에 쏘아 어떻게 튀어 나오는지 연구하고 있었어요. 처음엔 물질파를 찾으려던 게 아니었죠.
+
+<S n={2}>
+
+1925년, 실험 장치의 유리관이 깨져 공기가 들어가는 바람에 니켈 표면이 녹슬었어요. 녹을 없애려고 니켈을 오래 달궜더니, 그 뒤로 전자가 몇몇 방향에만 유난히 많이 튀어 나왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="우연이 만든 결정">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '자잘한 결정', caption: '방향이 제각각이라 고르게 튀어요' },
+      { big: '큰 결정 몇 개', caption: '원자가 넓게 가지런히 늘어서요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오래 달군 니켈은 자잘한 결정들이 몇 개의 큰 결정으로 바뀌어 있었어요. 원자가 넓은 범위에서 가지런히 줄지어 선 거예요.
+
+<S n={2}>
+
+1926년 영국의 학회에 간 데이비슨은 드브로이의 물질파 이야기를 듣고, 자기 결과가 그 증거일지 모른다는 걸 알게 됐어요. 돌아와서 레스터 거머와 함께 본격적으로 찾기 시작했죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="54 V의 전자">
+  <Fragment slot="visual">
+    <SimP04Crystal v={54} />
+  </Fragment>
+
+니켈 원자 한 줄에 위에서 전자를 쏘는 그림이에요. 곡선이 멀리 뻗은 방향일수록 전자가 많이 튀어 나와요. 전압을 54 V에 두고 밝은 방향을 찾아보세요.
+
+<S n={2}>
+
+곧게 되튀는 방향 말고, 약 50° 방향에 또렷한 봉우리가 있어요. 1927년 데이비슨과 거머가 찾은 것도 바로 54 V, 50°의 봉우리였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="54 V 전자의 파장">
+  <Fragment slot="visual">
+    <DataTable caption="54 V로 가속한 전자 (드브로이의 식으로)" head={['재는 것', '값']} rows={[
+      ['얻은 에너지 = 54 × 1.6 × 10⁻¹⁹ J', '약 8.6 × 10⁻¹⁸ J'],
+      ['빠르기', '약 4.4 × 10⁶ m/s'],
+      ['운동량', '약 4.0 × 10⁻²⁴ kg·m/s'],
+      ['파장 = h ÷ 운동량', '약 0.167 nm'],
+    ]} highlight={[3]} />
+  </Fragment>
+
+먼저 드브로이의 식으로 예상해 볼게요. 46강처럼 54 V를 지난 전자는 54 × 1.6 × 10⁻¹⁹ J의 운동 에너지를 얻어요.
+
+<S n={2}>
+
+이 에너지로 빠르기와 운동량을 구하고 h를 나누면, 파장은 약 0.167 nm예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="결정으로 잰 파장">
+  <Fragment slot="visual">
+    <DataTable caption="니켈의 원자 줄로 거꾸로 계산하면" head={['재는 것', '값']} rows={[
+      ['원자 줄 사이 간격 d', '0.215 nm'],
+      ['밝은 방향 θ', '50°, sin 50° ≈ 0.766'],
+      ['파장 = d × sin θ', '0.215 × 0.766 ≈ 0.165 nm'],
+      ['드브로이 파장으로 예상한 값', '0.167 nm'],
+    ]} highlight={[2, 3]} />
+  </Fragment>
+
+이번엔 거꾸로 결정에서 파장을 재 볼게요. 니켈 표면의 원자 줄 사이 간격은 0.215 nm예요.
+
+<S n={2}>
+
+밝은 방향이 50°이니, d × sin θ = 0.215 × 0.766 ≈ 0.165 nm가 전자의 파장이에요. 드브로이의 식으로 예상한 0.167 nm와 거의 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="전자 회절이라는 이름">
+  <Fragment slot="visual">
+    <Define term="electron-diffraction" />
+  </Fragment>
+
+이렇게 전자가 결정이나 얇은 막에서 파동처럼 퍼지고 간섭해 정해진 방향으로 몰리는 현상을 **전자 회절**이라고 해요.
+
+<Key>니켈 결정에 쏜 54 V 전자가 50° 방향으로 몰렸고, 그 방향과 원자 간격으로 잰 파장이 드브로이의 식으로 예상한 0.167 nm와 맞았으니까, 전자의 물질파는 실제로 있어요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="가장 밝은 방향">
+
+<Numeric id="q49-angle" answer={0.56} tol={0.04}>
+
+전압 100 V로 가속한 전자의 파장은 약 0.12 nm예요. 이 전자를 원자 줄 간격이 0.215 nm인 니켈 결정에 쏘면, sin θ가 얼마인 방향으로 가장 많이 몰려 나올까요? (곧게 되튀는 방향은 빼고요.)
+
+<Fragment slot="solution">
+
+d × sin θ = 파장이니, sin θ = 0.12 ÷ 0.215 ≈ 0.56이에요. 각도로는 약 34°예요. 54 V일 때의 50°보다 작아졌어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="check" title="전압을 올리면">
+
+<Check id="q49-voltage" options={[
+  { t: '밝은 방향의 각도가 작아져요.', ok: true, why: '전압을 올리면 전자가 빨라져 파장이 짧아져요. sin θ = 파장 ÷ 간격이니 각도가 작아져요.' },
+  { t: '밝은 방향의 각도가 커져요.', why: '파장이 짧아지면 같은 원자 간격에서 경로차를 맞추는 각도는 작아져요.' },
+  { t: '밝은 방향이 그대로예요.', why: '밝은 방향은 파장으로 정해져요. 전압이 바뀌면 파장이 바뀌어요.' },
+  { t: '밝은 방향이 없어지고 고르게 퍼져요.', why: '파장이 짧아져도 원자 간격보다 짧은 동안은 밝은 방향이 남아요. 자리만 옮겨 가요.' },
+]}>
+
+니켈 결정 실험에서 가속 전압을 54 V에서 80 V로 올렸어요. 전자가 몰려 나오는 밝은 방향은 어떻게 될까요? 시뮬레이션으로 확인해 봐도 좋아요.
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="얇은 막을 지난 전자">
+  <Fragment slot="visual">
+    <BigNumber top="조지 패짓 톰슨과 알렉산더 리드가 얇은 막으로 전자 회절을 본 해" value="1927" bottom="스코틀랜드 애버딘 대학" />
+  </Fragment>
+
+같은 해 스코틀랜드 애버딘 대학의 조지 패짓 톰슨은 학생 알렉산더 리드와 함께 다른 방법을 썼어요. 훨씬 빠른 전자를 아주 얇은 금속 막에 통과시킨 거예요.
+
+<S n={2}>
+
+막 뒤에 둔 사진판에는 동심원 고리 무늬가 찍혔어요. X선을 같은 막에 비췄을 때와 똑같은 모양이었고, 고리의 크기도 드브로이 파장으로 계산한 값과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="X선과 전자의 고리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'xray', title: 'X선', caption: '얇은 금속 막 뒤에 고리 무늬' },
+      { icon: 's2-crt', title: '전자', caption: '같은 막 뒤에 같은 모양의 고리 무늬', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+얇은 금속 막 속에는 작은 결정들이 온갖 방향으로 놓여 있어요. 그래서 밝은 방향들이 둘레로 돌아가며 고리를 이뤄요.
+
+<S n={2}>
+
+전자기파인 X선과 알갱이인 전자가 같은 무늬를 만든다는 건, 둘 다 파동으로 같은 규칙을 따른다는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="아버지와 아들">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1906', title: '아버지 J. J. 톰슨', caption: '전자가 알갱이임을 보인 공로로 노벨상' },
+      { big: '1937', title: '아들 G. P. 톰슨', caption: '전자가 파동처럼 회절함을 보인 공로로 노벨상', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+조지 패짓 톰슨은 37강에서 전자를 발견한 조지프 존 톰슨의 아들이에요. 아버지는 전자를 알갱이로 알아본 일 등으로 1906년 노벨상을 받았어요.
+
+<S n={2}>
+
+아들은 1937년, 전자가 파동처럼 회절한다는 걸 보인 공로로 데이비슨과 함께 노벨상을 받았어요. 한집안에서 전자의 두 얼굴이 하나씩 밝혀진 셈이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="두 톰슨이 보인 것">
+
+<Check id="q49-father" options={[
+  { t: '둘 다 맞아요. 전자는 알갱이처럼 휘기도 하고, 파동처럼 회절하기도 해요.', ok: true, why: '아버지의 실험은 전자가 정해진 질량과 전하를 지닌 알갱이처럼 행동함을, 아들의 실험은 파동처럼 회절함을 보였어요. 둘 다 같은 전자의 모습이에요.' },
+  { t: '아버지가 틀렸어요. 전자는 사실 파동이에요.', why: '전자는 지금도 정해진 질량과 전하를 지닌 알갱이 하나로 발견돼요. 아버지의 결과는 틀리지 않았어요.' },
+  { t: '아들이 틀렸어요. 전자는 사실 알갱이예요.', why: '전자 회절은 여러 실험으로 거듭 확인됐고, 전자현미경도 이 원리로 움직여요.' },
+  { t: '둘은 서로 다른 알갱이를 잰 거예요.', why: '둘 다 음극에서 나온 같은 전자를 썼어요.' },
+]}>
+
+아버지 톰슨은 전자가 알갱이임을 보여 노벨상을 받았고, 아들 톰슨은 전자가 파동처럼 회절함을 보여 노벨상을 받았어요. 둘 가운데 누가 맞을까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="전자로 보는 현미경">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's2-microscope', title: '빛 현미경', caption: '빛의 파장보다 훨씬 작은 건 흐려요' },
+      { big: '전자현미경', caption: '파장이 짧은 전자로 바이러스와 원자의 배열까지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자가 파동이라는 사실은 곧 쓸모로 이어졌어요. 1931년 독일의 에른스트 루스카는 빛 대신 전자로 보는 현미경을 만들기 시작했어요.
+
+<S n={2}>
+
+빠른 전자의 파장은 빛보다 수만 배 짧아서, 빛으로는 흐릿한 바이러스나 원자의 배열까지 또렷하게 볼 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="CD와 결정">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['CD의 가는 홈들', '결정 속 원자의 줄'],
+        ['홈 사이 간격', '원자 사이 간격'],
+        ['방향마다 다른 색', '방향마다 다른 세기의 전자'],
+      ]}
+      fits="촘촘히 늘어선 것들에서 튀어 나온 파동이 경로차가 파장의 정수배인 방향에서만 보강 간섭한다는 원리가 같아요."
+      breaks="CD의 홈 간격은 약 1,600 nm라 빛의 파장과 맞지만, 원자 간격은 그 1만분의 1쯤이라 전자나 X선처럼 파장이 아주 짧은 파동에만 맞아요. 그리고 원자는 한 줄이 아니라 겹겹이 쌓인 입체라서 무늬가 더 복잡해요."
+    />
+  </Fragment>
+
+오늘의 실험을 첫 화면의 CD에 빗대 볼게요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['electron-diffraction', 'de-broglie-wavelength', 'matter-wave']}>
+
+1. 결정 속 원자는 0.2 nm 남짓한 간격으로 줄지어 있어서, 파장이 비슷한 파동에게 아주 가는 틈의 묶음이 돼요.
+2. 이웃한 원자에서 튀어 나온 파동의 경로차가 파장의 정수배인 방향에서 보강 간섭이 일어나요.
+3. 54 V 전자를 니켈 결정에 쏘자 50° 방향으로 몰렸고, 그 방향으로 잰 파장이 드브로이 파장 0.167 nm와 맞았어요.
+4. 얇은 막을 지난 전자도 X선과 같은 고리 무늬를 만들어서, 전자의 물질파는 실제로 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="밝은 방향이 사라지는 전압">
+
+<DailyProblem id="p49">
+
+전압 V로 가속한 전자의 파장은 약 1.23 ÷ √V nm예요. 니켈 결정(원자 줄 간격 0.215 nm) 실험에서 전압을 점점 낮추면, 50°에 있던 밝은 방향은 어떻게 될까요? 어느 전압쯤에서 곧게 되튀는 방향 말고는 밝은 방향이 사라질까요?
+
+<Fragment slot="hint1">
+
+sin θ = 파장 ÷ 간격이에요. sin θ는 1보다 클 수 없어요.
+
+</Fragment>
+<Fragment slot="solution">
+
+전압을 낮추면 전자가 느려져 파장이 길어지고, sin θ가 커져서 밝은 방향이 점점 옆으로 누워요.
+
+파장이 원자 간격 0.215 nm와 같아지면 sin θ = 1, 곧 90°예요. 그보다 파장이 길어지면 맞는 방향이 없어요. 1.23 ÷ √V = 0.215에서 √V ≈ 5.7, V ≈ 33 V예요. 그러니 33 V쯤보다 낮으면 밝은 방향이 사라져요. 15강에서 틈보다 파장이 훨씬 긴 파동이 무늬 없이 퍼지던 것과 같은 까닭이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+결정에 쏜 전자가 드브로이 파장으로 계산한 방향에만 몰려 나오니까, 전자는 실제로 파동처럼 회절해요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="전자 하나만 보내면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '전자 수십억 개', caption: '한꺼번에 보내면 무늬가 생겨요', tone: 'ok' },
+      { big: '전자 하나씩', caption: '그래도 무늬가 생길까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘의 실험에서는 전자를 한꺼번에 아주 많이 쏘았어요. 그러니 수많은 전자가 서로 부딪히거나 밀어서 무늬가 생긴 건 아닐까 하는 의심이 남아요.
+
+<S n={2}>
+
+전자를 하나씩만 보내면 어떻게 될까요? 다음 강에서는 1989년 일본의 토노무라 아키라 연구진이 전자를 하나씩 이중 슬릿에 보낸 실험을 봐요.
+
+</S>
+
+</Screen>

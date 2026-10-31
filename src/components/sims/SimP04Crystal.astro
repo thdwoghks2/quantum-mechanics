@@ -1,0 +1,113 @@
+---
+/**
+ * 49강: 데이비슨-거머 실험. 니켈 결정의 표면 원자 줄(간격 0.215 nm)에 위에서 전자를 쏘면,
+ * 원자마다 튀어 나온 물질파가 겹쳐 d · sin θ = 파장인 방향으로 가장 세게 몰린다.
+ * 전압 V로 가속한 전자의 파장 ≈ 1.226 ÷ √V nm. 54 V면 0.167 nm, 밝은 방향 약 50°.
+ */
+interface Props {
+  v?: number;
+}
+const { v = 54 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-crystal class="sim" data-ratio="0.72">
+  <canvas aria-label="아래에 니켈 원자가 한 줄로 늘어서 있고 위에서 전자가 내려온다. 튀어 나온 전자의 세기를 방향마다 그린 곡선에서, 특정한 각도에 밝은 봉우리가 생긴다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`cy-v-${uid}`}>가속 전압</label>
+      <input id={`cy-v-${uid}`} type="range" min="20" max="100" step="1" value={v} data-param="v" />
+      <output data-out="v"></output>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-crystal>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const D = 0.215; // nm
+  const N = 10; // 원자 개수
+
+  class SimCrystal extends Sim {
+    animated = false;
+
+    lambda() {
+      return 1.226 / Math.sqrt(this.p.v!);
+    }
+
+    intensity(th: number) {
+      const ph = (2 * Math.PI * D * Math.sin(th)) / this.lambda();
+      let re = 0;
+      let im = 0;
+      for (let n = 0; n < N; n++) {
+        re += Math.cos(n * ph);
+        im += Math.sin(n * ph);
+      }
+      return (re * re + im * im) / (N * N);
+    }
+
+    format() {
+      return `${this.p.v} V`;
+    }
+
+    readout() {
+      const lam = this.lambda();
+      const s = lam / D;
+      if (s > 1) return `파장 ${lam.toFixed(3)} nm가 원자 간격 0.215 nm보다 길어요. sin θ = 파장 ÷ 간격이 1을 넘어서, 곧게 되튀는 방향 말고는 밝은 방향이 없어요.`;
+      const deg = (Math.asin(s) * 180) / Math.PI;
+      return `파장 ≈ 1.226 ÷ √${this.p.v} ≈ ${lam.toFixed(3)} nm → 밝은 방향: sin θ = 파장 ÷ 0.215 nm ≈ ${s.toFixed(2)}, θ ≈ ${deg.toFixed(0)}°`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const cx = w / 2;
+      const base = h * 0.82;
+      const R = h * 0.62;
+      // 원자 줄
+      const gap = Math.min(26, (w * 0.8) / N);
+      for (let n = 0; n < N; n++) this.dot(cx + (n - (N - 1) / 2) * gap, base + 8, 5, c.text2);
+      this.text('니켈 원자 (간격 0.215 nm)', cx, base + 26, c.muted, 10, 'center');
+      // 내려오는 전자
+      const ex = cx - w * 0.36;
+      this.arrow(ex, base - R * 0.95, ex, base - R * 0.75, c.charge, 2);
+      this.text('전자', ex + 6, base - R * 0.85, c.charge, 10);
+      // 각도 눈금
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      for (const deg of [-60, -30, 0, 30, 60]) {
+        const th = (deg * Math.PI) / 180;
+        g.beginPath();
+        g.moveTo(cx, base);
+        g.lineTo(cx + R * Math.sin(th), base - R * Math.cos(th));
+        g.stroke();
+        this.text(`${Math.abs(deg)}°`, cx + (R + 12) * Math.sin(th), base - (R + 12) * Math.cos(th), c.muted, 10, 'center');
+      }
+      // 세기 곡선 (극좌표)
+      g.strokeStyle = c.charge;
+      g.fillStyle = 'rgba(96, 196, 200, 0.14)';
+      g.lineWidth = 2;
+      g.beginPath();
+      g.moveTo(cx, base);
+      for (let i = 0; i <= 360; i++) {
+        const th = -Math.PI / 2 + (i / 360) * Math.PI;
+        const r = R * 0.95 * this.intensity(th);
+        g.lineTo(cx + r * Math.sin(th), base - r * Math.cos(th));
+      }
+      g.closePath();
+      g.fill();
+      g.stroke();
+      // 밝은 방향 표시
+      const s = this.lambda() / D;
+      if (s <= 1) {
+        const th = Math.asin(s);
+        g.setLineDash([4, 4]);
+        this.line(cx, base, cx + R * Math.sin(th), base - R * Math.cos(th), c.accent, 1.5);
+        g.setLineDash([]);
+        this.text(`θ ≈ ${((th * 180) / Math.PI).toFixed(0)}°`, cx + (R * 0.55) * Math.sin(th) + 12, base - (R * 0.55) * Math.cos(th), c.accent, 11);
+      }
+      this.text('곡선이 멀리 뻗은 방향일수록 전자가 많이 튀어 나와요', cx, 12, c.muted, 10, 'center');
+    }
+  }
+  define('qm-sim-crystal', SimCrystal);
+</script>
