@@ -3,25 +3,76 @@
     {
       "target": "app",
       "public": "dist",
-      "ignore": ["firebase.json", "**/.*"],
+      "ignore": [
+        "firebase.json",
+        "**/.*"
+      ],
       "trailingSlash": true,
       "headers": [
         {
           "source": "/_astro/**",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "/sw.js",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "Service-Worker-Allowed",
+              "value": "/"
+            }
+          ]
+        },
+        {
+          "source": "/manifest.webmanifest",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/manifest+json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        {
+          "source": "/icons/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=604800"
+            }
+          ]
         }
       ]
     },
     {
       "target": "bgm",
       "public": "bgm/public",
-      "ignore": ["**/.*"],
+      "ignore": [
+        "**/.*"
+      ],
       "headers": [
         {
           "source": "**/*.@(mp3|m4a|ogg|opus|webm)",
           "headers": [
-            { "key": "Cache-Control", "value": "public, max-age=604800" },
-            { "key": "Access-Control-Allow-Origin", "value": "*" }
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=604800"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
           ]
         }
       ]

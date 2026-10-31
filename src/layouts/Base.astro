@@ -33,6 +33,12 @@ const here = Astro.url.pathname;
     <meta name="theme-color" content="#0d0c0a" />
     <title>{fullTitle}</title>
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="manifest" href={url('manifest.webmanifest')} />
+    <link rel="apple-touch-icon" href={url('icons/apple-touch-icon.png')} />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="137" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -44,6 +50,13 @@ const here = Astro.url.pathname;
     <script>
       // 페이지를 바꿔 끼울 때 새 문서의 html 속성으로 갈아 끼워지므로, 끼우기 전에 js 표시를 미리 붙여 둔다.
       document.addEventListener('astro:before-swap', (e) => e.newDocument.documentElement.classList.add('js'));
+      // 앱처럼 설치하고, 본 강은 연결이 없어도 볼 수 있게 서비스 워커를 등록한다(배포한 사이트에서만).
+      if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+        const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register(`${base}sw.js`, { scope: base }).catch(() => {});
+        });
+      }
     </script>
   </head>
   <body class={bodyClass}>
