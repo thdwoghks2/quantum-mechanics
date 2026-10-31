@@ -4,5 +4,6 @@ import SimMotion from './SimMotion.astro';
 import SimForce from './SimForce.astro';
 import SimCoaster from './SimCoaster.astro';
 import SimCollision from './SimCollision.astro';
+import SimChaos from './SimChaos.astro';
 
-export const sims = { SimScale, SimMotion, SimForce, SimCoaster, SimCollision };
+export const sims = { SimScale, SimMotion, SimForce, SimCoaster, SimCollision, SimChaos };

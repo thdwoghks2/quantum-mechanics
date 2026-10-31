@@ -1,0 +1,147 @@
+---
+/**
+ * 가운데에 둥근 장애물이 있는 당구대. 두 공을 거의 같은 방향으로 출발시킨다.
+ * 차이가 0이면 영원히 같은 길을 가고(결정론), 아주 작아도 몇 번 부딪히면 완전히 갈라진다(카오스).
+ */
+interface Props {
+  d?: number;
+}
+const { d = 0 } = Astro.props;
+---
+<qm-sim-chaos class="sim" data-ratio="0.82">
+  <canvas aria-label="가운데 둥근 장애물이 있는 당구대에서 두 공이 거의 같은 방향으로 출발한다"></canvas>
+  <input type="hidden" data-param="d" value={d} />
+  <div class="sim__buttons" aria-label="처음 방향의 차이">
+    <button type="button" class="btn" data-set="d=0" aria-pressed={d === 0 ? 'true' : 'false'}>차이 0°</button>
+    <button type="button" class="btn" data-set="d=0.01" aria-pressed={d === 0.01 ? 'true' : 'false'}>0.01°</button>
+    <button type="button" class="btn" data-set="d=0.1" aria-pressed={d === 0.1 ? 'true' : 'false'}>0.1°</button>
+    <button type="button" class="btn" data-set="d=1" aria-pressed={d === 1 ? 'true' : 'false'}>1°</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-chaos>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const R = 0.17;
+  const BR = 0.012;
+  const SPEED = 0.55;
+  const START: [number, number] = [0.13, 0.22];
+  const ANGLE = 31;
+
+  interface Ball {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    trail: [number, number][];
+    hits: number;
+  }
+
+  function make(deg: number): Ball {
+    const a = (deg * Math.PI) / 180;
+    return { x: START[0], y: START[1], vx: SPEED * Math.cos(a), vy: SPEED * Math.sin(a), trail: [], hits: 0 };
+  }
+
+  function step(b: Ball, h: number) {
+    b.x += b.vx * h;
+    b.y += b.vy * h;
+    if (b.x < BR) { b.x = 2 * BR - b.x; b.vx = -b.vx; b.hits++; }
+    if (b.x > 1 - BR) { b.x = 2 * (1 - BR) - b.x; b.vx = -b.vx; b.hits++; }
+    if (b.y < BR) { b.y = 2 * BR - b.y; b.vy = -b.vy; b.hits++; }
+    if (b.y > 1 - BR) { b.y = 2 * (1 - BR) - b.y; b.vy = -b.vy; b.hits++; }
+    const dx = b.x - 0.5;
+    const dy = b.y - 0.5;
+    const dist = Math.hypot(dx, dy);
+    if (dist < R + BR) {
+      const nx = dx / dist;
+      const ny = dy / dist;
+      const dot = b.vx * nx + b.vy * ny;
+      if (dot < 0) {
+        b.vx -= 2 * dot * nx;
+        b.vy -= 2 * dot * ny;
+        b.hits++;
+      }
+      b.x = 0.5 + nx * (R + BR);
+      b.y = 0.5 + ny * (R + BR);
+    }
+  }
+
+  class SimChaos extends Sim {
+    a!: Ball;
+    b!: Ball;
+
+    init() {
+      this.resetState();
+    }
+
+    changed() {
+      this.resetState();
+    }
+
+    reset() {
+      this.resetState();
+    }
+
+    resetState() {
+      this.t = 0;
+      this.a = make(ANGLE);
+      this.b = make(ANGLE + (this.p.d ?? 0));
+    }
+
+    tick(dt: number) {
+      if (this.t > 40) this.resetState();
+      const n = 30;
+      for (let i = 0; i < n; i++) {
+        step(this.a, dt / n);
+        step(this.b, dt / n);
+      }
+      for (const ball of [this.a, this.b]) {
+        ball.trail.push([ball.x, ball.y]);
+        if (ball.trail.length > 260) ball.trail.shift();
+      }
+    }
+
+    readout() {
+      const gap = Math.hypot(this.a.x - this.b.x, this.a.y - this.b.y);
+      return `처음 방향 차이 ${this.p.d}° · 부딪힌 횟수 ${this.a.hits}번 · 두 공 사이 거리: 당구대 폭의 ${(gap * 100).toFixed(gap < 0.01 ? 3 : 1)}%`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const size = Math.min(w, h) - 16;
+      const ox = (w - size) / 2;
+      const oy = 8;
+      const P = (x: number, y: number): [number, number] => [ox + x * size, oy + (1 - y) * size];
+      g.strokeStyle = c.line;
+      g.lineWidth = 2;
+      g.strokeRect(ox, oy, size, size);
+      g.beginPath();
+      const [cx, cy] = P(0.5, 0.5);
+      g.arc(cx, cy, R * size, 0, Math.PI * 2);
+      g.fillStyle = c.ink3;
+      g.fill();
+      g.stroke();
+      const draw = (ball: Ball, col: string, dash: boolean) => {
+        g.strokeStyle = col;
+        g.lineWidth = 1.6;
+        g.setLineDash(dash ? [4, 3] : []);
+        g.beginPath();
+        ball.trail.forEach(([x, y], i) => {
+          const [px, py] = P(x, y);
+          if (i) g.lineTo(px, py);
+          else g.moveTo(px, py);
+        });
+        g.stroke();
+        g.setLineDash([]);
+        const [px, py] = P(ball.x, ball.y);
+        this.dot(px, py, 5, col);
+      };
+      draw(this.a, c.accent, false);
+      draw(this.b, c.time, true);
+    }
+  }
+  define('qm-sim-chaos', SimChaos);
+</script>

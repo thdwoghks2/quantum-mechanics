@@ -772,3 +772,18 @@ html.js .screen--title.is-active .title__q {
   color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
+
+/* 정의 화면: 설명(본문)이 먼저, 정의 카드는 그 아래 정리로 붙는다. */
+.screen--define .screen__text {
+  order: 1;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.screen--define .screen__visual {
+  order: 2;
+  flex: 1 1 auto;
+  max-height: none;
+  min-height: 0;
+  place-items: start center;
+}
