@@ -1,0 +1,456 @@
+---
+number: 121
+title: 장이란 무엇인가
+short: 장
+question: 닿지도 않은 자석이 어떻게 쇳가루를 움직일까요?
+mechanism: 자석이나 전하 둘레의 모든 자리에는 그곳에 놓인 물체가 받을 힘의 방향과 세기가 하나씩 정해져 있어요. 이 값 전체를 장(場)이라고 불러요. 물체는 멀리 있는 자석을 직접 느끼는 게 아니라 바로 자기 자리의 장에서 힘을 받고, 장이 바뀐 소식은 빛의 속력으로 퍼져요. 양자역학으로 보면 장의 진동 모드는 에너지를 hf 덩어리로만 받을 수 있어서, 장이 한 덩어리만큼 들뜬 것이 입자 하나예요.
+part: 15
+minutes: 20
+assumes: [force, charge, electric-force, coulomb-law, em-wave, speed-of-light, energy, frequency, mode, planck-constant, photon, electron, medium, spectrum]
+introduces: [field]
+sources:
+  - "Newton, I. Letter to Richard Bentley, 25 February 1692/3. The Correspondence of Isaac Newton, Vol. 3 (1961)"
+  - "Faraday, M. On the Physical Character of the Lines of Magnetic Force. Philosophical Magazine 3, 401–428 (1852)"
+  - "Maxwell, J. C. A Dynamical Theory of the Electromagnetic Field. Philosophical Transactions 155, 459–512 (1865)"
+  - "Dirac, P. A. M. The Quantum Theory of the Emission and Absorption of Radiation. Proceedings of the Royal Society A 114, 243–265 (1927)"
+  - "Feynman, R. P., Leighton, R. B. & Sands, M. The Feynman Lectures on Physics, Vol. II, Ch. 1 (1964)"
+testout: [q121-local, q121-delay, q121-same]
+status: published
+---
+
+<Screen kind="scene" title="종이 아래의 자석">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-filings', title: '쇳가루를 뿌린 종이', caption: '아래에 자석을 대면 줄무늬가 생겨요' },
+    ]} />
+  </Fragment>
+
+이번 강부터 15부, 양자장과 우주로 들어가요. 첫 실험은 집에서도 해 볼 수 있어요.
+
+<S n={2}>
+
+종이 위에 쇳가루를 얇게 뿌리고, 종이 아래에 자석을 대 보세요. 자석은 쇳가루에 닿지 않았는데, 쇳가루는 저절로 움직여서 자석의 두 끝을 잇는 줄무늬를 그려요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={18} title="닿지 않고 미는 힘">
+  <Fragment slot="visual">
+    <SimCharges r={2} />
+  </Fragment>
+
+닿지 않고 힘을 주는 건 자석만이 아니에요. 18강에서 두 전하는 떨어져 있어도 서로 밀거나 당긴다고 배웠죠.
+
+<S n={2}>
+
+거리를 바꿔 보세요. 거리가 2배가 되면 힘은 4분의 1이 돼요. 이게 쿨롱 법칙이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="둘 사이는 비어 있어요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: 'A', caption: '여기서 전하가 움직이면' },
+      { big: '텅 빈 진공', caption: '공기도, 아무것도 없어요', tone: 'dim' },
+      { big: 'B', caption: '저 멀리 B가 받는 힘이 바뀌어요' },
+    ]} />
+  </Fragment>
+
+그런데 이상한 게 하나 있어요. 둘 사이가 텅 빈 진공이어도 힘은 똑같이 전해지거든요.
+
+<S n={2}>
+
+B가 받는 힘이 A의 자리에 따라 바뀌려면, 무언가 둘 사이를 건너와야 할 것 같아요. 그런데 둘 사이에는 아무것도 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="뉴턴의 편지">
+  <Fragment slot="visual">
+    <BigNumber top="아이작 뉴턴이 리처드 벤틀리에게 보낸 편지" value="1693" bottom="멀리서 곧바로 힘이 전해진다는 생각은 말이 안 된다고 적었어요" />
+  </Fragment>
+
+뉴턴은 해가 지구를 당기는 힘을 계산하는 법칙을 찾았어요. 하지만 그 힘이 텅 빈 공간을 어떻게 건너가는지는 설명하지 못했죠.
+
+<S n={2}>
+
+뉴턴은 1693년에 보낸 편지에서, 아무것도 거치지 않고 멀리서 힘이 전해진다는 생각은 말이 안 된다고 적었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="패러데이의 선">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-filings', title: '패러데이가 그린 선', caption: '쇳가루가 늘어선 줄을 따라 그린 힘의 선' },
+    ]} />
+  </Fragment>
+
+150년쯤 뒤, 마이클 패러데이는 쇳가루가 그린 줄무늬를 오래 들여다봤어요. 그리고 자석 둘레의 빈 공간 자체가 달라져 있다고 생각했죠.
+
+<S n={2}>
+
+패러데이는 그 줄을 '힘의 선'이라고 불렀어요. 1852년 논문에서는 이 선이 계산을 돕는 그림이 아니라 실제로 있는 것이라고 주장했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="자리마다 바늘 하나">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-compass', title: '아주 작은 나침반', caption: '놓는 자리마다 다른 방향을 가리켜요' },
+    ]} />
+  </Fragment>
+
+패러데이의 생각을 이렇게 따라가 볼게요. 자석 둘레 아무 데나 아주 작은 나침반을 놓으면, 바늘은 그 자리에서 정해진 방향을 가리켜요.
+
+<S n={2}>
+
+자리를 옮기면 방향도, 바늘을 돌리는 세기도 달라지죠. 그러니까 공간의 자리마다 화살표가 하나씩 정해져 있다고 볼 수 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="쇳가루 바늘">
+  <Fragment slot="visual">
+    <SimP15Field mode={0} />
+  </Fragment>
+
+자리마다 그 화살표 방향으로 짧은 바늘을 눕혀 봤어요. 자석 놓기 버튼을 하나씩 눌러 보세요.
+
+<S n={2}>
+
+두 자석이 끌어당길 때는 바늘이 두 자석 사이를 잇고, 밀어낼 때는 사이에서 서로 비켜 가요. 바늘 모양만 봐도 그 자리에 놓인 쇳조각이 어느 쪽으로 힘을 받을지 알 수 있죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="장이라는 이름">
+  <Fragment slot="visual">
+    <Define term="field" />
+  </Fragment>
+
+이렇게 공간의 자리마다 값이 하나씩 정해져 있을 때, 그 값 전체를 **장(場)**이라고 불러요. 운동장의 '장'과 같은 한자예요.
+
+<S n={2}>
+
+자석 둘레에는 자기의 장이 있고, 전하 둘레에는 전기의 장이 있어요. 줄여서 자기장, 전기장이라고도 하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="숫자의 장, 화살표의 장">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's5-temp-map', title: '기온 지도', caption: '자리마다 숫자 하나' },
+      { icon: 's5-wind-map', title: '바람 지도', caption: '자리마다 화살표 하나', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+장은 일기 예보에서도 볼 수 있어요. 기온 지도는 자리마다 온도라는 숫자가 하나씩 있는 장이에요.
+
+<S n={2}>
+
+바람 지도는 자리마다 세기와 방향이 있는 화살표의 장이고요. 자석과 전하의 장은 바람 지도처럼 화살표의 장이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="힘은 그 자리에서">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '멀리서 곧바로', caption: 'A가 B를 직접 당겨요', tone: 'dim' },
+      { big: '바로 그 자리에서', caption: 'B는 자기 자리의 장에 밀려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+장을 쓰면 뉴턴이 막혔던 곳이 풀려요. B는 멀리 있는 A를 직접 느끼는 게 아니라, 바로 자기 자리에 있는 장에 밀리거든요.
+
+<S n={2}>
+
+<Key>전하나 자석은 둘레의 공간 자리마다 장을 만들고, 다른 전하는 멀리 있는 것을 직접 느끼는 대신 바로 자기 자리의 장에서 힘을 받아요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="장으로 보는 힘">
+
+<Check id="q121-local" options={[
+  { t: 'A가 만든 장이 B의 자리까지 퍼져 있고, B는 바로 자기 자리의 장에서 힘을 받아요.', ok: true, why: '장으로 보면 힘은 늘 그 자리에서 받아요. A는 멀리 있는 B를 직접 건드리지 않아요.' },
+  { t: 'A가 B를 멀리서 곧바로 당기고, 둘 사이의 공간은 아무 일도 하지 않아요.', why: '뉴턴이 말이 안 된다고 했던 생각이에요. 장으로 보면 둘 사이의 빈 공간에도 자리마다 장이 있어요.' },
+  { t: 'A와 B 사이에 공기가 있어야 힘이 전해져요.', why: '전기력은 텅 빈 진공에서도 전해져요. 장은 공기 같은 물질이 아니에요.' },
+  { t: 'B가 A에게 보이지 않는 줄을 던져서 당겨요.', why: '그런 줄은 없어요. 장은 B가 만드는 게 아니라 A가 둘레에 만든 거예요.' },
+]}>
+
+두 전하 A와 B가 텅 빈 진공에서 떨어져 있어요. 장(場)으로 생각할 때, B가 A에게서 받는 힘을 가장 알맞게 설명한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recall" from={19} title="장이 흔들리면">
+  <Fragment slot="visual">
+    <SimAntenna />
+  </Fragment>
+
+19강에서 안테나 속 전하를 흔들면, 그 변화가 멀리 있는 전하에 늦게 도착한다고 배웠어요. 변화는 빛의 속력으로 퍼져 갔죠.
+
+<S n={2}>
+
+장으로 보면 이게 자연스러워요. 전하가 흔들리면 둘레의 장이 흔들리고, 그 흔들림이 자리에서 자리로 옮겨 가는 거예요. 그게 전자기파예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="뒤집은 소식">
+  <Fragment slot="visual">
+    <SimP15Field mode={0} />
+  </Fragment>
+
+이번에는 자석 뒤집기를 눌러 보세요. 바뀐 장이 자석에서부터 둥글게 퍼져 나가요.
+
+<S n={2}>
+
+주황 원 안의 바늘만 먼저 돌아서죠. 소식이 아직 닿지 않은 바깥 바늘은 옛 방향을 그대로 가리켜요. 그림에서는 느리게 그렸지만, 실제로는 1초에 30만 km씩 퍼져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="소식이 닿는 시간">
+  <Fragment slot="visual">
+    <DataTable caption="장이 바뀐 소식이 닿는 시간 (빛의 속력: 1초에 약 30만 km)" head={['어디까지', '거리', '닿는 시간']} rows={[
+      ['3 m 떨어진 나침반', '3 m', '약 1억분의 1초'],
+      ['달', '약 38만 km', '약 1.3초'],
+      ['해', '약 1억 5,000만 km', '약 8분 20초'],
+    ]} />
+  </Fragment>
+
+장이 바뀐 소식이 닿는 시간은 거리를 빛의 속력으로 나누면 나와요.
+
+1. 달까지는 약 38만 km예요.
+2. 1초에 30만 km씩 가니까 38만 ÷ 30만 ≈ 1.3초예요.
+3. 그래서 달에서 안테나 속 전하를 흔들면, 지구의 안테나는 1.3초쯤 뒤에 흔들려요.
+
+감각을 확인해 볼게요. 지금 보는 햇빛도 8분 20초 전에 해를 떠난 빛이에요.
+
+</Screen>
+
+<Screen kind="step" title="장은 에너지를 나른다">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'sun', title: '햇빛', caption: '텅 빈 우주를 건너와 땅을 데워요' },
+      { icon: 'microwave', title: '전자레인지', caption: '전자기파가 음식을 데워요' },
+    ]} />
+  </Fragment>
+
+장은 계산을 돕는 그림에 그치지 않아요. 햇빛은 텅 빈 우주를 8분 넘게 건너와서 땅을 데우잖아요.
+
+<S n={2}>
+
+건너오는 동안 그 에너지는 해에도 지구에도 없고, 장의 흔들림 속에 들어 있어요. 그래서 물리학자들은 장을 실제로 있는 것으로 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="달에서 보낸 흔들림">
+
+<Check id="q121-delay" options={[
+  { t: '약 1.3초 뒤', ok: true, why: '흔들림은 장을 타고 빛의 속력으로 퍼져요. 38만 ÷ 30만 ≈ 1.3초예요.' },
+  { t: '흔드는 그 순간 곧바로', why: '장의 변화도 퍼지는 데 시간이 걸려요. 곧바로 전해지는 힘은 없어요.' },
+  { t: '공기가 없으니 영영 흔들리지 않아요', why: '전자기파는 매질 없이도 진공을 건너가요. 햇빛이 그 증거예요.' },
+  { t: '약 13초 뒤', why: '거리를 속력으로 나누면 38만 ÷ 30만 ≈ 1.3이에요. 자릿수를 한 번 더 확인해 보세요.' },
+]}>
+
+지구에서 약 38만 km 떨어진 달 위에서, 안테나 속 전하를 갑자기 흔들었어요. 빛의 속력은 1초에 약 30만 km예요. 지구에 있는 안테나 속 전하는 언제 흔들리기 시작할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recall" from={35} title="빛은 덩어리로">
+  <Fragment slot="visual">
+    <BigNumber top="광자 하나의 에너지" value="E = hf" bottom="h는 플랑크 상수, f는 빛의 진동수" q="energy" />
+  </Fragment>
+
+이제 장과 양자역학을 이어 볼게요. 35강에서 빛의 에너지는 hf라는 덩어리로만 오가고, 그 덩어리 하나를 광자라고 부른다고 배웠어요.
+
+<S n={2}>
+
+그러니 빛의 장은 흔들림의 크기를 마음대로 가질 수 없어요. 에너지가 hf씩만 늘거나 줄 수 있거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="모드마다 계단">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '0', caption: '덩어리가 없어요. 가장 낮은 상태' },
+      { big: '1', caption: 'hf 하나만큼 위: 광자 하나' },
+      { big: '2', caption: 'hf 둘만큼 위: 광자 둘', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+상자 안에 갇힌 빛을 생각해 볼게요. 20강의 줄처럼, 상자 안 빛의 장도 정해진 진동 모드로만 떨어요.
+
+<S n={2}>
+
+양자역학에서는 모드 하나하나가 에너지를 hf씩만 더 가질 수 있어요. 한 계단 올라가면 그 모드에 광자가 하나 생기고, 두 계단이면 둘이 생기죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="입자는 장의 들뜸">
+
+거꾸로 말할 수도 있어요. 광자라는 입자는 빛의 장이 한 덩어리만큼 들뜬 거예요.
+
+<S n={2}>
+
+<Key>양자역학으로 보면 장의 진동 모드는 에너지를 hf 덩어리로만 받을 수 있고, 그래서 장이 한 덩어리만큼 들뜬 것을 우리는 입자 하나, 광자 하나로 봐요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="전자도 장의 들뜸">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '여기 있는 수소 원자의 전자', caption: '질량과 전하가 정해져 있어요' },
+      { icon: 'galaxy', title: '먼 은하에 있는 전자', caption: '질량과 전하가 똑같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 생각은 빛에서 멈추지 않아요. 지금 물리학은 전자도 온 우주에 퍼진 전자의 장이 들뜬 것으로 봐요.
+
+<S n={2}>
+
+그래서 모든 전자는 질량도 전하도 한 치의 차이 없이 똑같아요. 같은 장이 같은 방식으로 들뜬 것이니까요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="연못과 물결">
+  <Fragment slot="visual">
+    <Analogy title="연못과 장" rows={[
+      ['연못의 물', '온 공간에 퍼진 장'],
+      ['물결 하나', '입자 하나'],
+      ['물결이 퍼져 나감', '장의 들뜸이 빛의 속력으로 퍼져 나감'],
+    ]} fits="물결이 물을 타고 퍼지면서 에너지를 나르듯, 장의 들뜸도 장을 타고 퍼지면서 에너지를 날라요." breaks="물결은 아무 크기로나 생기지만, 장의 들뜸은 덩어리로만 생겨요. 그리고 장은 10강의 매질과 달라서, 다른 무엇으로 만들어진 것이 아니에요." />
+  </Fragment>
+
+장을 떠올리기 좋은 비유가 연못이에요. 대응표를 보면서 맞는 곳과 틀리는 곳을 같이 짚어 볼게요.
+
+</Screen>
+
+<Screen kind="check" title="똑같은 전자">
+
+<Check id="q121-same" options={[
+  { t: '둘 다 온 우주에 퍼진 같은 전자의 장이 들뜬 것이라서', ok: true, why: '같은 장이 같은 방식으로 들뜬 것이니 성질이 같을 수밖에 없어요.' },
+  { t: '같은 공장에서 찍어 낸 물건처럼 우연히 아주 비슷해서', why: '공장에서 만든 물건도 조금씩은 달라요. 전자는 잰 모든 경우에 정확히 같아요.' },
+  { t: '전자는 원래 하나뿐인데, 여러 곳에 동시에 보여서', why: '전자는 여럿이에요. 수소 원자 하나에만도 전자가 하나씩 들어 있어요.' },
+  { t: '먼 은하의 전자는 잴 수 없어서, 같다고 가정한 것이라서', why: '먼 은하에서 온 빛에도 지구의 원자와 같은 선 스펙트럼이 나와요. 그래서 전자의 성질이 같다는 걸 확인할 수 있어요.' },
+]}>
+
+지구의 수소 원자 속 전자와, 빛으로 수십억 년 걸리는 먼 은하의 전자는 질량과 전하가 정확히 같아요. 오늘 배운 장의 생각으로 가장 잘 설명한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="디랙의 1927년">
+  <Fragment slot="visual">
+    <BigNumber top="폴 디랙이 빛의 장에 양자역학을 처음 적용한 해" value="1927" bottom="원자가 광자를 내놓고 흡수하는 계산이 맞아떨어졌어요" />
+  </Fragment>
+
+빛의 장을 양자역학으로 처음 다룬 사람은 폴 디랙이에요. 디랙은 1927년 논문에서 빛의 장의 모드마다 덩어리 에너지를 주었어요.
+
+<S n={2}>
+
+그러자 원자가 광자를 내놓고 흡수하는 비율이 계산으로 나왔어요. 아인슈타인이 1917년에 짐작으로 세워 둔 값과 같았죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['field']}>
+
+1. 자석과 전하는 닿지 않고도 힘을 주고, 둘 사이가 텅 빈 진공이어도 그래요.
+2. 그래서 둘레의 자리마다 힘의 방향과 세기가 정해져 있다고 보고, 그 전체를 장이라고 불러요.
+3. 힘은 멀리서가 아니라 바로 그 자리의 장에서 받고, 장이 바뀐 소식은 빛의 속력으로 퍼져요.
+4. 장은 에너지를 나르니까 실제로 있는 것이고, 양자역학에서는 장의 모드가 hf 덩어리로만 들떠요.
+5. 그 들뜸 하나가 입자 하나예요. 광자도 전자도 장의 들뜸이에요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="뒤집은 자석과 나침반">
+
+<DailyProblem id="p121">
+
+책상 위 자석에서 3 m 떨어진 곳에 나침반이 있어요. 자석을 갑자기 뒤집으면, 나침반 바늘을 돌리는 힘은 뒤집는 바로 그 순간에 생길까요?
+
+오늘 배운 장으로 이유를 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+자석을 뒤집으면 자석 바로 둘레의 장부터 바뀌어요. 바늘은 자기 자리의 장에서 힘을 받아요.
+
+</Fragment>
+<Fragment slot="solution">
+
+아주 조금 늦게 생겨요. 바늘은 자석을 직접 느끼는 게 아니라 자기 자리의 장에서 힘을 받는데, 자석 둘레에서 바뀐 장이 3 m를 퍼져 오는 데 시간이 걸리거든요.
+
+3 m를 1초에 30만 km로 가면 1억분의 1초쯤 걸려요. 너무 짧아서 눈으로는 알아챌 수 없고, 바늘이 실제로 돌아서는 데는 바늘의 무게 때문에 그보다 훨씬 오래 걸려요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+공간의 자리마다 힘의 방향과 세기를 정하는 장이 있어서 물체는 바로 그 자리의 장에서 힘을 받고, 양자역학에서는 그 장이 한 덩어리만큼 들뜬 것이 입자예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="두 장이 주고받는 계산">
+  <Fragment slot="visual">
+    <BigNumber top="전자가 띤 작은 자석의 세기를 잰 값 (정해진 기준값과의 비)" value="1.001 159 652 18" bottom="계산한 값과 이만큼의 자리까지 같아요" />
+  </Fragment>
+
+광자는 빛의 장의 들뜸이고, 전자는 전자의 장의 들뜸이에요. 그런데 전자는 빛을 내놓고 흡수하니까, 두 장은 서로 에너지를 주고받아야 해요.
+
+<S n={2}>
+
+다음 강에서는 두 장이 어떻게 주고받는지 계산하는 이론, <Later n={122}>양자전기역학</Later>을 같이 봐요. 그 계산은 전자가 띤 작은 자석의 세기를 열두 자리 가까이 맞혀요.
+
+</S>
+
+</Screen>

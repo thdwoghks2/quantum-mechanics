@@ -1,0 +1,169 @@
+---
+/**
+ * 자석 둘레의 장(121강). 자리마다 짧은 바늘(쇳가루)이 그 자리의 장이 가리키는 방향으로 눕는다.
+ * 자석을 뒤집으면 바뀐 장이 자석에서부터 둥글게 퍼져 나가고, 소식이 닿은 자리의 바늘만 돌아선다.
+ * 실제로는 빛의 속력으로 퍼지지만, 눈에 보이게 아주 느리게 그린다.
+ */
+interface Props {
+  mode?: 0 | 1 | 2;
+}
+const { mode = 0 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p15-field class="sim" data-ratio="0.74" data-autoplay="false">
+  <canvas aria-label="막대자석 둘레에 짧은 나침반 바늘들이 자석의 장을 따라 늘어서요. 바늘의 주황 끝이 장이 가리키는 방향이에요. 자석을 뒤집으면 바뀐 장이 자석에서부터 둥글게 퍼져 나가요."></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="mode" value={mode} />
+    <div class="sim__buttons" aria-label="자석 놓기">
+      <button type="button" class="btn" data-set="mode=0" aria-pressed={mode === 0 ? 'true' : 'false'}>자석 하나</button>
+      <button type="button" class="btn" data-set="mode=1" aria-pressed={mode === 1 ? 'true' : 'false'}>N과 S를 마주</button>
+      <button type="button" class="btn" data-set="mode=2" aria-pressed={mode === 2 ? 'true' : 'false'}>N과 N을 마주</button>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-flip id={`fl-${uid}`}>자석 뒤집기</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-field>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+  import { prefersReducedMotion } from '../../lib/client/bus.ts';
+
+  interface Pole {
+    x: number;
+    y: number;
+    q: number;
+  }
+
+  class SimP15Field extends Sim {
+    /** 왼쪽 자석의 방향(1: N이 오른쪽, -1: 뒤집힘) */
+    dir = 1;
+    oldDir = 1;
+    /** 바뀐 장이 퍼져 나간 거리(화면 폭에 대한 비율). 0이면 퍼지는 중이 아니다. */
+    front = 0;
+
+    init() {
+      this.querySelector('[data-flip]')!.addEventListener('click', () => this.flip());
+    }
+
+    changed(name: string) {
+      if (name === 'set') {
+        this.front = 0;
+        this.oldDir = this.dir;
+        this.pause();
+      }
+    }
+
+    flip() {
+      this.oldDir = this.dir;
+      this.dir = -this.dir;
+      if (prefersReducedMotion()) {
+        this.oldDir = this.dir;
+        this.front = 0;
+        this.frame();
+        return;
+      }
+      this.front = 0.001;
+      this.play();
+    }
+
+    tick(dt: number) {
+      if (!this.front) return;
+      this.front += dt * 0.22;
+      if (this.front > 1.6) {
+        this.front = 0;
+        this.oldDir = this.dir;
+        this.pause();
+      }
+    }
+
+    /** 자석 하나는 N극(+)과 S극(−) 두 점으로 어림한다. */
+    poles(dir: number): Pole[] {
+      const { w, h } = this;
+      const cy = h * 0.52;
+      const half = w * 0.075;
+      const mode = this.p.mode ?? 0;
+      const magnet = (cx: number, d: number): Pole[] => [
+        { x: cx + d * half, y: cy, q: 1 },
+        { x: cx - d * half, y: cy, q: -1 },
+      ];
+      if (mode === 0) return magnet(w * 0.5, dir);
+      // 왼쪽 자석은 N이 오른쪽(dir=1). 오른쪽 자석은 S를 마주(끌림) 또는 N을 마주(밀림).
+      return [...magnet(w * 0.3, dir), ...magnet(w * 0.7, mode === 1 ? 1 : -1)];
+    }
+
+    fieldAt(x: number, y: number, poles: Pole[]): [number, number] {
+      let bx = 0;
+      let by = 0;
+      for (const p of poles) {
+        const dx = x - p.x;
+        const dy = y - p.y;
+        const r2 = dx * dx + dy * dy + 30;
+        const r3 = r2 * Math.sqrt(r2);
+        bx += (p.q * dx) / r3;
+        by += (p.q * dy) / r3;
+      }
+      return [bx, by];
+    }
+
+    readout() {
+      const mode = this.p.mode ?? 0;
+      const base = ['막대자석 하나의 장', 'N과 S가 마주 본 두 자석: 서로 끌어당겨요', 'N과 N이 마주 본 두 자석: 서로 밀어내요'][mode]!;
+      if (this.front) return `${base} · 바뀐 장이 퍼지는 중이에요 (실제로는 빛의 속력)`;
+      return `${base} · 바늘의 주황 끝이 장이 가리키는 방향이에요`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const now = this.poles(this.dir);
+      const before = this.poles(this.oldDir);
+      const src = this.p.mode === 0 ? w * 0.5 : w * 0.3;
+      const cy = h * 0.52;
+      const R = this.front * w;
+      const step = Math.max(14, w / 26);
+      ctx.lineCap = 'round';
+      for (let y = step / 2; y < h; y += step) {
+        for (let x = step / 2; x < w; x += step) {
+          const reached = !this.front || Math.hypot(x - src, y - cy) < R;
+          const [bx, by] = this.fieldAt(x, y, reached ? now : before);
+          const m = Math.hypot(bx, by);
+          if (!m) continue;
+          const ux = bx / m;
+          const uy = by / m;
+          const len = step * 0.36;
+          const a = Math.max(0.16, Math.min(0.95, 0.42 + Math.log10(m * 4000) * 0.22));
+          ctx.globalAlpha = a;
+          // 나침반 바늘처럼 두 빛깔: 장이 가리키는 끝(N 쪽)은 주황, 반대 끝은 흐린 색
+          this.line(x - ux * len, y - uy * len, x, y, c.text2, 1.4);
+          this.line(x, y, x + ux * len, y + uy * len, c.heat, 1.6);
+        }
+      }
+      ctx.globalAlpha = 1;
+      if (this.front) {
+        ctx.strokeStyle = c.accent;
+        ctx.globalAlpha = 0.5;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(src, cy, R, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+      // 자석: N은 주황, S는 파랑
+      const mags = this.p.mode === 0 ? [now.slice(0, 2)] : [now.slice(0, 2), now.slice(2, 4)];
+      for (const [n, s] of mags as Pole[][]) {
+        const x0 = Math.min(n!.x, s!.x) - 6;
+        const x1 = Math.max(n!.x, s!.x) + 6;
+        const mid = (x0 + x1) / 2;
+        const hh = 10;
+        ctx.fillStyle = n!.x > s!.x ? c.time : c.heat;
+        ctx.fillRect(x0, cy - hh, mid - x0, hh * 2);
+        ctx.fillStyle = n!.x > s!.x ? c.heat : c.time;
+        ctx.fillRect(mid, cy - hh, x1 - mid, hh * 2);
+        this.text('N', n!.x, cy + 1, c.ink, 12, 'center');
+        this.text('S', s!.x, cy + 1, c.ink, 12, 'center');
+      }
+    }
+  }
+  define('qm-sim-p15-field', SimP15Field);
+</script>
