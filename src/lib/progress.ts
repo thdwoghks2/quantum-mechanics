@@ -17,6 +17,7 @@ export interface LessonRecord {
 export interface Notes {
   problem?: string;
   three?: [string, string, string];
+  one?: string;
   reflect?: Record<string, string>;
 }
 

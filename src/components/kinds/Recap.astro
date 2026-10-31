@@ -1,0 +1,83 @@
+---
+/**
+ * 되짚기. 이 강에서 나온 말(용어집에서 읽는다)과, 오늘 생각이 흘러온 길(본문의 번호 목록)을 한 화면에 모은다.
+ */
+import { getEntry } from 'astro:content';
+
+interface Props {
+  /** 이 강에서 새로 나온 용어 ID */
+  terms: string[];
+}
+const { terms } = Astro.props;
+const entries = await Promise.all(
+  terms.map(async (id) => {
+    const e = await getEntry('glossary', id);
+    if (!e) throw new Error(`용어집에 없는 용어: ${id}`);
+    return e;
+  }),
+);
+---
+<div class="recap">
+  <section class="recap__terms" aria-labelledby="recap-terms">
+    <h3 id="recap-terms" class="label">오늘 나온 말</h3>
+    <dl>
+      {entries.map((e) => (
+        <div class="recap__term" data-q={e.data.q}>
+          <dt>{e.data.term}</dt>
+          <dd>{e.data.definition}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+  <section class="recap__flow" aria-labelledby="recap-flow">
+    <h3 id="recap-flow" class="label">오늘 온 길</h3>
+    <slot />
+  </section>
+</div>
+
+<style>
+  .recap {
+    display: grid;
+    gap: 18px;
+  }
+
+  .recap h3 {
+    margin-bottom: 8px;
+  }
+
+  .recap dl {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .recap__term {
+    display: grid;
+    grid-template-columns: minmax(4.5em, auto) 1fr;
+    gap: 4px 12px;
+    align-items: baseline;
+  }
+
+  .recap__term dt {
+    font-weight: 600;
+    color: var(--qc, var(--text));
+  }
+
+  .recap__term dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .recap__flow :global(ol) {
+    margin: 0;
+    padding-left: 1.4em;
+    display: grid;
+    gap: 6px;
+  }
+
+  .recap__flow :global(li) {
+    line-height: 1.65;
+  }
+</style>

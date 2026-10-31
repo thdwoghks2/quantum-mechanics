@@ -1,0 +1,26 @@
+---
+/**
+ * 핵심 문장. 그 화면에서 꼭 가져가야 할 문장 하나를 천천히 읽히게 따로 세운다.
+ * 짧게 끊지 말고 조건과 이유를 다 담은 한 문장으로 쓴다. 한 화면에 하나까지.
+ */
+---
+<p class="key"><slot /></p>
+
+<style>
+  .key {
+    margin: 4px 0;
+    padding: 14px 0 14px;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-lg);
+    line-height: 1.75;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .key :global(strong) {
+    color: var(--accent-2);
+  }
+</style>

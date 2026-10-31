@@ -1,11 +1,11 @@
 ---
 /**
- * 화면 한 장. 위에는 시각 자료 하나(slot="visual"), 아래에는 글 2~4문장.
+ * 화면 한 장. 위에는 시각 자료 하나(slot="visual"), 아래에는 글 2~4문장이나 목록.
  * kind는 화면 종류(장면, 떠올리기, 정의, 관찰, 그래프 읽기 …)이고 작은 라벨로 보인다.
  */
 import { lessonUrl } from '../../lib/url.ts';
 
-type Kind = 'scene' | 'recall' | 'define' | 'observe' | 'graph' | 'step' | 'compare' | 'worked' | 'analogy' | 'check' | 'story' | 'problem' | 'three' | 'next';
+type Kind = 'scene' | 'recall' | 'define' | 'observe' | 'graph' | 'step' | 'compare' | 'worked' | 'analogy' | 'check' | 'story' | 'recap' | 'problem' | 'three' | 'one' | 'next';
 
 interface Props {
   kind: Kind;
@@ -28,8 +28,10 @@ const LABELS: Record<Kind, string> = {
   analogy: '비유',
   check: '확인',
   story: '이야기',
-  problem: '오늘의 문제',
+  recap: '되짚기',
+  problem: '마지막 점검',
   three: '자기 말로 세 줄',
+  one: '한 문장으로',
   next: '다음 강으로',
 };
 

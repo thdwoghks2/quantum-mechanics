@@ -47,7 +47,7 @@ const inputId = `num-${id}`;
       const verdict = this.querySelector<HTMLElement>('.numeric__verdict')!;
       if (!Number.isFinite(value)) {
         verdict.hidden = false;
-        verdict.textContent = '숫자로 읽을 수 없는 입력이다. 3e5나 300000처럼 써 보자.';
+        verdict.textContent = '숫자로 읽을 수 없어요. 3e5나 300000처럼 써 보세요.';
         verdict.className = 'numeric__verdict';
         return;
       }
@@ -59,8 +59,8 @@ const inputId = `num-${id}`;
       verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
       const unit = this.dataset.unit ? ` ${this.dataset.unit}` : '';
       verdict.textContent = ok
-        ? `맞았다. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}.`
-        : `아직 아니다. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}. 아래 풀이와 비교해 보자.`;
+        ? `맞았어요. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}이에요.`
+        : `아직이에요. 정답은 약 ${answer.toLocaleString('ko-KR')}${unit}이에요. 아래 풀이와 비교해 보세요.`;
       this.querySelector<HTMLElement>('.numeric__solution')!.hidden = false;
       if (first) {
         this.dispatchEvent(new CustomEvent('qm:answered', { bubbles: true, detail: { id: this.dataset.id, ok } }));

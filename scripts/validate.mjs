@@ -8,7 +8,8 @@
  * 2. frontmatter: assumes는 앞 강에서 배운 용어, introduces는 이 강에서 배우는 용어.
  * 3. 강 번호는 커리큘럼에 있고, 부 번호가 맞아야 한다.
  * 4. 통과 시험 문제 ID는 본문에 있어야 하고, 문제 ID는 전체에서 겹치지 않아야 한다.
- * 5. 공개된 강에는 오늘의 문제, 자기 말로 세 줄, 다음 강으로 화면이 있어야 한다.
+ * 5. 공개된 강에는 마지막 점검, 한 문장으로(또는 예전의 세 줄), 다음 강으로 화면이 있어야 한다.
+ *    되짚기(<Recap terms>)의 용어는 이 강까지 배운 것이어야 한다.
  * 6. 인물·사건이 가리키는 강과 사람이 실제로 있어야 한다.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -95,6 +96,15 @@ for (const { file, fm, body, fmLines } of lessons) {
     err(`${file}:${line}`, `'${v.surface}'은 ${v.taughtIn}강에서 정식으로 배운다. ${n}강에서는 풀어 쓰거나 <Later n={${v.taughtIn}}>로 감싼다`);
   }
 
+  // 되짚기의 용어
+  for (const m of body.matchAll(/<Recap\s+terms=\{\[([^\]]*)\]\}/g)) {
+    for (const id of [...m[1].matchAll(/'([^']+)'|"([^"]+)"/g)].map((x) => x[1] ?? x[2])) {
+      const g = gById.get(id);
+      if (!g) err(file, `되짚기의 '${id}'가 용어집에 없다`);
+      else if (g.taughtIn > n) err(file, `되짚기의 '${id}'는 ${g.taughtIn}강에서 배운다`);
+    }
+  }
+
   // 문제 ID
   const ids = [...body.matchAll(/<(?:Check|Numeric|DailyProblem|Reflect)\b[^>]*?\bid="([^"]+)"/g)].map((x) => x[1]);
   for (const id of ids) {
@@ -105,8 +115,8 @@ for (const { file, fm, body, fmLines } of lessons) {
 
   if (published) {
     if (!fm.mechanism) err(file, 'mechanism이 비어 있다');
-    if (!/<DailyProblem\b/.test(body)) err(file, '오늘의 문제가 없다');
-    if (!/<ThreeLines\b/.test(body)) err(file, '자기 말로 세 줄이 없다');
+    if (!/<DailyProblem\b/.test(body)) err(file, '마지막 점검(<DailyProblem>)이 없다');
+    if (!/<(OneLine|ThreeLines)\b/.test(body)) err(file, '한 문장으로(<OneLine>)가 없다');
     if (!/<Screen\s+kind="next"/.test(body)) err(file, '다음 강으로 화면이 없다');
     if ((fm.testout ?? []).length === 0) err(file, '통과 시험 문제가 없다');
   }

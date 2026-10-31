@@ -1,7 +1,7 @@
 # 강 추가하기
 
 강 하나는 MDX 파일 하나다. 코드를 건드리지 않고 파일을 더하면 사이트에 나타난다.
-쓰기 전에 [STYLE.md](STYLE.md)를 먼저 읽는다. 특히 3장 용어 계약과 5장 AI 말투 진단표.
+쓰기 전에 [STYLE.md](STYLE.md)를 먼저 읽는다. 특히 2장 목소리, 4장 용어 계약, 6장 AI 말투 진단표.
 
 ## 1. 순서
 
@@ -25,8 +25,8 @@
 number: 9
 title: 진동
 short: 진동
-question: 그네가 한 번 오가는 데 걸리는 시간은 무엇으로 정해지는가
-mechanism: (이 강이 단계별로 설명할 원리 한 문장)
+question: 그네가 한 번 오가는 데 걸리는 시간은 무엇으로 정해질까요
+mechanism: (이 강이 단계별로 설명할 원리. 해요체 한두 문장)
 part: 1
 minutes: 20
 assumes: [acceleration, force]        # 앞 강에서 정식으로 배운 용어만
@@ -37,21 +37,23 @@ testout: [q9-a, q9-b, q9-c]           # 통과 시험에 쓸 확인 문제 ID 3�
 status: draft                         # 다 쓰면 published
 ---
 
-<Screen kind="scene">
+<Screen kind="scene" title="그네">
   <Fragment slot="visual">
-    <Panels panels={[{ icon: 'swing', title: '그네', caption: '같은 자리를 오간다' }]} />
+    <Panels panels={[{ icon: 'swing', title: '그네', caption: '같은 자리를 오가요' }]} />
   </Fragment>
 
-독자가 겪어 본 장면. 2~4문장.
+독자가 겪어 본 장면. 2~4문장, 해요체.
 
 </Screen>
 
-<Screen kind="define">
+<Screen kind="define" title="주기라는 이름">
   <Fragment slot="visual">
     <Define term="period" />
   </Fragment>
 
 왜 이 이름이 필요한지. 카드의 정의를 그대로 되풀이하지 않는다.
+
+<Key>그 화면에서 꼭 가져갈 핵심 문장 하나. 조건과 이유를 다 담아 천천히.</Key>
 
 </Screen>
 
@@ -68,29 +70,41 @@ status: draft                         # 다 쓰면 published
 
 </Screen>
 
+<Screen kind="recap">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['vibration', 'period']}>
+
+1. 앞 단계가
+2. 뒤 단계의 이유가 되게
+3. 3~5단계로
+
+</Recap>
+
+</Screen>
+
 <Screen kind="problem">
 
 <DailyProblem id="p9">
 
-문제
+짧은 문제 하나. 계산보다 오늘의 원리로 생각해야 풀리는 것.
 
-<Fragment slot="hint1">힌트 1</Fragment>
-<Fragment slot="hint2">힌트 2</Fragment>
-<Fragment slot="hint3">힌트 3</Fragment>
+<Fragment slot="hint1">힌트 (1~2개)</Fragment>
 <Fragment slot="solution">풀이</Fragment>
 </DailyProblem>
 
 </Screen>
 
-<Screen kind="three">
+<Screen kind="one">
 
-<ThreeLines>
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
 
-1. …
-2. …
-3. …
+<OneLine>
 
-</ThreeLines>
+제 한 문장.
+
+</OneLine>
 
 </Screen>
 
@@ -105,14 +119,18 @@ status: draft                         # 다 쓰면 published
 
 | 컴포넌트 | 쓰임 |
 |---|---|
-| `Screen kind from label` | 화면 한 장. `slot="visual"`에 시각 자료 하나 |
+| `Screen kind from label title` | 화면 한 장. `slot="visual"`에 시각 자료 하나. `title`은 목차에 보일 이름 |
 | `S n` | 화면 안에서 "계속"을 누를 때마다 나타나는 단계 |
 | `Later n` | 아직 배우지 않은 용어를 일부러 미리 언급할 때. 용어 계약 검사에서 빠진다 |
 | `Define term` | 정의 카드 (용어집에서 읽는다) |
 | `Check id options` | 객관식. 선택지마다 `why` |
 | `Numeric id answer tol unit mode` | 숫자 답. `mode="order"`는 자릿수 어림 |
-| `DailyProblem id` | 오늘의 문제. `hint1~3`, `solution` 슬롯 |
-| `ThreeLines` | 자기 말로 세 줄. 본문에 필자의 세 줄 |
+| `Key` | 핵심 문장 하나 |
+| `Note label` | 글쓴이가 잠깐 멈춰 다시 짚는 말. 이름표 기본값은 "잠깐" |
+| `Recap terms` | 되짚기. 오늘 나온 말(자동)과 본문의 번호 목록(오늘 온 길) |
+| `DailyProblem id` | 마지막 점검. `hint1~3` 가운데 쓴 것만, `solution` 슬롯 |
+| `OneLine` | 한 문장으로. 본문에 제 한 문장 |
+| `ThreeLines` | (예전 방식) 자기 말로 세 줄 |
 | `Reflect id` | 채점 없는 사고 실험. `question` 슬롯, 본문에 여러 입장 |
 | `Analogy rows fits breaks` | 비유 대응표와 그 한계 |
 | `Plot` | 그래프. `axisSteps`, 요소마다 `step`으로 그래프 읽기 화면을 만든다 |

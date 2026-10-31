@@ -9,6 +9,10 @@ import Analogy from './kinds/Analogy.astro';
 import DailyProblem from './kinds/DailyProblem.astro';
 import ThreeLines from './kinds/ThreeLines.astro';
 import Reflect from './kinds/Reflect.astro';
+import Key from './kinds/Key.astro';
+import Note from './kinds/Note.astro';
+import Recap from './kinds/Recap.astro';
+import OneLine from './kinds/OneLine.astro';
 import Plot from './figures/Plot.astro';
 import BigNumber from './figures/BigNumber.astro';
 import DataTable from './figures/DataTable.astro';
@@ -29,6 +33,10 @@ export const mdxComponents = {
   DailyProblem,
   ThreeLines,
   Reflect,
+  Key,
+  Note,
+  Recap,
+  OneLine,
   Plot,
   BigNumber,
   DataTable,

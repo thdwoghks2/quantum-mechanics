@@ -8,6 +8,7 @@
  * - 화면당 글자 수(120~250자 목표, 320자 넘으면 경고)
  * - 그래프 없는 화면의 방향어 ("오른쪽", "꼭대기", "쪽으로")
  * - "그는/그녀는" 남발, 줄표(—)로 극적 효과 내기
+ * - 말투 섞임: 해요체로 쓴 강(문장 끝의 60% 이상이 '요')에서 '~다.'로 끝나는 문장
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -18,7 +19,7 @@ const strict = process.argv.includes('--strict');
 const BANNED = [
   '흥미롭게도', '놀랍게도', '여러분', '알아보겠습니다', '알아봅시다', '정리하자면', '요약하자면', '핵심은',
   '단순히', '이야기는 여기서 끝나지 않는다', '우리는 이제', '살펴보겠습니다', '것이 바로', '바로 이것',
-  '어떤 의미에서', '라고 할 수 있다', '셈이다', '말하자면', '!',
+  '어떤 의미에서', '라고 할 수 있다', '셈이다', '말하자면', '!', '필자',
 ];
 const FLIP = [/문제는 [^.]{0,40}(였다|이다)\./, /가 아니라 [^.]{0,30}(이다|였다)\./];
 const DIRECTION = /(오른쪽|왼쪽|꼭대기|위쪽|아래쪽|쪽으로|언덕)/;
@@ -51,6 +52,16 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
   const rel = relative(root, file);
   const lineOf = (idx) => raw.slice(0, idx).split('\n').length;
 
+  // 말투: 따옴표 안(인용, 법칙 문장)은 빼고 문장 끝을 센다.
+  const endings = [...raw.matchAll(/<Screen\b[^>]*>([\s\S]*?)<\/Screen>/g)]
+    .flatMap((m) => prose(m[1]).replace(/["“”'‘’「」][^"“”'‘’「」\n]*["“”'‘’「」]/g, ' ').split(/(?<=[.?])\s+/))
+    .map((t) => t.trim())
+    .filter((t) => /[가-힣][.?]$/.test(t));
+  const yo = endings.filter((t) => /요[.?]$/.test(t)).length;
+  if (endings.length && yo / endings.length >= 0.6) {
+    for (const t of endings) if (/다\.$/.test(t)) warn(rel, 0, `해요체 강에 '~다'로 끝나는 문장: "${t.slice(-30)}"`);
+  }
+
   for (const m of raw.matchAll(/<Screen\b[^>]*>([\s\S]*?)<\/Screen>/g)) {
     const block = m[1];
     const at = lineOf(m.index);
@@ -64,7 +75,7 @@ for (const file of walk(join(root, 'src/content/lessons'))) {
 
     const len = plain.replace(/\s/g, '').length;
     const kind = (m[0].match(/kind="(\w+)"/) ?? [])[1];
-    const free = ['problem', 'three', 'check', 'worked', 'analogy', 'next'].includes(kind);
+    const free = ['problem', 'three', 'one', 'recap', 'check', 'worked', 'analogy', 'next'].includes(kind);
     if (!free && len > 320) warn(rel, at, `글이 ${len}자다. 한 화면 120~250자를 목표로 나눈다`);
 
     if (!GRAPHY.test(block)) {

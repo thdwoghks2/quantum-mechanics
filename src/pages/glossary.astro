@@ -35,7 +35,7 @@ for (const t of terms) {
             <p>{t.data.definition}</p>
             {t.data.unit && <p class="small muted">단위: <span class="mono">{t.data.unit}</span></p>}
             <ul class="small muted gl__ex">{t.data.examples.map((e) => <li>{e}</li>)}</ul>
-            {t.data.notThis && <p class="small muted"><span class="label">이 말이 아닌 것</span> {t.data.notThis}</p>}
+            {t.data.notThis && <p class="small muted"><span class="label">헷갈림 주의</span> {t.data.notThis}</p>}
           </article>
         ))}
       </section>

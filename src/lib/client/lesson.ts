@@ -141,14 +141,14 @@ class QmLesson extends HTMLElement {
     const status = this.querySelector<HTMLElement>('.title__status')!;
     if (st?.status === 'done') {
       status.hidden = false;
-      status.textContent = '끝낸 강이다. 다시 보거나, 목차에서 원하는 화면으로 바로 갈 수 있다.';
+      status.textContent = '끝낸 강이에요. 처음부터 다시 봐도 되고, 목차에서 원하는 화면으로 바로 가도 돼요.';
     } else if (st?.status === 'tested-out') {
       status.hidden = false;
-      status.textContent = '통과 시험으로 건너뛴 강이다.';
+      status.textContent = '통과 시험으로 건너뛴 강이에요.';
     } else if (st?.status === 'started' && st.screen) {
       status.hidden = false;
       status.innerHTML = '';
-      status.append(`지난번에 ${st.screen + 1}번째 화면까지 봤다. `);
+      status.append(`지난번에 ${st.screen + 1}번째 화면까지 봤어요. `);
       const resume = document.createElement('button');
       resume.type = 'button';
       resume.className = 'btn';
@@ -339,11 +339,11 @@ class QmLesson extends HTMLElement {
     const dl = document.createElement('dl');
     if (g.unit) dl.append(el('dt', '', '단위'), el('dd', 'mono', g.unit));
     dl.append(el('dt', '', '예'), el('dd', '', g.examples.join(' / ')));
-    if (g.notThis) dl.append(el('dt', '', '이 말이 아닌 것'), el('dd', '', g.notThis));
+    if (g.notThis) dl.append(el('dt', '', '헷갈림 주의'), el('dd', '', g.notThis));
     const foot = el('div', 'pop__foot', '');
     const where = document.createElement('a');
     where.href = `${this.dataset.course!.replace(/course\/$/, '')}lessons/${g.taughtIn}/`;
-    where.textContent = g.taughtIn === this.n ? '이 강에서 처음 배운다' : `${g.taughtIn}강에서 처음 배웠다`;
+    where.textContent = g.taughtIn === this.n ? '이 강에서 처음 배워요' : `${g.taughtIn}강에서 처음 배웠어요`;
     const close = el('button', 'btn', '닫기') as HTMLButtonElement;
     close.type = 'button';
     close.addEventListener('click', () => this.closePop());
@@ -383,14 +383,14 @@ class QmLesson extends HTMLElement {
       const all = [...answers.values()].every(Boolean);
       if (all) {
         save(setLesson(load(), this.n, 'tested-out', Date.now()));
-        result.textContent = '모두 맞혔다. 이 강은 건너뛴 것으로 표시했다.';
+        result.textContent = '모두 맞혔어요. 이 강은 건너뛴 것으로 표시해 둘게요.';
         const go = document.createElement('a');
         go.className = 'btn btn--primary';
         go.href = this.dataset.next || this.dataset.course!;
         go.textContent = this.dataset.next ? `${this.dataset.nextTitle} ›` : '코스로';
         result.append(' ', go);
       } else {
-        result.textContent = '틀린 문제가 있다. 해설을 읽고, 이 강을 처음부터 보는 것을 권한다.';
+        result.textContent = '틀린 문제가 있어요. 해설을 읽어 보고, 이 강을 처음부터 같이 보는 걸 권해요.';
       }
       items.removeEventListener('qm:answered', onAnswer);
     };

@@ -9,7 +9,7 @@ const fieldId = `reflect-${id}`;
 <qm-reflect class="reflect" data-id={id}>
   <div class="reflect__q"><slot name="question" /></div>
   <label class="sr-only" for={fieldId}>내 생각</label>
-  <textarea id={fieldId} class="reflect__field" rows="3" placeholder="내 생각을 적어 보자. 정답은 없다."></textarea>
+  <textarea id={fieldId} class="reflect__field" rows="3" placeholder="내 생각을 적어 보세요. 정답은 없어요."></textarea>
   <button type="button" class="btn reflect__reveal">여러 입장 보기</button>
   <div class="reflect__views" hidden><slot /></div>
 </qm-reflect>

@@ -1,26 +1,27 @@
 ---
 /**
- * 오늘의 문제. 문제(본문), 힌트 세 개(hint1~hint3), 풀이(solution).
- * 힌트는 하나씩 열리고, 메모는 이 기기에 저장된다.
+ * 마지막 점검. 문제(본문), 힌트 한두 개(hint1~hint3 가운데 쓴 것만), 풀이(solution).
+ * 힌트는 하나씩 열리고, 메모는 이 기기에 저장된다. 계산보다 생각을 묻는 짧은 문제 하나가 좋다.
  */
 interface Props {
   id: string;
 }
 const { id } = Astro.props;
 const noteId = `note-${id}`;
+const hints = [1, 2, 3].filter((i) => Astro.slots.has(`hint${i}`));
 ---
-<qm-problem class="problem" data-id={id}>
+<qm-problem class="problem" data-id={id} data-hints={hints.length}>
   <div class="problem__q"><slot /></div>
-  <label class="label" for={noteId}>메모 (이 기기에 저장된다)</label>
-  <textarea id={noteId} class="problem__note" rows="3" placeholder="풀이 과정을 적어 보자"></textarea>
+  <label class="label" for={noteId}>메모 (이 기기에 저장돼요)</label>
+  <textarea id={noteId} class="problem__note" rows="3" placeholder="생각한 걸 적어 보세요"></textarea>
   <div class="problem__hints">
-    <div class="problem__hint" data-hint="1" hidden><p class="label">힌트 1</p><slot name="hint1" /></div>
-    <div class="problem__hint" data-hint="2" hidden><p class="label">힌트 2</p><slot name="hint2" /></div>
-    <div class="problem__hint" data-hint="3" hidden><p class="label">힌트 3</p><slot name="hint3" /></div>
+    {hints.includes(1) && <div class="problem__hint" data-hint="1" hidden><p class="label">힌트{hints.length > 1 ? ' 1' : ''}</p><slot name="hint1" /></div>}
+    {hints.includes(2) && <div class="problem__hint" data-hint="2" hidden><p class="label">힌트 2</p><slot name="hint2" /></div>}
+    {hints.includes(3) && <div class="problem__hint" data-hint="3" hidden><p class="label">힌트 3</p><slot name="hint3" /></div>}
     <div class="problem__solution" hidden><p class="label">풀이</p><slot name="solution" /></div>
   </div>
   <div class="problem__actions">
-    <button type="button" class="btn problem__more">힌트 1 보기</button>
+    <button type="button" class="btn problem__more">{hints.length === 0 ? '풀이 보기' : hints.length === 1 ? '힌트 보기' : '힌트 1 보기'}</button>
   </div>
 </qm-problem>
 
@@ -45,12 +46,13 @@ const noteId = `note-${id}`;
 
     more() {
       const btn = this.querySelector<HTMLButtonElement>('.problem__more')!;
+      const total = Number(this.dataset.hints ?? 3);
       this.shown++;
-      if (this.shown <= 3) {
+      if (this.shown <= total) {
         const hint = this.querySelector<HTMLElement>(`[data-hint="${this.shown}"]`)!;
         hint.hidden = false;
         hint.scrollIntoView({ block: 'nearest' });
-        btn.textContent = this.shown < 3 ? `힌트 ${this.shown + 1} 보기` : '풀이 보기';
+        btn.textContent = this.shown < total ? `힌트 ${this.shown + 1} 보기` : '풀이 보기';
       } else {
         const sol = this.querySelector<HTMLElement>('.problem__solution')!;
         sol.hidden = false;
@@ -66,6 +68,10 @@ const noteId = `note-${id}`;
   .problem {
     display: grid;
     gap: 10px;
+  }
+
+  .problem__q :global(p + p) {
+    margin-top: 0.7em;
   }
 
   .problem__note {

@@ -1,0 +1,69 @@
+---
+/** 한 문장으로. 학습자가 오늘 배운 것을 한 문장으로 먼저 쓰고, 그다음에 글쓴이(저)의 한 문장(slot)이 열린다. */
+---
+<qm-one class="one">
+  <label class="sr-only" for="one-line">오늘 배운 것을 한 문장으로</label>
+  <textarea id="one-line" class="one__line" rows="2" placeholder="오늘 배운 걸 한 문장으로" autocomplete="off"></textarea>
+  <button type="button" class="btn one__reveal">제 문장과 비교하기</button>
+  <div class="one__author" hidden>
+    <p class="label">제 한 문장</p>
+    <slot />
+  </div>
+</qm-one>
+
+<script>
+  import { getLessonNumber, readNotes, writeNotes } from '../../lib/client/bus.ts';
+
+  class QmOne extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.bound) return;
+      this.dataset.bound = '1';
+      const n = getLessonNumber(this);
+      const input = this.querySelector<HTMLTextAreaElement>('.one__line')!;
+      input.value = readNotes(n).one ?? '';
+      const persist = () => writeNotes(n, { one: input.value });
+      input.addEventListener('change', persist);
+      this.querySelector('.one__reveal')!.addEventListener('click', () => {
+        persist();
+        this.querySelector<HTMLElement>('.one__author')!.hidden = false;
+      });
+    }
+  }
+  if (!customElements.get('qm-one')) customElements.define('qm-one', QmOne);
+</script>
+
+<style>
+  .one {
+    display: grid;
+    gap: 10px;
+  }
+
+  .one__line {
+    width: 100%;
+    resize: vertical;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-2);
+    background: var(--ink-2);
+    color: var(--text);
+    font: inherit;
+    line-height: 1.6;
+  }
+
+  .one__reveal {
+    justify-self: start;
+  }
+
+  .one__author {
+    display: grid;
+    gap: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--line);
+  }
+
+  .one__author :global(p:not(.label)) {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.75;
+  }
+</style>

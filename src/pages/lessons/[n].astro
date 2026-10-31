@@ -99,7 +99,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
             <button type="button" class="chip" data-term={g!.id} data-q={g!.data.q}>{g!.data.term}<span class="mono">{g!.data.taughtIn}강</span></button>
           ))}
         </div>
-      ) : <p class="rail__empty">없음. 이 강은 앞 강의 용어 없이 읽을 수 있다.</p>}
+      ) : <p class="rail__empty">없어요. 이 강은 앞 강의 용어 없이 읽을 수 있어요.</p>}
       <h3>이 강에서 새로 배우는 용어</h3>
       {introduces.length ? (
         <div class="chips">
@@ -107,7 +107,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
             <button type="button" class="chip" data-term={g!.id} data-q={g!.data.q}>{g!.data.term}</button>
           ))}
         </div>
-      ) : <p class="rail__empty">없음</p>}
+      ) : <p class="rail__empty">없어요</p>}
       <h3>이 강이 설명하는 원리</h3>
       <p class="rail__mech">{d.mechanism}</p>
       {d.sources.length > 0 && (
@@ -130,7 +130,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
       <div class="testout__inner">
         <p class="label">통과 시험 · {d.number}강</p>
         <h2>이 강의 핵심 문제 {d.testout.length}개</h2>
-        <p class="small">모두 맞히면 이 강을 건너뛴다. 하나라도 틀리면 처음부터 보는 편이 낫다.</p>
+        <p class="small">모두 맞히면 이 강을 건너뛰어요. 하나라도 틀리면 처음부터 같이 보는 게 나아요.</p>
         <div class="testout__items"></div>
         <p class="testout__result" aria-live="polite"></p>
         <div class="title__actions">
@@ -139,7 +139,7 @@ const plannedNext = parts.flatMap((p) => p.data.lessons).find((l) => l.n === d.n
       </div>
     </div>
 
-    <template id="next-planned">{plannedNext ? `${plannedNext.n}강 ${plannedNext.title}은 준비 중이다.` : ''}</template>
+    <template id="next-planned">{plannedNext ? `${plannedNext.n}강 ${plannedNext.title}은 아직 준비하고 있어요.` : ''}</template>
   </qm-lesson>
   <script type="application/json" id="qm-glossary" set:html={glossaryJson} />
   <script>
