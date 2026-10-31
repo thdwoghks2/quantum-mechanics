@@ -1,0 +1,176 @@
+---
+/**
+ * 52·53강: 복소평면. 가로축은 실수 축, 세로축은 허수 축.
+ * mode="plane": a + bi를 한 점(화살표)으로 보인다.
+ * mode="add": 두 복소수를 이어 붙여 더한다(가로는 가로끼리, 세로는 세로끼리).
+ * mode="mul": z에 w(길이 r, 각도 t)를 곱한다. 길이는 곱해지고 각도는 더해진다. w = i면 90° 회전.
+ */
+interface Props {
+  mode?: 'plane' | 'add' | 'mul';
+  a?: number;
+  b?: number;
+  c?: number;
+  d?: number;
+  r?: number;
+  t?: number;
+}
+const { mode = 'plane', a = 2, b = 1, c = 1, d = 2, r = 1, t = 90 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const row = (id: string, label: string, param: string, min: number, max: number, step: number, value: number) => ({ id: `${id}-${uid}`, label, param, min, max, step, value });
+const rows =
+  mode === 'plane'
+    ? [row('cp-a', '실수부 a', 'a', -3, 3, 0.5, a), row('cp-b', '허수부 b', 'b', -3, 3, 0.5, b)]
+    : mode === 'add'
+      ? [row('cp-a', '첫째의 실수부', 'a', -3, 3, 0.5, a), row('cp-b', '첫째의 허수부', 'b', -3, 3, 0.5, b), row('cp-c', '둘째의 실수부', 'c', -3, 3, 0.5, c), row('cp-d', '둘째의 허수부', 'd', -3, 3, 0.5, d)]
+      : [row('cp-r', '곱하는 수의 길이', 'r', 0.5, 2, 0.25, r), row('cp-t', '곱하는 수의 각도', 't', 0, 360, 15, t)];
+---
+<qm-sim-complex class="sim" data-ratio="0.82" data-mode={mode}>
+  <canvas aria-label="가로축이 실수 축, 세로축이 허수 축인 복소평면. 복소수가 0에서 뻗은 화살표로 그려진다."></canvas>
+  <div class="sim__controls">
+    {rows.map((x) => (
+      <div class="sim__row">
+        <label for={x.id}>{x.label}</label>
+        <input id={x.id} type="range" min={x.min} max={x.max} step={x.step} value={x.value} data-param={x.param} />
+        <output data-out={x.param}></output>
+      </div>
+    ))}
+    {mode === 'mul' && (
+      <>
+        <input type="hidden" data-param="a" value={a} />
+        <input type="hidden" data-param="b" value={b} />
+        <div class="sim__buttons" aria-label="곱하는 수 고르기">
+          <button type="button" class="btn" data-set="r=1,t=90">× i</button>
+          <button type="button" class="btn" data-set="r=1,t=180">× (−1)</button>
+          <button type="button" class="btn" data-set="r=2,t=0">× 2</button>
+          <button type="button" class="btn" data-set="r=1.5,t=45">× (1 + i)쯤</button>
+        </div>
+      </>
+    )}
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-complex>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  function fmt(re: number, im: number) {
+    const r = Math.round(re * 100) / 100;
+    const i = Math.round(im * 100) / 100;
+    const sign = i < 0 ? '−' : '+';
+    const ai = Math.abs(i);
+    const imPart = ai === 1 ? 'i' : `${ai}i`;
+    if (i === 0) return `${r}`;
+    if (r === 0) return i < 0 ? `−${imPart}` : imPart;
+    return `${r} ${sign} ${imPart}`;
+  }
+
+  class SimComplex extends Sim {
+    animated = false;
+
+    format(name: string) {
+      const v = this.p[name]!;
+      if (name === 't') return `${v}°`;
+      return `${v}`;
+    }
+
+    w(): [number, number] {
+      const r = this.p.r!;
+      const t = (this.p.t! * Math.PI) / 180;
+      return [r * Math.cos(t), r * Math.sin(t)];
+    }
+
+    readout() {
+      const m = this.dataset.mode;
+      const a = this.p.a!;
+      const b = this.p.b!;
+      if (m === 'plane') return `${fmt(a, b)} → 가로로 ${a}, 세로로 ${b}인 점`;
+      if (m === 'add') {
+        const c = this.p.c!;
+        const d = this.p.d!;
+        return `(${fmt(a, b)}) + (${fmt(c, d)}) = ${fmt(a + c, b + d)}`;
+      }
+      const [wr, wi] = this.w();
+      const pr = a * wr - b * wi;
+      const pi = a * wi + b * wr;
+      const lz = Math.hypot(a, b);
+      const az = (Math.atan2(b, a) * 180) / Math.PI;
+      const lp = Math.hypot(pr, pi);
+      return `z = ${fmt(a, b)} (길이 ${lz.toFixed(2)}, 각도 ${((az + 360) % 360).toFixed(0)}°) × (길이 ${this.p.r}, 각도 ${this.p.t}°) = ${fmt(pr, pi)} (길이 ${lp.toFixed(2)}, 각도 ${(((az + this.p.t!) % 360) + 360) % 360}°)`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const m = this.dataset.mode;
+      const L = 4.5;
+      const cx = w / 2;
+      const cy = h / 2;
+      const S = Math.min(w, h) / (2 * L);
+      const X = (x: number) => cx + x * S;
+      const Y = (y: number) => cy - y * S;
+      // 격자
+      g.strokeStyle = c.line;
+      g.lineWidth = 1;
+      for (let k = -4; k <= 4; k++) {
+        g.beginPath();
+        g.moveTo(X(k), Y(-L));
+        g.lineTo(X(k), Y(L));
+        g.moveTo(X(-L), Y(k));
+        g.lineTo(X(L), Y(k));
+        g.stroke();
+      }
+      this.line(X(-L), cy, X(L), cy, c.text2, 1.5);
+      this.line(cx, Y(-L), cx, Y(L), c.text2, 1.5);
+      for (const k of [-3, -2, -1, 1, 2, 3]) {
+        this.text(`${k}`, X(k), cy + 11, c.muted, 9, 'center');
+        this.text(`${k}i`.replace('1i', 'i'), cx - 5, Y(k), c.muted, 9, 'right');
+      }
+      this.text('실수 축 →', X(L) - 2, cy - 10, c.text2, 10, 'right');
+      this.text('↑ 허수 축', cx + 6, Y(L) + 8, c.text2, 10);
+      const a = this.p.a!;
+      const b = this.p.b!;
+      if (m === 'plane') {
+        g.setLineDash([3, 4]);
+        this.line(X(a), cy, X(a), Y(b), c.muted, 1);
+        this.line(cx, Y(b), X(a), Y(b), c.muted, 1);
+        g.setLineDash([]);
+        this.arrow(cx, cy, X(a), Y(b), c.accent, 2.5);
+        this.dot(X(a), Y(b), 4, c.accent);
+        this.text(fmt(a, b), X(a) + 8, Y(b) - 10, c.accent, 12);
+        return;
+      }
+      if (m === 'add') {
+        const cc = this.p.c!;
+        const d = this.p.d!;
+        this.arrow(cx, cy, X(a), Y(b), c.space, 2.5);
+        this.arrow(X(a), Y(b), X(a + cc), Y(b + d), c.time, 2.5);
+        this.arrow(cx, cy, X(a + cc), Y(b + d), c.accent, 3);
+        this.text('첫째', X(a / 2) - 6, Y(b / 2) - 8, c.space, 11, 'right');
+        this.text('둘째', X(a + cc / 2) + 6, Y(b + d / 2), c.time, 11);
+        this.text(`합 ${fmt(a + cc, b + d)}`, X(a + cc) + 8, Y(b + d) - 10, c.accent, 12);
+        return;
+      }
+      // 곱하기
+      const [wr, wi] = this.w();
+      const pr = a * wr - b * wi;
+      const pi = a * wi + b * wr;
+      const az = Math.atan2(b, a);
+      const ap = Math.atan2(pi, pr);
+      this.arrow(cx, cy, X(a), Y(b), c.space, 2.5);
+      this.text(`z = ${fmt(a, b)}`, X(a) + 8, Y(b) + 12, c.space, 11);
+      this.arrow(cx, cy, X(pr), Y(pi), c.accent, 3);
+      this.text(`곱 ${fmt(pr, pi)}`, X(pr) + 8, Y(pi) - 10, c.accent, 12);
+      // 돌아간 각도 호
+      g.strokeStyle = c.time;
+      g.lineWidth = 2;
+      g.beginPath();
+      const rr = S * 0.8;
+      const t = (this.p.t! * Math.PI) / 180;
+      g.arc(cx, cy, rr, -az, -(az + t), true);
+      g.stroke();
+      this.text(`+${this.p.t}°`, cx + (rr + 14) * Math.cos(az + t / 2), cy - (rr + 14) * Math.sin(az + t / 2), c.time, 11, 'center');
+      void ap;
+    }
+  }
+  define('qm-sim-complex', SimComplex);
+</script>
