@@ -1,0 +1,424 @@
+---
+number: 70
+title: 시간에 따른 상태 변화
+short: 시간 변화
+question: 원자가 내는 빛의 진동수는 왜 두 에너지 칸의 차이로 정해질까요?
+mechanism: 에너지가 정해진 상태의 파동함수는 자리마다의 값이 복소평면 위에서 크기는 그대로 둔 채 1초에 E/h바퀴씩 돌기만 해서, 찾을 확률이 변하지 않아요. 에너지가 다른 두 상태를 섞으면 두 부분이 서로 다른 빠르기로 돌며 간섭해서, 찾을 확률이 두 에너지의 차이를 h로 나눈 진동수로 출렁여요. 전자처럼 전하를 띤 입자가 이 진동수로 출렁이니, 원자는 바로 그 진동수의 빛과 에너지를 주고받아요.
+part: 8
+minutes: 20
+assumes: [complex-number, complex-plane, modulus, euler-formula, probability-amplitude, born-rule, wavefunction, quantum-state, superposition, interference, particle-in-a-box, tunneling, schrodinger-equation, energy-level, ground-state, photon, planck-constant, frequency, em-wave, charge, electron, ultraviolet, standing-wave, molecule]
+introduces: [stationary-state]
+sources:
+  - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Sec. 2.1-2.2 (2018)"
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 7-9 (1965)"
+  - "Gordon, J. P., Zeiger, H. J., Townes, C. H. Molecular Microwave Oscillator and New Hyperfine Structure in the Microwave Spectrum of NH₃, Physical Review 95, 282 (1954)"
+  - "NIST Atomic Spectra Database: 수소 라이먼 알파선 121.6 nm (약 2.47 × 10¹⁵ Hz, 10.2 eV)"
+testout: [q70-stat, q70-shift, q70-mix]
+status: published
+---
+
+<Screen kind="scene" title="흡수하는 도중">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '칸 하나', caption: '찾을 확률이 그대로예요' },
+      { big: '두 칸에 걸치면', caption: '찾을 확률이 출렁여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 분자가 빛을 흡수하는 도중에는 두 칸에 걸쳐 있다고 했죠. 오늘은 시간이 지나며 무엇이 바뀌는지 봐요.
+
+<S n={2}>
+
+지금까지 슈뢰딩거 방정식은 파동함수의 모양만 정했어요. 시간까지 넣은 방정식은 그 모양이 시간에 따라 어떻게 바뀌는지도 정해 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="늘 같은 원자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'atom', title: '오늘 잰 수소 원자', caption: '바닥상태' },
+      { icon: 'atom', title: '내일 잰 수소 원자', caption: '크기도 모양도 똑같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+바닥상태의 수소 원자는 오늘 재도 내일 재도 크기와 모양이 똑같아요. 전자가 움직이는데도 말이죠.
+
+<S n={2}>
+
+에너지가 정해진 상태에서는 무언가가 돌기는 하지만, 그 도는 것이 찾을 확률에는 드러나지 않거든요. 무엇이 도는지부터 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={54} title="도는 화살표">
+  <Fragment slot="visual">
+    <SimP08Clocks mode="one" />
+  </Fragment>
+
+54강에서 복소수 e^(iθ)는 복소평면 위의 길이 1인 화살표였죠. θ가 커지면 화살표가 돌아요.
+
+<S n={2}>
+
+53강에서 이런 복소수를 곱하면 길이는 그대로 두고 방향만 돌린다고 했어요. 재생을 눌러 보면, 화살표가 돌아도 길이는 변하지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="에너지가 정하는 빠르기">
+  <Fragment slot="visual">
+    <BigNumber top="에너지가 E인 상태의 파동함수가 도는 빠르기" value="1초에 E ÷ h 바퀴" bottom="에너지가 클수록 빨리 돌아요" q="energy" />
+  </Fragment>
+
+에너지가 정해진 상태에서는, 시간이 지나면 파동함수의 값이 자리마다 이 화살표처럼 돌아요. 1초에 도는 바퀴 수는 그 에너지를 h로 나눈 값이에요.
+
+<S n={2}>
+
+에너지가 큰 칸일수록 더 빨리 돌죠. 시간까지 넣은 슈뢰딩거 방정식이 말하는 규칙이 이거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="돌아도 확률은 그대로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '화살표의 방향', caption: '시간에 따라 돌아요' },
+      { big: '화살표의 길이', caption: '그대로예요 · 찾을 확률도 그대로', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+입자를 찾을 확률은 파동함수 값의 크기를 제곱한 값이에요. 화살표가 돌기만 하면 길이는 그대로라서, 확률도 변하지 않아요.
+
+<S n={2}>
+
+그래서 에너지가 정해진 상태에서는 어느 자리에서나 찾을 확률이 시간이 지나도 그대로예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="칸 하나일 때">
+  <Fragment slot="visual">
+    <SimP08Box n={1} time />
+  </Fragment>
+
+재생을 눌러 보세요. 선은 도는 화살표의 가로 성분이라 오르내리지만, 색칠한 확률은 꼼짝하지 않아요.
+
+<S n={2}>
+
+다른 칸을 골라도 마찬가지예요. 높은 칸일수록 선이 더 빨리 오르내릴 뿐이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="정상 상태">
+  <Fragment slot="visual">
+    <Define term="stationary-state" />
+  </Fragment>
+
+이렇게 에너지가 정해져 있어서, 시간이 지나도 찾을 확률이 변하지 않는 상태를 **정상 상태**라고 불러요. 정상은 멈춰 있다는 뜻이 아니라 늘 같은 모양이라는 뜻이에요.
+
+<S n={2}>
+
+<Key>에너지가 정해진 상태는 파동함수의 값이 크기를 그대로 둔 채 1초에 E/h바퀴씩 돌기만 해서, 입자를 찾을 확률이 시간이 지나도 변하지 않는 정상 상태예요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="변하지 않는 것">
+
+<Check id="q70-stat" options={[
+  { t: '모든 자리에서 입자를 찾을 확률', ok: true, why: '정상 상태에서는 파동함수의 값이 돌기만 하고 크기는 그대로예요. 찾을 확률은 크기의 제곱이라 변하지 않아요.' },
+  { t: '파동함수의 값', why: '파동함수의 값은 복소평면 위에서 1초에 E/h바퀴씩 돌아요. 변하지 않는 건 그 크기예요.' },
+  { t: '입자가 한자리에 멈춰 있어요', why: '정상 상태는 멈춰 있다는 뜻이 아니에요. 상자 속 입자처럼 운동 에너지도 0이 아니에요.' },
+  { t: '에너지가 서서히 줄어들어요', why: '정상 상태는 에너지가 하나로 정해진 상태예요. 다른 무엇과 에너지를 주고받지 않으면 그대로예요.' },
+]}>
+
+정상 상태에 있는 입자에서, 시간이 지나도 변하지 않는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="두 칸을 섞으면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1번째 칸 부분', caption: '1배 빠르기로 돌아요' },
+      { big: '2번째 칸 부분', caption: '4배 빠르기로 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 상자 속 입자의 1번째 칸과 2번째 칸을 반씩 섞은 상태를 생각해 볼게요. 13강의 중첩처럼, 파동함수는 두 모양을 더한 거예요.
+
+<S n={2}>
+
+그런데 두 부분은 서로 다른 빠르기로 돌아요. 2번째 칸은 에너지가 4배라서 4배 빨리 돌거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="두 화살표의 간섭">
+  <Fragment slot="visual">
+    <SimP08Clocks mode="two" />
+  </Fragment>
+
+한 자리에서 두 부분의 화살표를 이어 붙여 봤어요. 재생을 누르면 두 화살표가 다른 빠르기로 돌아요.
+
+<S n={2}>
+
+두 화살표가 같은 방향일 때는 합이 길어지고, 반대 방향일 때는 짧아져요. 14강의 간섭이 시간에 따라 일어나는 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="출렁이는 확률">
+  <Fragment slot="visual">
+    <SimP08Box n={0} time mix />
+  </Fragment>
+
+이번엔 상자 전체를 볼게요. 재생을 눌러 보세요.
+
+<S n={2}>
+
+입자를 찾을 확률이 상자의 한쪽과 다른 쪽을 오가며 출렁여요. 두 부분이 어긋나는 정도가 자리마다, 시간마다 달라지니까요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="출렁이는 빠르기">
+  <Fragment slot="visual">
+    <BigNumber top="두 상태를 섞었을 때 찾을 확률이 출렁이는 진동수" value="(E₂ − E₁) ÷ h" bottom="두 칸의 에너지 차이로 정해져요" q="time" />
+  </Fragment>
+
+두 화살표가 같은 방향이었다가 다시 같은 방향이 되려면, 빠른 화살표가 한 바퀴를 더 돌아야 해요. 1초에 도는 바퀴 수의 차이가 (E₂ − E₁) ÷ h이니, 출렁이는 진동수도 그 값이에요.
+
+<Key>에너지가 다른 두 상태를 섞으면 두 부분이 서로 다른 빠르기로 돌며 간섭해서, 입자를 찾을 확률이 두 에너지의 차이를 h로 나눈 진동수로 출렁여요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="두 칸을 함께 올리면">
+
+<Check id="q70-shift" options={[
+  { t: '그대로예요.', ok: true, why: '두 부분이 모두 같은 만큼 빨라지니까, 빠르기의 차이는 그대로예요. 출렁임은 에너지 차이로만 정해져요.' },
+  { t: '빨라져요.', why: '두 화살표가 모두 빨리 돌긴 하지만, 출렁임은 둘의 빠르기 차이로 정해져요. 차이는 변하지 않았어요.' },
+  { t: '느려져요.', why: '에너지 차이가 그대로라서 출렁임의 진동수도 그대로예요.' },
+  { t: '출렁임이 멈춰요.', why: '두 상태의 에너지가 여전히 달라서, 두 부분은 계속 다른 빠르기로 돌며 간섭해요.' },
+]}>
+
+에너지가 다른 두 상태를 섞었더니, 찾을 확률이 어떤 진동수로 출렁였어요. 만약 두 상태의 에너지를 모두 똑같이 1 eV씩 높인다면, 출렁임의 진동수는 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="worked" title="수소 원자에서 숫자로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '10.2 eV', title: '두 칸의 에너지 차이', caption: '수소의 바닥상태와 바로 위 칸' },
+      { big: '약 2.5 × 10¹⁵ Hz', title: '출렁이는 진동수', caption: '자외선의 진동수', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+수소 원자의 바닥상태와 그 위 칸은 에너지가 10.2 eV 차이 나요. 이 둘을 섞으면 전자를 찾을 확률이 어떤 진동수로 출렁일지 계산해 볼게요.
+
+<S n={2}>
+
+10.2 eV는 10.2 × 1.6 × 10⁻¹⁹ J이에요. 이걸 h = 6.6 × 10⁻³⁴ J·s로 나누면 약 2.5 × 10¹⁵ Hz가 나와요.
+
+</S>
+
+<S n={3}>
+
+감각으로 확인해 볼게요. 이건 자외선의 진동수이고, 실제로 수소는 이 두 칸 사이를 오가며 바로 이 진동수의 자외선을 내요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="출렁이는 전하가 빛을 내요">
+  <Fragment slot="visual">
+    <Flow alt="두 상태를 섞으면 전자를 찾을 확률이 출렁이고, 전하가 출렁이니 같은 진동수의 빛과 에너지를 주고받는다" items={[
+      { t: '두 칸을 섞은 전자', sub: '찾을 확률이 출렁여요' },
+      { t: '전하가 출렁여요', sub: '(E₂ − E₁) ÷ h로', step: 2 },
+      { t: '같은 진동수의 빛', sub: '내거나 흡수해요', step: 2 },
+    ]} />
+  </Fragment>
+
+전자는 전하를 띠고 있어요. 전자를 찾을 확률이 출렁이면, 원자 속 전하가 퍼져 있는 모양도 그 진동수로 출렁여요.
+
+<S n={2}>
+
+19강에서 흔들리는 전하는 같은 진동수의 전자기파를 냈어요. 그래서 원자가 주고받는 빛의 진동수가 칸 사이 에너지 차이를 h로 나눈 값이 되는 거예요.
+
+44강에서 보어가 규칙으로 받아들였던 것이, 여기서는 계산 결과로 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="뒤집히는 암모니아">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '질소가 위', caption: '수소 셋이 만든 삼각형 위에 앉아요' },
+      { big: '질소가 아래', caption: '터널 효과로 삼각형을 지나요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+암모니아 분자는 수소 원자 셋이 삼각형을 이루고, 질소 원자 하나가 그 위나 아래에 앉은 피라미드 모양이에요. 질소는 68강의 터널 효과로 삼각형을 지나 반대편으로 갈 수 있어요.
+
+<S n={2}>
+
+그래서 에너지가 정해진 상태는 '위'와 '아래'를 섞은 두 상태가 되고, 둘의 에너지가 아주 조금 달라요. 질소가 한쪽에서 출발하면 이 두 상태를 섞은 것이라, 위아래를 1초에 약 240억 번 오가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1954년의 메이저">
+  <Fragment slot="visual">
+    <BigNumber top="암모니아의 출렁임으로 전파를 증폭한 장치가 처음 작동한 해" value="1954" bottom="찰스 타운스 연구진 · 메이저" />
+  </Fragment>
+
+1954년 찰스 타운스 연구진은 이 출렁임과 같은 진동수의 전파를 암모니아 분자로 증폭하는 장치를 만들었어요. 이 장치를 메이저라고 불러요.
+
+<S n={2}>
+
+메이저는 빛으로 같은 일을 하는 <Later n={133}>레이저</Later>로 이어졌어요. 오늘 계산한 출렁임이 기술로 쓰인 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="1번째와 3번째를 섞으면">
+
+<Check id="q70-mix" options={[
+  { t: '8 ÷ 3배, 약 2.7배', ok: true, why: '1번째와 2번째의 에너지 차이는 4 − 1 = 3배, 1번째와 3번째는 9 − 1 = 8배예요. 출렁임은 에너지 차이에 비례하니 8 ÷ 3배예요.' },
+  { t: '3 ÷ 2배, 1.5배', why: '칸 번호의 비가 아니라 에너지 차이의 비를 봐야 해요. 상자 속 입자의 에너지는 번호의 제곱에 비례해요.' },
+  { t: '9 ÷ 4배', why: '두 칸 각각의 에너지가 아니라, 섞은 두 칸의 에너지 차이가 출렁임을 정해요.' },
+  { t: '똑같아요', why: '섞은 두 칸의 에너지 차이가 달라졌으니 출렁임의 진동수도 달라져요.' },
+]}>
+
+상자 속 입자의 1번째 칸과 2번째 칸을 섞었더니, 찾을 확률이 어떤 진동수로 출렁였어요. 같은 상자에서 1번째 칸과 3번째 칸을 섞으면, 출렁임의 진동수는 처음의 몇 배일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="두 소리굽쇠">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['두 소리굽쇠의 진동수', '두 상태가 도는 빠르기 E₁/h, E₂/h'],
+        ['소리가 커졌다 작아졌다 하는 박자', '찾을 확률이 출렁이는 진동수'],
+        ['박자 = 두 진동수의 차이', '출렁임 = (E₂ − E₁) ÷ h'],
+      ]}
+      fits="진동수가 다른 두 흔들림을 더하면, 둘이 맞았다 어긋났다 하면서 차이 진동수로 세기가 출렁인다는 점이 같아요."
+      breaks="소리굽쇠 하나만 울려도 소리는 들리지만, 정상 상태 하나가 도는 것은 확률에 전혀 드러나지 않아요. 두 상태를 섞었을 때만 출렁임이 보여요."
+    />
+  </Fragment>
+
+진동수가 조금 다른 소리굽쇠 두 개를 함께 울리면, 소리가 커졌다 작아졌다 해요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="step" title="도는 것은 무엇일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '입자', caption: '빙빙 돌지 않아요', tone: 'dim' },
+      { big: '파동함수의 값', caption: '복소평면 위에서 돌아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 무엇이 도는지 헷갈렸어요. 도는 건 입자가 아니라 파동함수의 값, 그러니까 복소평면 위의 화살표예요.
+
+이 화살표의 방향은 혼자서는 잴 수 없고, 다른 부분과 섞여 간섭할 때만 드러나요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['stationary-state', 'superposition', 'interference']}>
+
+1. 에너지가 정해진 상태에서는 파동함수의 값이 크기는 그대로 둔 채 1초에 E/h바퀴씩 돌아요.
+2. 크기가 그대로니까 찾을 확률도 변하지 않고, 이런 상태를 정상 상태라고 해요.
+3. 에너지가 다른 두 상태를 섞으면 두 부분이 다른 빠르기로 돌며 간섭해요.
+4. 그래서 찾을 확률이 (E₂ − E₁) ÷ h의 진동수로 출렁여요.
+5. 전하를 띤 전자가 이 진동수로 출렁이니, 원자는 바로 그 진동수의 빛과 에너지를 주고받아요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="왜 바닥상태는 빛을 내지 않을까">
+
+<DailyProblem id="p70">
+
+바닥상태에 있는 수소 원자는 아무리 오래 기다려도 스스로 빛을 내지 않아요.
+
+오늘 배운 것으로 그 까닭을 설명해 보세요.
+
+<Fragment slot="hint1">
+
+바닥상태는 에너지가 하나로 정해진 상태예요. 이런 상태에서 전자를 찾을 확률은 시간에 따라 어떻게 되나요?
+
+</Fragment>
+<Fragment slot="hint2">
+
+빛을 내려면 전하가 무엇을 해야 했나요?
+
+</Fragment>
+<Fragment slot="solution">
+
+바닥상태는 정상 상태라서, 전자를 찾을 확률이 시간이 지나도 변하지 않아요. 전하가 퍼져 있는 모양이 출렁이지 않으니 빛을 낼 까닭이 없어요.
+
+게다가 바닥상태보다 낮은 칸이 없어서, 내려가며 내줄 에너지도 없어요. 41강에서 고전 원자는 무너져야 했지만, 양자역학의 바닥상태는 이렇게 안정해요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+에너지가 정해진 상태는 찾을 확률이 변하지 않지만, 에너지가 다른 두 상태를 섞으면 확률이 두 에너지 차이를 h로 나눈 진동수로 출렁이고, 원자는 그 진동수의 빛을 주고받아요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="3차원 우물, 수소 원자">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '한 줄짜리 우물', caption: '번호 하나로 칸을 셌어요' },
+      { icon: 'atom', title: '수소 원자', caption: '3차원 공간에 갇힌 전자', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지금까지 본 우물은 모두 한 줄짜리였어요. 그런데 진짜 원자 속 전자는 원자핵 둘레의 3차원 공간에 갇혀 있죠.
+
+<S n={2}>
+
+다음 강에서는 수소 원자에 슈뢰딩거 방정식을 써서, 보어가 그린 동그란 궤도 대신 어떤 모양들이 나오는지 봐요. 그 모양에는 번호가 하나가 아니라 셋 붙어요.
+
+</S>
+
+</Screen>

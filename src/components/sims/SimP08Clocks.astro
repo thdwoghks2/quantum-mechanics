@@ -1,0 +1,130 @@
+---
+/**
+ * 한 자리에서 본 파동함수의 값을 복소평면 위 화살표로 그린다.
+ * mode="one": 에너지가 정해진 상태. 화살표가 돌기만 해서 길이(찾을 확률)는 그대로다.
+ * mode="two": 에너지가 다른 두 상태를 섞은 것. 두 화살표가 다른 빠르기로 돌고, 합의 길이가 출렁인다.
+ * 오른쪽에는 화살표 길이의 제곱(그 자리에서 찾을 확률)을 시간에 따라 그린다.
+ */
+interface Props {
+  mode?: 'one' | 'two';
+}
+const { mode = 'two' } = Astro.props;
+---
+<qm-sim-p08-clocks class="sim" data-ratio="0.5" data-mode={mode}>
+  <canvas aria-label={mode === 'one'
+    ? '복소평면 위에서 길이가 그대로인 화살표 하나가 돌고, 오른쪽의 찾을 확률 그래프는 평평하다'
+    : '복소평면 위에서 두 화살표가 이어 붙은 채 서로 다른 빠르기로 돌고, 합한 화살표의 길이가 커졌다 작아졌다 한다. 오른쪽 그래프에는 찾을 확률이 출렁인다'}></canvas>
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-play>재생</button>
+    <button type="button" class="btn" data-reset>처음으로</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p08-clocks>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const W1 = 2 * Math.PI * 0.15; // 1번째 상태가 도는 빠르기 (화면용으로 느리게)
+
+  class SimP08Clocks extends Sim {
+    two = true;
+    trace: number[] = [];
+
+    init() {
+      this.two = this.dataset.mode !== 'one';
+    }
+    reset() {
+      this.trace = [];
+    }
+
+    parts() {
+      const t = this.t;
+      if (!this.two) return [{ r: 0.85, th: -W1 * t }];
+      return [
+        { r: 0.55, th: -W1 * t },
+        { r: 0.45, th: -4 * W1 * t },
+      ];
+    }
+
+    tick() {
+      const sum = this.sum();
+      this.trace.push(sum.x * sum.x + sum.y * sum.y);
+      if (this.trace.length > 600) this.trace.shift();
+    }
+
+    sum() {
+      let x = 0;
+      let y = 0;
+      for (const p of this.parts()) {
+        x += p.r * Math.cos(p.th);
+        y += p.r * Math.sin(p.th);
+      }
+      return { x, y };
+    }
+
+    readout() {
+      const s = this.sum();
+      const len = Math.hypot(s.x, s.y);
+      if (!this.two) return `화살표 길이 ${len.toFixed(2)} · 돌기만 해서 찾을 확률은 늘 그대로예요`;
+      return `합한 화살표 길이 ${len.toFixed(2)} · 같은 방향일 때 가장 길고, 반대 방향일 때 가장 짧아요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const R = Math.min(h * 0.42, w * 0.2);
+      const cx = R + 18;
+      const cy = h / 2;
+
+      // 복소평면
+      this.line(cx - R - 8, cy, cx + R + 8, cy, c.line, 1);
+      this.line(cx, cy - R - 8, cx, cy + R + 8, c.line, 1);
+      g.strokeStyle = c.line;
+      g.setLineDash([3, 4]);
+      g.beginPath();
+      g.arc(cx, cy, R, 0, Math.PI * 2);
+      g.stroke();
+      g.setLineDash([]);
+
+      let x = cx;
+      let y = cy;
+      const cols = [c.space, c.energy];
+      this.parts().forEach((p, i) => {
+        const nx = x + R * p.r * Math.cos(p.th);
+        const ny = y - R * p.r * Math.sin(p.th);
+        this.arrow(x, y, nx, ny, cols[i]!, 2.5);
+        x = nx;
+        y = ny;
+      });
+      if (this.two) {
+        g.setLineDash([5, 4]);
+        this.arrow(cx, cy, x, y, c.text, 2);
+        g.setLineDash([]);
+        this.text('합', (cx + x) / 2 + 6, (cy + y) / 2, c.text, 11);
+      }
+
+      // 찾을 확률의 시간 그래프
+      const x0 = cx + R + 30;
+      const x1 = w - 10;
+      const top = 18;
+      const bot = h - 22;
+      this.line(x0, bot, x1, bot, c.line, 1);
+      this.line(x0, top, x0, bot, c.line, 1);
+      this.text('이 자리에서 찾을 확률', x0 + 4, top - 6, c.text2, 10);
+      this.text('시간 →', x1, bot + 12, c.text2, 10, 'right');
+      const tr = this.trace.length ? this.trace : [this.sum().x ** 2 + this.sum().y ** 2];
+      const n = tr.length;
+      g.strokeStyle = c.accent;
+      g.lineWidth = 2;
+      g.beginPath();
+      tr.forEach((v, i) => {
+        const X = x1 - ((n - 1 - i) / 599) * (x1 - x0);
+        const Y = bot - (v / 1.05) * (bot - top);
+        if (i) g.lineTo(X, Y);
+        else g.moveTo(X, Y);
+      });
+      g.stroke();
+    }
+  }
+  define('qm-sim-p08-clocks', SimP08Clocks);
+</script>
