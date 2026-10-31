@@ -14,17 +14,27 @@
 
 ```sh
 npm install
-npm run dev        # http://localhost:4321/quantum-mechanics/
+npm run dev        # http://localhost:4321/
 npm run check      # 콘텐츠 검사 + 문체 검사 + 테스트 + 빌드
 ```
 
 ## 배포
 
-`main`에 푸시하면 GitHub Actions가 검사와 빌드를 거쳐 GitHub Pages에 올린다(`.github/workflows/deploy.yml`).
-처음 한 번, 저장소 **Settings → Pages → Source**를 **GitHub Actions**로 바꾼다.
-주소는 `https://thdwoghks2.github.io/quantum-mechanics/`이다.
+Firebase Hosting(`quantummechanics-9ad00` 프로젝트)에 올린다. 주소는 `https://quantummechanics-9ad00.web.app/`이다.
 
-다른 곳(Vercel, Netlify, 자기 도메인)에 올릴 때는 `SITE`, `BASE` 환경 변수로 주소를 바꾼다. 예: `BASE=/ npm run build`.
+직접 올릴 때는 검사와 빌드를 거쳐 배포한다.
+
+```sh
+npx firebase-tools@15.34.2 login
+npm run deploy
+```
+
+자동 배포(`.github/workflows/deploy.yml`): `main`에 푸시하면 실제 사이트에, PR을 열면 7일 동안 열리는 미리보기 주소에 올린다.
+처음 한 번, 배포용 서비스 계정 키를 저장소 **Settings → Secrets and variables → Actions**에
+`FIREBASE_SERVICE_ACCOUNT_QUANTUMMECHANICS_9AD00`이라는 이름으로 넣는다. 키가 없으면 배포 단계는 건너뛴다.
+
+다른 곳(GitHub Pages, 자기 도메인)에 올릴 때는 `SITE`, `BASE` 환경 변수로 주소를 바꾼다.
+예: `SITE=https://thdwoghks2.github.io BASE=/quantum-mechanics npm run build`.
 
 ## 구조
 

@@ -14,7 +14,7 @@
    npm run validate     # 용어 계약, frontmatter, 문제 ID
    npm run lint:style   # 금지 표현, 명사형 종결, 화면당 글자 수, 그래프 없는 방향어
    npm test
-   npm run dev          # http://localhost:4321/quantum-mechanics/lessons/번호/
+   npm run dev          # http://localhost:4321/lessons/번호/
    ```
 6. `npm run docs:curriculum`으로 `docs/CURRICULUM.md`를 갱신한다.
 
