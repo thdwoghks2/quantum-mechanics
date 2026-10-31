@@ -1,0 +1,114 @@
+---
+/**
+ * 48강: 원 둘레를 도는 파동. 원둘레가 파장의 몇 배인지(k)를 바꾼다.
+ * k가 정수면 한 바퀴 돌아온 파동이 처음과 맞물려 정상파가 되고, 정수가 아니면 바퀴마다 어긋나 겹치며 서로 지워진다.
+ * 흐린 선은 두 바퀴째부터 여섯 바퀴째까지의 파동이다.
+ */
+interface Props {
+  k?: number;
+}
+const { k = 1.5 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-ring class="sim" data-ratio="0.72">
+  <canvas aria-label="원 둘레에 물결이 그려져 있다. 원둘레가 파장의 정수배면 여러 바퀴의 물결이 꼭 겹쳐 정상파가 되고, 정수배가 아니면 바퀴마다 어긋나 흩어진다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`rg-k-${uid}`}>원둘레 ÷ 파장</label>
+      <input id={`rg-k-${uid}`} type="range" min="0.5" max="4.5" step="0.05" value={k} data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    <div class="sim__buttons">
+      {[1, 2, 3, 4].map((n) => (
+        <button type="button" class="btn" data-set={`k=${n}`} aria-pressed={n === k ? 'true' : 'false'}>{n}배</button>
+      ))}
+      <button type="button" class="btn" data-play>재생</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-ring>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const LAPS = 6;
+
+  class SimRing extends Sim {
+    format() {
+      return `${this.p.k!.toFixed(2)}배`;
+    }
+
+    /** 여러 바퀴 겹친 뒤 남는 크기 (0~1) */
+    left() {
+      const k = this.p.k!;
+      let re = 0;
+      let im = 0;
+      for (let j = 0; j < LAPS; j++) {
+        re += Math.cos(2 * Math.PI * k * j);
+        im += Math.sin(2 * Math.PI * k * j);
+      }
+      return Math.hypot(re, im) / LAPS;
+    }
+
+    readout() {
+      const k = this.p.k!;
+      const near = Math.abs(k - Math.round(k)) < 0.025;
+      const pct = Math.round(this.left() * 100);
+      if (near) return `원둘레가 파장의 ${Math.round(k)}배예요. 한 바퀴 돌아온 물결이 처음과 꼭 맞물려서, 여섯 바퀴를 겹쳐도 그대로 남아요 (${pct} %).`;
+      return `원둘레가 파장의 ${k.toFixed(2)}배예요. 바퀴마다 어긋나서, 여섯 바퀴를 겹치면 ${pct} %만 남아요.`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+      const R = h * 0.33;
+      const A = h * 0.05;
+      const k = this.p.k!;
+      const near = Math.abs(k - Math.round(k)) < 0.025;
+      // 기준 원
+      g.strokeStyle = c.line;
+      g.setLineDash([3, 5]);
+      g.beginPath();
+      g.arc(cx, cy, R, 0, Math.PI * 2);
+      g.stroke();
+      g.setLineDash([]);
+      this.dot(cx, cy, 3, c.accent);
+      this.text('원자핵', cx, cy + 14, c.muted, 10, 'center');
+      // 바퀴마다의 물결: 각도 θ에서 변위 = sin(k·(θ + 2π·j) − ωt)
+      const wt = this.t * 2;
+      const lap = (j: number, color: string, width: number) => {
+        g.strokeStyle = color;
+        g.lineWidth = width;
+        g.beginPath();
+        for (let i = 0; i <= 360; i++) {
+          const th = (i / 360) * Math.PI * 2;
+          const d = Math.sin(k * (th + 2 * Math.PI * j) - wt);
+          const r = R + A * d;
+          const x = cx + r * Math.cos(th);
+          const y = cy - r * Math.sin(th);
+          if (i) g.lineTo(x, y);
+          else g.moveTo(x, y);
+        }
+        g.stroke();
+      };
+      for (let j = LAPS - 1; j >= 1; j--) lap(j, near ? 'rgba(126, 200, 160, 0.25)' : 'rgba(220, 120, 110, 0.28)', 1.2);
+      lap(0, near ? '#7ec8a0' : c.space, 2.5);
+      // 출발점 표시
+      this.dot(cx + R + A * Math.sin(-wt), cy, 4, c.text);
+      this.text('출발점', cx + R + A + 8, cy, c.muted, 10);
+      // 남는 크기 막대
+      const left = this.left();
+      const bx = 14;
+      const by = h - 16;
+      const bw = w * 0.32;
+      g.fillStyle = c.ink3;
+      g.fillRect(bx, by - 8, bw, 8);
+      g.fillStyle = near ? '#7ec8a0' : c.no;
+      g.fillRect(bx, by - 8, bw * left, 8);
+      this.text('여섯 바퀴 겹친 뒤 남는 크기', bx, by - 16, c.muted, 10);
+    }
+  }
+  define('qm-sim-ring', SimRing);
+</script>
