@@ -1,0 +1,390 @@
+---
+number: 51
+title: 경로를 측정하면 간섭이 사라진다
+short: 상보성
+question: 전자가 어느 길로 갔는지 재면 무슨 일이 생길까요?
+mechanism: 전자가 두 길 가운데 어디로 지났는지 알 수 있는 기록이 남으면, 두 길의 물질파는 더는 서로 간섭하지 못하고 화면에는 두 길의 결과를 그냥 더한 넓은 봉우리만 남아요. 경로를 알아낼 수 있는 정도가 클수록 무늬는 흐려지고, 다 알아내면 사라져요. 사람이 보는지와 상관없이 기록이 남느냐가 무늬를 정해요. 그래서 알갱이다운 모습(어느 길)과 파동다운 모습(간섭)은 둘 다 필요하지만 한 실험에서 동시에 다 볼 수 없는데, 보어는 이것을 상보성이라고 불렀어요.
+part: 4
+year: 1927
+minutes: 20
+epigraph:
+  text: "대립하는 것은 서로를 보완한다. (Contraria sunt complementa)"
+  by: 닐스 보어
+  source: 1947년 덴마크 코끼리 훈장을 받으며 정한 문장(紋章)의 글귀
+assumes: [wave-particle-duality, double-slit, interference, fringe, matter-wave, de-broglie-wavelength, electron, photon, probability, diffraction, compton-scattering]
+introduces: [complementarity]
+sources:
+  - "Feynman, R. P., Leighton, R. B. & Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 1 (1965)"
+  - "Bohr, N. The Quantum Postulate and the Recent Development of Atomic Theory. Nature 121, 580–590 (1928)"
+  - "Buks, E., Schuster, R., Heiblum, M., Mahalu, D. & Umansky, V. Dephasing in electron interference by a 'which-path' detector. Nature 391, 871–874 (1998)"
+  - "Dürr, S., Nonn, T. & Rempe, G. Origin of quantum-mechanical complementarity probed by a 'which-way' experiment in an atom interferometer. Nature 395, 33–37 (1998)"
+  - "Englert, B.-G. Fringe Visibility and Which-Way Information: An Inequality. Physical Review Letters 77, 2154–2157 (1996)"
+testout: [q51-detector, q51-unread, q51-longlight]
+status: published
+---
+
+<Screen kind="scene" title="어느 길로 갔을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이쪽 길?', caption: '' },
+      { big: '저쪽 길?', caption: '' },
+      { big: '재 보면', caption: '무늬는 어떻게 될까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+50강에서 전자를 하나씩 보내도 간섭 무늬가 생겼어요. 전자 하나의 물질파가 두 길을 함께 지난 것처럼 보였죠.
+
+<S n={2}>
+
+그렇다면 전자 하나가 정말 두 길로 갔는지 직접 재 보고 싶어져요. 오늘은 그걸 재는 순간 무슨 일이 생기는지 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={50} title="하나씩 쌓인 무늬">
+  <Fragment slot="visual">
+    <SimP04BuildUp />
+  </Fragment>
+
+50강에서 전자는 늘 점 하나로 닿았지만, 수만 개가 모이자 간섭 무늬가 드러났어요.
+
+<S n={2}>
+
+장치 안에는 전자가 하나뿐이었으니, 두 길에서 온 파동이 겹친 건 같은 전자 안에서 일어난 일이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="엿보는 불빛">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '두 틈 바로 뒤에 불빛', caption: '지나는 전자에 빛이 부딪혀요' },
+      { big: '번쩍', caption: '어느 틈 근처에서 번쩍였는지 봐요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+리처드 파인먼은 강의에서 이런 방법을 떠올렸어요. 두 틈 바로 뒤에 불빛을 두면, 지나가는 전자에 빛이 부딪혀 작게 번쩍여요.
+
+<S n={2}>
+
+번쩍인 자리를 보면 전자가 어느 틈으로 지났는지 알 수 있죠. 36강에서 빛이 전자에 부딪혀 튕기는 걸 봤으니 가능한 일이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="경로를 알아내면">
+  <Fragment slot="visual">
+    <SimP04BuildUp which />
+  </Fragment>
+
+슬라이더는 전자의 경로를 알아내는 정도예요. 100 %로 올리고 전자를 계속 보내 보세요.
+
+<S n={2}>
+
+이번엔 줄무늬가 생기지 않아요. 전자는 여전히 점 하나씩 닿는데, 쌓인 모양은 **넓은 봉우리 하나**뿐이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그냥 더한 모양">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이쪽 틈만 열었을 때', caption: '넓은 봉우리 하나' },
+      { big: '저쪽 틈만 열었을 때', caption: '넓은 봉우리 하나' },
+      { big: '경로를 알 때', caption: '두 봉우리를 더한 모양', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 모양은 한쪽 틈만 열었을 때의 모양 두 개를 그냥 더한 거예요. 전자 절반은 이쪽 틈으로, 절반은 저쪽 틈으로 간 결과를 합친 것과 같죠.
+
+<S n={2}>
+
+야구공 두 무더기를 합쳐 놓은 것과 같아요. 두 길의 파동이 서로 지우는 일, 곧 간섭은 사라졌어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="반쯤 알아내면">
+  <Fragment slot="visual">
+    <SimP04BuildUp which />
+  </Fragment>
+
+이번엔 경로를 알아내는 정도를 50 %로 두고 보내 보세요. 불빛을 흐리게 해서 전자 몇몇만 엿보는 경우예요.
+
+<S n={2}>
+
+줄무늬가 생기긴 하지만 흐릿해요. 어두운 줄이 완전히 비지 않고 점이 꽤 들어와요. 0 %로 내리면 다시 또렷해지고요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="알아낼수록 흐려져요">
+  <Fragment slot="visual">
+    <DataTable caption="경로를 알아내는 정도와 무늬" head={['경로를 알아내는 정도', '간섭 무늬']} rows={[
+      ['0 % (전혀 모름)', '또렷해요'],
+      ['50 %', '흐릿해요'],
+      ['100 % (다 앎)', '사라져요'],
+    ]} />
+  </Fragment>
+
+경로를 더 많이 알아낼수록 무늬는 더 흐려지고, 다 알아내면 사라져요. 둘을 함께 늘릴 방법은 없어요.
+
+<S n={2}>
+
+1996년에는 이 맞바꿈을 정확한 부등식으로 쓴 계산도 나왔어요. 경로를 아는 정도와 무늬의 또렷함을 함께 최대로 할 수는 없다는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="상보성이라는 이름">
+  <Fragment slot="visual">
+    <Define term="complementarity" />
+  </Fragment>
+
+어느 길로 갔는지는 전자의 알갱이다운 모습이고, 간섭 무늬는 파동다운 모습이에요. 보어는 이 둘을 서로 짝을 이루는 모습이라고 보고 **상보성**이라고 불렀어요.
+
+<Key>경로를 알아낼수록 간섭 무늬는 흐려지고 다 알아내면 사라지니까, 전자의 알갱이다운 모습과 파동다운 모습은 둘 다 필요하지만 한 실험에서 동시에 다 볼 수는 없어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="보는 사람은 상관없어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '✕', title: '사람이 보면 바뀐다', caption: '이런 뜻이 아니에요', tone: 'no' },
+      { big: '○', title: '기록이 남으면 바뀐다', caption: '아무도 안 읽어도 마찬가지예요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+인터넷 영상에서 흔히 사람이 쳐다보면 전자가 알아채고 바뀐다고 말하는데, 저도 처음엔 그 말이 무서웠어요. 그런데 사람의 눈은 아무 상관이 없어요.
+
+경로를 알려 주는 기록이 어딘가에 남기만 하면 무늬는 사라져요. 장치가 기록만 하고 아무도 그 기록을 읽지 않아도 마찬가지예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="세게 쳐서일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '흔한 설명', caption: '빛이 전자를 쳐서 길을 흐트러뜨려요' },
+      { big: '실험이 보여 준 것', caption: '아주 살짝 건드려도 기록이 남으면 사라져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+경로를 재려고 빛을 부딪히면 전자가 튕겨서 무늬가 흐트러진다는 설명도 있어요. 실제로 빛이 전자를 치는 경우에는 그런 일도 일어나요.
+
+<S n={2}>
+
+그런데 1998년 독일 콘스탄츠의 실험에서는 원자의 경로를 원자 속 상태에 살짝 기록만 했어요. 원자를 거의 건드리지 않았는데도 무늬는 사라졌어요. 중요한 건 얼마나 세게 쳤느냐가 아니라, 경로를 알 수 있는 기록이 남았느냐예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1998년의 두 실험">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '이스라엘', title: '바이츠만 연구소', caption: '전자의 길 곁에 아주 작은 감지기를 두었어요' },
+      { big: '독일', title: '콘스탄츠 대학', caption: '원자의 길을 원자 속 상태에 기록했어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+파인먼의 생각은 오랫동안 머릿속 실험이었어요. 1998년에야 두 연구진이 실제로 해냈죠.
+
+<S n={2}>
+
+이스라엘 바이츠만 연구소는 전자가 지나는 길 곁에 아주 작은 감지기를 두었고, 감지기를 켜자 전자의 간섭이 약해졌어요. 독일 콘스탄츠 대학은 원자로 같은 결과를 얻었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="감지기를 켜면">
+
+<Check id="q51-detector" options={[
+  { t: '줄무늬 없이, 한쪽 틈만 열었을 때의 모양 두 개를 더한 넓은 봉우리가 생겨요.', ok: true, why: '경로를 알 수 있으니 두 길의 파동이 간섭하지 못해요. 각 틈의 결과를 그냥 더한 모양이 돼요.' },
+  { t: '줄무늬가 더 또렷해져요.', why: '경로를 알아내면 무늬는 흐려지거나 사라져요. 또렷해지지 않아요.' },
+  { t: '전자가 화면에 하나도 닿지 않아요.', why: '전자는 여전히 화면에 닿아요. 쌓인 모양만 달라져요.' },
+  { t: '줄무늬는 그대로이고, 점의 색만 바뀌어요.', why: '경로를 다 알아내는 장치를 켜면 줄무늬가 사라져요.' },
+]}>
+
+이중 슬릿 앞에서 전자가 어느 틈으로 지나는지 빠짐없이 기록하는 감지기를 켰어요. 전자를 하나씩 수만 개 보내면 화면에는 어떤 모양이 쌓일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="아무도 안 읽으면">
+
+<Check id="q51-unread" options={[
+  { t: '무늬는 여전히 생기지 않아요.', ok: true, why: '경로를 알 수 있는 기록이 남은 것만으로 두 길의 간섭이 사라져요. 사람이 읽느냐는 상관없어요.' },
+  { t: '기록을 안 읽었으니 무늬가 다시 생겨요.', why: '무늬를 정하는 건 사람의 앎이 아니라, 경로를 알 수 있는 기록이 세상에 남았느냐예요.' },
+  { t: '무늬가 반쯤만 생겨요.', why: '기록이 빠짐없이 남았다면 읽든 안 읽든 무늬는 사라져요.' },
+  { t: '나중에 기록을 읽는 순간 화면의 점들이 움직여 무늬가 사라져요.', why: '이미 찍힌 점은 움직이지 않아요. 무늬는 처음부터 생기지 않았어요.' },
+]}>
+
+감지기가 전자의 경로를 빠짐없이 기록하게 해 두고, 아무도 그 기록을 읽지 않은 채 지웠어요. 화면에 쌓인 점들은 어떨까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="흐린 불빛으로 엿보면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '파장이 짧은 빛', caption: '번쩍인 자리가 또렷해요. 경로를 알아요' },
+      { big: '파장이 긴 빛', caption: '번쩍임이 흐려 어느 틈인지 몰라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+파인먼은 엿보는 빛의 파장을 바꿔 보자고 했어요. 15강에서 파장보다 작은 건 또렷이 볼 수 없다고 했죠.
+
+<S n={2}>
+
+빛의 파장을 두 틈 사이 간격보다 길게 하면, 번쩍임이 넓게 번져서 어느 틈 근처였는지 알 수 없어요. 그러면 무늬가 다시 돌아와요. 경로를 모르면 간섭하고, 알면 간섭하지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="긴 파장의 빛">
+
+<Check id="q51-longlight" options={[
+  { t: '간섭 무늬가 다시 생겨요. 번쩍임으로는 어느 틈인지 알 수 없으니까요.', ok: true, why: '파장이 두 틈 간격보다 길면 번쩍인 자리가 흐려서 경로를 알아낼 수 없어요. 경로 기록이 없으니 간섭이 돌아와요.' },
+  { t: '무늬는 사라져요. 빛을 비추기만 하면 늘 사라져요.', why: '빛을 비춘다고 늘 사라지는 게 아니에요. 그 빛으로 경로를 알아낼 수 있느냐가 중요해요.' },
+  { t: '무늬가 더 촘촘해져요.', why: '무늬의 간격은 전자의 파장과 틈 간격이 정해요. 엿보는 빛의 파장으로는 바뀌지 않아요.' },
+  { t: '전자가 빛에 막혀 화면에 닿지 않아요.', why: '빛은 전자를 막지 않아요. 부딪혀도 전자는 화면까지 가요.' },
+]}>
+
+전자를 엿보는 빛의 파장을 두 틈 사이 간격보다 훨씬 길게 바꿨어요. 화면에 쌓이는 모양은 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="보어의 문장">
+  <Fragment slot="visual">
+    <BigNumber top="닐스 보어가 문장(紋章)에 새긴 글귀" value="대립하는 것은 서로를 보완한다" bottom="1947년, 동양의 태극 무늬와 함께" />
+  </Fragment>
+
+보어는 1927년 이탈리아 코모의 학회에서 상보성이라는 생각을 처음 내놓았어요. 알갱이와 파동은 서로 부딪치는 그림 같지만, 둘 다 있어야 전자를 온전히 설명할 수 있다는 거예요.
+
+<S n={2}>
+
+1947년 덴마크 왕실의 훈장을 받으며 문장을 정할 때, 보어는 가운데에 태극 무늬를 넣고 이 글귀를 새겼어요. 그만큼 이 생각을 아꼈던 거죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="꽃병과 두 얼굴">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['꽃병으로 보기', '경로를 재는 실험 (알갱이다운 모습)'],
+        ['마주 보는 두 얼굴로 보기', '경로를 재지 않는 실험 (파동다운 모습)'],
+        ['한 번에 한 가지로만 보여요', '한 실험에서 하나만 다 드러나요'],
+      ]}
+      fits="같은 대상에 대해 둘 다 맞는 두 가지 모습이 있고, 한 번에 하나만 온전히 볼 수 있다는 점이 같아요."
+      breaks="그림은 보는 사람이 마음먹는 대로 바꿔 볼 수 있지만, 전자의 경우는 마음이 아니라 장치가 정해요. 경로를 알려 주는 기록이 남느냐가 무늬를 정하고, 사람이 어느 쪽을 생각하는지는 아무 상관이 없어요."
+    />
+  </Fragment>
+
+꽃병으로도, 마주 보는 두 얼굴로도 보이는 유명한 그림이 있어요. 상보성을 설명할 때 자주 드는 비유예요.
+
+</Screen>
+
+<Screen kind="compare" title="두 실험">
+  <Fragment slot="visual">
+    <DataTable caption="같은 전자, 다른 장치" head={['', '경로를 재지 않음', '경로를 잼']} rows={[
+      ['전자가 닿는 모습', '점 하나', '점 하나'],
+      ['쌓인 모양', '간섭 무늬', '넓은 봉우리'],
+      ['드러나는 모습', '파동다운 모습', '알갱이다운 모습'],
+    ]} />
+  </Fragment>
+
+두 실험 모두 전자는 점 하나씩 닿아요. 달라지는 건 수만 개가 쌓인 모양이에요.
+
+<S n={2}>
+
+어느 실험이 틀린 게 아니에요. 장치를 어떻게 꾸미느냐에 따라 전자의 두 모습 가운데 하나가 드러나는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['complementarity', 'wave-particle-duality', 'fringe']}>
+
+1. 전자가 어느 틈으로 지났는지 알 수 있는 기록이 남으면, 두 길의 파동이 간섭하지 못해요.
+2. 그래서 화면에는 한쪽 틈씩의 모양을 더한 넓은 봉우리만 남고, 반쯤 알아내면 무늬가 흐려져요.
+3. 사람이 보느냐가 아니라 기록이 남느냐가 무늬를 정해요. 파장이 긴 빛으로 엿봐 경로를 모르게 되면 무늬가 돌아와요.
+4. 알갱이다운 모습과 파동다운 모습은 둘 다 필요하지만 한 실험에서 동시에 다 볼 수 없고, 보어는 이를 상보성이라 했어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="엿본 전자와 못 본 전자">
+
+<DailyProblem id="p51">
+
+엿보는 불빛을 아주 흐리게 해서, 전자 가운데 절반만 번쩍임으로 경로가 기록되고 나머지 절반은 아무 기록 없이 지나가게 했어요. 화면의 점들을 경로가 기록된 전자와 기록이 없는 전자로 나눠서 따로 모으면, 두 무리는 각각 어떤 모양을 그릴까요?
+
+<Fragment slot="hint1">
+
+무늬를 정하는 건 그 전자 하나의 경로 기록이 남았느냐예요.
+
+</Fragment>
+<Fragment slot="solution">
+
+경로가 기록된 전자들은 줄무늬 없이 넓은 봉우리를 그려요. 기록이 없는 전자들은 또렷한 간섭 무늬를 그려요.
+
+둘을 섞어서 보면 흐릿한 무늬가 돼요. 시뮬레이션에서 50 %로 둔 경우가 바로 이 모양이에요. 파인먼도 강의에서 이 결과를 설명하며, 전자 하나하나마다 경로가 알려졌느냐가 간섭을 정한다고 했어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+전자가 어느 길로 갔는지 알 수 있는 기록이 남으면 간섭 무늬가 사라지니까, 알갱이다운 모습과 파동다운 모습은 한 실험에서 동시에 다 볼 수 없어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="크기와 방향을 함께 가진 수">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '두 길의 파동', caption: '어떻게 더하면 무늬가 될까요' },
+      { big: '√−1', caption: '400년 전 방정식을 풀다 나온 수', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 길의 파동이 어떻게 더해져서 어떤 자리는 밝고 어떤 자리는 어두워지는지 정확히 계산하려면, 크기와 함께 돌아간 각도까지 담는 수가 필요해요.
+
+<S n={2}>
+
+그런 수가 400년 전에 이미 나와 있었어요. 다음 강에서는 1500년대 이탈리아의 수학자들이 방정식을 풀다 마주친, 제곱하면 음수가 되는 이상한 수부터 시작해요.
+
+</S>
+
+</Screen>
