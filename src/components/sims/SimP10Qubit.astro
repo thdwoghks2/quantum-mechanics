@@ -1,0 +1,164 @@
+---
+/**
+ * 큐비트(실수 진폭만). 상태는 길이 1인 화살표 α|0⟩ + β|1⟩, α = cos θ, β = sin θ.
+ * '재기'를 누르면 0이나 1 가운데 하나가 확률 α², β²로 나온다(매번 같은 상태를 새로 준비).
+ * tilt가 켜지면 재는 방향(두 직각인 화살표)을 돌릴 수 있다. 결과 A의 확률 = (상태와 A 방향의 내적)².
+ */
+interface Props {
+  th?: number;
+  tilt?: boolean;
+}
+const { th = 30, tilt = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p10-qubit class="sim" data-ratio="0.62" data-tilt={tilt ? '1' : '0'}>
+  <canvas aria-label="원 위에서 길이 1인 상태 화살표와 재는 두 방향. 재면 두 결과 가운데 하나가 나오고, 오른쪽 막대에 횟수가 쌓인다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p10q-t-${uid}`}>상태 화살표의 각도</label>
+      <input id={`p10q-t-${uid}`} type="range" min="0" max="180" step="5" value={th} data-param="th" />
+      <output data-out="th"></output>
+    </div>
+    {tilt ? (
+      <div class="sim__row">
+        <label for={`p10q-b-${uid}`}>재는 방향의 각도</label>
+        <input id={`p10q-b-${uid}`} type="range" min="0" max="90" step="5" value="0" data-param="b" />
+        <output data-out="b"></output>
+      </div>
+    ) : <input type="hidden" data-param="b" value="0" />}
+  </div>
+  <input type="hidden" data-param="go" value="0" />
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-set="go=1">한 번 재기</button>
+    <button type="button" class="btn" data-set="go=100">100번 재기</button>
+    <button type="button" class="btn" data-set="go=-1">처음으로</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p10-qubit>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const rad = (d: number) => (d * Math.PI) / 180;
+
+  class SimP10Qubit extends Sim {
+    animated = false;
+    cnt = [0, 0];
+    last = -1;
+    tilt = false;
+
+    init() {
+      this.tilt = this.dataset.tilt === '1';
+    }
+
+    changed(name: string) {
+      if (name === 'th' || name === 'b') {
+        this.cnt = [0, 0];
+        this.last = -1;
+        return;
+      }
+      const go = this.p.go ?? 0;
+      if (go === -1) {
+        this.cnt = [0, 0];
+        this.last = -1;
+      } else if (go > 0) {
+        const p0 = this.p0();
+        for (let i = 0; i < go; i++) {
+          const r = Math.random() < p0 ? 0 : 1;
+          this.cnt[r]!++;
+          this.last = r;
+        }
+      }
+      this.p.go = 0;
+      this.querySelectorAll('button[data-set]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+    }
+
+    p0() {
+      return Math.cos(rad(this.p.th! - this.p.b!)) ** 2;
+    }
+
+    names() {
+      return this.tilt ? ['A', 'B'] : ['0', '1'];
+    }
+
+    format(name: string) {
+      return name === 'th' || name === 'b' ? `${this.p[name]}°` : '';
+    }
+
+    readout() {
+      const t = rad(this.p.th!);
+      const [n0, n1] = this.names();
+      const p0 = this.p0();
+      const r = (v: number) => (Math.abs(v) < 0.005 ? '0' : v.toFixed(2));
+      const head = this.tilt
+        ? `${n0}가 나올 확률 ${r(p0)} · ${n1}가 나올 확률 ${r(1 - p0)}`
+        : `α = ${r(Math.cos(t))}, β = ${r(Math.sin(t))} · 0이 나올 확률 α² = ${r(p0)} · 1이 나올 확률 β² = ${r(1 - p0)}`;
+      const N = this.cnt[0]! + this.cnt[1]!;
+      const tail = N ? ` · ${N}번 재서 ${n0} ${this.cnt[0]}번, ${n1} ${this.cnt[1]}번` : '';
+      return head + tail;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const R = Math.min(h * 0.4, w * 0.27);
+      const cx = R + 26;
+      const cy = h / 2 + 6;
+      g.strokeStyle = c.line;
+      g.setLineDash([3, 4]);
+      g.beginPath();
+      g.arc(cx, cy, R, 0, Math.PI * 2);
+      g.stroke();
+      g.setLineDash([]);
+      const b = rad(this.p.b!);
+      const [n0, n1] = this.names();
+      const ax = (ang: number, lab: string, col: string) => {
+        const x = cx + R * Math.cos(ang);
+        const y = cy - R * Math.sin(ang);
+        this.line(cx - R * Math.cos(ang), cy + R * Math.sin(ang), x, y, c.line, 1);
+        this.arrow(cx, cy, x, y, col, 1.5);
+        this.text(this.tilt ? lab : `|${lab}⟩`, x + 6 * Math.cos(ang) + 2, y - 8 * Math.sin(ang) - 2, col, 12);
+      };
+      ax(b, n0, c.space);
+      ax(b + Math.PI / 2, n1, c.time);
+      // 상태 화살표와 그림자
+      const t = rad(this.p.th!);
+      const sx = cx + R * Math.cos(t);
+      const sy = cy - R * Math.sin(t);
+      const d0 = Math.cos(t - b);
+      const px = cx + R * d0 * Math.cos(b);
+      const py = cy - R * d0 * Math.sin(b);
+      g.setLineDash([4, 4]);
+      this.line(sx, sy, px, py, c.text2, 1.2);
+      g.setLineDash([]);
+      this.line(cx, cy, px, py, c.space, 5);
+      this.arrow(cx, cy, sx, sy, c.energy, 3);
+      this.text('상태', sx + 6, sy - 6, c.energy, 12);
+      if (this.last >= 0) this.text(`방금: ${this.names()[this.last]}`, cx - R, 14, c.accent, 12);
+
+      // 막대
+      const bx = w * 0.66;
+      const bw = w * 0.12;
+      const top = 22;
+      const bot = h - 22;
+      const N = this.cnt[0]! + this.cnt[1]!;
+      const p0 = this.p0();
+      [0, 1].forEach((k) => {
+        const x = bx + k * (bw + 14);
+        const frac = N ? this.cnt[k]! / N : 0;
+        g.fillStyle = k ? c.time : c.space;
+        g.globalAlpha = 0.7;
+        g.fillRect(x, bot - frac * (bot - top), bw, frac * (bot - top));
+        g.globalAlpha = 1;
+        const e = k ? 1 - p0 : p0;
+        g.setLineDash([4, 3]);
+        this.line(x - 3, bot - e * (bot - top), x + bw + 3, bot - e * (bot - top), c.text, 1.5);
+        g.setLineDash([]);
+        this.text(this.names()[k]!, x + bw / 2, bot + 12, k ? c.time : c.space, 12, 'center');
+      });
+      this.line(bx - 6, bot, bx + 2 * bw + 20, bot, c.line, 1);
+      this.text('점선: 확률 · 막대: 나온 비율', bx - 6, top - 10, c.text2, 10);
+    }
+  }
+  define('qm-sim-p10-qubit', SimP10Qubit);
+</script>

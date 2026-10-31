@@ -1,0 +1,438 @@
+---
+number: 79
+title: 큐비트와 디랙 표기
+short: 큐비트
+question: 재면 0 아니면 1만 나오는데, 재기 전의 상태는 어떻게 적을까요?
+mechanism: 재면 두 값 가운데 하나가 나오는 양자 대상은, 두 결과를 길이 1인 직각 화살표 |0⟩과 |1⟩로 두고 그 둘을 섞은 화살표 α|0⟩ + β|1⟩로 적어요. α와 β는 확률 진폭이라서, 재면 0이 |α|²의 확률로, 1이 |β|²의 확률로 나오고, 두 확률의 합이 1이니 화살표의 길이는 1이에요. 이런 대상이 큐비트예요. 같은 확률을 주는 상태라도 부호가 다르면 서로 다른 화살표라서, 큐비트의 상태는 확률 두 개가 아니라 부호까지 가진 화살표 하나예요.
+part: 10
+minutes: 20
+assumes: [polarization, vector, dot-product, photon, probability-amplitude, born-rule, complex-number, quantum-state, spin, superposition, probability]
+introduces: [qubit, dirac-notation]
+sources:
+  - "Dirac, P. A. M. A new notation for quantum mechanics, Mathematical Proceedings of the Cambridge Philosophical Society 35, 416 (1939)"
+  - "Schumacher, B. Quantum coding, Physical Review A 51, 2738 (1995)"
+  - "Nielsen, M. A., Chuang, I. L. Quantum Computation and Quantum Information, Ch. 1.2 (2010)"
+testout: [q79-prob, q79-sum, q79-sign]
+status: published
+---
+
+<Screen kind="scene" title="두 값 가운데 하나">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '비스듬한 광자', caption: '가로와 세로를 섞은 화살표' },
+      { big: '재면', caption: '지나감 아니면 막힘', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서, 비스듬히 흔들리는 광자는 가로와 세로를 섞은 화살표인데 재면 둘 중 하나만 나온다고 했죠. 오늘은 이런 상태를 적는 법을 배워요.
+
+<S n={2}>
+
+먼저 컴퓨터가 정보를 적는 방법부터 볼게요. 거기서 출발하면 무엇이 같고 무엇이 다른지 잘 보여요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="비트">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0', caption: '스위치가 꺼졌어요' },
+      { big: '1', caption: '스위치가 켜졌어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+컴퓨터의 정보는 0 아니면 1인 비트로 적혀요. 스위치 하나가 꺼졌는지 켜졌는지와 같죠.
+
+<S n={2}>
+
+광자의 편광도 가로와 세로로 재면 둘 중 하나가 나와요. 그런데 재기 전의 광자는 비스듬한 화살표처럼 둘을 섞은 상태일 수 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={78} title="비스듬한 광자의 두 성분">
+  <Fragment slot="visual">
+    <SimP10Vector deg={30} />
+  </Fragment>
+
+78강에서 θ만큼 기운 광자가 가로 축 편광판을 지날 확률은 cos²θ였어요. 흔들림 화살표를 가로 성분 cos θ와 세로 성분 sin θ로 나눈 거죠.
+
+<S n={2}>
+
+같은 광자를 세로 축 판에 대면 sin²θ의 확률로 지나가요. 원 위의 점이라서 cos²θ + sin²θ = 1이고, 두 확률을 더하면 늘 1이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="상태를 화살표로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '가로 편광', caption: '길이 1인 화살표 하나' },
+      { big: '세로 편광', caption: '그와 직각인 화살표 하나' },
+      { big: 'θ 기운 편광', caption: 'cos θ × 가로 + sin θ × 세로', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 광자의 상태를 화살표 하나로 적어 볼게요. 가로 편광을 길이 1인 화살표로, 세로 편광을 그와 직각인 화살표로 둬요.
+
+<S n={2}>
+
+그러면 θ 기운 편광은 가로 화살표에 cos θ를, 세로 화살표에 sin θ를 곱해 더한 벡터예요. 77강의 성분과 같은 방식이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="디랙 표기">
+  <Fragment slot="visual">
+    <Define term="dirac-notation" />
+  </Fragment>
+
+양자 상태를 이름표 같은 꺾쇠 | ⟩ 안에 적는 방법을 **디랙 표기**라고 불러요. 가로 편광은 |가로⟩, 세로 편광은 |세로⟩처럼 적어요.
+
+<S n={2}>
+
+1939년 폴 디랙이 정리한 표기예요. 꺾쇠 하나가 화살표 하나, 그러니까 상태 하나를 나타내요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="0과 1이라는 이름">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '|0⟩', caption: '광자라면 |가로⟩' },
+      { big: '|1⟩', caption: '광자라면 |세로⟩' },
+      { big: 'α|0⟩ + β|1⟩', caption: '둘을 섞은 상태', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 값만 나오는 상태들에는 흔히 |0⟩과 |1⟩이라는 이름을 붙여요. 광자라면 |0⟩ = |가로⟩, |1⟩ = |세로⟩로 정할 수 있죠.
+
+<S n={2}>
+
+그러면 어떤 상태든 α|0⟩ + β|1⟩로 적을 수 있어요. α와 β는 두 화살표를 얼마만큼씩 섞었는지 나타내는 수예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="큐비트">
+  <Fragment slot="visual">
+    <Define term="qubit" />
+  </Fragment>
+
+이렇게 |0⟩과 |1⟩을 섞은 α|0⟩ + β|1⟩ 상태를 가질 수 있는 양자 대상을 **큐비트**라고 불러요. 양자를 뜻하는 퀀텀(quantum)과 비트(bit)를 합친 이름이에요.
+
+<S n={2}>
+
+<Key>큐비트의 상태는 α|0⟩ + β|1⟩이라는 화살표 하나라서 0과 1을 섞을 수 있지만, 재면 늘 0이나 1 가운데 하나만 나오고 그 확률은 |α|²과 |β|²이에요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="α와 β는 확률 진폭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '|α|²', caption: '0이 나올 확률' },
+      { big: '|β|²', caption: '1이 나올 확률' },
+      { big: '|α|² + |β|² = 1', caption: '화살표의 길이가 1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+α와 β는 55강의 확률 진폭이에요. 56강의 보른 규칙대로, 재서 0이 나올 확률은 |α|², 1이 나올 확률은 |β|²이죠.
+
+<S n={2}>
+
+두 확률을 더하면 1이어야 하니 |α|² + |β|² = 1이에요. 77강으로 말하면, 상태 화살표의 길이가 1이라는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="재 보기">
+  <Fragment slot="visual">
+    <SimP10Qubit th={30} />
+  </Fragment>
+
+상태 화살표의 각도를 바꾸고 '한 번 재기'를 여러 번 눌러 보세요. 잴 때마다 같은 상태를 새로 준비하는데도, 0과 1이 뒤섞여 나와요.
+
+<S n={2}>
+
+'100번 재기'를 누르면 0이 나온 비율이 α²에, 1이 나온 비율이 β²에 다가가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="45° 기운 광자">
+  <Fragment slot="visual">
+    <DataTable caption="편광 각도와 큐비트 상태" head={['편광 각도', '상태', '0이 나올 확률', '1이 나올 확률']} rows={[
+      ['0°', '|0⟩', '1', '0'],
+      ['30°', '0.87|0⟩ + 0.5|1⟩', '0.75', '0.25'],
+      ['45°', '0.71|0⟩ + 0.71|1⟩', '0.5', '0.5'],
+      ['90°', '|1⟩', '0', '1'],
+    ]} steps={[undefined, 2, 3, 3]} />
+  </Fragment>
+
+0° 편광은 그대로 |0⟩이고, 재면 늘 0이 나와요.
+
+<S n={2}>
+
+30° 기운 편광은 α = cos 30° ≈ 0.87, β = sin 30° = 0.5예요. 0이 나올 확률은 0.87² ≈ 0.75, 1이 나올 확률은 0.5² = 0.25죠.
+
+</S>
+
+<S n={3}>
+
+45°면 α = β = 1/√2 ≈ 0.71이라서 0과 1이 반반 나와요. 감각으로 확인하면, 78강에서 45° 판이 빛의 절반을 통과시킨 것과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="1이 나올 확률">
+
+<Check id="q79-prob" options={[
+  { t: '0.64', ok: true, why: '1이 나올 확률은 β의 제곱이에요. 0.8² = 0.64예요.' },
+  { t: '0.8', why: '0.8은 확률 진폭 β예요. 확률은 그 제곱이에요.' },
+  { t: '0.36', why: '0.36은 0이 나올 확률, 0.6²이에요.' },
+  { t: '0.5', why: '두 진폭의 크기가 다르니 반반이 아니에요.' },
+]}>
+
+어떤 큐비트의 상태가 0.6|0⟩ + 0.8|1⟩이에요. 이 큐비트를 재면 1이 나올 확률은 얼마일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="길이가 1인지">
+
+<Check id="q79-sum" options={[
+  { t: '0.6² + 0.8² = 1이라서 큐비트 상태로 알맞아요', ok: true, why: '0.36 + 0.64 = 1이에요. 두 확률의 합이 1이니 화살표의 길이가 1이에요.' },
+  { t: '0.6 + 0.8 = 1.4라서 알맞지 않아요', why: '더하는 건 진폭이 아니라 진폭의 제곱, 그러니까 확률이에요.' },
+  { t: '0.6과 0.8이 둘 다 1보다 작으니 아무 값이나 괜찮아요', why: '진폭의 제곱을 더해서 1이 되어야 해요. 0.6|0⟩ + 0.6|1⟩은 길이가 1이 아니라 상태로 쓸 수 없어요.' },
+  { t: '알 수 없어요', why: '진폭의 제곱을 더해 보면 알 수 있어요.' },
+]}>
+
+0.6|0⟩ + 0.8|1⟩이 큐비트의 상태로 알맞은지, 화살표의 길이로 따져 보면 어떨까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="비트와 큐비트">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '비트', caption: '0 아니면 1 · 재기 전에도 정해져 있어요' },
+      { big: '큐비트', caption: '섞인 화살표 · 재면 0 아니면 1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+비트는 언제나 0 아니면 1이에요. 재기 전에도 이미 정해져 있죠.
+
+<S n={2}>
+
+큐비트는 재기 전에 0과 1을 섞은 화살표일 수 있어요. 하지만 한 번 재서 얻는 건 비트 하나만큼의 답, 0 아니면 1뿐이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="부호도 뜻이 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0.71|0⟩ + 0.71|1⟩', caption: '+45° 편광' },
+      { big: '0.71|0⟩ − 0.71|1⟩', caption: '−45° 편광 · 서로 직각', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+α나 β가 0보다 작을 수도 있어요. 0.71|0⟩ − 0.71|1⟩은 반대쪽으로 기운 −45° 편광이에요.
+
+<S n={2}>
+
+가로와 세로로 재면 +45°와 똑같이 반반이 나와요. 하지만 두 상태는 서로 직각인 다른 화살표라서, 45° 판에 대면 하나는 늘 지나가고 하나는 늘 막혀요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="같은 확률, 다른 상태">
+
+<Check id="q79-sign" options={[
+  { t: '45° 기운 편광판에 대 보면 돼요', ok: true, why: '+45° 상태는 45° 판을 늘 지나가고, −45° 상태는 그 판과 직각이라 늘 막혀요. 가로·세로로 재서는 구별되지 않던 차이가 드러나요.' },
+  { t: '가로 편광판에 여러 번 대 보면 돼요', why: '가로로 재면 둘 다 반반으로 나와서 구별할 수 없어요.' },
+  { t: '세로 편광판에 여러 번 대 보면 돼요', why: '세로로 재도 둘 다 반반이에요.' },
+  { t: '두 상태는 같아서 구별할 수 없어요', why: '두 상태는 서로 직각인 다른 화살표예요. 재는 방향만 잘 고르면 확실히 구별돼요.' },
+]}>
+
+광자 하나가 0.71|0⟩ + 0.71|1⟩인지 0.71|0⟩ − 0.71|1⟩인지 확실하게 구별하려면 어떻게 하면 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="α와 β는 복소수일 수도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '실수 진폭', caption: '곧은 방향으로 흔들리는 편광' },
+      { big: '복소수 진폭', caption: '빙글빙글 도는 편광', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+일반적으로 α와 β는 52강의 복소수예요. 그래서 확률을 |α|²처럼 크기의 제곱으로 적어요.
+
+<S n={2}>
+
+편광에서는 흔들림 방향이 빙글빙글 도는 빛이 복소수 진폭으로 나타나요. 이 강에서는 그림으로 그리기 쉽게 실수 진폭만 쓸게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="큐비트라는 이름">
+  <Fragment slot="visual">
+    <BigNumber top="큐비트라는 말이 처음 논문에 나온 해" value="1995" bottom="벤저민 슈마허" />
+  </Fragment>
+
+큐비트라는 말은 1995년 벤저민 슈마허가 논문에서 처음 썼어요. 광자의 편광, 전자의 스핀, 아주 차갑게 식힌 작은 전기 회로까지, 두 상태를 섞을 수 있으면 무엇이든 큐비트가 될 수 있어요.
+
+<S n={2}>
+
+이런 큐비트를 많이 모아 계산하는 기계가 <Later n={135}>양자컴퓨터</Later>예요. 135강에서 다시 만나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="스핀도 큐비트">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '|0⟩', caption: '스핀 위' },
+      { big: '|1⟩', caption: '스핀 아래' },
+    ]} />
+  </Fragment>
+
+72강의 전자 스핀도 큐비트예요. 위를 |0⟩, 아래를 |1⟩로 정하면, 어떤 스핀 상태든 α|0⟩ + β|1⟩로 적을 수 있어요.
+
+<S n={2}>
+
+다만 스핀에서는 이 화살표의 각도가 실제 공간에서 자석이 향한 각도와 같지 않아요. 이 차이는 83강에서 실험으로 다시 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="공중에서 도는 동전">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['공중에서 도는 동전', '재기 전의 큐비트'],
+        ['떨어지면 앞 아니면 뒤', '재면 0 아니면 1'],
+        ['앞이 나올 가능성', '|α|²'],
+      ]}
+      fits="재기 전에는 하나로 정해 말할 수 없다가, 재면 두 결과 가운데 하나만 나온다는 점이 같아요."
+      breaks="도는 동전은 사실 매 순간 정해진 모습이고, 결과도 던진 힘과 바람으로 정해져요. 큐비트는 부호까지 가진 화살표라서, +45°와 −45°처럼 같은 확률을 주는 상태도 다른 방향으로 재면 정반대로 행동해요."
+    />
+  </Fragment>
+
+큐비트를 공중에서 도는 동전에 빗대는 말을 자주 들을 거예요. 이 비유가 어디까지 맞는지 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="step" title="반은 0, 반은 1일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '확률 두 개', caption: '부호를 잃어버려요', tone: 'dim' },
+      { big: '화살표 하나', caption: '부호까지 담아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 45° 상태를 '절반은 0이고 절반은 1인 상태'로 이해했어요. 그런데 +45°와 −45°는 둘 다 반반으로 나오면서도 서로 다른 상태였죠.
+
+큐비트의 상태는 확률 두 개가 아니라, 부호까지 가진 화살표 하나예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['qubit', 'dirac-notation']}>
+
+1. 재면 두 값만 나오는 대상은, 두 결과를 직각인 화살표 |0⟩과 |1⟩로 둬요.
+2. 재기 전의 상태는 그 둘을 섞은 화살표 α|0⟩ + β|1⟩로 적어요.
+3. α와 β는 확률 진폭이라서, 0과 1이 나올 확률은 |α|²과 |β|²이에요.
+4. 두 확률의 합이 1이니, 상태 화살표의 길이는 1이에요.
+5. 같은 확률을 주는 상태도 부호가 다르면 다른 화살표예요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="1,000번 재면">
+
+<DailyProblem id="p79">
+
+큐비트를 0.87|0⟩ + 0.5|1⟩ 상태로 1,000번 새로 준비해서, 매번 0과 1로 쟀어요.
+
+0은 대략 몇 번 나올까요? 그리고 0과 1이 나오는 확률은 똑같지만 이 상태와 다른 상태를 하나 적어 보세요.
+
+<Fragment slot="hint1">
+
+0이 나올 확률은 0.87²이에요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+확률은 진폭의 제곱이라서, 진폭의 부호를 바꿔도 확률은 그대로예요.
+
+</Fragment>
+<Fragment slot="solution">
+
+0이 나올 확률은 0.87² ≈ 0.75라서, 1,000번 가운데 약 750번 나와요. 매번 결과는 0이나 1로 갈리지만, 많이 재면 비율이 확률에 다가가요.
+
+0.87|0⟩ − 0.5|1⟩도 확률은 0.75와 0.25로 똑같아요. 하지만 이 상태는 −30° 방향으로 기운 다른 화살표라서, 비스듬한 방향으로 재면 처음 상태와 다른 결과가 나와요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+큐비트의 상태는 |0⟩과 |1⟩을 섞은 길이 1인 화살표 α|0⟩ + β|1⟩이고, 재면 0이나 1 하나만 나오는데 그 확률이 |α|²과 |β|²이에요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="다른 방향으로 재면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '가로·세로로 재기', caption: '오늘 한 일' },
+      { big: '비스듬히 재기', caption: '그림자의 길이로', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘은 |0⟩과 |1⟩, 그러니까 가로와 세로로만 쟀어요. 그런데 편광판은 45°처럼 아무 각도로나 돌릴 수 있었죠.
+
+<S n={2}>
+
+다음 강에서는 아무 방향으로나 재는 일을, 비스듬한 햇빛이 만드는 그림자의 길이로 이해해 봐요. 그 그림자가 <Later n={80}>투영</Later>이에요.
+
+</S>
+
+</Screen>
