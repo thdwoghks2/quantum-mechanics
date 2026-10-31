@@ -1,0 +1,436 @@
+---
+number: 35
+title: 광자
+short: 광자
+question: 빛이 덩어리로 날아온다면, 광전 효과의 세 사실이 모두 설명될까요?
+mechanism: 아인슈타인은 빛 자체가 hf 크기의 에너지 덩어리, 곧 광자로 날아오고 전자 하나는 광자 하나를 통째로 받는다고 봤어요. 그러면 hf가 전자를 떼어 내는 에너지 W보다 작을 때는 아무리 많아도 전자가 안 나오고, 밝기는 광자의 수만 바꾸고, 광자가 닿는 순간 전자가 나와요. 튀어나온 전자의 가장 큰 에너지는 hf − W라서, 그 기울기로 h를 잴 수 있어요.
+part: 2
+year: 1905
+minutes: 23
+epigraph:
+  text: "빛의 에너지는 공간의 점들에 모여 있는 유한한 개수의 에너지 양자로 이루어져 있다. 이 양자들은 쪼개지지 않고 움직이며, 통째로만 흡수되거나 생겨날 수 있다."
+  by: 알베르트 아인슈타인
+  source: 「빛의 생성과 변환에 관한 발견적 관점」 (1905)
+assumes: [photoelectric-effect, threshold-frequency, quantum, planck-constant, frequency, energy, kinetic-energy, ultraviolet, radio-wave, double-slit, fringe, molecule]
+introduces: [photon]
+sources:
+  - "Einstein, A. Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt, Annalen der Physik 17 (1905)"
+  - "Millikan, R. A. A Direct Photoelectric Determination of Planck's h, Physical Review 7 (1916)"
+  - "Lewis, G. N. The Conservation of Photons, Nature 118 (1926): '광자(photon)'라는 이름"
+  - "The Nobel Prize in Physics 1921: Albert Einstein, 'for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect'"
+  - "The Nobel Prize in Physics 2014: 아카사키, 아마노, 나카무라, 파란 LED"
+testout: [q35-energy, q35-bright, q35-uv]
+status: published
+---
+
+<Screen kind="recall" from={34} title="파동과 맞지 않던 세 사실">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '문턱', caption: '진동수가 낮으면 아무리 밝아도 안 나와요' },
+      { big: '밝기', caption: '전자의 수만 바꿔요' },
+      { big: '바로', caption: '약한 빛에서도 곧바로 나와요' },
+    ]} />
+  </Fragment>
+
+34강에서 광전 효과의 세 사실을 봤어요. 진동수가 문턱을 넘어야 했고, 밝기는 전자의 수만 바꿨고, 아무리 약한 빛에서도 전자가 곧바로 나왔죠.
+
+<S n={2}>
+
+빛을 퍼진 파동으로만 보면 셋 다 설명이 안 됐어요. 그런데 34강의 마지막 문제에서, 빛 자체가 덩어리라면 셋이 모두 풀렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1905년의 특허청 직원">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1905', title: '스위스 베른 특허청', caption: '스물여섯 살의 심사관' },
+      { big: '네 편의 논문', title: '한 해 동안', caption: '빛의 덩어리, 브라운 운동(22강), 상대성이론, E = mc²', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1905년 알베르트 아인슈타인은 스위스 베른의 특허청에서 발명품을 심사하는 스물여섯 살의 직원이었어요. 그해 그는 물리학을 바꾼 논문 네 편을 냈어요.
+
+<S n={2}>
+
+22강의 브라운 운동 논문, 31강에서 말한 상대성이론 논문도 그해에 나왔어요. 그 가운데 아인슈타인 스스로 가장 혁명적이라고 부른 논문이 오늘의 빛 이야기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="빛 자체가 덩어리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '플랑크 (1900)', caption: '벽의 진동이 에너지를 덩어리로 주고받아요' },
+      { big: '아인슈타인 (1905)', caption: '빛 자체가 덩어리로 날아와요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+32강에서 플랑크는 벽의 진동이 에너지를 덩어리로 주고받는다고만 했어요. 아인슈타인은 한 걸음 더 나갔어요.
+
+<S n={2}>
+
+빛 자체가 hf 크기의 에너지 덩어리로 공간을 날아온다는 거예요. 그리고 물질은 그 덩어리를 쪼개지 않고 통째로만 받거나 낸다고 했죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="광자라는 이름">
+  <Fragment slot="visual">
+    <Define term="photon" />
+  </Fragment>
+
+이렇게 빛의 에너지가 이루는 덩어리 하나하나를 **광자**라고 해요. 이 이름은 1926년 미국의 화학자 길버트 루이스가 붙였어요.
+
+<Key>진동수 f인 빛은 에너지가 hf인 광자들로 이루어져 있어서, 물질과 에너지를 주고받을 때는 늘 광자 하나씩 통째로 주고받아요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="세 사실이 한 번에">
+  <Fragment slot="visual">
+    <Flow alt="광자 하나가 전자 하나에 hf를 통째로 준다. hf가 W보다 작으면 전자는 못 나오고, 크면 곧바로 나온다. 밝기는 광자의 수다" items={[
+      { t: '광자 하나', sub: 'hf를 통째로' },
+      { t: '전자 하나', sub: 'W보다 크면 탈출', step: 2 },
+      { t: '밝기', sub: '광자의 수', step: 3 },
+    ]} />
+  </Fragment>
+
+전자 하나는 광자 하나에게서 hf를 통째로 받아요. hf가 전자를 떼어 내는 에너지보다 작으면, 광자가 아무리 많이 와도 전자는 못 빠져나가요. 그래서 문턱이 생겨요.
+
+<S n={2}>
+
+밝기는 광자의 수일 뿐이라 전자의 수만 바꿔요.
+
+</S>
+
+<S n={3}>
+
+그리고 광자 하나가 닿는 순간 에너지가 통째로 오니까, 모일 때까지 기다릴 필요가 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="탁구공과 야구공">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['유리창에 던지는 공', '금속에 닿는 광자'],
+        ['공 하나의 세기', '광자 하나의 에너지 hf'],
+        ['던지는 공의 개수', '빛의 밝기'],
+        ['유리 한 장을 깨는 데 드는 세기', '전자 하나를 떼어 내는 에너지 W'],
+      ]}
+      fits="탁구공을 아무리 많이 던져도 하나하나가 약하면 유리가 안 깨지고, 야구공 하나면 바로 깨져요. 개수가 아니라 하나의 세기가 문턱을 넘어야 해요."
+      breaks="유리는 약한 공을 계속 맞으면 금이 쌓일 수도 있지만, 전자는 광자 하나씩만 받고 에너지를 모아 두지 않아요. 그리고 광자는 유리창처럼 깨지는 게 아니라 전자를 떼어 내요."
+    />
+  </Fragment>
+
+탁구공을 수천 개 던져도 유리창은 안 깨지지만, 야구공 하나면 바로 깨지죠. 유리를 깨는 건 공의 개수가 아니라 공 하나의 세기예요.
+
+<S n={2}>
+
+광전 효과도 같아요. 전자를 떼어 내는 건 광자의 개수가 아니라 광자 하나의 에너지 hf예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="아인슈타인의 식">
+  <Fragment slot="visual">
+    <BigNumber top="튀어나온 전자의 가장 큰 운동 에너지" value="hf − W" bottom="광자 하나의 에너지 − 전자를 떼어 내는 데 드는 에너지" q="energy" />
+  </Fragment>
+
+아인슈타인은 여기서 식을 하나 얻었어요. 전자는 광자에게서 hf를 받고, 그 가운데 W만큼을 금속을 빠져나오는 데 써요.
+
+<S n={2}>
+
+그래서 튀어나온 전자의 가장 큰 운동 에너지는 hf − W예요. W는 금속마다 정해져 있으니, 문턱 진동수는 hf = W가 되는 진동수예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="나트륨에 보랏빛을">
+  <Fragment slot="visual">
+    <DataTable caption="나트륨 (W ≈ 3.6 × 10⁻¹⁹ J)에 1초에 750조 번 진동하는 보랏빛" head={['단계', '계산', '결과']} rows={[
+      ['광자 하나', '6.63 × 10⁻³⁴ × 7.5 × 10¹⁴', '약 5.0 × 10⁻¹⁹ J'],
+      ['떼어 내는 데 쓰는 에너지', 'W', '약 3.6 × 10⁻¹⁹ J'],
+      ['가장 빠른 전자의 운동 에너지', '5.0 − 3.6', '약 1.4 × 10⁻¹⁹ J'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+나트륨에 보랏빛을 비춰 볼게요. 보랏빛 광자 하나는 6.63 × 10⁻³⁴ × 7.5 × 10¹⁴ ≈ 5.0 × 10⁻¹⁹ J이에요.
+
+<S n={2}>
+
+나트륨에서 전자 하나를 떼어 내는 데는 약 3.6 × 10⁻¹⁹ J이 들어요.
+
+</S>
+
+<S n={3}>
+
+그래서 가장 빠른 전자에는 5.0 − 3.6 = 1.4 × 10⁻¹⁹ J이 운동 에너지로 남아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="남는 운동 에너지">
+
+<Numeric id="q35-energy" answer={1.7} tol={0.05} unit="× 10⁻¹⁹ J">
+
+나트륨에서 전자 하나를 떼어 내는 데 약 3.6 × 10⁻¹⁹ J이 들어요. 1초에 8 × 10¹⁴번 진동하는 빛을 비추면, 튀어나온 전자의 가장 큰 운동 에너지는 몇 × 10⁻¹⁹ J일까요? (h = 6.63 × 10⁻³⁴ J·s)
+
+<Fragment slot="solution">
+
+광자 하나는 6.63 × 10⁻³⁴ × 8 × 10¹⁴ ≈ 5.3 × 10⁻¹⁹ J이에요. 여기서 3.6을 빼면 약 1.7 × 10⁻¹⁹ J이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="story" title="믿지 않은 밀리컨">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1905', caption: '아인슈타인의 식' },
+      { big: '약 10년', caption: '밀리컨은 틀렸다고 보고 시험했어요' },
+      { big: '1916', caption: '식이 꼭 맞았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+대부분의 물리학자는 빛이 덩어리라는 생각을 믿지 않았어요. 16강의 간섭 무늬처럼 빛이 파동이라는 증거가 너무 단단했거든요.
+
+<S n={2}>
+
+미국의 로버트 밀리컨도 그 식이 틀렸다고 보고 10년 가까이 아주 정밀한 실험을 했어요. 금속 표면을 진공 속에서 깎아 내며 여러 진동수로 잰 끝에, 1916년 결과를 냈죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="밀리컨이 잰 기울기">
+  <Fragment slot="visual">
+    <Plot
+      alt="나트륨에서 튀어나온 전자의 가장 큰 운동 에너지를 빛의 진동수에 따라 그린 그래프. 점들이 곧은 선 위에 놓이고, 그 기울기가 h다"
+      x={[300, 1300]} y={[0, 5]}
+      xLabel="빛의 진동수 (조 Hz)" yLabel="가장 큰 운동 에너지 (× 10⁻¹⁹ J)" xq="time" yq="energy"
+      xTicks={[400, 600, 800, 1000, 1200]} yTicks={[0, 1, 2, 3, 4, 5]}
+      axisSteps={[1, 1]}
+      curves={[{ pts: [[550, 0], [1250, 4.64]], q: 'energy', step: 3 }]}
+      points={[
+        { x: 600, y: 0.35, q: 'energy', step: 2 },
+        { x: 700, y: 0.97, q: 'energy', step: 2 },
+        { x: 800, y: 1.68, q: 'energy', step: 2 },
+        { x: 900, y: 2.30, q: 'energy', step: 2 },
+        { x: 1000, y: 3.00, q: 'energy', step: 2 },
+        { x: 1180, y: 4.16, q: 'energy', step: 2 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 빛의 진동수, 세로축은 튀어나온 전자의 가장 큰 운동 에너지예요.
+
+</S>
+
+<S n={2}>
+
+진동수를 바꿔 가며 잰 점들이에요. 밀리컨이 얻은 결과의 모양을 흉내 내어 그렸어요.
+
+</S>
+
+<S n={3}>
+
+점들은 아인슈타인의 식대로 곧은 선 위에 놓였어요. 이 선의 기울기가 바로 h예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="빛으로 잰 h">
+  <Fragment slot="visual">
+    <BigNumber top="1916년, 밀리컨이 광전 효과의 기울기로 잰 h" value="6.57 × 10⁻³⁴ J·s" bottom="플랑크가 흑체로 얻은 값과 1% 안에서 같았어요" q="energy" />
+  </Fragment>
+
+밀리컨이 기울기로 잰 h는 6.57 × 10⁻³⁴ J·s였어요. 플랑크가 흑체의 곡선에서 얻은 값과 1% 안에서 같았죠.
+
+<Key>뜨거운 상자 속 빛의 곡선과 금속에서 튀어나온 전자라는 전혀 다른 두 실험이 같은 h를 내놓았으니, 빛의 에너지가 hf 덩어리로 오간다는 건 우연이 아니라 자연의 규칙이에요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="밝기를 2배로">
+
+<Check id="q35-bright" options={[
+  { t: '광자가 2배 많아져서 튀어나오는 전자도 2배, 가장 빠른 전자의 에너지는 그대로예요', ok: true, why: '밝기는 광자의 수예요. 전자 하나는 광자 하나에게서 hf를 받으니, 전자 하나의 에너지는 진동수만 정해요.' },
+  { t: '광자 하나의 에너지가 2배가 돼서 전자가 더 빨라져요', why: '광자 하나의 에너지는 hf라서 진동수가 그대로면 바뀌지 않아요.' },
+  { t: '전자의 수도 에너지도 그대로예요', why: '광자가 많아지면 전자를 떼어 내는 일도 많아져요.' },
+  { t: '광자 둘이 합쳐져 전자 하나를 더 세게 떼어 내요', why: '보통의 빛에서는 전자 하나가 광자 하나만 받아요. 광자의 에너지가 합쳐지지 않아요.' },
+]}>
+
+문턱을 넘는 빛의 진동수는 그대로 두고 밝기만 2배로 하면, 광자의 생각으로는 무슨 일이 생길까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="19강의 답">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'radio', title: '라디오 전파의 광자', caption: '약 7 × 10⁻²⁶ J. 분자를 못 쪼개요' },
+      { icon: 'sun', title: '자외선의 광자', caption: '약 7 × 10⁻¹⁹ J. 피부 분자를 쪼갤 수 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 19강의 수수께끼를 풀 수 있어요. 피부가 타는 건 자외선 광자 하나가 피부 속 분자 하나를 쪼개거나 바꾸기 때문이에요.
+
+<S n={2}>
+
+자외선 광자 하나는 그럴 만큼 에너지가 커요. 라디오 전파의 광자는 그보다 1,000만 배 작아서, 아무리 많이 와도 하나하나가 분자를 못 쪼개요. 데울 수는 있어도 태우지는 못하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="피부를 태우는 빛">
+
+<Check id="q35-uv" options={[
+  { t: '자외선은 광자 하나의 에너지가 커서, 하나만으로도 피부 속 분자를 바꿀 수 있으니까', ok: true, why: '분자를 쪼개거나 바꾸는 건 광자 하나의 일이에요. 라디오 전파는 광자가 아무리 많아도 하나하나가 너무 약해요.' },
+  { t: '자외선이 라디오 전파보다 늘 더 세게 오니까', why: '방송국 근처의 전파는 아주 셀 수 있어요. 세기, 곧 광자의 수가 아니라 광자 하나의 에너지가 문제예요.' },
+  { t: '라디오 전파는 피부에 닿지 않으니까', why: '전파도 몸에 닿고 지나가요. 하나하나의 에너지가 작아서 분자를 바꾸지 못할 뿐이에요.' },
+  { t: '자외선은 파동이고 라디오 전파는 광자니까', why: '둘 다 같은 전자기파이고, 둘 다 광자로 이루어져 있어요. 진동수만 달라요.' },
+]}>
+
+아주 센 라디오 전파는 피부를 태우지 못하는데, 약한 자외선은 피부를 태울 수 있어요. 광자로 보면 그 까닭은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="scene" title="LED의 색">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '빨간 LED', caption: '광자 하나 약 3 × 10⁻¹⁹ J' },
+      { big: '파란 LED', caption: '광자 하나 약 4.4 × 10⁻¹⁹ J. 만들기 어려웠어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+LED 전구의 색도 광자 하나의 에너지로 정해져요. 파란 LED는 빨간 LED보다 광자 하나에 1.5배쯤 큰 에너지를 실어 보내야 해요.
+
+<S n={2}>
+
+그런 파란 LED를 밝게 만드는 건 오랫동안 아주 어려웠어요. 1990년대 초에 그걸 해낸 세 과학자가 2014년 노벨 물리학상을 받았고, 덕분에 흰빛 LED 조명과 휴대폰 화면이 나왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그럼 빛은 파동이 아닐까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '퍼져 갈 때', title: '16강', caption: '파동처럼 간섭 무늬를 만들어요' },
+      { big: '주고받을 때', title: '35강', caption: '광자 하나씩 통째로 주고받아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 여기서 빛이 파동이라는 16강이 틀린 줄 알았어요. 그런데 간섭 무늬는 지금도 늘 맞아요.
+
+빛은 퍼져 가며 간섭할 때는 파동처럼, 물질과 에너지를 주고받을 때는 광자처럼 행동해요. 둘이 어떻게 함께 맞는지는 50강에서 다시 정면으로 만나요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="노벨상의 이유">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1916', caption: '밀리컨의 측정' },
+      { big: '1921', caption: '아인슈타인의 노벨 물리학상: 광전 효과의 법칙' },
+      { big: '1923', caption: '밀리컨의 노벨 물리학상', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+아인슈타인은 1921년 노벨 물리학상을 받았어요. 상의 이유는 상대성이론이 아니라 광전 효과의 법칙을 찾은 일이었어요.
+
+<S n={2}>
+
+밀리컨도 1923년에 노벨 물리학상을 받았어요. 하지만 빛이 정말 알갱이처럼 운동량까지 갖는다는 걸 많은 사람이 받아들인 건, 다음 강의 실험 뒤였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['photon', 'quantum']}>
+
+1. 아인슈타인은 빛 자체가 hf 크기의 덩어리, 곧 광자로 날아온다고 봤어요.
+2. 전자 하나가 광자 하나를 통째로 받으니까, 문턱과 밝기와 기다림 없음이 모두 설명돼요.
+3. 튀어나온 전자의 가장 큰 에너지는 hf − W이고, 밀리컨이 그 기울기로 h를 쟀어요.
+4. 빛은 퍼질 때는 파동처럼, 주고받을 때는 광자처럼 행동해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="같은 에너지, 다른 광자 수">
+
+<DailyProblem id="p35">
+
+빨간 전구와 파란 전구가 1초에 똑같이 1 J의 빛 에너지를 내요. 빨간빛은 1초에 약 450조 번, 파란빛은 약 650조 번 진동해요.
+
+1초에 내보내는 광자가 더 많은 전구는 어느 쪽일까요? 까닭도 적어 보세요.
+
+<Fragment slot="hint1">
+
+광자의 수 = 전체 에너지 ÷ 광자 하나의 에너지예요. 광자 하나의 에너지 hf는 어느 쪽이 더 작나요?
+
+</Fragment>
+<Fragment slot="solution">
+
+빨간 전구예요. 빨간 광자는 진동수가 낮아서 하나의 에너지 hf가 작아요. 같은 1 J을 내려면 더 많은 광자가 필요하죠.
+
+빨강은 450조, 파랑은 650조라서 광자 하나의 에너지가 650 ÷ 450 ≈ 1.4배 차이 나요. 그래서 빨간 전구가 광자를 약 1.4배 더 많이 내요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+빛은 에너지가 hf인 광자로 날아오고 전자 하나는 광자 하나를 통째로 받아서, 문턱보다 낮은 빛은 아무리 밝아도 전자를 떼어 내지 못하고 남는 에너지는 hf − W예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="광자도 밀 수 있을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'billiards', title: '당구공의 충돌', caption: '운동량을 주고받아요 (7강)' },
+      { icon: 's1-sail', title: '우주의 태양 돛', caption: '햇빛만으로 나아가요' },
+    ]} />
+  </Fragment>
+
+광자가 정말 알갱이처럼 행동한다면, 에너지뿐 아니라 7강의 운동량도 가져야 해요. 그러면 당구공처럼 무언가에 부딪혀 밀 수도 있겠죠.
+
+<S n={2}>
+
+다음 강에서는 1923년 X선 광자가 전자와 당구공처럼 부딪힌 실험을 보고, 햇빛만으로 우주를 나아가는 태양 돛까지 따라가 볼게요.
+
+</S>
+
+</Screen>
