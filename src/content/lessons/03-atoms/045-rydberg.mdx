@@ -1,0 +1,402 @@
+---
+number: 45
+title: 에너지 준위로 스펙트럼 계산하기
+short: 뤼드베리 상수
+question: 수소가 내는 모든 빛을 하나의 식으로 계산할 수 있을까요?
+mechanism: 보어 모형에서 빛 하나의 에너지는 두 준위의 차이이니, 수소의 모든 선은 진동수 = 3,289조 Hz × (1/m² − 1/n²)로 계산돼요. 아래 준위 m이 1이면 자외선, 2면 눈에 보이는 빛, 3이면 적외선의 무리가 나오고, 두 선의 진동수를 더한 값도 또 하나의 선이 돼요. 그리고 이 상수 3,289조 Hz는 전자의 질량, 전하, 플랑크 상수로 계산한 값과 맞아요.
+part: 3
+year: 1913
+minutes: 20
+assumes: [energy-level, ground-state, bohr-model, balmer-formula, planck-constant, photon, ultraviolet, infrared, visible-light, line-spectrum, frequency, electron, elementary-charge, nucleus]
+introduces: [rydberg-constant]
+sources:
+  - "Rydberg, J. R. On the Structure of the Line-Spectra of the Chemical Elements. Philosophical Magazine 29, 331–337 (1890)"
+  - "Paschen, F. Zur Kenntnis ultraroter Linienspektra. Annalen der Physik 27, 537–570 (1908)"
+  - "Lyman, T. An Extension of the Spectrum in the Extreme Ultra-Violet. Nature 93, 241 (1914)"
+  - "Bohr, N. On the Constitution of Atoms and Molecules, Part I. Philosophical Magazine 26, 1–25 (1913)"
+  - "Bohr, N. The Spectra of Helium and Hydrogen. Nature 92, 231–232 (1913)"
+  - "CODATA 2018: 뤼드베리 상수 R∞ = 10 973 731.568 160 /m, R∞c = 3.289 841 960 × 10¹⁵ Hz"
+testout: [q45-lyman, q45-combine, q45-ir]
+status: published
+---
+
+<Screen kind="scene" title="눈에 안 보이는 선">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'sun', title: '자외선', caption: '눈에 안 보여도 피부를 태워요' },
+      { icon: 'rainbow', title: '눈에 보이는 빛', caption: '발머가 본 네 선' },
+      { icon: 'remote', title: '적외선', caption: '눈에 안 보여도 리모컨 신호를 실어 날라요' },
+    ]} />
+  </Fragment>
+
+44강에서는 n = 2로 내려올 때 나오는 빛만 봤어요. 그런데 수소의 전자는 n = 1이나 n = 3으로도 내려올 수 있죠.
+
+<S n={2}>
+
+그런 빛은 대부분 눈에 보이지 않아요. 오늘은 보어 모형으로 수소가 내는 모든 빛을 계산해 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={44} title="준위 사이의 차이">
+  <Fragment slot="visual">
+    <SimP03Levels jumps="3-2,4-2" />
+  </Fragment>
+
+44강의 보어 모형을 떠올려 볼게요. 수소의 에너지 준위는 −2.18 × 10⁻¹⁸ J ÷ n²이었어요.
+
+<S n={2}>
+
+전자가 위 준위에서 아래 준위로 옮겨 가면 그 차이만큼의 에너지를 가진 빛 하나가 나와요. 빛 하나의 에너지는 hf이니, 진동수는 에너지 차이를 h로 나눈 값이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="식 하나로">
+  <Fragment slot="visual">
+    <BigNumber top="수소가 내는 모든 선의 진동수 (n은 위 준위, m은 아래 준위)" value="3,289조 Hz × (1/m² − 1/n²)" bottom="2.18 × 10⁻¹⁸ J ÷ h ≈ 3,289조 Hz" q="time" />
+  </Fragment>
+
+위 준위를 n, 아래 준위를 m이라고 할게요. 에너지 차이는 2.18 × 10⁻¹⁸ J × (1/m² − 1/n²)이고, h로 나누면 진동수가 나와요.
+
+<S n={2}>
+
+2.18 × 10⁻¹⁸ J ÷ h는 약 3,289조 Hz예요. 그래서 수소가 내는 모든 선의 진동수는 **3,289조 Hz × (1/m² − 1/n²)**예요. 발머 공식은 이 식에서 m = 2인 경우였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="뤼드베리 상수라는 이름">
+  <Fragment slot="visual">
+    <Define term="rydberg-constant" />
+  </Fragment>
+
+이 식의 앞에 붙은 3,289조 Hz를 **뤼드베리 상수**라고 불러요. 진동수로 쓰면 이 값이고, 파장의 역수로 쓰면 약 1.097 × 10⁷ /m예요.
+
+<S n={2}>
+
+이름은 보어보다 먼저 이 식의 모양을 찾은 사람에게서 왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="뤼드베리의 일반식">
+  <Fragment slot="visual">
+    <BigNumber top="요하네스 뤼드베리가 선 스펙트럼의 일반식을 내놓은 무렵" value="1888 ~ 1890" bottom="스웨덴 룬드 대학" />
+  </Fragment>
+
+스웨덴의 요하네스 뤼드베리는 여러 원소의 선 스펙트럼을 비교하다가, 선의 무리마다 두 항의 차이로 쓰는 일반식을 찾았어요. 1888년부터 1890년 사이의 일이에요.
+
+<S n={2}>
+
+수소에서는 그 식이 3,289조 Hz × (1/m² − 1/n²) 꼴이 됐어요. 하지만 뤼드베리도 왜 그런지는 몰랐고, 그 까닭은 23년 뒤 보어의 에너지 준위가 설명했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="바닥까지 내려오는 빛">
+  <Fragment slot="visual">
+    <DataTable caption="m = 1 (바닥상태로 내려오는 빛)" head={['n → 1', '1 − 1/n²', '진동수']} rows={[
+      ['2 → 1', '3/4', '약 2,467조 Hz'],
+      ['3 → 1', '8/9', '약 2,924조 Hz'],
+      ['4 → 1', '15/16', '약 3,084조 Hz'],
+      ['끝 (n이 아주 클 때)', '1', '약 3,289조 Hz'],
+    ]} />
+  </Fragment>
+
+먼저 바닥상태 m = 1로 내려오는 빛을 계산해 볼게요. 2 → 1이면 3,289조 × (1 − 1/4) ≈ 2,467조 Hz예요.
+
+<S n={2}>
+
+눈에 보이는 빛은 750조 Hz까지니까, 이 무리는 모두 자외선이에요. 1906년부터 1914년 사이에 시어도어 라이먼이 자외선을 재는 장치로 이 선들을 찾았어요. 그래서 **라이먼 계열**이라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="3층으로 내려오는 빛">
+  <Fragment slot="visual">
+    <DataTable caption="m = 3 (n = 3으로 내려오는 빛)" head={['n → 3', '1/9 − 1/n²', '진동수']} rows={[
+      ['4 → 3', '7/144', '약 160조 Hz'],
+      ['5 → 3', '16/225', '약 234조 Hz'],
+      ['6 → 3', '1/12', '약 274조 Hz'],
+      ['끝 (n이 아주 클 때)', '1/9', '약 365조 Hz'],
+    ]} />
+  </Fragment>
+
+이번엔 m = 3으로 내려오는 빛이에요. 4 → 3이면 3,289조 × (1/9 − 1/16) ≈ 160조 Hz예요.
+
+<S n={2}>
+
+이 무리는 모두 400조 Hz보다 낮으니 적외선이에요. 1908년 프리드리히 파셴이 적외선에서 이 선들을 찾았고, **파셴 계열**이라고 불러요. 그 뒤 m = 4, 5인 무리도 적외선에서 차례로 찾았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="세 무리의 자리">
+  <Fragment slot="visual">
+    <Plot
+      alt="진동수 축 위에 수소의 선 세 무리가 놓여 있다. 파셴 계열은 적외선, 발머 계열은 눈에 보이는 빛, 라이먼 계열은 자외선에 있고, 무리마다 높은 진동수의 끝으로 갈수록 선이 촘촘하다"
+      x={[0, 3500]} y={[0, 1]}
+      xLabel="진동수 (조 Hz)" yLabel="" xq="time"
+      xTicks={[[0, '0'], [500, '500'], [1000, '1,000'], [1500, '1,500'], [2000, '2,000'], [2500, '2,500'], [3000, '3,000']]}
+      axisSteps={[1, 1]}
+      bands={[{ x0: 400, x1: 750, rainbow: true, step: 1 }]}
+      lines={[
+        { x: 160, label: '파셴', step: 2 }, { x: 234, step: 2 }, { x: 274, step: 2 }, { x: 298, step: 2 }, { x: 365, step: 2 },
+        { x: 457, label: '발머', step: 3 }, { x: 617, step: 3 }, { x: 691, step: 3 }, { x: 731, step: 3 }, { x: 822, step: 3 },
+        { x: 2467, label: '라이먼', step: 4 }, { x: 2924, step: 4 }, { x: 3084, step: 4 }, { x: 3158, step: 4 }, { x: 3289, step: 4 },
+      ]}
+    />
+  </Fragment>
+
+가로축은 진동수이고, 무지개색 띠가 눈에 보이는 빛의 범위예요.
+
+<S n={2}>
+
+파셴 계열은 무지개 띠보다 낮은 적외선에 있어요.
+
+</S>
+
+<S n={3}>
+
+발머 계열은 무지개 띠 안에 있죠.
+
+</S>
+
+<S n={4}>
+
+라이먼 계열은 훨씬 높은 자외선에 있어요. 무리마다 높은 진동수의 끝으로 갈수록 선이 촘촘해져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="여러 층으로 뛰어내리기">
+  <Fragment slot="visual">
+    <SimP03Levels jumps="2-1,3-1,3-2,4-2,4-3,5-3" />
+  </Fragment>
+
+이번엔 여러 층으로 뛰어내려 보세요. 바닥상태로 내려오는 것, 2층으로 내려오는 것, 3층으로 내려오는 것을 비교해 보세요.
+
+<S n={2}>
+
+바닥상태로 내려오는 간격이 가장 커서 자외선이 나오고, 3층으로 내려오는 간격은 작아서 적외선이 나와요. 한 그림의 계단이 세 무리를 모두 만들어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="3에서 1로">
+
+<Numeric id="q45-lyman" answer={2924} tol={0.01} unit="조 Hz">
+
+뤼드베리 상수는 3,289조 Hz예요. 수소의 전자가 n = 3에서 바닥상태 n = 1로 내려올 때 나오는 빛의 진동수는 몇 조 Hz일까요?
+
+<Fragment slot="solution">
+
+3,289조 × (1/1² − 1/3²) = 3,289조 × 8/9 ≈ 2,924조 Hz예요. 라이먼 계열의 둘째 선이고, 자외선이에요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="더하면 또 하나의 선">
+  <Fragment slot="visual">
+    <DataTable caption="두 번에 내려오기와 한 번에 내려오기" head={['길', '진동수']} rows={[
+      ['3 → 2', '457조 Hz'],
+      ['2 → 1', '2,467조 Hz'],
+      ['더하면', '2,924조 Hz'],
+      ['3 → 1', '2,924조 Hz'],
+    ]} highlight={[2, 3]} />
+  </Fragment>
+
+방금 구한 3 → 1의 진동수는 3 → 2와 2 → 1의 진동수를 더한 값과 같아요. 457조 + 2,467조 = 2,924조 Hz죠.
+
+<S n={2}>
+
+1908년 발터 리츠는 이렇게 두 선의 진동수를 더한 값이 또 하나의 선이 되는 일이 많다는 걸 찾았어요. 계단으로 보면 당연해요. 두 번에 내려오든 한 번에 내려오든 내려온 높이는 같거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="있어야 할 선">
+
+<Check id="q45-combine" options={[
+  { t: '약 3,084조 Hz', ok: true, why: '4 → 2와 2 → 1을 이으면 4 → 1과 같은 높이를 내려와요. 617조 + 2,467조 = 3,084조 Hz예요.' },
+  { t: '약 1,850조 Hz', why: '진동수를 빼면 안 돼요. 두 번 내려온 높이를 합친 만큼 한 번에 내려오는 거예요.' },
+  { t: '약 1,542조 Hz', why: '두 진동수의 평균이에요. 한 번에 내려오는 빛은 두 빛의 에너지를 더한 만큼이에요.' },
+  { t: '그런 선은 없어요', why: '4 → 1로 한 번에 내려오는 것도 가능해요. 그 빛의 진동수가 두 진동수의 합이에요.' },
+]}>
+
+수소에서 4 → 2의 빛은 약 617조 Hz이고, 2 → 1의 빛은 약 2,467조 Hz예요. 그렇다면 수소는 어떤 진동수의 빛도 함께 내야 할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="보어가 계산한 상수">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '전자의 질량, 전하, h', caption: '전혀 다른 실험에서 잰 값들' },
+      { big: '약 3,290조 Hz', caption: '보어 모형으로 계산한 상수', tone: 'accent' },
+      { big: '3,289조 Hz', caption: '스펙트럼에서 잰 상수', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+보어 모형이 정말 뛰어났던 건 이 상수를 계산해 냈다는 점이에요. 보어는 전자의 질량, 기본 전하, 플랑크 상수로 이 값을 계산하는 식을 얻었어요.
+
+<S n={2}>
+
+전자의 질량과 전하는 37강과 38강의 실험으로, h는 열복사와 광전 효과로 잰 값이에요. 그런데 이 값들로 계산한 상수가 스펙트럼에서 잰 3,289조 Hz와 맞았어요.
+
+<Key>수소가 내는 모든 선은 3,289조 Hz × (1/m² − 1/n²)로 계산되고, 이 상수를 전자의 질량, 전하, 플랑크 상수로 계산한 값과도 맞으니까, 보어 모형의 에너지 준위는 수소의 스펙트럼을 하나로 설명해요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="식만 맞으면 될까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '뤼드베리', caption: '잰 값에 맞춰 상수를 정했어요' },
+      { big: '보어', caption: '다른 실험의 값으로 상수를 계산했어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note label="한 번 짚고 갈게요">
+
+식의 모양은 뤼드베리가 이미 찾았으니, 보어 모형이 새로 한 게 뭘까 싶었어요. 차이는 상수를 어디서 가져왔느냐예요.
+
+뤼드베리는 잰 선에 맞도록 상수를 골랐지만, 보어는 스펙트럼과 상관없는 실험의 값들로 상수를 계산했어요. 틀릴 수도 있었던 예측이 맞은 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="별빛의 수수께끼 선">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1896', title: '별빛 속의 선', caption: '수소 같지만 발머 공식에 안 맞아요' },
+      { big: '1913', title: '보어의 예측', caption: '전자 하나만 남은 헬륨의 선', tone: 'accent' },
+      { big: '1913', title: '실험실의 확인', caption: '순수한 헬륨에서 같은 선', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+1896년 미국의 천문학자들은 어떤 뜨거운 별빛에서 수소 선과 비슷하지만 발머 공식에는 맞지 않는 선들을 찾았어요. 다들 수소의 선이라고 생각했죠.
+
+<S n={2}>
+
+보어는 이 선들이 전자를 하나 잃은 헬륨에서 나온다고 계산했어요. 원자핵의 전하가 수소의 2배라서, 준위가 4배 깊어진다는 거예요. 같은 해 실험실에서 순수한 헬륨으로 그 선들을 확인했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="수소와 전자 하나뿐인 헬륨">
+  <Fragment slot="visual">
+    <DataTable caption="보어 모형으로 계산한 바닥상태의 에너지" head={['원자', '원자핵의 전하', '바닥상태의 에너지']} rows={[
+      ['수소', '+e', '−2.18 × 10⁻¹⁸ J'],
+      ['전자 하나뿐인 헬륨', '+2e', '−8.72 × 10⁻¹⁸ J (4배)'],
+    ]} />
+  </Fragment>
+
+원자핵의 전하가 2배면 전자를 끄는 힘이 세져서 모든 준위가 4배 깊어져요. 그래서 선의 진동수도 수소의 정확히 4배 꼴이 돼요.
+
+<S n={2}>
+
+그런데 잰 값은 4배보다 아주 조금, 2,000분의 1쯤 컸어요. 보어는 원자핵도 전자에 끌려 조금 움직인다는 걸 계산에 넣었고, 그러자 이 작은 차이까지 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="적외선 카메라로 볼 수 있는 선">
+
+<Check id="q45-ir" options={[
+  { t: 'n = 3으로 내려오는 선들 (파셴 계열)', ok: true, why: '3층으로 내려오는 간격은 작아서, 진동수가 160조에서 365조 Hz 사이인 적외선이 나와요.' },
+  { t: 'n = 1로 내려오는 선들 (라이먼 계열)', why: '바닥상태로 내려오는 간격은 가장 커서, 2,467조 Hz가 넘는 자외선이 나와요.' },
+  { t: 'n = 2로 내려오는 선들 (발머 계열)', why: '이 무리는 대부분 눈에 보이는 빛이에요. 적외선 카메라가 아니어도 보여요.' },
+  { t: '수소는 적외선을 내지 않아요', why: '위 준위끼리의 간격은 작아서, 그 사이를 옮겨 가면 적외선이 나와요.' },
+]}>
+
+적외선만 찍는 카메라로 뜨거운 수소 기체를 보면, 다음 가운데 어떤 선들이 찍힐까요? 적외선은 약 400조 Hz보다 진동수가 낮은 빛이에요.
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['rydberg-constant', 'energy-level', 'bohr-model']}>
+
+1. 빛 하나의 에너지는 두 준위의 차이이니, 진동수는 3,289조 Hz × (1/m² − 1/n²)이에요.
+2. 아래 준위가 1이면 자외선, 2면 눈에 보이는 빛, 3이면 적외선의 무리가 나와요.
+3. 두 번에 내려온 높이와 한 번에 내려온 높이가 같으니, 두 선의 진동수를 더한 값도 선이 돼요.
+4. 상수 3,289조 Hz가 전자의 질량, 전하, h로 계산한 값과 맞아서, 보어 모형이 수소의 스펙트럼을 하나로 설명해요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="전자를 떼어 내는 빛">
+
+<DailyProblem id="p45">
+
+바닥상태의 수소 원자에 빛을 비춰 전자를 아예 떼어 내려고 해요. 빛 하나로 떼어 내려면, 빛의 진동수가 적어도 몇 조 Hz여야 할까요? 오늘 배운 식에서 생각해 보세요.
+
+<Fragment slot="hint1">
+
+전자를 떼어 낸다는 건 n이 아주 큰 준위, 곧 에너지 0까지 올린다는 뜻이에요.
+
+</Fragment>
+<Fragment slot="solution">
+
+바닥상태에서 에너지 0까지 올리려면 2.18 × 10⁻¹⁸ J이 필요해요. 식으로 보면 m = 1이고 n이 아주 큰 경우라서, 3,289조 × (1 − 0) = 3,289조 Hz예요.
+
+그러니 진동수가 적어도 3,289조 Hz인 자외선이어야 해요. 이보다 낮은 진동수의 빛은 아무리 세게 비춰도 빛 하나로는 전자를 떼어 내지 못해요. 34강의 광전 효과에서 본 문턱 진동수와 같은 생각이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+수소가 내는 모든 빛은 에너지 준위의 차이에서 나오니까, 3,289조 Hz × (1/m² − 1/n²) 하나로 자외선부터 적외선까지 계산할 수 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="빛 말고 다른 증거">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '빛', caption: '지금까지의 증거: 스펙트럼의 선', tone: 'ok' },
+      { big: '부딪히는 전자', caption: '1914년의 새 증거', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지금까지 에너지 준위의 증거는 모두 원자가 내는 빛이었어요. 빛 말고 다른 방법으로도 준위를 볼 수 있을까요?
+
+<S n={2}>
+
+1914년 제임스 프랑크와 구스타프 헤르츠는 전자를 수은 원자에 부딪혀 봤어요. 다음 강에서는 원자가 부딪힌 전자에게서 정해진 크기의 에너지만 받아 간다는 실험과, 보어 모형이 끝내 설명하지 못한 것들을 같이 봐요.
+
+</S>
+
+</Screen>
