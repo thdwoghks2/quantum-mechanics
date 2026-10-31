@@ -1,0 +1,171 @@
+---
+/**
+ * 얽힌 두 입자를 멀리 떨어진 두 장치 A, B에서 잰다. 장치마다 방향 1, 2, 3(120°씩 벌어짐) 가운데 하나를 고른다.
+ * - 미리 정한 답(지시서): 두 입자가 떠날 때 방향마다 결과를 정해 갖고 간다(B는 A의 반대).
+ * - 양자역학: 방향이 같으면 늘 반대, 120° 벌어지면 4번에 1번만 반대로 나온다.
+ * same이면 두 장치가 늘 같은 방향을 고른다. 반대로 나온 비율을 막대로 보여 준다.
+ * 벨 부등식(머민의 설명): 지시서로는 방향을 아무렇게나 고를 때 반대 비율이 5/9 아래로 내려갈 수 없다.
+ */
+interface Props {
+  /** 'local' = 미리 정한 답, 'quantum' = 양자역학 */
+  mode?: 'local' | 'quantum';
+  /** 두 장치가 늘 같은 방향을 고르게 할지 */
+  same?: boolean;
+  /** 방식 바꾸기 버튼을 보일지 */
+  controls?: boolean;
+}
+const { mode = 'quantum', same = false, controls = true } = Astro.props;
+---
+<qm-sim-p11-bell class="sim" data-ratio="0.62" data-mode={mode === 'local' ? '0' : '1'} data-same={same ? '1' : '0'}>
+  <canvas aria-label="가운데에서 생긴 두 입자가 양쪽 장치 A와 B로 날아가고, 장치마다 고른 방향과 나온 결과(위 또는 아래)가 보인다. 아래 막대는 지금까지 두 결과가 반대로 나온 비율이다"></canvas>
+  <div class="sim__controls">
+    {controls && (
+      <div class="sim__buttons" role="group" aria-label="답이 정해지는 방식">
+        <button type="button" class="btn" data-set="mode=0" aria-pressed={mode === 'local' ? 'true' : 'false'}>미리 정한 답</button>
+        <button type="button" class="btn" data-set="mode=1" aria-pressed={mode === 'quantum' ? 'true' : 'false'}>양자역학</button>
+      </div>
+    )}
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-run="1">한 쌍 재기</button>
+      <button type="button" class="btn" data-run="100">100쌍</button>
+      <button type="button" class="btn" data-run="1000">1,000쌍</button>
+      <button type="button" class="btn" data-reset>처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-p11-bell>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimP11Bell extends Sim {
+    animated = false;
+    n = 0;
+    opp = 0;
+    nSame = 0;
+    oppSame = 0;
+    last: { a: number; b: number; ra: number; rb: number } | null = null;
+
+    init() {
+      this.p.mode = Number(this.dataset.mode ?? 1);
+      this.p.same = Number(this.dataset.same ?? 0);
+      for (const btn of this.querySelectorAll<HTMLButtonElement>('button[data-run]')) {
+        btn.addEventListener('click', () => {
+          const k = Number(btn.dataset.run);
+          for (let i = 0; i < k; i++) this.runOne();
+          this.frame();
+        });
+      }
+    }
+
+    reset() {
+      this.n = this.opp = this.nSame = this.oppSame = 0;
+      this.last = null;
+    }
+
+    changed() {
+      this.reset();
+    }
+
+    runOne() {
+      const a = Math.floor(Math.random() * 3);
+      const b = this.p.same ? a : Math.floor(Math.random() * 3);
+      let ra: number;
+      let rb: number;
+      if (this.p.mode === 0) {
+        // 지시서: 방향 1, 2, 3마다 A의 결과를 정해 두고, B는 늘 그 반대를 갖고 간다
+        const plan = [0, 1, 2].map(() => (Math.random() < 0.5 ? 1 : 0));
+        ra = plan[a]!;
+        rb = 1 - plan[b]!;
+      } else {
+        // 양자역학: 방향 사이 각도 θ에서 반대로 나올 확률은 cos²(θ/2)
+        const theta = ((2 * Math.PI) / 3) * Math.abs(a - b);
+        const pOpp = Math.cos(theta / 2) ** 2;
+        ra = Math.random() < 0.5 ? 1 : 0;
+        rb = Math.random() < pOpp ? 1 - ra : ra;
+      }
+      this.n++;
+      if (ra !== rb) this.opp++;
+      if (a === b) {
+        this.nSame++;
+        if (ra !== rb) this.oppSame++;
+      }
+      this.last = { a, b, ra, rb };
+    }
+
+    readout() {
+      if (!this.n) return '아직 잰 쌍이 없어요';
+      const pct = Math.round((100 * this.opp) / this.n);
+      const s = this.nSame ? ` · 같은 방향끼리는 ${Math.round((100 * this.oppSame) / this.nSame)}% 반대` : '';
+      return `${this.n.toLocaleString('ko-KR')}쌍 가운데 ${pct}%가 반대${s}`;
+    }
+
+    station(x: number, y: number, name: string, setting: number | null, result: number | null) {
+      const { c } = this;
+      const g = this.ctx;
+      const bw = this.w * 0.22;
+      const bh = this.h * 0.36;
+      g.strokeStyle = c.line;
+      g.lineWidth = 1.5;
+      g.strokeRect(x - bw / 2, y - bh / 2, bw, bh);
+      this.text(`장치 ${name}`, x, y - bh / 2 - 10, c.text2, 12, 'center');
+      // 방향 1, 2, 3을 120°씩 벌어진 바늘로
+      const r = bh * 0.26;
+      const cy = y - bh * 0.12;
+      for (let k = 0; k < 3; k++) {
+        const ang = -Math.PI / 2 + (k * 2 * Math.PI) / 3;
+        const on = setting === k;
+        this.line(x, cy, x + r * Math.cos(ang), cy + r * Math.sin(ang), on ? c.accent : c.muted, on ? 3 : 1);
+        this.text(String(k + 1), x + (r + 9) * Math.cos(ang), cy + (r + 9) * Math.sin(ang), on ? c.accent : c.muted, 10, 'center');
+      }
+      const ly = y + bh * 0.3;
+      if (result === null) {
+        this.dot(x, ly, 8, c.ink3);
+      } else {
+        this.dot(x, ly, 9, result ? c.charge : c.heat);
+        this.text(result ? '위' : '아래', x + 16, ly, result ? c.charge : c.heat, 12, 'left');
+      }
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const y = h * 0.34;
+      const L = this.last;
+      this.station(w * 0.16, y, 'A', L ? L.a : null, L ? L.ra : null);
+      this.station(w * 0.84, y, 'B', L ? L.b : null, L ? L.rb : null);
+      // 가운데 원천
+      this.dot(w / 2, y, 6, c.text2);
+      this.text('두 입자가 생기는 곳', w / 2, y + 18, c.muted, 10, 'center');
+      this.ctx.setLineDash([3, 4]);
+      this.line(w / 2 - 10, y, w * 0.28, y, c.muted, 1);
+      this.line(w / 2 + 10, y, w * 0.72, y, c.muted, 1);
+      this.ctx.setLineDash([]);
+      this.text(this.p.mode === 0 ? '방식: 미리 정한 답' : '방식: 양자역학', w / 2, h * 0.08, c.text, 12, 'center');
+
+      // 반대로 나온 비율 막대
+      const bx = w * 0.08;
+      const bw = w * 0.84;
+      const by = h * 0.74;
+      const bh = 16;
+      this.text('반대로 나온 비율', bx, by - 14, c.text2, 11, 'left');
+      this.ctx.fillStyle = c.ink3;
+      this.ctx.fillRect(bx, by, bw, bh);
+      if (this.n) {
+        this.ctx.fillStyle = c.accent;
+        this.ctx.fillRect(bx, by, (bw * this.opp) / this.n, bh);
+      }
+      const mark = (f: number, label: string, below: boolean) => {
+        const x = bx + bw * f;
+        this.line(x, by - 4, x, by + bh + 4, c.text, 1.5);
+        this.text(label, x, below ? by + bh + 14 : by - 14, c.text, 10, 'center');
+      };
+      mark(0, '0', true);
+      mark(1, '100%', true);
+      if (!this.p.same) {
+        mark(5 / 9, '5/9', true);
+        mark(0.5, '1/2', false);
+      }
+    }
+  }
+  define('qm-sim-p11-bell', SimP11Bell);
+</script>
