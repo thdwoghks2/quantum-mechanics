@@ -1,0 +1,431 @@
+---
+number: 28
+title: 흑체와 별의 색
+short: 흑체와 별의 색
+question: 가 볼 수도 없는 별의 온도를 어떻게 잴 수 있을까요?
+mechanism: 받은 빛을 모두 흡수하는 물체(흑체)가 내는 빛은 물질과 상관없이 온도만으로 정해져요. 온도가 높을수록 가장 세게 나오는 진동수가 절대온도에 비례해 높아지니까(빈의 법칙), 빛의 색이 빨강에서 흰빛, 푸른빛으로 바뀌어요. 별은 흑체에 가까워서, 별빛의 색과 곡선으로 별의 겉 온도를 잴 수 있어요.
+part: 2
+year: 1893
+minutes: 22
+epigraph:
+  text: "우리는 별의 모양과 거리, 크기와 움직임은 알아낼 수 있다. 하지만 별이 무엇으로 이루어져 있는지는 어떤 방법으로도 결코 알아낼 수 없을 것이다."
+  by: 오귀스트 콩트
+  source: 『실증 철학 강의』 19강 (1835)
+assumes: [thermal-radiation, visible-light, infrared, ultraviolet, frequency, spectrum, absolute-temperature, em-wave]
+introduces: [blackbody, wien-law]
+sources:
+  - "Kirchhoff, G. Über das Verhältnis zwischen dem Emissionsvermögen und dem Absorptionsvermögen der Körper für Wärme und Licht, Annalen der Physik 109 (1860)"
+  - "Wien, W. Eine neue Beziehung der Strahlung schwarzer Körper zum zweiten Hauptsatz der Wärmetheorie (1893)"
+  - "Levesque, E. M. & Massey, P. Betelgeuse Just Is Not That Cool, ApJ Letters 891 (2020): 베텔게우스 겉 온도 약 3,600 K"
+  - "Przybilla, N. et al. Quantitative spectroscopy of BA-type supergiants, A&A 445 (2006): 리겔 겉 온도 약 12,100 K"
+  - "진동수로 그린 흑체 곡선의 꼭대기: 진동수 ≈ 5.88 × 10¹⁰ Hz × 절대온도"
+testout: [q28-peak, q28-star, q28-only]
+status: published
+---
+
+<Screen kind="recall" from={27} title="온도마다 다른 빛">
+  <Fragment slot="visual">
+    <Plot
+      alt="600 K, 900 K, 1200 K 물체의 열복사 곡선. 뜨거울수록 높고, 가장 센 곳이 진동수가 높은 쪽으로 옮겨 간다"
+      x={[0, 160]} y={[0, 2.5]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (상대값)" xq="time" yq="energy"
+      xTicks={[0, 40, 80, 120, 160]} yTicks={[]}
+      curves={[
+        { fn: 'x*x*x/(exp(48*x/600)-1)*1e-4', q: 'heat', label: '600 K', labelAt: [40, 0.45] },
+        { fn: 'x*x*x/(exp(48*x/900)-1)*1e-4', q: 'heat', label: '900 K', labelAt: [62, 1.15] },
+        { fn: 'x*x*x/(exp(48*x/1200)-1)*1e-4', q: 'heat', label: '1200 K', labelAt: [88, 2.35] },
+      ]}
+    />
+  </Fragment>
+
+27강에서 모든 물체는 온도 때문에 열복사를 냈어요. 뜨거울수록 더 세게, 더 높은 진동수까지 냈죠. 그리고 같은 온도면 물질과 상관없이 거의 같은 빛을 냈어요.
+
+<S n={2}>
+
+오늘은 이 규칙으로 아주 먼 곳의 온도를 재 볼게요. 가 볼 수도, 온도계를 꽂을 수도 없는 별의 온도예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="오리온자리의 두 별">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-star', title: '베텔게우스', caption: '오리온의 어깨. 붉은빛이에요' },
+      { icon: 's1-star', title: '리겔', caption: '오리온의 발. 푸르스름한 흰빛이에요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+겨울밤 남쪽 하늘에 뜨는 오리온자리에서, 어깨의 베텔게우스는 붉은빛이고 발의 리겔은 푸르스름한 흰빛이에요. 맑은 날엔 맨눈으로도 색 차이가 보여요.
+
+<S n={2}>
+
+1835년 철학자 오귀스트 콩트는 별이 무엇으로 되어 있는지는 결코 알 수 없을 거라고 했어요. 그런데 별빛의 색만으로 별의 온도는 잴 수 있어요. 오늘 그 방법을 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="반사된 빛이 섞이면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'apple', title: '빨간 사과', caption: '받은 햇빛 가운데 빨간빛을 되돌려 보내요' },
+      { big: '열복사 + 반사', title: '물체에서 오는 빛', caption: '두 가지가 섞여서 헷갈려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+먼저 걸리는 게 하나 있어요. 물체에서 오는 빛에는 열복사 말고 반사된 빛도 섞여요. 빨간 사과는 받은 햇빛 가운데 빨간빛을 되돌려 보내서 빨갛게 보이죠.
+
+<S n={2}>
+
+그래서 열복사만 깔끔하게 보려면, 받은 빛을 하나도 되돌려 보내지 않는 물체가 있으면 좋겠어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="잘 흡수하면 잘 내요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '거울', caption: '빛을 잘 되돌려 보내요. 열복사도 적게 내요' },
+      { big: '검은 물체', caption: '빛을 잘 흡수해요. 열복사도 잘 내요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1860년 독일의 구스타프 키르히호프는 중요한 규칙을 보였어요. 어떤 진동수의 빛을 잘 흡수하는 물체는 같은 온도에서 그 진동수의 빛을 잘 내기도 해요.
+
+<S n={2}>
+
+27강의 보온병 거울은 빛을 잘 되돌려 보내니까 열복사도 적게 내요. 거꾸로 모든 빛을 다 흡수하는 물체는 열복사를 가장 잘 내겠죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="흑체라는 이름">
+  <Fragment slot="visual">
+    <Define term="blackbody" />
+  </Fragment>
+
+받은 빛을 진동수와 상관없이 모두 흡수하는 물체를 **흑체**라고 해요. 키르히호프가 붙인 '검은 물체'라는 이름이에요.
+
+<Key>흑체는 반사하는 빛이 없어서 오직 열복사만 내고, 그 빛의 곡선은 흑체가 무엇으로 만들어졌든 온도 하나만으로 정해져요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="구멍 뚫린 상자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-box', title: '작은 구멍이 난 상자', caption: '들어간 빛은 벽에 부딪히다 흡수돼요' },
+      { big: '●', title: '그래서 구멍은 새까매요', caption: '눈동자가 검게 보이는 것도 같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+완전한 흑체를 만들기는 어렵지만 거의 비슷한 건 쉽게 만들 수 있어요. 속이 빈 상자에 작은 구멍을 내면, 구멍으로 들어간 빛은 벽에 수없이 부딪히다 결국 흡수돼요.
+
+<S n={2}>
+
+그래서 구멍은 새까맣게 보여요. 이 상자를 달구면 구멍에서 흑체의 빛이 나오죠. 가마의 작은 창으로 보이는 빛이 바로 이런 빛이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="키르히호프의 숙제">
+  <Fragment slot="visual">
+    <BigNumber top="1860년, 키르히호프가 던진 숙제" value="흑체의 곡선을 식으로" bottom="이 숙제가 40년 뒤 양자역학의 문을 열어요" />
+  </Fragment>
+
+키르히호프는 흑체의 빛이 온도만으로 정해진다는 걸 보이고, 숙제를 하나 남겼어요. 온도가 T일 때 진동수마다 얼마나 센지 알려 주는 식을 찾으라는 거였죠.
+
+<S n={2}>
+
+물질과 상관없는 식이니, 빛과 열의 가장 깊은 규칙이 담겨 있을 거예요. 물리학자들은 40년 동안 이 숙제와 씨름했고, 32강에서 그 답이 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="흑체를 달궈 보기">
+  <Fragment slot="visual">
+    <SimP02Blackbody k={3000} />
+  </Fragment>
+
+흑체의 곡선과 그 빛의 색이에요. 가로축은 진동수, 무지개 띠는 가시광선이고, 절대온도를 3,000 K에서 15,000 K까지 천천히 올려 보세요.
+
+<S n={2}>
+
+곡선의 꼭대기가 진동수가 높은 쪽으로 옮겨 가요. 색 견본은 주황에서 흰빛을 지나 푸르스름해지죠. 곡선은 늘 꼭대기를 같은 높이로 맞춰 그렸고, 실제 세기는 아래 글에 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="세 온도의 흑체">
+  <Fragment slot="visual">
+    <Plot
+      alt="3000 K, 4500 K, 6000 K 흑체의 곡선. 온도가 오르면 곡선이 크게 높아지고 꼭대기가 가시광선 쪽으로 옮겨 간다"
+      x={[0, 1000]} y={[0, 1.1]}
+      xLabel="진동수 (1초에 진동하는 횟수, 조 번)" yLabel="빛의 세기 (6000 K의 꼭대기를 1로)" xq="time" yq="energy"
+      xTicks={[0, 200, 400, 600, 800, 1000]} yTicks={[0, 0.5, 1]}
+      axisSteps={[1, 1]}
+      bands={[{ x0: 400, x1: 750, rainbow: true, label: '가시광선' }]}
+      curves={[
+        { fn: 'x*x*x/(exp(48*x/3000)-1)/2.78e6', q: 'heat', step: 2, label: '3000 K', labelAt: [120, 0.18] },
+        { fn: 'x*x*x/(exp(48*x/4500)-1)/2.78e6', q: 'heat', step: 3, label: '4500 K', labelAt: [250, 0.47] },
+        { fn: 'x*x*x/(exp(48*x/6000)-1)/2.78e6', q: 'heat', step: 4, label: '6000 K', labelAt: [250, 1.04] },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+같은 그래프에 세 온도를 함께 그렸어요. 무지개 띠가 가시광선이에요.
+
+</S>
+
+<S n={2}>
+
+3,000 K의 곡선은 낮고, 꼭대기가 가시광선보다 낮은 적외선에 있어요.
+
+</S>
+
+<S n={3}>
+
+4,500 K는 곡선이 훨씬 높아지고, 꼭대기가 가시광선 쪽으로 다가와요.
+
+</S>
+
+<S n={4}>
+
+6,000 K에서는 꼭대기가 가시광선 바로 앞이고, 곡선이 가시광선 전체를 넉넉히 덮어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="빈의 법칙">
+  <Fragment slot="visual">
+    <Define term="wien-law" />
+  </Fragment>
+
+1893년 독일의 빌헬름 빈은 흑체가 가장 세게 내는 빛이 바뀌는 규칙을 찾았어요. 가장 세게 나오는 진동수는 절대온도에 비례해요. 이걸 **빈의 법칙**이라고 해요.
+
+<S n={2}>
+
+가장 센 진동수는 절대온도 1 K마다 약 590억 Hz씩 높아져요. 절대온도가 2배면 가장 센 진동수도 2배죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="태양 빛에서 가장 센 진동수">
+  <Fragment slot="visual">
+    <BigNumber top="태양 겉 (약 5,800 K)이 가장 세게 내는 빛" value="1초에 약 340조 번" bottom="5,800 × 5.9 × 10¹⁰ Hz ≈ 3.4 × 10¹⁴ Hz" q="time" />
+  </Fragment>
+
+태양의 겉은 약 5,800 K예요. 가장 센 진동수는 5,800 × 5.9 × 10¹⁰ ≈ 3.4 × 10¹⁴ Hz, 1초에 약 340조 번이에요.
+
+<S n={2}>
+
+가시광선이 400조 번부터니까 가장 센 빛은 빨강 바로 아래 적외선이에요. 그래도 곡선이 넓어서 가시광선의 모든 색이 세게 나오고, 그래서 햇빛은 흰빛이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="다른 책의 초록빛">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '진동수로 그리면', caption: '가장 센 빛이 적외선 가까이에 있어요' },
+      { big: '파장으로 그리면', caption: '가장 센 빛이 초록 근처에 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+다른 책에서 햇빛은 초록빛에서 가장 세다는 말을 볼 수 있어요. 저도 처음엔 이 책과 달라서 헷갈렸어요.
+
+그 책들은 빛을 파장으로 나눠 셌기 때문이에요. 같은 빛도 무엇으로 나눠 세느냐에 따라 가장 센 자리가 달라져요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="10,000 K 별의 빛">
+
+<Numeric id="q28-peak" answer={588} tol={0.03} unit="조 번">
+
+흑체가 가장 세게 내는 빛의 진동수는 약 5.88 × 10¹⁰ Hz × 절대온도예요. 겉 온도가 10,000 K인 별이 가장 세게 내는 빛은 1초에 몇 조 번 진동할까요? (1조 = 10¹²)
+
+<Fragment slot="solution">
+
+5.88 × 10¹⁰ × 10⁴ = 5.88 × 10¹⁴ Hz, 1초에 약 588조 번이에요. 가시광선의 초록에서 파랑 사이예요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="observe" title="세 별을 골라 보기">
+  <Fragment slot="visual">
+    <SimP02Blackbody k={5800} stars />
+  </Fragment>
+
+이번엔 베텔게우스, 태양, 리겔을 차례로 눌러 보세요. 곡선의 꼭대기와 색 견본을 견줘 보세요.
+
+<S n={2}>
+
+베텔게우스는 꼭대기가 적외선에 깊이 있고 붉은빛이에요. 리겔은 꼭대기가 가시광선의 보라 쪽 끝에 있고 푸르스름하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="별빛으로 잰 온도">
+  <Fragment slot="visual">
+    <DataTable caption="별의 겉 온도 (어림)" head={['별', '보이는 색', '겉 온도', '가장 센 진동수']} rows={[
+      ['베텔게우스', '붉은빛', '약 3,600 K', '약 210조 번'],
+      ['태양', '흰빛', '약 5,800 K', '약 340조 번'],
+      ['시리우스', '흰빛', '약 9,900 K', '약 580조 번'],
+      ['리겔', '푸른 흰빛', '약 12,000 K', '약 710조 번'],
+    ]} steps={[undefined, undefined, 2, 2]} />
+  </Fragment>
+
+별은 흑체와 꽤 비슷하게 빛을 내요. 그래서 별빛의 색과 곡선을 재면 겉 온도를 알 수 있어요.
+
+<S n={2}>
+
+푸른 별일수록 뜨겁고, 붉은 별일수록 차가워요. 일상에서 붉은색을 '뜨거운 색', 파란색을 '차가운 색'이라고 부르는 것과 거꾸로죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="더 뜨거운 별">
+
+<Check id="q28-star" options={[
+  { t: '푸르스름한 리겔', ok: true, why: '가장 센 진동수는 절대온도에 비례해요. 진동수가 높은 푸른빛 쪽으로 치우친 리겔이 더 뜨거워요.' },
+  { t: '붉은 베텔게우스', why: '붉은빛은 진동수가 낮은 빛이에요. 가장 센 빛의 진동수가 낮으니 온도가 더 낮아요.' },
+  { t: '둘의 온도는 같아요', why: '색이 다르다는 건 가장 센 진동수가 다르다는 뜻이고, 빈의 법칙에 따라 온도가 달라요.' },
+  { t: '색만으로는 알 수 없어요', why: '별은 흑체에 가까워서 색만으로도 온도를 꽤 정확히 알 수 있어요.' },
+]}>
+
+붉은 베텔게우스와 푸르스름한 리겔 가운데 겉 온도가 더 높은 별은 어느 쪽일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="가 보지 않고 잰 온도">
+  <Fragment slot="visual">
+    <BigNumber top="빛이 약 860년 걸려 오는 별, 리겔의 겉 온도" value="약 12,000 K" bottom="온도계 없이, 빛 한 줄기로 쟀어요" q="heat" />
+  </Fragment>
+
+리겔은 빛이 약 860년 걸려 오는 먼 별이에요. 우리 눈에 닿은 빛은 고려 시대에 리겔을 떠난 빛이죠.
+
+<Key>흑체의 빛은 물질과 상관없이 온도만으로 정해지니까, 수백 년 걸려 온 별빛 한 줄기의 색만 재도 그 별의 겉 온도를 알 수 있어요.</Key>
+
+</Screen>
+
+<Screen kind="check" title="흑체의 빛을 정하는 것">
+
+<Check id="q28-only" options={[
+  { t: '절대온도', ok: true, why: '흑체는 반사하는 빛이 없고, 그 열복사의 곡선은 물질과 상관없이 온도만으로 정해져요.' },
+  { t: '흑체를 만든 물질', why: '키르히호프가 보인 대로, 흑체의 빛은 쇠든 도자기든 같은 온도면 같아요.' },
+  { t: '흑체의 크기', why: '크면 빛의 양은 많아지지만, 진동수마다의 세기 비율, 곧 곡선의 모양은 그대로예요.' },
+  { t: '비추는 빛의 색', why: '흑체는 받은 빛을 모두 흡수하니까, 비추는 빛의 색이 되돌아오지 않아요.' },
+]}>
+
+흑체가 내는 빛의 곡선 모양, 그러니까 진동수마다 얼마나 센지를 정하는 건 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="조명 상자의 K">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-bulb', title: '전구색 2,700 K', caption: '누르스름한 빛' },
+      { icon: 's1-bulb', title: '주광색 6,500 K', caption: '푸르스름한 흰빛', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+LED 조명 상자에는 2,700 K, 6,500 K처럼 K가 붙은 숫자가 적혀 있어요. 흑체를 그 온도로 달궜을 때와 비슷한 색의 빛이라는 뜻이에요.
+
+<S n={2}>
+
+휴대폰 사진 앱이나 화면 설정의 '색온도'도 같은 말이에요. 숫자가 클수록 푸르스름하고, 작을수록 누르스름하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['blackbody', 'wien-law']}>
+
+1. 잘 흡수하는 물체가 잘 내니까, 모든 빛을 흡수하는 흑체가 열복사를 가장 깔끔하게 내요.
+2. 흑체의 빛은 물질과 상관없이 온도만으로 곡선이 정해져요.
+3. 가장 센 진동수는 절대온도에 비례해서(빈의 법칙), 뜨거울수록 빨강에서 흰빛, 푸른빛이 돼요.
+4. 별은 흑체에 가까워서, 별빛의 색으로 별의 겉 온도를 잴 수 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="초록 별은 왜 없을까">
+
+<DailyProblem id="p28">
+
+밤하늘에는 붉은 별, 흰 별, 푸르스름한 별은 있는데 초록 별은 없어요. 가장 센 진동수가 초록 근처(약 570조 번)인 별도 있을 텐데 말이에요.
+
+흑체의 곡선 모양을 떠올리며, 그런 별이 왜 초록이 아니라 흰빛으로 보일지 설명해 보세요.
+
+<Fragment slot="hint1">
+
+시뮬레이션에서 가장 센 빛을 초록 근처에 두면, 빨강과 파랑의 세기는 얼마나 약해지나요? 곡선이 아주 넓었죠.
+
+</Fragment>
+<Fragment slot="solution">
+
+흑체의 곡선은 아주 넓어서, 가장 센 빛이 초록 근처여도 빨강과 파랑도 거의 같은 세기로 함께 나와요.
+
+여러 색이 고르게 섞이면 눈은 흰빛으로 느껴요(17강). 그래서 가장 센 빛이 초록인 별은 흰 별로 보이고, 초록 별은 보이지 않아요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+모든 빛을 흡수하는 흑체의 빛은 온도만으로 정해지고 가장 센 진동수가 절대온도에 비례해서, 별빛의 색만 보고도 별의 겉 온도를 잴 수 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="곡선을 계산하려면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's1-box', title: '달군 상자 속', caption: '빛이 벽 사이에 갇혀 있어요' },
+      { icon: 'guitar', title: '20강의 기타 줄', caption: '갇힌 파동은 정해진 모드로 떨었어요' },
+    ]} />
+  </Fragment>
+
+빈의 법칙은 가장 센 진동수가 어디로 옮겨 가는지 알려 줬어요. 하지만 키르히호프의 숙제, 곡선 전체의 식은 아직이에요. 그 식을 계산으로 얻어 보려면 흑체 상자 속에 무엇이 있는지 알아야 해요.
+
+<S n={2}>
+
+상자 속에는 벽 사이를 오가는 빛이 갇혀 있어요. 다음 강에서는 20강의 기타 줄처럼, 상자 속 빛이 어떤 진동 모드로 떨 수 있는지 세어 볼게요.
+
+</S>
+
+</Screen>

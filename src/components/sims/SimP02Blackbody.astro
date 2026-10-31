@@ -1,0 +1,119 @@
+---
+/**
+ * 28강: 흑체가 내는 빛. 절대온도를 바꾸면 진동수에 따른 빛의 세기 곡선과, 그 빛이 눈에 보이는 색이 바뀐다.
+ * 가장 세게 나오는 진동수는 절대온도에 비례한다(빈의 법칙). 곡선은 매번 꼭대기가 같은 높이가 되게 맞춰 그리고,
+ * 실제 세기가 얼마나 다른지는 아래 글로 알려 준다(절대온도의 네제곱).
+ */
+interface Props {
+  k?: number;
+  stars?: boolean;
+}
+const { k = 3000, stars = false } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-blackbody class="sim" data-ratio="0.66" data-autoplay="false">
+  <canvas aria-label="흑체가 진동수마다 얼마나 세게 빛을 내는지 그린 곡선과 그 빛의 색. 가로축은 진동수이고 가시광선 구간에 무지개 띠가 있다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`bb-k-${uid}`}>절대온도</label>
+      <input id={`bb-k-${uid}`} type="range" min="1000" max="15000" step="100" value={k} data-param="k" />
+      <output data-out="k"></output>
+    </div>
+    {stars && (
+      <div class="sim__buttons" aria-label="별 고르기">
+        <button type="button" class="btn" data-set="k=3600">베텔게우스</button>
+        <button type="button" class="btn" data-set="k=5800">태양</button>
+        <button type="button" class="btn" data-set="k=12000">리겔</button>
+      </div>
+    )}
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-blackbody>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const FMAX = 1500; // 조 Hz
+  /** 진동수 f(조 Hz)에서 절대온도 T 흑체의 세기 (상대값) */
+  const planck = (f: number, T: number) => (f <= 0 ? 0 : (f * f * f) / Math.expm1((48 * f) / T));
+  /** 색온도를 대략의 RGB로 (Tanner Helland의 근사식) */
+  function kelvinRgb(T: number) {
+    const t = T / 100;
+    const r = t <= 66 ? 255 : 329.698727446 * Math.pow(t - 60, -0.1332047592);
+    const g = t <= 66 ? 99.4708025861 * Math.log(t) - 161.1195681661 : 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+    const b = t >= 66 ? 255 : t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307;
+    const c = (v: number) => Math.max(0, Math.min(255, Math.round(v)));
+    return `rgb(${c(r)},${c(g)},${c(b)})`;
+  }
+  function band(f: number) {
+    if (f < 400) return '적외선';
+    if (f <= 750) return '가시광선';
+    return '자외선';
+  }
+
+  class SimBlackbody extends Sim {
+    animated = false;
+
+    peak() {
+      return 0.0588 * this.p.k!;
+    }
+
+    format() {
+      return `${this.p.k!.toLocaleString('ko-KR')} K`;
+    }
+
+    readout() {
+      const T = this.p.k!;
+      const fp = Math.round(this.peak());
+      const vsSun = Math.pow(T / 5800, 4);
+      return `가장 세게 나오는 진동수: 1초에 약 ${fp}조 번 (${band(fp)}) · 같은 넓이에서 내는 빛은 태양 겉의 약 ${vsSun < 0.1 ? vsSun.toFixed(3) : vsSun.toFixed(1)}배`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const T = this.p.k!;
+      const left = 14;
+      const right = w - 14;
+      const top = 54;
+      const bot = h - 26;
+      const X = (f: number) => left + (f / FMAX) * (right - left);
+      // 가시광선 띠
+      const grad = g.createLinearGradient(X(400), 0, X(750), 0);
+      ['#b00000', '#ff6a00', '#ffd400', '#36c23a', '#2e7bff', '#6a2bd9'].forEach((col, i, a) => grad.addColorStop(i / (a.length - 1), col));
+      g.fillStyle = grad;
+      g.globalAlpha = 0.22;
+      g.fillRect(X(400), top, X(750) - X(400), bot - top);
+      g.globalAlpha = 1;
+      this.text('가시광선', (X(400) + X(750)) / 2, bot + 14, c.text2, 10, 'center');
+      this.text('적외선', X(150), bot + 14, c.muted, 10, 'center');
+      this.text('자외선', X(1100), bot + 14, c.muted, 10, 'center');
+      this.line(left, bot, right, bot, c.text2, 1);
+      // 곡선 (꼭대기 높이를 맞춘다)
+      const pmax = planck(this.peak(), T);
+      g.strokeStyle = c.heat;
+      g.lineWidth = 2.5;
+      g.beginPath();
+      for (let px = 0; px <= right - left; px += 2) {
+        const f = (px / (right - left)) * FMAX;
+        const y = bot - (planck(f, T) / pmax) * (bot - top) * 0.95;
+        if (px === 0) g.moveTo(left + px, y);
+        else g.lineTo(left + px, y);
+      }
+      g.stroke();
+      // 꼭대기 표시
+      const xp = X(this.peak());
+      g.setLineDash([4, 3]);
+      this.line(xp, top, xp, bot, c.text2, 1);
+      g.setLineDash([]);
+      // 색 견본
+      g.fillStyle = kelvinRgb(T);
+      g.beginPath();
+      g.arc(right - 22, 26, 16, 0, Math.PI * 2);
+      g.fill();
+      this.text('이 온도의 빛', right - 44, 26, c.text2, 11, 'right');
+      this.text('진동수 →', left, 26, c.muted, 10);
+    }
+  }
+  define('qm-sim-blackbody', SimBlackbody);
+</script>
