@@ -1,0 +1,97 @@
+---
+/**
+ * 47강: 드브로이 파장 λ = h ÷ p. 물체를 고르면 운동량과 파장을 계산하고,
+ * 10의 거듭제곱으로 눈금을 매긴 자(10⁻³⁵ m ~ 1 m) 위에 원자핵, 원자, 머리카락 같은 크기와 함께 표시한다.
+ */
+---
+<qm-sim-debroglie class="sim" data-ratio="0.56">
+  <canvas aria-label="왼쪽 끝이 10⁻³⁵ m, 오른쪽 끝이 1 m인 10의 거듭제곱 자. 원자핵, 원자, 바이러스, 머리카락, 사람의 크기가 표시되어 있고, 고른 물체의 드브로이 파장이 화살표로 표시된다."></canvas>
+  <input type="hidden" data-param="o" value="0" />
+  <div class="sim__buttons" aria-label="물체 고르기">
+    <button type="button" class="btn" data-set="o=0" aria-pressed="true">야구공</button>
+    <button type="button" class="btn" data-set="o=1" aria-pressed="false">먼지 한 톨</button>
+    <button type="button" class="btn" data-set="o=2" aria-pressed="false">공기 분자</button>
+    <button type="button" class="btn" data-set="o=3" aria-pressed="false">100 V 전자</button>
+    <button type="button" class="btn" data-set="o=4" aria-pressed="false">원자 속 전자</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-debroglie>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const H = 6.63e-34;
+  // [이름, 질량(kg), 빠르기(m/s), 설명]
+  const OBJ: [string, number, number, string][] = [
+    ['야구공', 0.145, 40, '시속 144 km로 던진 공'],
+    ['먼지 한 톨', 1e-9, 0.001, '1 μg, 1초에 1 mm'],
+    ['공기 분자', 4.65e-26, 500, '질소 분자, 1초에 500 m'],
+    ['100 V 전자', 9.11e-31, 5.93e6, '전압 100 V로 가속한 전자'],
+    ['원자 속 전자', 9.11e-31, 2.2e6, '수소 원자 속 전자 (40강)'],
+  ];
+  const MARKS: [string, number][] = [
+    ['원자핵', 1e-14],
+    ['원자', 1e-10],
+    ['바이러스', 1e-7],
+    ['머리카락', 1e-4],
+    ['사람', 1],
+  ];
+
+  function sci(x: number) {
+    const e = Math.floor(Math.log10(x));
+    if (e >= -2 && e <= 3) return String(Number(x.toPrecision(2)));
+    const m = x / 10 ** e;
+    const sup = String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(d)]!);
+    return `${m.toFixed(1)} × 10${sup}`;
+  }
+
+  class SimDeBroglie extends Sim {
+    animated = false;
+
+    obj() {
+      return OBJ[this.p.o!] ?? OBJ[0]!;
+    }
+
+    readout() {
+      const [name, m, v, note] = this.obj();
+      const p = m * v;
+      return `${name} (${note}): 운동량 p = ${sci(m)} kg × ${sci(v)} m/s ≈ ${sci(p)} kg·m/s → 파장 = h ÷ p ≈ ${sci(H / p)} m`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const x0 = 18;
+      const x1 = w - 18;
+      const L0 = -35;
+      const L1 = 0;
+      const X = (len: number) => x0 + ((Math.log10(len) - L0) / (L1 - L0)) * (x1 - x0);
+      const y = h * 0.55;
+      // 자
+      this.line(x0, y, x1, y, c.text2, 2);
+      for (let e = L0; e <= L1; e += 5) {
+        const x = X(10 ** e);
+        this.line(x, y - 6, x, y + 6, c.text2, 1.5);
+        const sup = String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(d)]!);
+        this.text(e === 0 ? '1 m' : `10${sup}`, x, y + 18, c.muted, 10, 'center');
+      }
+      for (let e = L0; e <= L1; e++) this.line(X(10 ** e), y - 3, X(10 ** e), y + 3, c.line, 1);
+      // 크기 눈금
+      MARKS.forEach(([name, len], i) => {
+        const x = X(len);
+        this.dot(x, y, 3.5, c.space);
+        this.text(name, x, y + 32 + (i % 2) * 12, c.space, 10, 'center');
+      });
+      // 고른 물체의 파장
+      const [name, m, v] = this.obj();
+      const lam = H / (m * v);
+      const x = X(lam);
+      this.arrow(x, y - 52, x, y - 8, c.accent, 2.5);
+      const tx = Math.max(64, Math.min(w - 64, x));
+      this.text(`${name}의 파장`, tx, y - 64, c.accent, 11, 'center');
+      this.text(`${sci(lam)} m`, tx, y - 78, c.text, 11, 'center');
+      this.text('길이 (오른쪽으로 갈수록 10배씩 길어져요)', (x0 + x1) / 2, h - 8, c.space, 10, 'center');
+    }
+  }
+  define('qm-sim-debroglie', SimDeBroglie);
+</script>

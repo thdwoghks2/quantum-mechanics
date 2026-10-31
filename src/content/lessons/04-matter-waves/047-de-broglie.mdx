@@ -1,0 +1,393 @@
+---
+number: 47
+title: 드브로이 파장
+short: 드브로이 파장
+question: 날아가는 야구공에도 파장이 있을까요?
+mechanism: 빛은 파동인데도 알갱이처럼 운동량 h ÷ 파장을 지녀요. 드브로이는 이를 거꾸로 읽어, 질량이 있는 알갱이도 파장 = h ÷ 운동량인 파동의 성질을 지닌다고 했어요. h가 아주 작아서 야구공처럼 운동량이 큰 물체는 파장이 원자핵보다도 훨씬 짧아 파동다운 모습이 드러나지 않지만, 전자처럼 가벼운 알갱이는 파장이 원자만 해서 원자 사이의 틈에서 회절할 수 있어요.
+part: 4
+year: 1924
+place: 파리
+minutes: 20
+assumes: [compton-scattering, photon, planck-constant, momentum, mass, velocity, wavelength, diffraction, slit, electron, atom, nucleus, power-of-ten, scientific-notation, bohr-model, energy-level]
+introduces: [matter-wave, de-broglie-wavelength]
+sources:
+  - "de Broglie, L. Recherches sur la théorie des quanta (박사 학위 논문, 1924). Annales de Physique 3, 22–128 (1925)"
+  - "Einstein, A. 랑주뱅에게 보낸 1924년 12월 16일의 편지 (Pais, A. Subtle is the Lord (1982), Ch. 24에서 인용)"
+  - "Arndt, M. et al. Wave–particle duality of C60 molecules. Nature 401, 680–682 (1999)"
+  - "MacKinnon, E. De Broglie's thesis: A critical retrospective. American Journal of Physics 44, 1047–1055 (1976)"
+testout: [q47-electron, q47-heavier, q47-faster]
+status: published
+---
+
+<Screen kind="scene" title="야구공과 전자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'ball', title: '날아가는 야구공', caption: '파동처럼 퍼지는 걸 본 사람은 없어요' },
+      { icon: 's2-nucleus', title: '원자 속 전자', caption: '정해진 준위에만 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+투수가 던진 야구공이 문틈을 지나 물결처럼 퍼지는 걸 본 사람은 없어요. 공은 늘 한 길로 날아가죠.
+
+<S n={2}>
+
+그런데 46강 끝에서, 전자가 파동처럼 행동한다면 정해진 준위가 설명될지도 모른다고 했어요. 오늘은 전자와 야구공이 지니는 파장을 계산해 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={36} title="빛의 운동량">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '빛', title: '파동', caption: '간섭하고 회절해요' },
+      { big: 'p = h ÷ 파장', title: '광자 하나의 운동량', caption: '전자에 부딪혀 튕겨 내요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+36강에서 빛이 전자에 부딪히면 알갱이처럼 운동량을 주고받는다고 했어요. 광자 하나의 운동량은 플랑크 상수 h를 빛의 파장으로 나눈 값이었죠.
+
+<S n={2}>
+
+빛은 간섭하고 회절하는 파동이면서, 알갱이처럼 운동량도 지니고 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="거꾸로 생각하기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '파동인 빛', caption: '알갱이처럼 운동량을 지녀요', tone: 'ok' },
+      { big: '알갱이인 전자', caption: '파동처럼 파장을 지닐까요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1924년 루이 드브로이는 이 관계를 거꾸로 읽어 봤어요. 파동인 빛이 알갱이처럼 행동한다면, 알갱이인 전자도 파동처럼 행동하지 않을까요?
+
+<S n={2}>
+
+자연이 빛과 물질에 서로 다른 규칙을 쓸 까닭이 없다고 본 거예요. 대담한 짐작이었지만, 시험해 볼 수 있는 짐작이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="역사학도였던 물리학자">
+  <Fragment slot="visual">
+    <BigNumber top="루이 드브로이가 박사 학위 논문을 발표한 해" value="1924" bottom="프랑스 파리 대학" />
+  </Fragment>
+
+드브로이는 프랑스의 귀족 집안 출신으로, 대학에서는 처음에 역사를 공부했어요. 그러다 물리학으로 방향을 바꿨고, 1924년 박사 학위 논문에 이 생각을 담았어요.
+
+<S n={2}>
+
+심사 위원들은 이 생각이 맞는지 확신하지 못했어요. 그래서 논문을 아인슈타인에게 보내 의견을 물었고, 아인슈타인은 이 논문이 커다란 장막의 한 귀퉁이를 들어 올렸다며 높이 평가했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="드브로이의 식">
+  <Fragment slot="visual">
+    <BigNumber top="질량이 있는 알갱이의 파장" value="파장 = h ÷ 운동량" bottom="운동량 = 질량 × 속도 (7강)" q="space" />
+  </Fragment>
+
+드브로이의 식은 빛의 식을 그대로 뒤집은 모양이에요. 파장 = h ÷ 운동량이고, 운동량은 7강에서 배운 질량 × 속도예요.
+
+<S n={2}>
+
+그러니 무겁거나 빠를수록 운동량이 커져서 파장이 짧아져요. 가볍고 느릴수록 파장이 길어지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="물질파라는 이름">
+  <Fragment slot="visual">
+    <Define term="matter-wave" />
+  </Fragment>
+
+전자나 원자처럼 질량이 있는 알갱이가 지니는 이 파동의 성질을 **물질파**라고 불러요. 빛의 파동과 구별하려고 붙인 이름이에요.
+
+</Screen>
+
+<Screen kind="define" title="드브로이 파장이라는 이름">
+  <Fragment slot="visual">
+    <Define term="de-broglie-wavelength" />
+  </Fragment>
+
+물질파의 파장, 곧 h ÷ 운동량을 **드브로이 파장**이라고 해요.
+
+<Key>파동인 빛이 알갱이처럼 운동량 h ÷ 파장을 지니듯이, 질량이 있는 알갱이도 파장 = h ÷ 운동량인 물질파를 지녀서, 가볍고 느릴수록 파장이 길어요.</Key>
+
+</Screen>
+
+<Screen kind="worked" title="야구공의 파장">
+  <Fragment slot="visual">
+    <DataTable caption="시속 144 km로 던진 야구공" head={['재는 것', '값']} rows={[
+      ['질량', '0.145 kg'],
+      ['빠르기', '40 m/s'],
+      ['운동량 = 질량 × 빠르기', '5.8 kg·m/s'],
+      ['파장 = h ÷ 운동량', '6.63 × 10⁻³⁴ ÷ 5.8 ≈ 1.1 × 10⁻³⁴ m'],
+    ]} highlight={[3]} />
+  </Fragment>
+
+먼저 야구공이에요. 질량 0.145 kg인 공을 1초에 40 m, 시속 144 km로 던지면 운동량은 0.145 × 40 = 5.8 kg·m/s예요.
+
+<S n={2}>
+
+파장은 6.63 × 10⁻³⁴ ÷ 5.8 ≈ 1.1 × 10⁻³⁴ m예요. h가 워낙 작아서, 운동량이 큰 물체의 파장은 터무니없이 짧아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="얼마나 짧을까">
+  <Fragment slot="visual">
+    <BigNumber top="야구공의 파장을 원자핵(약 10⁻¹⁵ m)과 견주면" value="10¹⁹분의 1" bottom="원자핵을 지구만큼 키워도 이 파장은 원자핵보다 작아요" q="space" />
+  </Fragment>
+
+1.1 × 10⁻³⁴ m는 원자핵 크기의 10¹⁹분의 1쯤이에요. 원자핵을 지구만큼 키워도, 야구공의 파장은 여전히 원자핵 하나보다 작아요.
+
+<S n={2}>
+
+야구공에도 파장은 있지만, 너무 짧아서 어떤 실험으로도 그 흔적을 볼 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="전자의 파장">
+  <Fragment slot="visual">
+    <DataTable caption="전압 100 V로 가속한 전자" head={['재는 것', '값']} rows={[
+      ['질량', '9.11 × 10⁻³¹ kg'],
+      ['빠르기', '약 5.9 × 10⁶ m/s'],
+      ['운동량', '약 5.4 × 10⁻²⁴ kg·m/s'],
+      ['파장 = h ÷ 운동량', '약 1.2 × 10⁻¹⁰ m = 0.12 nm'],
+    ]} highlight={[3]} />
+  </Fragment>
+
+이번엔 전자예요. 전압 100 V로 가속한 전자는 1초에 약 590만 m를 날아가요. 운동량은 9.11 × 10⁻³¹ × 5.9 × 10⁶ ≈ 5.4 × 10⁻²⁴ kg·m/s예요.
+
+<S n={2}>
+
+파장은 6.63 × 10⁻³⁴ ÷ (5.4 × 10⁻²⁴) ≈ 1.2 × 10⁻¹⁰ m, 곧 0.12 nm예요. 원자 하나의 크기와 비슷하죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="파장의 자">
+  <Fragment slot="visual">
+    <SimP04DeBroglie />
+  </Fragment>
+
+2강에서 배운 10의 거듭제곱으로 눈금을 매긴 자예요. 눈금 하나를 지날 때마다 길이가 10배씩 늘어요. 물체를 바꿔 가며 파장이 어디에 오는지 보세요.
+
+<S n={2}>
+
+야구공과 먼지의 파장은 원자핵보다도 훨씬 짧아요. 전자의 파장만 원자의 크기 근처에 와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="원자 속 전자의 파장">
+
+<Numeric id="q47-electron" answer={0.33} tol={0.05} unit="nm">
+
+40강에서 수소 원자 속 전자의 빠르기를 약 2.2 × 10⁶ m/s로 계산했어요. 전자의 질량은 9.11 × 10⁻³¹ kg, h는 6.63 × 10⁻³⁴ J·s예요. 이 전자의 드브로이 파장은 몇 nm일까요? (1 nm = 10⁻⁹ m)
+
+<Fragment slot="solution">
+
+운동량 = 9.11 × 10⁻³¹ × 2.2 × 10⁶ ≈ 2.0 × 10⁻²⁴ kg·m/s예요. 파장 = 6.63 × 10⁻³⁴ ÷ (2.0 × 10⁻²⁴) ≈ 3.3 × 10⁻¹⁰ m = 0.33 nm예요. 수소 원자 크기의 몇 배쯤이라, 원자 속에서는 파동다운 모습이 무시할 수 없을 만큼 커요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="recall" from={15} title="회절이 잘 보이는 조건">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'wall', title: '소리', caption: '파장이 문 폭만 해서 문 뒤로 돌아 들어가요' },
+      { icon: 'sun', title: '빛', caption: '파장이 문 폭보다 훨씬 짧아서 거의 곧게 가요' },
+    ]} />
+  </Fragment>
+
+15강에서 파동은 틈을 지나며 퍼지는데, 틈의 폭이 파장과 비슷하거나 작을 때 많이 퍼진다고 했어요. 그래서 소리는 문 뒤로 돌아 들어가도 빛은 거의 곧게 가죠.
+
+<S n={2}>
+
+파동다운 모습이 드러나려면, 파동이 지나는 틈이나 장애물이 그 파장과 비슷한 크기여야 해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="야구공이 회절하지 않는 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '야구공', caption: '10⁻³⁴ m만 한 틈이 있어야 해요', tone: 'no' },
+      { big: '전자', caption: '10⁻¹⁰ m만 한 틈이면 돼요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+야구공이 눈에 띄게 회절하려면 폭이 10⁻³⁴ m쯤인 틈이 필요해요. 그런 틈은 원자핵보다도 훨씬 작아서 만들 수가 없어요.
+
+<S n={2}>
+
+그래서 야구공은 늘 알갱이처럼 한 길로 날아가요. 전자라면 사정이 달라요. 10⁻¹⁰ m쯤의 틈만 있으면 되는데, 그건 결정 속 원자들 사이의 간격이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="더 무거운 알갱이">
+
+<Check id="q47-heavier" options={[
+  { t: 'B의 파장이 A의 절반이에요.', ok: true, why: '같은 빠르기에서 질량이 2배면 운동량도 2배예요. 파장은 h ÷ 운동량이니 절반이 돼요.' },
+  { t: 'B의 파장이 A의 2배예요.', why: '무거울수록 운동량이 커서 파장은 짧아져요.' },
+  { t: '둘의 파장이 같아요.', why: '빠르기가 같아도 질량이 다르면 운동량이 달라서 파장도 달라요.' },
+  { t: 'B는 무거워서 파장이 없어요.', why: '질량이 있는 알갱이는 모두 파장을 지녀요. 무거울수록 짧아질 뿐이에요.' },
+]}>
+
+알갱이 A와 B가 같은 빠르기로 날아가요. B의 질량은 A의 2배예요. 두 알갱이의 드브로이 파장은 어떻게 다를까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="더 빠른 전자">
+
+<Check id="q47-faster" options={[
+  { t: '전자를 더 빠르게 해서 파장을 짧게 해요.', ok: true, why: '빠를수록 운동량이 커져서 드브로이 파장이 짧아져요.' },
+  { t: '전자를 더 느리게 해서 파장을 짧게 해요.', why: '느릴수록 운동량이 작아져서 파장은 길어져요.' },
+  { t: '전자를 더 많이 쏴서 파장을 짧게 해요.', why: '전자의 개수는 파장과 상관없어요. 전자 하나의 운동량이 파장을 정해요.' },
+  { t: '전자의 파장은 바꿀 수 없어요.', why: '빠르기를 바꾸면 운동량이 바뀌고, 파장도 바뀌어요.' },
+]}>
+
+전자의 드브로이 파장을 지금의 절반으로 짧게 하고 싶어요. 어떻게 하면 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="빛과 물질">
+  <Fragment slot="visual">
+    <DataTable caption="두 식은 같은 관계를 양쪽에서 읽은 거예요" head={['', '처음 알던 모습', '새로 드러난 모습']} rows={[
+      ['빛', '파동 (16강)', '운동량 = h ÷ 파장 (36강)'],
+      ['전자', '알갱이 (37강)', '파장 = h ÷ 운동량 (오늘)'],
+    ]} />
+  </Fragment>
+
+빛은 파동으로 먼저 알려졌다가 알갱이다운 모습이 드러났어요. 전자는 알갱이로 먼저 알려졌는데, 이제 파동다운 모습을 지닐 차례예요.
+
+<S n={2}>
+
+두 식은 사실 하나의 관계예요. 파장 × 운동량 = h. 빛이든 전자든 이 관계를 따른다는 게 드브로이의 생각이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="무엇이 출렁일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '✕', title: '구불구불 날아가는 전자', caption: '이런 그림이 아니에요', tone: 'no' },
+      { big: '?', title: '파동처럼 퍼지는 무언가', caption: '58강에서 다뤄요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 처음에 전자가 뱀처럼 구불구불 날아가는 모습을 떠올렸어요. 그런데 전자는 언제 재도 알갱이 하나로 발견되니까, 그런 뜻이 아니에요.
+
+파동처럼 퍼지는 게 무엇인지는 드브로이도 몰랐어요. 그 답은 50강부터 차근차근 찾아가요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="축구공 모양 분자의 회절">
+  <Fragment slot="visual">
+    <BigNumber top="탄소 원자 60개로 된 분자가 간섭 무늬를 만든 해" value="1999" bottom="오스트리아 빈 대학 연구진, 분자 하나의 지름 약 1 nm" />
+  </Fragment>
+
+드브로이의 식은 전자에서 끝나지 않아요. 원자도, 분자도 파장을 지녀요.
+
+<S n={2}>
+
+1999년 오스트리아 빈의 연구진은 탄소 원자 60개가 축구공 모양으로 묶인 분자를 아주 가는 틈들에 보냈어요. 분자들은 파동처럼 회절해서 간섭 무늬를 만들었고, 그 간격은 드브로이 파장으로 계산한 값과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['matter-wave', 'de-broglie-wavelength']}>
+
+1. 파동인 빛이 운동량 h ÷ 파장을 지니니, 드브로이는 알갱이도 파장을 지닐 거라고 거꾸로 생각했어요.
+2. 그래서 질량이 있는 알갱이의 파장은 h ÷ 운동량이고, 이것이 물질파의 드브로이 파장이에요.
+3. h가 아주 작으니 야구공의 파장은 10⁻³⁴ m쯤이라, 회절할 틈을 만들 수 없어 파동다운 모습이 안 보여요.
+4. 가벼운 전자의 파장은 원자만 해서, 원자 사이의 틈에서는 파동다운 모습이 드러날 수 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="전자로 보는 현미경">
+
+<DailyProblem id="p47">
+
+빛으로 보는 현미경은 빛의 파장보다 훨씬 작은 것을 또렷하게 보지 못해요. 그런데 전자현미경은 바이러스나 원자의 배열처럼 아주 작은 것도 보여 줘요. 전자현미경 속 전자는 수만 V 이상의 아주 높은 전압으로 가속해요. 왜 그렇게 할까요?
+
+<Fragment slot="hint1">
+
+15강에서 파동은 자기 파장보다 훨씬 작은 것을 만나면 그냥 돌아 지나가 버린다고 했어요. 그러니 작은 것을 보려면 파장이 짧아야 해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+전압을 높이면 전자가 빨라지고, 운동량이 커져서 드브로이 파장이 짧아져요. 수만 V로 가속한 전자의 파장은 0.01 nm보다도 짧아서, 눈에 보이는 빛의 파장(약 400~700 nm)보다 수만 배 짧아요.
+
+파장이 짧을수록 더 작은 것을 또렷하게 볼 수 있으니, 전자현미경은 빛 대신 빠른 전자의 물질파를 써서 원자 수준까지 들여다봐요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+질량이 있는 알갱이도 파장 = h ÷ 운동량인 물질파를 지니는데, 야구공은 너무 짧아서 안 보이고 전자는 원자만 해서 드러날 수 있어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="0.33 nm의 비밀">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '0.33 nm', title: '원자 속 전자의 파장', caption: '오늘 계산한 값' },
+      { big: '0.33 nm', title: '보어의 원 둘레', caption: '2 × 3.14 × 0.053 nm', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+방금 원자 속 전자의 파장을 약 0.33 nm로 계산했어요. 그런데 44강에서 바닥상태의 반지름은 0.053 nm였죠. 그 원의 둘레를 재면 2 × 3.14 × 0.053 ≈ 0.33 nm예요.
+
+<S n={2}>
+
+파장과 둘레가 똑같아요. 우연일까요? 다음 강에서는 20강의 진동 모드와 44강의 에너지 준위를 이어서, 보어의 원을 전자의 정상파로 다시 봐요.
+
+</S>
+
+</Screen>
