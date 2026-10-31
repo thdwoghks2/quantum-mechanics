@@ -1,0 +1,117 @@
+---
+/**
+ * 거슬러 올라가는 우주(126강). 슬라이더로 우주가 지금보다 몇 분의 1 크기였던 때로 돌아간다.
+ * 우주가 작을수록 그 안의 빛은 덜 늘어나 있어서 온도가 높다(온도 = 2.725 K × 지금 크기 ÷ 그때 크기).
+ * 위 띠는 그 온도의 흑체가 내는 빛의 색, 아래는 같은 빛의 파동 한 줄이다. 3,000 K보다 뜨거우면
+ * 전자가 원자에 붙지 못해 빛이 곧게 가지 못한다(안개).
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p15-cool class="sim" data-ratio="0.62" data-autoplay="false">
+  <canvas aria-label="우주를 거슬러 올라갈수록 우주 배경 복사의 온도가 높아지고, 빛의 파장이 짧아지며, 3,000 K 근처에서는 주황빛으로 빛나요. 그보다 뜨거우면 안개처럼 불투명해요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`cool-${uid}`}>거슬러 올라가기</label>
+      <input id={`cool-${uid}`} type="range" min="0" max="100" step="1" value="0" data-param="k" />
+      <output data-out="k"></output>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p15-cool>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const T0 = 2.725;
+  const ZMAX = 1500;
+
+  /** 흑체의 색(어림). 1,000~40,000 K에서 쓰는 잘 알려진 근사식이다. */
+  function bbColor(T: number): [number, number, number] {
+    const t = T / 100;
+    let r: number;
+    let g: number;
+    let b: number;
+    if (t <= 66) {
+      r = 255;
+      g = 99.4708025861 * Math.log(t) - 161.1195681661;
+    } else {
+      r = 329.698727446 * Math.pow(t - 60, -0.1332047592);
+      g = 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+    }
+    if (t >= 66) b = 255;
+    else if (t <= 19) b = 0;
+    else b = 138.5177312231 * Math.log(t - 10) - 305.0447927307;
+    const k = (v: number) => Math.max(0, Math.min(255, v));
+    return [k(r), k(g), k(b)];
+  }
+
+  class SimP15Cool extends Sim {
+    animated = false;
+
+    get grow() {
+      // 1 + z: 그때보다 지금 우주가 몇 배 큰지
+      return Math.pow(ZMAX, (this.p.k ?? 0) / 100);
+    }
+
+    get T() {
+      return T0 * this.grow;
+    }
+
+    format() {
+      const g = this.grow;
+      return g < 1.05 ? '지금' : `지금의 1/${g < 10 ? g.toFixed(1) : Math.round(g).toLocaleString('ko-KR')}`;
+    }
+
+    readout() {
+      const T = this.T;
+      const nu = 58.79e9 * T;
+      const nuText = nu >= 1e12 ? `${Math.round(nu / 1e12).toLocaleString('ko-KR')}조` : `${Math.round(nu / 1e8).toLocaleString('ko-KR')}억`;
+      const tText = T < 100 ? T.toFixed(1) : Math.round(T).toLocaleString('ko-KR');
+      const fog = T > 3000 ? ' · 전자가 원자에 붙지 못해 빛이 곧게 가지 못해요' : '';
+      return `온도 ${tText} K · 가장 세게 나오는 빛은 1초에 ${nuText} 번 진동${fog}`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const T = this.T;
+      // 위 띠: 그 온도의 흑체가 내는 빛의 색. 800 K보다 차가우면 눈에 보이지 않는다.
+      const bandH = h * 0.36;
+      const glow = Math.max(0, Math.min(1, (T - 800) / 1400));
+      const [r, g, b] = bbColor(Math.max(1000, T));
+      ctx.fillStyle = c.ink;
+      ctx.fillRect(12, 12, w - 24, bandH);
+      ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, ${glow})`;
+      ctx.fillRect(12, 12, w - 24, bandH);
+      ctx.strokeStyle = c.line;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(12, 12, w - 24, bandH);
+      this.text(glow > 0.05 ? '눈에 보이는 빛으로 빛나요' : '눈에 보이지 않아요 (진동수가 낮은 전파)', w / 2, 12 + bandH / 2, glow > 0.5 ? c.ink : c.muted, 12, 'center');
+
+      // 아래: 빛의 파동 한 줄. 파장은 우주가 클수록 길다(눈에 보이게 로그로 줄였다).
+      const y0 = 12 + bandH + 18;
+      const mid = y0 + (h - y0 - 24) / 2;
+      const frac = Math.log(this.grow) / Math.log(ZMAX); // 0(지금) ~ 1(가장 이른 때)
+      const lambda = 140 - frac * 128; // 화면에 그리는 파장(px)
+      const amp = (h - y0 - 30) * 0.35;
+      ctx.strokeStyle = c.space;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      for (let x = 12; x <= w - 12; x += 1.5) {
+        const y = mid - amp * Math.sin(((x - 12) / lambda) * Math.PI * 2);
+        if (x === 12) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      this.text('빛의 파장 (우주가 클수록 길게 늘어나요)', 12, y0 - 4, c.space, 10, 'left');
+      if (T > 3000) {
+        ctx.fillStyle = 'rgba(200, 190, 170, 0.35)';
+        ctx.fillRect(12, y0 + 4, w - 24, h - y0 - 20);
+        ctx.fillStyle = 'rgba(13, 12, 10, 0.82)';
+        ctx.fillRect(w / 2 - 150, mid - 13, 300, 26);
+        this.text('안개: 자유로운 전자에 부딪혀 빛이 곧게 못 가요', w / 2, mid, c.text, 12, 'center');
+      }
+      this.text('3,000 K보다 뜨거우면 불투명해요', w - 12, h - 6, T > 3000 ? c.accent : c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-p15-cool', SimP15Cool);
+</script>

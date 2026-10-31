@@ -1,0 +1,457 @@
+---
+number: 126
+title: 우주 배경 복사
+short: 우주 배경 복사
+question: 하늘 어디서나 오는 아주 차가운 빛은 어디서 왔을까요?
+mechanism: 하늘 어느 방향에서나 같은 세기로 오는 전파는 2.725 K의 흑체와 똑같은 모양의 스펙트럼을 가져요. 흑체의 스펙트럼은 온도로만 정해지니까, 이 빛은 온도가 고르게 같던 무언가에서 왔어요. 우주는 처음에 뜨겁고 빽빽해서 빛이 자유로운 전자에 부딪혀 곧게 가지 못했는데, 약 38만 년 뒤 3,000 K쯤으로 식자 전자가 원자에 붙어 빛이 곧게 날기 시작했어요. 그 뒤 우주가 약 1,100배 커지는 동안 빛의 파장도 1,100배 늘어나서, 온도가 3,000 K에서 2.7 K로 떨어졌어요.
+part: 15
+minutes: 20
+assumes: [thermal-radiation, blackbody, wien-law, absolute-temperature, frequency, wavelength, em-wave, radio-wave, infrared, visible-light, spectrum, electron, atom, nucleus]
+introduces: [cmb]
+sources:
+  - "Penzias, A. A. & Wilson, R. W. A Measurement of Excess Antenna Temperature at 4080 Mc/s. The Astrophysical Journal 142, 419–421 (1965)"
+  - "Dicke, R. H., Peebles, P. J. E., Roll, P. G. & Wilkinson, D. T. Cosmic Black-Body Radiation. The Astrophysical Journal 142, 414–419 (1965)"
+  - "Mather, J. C. et al. A Preliminary Measurement of the Cosmic Microwave Background Spectrum by the Cosmic Background Explorer (COBE) Satellite. The Astrophysical Journal Letters 354, L37–L40 (1990)"
+  - "Smoot, G. F. et al. Structure in the COBE Differential Microwave Radiometer First-Year Maps. The Astrophysical Journal Letters 396, L1–L5 (1992)"
+  - "Fixsen, D. J. The Temperature of the Cosmic Microwave Background. The Astrophysical Journal 707, 916–920 (2009): 2.72548 ± 0.00057 K"
+testout: [q126-peak, q126-cold, q126-everywhere]
+status: published
+---
+
+<Screen kind="scene" title="하늘 어디서나">
+  <Fragment slot="visual">
+    <BigNumber top="하늘 어느 방향에서나 같은 세기로 오는 빛의 온도" value="2.725 K" bottom="−270.4 ℃, 절대영도보다 2.7 ℃쯤 높아요" q="heat" />
+  </Fragment>
+
+지난 강 끝에서, 하늘 어디를 보아도 같은 세기로 오는 2.7 K의 빛이 있다고 했어요. 이 빛은 눈에 보이지 않는 전파라서, 맨눈으로는 하늘이 그냥 까맣게 보여요.
+
+<S n={2}>
+
+오늘은 이 빛을 27강과 28강의 열복사로 읽어서, 이 빛이 어디서 왔는지 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="벨 연구소의 안테나">
+  <Fragment slot="visual">
+    <BigNumber top="아노 펜지어스와 로버트 윌슨이 안테나로 이상한 잡음을 잡은 해" value="1964" bottom="미국 뉴저지주 홈델, 벨 연구소" />
+  </Fragment>
+
+1964년, 벨 연구소의 아노 펜지어스와 로버트 윌슨은 위성 통신에 쓰던 커다란 나팔 모양 안테나로 하늘의 전파를 재고 있었어요.
+
+<S n={2}>
+
+그런데 어느 방향으로 안테나를 돌려도 똑같은 크기의 잡음이 들어왔어요. 안테나에 3.5 K쯤 되는 물체가 사방에서 전파를 보내는 것과 같은 세기였죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="비둘기를 내보내도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '방향', caption: '어느 쪽 하늘이나 같아요' },
+      { big: '시간', caption: '낮과 밤, 여름과 겨울에도 같아요' },
+      { big: '청소', caption: '안테나에 둥지를 튼 비둘기를 내보내도 같아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+두 사람은 안테나 속에 둥지를 튼 비둘기를 내보내고, 비둘기가 남긴 것까지 닦아 냈어요. 그래도 잡음은 그대로였어요.
+
+<S n={2}>
+
+잡음은 낮이나 밤이나, 여름이나 겨울이나 같았어요. 그러니 지구나 해, 우리 은하에서 오는 것일 수 없었죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="옆 동네의 물리학자들">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '벨 연구소', caption: '정체 모를 잡음을 잡았어요' },
+      { big: '프린스턴 대학', caption: '그런 빛이 있어야 한다고 짐작하고 찾을 장비를 만들고 있었어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+마침 50 km쯤 떨어진 프린스턴 대학에서는 로버트 디키와 동료들이 이런 빛이 있어야 한다고 짐작하고, 찾을 장비를 만들고 있었어요.
+
+<S n={2}>
+
+두 무리는 연락이 닿자 1965년 같은 학술지에 논문 두 편을 나란히 실었어요. 한 편은 잰 값을, 다른 한 편은 그 뜻을 담았죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={27} title="뜨거운 것은 빛나요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'heater', title: '전기난로', caption: '데우면 붉게 빛나요' },
+      { icon: 'sun', title: '해', caption: '훨씬 뜨거워서 희게 빛나요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+27강에서 온도가 있는 모든 물체는 전자기파를 내놓는다고 배웠어요. 이것이 열복사였죠.
+
+<S n={2}>
+
+온도가 높을수록 더 세게, 그리고 진동수가 더 높은 빛을 많이 내요. 그래서 데운 전기난로는 붉게, 훨씬 뜨거운 해는 희게 빛나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={28} title="흑체와 빈의 법칙">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '흑체', caption: '닿는 빛을 모두 흡수하는 물체' },
+      { big: '온도만으로', caption: '내놓는 빛의 스펙트럼이 정해져요' },
+      { big: '빈의 법칙', caption: '가장 세게 나오는 진동수는 온도에 비례해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+28강의 흑체는 닿는 빛을 모두 흡수하는 물체예요. 흑체가 내놓는 빛의 스펙트럼은 무엇으로 만들었는지와 상관없이 온도만으로 정해져요.
+
+<S n={2}>
+
+그리고 빈의 법칙에 따라, 가장 세게 나오는 빛의 진동수는 절대온도에 비례해요. 1 K마다 1초에 약 588억 번씩 높아지죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="스펙트럼으로 온도 읽기">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '여러 진동수에서', caption: '빛의 세기를 재요' },
+      { big: '흑체 곡선과 맞으면', caption: '그 곡선의 온도가 빛을 낸 물체의 온도예요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+그러니 하늘에서 오는 이 빛을 여러 진동수에서 재 보면, 그 빛이 흑체에서 나왔는지 알 수 있어요. 흑체 곡선과 맞는다면 그 곡선의 온도도 알 수 있죠.
+
+<S n={2}>
+
+펜지어스와 윌슨은 진동수 하나에서만 쟀어요. 여러 진동수에서 재려면 공기가 이 빛을 가리지 않는 우주로 나가야 했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="코비 위성">
+  <Fragment slot="visual">
+    <BigNumber top="코비(COBE) 위성이 하늘의 빛 스펙트럼을 처음 발표한 해" value="1990" bottom="1989년 11월에 쏘아 올렸어요" />
+  </Fragment>
+
+미국 항공우주국은 1989년 코비 위성을 쏘아 올렸어요. 존 매더가 이끈 연구진은 이 위성으로 하늘의 빛을 여러 진동수에서 쟀죠.
+
+<S n={2}>
+
+1990년 1월, 매더는 첫 결과를 학회에서 발표했어요. 잰 점들이 흑체 곡선 위에 정확히 올라앉아 있었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="완벽한 흑체">
+  <Fragment slot="visual">
+    <Plot
+      alt="진동수에 따른 빛의 세기. 2.725 K 흑체 곡선이 1초에 약 1,600억 번 진동하는 곳에서 가장 높고, 잰 점들이 곡선 위에 올라앉아 있다"
+      x={[0, 700]} y={[0, 1.15]}
+      xLabel="진동수 (1초에 진동하는 횟수, 10억 Hz)" yLabel="빛의 세기 (가장 센 값을 1로)" xq="time" yq="energy"
+      xTicks={[0, 160, 300, 500, 700]} yTicks={[0, 0.5, 1]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'x<=0 ? 0 : pow(x,3)/(exp(0.01761*x)-1)/259600', q: 'energy', step: 2, label: '2.725 K 흑체', labelAt: [300, 0.85] }]}
+      points={[
+        { x: 60, y: 0.44, q: 'heat', step: 3 },
+        { x: 100, y: 0.8, q: 'heat', step: 3 },
+        { x: 160, y: 1.0, q: 'heat', step: 3, label: '코비가 잰 값' },
+        { x: 250, y: 0.75, q: 'heat', step: 3 },
+        { x: 350, y: 0.35, q: 'heat', step: 3 },
+        { x: 450, y: 0.13, q: 'heat', step: 3 },
+        { x: 600, y: 0.02, q: 'heat', step: 3 },
+      ]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 진동수예요. 0에서 7,000억 Hz까지의 전파이고, 세로축은 그 진동수의 빛이 얼마나 센지예요.
+
+</S>
+
+<S n={2}>
+
+선은 2.725 K인 흑체가 내놓는 빛이고, 1초에 약 1,600억 번 진동하는 빛이 가장 세요.
+
+</S>
+
+<S n={3}>
+
+점은 코비가 잰 값인데, 지금까지 잰 어떤 흑체보다도 흑체 곡선에 잘 맞아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="우주 배경 복사라는 이름">
+  <Fragment slot="visual">
+    <Define term="cmb" />
+  </Fragment>
+
+이 빛은 우주 어디서나 바탕처럼 깔려 있어서 **우주 배경 복사**라고 불러요. 복사는 27강에서처럼 물체가 내놓는 빛이라는 뜻이에요.
+
+<S n={2}>
+
+하늘의 빛이 완벽한 흑체라는 건, 이 빛을 낸 무언가가 어디서나 온도가 똑같았다는 뜻이에요. 그 무언가는 무엇이었을까요? 바로 아주 이른 때의 우주 전체였어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="빈의 법칙으로">
+  <Fragment slot="visual">
+    <DataTable caption="가장 세게 나오는 진동수 ≈ 1 K마다 약 588억 Hz × 절대온도" head={['온도', '가장 센 빛의 진동수', '어떤 빛']} rows={[
+      ['2.725 K (지금의 하늘)', '약 1,600억 Hz', '진동수가 높은 전파'],
+      ['3,000 K', '약 176조 Hz', '적외선, 눈에는 주황빛으로'],
+      ['5,800 K (해의 겉)', '약 341조 Hz', '가시광선 바로 바깥의 적외선'],
+    ]} highlight={[0]} />
+  </Fragment>
+
+빈의 법칙으로 가장 세게 나오는 진동수를 계산해 볼게요.
+
+1. 1 K마다 약 588억 Hz씩 높아지니까, 2.725 K이면 588억 × 2.725 ≈ 1,600억 Hz예요.
+2. 3,000 K이면 588억 × 3,000 ≈ 176조 Hz예요. 1,100배쯤 높죠.
+3. 온도가 1,100배면 가장 센 진동수도 1,100배예요. 빈의 법칙이 비례 관계라서 그래요.
+
+감각 확인: 1,600억 Hz는 전자레인지 전파의 약 65배로, 눈에는 보이지 않아요.
+
+</Screen>
+
+<Screen kind="check" title="3,000 K의 빛">
+
+<Numeric id="q126-peak" answer={1.76e14} mode="order" unit="Hz">
+
+빈의 법칙에 따르면 흑체에서 가장 세게 나오는 빛의 진동수는 1 K마다 약 588억 Hz(5.88 × 10¹⁰ Hz)씩 높아져요. 온도가 3,000 K인 흑체에서 가장 세게 나오는 빛의 진동수는 대략 몇 Hz일까요?
+
+<Fragment slot="solution">
+
+5.88 × 10¹⁰ × 3,000 ≈ 1.76 × 10¹⁴ Hz예요. 1초에 약 176조 번 진동하는 적외선이에요. 이 온도의 물체를 눈으로 보면 주황빛으로 빛나요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="step" title="거슬러 올라가면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'bicycle', title: '자전거 펌프', caption: '공기를 꾹 누르면 펌프가 따뜻해져요' },
+      { icon: 'galaxy', title: '작아지는 우주', caption: '거슬러 올라갈수록 빽빽하고 뜨거워요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+127강에서 자세히 보겠지만, 우주는 지금도 점점 커지고 있어요. 그러니 시간을 거슬러 올라가면 우주는 점점 작고 빽빽해져요.
+
+<S n={2}>
+
+자전거 펌프로 공기를 꾹 누르면 펌프가 따뜻해지잖아요. 우주도 작고 빽빽했던 때일수록 뜨거웠어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="불투명한 안개">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '3,000 K보다 뜨거울 때', caption: '전자가 원자에서 떨어져 자유롭게 떠돌아요', tone: 'dim' },
+      { big: '빛은', caption: '자유로운 전자에 자꾸 부딪혀 곧게 못 가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+우주가 3,000 K보다 뜨겁던 때에는 전자가 원자핵에 붙어 있지 못했어요. 원자를 이루지 못한 전자가 자유롭게 떠돌았죠.
+
+<S n={2}>
+
+빛은 이런 자유로운 전자에 아주 잘 부딪혀요. 그래서 빛이 조금 가다 부딪히고, 또 조금 가다 부딪혀서, 우주는 짙은 안개 속처럼 불투명했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="38만 년, 안개가 걷히다">
+  <Fragment slot="visual">
+    <BigNumber top="우주가 3,000 K쯤으로 식어 처음 투명해진 때" value="약 38만 년 뒤" bottom="우주가 시작된 때부터 센 시간이에요" />
+  </Fragment>
+
+우주가 시작되고 약 38만 년이 지나자, 우주는 3,000 K쯤으로 식었어요. 그러자 전자가 원자핵에 붙어 수소와 헬륨 원자가 되었어요.
+
+<S n={2}>
+
+원자는 이런 빛을 거의 흩뜨리지 않아요. 그래서 안개가 걷히듯 우주가 투명해졌고, 그때 우주를 채우던 빛이 처음으로 곧게 날기 시작했어요. 우리가 지금 받는 우주 배경 복사가 바로 그 빛이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="거슬러 올라가 보기">
+  <Fragment slot="visual">
+    <SimP15Cool />
+  </Fragment>
+
+슬라이더를 끝까지 밀어 우주를 거슬러 올라가 보세요. 우주가 작아질수록 빛의 파장이 짧아지고 온도가 올라가요.
+
+<S n={2}>
+
+지금의 1,100분의 1쯤 되면 3,000 K, 주황빛으로 빛나죠. 그보다 더 거슬러 가면 안개가 끼어서, 그 너머의 빛은 우리에게 곧게 오지 못해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="1,100배 늘어난 빛">
+
+그 뒤로 우주는 약 1,100배 커졌어요. 우주가 커지는 동안, 우주를 날던 빛의 파장도 함께 늘어났어요.
+
+<S n={2}>
+
+<Key>우주가 약 38만 년 뒤 3,000 K쯤으로 식어 투명해질 때 나온 빛이, 그 뒤 우주가 1,100배 커지는 동안 파장도 1,100배 늘어나서, 지금은 2.7 K의 흑체 복사로 하늘 어디서나 우리에게 와요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="왜 이렇게 차가울까">
+
+<Check id="q126-cold" options={[
+  { t: '우주가 커지는 동안 빛의 파장이 늘어나서, 3,000 K였던 빛이 2.7 K로 식었어요.', ok: true, why: '파장이 1,100배 늘어나면 가장 센 진동수가 1,100분의 1이 되고, 빈의 법칙에 따라 온도도 1,100분의 1이 돼요.' },
+  { t: '처음부터 2.7 K인 차가운 물체에서 나온 빛이에요.', why: '이 빛이 나올 때 우주는 3,000 K쯤이었어요. 그보다 차가웠다면 전자가 이미 원자에 붙어 있었을 거예요.' },
+  { t: '먼 거리를 오는 동안 빛이 지쳐서 약해졌어요.', why: '빛은 텅 빈 공간을 가면서 지치지 않아요. 식은 까닭은 우주가 커지며 파장이 늘어났기 때문이에요.' },
+  { t: '지구의 공기가 빛을 식혔어요.', why: '코비는 우주에서 쟀어요. 공기 바깥에서도 2.725 K예요.' },
+]}>
+
+우주 배경 복사는 우주가 3,000 K쯤일 때 나온 빛이에요. 그런데 지금 재면 2.7 K의 흑체 복사예요. 그 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="하늘의 작은 얼룩">
+  <Fragment slot="visual">
+    <BigNumber top="우주 배경 복사의 온도가 방향마다 다른 정도" value="약 10만분의 1" bottom="1992년 코비 위성이 처음 찾았어요" q="heat" />
+  </Fragment>
+
+우주 배경 복사는 어느 방향에서나 거의 같은 온도예요. 하지만 아주 정밀하게 재면, 방향마다 10만분의 1쯤 다른 작은 얼룩이 있어요.
+
+<S n={2}>
+
+1992년 코비 위성이 이 얼룩을 처음 찾았어요. 38만 년 때의 우주가 아주 조금씩 고르지 않았다는 흔적이죠. 이 얼룩이 나중에 은하가 될 씨앗이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="한 점이 아니라 사방에서">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '한 점에서 터져 나온 빛', caption: '그 점의 방향에서만 와야 해요', tone: 'no' },
+      { big: '공간 전체를 채운 빛', caption: '어느 방향에서나 와요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 처음엔 이 빛이 우주의 어느 한 점에서 터져 나온 빛인 줄 알았어요. 그렇다면 그 점이 있는 방향에서만 와야 하잖아요.
+
+그런데 38만 년 때의 빛은 공간 전체를 고르게 채우고 있었어요. 그래서 지금 우리가 어느 방향을 보아도, 그쪽 먼 곳에서 출발한 빛이 막 도착하고 있는 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="check" title="사방에서 오는 까닭">
+
+<Check id="q126-everywhere" options={[
+  { t: '그 빛이 처음부터 공간 전체를 고르게 채우고 있었기 때문이에요.', ok: true, why: '어느 방향을 보아도 그쪽 먼 곳에서 출발한 빛이 지금 막 도착해요. 그래서 사방에서 같은 세기로 와요.' },
+  { t: '우주가 시작된 한 점이 지구 바로 근처에 있기 때문이에요.', why: '우주 배경 복사는 한 점에서 오는 빛이 아니에요. 지구는 우주의 특별한 자리에 있지 않아요.' },
+  { t: '지구 둘레의 공기가 빛을 사방으로 흩뿌리기 때문이에요.', why: '우주에서 재도 사방에서 같아요. 공기와는 상관없어요.' },
+  { t: '우리 은하가 사방으로 이 빛을 내기 때문이에요.', why: '은하에서 오는 빛이라면 은하가 몰린 방향이 더 셀 거예요. 우주 배경 복사는 방향마다 10만분의 1밖에 차이 나지 않아요.' },
+]}>
+
+우주 배경 복사는 하늘 어느 방향에서나 거의 같은 세기로 와요. 그 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['cmb']}>
+
+1. 하늘 어디서나 같은 세기로 오는 전파가 있고, 그 스펙트럼은 2.725 K의 흑체와 똑같아요.
+2. 흑체의 스펙트럼은 온도로만 정해지니까, 이 빛은 온도가 고르게 같던 이른 때의 우주에서 왔어요.
+3. 우주가 3,000 K보다 뜨겁던 때에는 자유로운 전자 때문에 빛이 곧게 가지 못했어요.
+4. 약 38만 년 뒤 전자가 원자에 붙자 우주가 투명해졌고, 그때의 빛이 곧게 날기 시작했어요.
+5. 그 뒤 우주가 1,100배 커지면서 빛의 파장도 1,100배 늘어나, 지금 2.7 K가 되었어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="우주가 두 배 커지면">
+
+<DailyProblem id="p126">
+
+앞으로 우주가 지금보다 2배 더 커진다고 해 볼게요. 그때 우주 배경 복사의 온도는 몇 K쯤일까요?
+
+오늘 배운 것으로 이유와 함께 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+우주가 커지는 만큼 빛의 파장도 늘어나요. 빈의 법칙에서 가장 센 진동수는 온도에 비례해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+약 1.4 K예요. 우주가 2배 커지면 빛의 파장도 2배로 늘어서 진동수는 절반이 돼요.
+
+빈의 법칙에 따라 가장 센 진동수가 절반이면 온도도 절반이에요. 그래서 2.725 ÷ 2 ≈ 1.4 K가 돼요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+우주 배경 복사는 우주가 3,000 K쯤으로 식어 처음 투명해질 때 나온 빛이 우주가 1,100배 커지는 동안 늘어나서, 지금 하늘 어디서나 오는 2.7 K의 흑체 복사예요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="얼룩의 씨앗">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '10만분의 1', caption: '38만 년 때의 작은 얼룩' },
+      { big: '은하', caption: '수십억 년 뒤의 별의 무리', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 본 10만분의 1의 얼룩이 나중에 은하가 되었어요. 그런데 이 얼룩은 애초에 어디서 생겼을까요? 우주가 시작된 아주 이른 때, 원자보다 작은 크기의 양자역학에서 생겼다고 봐요.
+
+<S n={2}>
+
+다음 강에서는 우주가 커지기 시작한 <Later n={127}>빅뱅</Later>부터, 그 얼룩의 씨앗이 어떻게 생겼는지 따라가요.
+
+</S>
+
+</Screen>
