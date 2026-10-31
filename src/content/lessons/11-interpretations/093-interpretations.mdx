@@ -1,0 +1,478 @@
+---
+number: 93
+title: 해석들
+short: 해석들
+question: 같은 실험 결과를 똑같이 설명하는 여러 해석은, 각각 무엇을 얻고 무엇을 내줄까요?
+mechanism: 결어긋남은 겹친 상태가 주변의 수많은 분자와 광자에 얽히면서 간섭할 능력을 잃는 과정이라, 큰 물체의 겹침이 왜 보이지 않는지 설명해요. 하지만 여러 결과 가운데 하나만 나타나는 까닭까지 정하지는 않아요. 그 마지막 물음에 다세계 해석은 모든 결과가 다 일어난다고, 봄 역학은 입자가 처음부터 정해진 자리에 있다고, 객관적 붕괴 이론은 큰 물체에서 붕괴가 저절로 일어난다고, 큐비즘은 파동함수가 관찰자의 기대를 적은 것이라고 대답해요. 이 가운데 객관적 붕괴 이론만 실험으로 다른 예측을 내놓아요.
+part: 11
+minutes: 22
+assumes: [measurement-problem, copenhagen-interpretation, local-realism, locality, realism, entanglement, superposition, wavefunction, collapse, schrodinger-equation, interference, born-rule, probability]
+introduces: [decoherence, many-worlds]
+sources:
+  - "Everett, H. 'Relative State' Formulation of Quantum Mechanics. Reviews of Modern Physics 29, 454–462 (1957)"
+  - "DeWitt, B. S. Quantum mechanics and reality. Physics Today 23(9), 30–35 (1970)"
+  - "Zurek, W. H. Decoherence and the transition from quantum to classical. Physics Today 44(10), 36–44 (1991)"
+  - "Hornberger, K. et al. Collisional Decoherence Observed in Matter Wave Interferometry. Physical Review Letters 90, 160401 (2003)"
+  - "Bohm, D. A Suggested Interpretation of the Quantum Theory in Terms of 'Hidden' Variables I, II. Physical Review 85, 166–193 (1952)"
+  - "Ghirardi, G. C., Rimini, A. & Weber, T. Unified dynamics for microscopic and macroscopic systems. Physical Review D 34, 470–491 (1986)"
+  - "Donadi, S. et al. Underground test of gravity-related wave function collapse. Nature Physics 17, 74–78 (2021)"
+  - "Fuchs, C. A., Mermin, N. D. & Schack, R. An introduction to QBism with an application to the locality of quantum mechanics. American Journal of Physics 82, 749–754 (2014)"
+  - "Schlosshauer, M., Kofler, J. & Zeilinger, A. A snapshot of foundational attitudes toward quantum mechanics. Studies in History and Philosophy of Modern Physics 44, 222–230 (2013)"
+testout: [q93-a, q93-b, q93-c]
+status: published
+---
+
+<Screen kind="scene" title="같은 결과, 다른 이야기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '같은 실험', caption: '간섭 무늬, 벨 실험, 슈테른-게를라흐' },
+      { big: '같은 예측', caption: '모든 해석이 똑같은 숫자를 내요' },
+      { big: '다른 이야기', caption: '그 숫자 뒤에서 무슨 일이 있는지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강 끝에서 예고한 대로, 오늘은 여러 해석을 나란히 놓아요. 이 해석들은 지금까지 나온 모든 실험에서 똑같은 숫자를 예측해요.
+
+<S n={2}>
+
+다른 건 그 숫자 뒤에서 실제로 무슨 일이 일어나는지에 대한 이야기예요. 한 해석을 정답처럼 다루지 않고, 각자 얻는 것과 내주는 것을 공정하게 견줘 볼게요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={87} title="남은 빈자리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '재지 않을 때', caption: '겹친 채 부드럽게 바뀌어요' },
+      { big: '잴 때', caption: '결과 하나로 갑자기 바뀌어요' },
+      { big: '그 경계', caption: '이론이 말해 주지 않아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+87강의 측정 문제를 떠올려 볼게요. 재지 않을 때는 겹친 상태가 그대로 남고, 잴 때는 결과 하나로 바뀌었죠.
+
+<S n={2}>
+
+그런데 어디서부터 "잴 때"인지 이론이 말해 주지 않았어요. 해석들은 이 빈자리를 저마다 다르게 채워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="물음을 둘로 나누기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '물음 ①', caption: '큰 물체의 겹침은 왜 안 보일까' },
+      { big: '물음 ②', caption: '여러 결과 가운데 왜 하나만 나타날까', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+측정 문제는 두 물음으로 나눠 보면 쉬워요. 하나는 고양이처럼 큰 물체의 겹침이 왜 우리 눈에 안 보이느냐예요.
+
+<S n={2}>
+
+다른 하나는 여러 결과 가운데 왜 하나만 실제로 나타나느냐예요. 첫 물음에는 대부분의 물리학자가 받아들이는 대답이 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="주변과 부딪히면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'atom', title: '겹친 분자', caption: '두 길로 날아가요' },
+      { icon: 'drops', title: '공기 분자와 부딪혀요', caption: '어느 길이었는지 흔적이 남아요' },
+      { icon: 'slits', title: '간섭 무늬', caption: '흐려져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+겹친 분자가 두 길로 날아가다 공기 분자와 부딪힌다고 해 볼게요. 부딪힌 공기 분자에는 이 분자가 어느 길에 있었는지 흔적이 남아요.
+
+<S n={2}>
+
+51강에서 길을 재면 간섭 무늬가 사라졌죠. 사람이 재지 않아도, 공기 분자가 길을 "적어 두면" 같은 일이 생겨요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="흔적은 주변으로 퍼져요">
+  <Fragment slot="visual">
+    <Flow alt="겹친 물체가 주변 분자와 얽히고, 그 흔적이 더 많은 분자로 퍼져서, 물체만 볼 때는 간섭이 사라지는 과정" items={[
+      { t: '겹친 물체', sub: '두 상태' },
+      { t: '주변과 얽혀요', sub: '부딪힐 때마다', step: 2 },
+      { t: '간섭이 사라져요', sub: '물체만 볼 때는', step: 2 },
+    ]} />
+  </Fragment>
+
+부딪힌 공기 분자는 또 다른 분자와 부딪히고, 흔적은 순식간에 수많은 분자로 퍼져요. 그러면 물체는 주변 전체와 얽혀요.
+
+<S n={2}>
+
+이제 물체만 따로 보면 두 상태가 서로 간섭하지 않아요. 큰 물체일수록 부딪히는 분자와 빛이 많아서 이 일이 아주 빨리 일어나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="결어긋남이라는 이름">
+  <Fragment slot="visual">
+    <Define term="decoherence" />
+  </Fragment>
+
+이렇게 주변과 얽혀 간섭할 능력을 잃는 과정을 **결어긋남**이라고 불러요. 두 상태의 박자, 곧 결이 서로 어긋나 버린다는 뜻이에요.
+
+<S n={2}>
+
+1970년대부터 연구되어, 1990년대에 물리학자 보이치에흐 주레크 등이 널리 알렸어요. 해석이라기보다 양자역학의 식에서 그대로 나오는 과정이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="실험으로 본 결어긋남">
+  <Fragment slot="visual">
+    <Plot
+      alt="진공 통 안의 기체 압력이 높아질수록 큰 분자의 간섭 무늬가 뚜렷한 정도가 줄어드는 모양"
+      x={[0, 1]} y={[0, 1]}
+      xLabel="통 안에 넣은 기체의 양 (상대값)" yLabel="간섭 무늬의 뚜렷함 (상대값)"
+      xTicks={[0, 0.5, 1]} yTicks={[0, 0.5, 1]}
+      curves={[{ fn: 'exp(-3 * x)', q: 'plain' }]}
+    />
+  </Fragment>
+
+2003년 오스트리아 빈의 연구진은 탄소 원자 70개로 된 분자로 간섭 무늬를 만들고, 진공 통에 기체를 조금씩 넣었어요. 그래프는 그 결과의 모양을 나타낸 거예요.
+
+<S n={2}>
+
+기체가 늘어날수록 분자가 기체와 부딪히는 일이 잦아져서 간섭 무늬가 흐려졌어요. 결어긋남이 실제로 일어나는 걸 눈으로 본 실험이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="결어긋남이 하는 일">
+
+<Check id="q93-a" options={[
+  { t: '큰 물체의 겹침이 왜 간섭을 보이지 않는지 설명해요.', ok: true, why: '맞아요. 주변과 얽히면 물체만 따로 볼 때 간섭이 사라져서, 큰 물체는 겹친 상태처럼 보이지 않아요.' },
+  { t: '여러 결과 가운데 하나를 골라 줘요.', why: '결어긋남 뒤에도 두 가능성은 주변까지 포함한 전체 상태 안에 함께 남아 있어요. 하나를 고르지는 않아요.' },
+  { t: '양자역학의 식을 고쳐서 붕괴를 만들어요.', why: '결어긋남은 식을 고치지 않아요. 원래 식을 물체와 주변에 함께 쓰면 그대로 나오는 과정이에요.' },
+  { t: '사람이 결과를 봐야만 일어나요.', why: '사람이 없어도 공기 분자나 빛과 부딪히면 일어나요. 2003년 실험에서도 기체 분자가 그 일을 했어요.' },
+]}>
+
+결어긋남에 대해 바르게 말한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="그래도 남는 물음">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '물음 ①', caption: '결어긋남이 대답해요', tone: 'ok' },
+      { big: '물음 ②', caption: '아직 남아 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+결어긋남 뒤에도 전체 상태에는 "산 고양이와 그걸 본 주변"과 "죽은 고양이와 그걸 본 주변"이 함께 있어요. 둘이 서로 간섭하지 않을 뿐이에요.
+
+<S n={2}>
+
+그렇다면 우리는 왜 그 가운데 하나만 보게 될까요? 이 두 번째 물음에서 해석들이 갈라져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="에버렛의 대답">
+  <Fragment slot="visual">
+    <BigNumber top="프린스턴 대학교 대학원생 휴 에버렛, 1957년" value="“붕괴는 일어나지 않는다”" bottom="그의 박사 논문을 줄인 말" />
+  </Fragment>
+
+1957년 프린스턴 대학교의 대학원생 휴 에버렛은 대담한 대답을 내놓았어요. 붕괴라는 두 번째 규칙을 아예 버리자는 거예요.
+
+<S n={2}>
+
+슈뢰딩거 방정식 하나만 끝까지 믿으면, 측정한 사람도 겹친 상태가 돼요. 에버렛은 그게 실제로 일어나는 일이라고 봤어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="다세계 해석이라는 이름">
+  <Fragment slot="visual">
+    <Define term="many-worlds" />
+  </Fragment>
+
+이 생각에서는 측정할 때마다 세계가 결과마다 갈래로 나뉘어요. 위를 본 나와 아래를 본 나가 서로 다른 갈래에 함께 있는 거죠.
+
+<S n={2}>
+
+1970년 물리학자 브라이스 디윗이 이 생각에 **다세계 해석**이라는 이름을 붙여 널리 알렸어요. 갈래끼리는 결어긋남 때문에 서로 간섭하지 않아서, 각 갈래의 나는 결과 하나만 봐요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="다세계가 얻고 내주는 것">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '얻는 것', caption: '규칙이 슈뢰딩거 방정식 하나뿐이에요. 측정이 특별하지 않아요', tone: 'ok' },
+      { big: '내주는 것', caption: '볼 수 없는 갈래가 셀 수 없이 많아요. 50%라는 확률의 뜻이 흐려져요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+다세계 해석은 규칙이 하나뿐이라 깔끔해요. 측정도 그저 얽힘의 한 종류일 뿐이죠.
+
+<S n={2}>
+
+대신 볼 수 없는 세계가 끝없이 늘어나요. 또 모든 결과가 다 일어난다면 "위가 50%"라는 말이 무슨 뜻인지 설명하기 어려워서, 지금도 논쟁이 이어지고 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="봄 역학의 대답">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '입자', caption: '늘 정해진 자리에 있어요' },
+      { big: '파동함수', caption: '입자가 갈 길을 이끌어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+92강에서 만난 봄 역학은 다르게 대답해요. 입자는 늘 정해진 자리에 있고, 파동함수는 그 입자가 어디로 갈지 이끄는 안내자 노릇을 해요.
+
+<S n={2}>
+
+이중 슬릿에서 전자는 한 틈으로만 지나가지만, 두 틈을 모두 지나는 파동함수가 전자의 길을 휘게 해서 간섭 무늬가 생겨요. 결과가 하나인 까닭은 입자가 처음부터 한 자리에 있었기 때문이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="봄 역학이 얻고 내주는 것">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '얻는 것', caption: '입자가 늘 어디 있는지 분명해요. 측정이 특별하지 않아요', tone: 'ok' },
+      { big: '내주는 것', caption: '멀리 떨어진 입자들이 곧장 영향을 주고받아요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+봄 역학은 그림이 분명해요. 사실 이 생각은 1927년 드브로이가 먼저 내놓았다가 접었던 것이기도 해요.
+
+<S n={2}>
+
+대신 92강에서 본 대로 국소성을 내줘요. 그래서 상대성이론과 함께 쓰는 꼴로 넓히기가 어렵다는 게 큰 숙제예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="객관적 붕괴의 대답">
+  <Fragment slot="visual">
+    <DataTable caption="저절로 붕괴가 일어나는 빈도 (1986년 제안된 이론의 어림)" head={['물체', '붕괴가 일어나는 빈도']} rows={[
+      ['입자 하나', '수억 년에 한 번쯤'],
+      ['원자 10²³개쯤 든 물체', '1초에 천만 번쯤'],
+    ]} />
+  </Fragment>
+
+1986년 이탈리아의 물리학자 기라르디, 리미니, 베버는 슈뢰딩거 방정식을 조금 고치자고 했어요. 겹친 상태가 아주 드물게 저절로 붕괴한다는 규칙을 더하는 거예요.
+
+<S n={2}>
+
+입자 하나에서는 수억 년에 한 번쯤이라 원자 실험에는 티가 안 나요. 하지만 원자가 10²³개쯤 든 물체에서는 그 가운데 하나만 붕괴해도 전체가 따라 정해지니, 1초에 천만 번쯤 일어나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="객관적 붕괴는 시험할 수 있어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '얻는 것', caption: '결과가 하나인 까닭이 물리 과정으로 있어요. 실험으로 시험할 수 있어요', tone: 'ok' },
+      { big: '내주는 것', caption: '새 규칙과 새 상수를 더해야 해요', tone: 'no' },
+    ]} />
+  </Fragment>
+
+이 이론은 다른 해석들과 달리 양자역학과 아주 조금 다른 예측을 해요. 저절로 붕괴할 때 입자가 아주 조금씩 흔들려서, 전기를 띤 입자는 아주 약한 빛을 낸다는 거예요.
+
+<S n={2}>
+
+2020년 이탈리아 그란사소 산 아래 실험실에서 그 빛을 찾았지만, 예측만큼 나오지 않았어요. 그래서 중력과 붕괴를 잇는 이론의 가장 단순한 꼴은 탈락했고, 다른 꼴들은 지금도 시험받고 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="큐비즘의 대답">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '파동함수', caption: '세상의 모습이 아니라 관찰자의 기대를 적은 것' },
+      { big: '붕괴', caption: '새 결과를 보고 기대를 고쳐 쓰는 일', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2000년대에 크리스토퍼 푹스 등이 다듬은 큐비즘은 파동함수를 전혀 다르게 읽어요. 파동함수는 세상 그 자체가 아니라, 관찰자가 다음 결과에 대해 가진 기대를 적은 것이라는 거예요.
+
+<S n={2}>
+
+그러면 붕괴는 새 결과를 보고 기대를 고쳐 쓰는 일일 뿐이라, 이상할 게 없어요. 대신 결과 뒤의 세상이 어떤 모습인지에 대해서는 거의 말하지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="compare" title="나란히 놓으면">
+  <Fragment slot="visual">
+    <DataTable head={['해석', '왜 결과가 하나인가', '내주는 것']} rows={[
+      ['코펜하겐', '측정 장치에서 정해져요', '어디가 장치인지 흐려요'],
+      ['다세계', '모든 결과가 다 일어나요', '볼 수 없는 수많은 갈래'],
+      ['봄 역학', '처음부터 한 자리에 있어요', '국소성'],
+      ['객관적 붕괴', '큰 물체는 저절로 붕괴해요', '새 규칙과 새 상수'],
+      ['큐비즘', '기대를 고쳐 쓸 뿐이에요', '세상의 모습을 덜 말해요'],
+    ]} />
+  </Fragment>
+
+표로 모아 보면, 공짜인 해석은 하나도 없어요. 모두 측정 문제의 어딘가를 메우는 대신 다른 곳에 값을 치러요.
+
+<S n={2}>
+
+<Key>결어긋남은 큰 물체의 겹침이 왜 안 보이는지 설명하지만 결과가 하나만 나타나는 까닭은 정하지 않으므로, 그 마지막 물음에 해석들이 저마다 다르게 대답하고, 어느 해석도 대가 없이 그 빈자리를 메우지는 못해요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="해석과 대답 짝짓기">
+
+<Check id="q93-b" options={[
+  { t: '다세계 해석', ok: true, why: '맞아요. 붕괴를 버리고 모든 결과가 서로 다른 갈래에서 일어난다고 봐요.' },
+  { t: '봄 역학', why: '봄 역학에서는 입자가 처음부터 한 자리에 있어서 결과도 하나뿐이에요. 갈래로 나뉘지 않아요.' },
+  { t: '객관적 붕괴 이론', why: '이 이론에서는 큰 물체가 저절로 붕괴해서 결과가 하나로 정해져요. 다른 결과는 남지 않아요.' },
+  { t: '큐비즘', why: '큐비즘은 파동함수를 관찰자의 기대로 읽어요. 세계가 갈래로 나뉜다고 하지 않아요.' },
+]}>
+
+"측정해도 붕괴는 일어나지 않아요. 가능한 결과가 모두 일어나고, 각 결과를 본 관찰자가 서로 다른 갈래에 있어요." 이렇게 대답하는 해석은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="정답은 아직 없어요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '실험', caption: '모든 해석이 똑같이 맞혀요' },
+      { big: '고르는 기준', caption: '깔끔함, 그림의 분명함, 상대성이론과의 어울림', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note label="한 번 짚고 갈게요">
+
+이 강에서 정답을 고르지 않은 건 일부러예요. 지금까지의 실험으로는 객관적 붕괴 말고는 해석들을 가를 수 없거든요.
+
+그래서 물리학자들은 깔끔함, 그림의 분명함, 상대성이론과의 어울림 같은 다른 기준으로 저마다 고르고 있어요. 그 선택은 사람마다 달라요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="step" title="물리학자들의 표">
+  <Fragment slot="visual">
+    <BigNumber top="2011년 한 양자역학 학회 참석자 33명에게 물은 결과" value="코펜하겐 해석 42%" bottom="가장 많은 표를 얻은 해석도 절반이 안 됐어요" />
+  </Fragment>
+
+2011년 오스트리아의 한 학회에서 참석한 연구자 33명에게 어느 해석을 좋아하는지 물었어요. 가장 많은 표를 얻은 코펜하겐 해석도 42%였어요.
+
+<S n={2}>
+
+나머지 표는 정보 중심의 해석, 다세계 해석, 객관적 붕괴 등으로 흩어졌어요. 한 학회의 작은 조사지만, 전문가들 사이에서도 생각이 갈린다는 걸 보여 줘요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="실험으로 가를 수 있는 것">
+
+<Check id="q93-c" options={[
+  { t: '다세계 해석', why: '다세계 해석은 슈뢰딩거 방정식을 그대로 쓰니, 실험 예측이 보통의 양자역학과 같아요.' },
+  { t: '봄 역학', why: '봄 역학은 일부러 양자역학과 똑같은 예측을 내도록 만들어졌어요.' },
+  { t: '객관적 붕괴 이론', ok: true, why: '맞아요. 식을 고쳐서 저절로 붕괴가 일어나게 하니, 입자가 아주 조금 흔들리는 것처럼 다른 예측이 나와요. 그래서 실험으로 시험받고 있어요.' },
+  { t: '큐비즘', why: '큐비즘은 파동함수를 읽는 방법이 다를 뿐, 계산과 예측은 보통의 양자역학과 같아요.' },
+]}>
+
+다음 가운데 보통의 양자역학과 **다른 실험 예측**을 내놓아서, 실험으로 시험받고 있는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['decoherence', 'many-worlds']}>
+
+1. 겹친 물체는 주변과 얽히며 간섭할 능력을 잃어요.
+2. 이 결어긋남이 큰 물체의 겹침이 안 보이는 까닭이에요.
+3. 하지만 결과가 왜 하나인지는 정하지 않아요.
+4. 그 물음에 해석마다 다르게 대답하고 값을 치러요.
+5. 객관적 붕괴만 실험으로 다른 예측을 내요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="더 깊은 진공">
+
+<DailyProblem id="p93">
+
+2003년 실험에서 기체를 넣을수록 큰 분자의 간섭 무늬가 흐려졌어요. 이번엔 진공을 더 좋게 하고 분자를 더 차갑게 해서, 기체와도 부딪히지 않고 분자 스스로 빛도 거의 내지 않게 했다고 해 볼게요.
+
+간섭 무늬는 어떻게 될까요? 그리고 이 결과로 다세계 해석과 코펜하겐 해석 가운데 하나를 고를 수 있을까요? 메모 칸에 적어 보세요.
+
+<Fragment slot="hint1">
+
+결어긋남은 주변이 분자의 길을 "적어 둘" 때 일어나요. 부딪히는 기체도, 내보내는 빛도 줄면 무엇이 달라질까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+간섭 무늬가 더 뚜렷해져요. 분자의 길을 적어 둘 주변이 줄어드니 결어긋남이 덜 일어나거든요. 실제로 실험자들은 이렇게 해서 점점 더 큰 분자로 간섭 무늬를 얻어 왔어요.
+
+하지만 이 결과로 다세계와 코펜하겐 가운데 하나를 고를 수는 없어요. 두 해석 모두 결어긋남을 같은 식으로 설명하고, 실험 예측도 같거든요. 해석을 가르려면 객관적 붕괴처럼 예측이 다른 경우가 필요해요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+결어긋남은 큰 물체의 겹침이 왜 안 보이는지 설명하지만, 결과가 하나인 까닭에는 해석마다 다른 대답과 다른 대가가 있고, 아직 실험으로 가려진 정답은 없어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="정해진 미래?">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '다세계, 봄 역학', caption: '모든 게 식대로 정해져요' },
+      { big: '코펜하겐, 객관적 붕괴', caption: '진짜 우연이 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+오늘 본 해석 가운데 다세계 해석과 봄 역학에서는 모든 일이 식대로 정해져 있어요. 반대로 코펜하겐 해석과 객관적 붕괴 이론에는 진짜 우연이 있죠.
+
+<S n={2}>
+
+8강에서 만난 라플라스는 지금을 다 알면 미래도 다 알 수 있다고 했어요. 다음 강에서는 양자역학이 이 생각을 어떻게 바꿨는지, 그리고 그게 우리의 자유로운 선택과 무슨 상관인지 같이 따져 볼게요.
+
+</S>
+
+</Screen>
