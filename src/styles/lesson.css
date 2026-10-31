@@ -41,13 +41,14 @@ html:not(.js) .lbar__btn {
 
 .lbar__back {
   grid-area: back;
-  font-family: var(--font-display);
-  font-weight: 800;
+  font-family: var(--font-body);
+  font-weight: 600;
   color: var(--accent);
   text-decoration: none;
-  font-size: 1.0625rem;
+  font-size: var(--fs-sm);
   line-height: 1;
-  padding: 6px 4px 6px 0;
+  white-space: nowrap;
+  padding: 8px 6px 8px 0;
 }
 
 .lbar__title {

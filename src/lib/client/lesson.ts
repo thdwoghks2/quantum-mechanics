@@ -11,6 +11,7 @@
 import { load, save, setLesson, setScreen } from '../progress.ts';
 import { buildMatchers, findTerms, type TermEntry } from '../terms.ts';
 import { shouldTurn } from '../rewards.ts';
+import { navigate } from 'astro:transitions/client';
 
 interface Gloss extends TermEntry {
   definition: string;
@@ -92,11 +93,11 @@ class QmLesson extends HTMLElement {
     this.fit(screen);
     screen.scrollTo({ top: 0 });
     this.updateChrome();
-    if (this.i > 0) {
-      save(setScreen(load(), this.n, this.i, Date.now()));
-      history.replaceState(history.state, '', `#s${this.i}`);
-    } else if (location.hash) {
-      history.replaceState(history.state, '', location.pathname);
+    if (this.i > 0) save(setScreen(load(), this.n, this.i, Date.now()));
+    // 다른 강에서 넘어오는 중에는 주소창이 아직 앞 강의 주소라서, 내 주소일 때만 화면 위치(#s5)를 적는다.
+    if (this.onOwnPage()) {
+      if (this.i > 0) history.replaceState(history.state, '', `#s${this.i}`);
+      else if (location.hash) history.replaceState(history.state, '', location.pathname);
     }
     if (opts.focus) screen.querySelector<HTMLElement>('.screen__text')?.focus({ preventScroll: true });
   }
@@ -147,7 +148,13 @@ class QmLesson extends HTMLElement {
 
   prev() {
     if (this.i > 0) this.show(this.i - 1, { allSteps: true });
-    else location.href = this.dataset.course!;
+    // 페이지를 통째로 다시 불러오면 배경 음악이 끊기므로, 바꿔 끼우기로 나간다.
+    else void navigate(this.dataset.course!);
+  }
+
+  /** 주소창이 이 강의 주소인지. 앞 강에서 바꿔 끼우는 중에는 아직 앞 강의 주소다. */
+  onOwnPage() {
+    return location.pathname.replace(/\/$/, '').endsWith(`/lessons/${this.n}`);
   }
 
   finish() {
@@ -199,7 +206,8 @@ class QmLesson extends HTMLElement {
       resume.addEventListener('click', () => this.show(st.screen!, { allSteps: true }));
       status.append(resume);
     }
-    const m = location.hash.match(/^#s(\d+)$/);
+    // #s5 같은 화면 위치는 주소창이 이 강일 때만 따른다(앞 강의 위치를 물려받지 않게).
+    const m = this.onOwnPage() ? location.hash.match(/^#s(\d+)$/) : null;
     this.show(m ? Number(m[1]) : 0, { allSteps: !!m });
   }
 

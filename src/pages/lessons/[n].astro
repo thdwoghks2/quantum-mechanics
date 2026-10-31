@@ -61,7 +61,7 @@ const turn = isPartEnd && part
     data-part-end={turn ? '1' : undefined}
   >
     <header class="lbar">
-      <a class="lbar__back" href={url('course/')} aria-label="코스로 돌아가기">137</a>
+      <a class="lbar__back" href={url('course/')} aria-label="코스로 나가기"><span aria-hidden="true">‹</span> 나가기</a>
       <p class="lbar__title"><span class="mono">{d.number}강</span>{d.short}</p>
       <MusicToggle compact class="lbar__music" />
       <button type="button" class="lbar__btn" data-open="terms" aria-controls="rail-terms" aria-expanded="false">용어</button>

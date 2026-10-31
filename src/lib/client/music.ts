@@ -15,8 +15,13 @@ export interface Album {
   title: string;
   by: string;
   url: string;
+  /** 파일 전체 길이(초). 마지막 곡의 길이를 알 때 쓴다. */
+  length?: number;
   tracks: Track[];
 }
+
+/** 앨범 전체를 이어서 반복하거나, 지금 곡 하나만 반복한다. */
+export type Repeat = 'all' | 'one';
 
 const KEY = 'qm137-bgm';
 
@@ -24,6 +29,7 @@ interface Saved {
   album?: string;
   t?: number;
   vol?: number;
+  rep?: Repeat;
 }
 
 function readSaved(): Saved {
@@ -71,6 +77,9 @@ class Player {
   album: Album | null = null;
   audio: HTMLAudioElement | null = null;
   error = '';
+  repeat: Repeat = readSaved().rep ?? 'all';
+  /** 한 곡 반복일 때 붙잡고 있는 곡 */
+  private held: number | null = null;
   private listeners = new Set<Listener>();
   private pendingSeek: number | null = null;
   private lastSave = 0;
@@ -81,6 +90,7 @@ class Player {
     const saved = readSaved();
     this.album = albums.find((a) => a.id === saved.album) ?? albums[0] ?? null;
     this.pendingSeek = saved.album === this.album?.id ? saved.t ?? 0 : 0;
+    if (this.repeat === 'one') this.held = this.index;
   }
 
   get playing() {
@@ -93,7 +103,8 @@ class Player {
   }
 
   get duration() {
-    return this.audio?.duration ?? NaN;
+    const d = this.audio?.duration;
+    return d && Number.isFinite(d) ? d : this.album?.length ?? NaN;
   }
 
   get volume() {
@@ -131,13 +142,20 @@ class Player {
       });
     }
     a.addEventListener('timeupdate', () => {
+      // 한 곡 반복: 그 곡이 끝나는 자리에 오면 그 곡 처음으로 돌아간다.
+      if (this.repeat === 'one' && this.album && this.held !== null) {
+        const tr = this.album.tracks[this.held]!;
+        const end = tr.at + trackLength(this.album.tracks, this.held, this.duration);
+        if (a.currentTime >= end - 0.3 || a.currentTime < tr.at - 1) a.currentTime = tr.at;
+      }
       const now = Date.now();
       if (now - this.lastSave > 4000) this.save();
       this.emit();
     });
     a.addEventListener('ended', () => {
-      // 앨범이 끝나면 처음부터 다시 튼다.
-      a.currentTime = 0;
+      // 파일이 끝나면: 한 곡 반복이면 마지막 곡 처음으로, 아니면 앨범 처음으로.
+      const i = this.repeat === 'one' && this.held !== null && this.album ? this.held : 0;
+      a.currentTime = this.album?.tracks[i]?.at ?? 0;
       void a.play().catch(() => {});
     });
     a.addEventListener('error', () => {
@@ -190,8 +208,16 @@ class Player {
     this.emit();
   }
 
+  setRepeat(r: Repeat) {
+    this.repeat = r;
+    this.held = r === 'one' ? this.index : null;
+    this.save();
+    this.emit();
+  }
+
   playTrack(i: number) {
     if (!this.album) return;
+    if (this.repeat === 'one') this.held = i;
     const t = this.album.tracks[i]?.at ?? 0;
     this.seek(t);
     void this.play();
@@ -218,6 +244,7 @@ class Player {
     this.audio?.pause();
     this.album = album;
     this.pendingSeek = 0;
+    this.held = this.repeat === 'one' ? 0 : null;
     if (this.audio) {
       this.audio.removeAttribute('src');
       this.audio.load();
@@ -236,7 +263,7 @@ class Player {
 
   private save(t = this.time) {
     this.lastSave = Date.now();
-    writeSaved({ album: this.album?.id, t, vol: this.audio?.volume ?? readSaved().vol });
+    writeSaved({ album: this.album?.id, t, vol: this.audio?.volume ?? readSaved().vol, rep: this.repeat });
   }
 
   /* 휴대폰 잠금 화면과 이어폰 버튼 */

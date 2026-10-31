@@ -1,11 +1,13 @@
 # 배경 음악 목록. 음원 파일은 저장소에 넣지 않고 따로 올린다 (bgm/README.md).
 # 파일 하나에 여러 곡이 이어져 있고, 곡마다 시작 시각(at)을 적는다. 시각은 따옴표로 감싼다.
+# length는 파일 전체 길이다(마지막 곡의 길이를 알려고 쓴다). ffprobe로 잰 값.
 base: https://quantummechanics-9ad00-bgm.web.app/
 albums:
   - id: oppenheimer
     title: Oppenheimer
     by: Ludwig Göransson
     file: oppenheimer.mp3
+    length: "1:34:56"
     tracks:
       - { at: "0:00:00", title: Fission }
       - { at: "0:04:38", title: Can You Hear The Music }
@@ -35,6 +37,7 @@ albums:
     title: Interstellar
     by: Hans Zimmer
     file: interstellar.mp3
+    length: "2:19:23"
     tracks:
       - { at: "0:00:00", title: Dreaming Of The Crash }
       - { at: "0:03:55", title: Cornfield Chase }

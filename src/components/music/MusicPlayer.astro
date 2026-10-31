@@ -5,11 +5,11 @@
  */
 import { parse } from 'yaml';
 import raw from '../../content/bgm.yaml?raw';
-import { clock } from '../../lib/client/music.ts';
+import { clock, trackLength } from '../../lib/client/music.ts';
 
 interface BgmFile {
   base: string;
-  albums: { id: string; title: string; by: string; file: string; tracks: { at: string; title: string }[] }[];
+  albums: { id: string; title: string; by: string; file: string; length?: string; tracks: { at: string; title: string }[] }[];
 }
 const bgm = parse(raw) as BgmFile;
 const base = (import.meta.env.PUBLIC_BGM_BASE as string | undefined) ?? bgm.base;
@@ -19,6 +19,7 @@ const albums = bgm.albums.map((a) => ({
   title: a.title,
   by: a.by,
   url: base.replace(/\/?$/, '/') + a.file,
+  length: a.length ? toSec(a.length) : undefined,
   tracks: a.tracks.map((t) => ({ at: toSec(t.at), title: t.title })),
 }));
 ---
@@ -50,6 +51,11 @@ const albums = bgm.albums.map((a) => ({
         <button type="button" class="btn btn--primary music__play">재생</button>
         <button type="button" class="music__btn music__next" aria-label="다음 곡">››</button>
       </div>
+      <div class="music__repeat" role="group" aria-label="반복">
+        <span class="label">반복</span>
+        <button type="button" class="music__rep" data-rep="all" aria-pressed="true">앨범 전체</button>
+        <button type="button" class="music__rep" data-rep="one" aria-pressed="false">이 곡만</button>
+      </div>
       <label class="music__vol">
         <span class="label">소리</span>
         <input type="range" class="music__volume" min="0" max="1" step="0.05" value="0.6" aria-label="소리 크기" />
@@ -64,7 +70,7 @@ const albums = bgm.albums.map((a) => ({
             <button type="button" class="music__track" data-i={i}>
               <span class="mono music__n">{String(i + 1).padStart(2, '0')}</span>
               <span class="music__tt">{t.title}</span>
-              <span class="mono music__at">{clock(t.at)}</span>
+              <span class="mono music__at">{clock(trackLength(a.tracks, i, a.length ?? NaN))}</span>
             </button>
           </li>
         ))}
@@ -97,6 +103,8 @@ const albums = bgm.albums.map((a) => ({
         if (album) return player.selectAlbum(album.dataset.album!);
         const track = t.closest<HTMLElement>('.music__track');
         if (track) return player.playTrack(Number(track.dataset.i));
+        const rep = t.closest<HTMLElement>('.music__rep');
+        if (rep) return player.setRepeat(rep.dataset.rep as 'all' | 'one');
         if (t.closest('.music__play')) return player.toggle();
         if (t.closest('.music__prev')) return player.prev();
         if (t.closest('.music__next')) return player.next();
@@ -158,6 +166,7 @@ const albums = bgm.albums.map((a) => ({
       play.setAttribute('aria-pressed', String(player.playing));
       const vol = $<HTMLInputElement>('.music__volume');
       if (document.activeElement !== vol) vol.value = String(player.volume);
+      this.querySelectorAll<HTMLElement>('.music__rep').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.rep === player.repeat)));
       const msg = $('.music__msg');
       msg.hidden = !player.error;
       msg.textContent = player.error;
@@ -344,6 +353,33 @@ const albums = bgm.albums.map((a) => ({
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 12px;
+  }
+
+  .music__repeat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .music__repeat .label {
+    margin-right: 4px;
+  }
+
+  .music__rep {
+    padding: 6px 12px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    background: none;
+    color: var(--text-2);
+    font: inherit;
+    font-size: var(--fs-sm);
+    cursor: pointer;
+  }
+
+  .music__rep[aria-pressed='true'] {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-soft);
   }
 
   .music__msg {
