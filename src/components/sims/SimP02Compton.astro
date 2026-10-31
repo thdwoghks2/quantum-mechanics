@@ -1,0 +1,113 @@
+---
+/**
+ * 36강: 콤프턴 산란. 광자가 멈춰 있던 전자와 당구공처럼 부딪힌다. 에너지와 운동량이 보존되므로
+ * 전자가 운동량과 에너지를 가져간 만큼 튕겨 나간 광자의 진동수가 낮아진다. 꺾이는 각도가 클수록 많이 낮아진다.
+ * X선에서는 몇 %, 가시광선에서는 10만분의 1도 안 된다.
+ */
+interface Props {
+  deg?: number;
+  xray?: 0 | 1;
+}
+const { deg = 90, xray = 1 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-compton class="sim" data-ratio="0.66" data-autoplay="false">
+  <canvas aria-label="왼쪽에서 온 광자가 멈춰 있던 전자에 부딪혀 각도를 바꿔 튕겨 나가고, 전자는 반대쪽으로 밀려난다. 튕겨 나간 광자는 물결이 더 성기다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`cp-a-${uid}`}>꺾인 각도</label>
+      <input id={`cp-a-${uid}`} type="range" min="0" max="180" step="5" value={deg} data-param="deg" />
+      <output data-out="deg"></output>
+    </div>
+    <input type="hidden" data-param="xray" value={xray} />
+    <div class="sim__buttons" aria-label="빛 고르기">
+      <button type="button" class="btn" data-set="xray=1" aria-pressed={xray === 1 ? 'true' : 'false'}>X선 광자</button>
+      <button type="button" class="btn" data-set="xray=0" aria-pressed={xray === 0 ? 'true' : 'false'}>초록빛 광자</button>
+    </div>
+  </div>
+  <p class="sim__readout" aria-live="polite"></p>
+</qm-sim-compton>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  /** 광자 에너지 ÷ 전자의 정지 에너지: 몰리브덴 X선(4.2 × 10¹⁸ Hz)과 초록빛(6 × 10¹⁴ Hz) */
+  const RATIO = [4.9e-6, 0.0342];
+
+  class SimCompton extends Sim {
+    animated = false;
+
+    ratio() {
+      const th = (this.p.deg! * Math.PI) / 180;
+      return 1 / (1 + RATIO[this.p.xray ?? 1]! * (1 - Math.cos(th)));
+    }
+
+    format() {
+      return `${this.p.deg}°`;
+    }
+
+    readout() {
+      const r = this.ratio();
+      const lost = (1 - r) * 100;
+      const name = this.p.xray ? 'X선' : '초록빛';
+      const pct = lost < 0.001 ? lost.toExponential(1) : lost.toFixed(2);
+      return `${name} 광자 · 튕겨 나간 광자의 진동수는 처음의 ${(r * 100).toFixed(lost < 0.001 ? 4 : 2)}% · 전자가 가져간 에너지는 처음의 ${pct}%`;
+    }
+
+    squiggle(x0: number, y0: number, ang: number, len: number, wl: number, col: string) {
+      const g = this.ctx;
+      g.save();
+      g.translate(x0, y0);
+      g.rotate(ang);
+      g.strokeStyle = col;
+      g.lineWidth = 2;
+      g.beginPath();
+      for (let s = 0; s <= len; s += 1) {
+        const y = 6 * Math.sin((2 * Math.PI * s) / wl);
+        if (s === 0) g.moveTo(s, y);
+        else g.lineTo(s, y);
+      }
+      g.stroke();
+      // 화살촉
+      g.fillStyle = col;
+      g.beginPath();
+      g.moveTo(len + 8, 0);
+      g.lineTo(len, -5);
+      g.lineTo(len, 5);
+      g.closePath();
+      g.fill();
+      g.restore();
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+      const th = (this.p.deg! * Math.PI) / 180;
+      const r = this.ratio();
+      const col = this.p.xray ? c.charge : '#4d4';
+      const wl0 = 14;
+      // 들어오는 광자
+      this.squiggle(w * 0.04, cy, 0, cx - w * 0.04 - 22, wl0, col);
+      this.text('들어온 광자', w * 0.04, cy - 22, c.text2, 11);
+      // 전자
+      this.dot(cx, cy, 6, c.text);
+      // 튕겨 나간 광자 (물결을 과장해서 성기게 그린다)
+      const stretch = 1 + (1 - r) * (this.p.xray ? 8 : 8000);
+      const L = Math.min(w, h) * 0.38;
+      this.squiggle(cx + 10 * Math.cos(-th), cy + 10 * Math.sin(-th), -th, L, wl0 * Math.min(stretch, 3), col);
+      this.text('튕겨 나간 광자', cx + (L + 20) * Math.cos(-th), cy + (L + 20) * Math.sin(-th) - 12, c.text2, 11, 'center');
+      // 전자의 반동: 운동량 보존 (광자 운동량 1 → r)
+      const px = 1 - r * Math.cos(th);
+      const py = r * Math.sin(th);
+      const pm = Math.hypot(px, py);
+      if (pm > 1e-6) {
+        const k = Math.min(L, 40 + pm * 60);
+        this.arrow(cx, cy, cx + (px / pm) * k, cy + (py / pm) * k, c.force, 2.5);
+        this.text('밀려난 전자', cx + (px / pm) * (k + 18), cy + (py / pm) * (k + 18) + 12, c.force, 11, 'center');
+      }
+      this.text('물결 간격은 알아보기 쉽게 크게 그렸어요', w - 10, 14, c.muted, 10, 'right');
+    }
+  }
+  define('qm-sim-compton', SimCompton);
+</script>
