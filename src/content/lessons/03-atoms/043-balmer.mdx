@@ -1,0 +1,415 @@
+---
+number: 43
+title: 발머 공식
+short: 발머 공식
+question: 수소가 내는 네 선의 자리에는 규칙이 있을까요?
+mechanism: 수소의 네 선의 파장을 364.56 nm로 나누면 9/5, 16/12, 25/21, 36/32가 되어, 파장 = 364.56 nm × n² ÷ (n² − 4)라는 하나의 식에 n = 3, 4, 5, 6을 넣은 값과 맞아요. 진동수로 바꾸면 약 3,289조 Hz × (1/2² − 1/n²)로, 모든 선이 두 수의 차이로 나타나요. 그래서 n이 커질수록 선들은 822조 Hz 근처로 몰리고, 식은 아직 보지 못한 선의 자리까지 맞혀요.
+part: 3
+year: 1885
+place: 바젤
+minutes: 20
+assumes: [line-spectrum, spectrum, frequency, wavelength, speed-of-light, ultraviolet, prediction, law]
+introduces: [balmer-formula]
+sources:
+  - "Balmer, J. J. Notiz über die Spectrallinien des Wasserstoffs. Annalen der Physik 25, 80–87 (1885)"
+  - "Ångström, A. J. Recherches sur le spectre solaire (1868): 수소 네 선의 파장"
+  - "Banet, L. Balmer's Manuscripts and the Construction of His Series. American Journal of Physics 38, 821–828 (1970)"
+  - "Rosenfeld, L. Introduction to N. Bohr, On the Constitution of Atoms and Molecules (1963)"
+  - "NIST Atomic Spectra Database: 수소의 발머 계열 파장"
+testout: [q43-n7, q43-next, q43-crowd]
+status: published
+---
+
+<Screen kind="scene" title="네 개의 수">
+  <Fragment slot="visual">
+    <DataTable caption="수소가 내는 눈에 보이는 네 선" head={['선', '진동수']} rows={[
+      ['붉은 선', '약 457조 Hz'],
+      ['청록 선', '약 617조 Hz'],
+      ['파란 선', '약 691조 Hz'],
+      ['보라 선', '약 731조 Hz'],
+    ]} />
+  </Fragment>
+
+42강 끝에서 수소의 선 넷을 봤어요. 진동수는 약 457조, 617조, 691조, 731조 Hz였죠.
+
+<S n={2}>
+
+언뜻 보면 아무렇게나 흩어진 수 같아요. 오늘은 이 네 수 속에서 규칙을 찾아낸 사람을 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="수열 맞히기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '2, 4, 8, 16, ?', caption: '앞의 수에 2를 곱해요', tone: 'ok' },
+      { big: '457, 617, 691, 731, ?', caption: '규칙이 보이나요?', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2, 4, 8, 16 다음 수는 금방 32라고 맞히죠. 앞의 수에 2를 곱한다는 규칙이 보이니까요.
+
+<S n={2}>
+
+수소의 네 수는 그렇게 쉽게 보이지 않아요. 게다가 측정값이라 끝자리가 조금씩 틀릴 수도 있어요. 그래서 오랫동안 아무도 규칙을 찾지 못했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="바젤의 수학 선생님">
+  <Fragment slot="visual">
+    <BigNumber top="요한 야코프 발머가 수소의 네 선에서 규칙을 찾아 발표한 해" value="1885" bottom="스위스 바젤의 여학교 수학 선생님, 그해 예순 살" />
+  </Fragment>
+
+스위스 바젤의 여학교에서 수학을 가르치던 요한 야코프 발머는 숫자 사이의 규칙을 찾는 일을 즐겼어요. 바젤 대학의 물리학자 친구가 수소의 네 선을 잰 값을 건네주자, 발머는 그 속에서 규칙을 찾기 시작했어요.
+
+<S n={2}>
+
+1885년, 예순 살의 발머가 그 결과를 발표했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={11} title="진동수와 파장">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '속력 = 진동수 × 파장', caption: '11강의 파동 공식' },
+      { big: '파장 = c ÷ 진동수', caption: '빛이라면 속력은 c', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+발머가 받은 값은 진동수가 아니라 파장이었어요. 그때는 파장을 직접 쟀거든요.
+
+<S n={2}>
+
+11강에서 파동의 속력 = 진동수 × 파장이라고 했어요. 빛의 속력 c는 정해져 있으니 파장 = c ÷ 진동수예요. 진동수가 큰 빛일수록 파장이 짧죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="공통의 수로 나누기">
+  <Fragment slot="visual">
+    <DataTable caption="수소 네 선의 파장을 364.56 nm로 나누면" head={['파장', '÷ 364.56 nm', '분수로']} rows={[
+      ['656.3 nm', '1.800', '9/5'],
+      ['486.1 nm', '1.333', '4/3'],
+      ['434.0 nm', '1.190', '25/21'],
+      ['410.2 nm', '1.125', '9/8'],
+    ]} />
+  </Fragment>
+
+발머는 네 파장을 모두 어떤 하나의 수로 나누면 깔끔한 분수가 되지 않을까 생각했어요. 여러 수를 시험한 끝에 364.56 nm를 찾았죠.
+
+<S n={2}>
+
+네 파장을 364.56 nm로 나누면 1.800, 1.333, 1.190, 1.125가 나와요. 분수로 바꾸면 9/5, 4/3, 25/21, 9/8이에요.
+
+</S>
+
+<S n={3}>
+
+아직 규칙이 잘 안 보이죠. 발머도 여기서 한 걸음 더 갔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="분수를 다시 쓰면">
+  <Fragment slot="visual">
+    <DataTable caption="분모와 분자를 맞춰 다시 쓴 분수" head={['분수', '다시 쓰면', '분자']} rows={[
+      ['9/5', '9/5', '3²'],
+      ['4/3', '16/12', '4²'],
+      ['25/21', '25/21', '5²'],
+      ['9/8', '36/32', '6²'],
+    ]} />
+  </Fragment>
+
+4/3을 16/12로, 9/8을 36/32로 바꿔 써 보세요. 그러면 분자가 9, 16, 25, 36, 곧 3², 4², 5², 6²이 돼요.
+
+<S n={2}>
+
+분모도 보세요. 5, 12, 21, 32는 각각 분자에서 4를 뺀 수예요. 네 분수가 모두 **n² ÷ (n² − 4)** 한 가지 모양이었어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="발머 공식이라는 이름">
+  <Fragment slot="visual">
+    <Define term="balmer-formula" />
+  </Fragment>
+
+그래서 수소의 선의 파장은 364.56 nm × n² ÷ (n² − 4)로 쓸 수 있어요. n에 3, 4, 5, 6을 넣으면 네 선이 차례로 나와요. 이 식을 **발머 공식**이라고 불러요.
+
+<Key>수소의 네 선의 파장은 모두 364.56 nm × n² ÷ (n² − 4)에 n = 3, 4, 5, 6을 넣은 값과 맞으니까, 흩어져 보이던 수소의 선들은 사실 하나의 규칙을 따르고 있어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="진동수로 바꾸면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '파장 = 364.56 nm × n² ÷ (n² − 4)', caption: '발머가 쓴 식' },
+      { big: '진동수 = 822조 Hz × (1 − 4 ÷ n²)', caption: 'c ÷ 파장으로 바꾼 식', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이 책은 빛을 진동수로 이야기하니, 진동수로 바꿔 볼게요. 진동수 = c ÷ 파장이니까 분수를 뒤집으면 돼요.
+
+<S n={2}>
+
+c ÷ 364.56 nm는 약 822조 Hz예요. 그래서 진동수 = 822조 Hz × (n² − 4) ÷ n², 곧 **822조 Hz × (1 − 4 ÷ n²)**이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="네 선 다시 계산하기">
+  <Fragment slot="visual">
+    <DataTable caption="진동수 = 822조 Hz × (1 − 4 ÷ n²)" head={['n', '1 − 4 ÷ n²', '계산한 진동수', '잰 진동수']} rows={[
+      ['3', '5/9', '457조 Hz', '457조 Hz'],
+      ['4', '3/4', '617조 Hz', '617조 Hz'],
+      ['5', '21/25', '691조 Hz', '691조 Hz'],
+      ['6', '8/9', '731조 Hz', '731조 Hz'],
+    ]} />
+  </Fragment>
+
+n = 3이면 1 − 4/9 = 5/9이고, 822조 × 5/9 ≈ 457조 Hz예요. 수소의 붉은 선이죠.
+
+<S n={2}>
+
+나머지도 해 보면 617조, 691조, 731조 Hz가 차례로 나와요. 잰 값과 앞의 세 자리가 모두 맞아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="n = 7이라면">
+
+<Numeric id="q43-n7" answer={755} tol={0.01} unit="조 Hz">
+
+발머 공식의 진동수 꼴, 진동수 = 822조 Hz × (1 − 4 ÷ n²)에 n = 7을 넣으면 몇 조 Hz일까요?
+
+<Fragment slot="solution">
+
+1 − 4 ÷ 49 = 45/49이고, 822 × 45 ÷ 49 ≈ 755조 Hz예요. 파장으로 바꾸면 약 397 nm예요. 보랏빛 끝을 막 넘은 곳이라 눈에는 거의 보이지 않아요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="story" title="다섯째 선">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '397.0 nm', title: '발머 공식의 n = 7', caption: '눈에 거의 안 보이는 자리' },
+      { big: '397.0 nm', title: '이미 잰 별빛의 선', caption: '희고 뜨거운 별의 빛에서', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+방금 계산한 n = 7의 선은 발머가 받은 측정값에 없었어요. 식으로 아직 보지 못한 선을 예측한 거예요.
+
+<S n={2}>
+
+그런데 알아보니 이 선은 이미 희고 뜨거운 별의 빛에서 관측돼 있었어요. 자리는 계산과 꼭 맞았죠. 그 뒤 더 많은 수소의 선이 찾아졌는데, 모두 n = 8, 9, 10 …을 넣은 값과 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="선이 몰리는 끝">
+  <Fragment slot="visual">
+    <SimP03Spectrum sources="h" labels />
+  </Fragment>
+
+발머 공식으로 n = 3부터 30까지 계산한 수소의 선을 그려 봤어요. 가로축은 진동수예요. n이 커질수록 선 사이가 어떻게 되는지 보세요.
+
+<S n={2}>
+
+n이 커질수록 선들이 점점 촘촘해지면서 822조 Hz 근처로 몰려들어요. 750조 Hz를 넘는 선들은 눈에 보이지 않는 자외선이라 회색으로 그렸어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="끝이 있는 이유">
+  <Fragment slot="visual">
+    <DataTable caption="n이 커질 때 4 ÷ n²" head={['n', '4 ÷ n²', '진동수']} rows={[
+      ['3', '0.444', '457조 Hz'],
+      ['10', '0.04', '789조 Hz'],
+      ['100', '0.0004', '822조 Hz에 거의 붙어요'],
+    ]} />
+  </Fragment>
+
+n이 커지면 4 ÷ n²은 0에 가까워져요. 그러면 1 − 4 ÷ n²은 1에 다가가고, 진동수는 822조 Hz에 다가가요.
+
+<S n={2}>
+
+그래서 이 무리의 선은 822조 Hz를 넘지 못해요. 그 앞에서 끝없이 촘촘해질 뿐이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="다음 분수">
+
+<Check id="q43-next" options={[
+  { t: '49/45', ok: true, why: '분자는 7² = 49이고, 분모는 거기서 4를 뺀 45예요. n² ÷ (n² − 4)의 n = 7이에요.' },
+  { t: '49/40', why: '분모는 분자에서 늘 4를 뺀 수예요. 49 − 4 = 45예요.' },
+  { t: '45/49', why: '분자와 분모가 바뀌었어요. 파장의 비는 1보다 커야 해요.' },
+  { t: '42/38', why: '분자는 3², 4², 5², 6²처럼 제곱수예요. 다음은 7² = 49예요.' },
+]}>
+
+발머가 찾은 분수는 9/5, 16/12, 25/21, 36/32 순서였어요. 같은 규칙으로 다음에 올 분수는 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="두 수의 차이">
+  <Fragment slot="visual">
+    <BigNumber top="발머 공식을 다시 쓰면" value="3,289조 Hz × (1/2² − 1/n²)" bottom="모든 선이 '1/2²'와 '1/n²'의 차이로 나타나요" q="time" />
+  </Fragment>
+
+식을 조금 다르게 써 볼게요. 822조 × (1 − 4/n²)에서 4를 묶어 내면, 3,289조 Hz × (1/4 − 1/n²)이 돼요.
+
+<S n={2}>
+
+1/4은 1/2²이니, 수소의 선은 모두 **1/2²에서 1/n²을 뺀 차이**에 같은 수를 곱한 값이에요.
+
+</S>
+
+<S n={3}>
+
+발머는 이 2 대신 1이나 3이 들어간 선의 무리도 있을지 모른다고 적었어요. 이 짐작은 다음 다음 강에서 확인해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="선이 촘촘해지는 까닭">
+
+<Check id="q43-crowd" options={[
+  { t: 'n이 커질수록 1/n²끼리의 차이가 아주 작아지기 때문이에요.', ok: true, why: '1/9과 1/16은 꽤 차이가 나지만, 1/100과 1/121은 거의 같아요. 그래서 이웃한 선의 진동수 차이도 점점 작아져요.' },
+  { t: '수소 원자가 지쳐서 선을 약하게 내기 때문이에요.', why: '선이 촘촘해지는 건 밝기가 아니라 자리의 문제예요. 식에서 1/n²의 차이가 작아지기 때문이에요.' },
+  { t: '분광기가 높은 진동수를 정확히 재지 못하기 때문이에요.', why: '측정의 한계가 아니에요. 식으로 계산해도 선들이 822조 Hz 근처로 몰려요.' },
+  { t: 'n이 커질수록 진동수가 끝없이 커지기 때문이에요.', why: '진동수는 822조 Hz를 넘지 못하고 그 앞에서 촘촘해져요.' },
+]}>
+
+발머 공식으로 계산한 수소의 선은 n이 커질수록 822조 Hz 근처에 점점 촘촘하게 몰려요. 왜 그럴까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="숫자놀이일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '무엇이', caption: '선의 자리를 정확히 맞혀요', tone: 'ok' },
+      { big: '왜', caption: '그런 규칙이 생기는지는 몰라요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 이 공식을 처음 봤을 때 그냥 숫자 맞히기 놀이 같았어요. 실제로 발머 공식은 왜 그런지 아무것도 설명하지 않아요.
+
+그런데 1강의 법칙처럼, 이 공식은 아직 보지 않은 선의 자리까지 맞혔어요. 그렇게 정확히 맞는 규칙이라면, 그 뒤에 무언가 진짜 까닭이 있다는 뜻이에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="28년 뒤의 독자">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1885', title: '발머', caption: '수소의 선에서 규칙을 찾아요' },
+      { big: '1913', title: '닐스 보어', caption: '그 규칙의 까닭을 찾아요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+발머는 자기 공식이 왜 맞는지 모른 채 1898년에 세상을 떠났어요. 28년 뒤인 1913년, 원자의 구조를 고민하던 젊은 닐스 보어가 이 공식을 알게 됐어요.
+
+<S n={2}>
+
+보어는 훗날, 발머 공식을 보자마자 모든 게 분명해졌다고 회상했어요. 1/2²과 1/n²의 차이라는 모양에 원자 속 구조의 비밀이 숨어 있었거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['balmer-formula']}>
+
+1. 수소의 네 선의 파장을 364.56 nm로 나누면 9/5, 16/12, 25/21, 36/32가 돼요.
+2. 이 분수는 모두 n² ÷ (n² − 4) 꼴이라서, 하나의 식에 n = 3, 4, 5, 6을 넣으면 네 선이 나와요.
+3. 진동수로 바꾸면 3,289조 Hz × (1/2² − 1/n²)이라, 모든 선이 두 수의 차이로 나타나요.
+4. 이 식은 아직 보지 못한 선과, 선들이 822조 Hz 근처로 몰리는 모습까지 맞혀요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="2 대신 1이라면">
+
+<DailyProblem id="p43">
+
+발머 공식의 진동수 꼴 3,289조 Hz × (1/2² − 1/n²)에서 2 대신 1을 넣은 선의 무리가 있다고 해 봐요. 진동수는 3,289조 Hz × (1/1² − 1/n²)이고, n은 2, 3, 4 …예요.
+
+이 무리에서 진동수가 가장 낮은 선은 몇 조 Hz일까요? 발머가 받은 측정값에 이런 선이 없었던 까닭도 생각해 보세요.
+
+<Fragment slot="hint1">
+
+진동수가 가장 낮은 선은 n이 가장 작을 때, 곧 n = 2일 때예요.
+
+</Fragment>
+<Fragment slot="hint2">
+
+눈에 보이는 빛은 약 400조에서 750조 Hz 사이예요.
+
+</Fragment>
+<Fragment slot="solution">
+
+n = 2이면 1 − 1/4 = 3/4이고, 3,289조 × 3/4 ≈ 2,467조 Hz예요. 이 무리에서 가장 낮은 진동수인데도 750조 Hz보다 훨씬 커요.
+
+그러니 이 무리의 선은 모두 눈에 보이지 않는 자외선이에요. 발머가 받은 값은 눈에 보이는 빛을 잰 것이라 이런 선이 없었어요. 실제로 이 무리의 선은 1906년부터 자외선을 재는 장치로 찾아냈어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+수소의 선들은 모두 3,289조 Hz × (1/2² − 1/n²)라는 하나의 식을 따르고, 이 식은 아직 보지 못한 선까지 맞혀요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="계단과 경사로">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 's2-ramp', title: '경사로', caption: '어느 높이에나 설 수 있어요' },
+      { icon: 's2-stairs', title: '계단', caption: '정해진 높이에만 설 수 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+선의 진동수가 두 수의 차이라면, 원자 속에도 정해진 값 여러 개가 있고 빛은 그 값들 사이의 차이로 나오는 게 아닐까요?
+
+<S n={2}>
+
+다음 강에서는 1913년 보어가 내놓은 원자를 배워요. 경사로처럼 아무 높이나 설 수 있는 게 아니라, 계단처럼 정해진 높이에만 설 수 있는 원자예요.
+
+</S>
+
+</Screen>

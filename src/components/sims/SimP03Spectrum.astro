@@ -74,6 +74,7 @@ const first = IDX[start ?? list[0]!] ?? 0;
     animated = false;
 
     readout() {
+      if (this.dataset.labels === '1' && this.p.s === 1) return '발머 공식으로 계산한 수소의 선: n이 커질수록 선 사이가 좁아지며 822조 Hz로 몰려들어요. 750조 Hz를 넘는 선은 눈에 보이지 않는 자외선이에요.';
       return SRC[this.p.s!]?.note ?? '';
     }
 
@@ -106,7 +107,19 @@ const first = IDX[start ?? list[0]!] ?? 0;
       } else {
         g.fillStyle = '#0b0b0d';
         g.fillRect(x0, top, x1 - x0, bot - top);
-        for (const [f, s] of src.lines) {
+        // 발머 공식으로 계산한 수소 선 (n = 3 ~ 30). 750조 Hz보다 큰 것은 눈에 안 보이는 자외선이라 회색으로.
+        const lines: Line[] = labels
+          ? Array.from({ length: 28 }, (_, i) => {
+              const n = i + 3;
+              return [822.3 * (1 - 4 / (n * n)), Math.max(0.12, 1 - i * 0.18)] as Line;
+            })
+          : src.lines;
+        for (const [f, s] of lines) {
+          if (f > 750) {
+            g.fillStyle = `rgba(170,170,180,${0.25 + 0.5 * s})`;
+            g.fillRect(X(f) - 0.8, top, 1.6, bot - top);
+            continue;
+          }
           const [r, gg, b] = rgb(f);
           g.fillStyle = `rgba(${r},${gg},${b},${0.35 + 0.65 * s})`;
           g.fillRect(X(f) - 1.6, top, 3.2, bot - top);
@@ -117,8 +130,9 @@ const first = IDX[start ?? list[0]!] ?? 0;
       // 수소 선의 진동수와 한계
       if (labels) {
         H.forEach(([f], i) => {
-          this.text(`${Math.round(f)}조`, X(f), top - 10 - (i % 2) * 12, c.text, 10, 'center');
+          this.text(`n=${i + 3}`, X(f), top - 10 - (i % 2) * 12, c.text, 10, 'center');
         });
+        this.text('자외선', X(786), bot - 8, c.muted, 9, 'center');
         const lim = 822.0;
         if (lim < F1) {
           g.setLineDash([3, 3]);
