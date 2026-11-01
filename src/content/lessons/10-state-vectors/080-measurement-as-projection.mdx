@@ -6,12 +6,18 @@ question: 같은 광자를 어느 방향으로 재느냐에 따라 확률이 왜
 mechanism: 재는 방법 하나는 서로 직각인 길이 1인 화살표 한 쌍, 그러니까 기저로 정해져요. 상태 화살표를 각 기저 화살표 방향으로 투영하면 그림자의 길이가 그 방향과의 내적이고, 그 결과가 나올 확률은 그림자 길이의 제곱이에요. 그림자 길이의 제곱들을 더하면 피타고라스 정리로 늘 1이 되고, 잰 뒤의 상태는 나온 결과의 기저 화살표로 바뀌어요. 그래서 같은 상태라도 기저를 바꾸면 확률이 달라져요.
 part: 10
 minutes: 20
+epigraph:
+  text: "그런 사람들에게 참된 것이란, 말 그대로 물건들의 그림자밖에 없을 것이다."
+  by: 플라톤
+  source: 『국가』 7권, 동굴의 비유 (기원전 4세기)
 assumes: [vector, dot-product, qubit, dirac-notation, polarization, born-rule, probability-amplitude, collapse, quantum-state, probability]
 introduces: [basis, projection]
 sources:
   - "Dirac, P. A. M. The Principles of Quantum Mechanics, 4th ed., Ch. 2 (1958)"
   - "Nielsen, M. A., Chuang, I. L. Quantum Computation and Quantum Information, Sec. 2.2.3 Quantum measurement (2010)"
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 5 (1965)"
+  - "Plato, Republic, Book VII, 514a–517a"
+  - "Hofstadter, D. R. Gödel, Escher, Bach: an Eternal Golden Braid, Basic Books (1979), 표지"
 testout: [q80-plus, q80-after, q80-num]
 status: published
 ---
@@ -272,6 +278,31 @@ status: published
 <S n={2}>
 
 측정은 상태에게 던지는 질문이고, 기저를 고르는 일은 어떤 질문을 할지 고르는 일이에요. 같은 상태가 어떤 질문에는 확실하게, 어떤 질문에는 반반으로 답해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="G, E, B의 그림자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'G', caption: '한 방향에서 비추면' },
+      { big: 'E', caption: '다른 방향에서 비추면' },
+      { big: 'B', caption: '또 다른 방향에서 비추면', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+더글러스 호프스태터의 책 『괴델, 에셔, 바흐』(1979) 표지에는 신기한 나무 조각이 나와요. 빛을 비추는 방향에 따라 그림자가 G도 되고, E도 되고, B도 돼요.
+
+<S n={2}>
+
+조각은 하나인데, 어느 방향의 그림자를 보느냐에 따라 보이는 글자가 달라져요.
+
+</S>
+
+<S n={3}>
+
+<Key>측정도 그래요. 상태는 하나인데, 기저를 고르면 그 방향의 그림자만 답으로 돌아와요.</Key>
 
 </S>
 
