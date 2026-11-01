@@ -672,6 +672,13 @@
   lessons: [110]
   people: [chandrasekhar, eddington]
 
+- id: hamilton-1843
+  year: 1843
+  title: 브룸 다리에 새긴 공식
+  summary: 해밀턴이 더블린의 운하 길을 걷다가 사원수의 공식을 떠올리고, 잊지 않으려고 다리의 돌에 칼로 새겼어요. 이 셈법에서 벡터라는 이름이 나왔어요.
+  lessons: [77]
+  people: [hamilton]
+
 # ── 세션 4 (84~105강, 111~120강) ──
 # (여기 아래에 더한다)
 - id: como-1927

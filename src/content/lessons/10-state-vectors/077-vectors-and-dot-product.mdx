@@ -6,11 +6,17 @@ question: 두 화살표가 얼마나 같은 쪽을 향하는지 수 하나로 �
 mechanism: 크기와 방향을 함께 가진 양은 화살표, 그러니까 벡터로 다루고, 지도 위에서는 (동쪽으로 간 거리, 북쪽으로 간 거리) 같은 성분으로 적어요. 벡터를 더할 때는 화살표를 이어 붙이고 성분끼리 더해요. 두 벡터의 내적은 길이끼리 곱하고 사이 각도의 코사인을 곱한 값이라서, 같은 쪽일수록 크고 직각이면 0, 반대쪽이면 0보다 작아요. 성분끼리 곱해 더해도 같은 값이 나와서, 각도를 몰라도 두 벡터가 얼마나 같은 쪽을 향하는지 계산할 수 있어요.
 part: 10
 minutes: 20
+epigraph:
+  text: "그때 그 자리에서 생각의 전기 회로가 닫히는 것을 느꼈고, 거기서 떨어진 불꽃이 바로 i, j, k 사이의 기본 방정식이었다."
+  by: 윌리엄 로언 해밀턴
+  source: 아들 아치볼드에게 보낸 편지 (1865)
 assumes: [speed, velocity, force, sine, em-wave, quantum-state, probability-amplitude, boson, fermion]
 introduces: [vector, dot-product]
 sources:
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 11 Vectors (1963)"
   - "Strang, G. Introduction to Linear Algebra, 5th ed., Ch. 1 (2016)"
+  - "Hamilton, W. R. Letter to his son Archibald (5 August 1865), in Graves, R. P. Life of Sir William Rowan Hamilton, Vol. 2 (1885)"
+  - "Hamilton, W. R. On Quaternions, or on a New System of Imaginaries in Algebra, Philosophical Magazine (1844–1850)"
 testout: [q77-perp, q77-sign, q77-angle]
 status: published
 ---
@@ -45,7 +51,7 @@ status: published
 
 <S n={2}>
 
-하지만 학교에서 도서관까지 곧게 이은 화살표는 5 km예요. 걸은 거리와 따로, 어느 방향으로 얼마나 떨어졌는지가 있는 거죠.
+하지만 학교에서 도서관까지 곧게 이은 화살표는 5 km예요. **걸은 거리와 따로, 어느 방향으로 얼마나 떨어졌는지가 있는 거죠.**
 
 </S>
 
@@ -79,6 +85,21 @@ status: published
 <S n={2}>
 
 이동, 속도, 힘이 모두 벡터예요. 온도나 질량처럼 크기만 있는 양은 벡터가 아니죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="다리에 새긴 공식">
+  <Fragment slot="visual">
+    <BigNumber top="해밀턴이 다리의 돌에 공식을 새긴 해" value="1843" bottom="아일랜드 더블린 · 브룸 다리" />
+  </Fragment>
+
+1843년 10월 16일, 아일랜드의 수학자 윌리엄 로언 해밀턴은 아내와 운하를 따라 걷다가 오래 붙들던 셈법을 떠올렸어요. 잊을까 봐 그 자리에서 다리의 돌에 공식을 칼로 새겼죠.
+
+<S n={2}>
+
+그 셈법을 다듬던 해밀턴이 1846년, 방향을 가진 양에 **벡터**라는 이름을 붙였어요. 라틴어로 '나르는 것'이라는 뜻이에요.
 
 </S>
 
@@ -264,6 +285,24 @@ status: published
 <S n={2}>
 
 어떤 벡터든 이 둘과 내적하면 동쪽 성분과 북쪽 성분이 나와요. 이 생각은 80강에서 양자역학의 측정을 설명하는 열쇠가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="대각선으로 달리면">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '(1, 0)', caption: '앞으로만 · 길이 1' },
+      { big: '(1, 1)', caption: '앞과 옆을 함께 · 길이 √2 ≈ 1.41', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+게임에서 캐릭터를 앞으로 1, 옆으로 1만큼 함께 움직이게 하면, 화살표 (1, 1)의 길이는 √2, 약 1.41이에요.
+
+<S n={2}>
+
+그래서 이 길이를 1로 맞추지 않은 옛 게임에서는 **대각선으로 달리면 40% 넘게 빨랐어요**. 지금 게임들은 방향만 남기고 길이를 1로 맞춰서 이 일을 막아요.
 
 </S>
 
