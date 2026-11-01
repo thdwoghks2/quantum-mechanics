@@ -1,0 +1,412 @@
+---
+number: 61
+title: 불확정성 원리
+short: 불확정성 원리
+question: 전자의 자리와 운동량을 동시에 정확히 정할 수 있을까요?
+mechanism: 자리를 좁게 정한 전자의 파동함수는 좁은 파동묶음이고, 좁은 파동묶음일수록 다양한 파장이 섞여 있어요. 전자의 파장은 곧 운동량(파장 = h ÷ 운동량)이니, 자리가 좁을수록 운동량이 넓게 퍼져요. 그래서 같은 상태로 준비한 전자들의 자리의 표준편차와 운동량의 표준편차를 곱하면 h ÷ 4π보다 작아질 수 없어요. 이건 재는 솜씨나 측정이 주는 충격 때문이 아니라, 파동이 가진 성질에서 나오는 상태 자체의 한계예요.
+part: 7
+year: 1927
+place: 코펜하겐
+minutes: 22
+epigraph:
+  text: "자리가 정확히 정해질수록 그 순간의 운동량은 덜 정확히 알려지고, 그 반대도 마찬가지다."
+  by: 베르너 하이젠베르크
+  source: 「양자론적 운동학과 역학의 직관적 내용에 대하여」 (1927)
+assumes: [wave-packet, fourier-decomposition, de-broglie-wavelength, momentum, standard-deviation, wavefunction, quantum-state, collapse, planck-constant, compton-scattering, photon, diffraction, slit, electron, complementarity]
+introduces: [uncertainty-principle]
+sources:
+  - "Heisenberg, W. Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik. Zeitschrift für Physik 43, 172–198 (1927)"
+  - "Kennard, E. H. Zur Quantenmechanik einfacher Bewegungstypen. Zeitschrift für Physik 44, 326–352 (1927)"
+  - "Erhart, J. et al. Experimental demonstration of a universally valid error–disturbance uncertainty relation in spin measurements. Nature Physics 8, 185–189 (2012)"
+  - "Cassidy, D. C. Uncertainty: The Life and Science of Werner Heisenberg (1992)"
+testout: [q61-electron, q61-meaning, q61-half]
+status: published
+---
+
+<Screen kind="scene" title="둘 다 정할 수 있을까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '자리', caption: '전자가 어디에 있는지' },
+      { big: '운동량', caption: '전자가 어느 쪽으로 얼마나 빨리 가는지', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+8강의 라플라스는 모든 것의 자리와 빠르기를 정확히 알면 미래를 계산할 수 있다고 했어요. 그런데 전자 하나의 자리와 운동량을 동시에 정확히 정할 수는 있을까요?
+
+<S n={2}>
+
+60강 끝에서 자리를 좁게 정할수록 운동량이 넓게 퍼질 수밖에 없다는 실마리를 봤어요. 오늘은 그 실마리를 하나의 원리로 세워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={60} title="좁을수록 많은 파장">
+  <Fragment slot="visual">
+    <SimP07Packet />
+  </Fragment>
+
+60강에서 파장이 다른 사인 곡선들을 겹치면 파동묶음이 되고, 묶음이 좁을수록 더 다양한 파장을 섞어야 한다고 했어요.
+
+<S n={2}>
+
+묶음의 폭과 섞인 파장의 퍼짐은 반비례했죠. 하나를 절반으로 줄이면 다른 하나가 2배가 됐어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={47} title="파장은 운동량">
+  <Fragment slot="visual">
+    <BigNumber top="47강, 드브로이의 식" value="파장 = h ÷ 운동량" bottom="파장이 다르면 운동량도 달라요" q="space" />
+  </Fragment>
+
+47강의 드브로이의 식을 떠올려 볼게요. 전자의 파장은 h를 운동량으로 나눈 값이었어요.
+
+<S n={2}>
+
+그러니 파장이 다양하게 섞였다는 말은 곧 **운동량이 다양하게 섞였다**는 말이에요. 파장마다 운동량이 하나씩 정해져 있으니까요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="이어지는 사슬">
+  <Fragment slot="visual">
+    <Flow alt="자리를 좁게 정하면 파동묶음이 좁고, 좁은 묶음에는 파장이 넓게 섞이고, 파장이 넓게 섞이면 운동량도 넓게 퍼진다" items={[
+      { t: '자리를 좁게', sub: '파동묶음이 좁아요' },
+      { t: '파장이 넓게 섞여요', sub: '60강의 푸리에 분해', step: 2 },
+      { t: '운동량이 넓게 퍼져요', sub: '47강의 파장 = h ÷ 운동량', step: 3 },
+    ]} />
+  </Fragment>
+
+두 강을 이으면 사슬이 하나 생겨요. 전자의 자리를 좁게 정하면 파동함수가 좁은 파동묶음이 돼요.
+
+<S n={2}>
+
+좁은 묶음에는 다양한 파장이 섞여 있어요.
+
+</S>
+
+<S n={3}>
+
+다양한 파장은 다양한 운동량이에요. 그래서 자리를 좁게 정할수록 운동량은 넓게 퍼질 수밖에 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="자리와 운동량을 함께 보기">
+  <Fragment slot="visual">
+    <SimP07Packet spread parts={false} />
+  </Fragment>
+
+위는 전자의 파동묶음, 곧 자리의 퍼짐이에요. 아래 막대는 섞인 파장마다의 크기, 곧 운동량의 퍼짐이에요. 슬라이더를 움직여 보세요.
+
+<S n={2}>
+
+위의 묶음을 좁히면 아래 막대가 넓게 퍼지고, 아래를 좁히면 위가 넓어져요. **둘을 함께 좁힐 방법은 없어요.**
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={57} title="퍼짐은 표준편차로">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '똑같이 준비한 전자 수만 개', caption: '' },
+      { big: '절반은 자리를, 절반은 운동량을 재요', caption: '' },
+      { big: '두 표준편차', caption: 'Δx와 Δp', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+퍼짐을 정확히 말하려면 57강의 표준편차를 써요. 똑같이 준비한 전자 수만 개 가운데 절반은 자리를 재고, 절반은 운동량을 재요.
+
+<S n={2}>
+
+자리 결과의 표준편차를 Δx, 운동량 결과의 표준편차를 Δp라고 써요. Δ는 '델타'라고 읽는 그리스 글자예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="불확정성 원리라는 이름">
+  <Fragment slot="visual">
+    <Define term="uncertainty-principle" />
+  </Fragment>
+
+자리의 퍼짐과 운동량의 퍼짐을 곱한 값에는 넘을 수 없는 바닥이 있어요. 이 원리를 **불확정성 원리**라고 불러요.
+
+<S n={2}>
+
+식으로 쓰면 Δx × Δp ≥ h ÷ 4π예요. 하나를 줄이면 다른 하나가 늘어서, 곱은 이 값보다 작아지지 않아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="넘을 수 없는 바닥">
+  <Fragment slot="visual">
+    <BigNumber top="자리의 퍼짐 × 운동량의 퍼짐의 바닥" value="h ÷ 4π ≈ 5.3 × 10⁻³⁵ J·s" bottom="플랑크 상수를 4 × 3.14로 나눈 값이에요" q="energy" />
+  </Fragment>
+
+이 바닥은 32강의 플랑크 상수 h에서 나와요. h를 4π, 곧 약 12.6으로 나눈 아주 작은 수죠.
+
+<Key>자리를 좁게 정할수록 파동묶음에 섞인 파장, 곧 운동량이 넓게 퍼지니까, 자리의 퍼짐과 운동량의 퍼짐을 곱한 값은 h ÷ 4π보다 작아질 수 없어요. 자리와 운동량을 둘 다 좁게 가진 상태는 없어요.</Key>
+
+</Screen>
+
+<Screen kind="story" title="스물다섯 살의 하이젠베르크">
+  <Fragment slot="visual">
+    <BigNumber top="베르너 하이젠베르크가 불확정성 원리를 발표한 해" value="1927" bottom="덴마크 코펜하겐, 보어의 연구소에서" />
+  </Fragment>
+
+1927년 2월, 스물다섯 살의 베르너 하이젠베르크는 코펜하겐의 보어 연구소에 있었어요. 보어가 노르웨이로 스키를 타러 간 사이, 하이젠베르크는 이 원리를 담은 논문을 썼어요.
+
+<S n={2}>
+
+같은 해 미국의 얼 케너드는 이 원리를 표준편차로 정확하게 다시 써서, 지금의 Δx × Δp ≥ h ÷ 4π를 증명했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="감마선 현미경">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '자리를 또렷이', caption: '파장이 아주 짧은 빛이 필요해요' },
+      { big: '감마선', caption: '파장이 아주 짧은 빛' },
+      { big: '세게 튕겨요', caption: '전자의 운동량이 흐트러져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+하이젠베르크는 논문에서 이런 생각 실험을 들었어요. 현미경으로 전자의 자리를 또렷이 보려면 15강처럼 파장이 아주 짧은 빛, 곧 감마선을 써야 해요.
+
+<S n={2}>
+
+그런데 파장이 짧은 빛일수록 광자 하나의 운동량이 커요. 36강처럼 그 광자가 전자를 세게 튕겨서, 전자의 운동량이 흐트러진다는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="비유가 오해를 낳는 곳">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '비유가 주는 인상', caption: '전자는 자리와 운동량을 다 갖고 있는데, 재다가 흐트러뜨려요', tone: 'no' },
+      { big: '실제', caption: '재기 전의 상태부터 둘 다 좁게 가질 수 없어요', tone: 'ok' },
+    ]} />
+  </Fragment>
+
+이 비유는 유명하지만 오해를 낳아요. 전자가 원래 정확한 자리와 운동량을 갖고 있는데, 우리가 재다가 흐트러뜨릴 뿐이라는 인상을 주거든요.
+
+<S n={2}>
+
+그런데 오늘의 사슬에는 측정이 한 번도 나오지 않았어요. 좁은 파동묶음이 다양한 파장을 품는 건 파동의 성질이에요. 그래서 불확정성 원리는 **상태 자체의 한계**예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="흐트러뜨려서일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '흔한 오해', caption: '장치가 서툴러서, 세게 쳐서 생겨요' },
+      { big: '바른 이해', caption: '아무리 살살 재도 상태의 퍼짐은 그대로예요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저도 오랫동안 장치를 더 좋게 만들면 언젠가는 넘을 수 있는 한계라고 생각했어요. 그런데 Δx와 Δp는 서로 다른 전자들을 따로 재서 얻은 퍼짐이에요.
+
+한 전자를 두 번 재서 흐트러뜨린 게 아니에요. 같은 상태로 준비한 전자들이 애초에 그만큼 흩어진 결과를 내는 거예요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="보어의 반박과 덧붙인 글">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1927년 3월', title: '하이젠베르크의 원고', caption: '감마선 현미경으로 설명해요' },
+      { big: '보어의 지적', title: '설명이 모자라요', caption: '빛의 파동다운 면을 빠뜨렸어요' },
+      { big: '덧붙인 글', title: '인쇄 직전', caption: '보어의 지적을 받아들여요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+스키 여행에서 돌아온 보어는 하이젠베르크의 설명이 모자라다고 지적했어요. 현미경에서 빛과 전자의 파동다운 면을 빠뜨렸다는 거예요.
+
+<S n={2}>
+
+둘은 크게 다퉜지만, 하이젠베르크는 결국 인쇄 직전 논문 끝에 보어의 지적을 받아들이는 글을 덧붙였어요. 2012년 실험들은 측정이 주는 흐트러짐을 현미경 비유보다 작게도 할 수 있음을 보였어요. 그래도 상태의 퍼짐에 관한 불확정성 원리는 그대로 맞았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="야구공이라면">
+  <Fragment slot="visual">
+    <DataTable caption="질량 0.145 kg인 야구공, 자리의 퍼짐 1 μm" head={['계산', '값']} rows={[
+      ['운동량의 퍼짐의 바닥', '5.3 × 10⁻³⁵ ÷ 10⁻⁶ ≈ 5.3 × 10⁻²⁹ kg·m/s'],
+      ['빠르기의 퍼짐 = 운동량 ÷ 질량', '약 3.6 × 10⁻²⁸ m/s'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+야구공의 자리를 1 μm, 곧 머리카락 굵기의 100분의 1까지 정했다고 해 봐요. 운동량의 퍼짐은 적어도 5.3 × 10⁻³⁵ ÷ 10⁻⁶ ≈ 5.3 × 10⁻²⁹ kg·m/s예요.
+
+<S n={2}>
+
+질량 0.145 kg으로 나누면 빠르기의 퍼짐은 약 3.6 × 10⁻²⁸ m/s예요. 우주의 나이만큼 기다려도 원자 한두 개 크기만큼 움직일 빠르기라서, 일상에서는 아무도 알아챌 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="원자 속 전자라면">
+  <Fragment slot="visual">
+    <DataTable caption="전자, 자리의 퍼짐 10⁻¹⁰ m (원자 크기)" head={['계산', '값']} rows={[
+      ['운동량의 퍼짐의 바닥', '5.3 × 10⁻³⁵ ÷ 10⁻¹⁰ = 5.3 × 10⁻²⁵ kg·m/s'],
+      ['빠르기의 퍼짐 = 운동량 ÷ 질량', '약 5.8 × 10⁵ m/s'],
+    ]} highlight={[1]} />
+  </Fragment>
+
+이번엔 원자 크기, 10⁻¹⁰ m 안에 있는 전자예요. 운동량의 퍼짐은 적어도 5.3 × 10⁻²⁵ kg·m/s예요.
+
+<S n={2}>
+
+전자의 질량 9.11 × 10⁻³¹ kg으로 나누면 빠르기의 퍼짐은 1초에 약 58만 m예요. 40강에서 구한 원자 속 전자의 빠르기와 견줄 만큼 커요. 원자 속에서는 **자리와 빠르기를 함께 그린 궤도라는 그림이 설 자리가 없어요.**
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="갇힌 전자의 빠르기">
+
+<Numeric id="q61-electron" answer={5.8e5} mode="order" unit="m/s">
+
+전자가 폭 10⁻¹⁰ m쯤인 곳에 있어서 자리의 퍼짐이 10⁻¹⁰ m예요. 불확정성 원리로 이 전자의 빠르기의 퍼짐이 적어도 얼마인지 어림해 보세요. h ÷ 4π ≈ 5.3 × 10⁻³⁵ J·s, 전자의 질량은 9.1 × 10⁻³¹ kg이에요.
+
+<Fragment slot="solution">
+
+운동량의 퍼짐 ≥ 5.3 × 10⁻³⁵ ÷ 10⁻¹⁰ = 5.3 × 10⁻²⁵ kg·m/s예요. 질량으로 나누면 5.3 × 10⁻²⁵ ÷ (9.1 × 10⁻³¹) ≈ 5.8 × 10⁵ m/s예요. 1초에 수십만 m쯤으로 퍼져 있어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="check" title="불확정성 원리의 뜻">
+
+<Check id="q61-meaning" options={[
+  { t: '같은 상태로 준비한 전자들의 자리 퍼짐과 운동량 퍼짐을 곱하면 h ÷ 4π보다 작을 수 없어요.', ok: true, why: '불확정성 원리는 상태 자체의 한계예요. 좁은 파동묶음이 다양한 파장을 품는 파동의 성질에서 나와요.' },
+  { t: '전자는 정확한 자리와 운동량을 갖고 있지만, 재다가 흐트러뜨려서 알 수 없을 뿐이에요.', why: '감마선 현미경 비유가 주는 오해예요. 재기 전의 상태부터 둘 다 좁게 가질 수 없어요.' },
+  { t: '지금의 장치가 서툴러서 생기는 오차라, 기술이 좋아지면 사라져요.', why: '장치와 상관없는 원리예요. 아무리 좋은 장치로 재도 그 상태의 퍼짐은 줄지 않아요.' },
+  { t: '전자의 자리는 절대 잴 수 없다는 뜻이에요.', why: '자리만 재면 얼마든지 정확히 잴 수 있어요. 다만 그런 상태에서는 운동량이 넓게 퍼져 있어요.' },
+]}>
+
+불확정성 원리를 가장 바르게 말한 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="자리를 절반으로">
+
+<Check id="q61-half" options={[
+  { t: '적어도 2배로 커져요.', ok: true, why: 'Δx × Δp의 바닥이 정해져 있으니, Δx를 절반으로 줄이면 Δp의 바닥은 2배가 돼요.' },
+  { t: '절반으로 줄어요.', why: '둘을 함께 줄일 수는 없어요. 하나를 줄이면 다른 하나의 바닥이 올라가요.' },
+  { t: '그대로예요.', why: '자리의 퍼짐이 바뀌면 운동량의 퍼짐도 따라 바뀌어요.' },
+  { t: '4배로 커져요.', why: '곱에 바닥이 있으니 반비례해요. 절반으로 줄이면 2배예요.' },
+]}>
+
+어떤 전자의 상태를 바꿔 자리의 퍼짐 Δx를 절반으로 줄였어요. 운동량의 퍼짐 Δp가 될 수 있는 가장 작은 값은 어떻게 될까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="analogy" title="셔터 속도">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['셔터를 아주 짧게 연 사진', '자리가 좁게 정해진 상태'],
+        ['공이 또렷하지만 빠르기는 알 수 없어요', '운동량이 넓게 퍼져 있어요'],
+        ['셔터를 길게 연 사진', '자리가 넓게 퍼진 상태'],
+        ['공이 흐린 줄로 남아 빠르기는 알지만 자리는 흐려요', '운동량이 좁게 정해져 있어요'],
+      ]}
+      fits="자리를 또렷하게 할수록 움직임이 흐려지고, 움직임을 또렷하게 할수록 자리가 흐려진다는 맞바꿈이 같아요."
+      breaks="사진의 공은 사실 정확한 자리와 빠르기를 함께 갖고 있고, 사진 두 장을 이어 찍으면 둘 다 알 수 있어요. 전자는 그런 상태가 아예 없어요. 그래서 이 비유도 감마선 현미경처럼, 우리가 덜 알 뿐이라는 오해를 남겨요."
+    />
+  </Fragment>
+
+스마트폰으로 날아가는 공을 찍는 장면에 빗대 볼게요. 이번에도 틀리는 곳이 더 중요해요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['uncertainty-principle', 'wave-packet', 'de-broglie-wavelength', 'standard-deviation']}>
+
+1. 자리를 좁게 정한 전자의 파동함수는 좁은 파동묶음이고, 좁은 묶음에는 다양한 파장이 섞여 있어요.
+2. 파장 = h ÷ 운동량이니, 다양한 파장은 넓게 퍼진 운동량이에요.
+3. 그래서 같은 상태로 준비한 전자들의 Δx × Δp는 h ÷ 4π보다 작아질 수 없어요. 이게 불확정성 원리예요.
+4. 이건 측정이 흐트러뜨려서가 아니라 상태 자체의 한계이고, 원자 속 전자처럼 작고 가벼운 것에서 크게 드러나요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="틈을 좁히면">
+
+<DailyProblem id="p61">
+
+전자를 폭이 좁은 틈 하나에 통과시켜 뒤의 화면에 닿게 해요. 틈을 좁히면 전자가 틈을 지날 때의 자리를 더 정확히 알게 돼요. 그런데 화면에 쌓인 자국은 오히려 더 넓게 퍼져요. 불확정성 원리로 왜 그런지 설명해 보세요.
+
+<Fragment slot="hint1">
+
+틈의 폭은 틈을 지나는 순간 전자의 옆 방향 자리의 퍼짐이에요. 그러면 옆 방향 운동량의 퍼짐은 어떻게 될까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+틈을 좁히면 틈을 지나는 순간 전자의 옆 방향 자리의 퍼짐 Δx가 줄어요. 그러면 옆 방향 운동량의 퍼짐 Δp는 적어도 그만큼 커져야 해요.
+
+옆 방향 운동량이 넓게 퍼진 전자들은 틈을 지난 뒤 여러 방향으로 비스듬히 날아가서, 화면에 넓게 퍼진 자국을 남겨요. 15강에서 틈이 좁을수록 파동이 많이 퍼진 회절을, 전자의 자리와 운동량으로 다시 본 거예요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+자리를 좁게 정할수록 섞인 파장, 곧 운동량이 넓게 퍼지니까, 자리의 퍼짐과 운동량의 퍼짐의 곱은 h ÷ 4π보다 작아질 수 없어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="원자의 크기를 어림하기">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '41강의 물음', caption: '전자는 왜 원자핵에 떨어지지 않을까' },
+      { big: '오늘의 원리', caption: '좁게 가둘수록 운동량이 커져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+41강에서 원자핵 둘레의 전자는 원자핵으로 떨어져야 했어요. 그런데 전자를 원자핵 가까이 좁게 가둘수록, 오늘의 원리 때문에 운동량이 커지고 움직임의 에너지도 커져요.
+
+<S n={2}>
+
+다음 강에서는 이 둘이 맞서는 자리를 계산해서 원자의 크기를 어림해요. 그리고 아무리 식혀도 사라지지 않는 에너지, <Later n={62}>영점 에너지</Later>를 만나요.
+
+</S>
+
+</Screen>
