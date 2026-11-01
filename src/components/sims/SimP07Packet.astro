@@ -1,0 +1,140 @@
+---
+/**
+ * 60·61강: 파동묶음. 가운데 파장 근처의 여러 파장의 사인 곡선을 겹친다.
+ * 섞는 파장의 퍼짐을 넓히면 묶음이 좁아지고, 좁히면 묶음이 넓어진다(폭 × 퍼짐 ≈ 일정).
+ * parts: 위에 섞는 파동 몇 개를 흐리게 보인다.
+ * spread: 아래에 섞은 파장마다의 크기(막대)를 보인다. 61강에서 운동량의 퍼짐으로 읽는다.
+ * 재생하면 파동마다 다른 빠르기로 움직여 묶음이 나아가며 퍼진다.
+ */
+interface Props {
+  parts?: boolean;
+  spread?: boolean;
+  dk?: number;
+}
+const { parts = true, spread = false, dk = 2 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-packet class="sim" data-ratio={spread ? '0.86' : '0.66'} data-parts={parts ? '1' : '0'} data-spread={spread ? '1' : '0'} data-autoplay="false">
+  <canvas aria-label="여러 파장의 사인 곡선을 겹쳐 더하면, 한 곳에서만 크게 흔들리는 짧은 파동이 된다. 섞는 파장의 범위가 넓을수록 묶음이 좁다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`pk-d-${uid}`}>섞는 파장의 퍼짐</label>
+      <input id={`pk-d-${uid}`} type="range" min="0.3" max="6" step="0.1" value={dk} data-param="dk" />
+      <output data-out="dk"></output>
+    </div>
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-play>재생</button>
+      <button type="button" class="btn" data-reset>처음으로</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-packet>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const K0 = 24; // 가운데 파수 (화면 폭에 들어가는 파장의 수 × 2π / 폭 비슷하게)
+  const M = 61; // 섞는 파동의 개수 (계산용)
+
+  class SimPacket extends Sim {
+    comps() {
+      const dk = this.p.dk!;
+      const out: { k: number; a: number }[] = [];
+      for (let j = 0; j < M; j++) {
+        const k = K0 + ((j - (M - 1) / 2) / ((M - 1) / 2)) * 3 * dk;
+        const a = Math.exp(-(((k - K0) / dk) ** 2) / 2);
+        out.push({ k, a });
+      }
+      return out;
+    }
+
+    /** 자리 x(−0.5~0.5)에서 더한 값 */
+    sum(x: number, cs: { k: number; a: number }[]) {
+      let s = 0;
+      let n = 0;
+      for (const { k, a } of cs) {
+        const w = 0.03 * k * k; // 파장마다 빠르기가 다르다
+        s += a * Math.cos(k * (x + 0.3) * 2 * Math.PI - w * this.t);
+        n += a;
+      }
+      return s / n;
+    }
+
+    reset() {
+      this.t = 0;
+    }
+
+    format() {
+      return `${this.p.dk!.toFixed(1)}`;
+    }
+
+    readout() {
+      const dk = this.p.dk!;
+      const width = 1 / dk;
+      return `섞은 파장의 퍼짐 ${dk.toFixed(1)} × 묶음의 폭 ${width.toFixed(2)} ≈ 1 (단위는 임의). 퍼짐을 2배로 하면 폭은 절반이 돼요.`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const cs = this.comps();
+      const showParts = this.dataset.parts === '1';
+      const showSpread = this.dataset.spread === '1';
+      const x0 = 12;
+      const x1 = w - 12;
+      const X = (x: number) => x0 + (x + 0.5) * (x1 - x0);
+      // 섞는 파동 몇 개
+      let top = 14;
+      if (showParts) {
+        const pick = [0.2, 0.35, 0.5, 0.65, 0.8].map((f) => cs[Math.round(f * (M - 1))]!);
+        const rowH = h * (showSpread ? 0.06 : 0.08);
+        this.text('섞는 파동 가운데 다섯', x0, 8, c.muted, 9);
+        pick.forEach(({ k, a }, i) => {
+          const yc = top + rowH * (i + 0.5) + 4;
+          g.strokeStyle = `rgba(120, 190, 200, ${0.25 + 0.6 * a})`;
+          g.lineWidth = 1.2;
+          g.beginPath();
+          for (let p = 0; p <= 300; p++) {
+            const x = -0.5 + p / 300;
+            const y = yc - rowH * 0.4 * a * Math.cos(k * (x + 0.3) * 2 * Math.PI - 0.03 * k * k * this.t);
+            if (p) g.lineTo(X(x), y);
+            else g.moveTo(X(x), y);
+          }
+          g.stroke();
+        });
+        top += rowH * 5 + 14;
+      }
+      // 더한 결과
+      const mid = top + h * (showSpread ? 0.14 : 0.2);
+      const amp = h * (showSpread ? 0.12 : 0.18);
+      this.text('모두 더하면', x0, top, c.text2, 10);
+      this.line(x0, mid, x1, mid, c.line, 1);
+      g.strokeStyle = c.space;
+      g.lineWidth = 2.2;
+      g.beginPath();
+      for (let p = 0; p <= 500; p++) {
+        const x = -0.5 + p / 500;
+        const y = mid - amp * this.sum(x, cs);
+        if (p) g.lineTo(X(x), y);
+        else g.moveTo(X(x), y);
+      }
+      g.stroke();
+      this.text('자리 →', x1, mid + amp + 12, c.space, 10, 'right');
+      // 섞은 파장마다의 크기
+      if (showSpread) {
+        const by = h - 22;
+        const bh = h * 0.2;
+        this.text('섞은 파장마다의 크기 (가로: 1 ÷ 파장, 오른쪽일수록 파장이 짧아요)', x0, by - bh - 8, c.time, 10);
+        this.line(x0, by, x1, by, c.text2, 1);
+        const K = (k: number) => x0 + ((k - (K0 - 18)) / 36) * (x1 - x0);
+        g.fillStyle = c.time;
+        for (const { k, a } of cs) {
+          const xx = K(k);
+          if (xx < x0 || xx > x1) continue;
+          g.fillRect(xx - 1.5, by - a * bh, 3, a * bh);
+        }
+      }
+    }
+  }
+  define('qm-sim-packet', SimPacket);
+</script>

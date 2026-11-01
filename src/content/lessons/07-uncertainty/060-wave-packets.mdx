@@ -1,0 +1,435 @@
+---
+number: 60
+title: 파동묶음과 푸리에
+short: 파동묶음
+question: 짧은 박수 소리에는 왜 여러 음이 섞여 있을까요?
+mechanism: 사인 곡선 하나는 처음도 끝도 없이 같은 모양이 되풀이되니, 한 곳에만 있는 짧은 파동이 될 수 없어요. 파장이 조금씩 다른 사인 곡선을 여러 개 겹치면, 한 곳에서는 모두 박자가 맞아 커지고 그곳에서 멀어질수록 박자가 어긋나 서로 지워져서 짧은 파동묶음이 돼요. 섞는 파장의 범위가 넓을수록 박자가 빨리 어긋나니 묶음이 좁아요. 그래서 좁게 몰린 파동일수록 여러 파장을 품고 있고, 어떤 모양이든 사인 곡선들의 합으로 나눠 볼 수 있어요.
+part: 7
+year: 1822
+minutes: 20
+epigraph:
+  text: "수학적 해석은 자연 그 자체만큼이나 넓다."
+  by: 조제프 푸리에
+  source: 『열의 해석적 이론』 서론 (1822)
+assumes: [superposition, interference, constructive, destructive, sine, wavelength, frequency, hertz, spectrum, de-broglie-wavelength, momentum, wavefunction, collapse, quantum-state, harmonic]
+introduces: [wave-packet, fourier-decomposition]
+sources:
+  - "Fourier, J. Théorie analytique de la chaleur (1822)"
+  - "Grattan-Guinness, I. Joseph Fourier 1768–1830 (1972)"
+  - "Wang, A. An Industrial-Strength Audio Search Algorithm. Proceedings of ISMIR (2003): 샤잠의 소리 지문"
+  - "Rossing, T. D. The Science of Sound (3rd ed.), Ch. 7: 소리의 스펙트럼"
+testout: [q60-click, q60-narrow, q60-pure]
+status: published
+---
+
+<Screen kind="scene" title="박수와 소리굽쇠">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'hand', title: '짧은 박수 소리', caption: '짝, 하고 끝나요' },
+      { icon: 'metronome', title: '소리굽쇠', caption: '한 가지 높이로 길게 울려요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+소리굽쇠를 치면 한 가지 높이의 소리가 길게 울려요. 그런데 손뼉을 짝 치면 높이를 말할 수 없는 짧은 소리가 나죠.
+
+<S n={2}>
+
+59강 끝에서 좁게 몰린 상태가 왜 금세 퍼지는지 물었어요. 그 답이 이 짧은 박수 소리에 숨어 있어요. 오늘은 7부를 여는 생각, 파동을 사인 곡선들로 나눠 보는 법을 배워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={12} title="끝없는 사인 곡선">
+  <Fragment slot="visual">
+    <SimCircleSine />
+  </Fragment>
+
+12강에서 돌아가는 점의 높이가 사인 곡선을 그린다고 했어요. 소리굽쇠의 소리는 이런 사인 곡선 하나와 거의 같아요.
+
+<S n={2}>
+
+사인 곡선 하나는 같은 모양이 처음도 끝도 없이 되풀이돼요. 그러니 사인 곡선 하나로는 **한 곳에만 있는 짧은 파동**을 만들 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={13} title="파동은 더해져요">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '파동 A', caption: '' },
+      { big: '+ 파동 B', caption: '' },
+      { big: '= 변위의 합', caption: '같은 자리에서 더해져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+13강의 중첩을 떠올려 볼게요. 두 파동이 같은 곳을 지나면 그곳의 변위는 두 변위를 더한 값이 돼요.
+
+<S n={2}>
+
+그렇다면 사인 곡선을 하나가 아니라 여러 개 겹쳐 보면 어떨까요? 파장이 조금씩 다른 것들로요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="박자가 맞는 곳, 어긋나는 곳">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '가운데', caption: '모든 파동의 꼭짓점이 겹쳐요. 아주 커져요' },
+      { big: '조금 떨어진 곳', caption: '박자가 조금씩 어긋나요' },
+      { big: '멀리', caption: '제각각이라 서로 지워져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+파장이 조금씩 다른 사인 곡선들을 한 자리에서 모두 가장 높은 곳이 겹치게 놓아 볼게요. 그 자리에서는 모두 보강 간섭해서 아주 크게 솟아요.
+
+<S n={2}>
+
+그 자리에서 멀어지면 파장이 다르니 박자가 조금씩 어긋나요. 더 멀리 가면 어떤 건 솟고 어떤 건 꺼져서, 14강의 상쇄 간섭처럼 거의 다 지워져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="여러 파장을 겹치면">
+  <Fragment slot="visual">
+    <SimP07Packet />
+  </Fragment>
+
+위에는 섞는 파동 가운데 다섯 개를, 아래에는 모두 더한 결과를 그렸어요. "섞는 파장의 퍼짐"을 늘렸다 줄였다 해 보세요.
+
+<S n={2}>
+
+파장의 퍼짐을 넓히면 더한 결과가 한 곳에 **좁게** 몰려요. 퍼짐을 좁히면 결과가 넓게 퍼져서, 사인 곡선 하나에 가까워져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="파동묶음이라는 이름">
+  <Fragment slot="visual">
+    <Define term="wave-packet" />
+  </Fragment>
+
+이렇게 여러 파장의 파동이 겹쳐 한 곳에서만 크게 흔들리는 짧은 파동을 **파동묶음**이라고 해요. 박수 소리가 공기 속을 지나가는 모습이 바로 파동묶음이에요.
+
+<S n={2}>
+
+박수 소리에 높이를 말할 수 없는 건, 여러 높이의 소리가 한꺼번에 섞여 있기 때문이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="좁을수록 많이 섞여요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '넓은 묶음', caption: '비슷한 파장 몇 개면 돼요' },
+      { big: '좁은 묶음', caption: '아주 다양한 파장이 필요해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+묶음을 좁게 만들려면 가운데에서 조금만 벗어나도 박자가 어긋나야 해요. 그러려면 서로 많이 다른 파장들을 섞어야 하죠.
+
+<S n={2}>
+
+그래서 **묶음의 폭과 섞인 파장의 퍼짐은 반비례**해요. 하나를 절반으로 줄이면 다른 하나가 2배로 늘어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="소리가 짧으면">
+  <Fragment slot="visual">
+    <DataTable caption="소리의 길이와 섞인 진동수의 폭 (어림)" head={['소리', '이어지는 시간', '섞인 진동수의 폭']} rows={[
+      ['길게 부는 "삐-"', '1초', '1 Hz쯤'],
+      ['짧은 "삑"', '0.01초', '100 Hz쯤'],
+      ['손뼉 "짝"', '0.001초쯤', '1,000 Hz쯤'],
+    ]} />
+  </Fragment>
+
+소리로 보면 어림이 쉬워요. 소리가 이어지는 시간과 섞인 진동수의 폭을 곱하면 대략 1쯤이 돼요.
+
+<S n={2}>
+
+1초 동안 이어지는 소리는 진동수가 1 Hz쯤의 폭으로만 섞여 있어서 한 가지 높이로 들려요. 1,000분의 1초쯤인 손뼉 소리는 1,000 Hz 넘게 퍼진 진동수가 섞여서, 높이를 말할 수 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="딸깍 소리">
+
+<Numeric id="q60-click" answer={500} mode="order" unit="Hz">
+
+0.002초 동안만 울리는 딸깍 소리에는 대략 몇 Hz 폭의 진동수가 섞여 있을까요? 소리가 이어지는 시간 × 섞인 진동수의 폭 ≈ 1로 어림해 보세요.
+
+<Fragment slot="solution">
+
+섞인 진동수의 폭 ≈ 1 ÷ 0.002 = 500 Hz예요. 자릿수만 맞으면 돼요. 손뼉보다는 조금 길어서 조금 덜 섞여 있지만, 여전히 한 가지 높이로는 들리지 않아요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="story" title="열을 연구하던 푸리에">
+  <Fragment slot="visual">
+    <BigNumber top="조제프 푸리에가 열이 퍼지는 방식을 다룬 책을 펴낸 해" value="1822" bottom="1798년에는 나폴레옹의 이집트 원정에 학자로 따라갔어요" />
+  </Fragment>
+
+프랑스의 조제프 푸리에는 나폴레옹의 이집트 원정에 학자로 따라갔던 사람이에요. 돌아와서는 뜨거운 쇠막대 속으로 열이 어떻게 퍼지는지를 연구했어요.
+
+<S n={2}>
+
+1807년 푸리에는 어떤 모양의 온도 분포든 사인 곡선들의 합으로 나눌 수 있다고 주장했어요. 처음엔 반대가 많았지만, 1822년 책으로 펴낸 이 방법은 곧 물리학과 공학 전체로 퍼졌어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="푸리에 분해라는 이름">
+  <Fragment slot="visual">
+    <Define term="fourier-decomposition" />
+  </Fragment>
+
+어떤 모양의 파동이든 여러 파장의 사인 곡선을 알맞은 크기로 더한 것으로 나눠 보는 방법을 **푸리에 분해**라고 해요.
+
+<Key>사인 곡선 하나는 끝없이 되풀이되지만, 파장이 다른 사인 곡선들을 알맞게 겹치면 어떤 모양이든 만들 수 있어서, 박수 소리처럼 짧고 좁은 파동일수록 더 다양한 파장을 품고 있어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="음악 앱의 막대">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'phone', title: '음악 앱의 이퀄라이저', caption: '진동수마다 막대가 오르내려요' },
+      { icon: 'headphones', title: '노래 찾기 앱', caption: '몇 초만 들려줘도 무슨 곡인지 맞혀요' },
+    ]} />
+  </Fragment>
+
+음악 앱에서 오르내리는 이퀄라이저 막대는, 지금 나오는 소리를 푸리에 분해해서 진동수마다 얼마나 섞였는지 보여 줘요.
+
+<S n={2}>
+
+샤잠 같은 노래 찾기 앱도 몇 초짜리 소리를 푸리에 분해해서, 어느 진동수가 언제 세게 나오는지로 노래의 지문을 만들어요. 우리가 듣는 음원 파일도 귀에 잘 안 들리는 진동수를 덜어 내서 크기를 줄인 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="프리즘과 귀도">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'prism', title: '프리즘 (17강)', caption: '햇빛을 진동수별로 나눠요' },
+      { icon: 'speaker', title: '귓속 달팽이관', caption: '소리를 진동수별로 나눠 느껴요' },
+    ]} />
+  </Fragment>
+
+17강에서 프리즘이 햇빛을 무지개색으로 나눈 것도 빛의 푸리에 분해예요. 흰빛이라는 한 덩어리를 진동수별로 펼친 거죠.
+
+<S n={2}>
+
+우리 귀 속 달팽이관도 같은 일을 해요. 자리마다 다른 진동수에 흔들려서, 섞여 들어온 소리를 진동수별로 나눠 느끼거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="섞인 파장의 모습">
+  <Fragment slot="visual">
+    <Plot
+      alt="넓은 파동묶음에 섞인 파장은 가운데 좁은 범위에만 몰려 있고, 좁은 파동묶음에 섞인 파장은 넓은 범위에 낮게 퍼져 있다"
+      x={[4, 16]} y={[0, 1.1]}
+      xLabel="1 ÷ 파장 (1 m에 들어가는 파장의 수)" yLabel="섞인 크기" xq="space"
+      xTicks={[4, 6, 8, 10, 12, 14, 16]} yTicks={[0, 0.5, 1]}
+      axisSteps={[1, 1]}
+      curves={[
+        { fn: 'exp(-pow((x-10)/0.5,2)/2)', q: 'time', label: '넓은 묶음', labelAt: [10.6, 0.95], step: 2 },
+        { fn: '0.35*exp(-pow((x-10)/2,2)/2)', q: 'space', label: '좁은 묶음', labelAt: [12.6, 0.3], step: 3 },
+      ]}
+    />
+  </Fragment>
+
+가로축은 1 m에 파장이 몇 개 들어가는지, 곧 파장이 짧을수록 커지는 값이에요. 세로축은 그 파장이 얼마나 섞였는지예요.
+
+<S n={2}>
+
+넓은 묶음에는 가운데 근처의 파장만 좁게 섞여 있어요.
+
+</S>
+
+<S n={3}>
+
+좁은 묶음에는 훨씬 넓은 범위의 파장이 낮게 퍼져 섞여 있어요. 묶음이 좁을수록 섞인 파장의 그래프는 넓어져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="더 좁은 묶음">
+
+<Check id="q60-narrow" options={[
+  { t: '지금보다 더 넓은 범위의 파장을 섞어야 해요.', ok: true, why: '묶음의 폭과 섞인 파장의 퍼짐은 반비례해요. 좁게 하려면 가운데에서 금세 박자가 어긋나야 하니, 더 다양한 파장이 필요해요.' },
+  { t: '지금보다 좁은 범위의 파장만 섞어야 해요.', why: '파장이 비슷할수록 박자가 천천히 어긋나서 묶음이 넓어져요.' },
+  { t: '파장 하나만 남기면 돼요.', why: '파장 하나는 끝없이 되풀이되는 사인 곡선이라 가장 넓어요.' },
+  { t: '섞는 파동의 크기만 키우면 돼요.', why: '크기를 키우면 더 세게 흔들릴 뿐 폭은 그대로예요. 폭을 정하는 건 섞인 파장의 범위예요.' },
+]}>
+
+어떤 파동묶음의 폭을 지금의 절반으로 좁히고 싶어요. 섞는 파장은 어떻게 바꿔야 할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="check" title="끝없이 울리는 소리">
+
+<Check id="q60-pure" options={[
+  { t: '진동수 하나에만 막대가 서요.', ok: true, why: '끝없이 같은 모양이 되풀이되는 사인 곡선 하나는 그 자체로 이미 한 진동수예요. 다른 진동수는 섞이지 않았어요.' },
+  { t: '모든 진동수에 막대가 고르게 서요.', why: '그건 아주 짧은 딸깍 소리일 때예요. 끝없는 사인 곡선에는 한 진동수만 있어요.' },
+  { t: '막대가 하나도 서지 않아요.', why: '소리가 있으니 그 진동수에 막대가 서요.' },
+  { t: '진동수 두 개에 막대가 서요.', why: '사인 곡선 하나에는 진동수가 하나뿐이에요.' },
+]}>
+
+아주 오랫동안 똑같이 이어지는 순수한 '삐-' 소리, 곧 사인 곡선 하나를 푸리에 분해하면 이퀄라이저에는 어떻게 보일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="전자의 파동묶음">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '자리를 재면', caption: '한 곳에 좁게 몰려요 (59강)' },
+      { big: '좁은 파동묶음', caption: '다양한 파장이 섞여 있어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 전자로 돌아올게요. 59강에서 자리를 잰 직후 전자의 파동함수는 한 곳에 좁게 몰렸어요. 그것도 파동묶음이에요.
+
+<S n={2}>
+
+좁은 파동묶음이니 그 안에는 다양한 파장이 섞여 있어요. 묶음이 좁을수록 더 다양한 파장이 섞여 있죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="왜 퍼질까">
+  <Fragment slot="visual">
+    <SimP07Packet dk={4} />
+  </Fragment>
+
+이번엔 재생을 눌러 보세요. 전자의 물질파는 파장이 짧을수록, 곧 47강에서 운동량이 클수록 빨리 나아가요.
+
+<S n={2}>
+
+섞인 파장마다 빠르기가 달라서, 묶음은 나아가면서 점점 넓게 퍼져요. 처음에 좁았던 묶음일수록 더 다양한 빠르기가 섞여 있어서 더 빨리 퍼지죠. 59강에서 좁게 몰린 상태가 금세 퍼진 까닭이 이거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="음 하나인데 여러 진동수?">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'piano', title: '길게 누른 건반', caption: '음 높이가 또렷해요' },
+      { icon: 'hand', title: '아주 짧게 끊은 소리', caption: '딸깍에 가깝게 들려요' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 건반 하나는 한 가지 음이라고만 생각했어요. 그런데 전자 키보드의 소리를 100분의 1초쯤으로 아주 짧게 끊으면, 음 높이가 흐려지고 딸깍 소리에 가까워져요.
+
+소리가 짧아지는 만큼 섞인 진동수가 넓어지기 때문이에요. 짧으면서도 높이가 또렷한 소리는 만들 수 없어요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="analogy" title="마라톤 출발선">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['출발선에 모인 선수들', '좁게 몰린 파동묶음'],
+        ['선수마다 다른 빠르기', '파장마다 다른 빠르기'],
+        ['시간이 지나면 길게 늘어선 무리', '나아가며 퍼진 파동묶음'],
+      ]}
+      fits="처음엔 한곳에 모여 있어도 빠르기가 섞여 있으면 시간이 갈수록 넓게 퍼진다는 점이 같아요."
+      breaks="선수들은 따로따로 달리는 사람이지만, 파동묶음의 파동들은 같은 곳에 겹쳐 더해지고 서로 지우기도 해요. 그리고 선수들은 처음부터 출발선에 모여 있었지만, 파동묶음이 한 곳에 몰린 건 여러 파동이 그곳에서만 박자가 맞기 때문이에요."
+    />
+  </Fragment>
+
+퍼지는 파동묶음을 마라톤 출발 장면에 빗대 볼게요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['wave-packet', 'fourier-decomposition', 'superposition']}>
+
+1. 사인 곡선 하나는 끝없이 되풀이되니, 한 곳에만 있는 짧은 파동이 될 수 없어요.
+2. 파장이 조금씩 다른 사인 곡선들을 겹치면 한 곳에서만 박자가 맞아 커지고, 나머지는 지워져 파동묶음이 돼요.
+3. 섞는 파장의 범위가 넓을수록 박자가 빨리 어긋나서 묶음이 좁아져요.
+4. 그래서 어떤 모양이든 사인 곡선들의 합으로 나눠 볼 수 있고, 좁게 몰린 전자의 파동은 다양한 파장을 품고 있어요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="북과 플루트">
+
+<DailyProblem id="p60">
+
+음악 앱의 이퀄라이저를 켜 두고 두 소리를 들어 봤어요. 하나는 북을 '둥' 하고 짧게 한 번 친 소리이고, 하나는 플루트로 '삐-' 하고 한 음을 길게 분 소리예요. 어느 쪽이 더 많은 막대를 한꺼번에 켤까요? 오늘 배운 것으로 설명해 보세요.
+
+<Fragment slot="hint1">
+
+소리가 이어지는 시간과 섞인 진동수의 폭은 반비례해요.
+
+</Fragment>
+<Fragment slot="solution">
+
+짧게 친 북소리가 더 많은 막대를 켜요. 북소리는 아주 짧은 파동묶음이라 넓은 범위의 진동수가 섞여 있거든요.
+
+플루트로 길게 분 한 음은 사인 곡선에 가까워서, 그 음의 진동수와 20강의 배음 몇 개에만 막대가 서요. 짧은 소리일수록 다양한 진동수를 품는다는 게 푸리에 분해가 알려 주는 사실이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+파장이 다른 사인 곡선들을 겹치면 한 곳에만 몰린 파동묶음이 되는데, 묶음이 좁을수록 더 다양한 파장을 섞어야 해요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="좁은 자리, 넓은 운동량">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '자리가 좁다', caption: '파동묶음이 좁아요' },
+      { big: '파장이 넓게 섞임', caption: '오늘 배운 것' },
+      { big: '운동량이 넓게 섞임', caption: '47강의 파장 = h ÷ 운동량', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+전자의 파동묶음이 좁으면 다양한 파장이 섞여 있어요. 그런데 47강에서 전자의 파장은 곧 운동량이었죠.
+
+<S n={2}>
+
+그러니 자리를 좁게 정할수록 운동량은 넓게 퍼질 수밖에 없어요. 다음 강에서는 1927년 하이젠베르크가 내놓은 <Later n={61}>불확정성 원리</Later>를 배우고, 흔히 쓰는 비유가 어디서 오해를 낳는지도 함께 봐요.
+
+</S>
+
+</Screen>
