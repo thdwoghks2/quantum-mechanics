@@ -6,6 +6,10 @@ question: 원자핵은 왜 자기를 이루는 조각들을 따로 잰 것보다
 mechanism: 원자핵은 양전하를 띤 양성자와 전하가 없는 중성자로 되어 있고, 양성자끼리 전기력으로 밀어내는데도 아주 가까이에서만 작용하는 더 센 힘이 둘을 뭉쳐 놓아요. 뭉칠 때 에너지가 빠져나가니, E = mc²에 따라 원자핵은 조각들 질량의 합보다 그 에너지를 c²으로 나눈 만큼 가벼워요. 다시 떼어 놓는 데 드는 이 에너지가 결합 에너지예요. 원자핵은 원자보다 10만 배 작은 곳에 조각을 가두니 상자 속 입자처럼 에너지가 MeV 단위로 커지고, 조각 하나당 결합 에너지는 철 근처에서 가장 커요.
 part: 13
 minutes: 20
+epigraph:
+  text: "먼 훗날의 연구자가 이 에너지를 쓸 수 있는 형태로 풀어낼 길을 찾는다면, 인류는 공상 과학의 꿈을 넘어서는 힘을 손에 넣게 될 것이다."
+  by: 프랜시스 애스턴
+  source: 노벨 화학상 강연 「동위원소와 원자량」 (1922)
 assumes: [nucleus, atom, electron, alpha-particle, charge, elementary-charge, electric-force, coulomb-law, mass, energy, mass-energy-equivalence, speed-of-light, particle-in-a-box, pauli-exclusion, fermion, energy-level, scientific-notation]
 introduces: [proton, neutron, binding-energy]
 sources:
@@ -14,6 +18,8 @@ sources:
   - "Wang, M. et al. The AME 2020 atomic mass evaluation, Chinese Physics C 45, 030003 (2021)"
   - "CODATA 2018: 양성자 질량 938.272 MeV/c², 중성자 질량 939.565 MeV/c²"
   - "The Nobel Prize in Physics 1935, nobelprize.org"
+  - "Aston, F. W. Mass-Spectra and Isotopes, Nobel Lecture (12 December 1922), nobelprize.org"
+  - "World Nuclear Association, Nuclear Power Reactors / Fuel Cycle 안내: 연료 알갱이 하나(지름·높이 각 약 1 cm)가 석탄 약 1톤과 맞먹는 에너지를 내요"
 testout: [q106-mass, q106-per, q106-dd]
 status: published
 ---
@@ -272,7 +278,7 @@ status: published
 
 <S n={2}>
 
-무거운 원자핵이 둘로 쪼개져도 에너지가 나와요. 앞의 일은 <Later n={108}>핵융합</Later>, 뒤의 일은 <Later n={112}>핵분열</Later>이라고 불러요.
+무거운 원자핵이 둘로 쪼개져도 **에너지가 나와요**. 앞의 일은 <Later n={108}>핵융합</Later>, 뒤의 일은 <Later n={112}>핵분열</Later>이라고 불러요.
 
 </S>
 
@@ -335,6 +341,27 @@ status: published
 원자핵을 다시 떼어 놓으려면 그만큼의 에너지를 되돌려 줘야 하죠.
 
 </Note>
+
+</Screen>
+
+<Screen kind="scene" title="손가락 마디만 한 연료">
+  <Fragment slot="visual">
+    <BigNumber top="원자력 발전소의 우라늄 연료 알갱이 하나가 내는 에너지" value="석탄 약 1톤" bottom="알갱이는 지름과 높이가 각각 약 1 cm예요" q="energy" />
+  </Fragment>
+
+원자력 발전소에서는 지름 약 1 cm의 우라늄 연료 알갱이를 쌓아 써요. 이 알갱이 하나가 내는 에너지는 석탄 약 1톤을 태울 때와 맞먹어요.
+
+<S n={2}>
+
+이만큼 차이가 나는 까닭은 오늘 본 결합 에너지가 MeV 단위이기 때문이에요. 석탄이 탈 때 원자 하나가 내는 에너지는 몇 eV뿐이에요.
+
+</S>
+
+<S n={3}>
+
+**원자핵의 에너지는 원자의 에너지보다 100만 배쯤 커요.**
+
+</S>
 
 </Screen>
 
