@@ -6,6 +6,10 @@ question: 속도계 바늘은 어떻게 '지금 이 순간'의 빠르기를 알�
 mechanism: 짧은 동안 바뀐 양을 그 동안의 길이로 나누고, 그 길이를 0에 가깝게 줄여 가면 한순간의 변화율이 나와요. 이게 미분이고, 그래프에서는 그 점의 기울기예요. 기울기가 얼마나 빨리 바뀌는지를 한 번 더 재면 곡률이 나오는데, 파장이 짧은 물결일수록 곡률이 크고 입자의 운동 에너지도 같은 비율로 커져서, 파동함수의 곡률로 운동 에너지를 읽을 수 있어요.
 part: 8
 minutes: 20
+epigraph:
+  text: "이 유율이란 무엇인가? 사라져 가는 증분의 속도인가? … 그것을 떠나간 양들의 유령이라 불러도 되지 않을까?"
+  by: 조지 버클리
+  source: 『분석가』, 뉴턴의 미분(유율)을 비판하며 (1734)
 assumes: [speed, velocity, acceleration, second-law, kinetic-energy, momentum, wavelength, sine, wavefunction, de-broglie-wavelength, uncertainty-principle]
 introduces: [derivative, curvature]
 sources:
@@ -13,6 +17,8 @@ sources:
   - "Newton, I. The Method of Fluxions and Infinite Series (1736, 1671년 무렵 씀)"
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. I, Ch. 8 Motion (1963)"
   - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Ch. 2 (2018)"
+  - "Berkeley, G. The Analyst (1734)"
+  - "World Athletics: 2009 베를린 세계선수권 남자 100 m 결승 구간 기록 (60~80 m 1.61초)"
 testout: [q64-flat, q64-curv, q64-zero]
 status: published
 ---
@@ -73,6 +79,30 @@ status: published
 <S n={2}>
 
 그런데 그 2시간 동안 차는 신호에 서기도 하고, 고속도로에서 빨리 달리기도 했어요. 평균은 그 사이에 있었던 일을 숫자 하나로 뭉뚱그린 값이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="볼트의 가장 빠른 순간">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'runner', title: '100 m 전체', big: '10.4 m/s', caption: '9.58초 동안의 평균' },
+      { icon: 'runner', title: '60~80 m 구간', big: '12.4 m/s', caption: '20 m를 약 1.61초에', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2009년 우사인 볼트가 100 m를 9.58초에 달렸을 때, 평균 속력은 100 ÷ 9.58 = 약 10.4 m/s였어요. 그런데 볼트가 처음부터 끝까지 그 빠르기로 달린 건 아니에요.
+
+<S n={2}>
+
+출발할 때는 느렸고, 60 m에서 80 m까지는 20 m를 약 1.61초에 달려 약 12.4 m/s를 냈어요.
+
+</S>
+
+<S n={3}>
+
+구간을 짧게 자를수록 그 구간의 평균은 '그 순간'의 빠르기에 다가가요. **가장 빨랐던 한순간의 속력을 알려면 구간을 0에 가깝게 줄여야 해요.**
 
 </S>
 
@@ -514,6 +544,12 @@ status: published
 <S n={2}>
 
 5강의 F = ma도 속도가 바뀌는 빠르기, 그러니까 속도를 미분한 가속도에 관한 식이에요. 물리학의 법칙은 이렇게 무엇이 얼마나 빨리 바뀌는지로 쓰인 것이 많아요.
+
+</S>
+
+<S n={3}>
+
+처음엔 반대도 커서, 철학자 조지 버클리는 1734년에 0으로 줄여 가는 그 양을 '떠나간 양들의 유령'이라고 비꼬았어요.
 
 </S>
 
