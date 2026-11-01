@@ -17,6 +17,7 @@ sources:
   - "Newton, I. Letter to Richard Bentley, 25 February 1692/3. The Correspondence of Isaac Newton, Vol. 3 (1961)"
   - "Faraday, M. On the Physical Character of the Lines of Magnetic Force. Philosophical Magazine 3, 401–428 (1852)"
   - "Maxwell, J. C. A Dynamical Theory of the Electromagnetic Field. Philosophical Transactions 155, 459–512 (1865)"
+  - "Abbott, B. P. et al. Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger: GW170817 and GRB 170817A. The Astrophysical Journal Letters 848, L13 (2017)"
   - "Dirac, P. A. M. The Quantum Theory of the Emission and Absorption of Radiation. Proceedings of the Royal Society A 114, 243–265 (1927)"
   - "Feynman, R. P., Leighton, R. B. & Sands, M. The Feynman Lectures on Physics, Vol. II, Ch. 1 (1964)"
 testout: [q121-local, q121-delay, q121-same]
@@ -253,11 +254,33 @@ B가 받는 힘이 A의 자리에 따라 바뀌려면, 무언가 둘 사이를 �
 
 </Screen>
 
+<Screen kind="step" title="해가 사라진다면">
+  <Fragment slot="visual">
+    <BigNumber top="해가 지금 이 순간 사라져도, 지구가 그 소식을 받기까지" value="8분 20초" bottom="그동안 지구는 해가 있던 빈자리를 그대로 돌아요" />
+  </Fragment>
+
+중력도 장을 타고 전해져요. 그래서 해가 지금 이 순간 사라져도, 그 소식은 빛의 속력으로 와요.
+
+<S n={2}>
+
+**8분 20초 동안 우리는 모른 채 햇빛을 받고, 지구는 빈자리를 계속 돌아요.** 뉴턴이 1693년에 품은 의문의 답이에요.
+
+</S>
+
+<S n={3}>
+
+2017년, 1억 3,000만 광년 밖에서 부딪친 두 중성자별의 중력 흔들림과 빛이 거의 동시에 도착해서 이것을 확인했어요.
+
+</S>
+
+</Screen>
+
 <Screen kind="step" title="장은 에너지를 나른다">
   <Fragment slot="visual">
     <Panels panels={[
       { icon: 'sun', title: '햇빛', caption: '텅 빈 우주를 건너와 땅을 데워요' },
       { icon: 'microwave', title: '전자레인지', caption: '전자기파가 음식을 데워요' },
+      { icon: 'phone', title: '스마트폰', caption: '기지국의 전파가 장을 타고 와요' },
     ]} />
   </Fragment>
 
