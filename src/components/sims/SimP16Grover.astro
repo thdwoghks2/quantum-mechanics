@@ -1,0 +1,91 @@
+---
+/**
+ * 간섭으로 찾기(135강). 큐비트 3개로 나타내는 8가지 경우의 확률 진폭을 막대로 그린다.
+ * ① 찾는 답의 진폭만 부호를 뒤집고, ② 모든 진폭을 평균을 중심으로 뒤집는다(그로버의 방법).
+ * 두 단계를 되풀이하면 틀린 답의 진폭은 서로 지워지듯 작아지고 찾는 답의 진폭만 커진다.
+ * 8가지라면 두 번 되풀이할 때 찾는 답이 나올 확률이 약 95%로 가장 크다.
+ */
+---
+<qm-sim-p16-grover class="sim" data-ratio="0.64" data-autoplay="false">
+  <canvas aria-label="8가지 경우의 확률 진폭 막대. 찾는 답의 부호를 뒤집고 평균을 중심으로 뒤집기를 되풀이하면, 찾는 답의 막대만 길어져요."></canvas>
+  <div class="sim__controls">
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-op="mark">① 찾는 답 뒤집기</button>
+      <button type="button" class="btn" data-op="diffuse">② 평균 중심으로 뒤집기</button>
+      <button type="button" class="btn" data-op="reset">처음부터</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-grover>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const N = 8;
+  const TARGET = 5; // 101
+  const label = (i: number) => i.toString(2).padStart(3, '0');
+
+  class SimP16Grover extends Sim {
+    animated = false;
+    amp: number[] = new Array(N).fill(1 / Math.sqrt(N));
+    rounds = 0;
+    last = '';
+
+    init() {
+      for (const b of this.querySelectorAll<HTMLButtonElement>('[data-op]')) {
+        b.addEventListener('click', () => this.op(b.dataset.op!));
+      }
+    }
+
+    op(kind: string) {
+      if (kind === 'reset') {
+        this.amp = new Array(N).fill(1 / Math.sqrt(N));
+        this.rounds = 0;
+        this.last = '';
+      } else if (kind === 'mark') {
+        this.amp[TARGET] = -this.amp[TARGET]!;
+        this.last = 'mark';
+      } else {
+        const mean = this.amp.reduce((a, b) => a + b, 0) / N;
+        this.amp = this.amp.map((a) => 2 * mean - a);
+        if (this.last === 'mark') this.rounds++;
+        this.last = 'diffuse';
+      }
+      this.frame();
+    }
+
+    readout() {
+      const p = this.amp[TARGET]! ** 2;
+      return `찾는 답 ${label(TARGET)} · 되풀이 ${this.rounds}번 · 지금 측정하면 ${label(TARGET)}이 나올 확률 ${(p * 100).toFixed(0)}% (아무거나 고르면 12.5%)`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const left = 34;
+      const right = w - 12;
+      const mid = h * 0.5;
+      const scale = h * 0.38;
+      const bw = (right - left) / N;
+      // 0 기준선과 평균
+      this.line(left, mid, right, mid, c.line, 1);
+      const mean = this.amp.reduce((a, b) => a + b, 0) / N;
+      ctx.setLineDash([4, 4]);
+      this.line(left, mid - mean * scale, right, mid - mean * scale, c.text2, 1);
+      ctx.setLineDash([]);
+      this.text('평균', right, mid - mean * scale - 8, c.text2, 10, 'right');
+      this.amp.forEach((a, i) => {
+        const x = left + i * bw + bw * 0.18;
+        const bh = a * scale;
+        ctx.fillStyle = i === TARGET ? c.accent : c.time;
+        ctx.globalAlpha = i === TARGET ? 0.95 : 0.7;
+        ctx.fillRect(x, bh >= 0 ? mid - bh : mid, bw * 0.64, Math.abs(bh));
+        ctx.globalAlpha = 1;
+        this.text(label(i), x + bw * 0.32, h - 10, i === TARGET ? c.accent : c.muted, 10, 'center');
+      });
+      this.text('+', 12, mid - scale * 0.9, c.muted, 12, 'left');
+      this.text('−', 12, mid + scale * 0.9, c.muted, 12, 'left');
+      this.text('확률 진폭', 12, 14, c.text2, 10, 'left');
+    }
+  }
+  define('qm-sim-p16-grover', SimP16Grover);
+</script>

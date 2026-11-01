@@ -1007,3 +1007,21 @@
   lessons: [134]
   sources:
     - "Lauterbur, P. C. Nature 242, 190 (1973)"
+- id: shor
+  name: 피터 쇼어
+  original: Peter Shor
+  born: 1959
+  role: 미국의 수학자, 컴퓨터 과학자
+  summary: 1994년 벨 연구소에서, 큰 수를 소인수분해하고 이산 로그를 구하는 일을 양자컴퓨터로 아주 빨리 하는 방법을 내놓았어요. 그 뒤 양자컴퓨터 연구가 크게 늘었고, 지금의 많은 암호를 새로 바꾸는 계기가 됐어요.
+  lessons: [135]
+  sources:
+    - "Shor, P. W. Proceedings 35th FOCS, 124 (1994)"
+- id: grover
+  name: 로브 그로버
+  original: Lov Grover
+  born: 1961
+  role: 인도 태생의 미국 컴퓨터 과학자
+  summary: 1996년 벨 연구소에서, 뒤죽박죽인 목록에서 답을 찾을 때 목록 크기의 제곱근쯤만 되풀이하면 되는 양자 방법을 내놓았어요. 찾는 답의 진폭을 뒤집고 평균을 중심으로 뒤집기를 되풀이하는 방법이에요.
+  lessons: [135]
+  sources:
+    - "Grover, L. K. Proceedings 28th STOC, 212 (1996)"
