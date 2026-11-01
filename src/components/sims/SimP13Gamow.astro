@@ -1,0 +1,117 @@
+---
+/**
+ * 가모프 봉우리. 해 한가운데의 양성자 쌍이 부딪히는 에너지 E(가로)에 대해
+ * 1) 그 에너지를 가진 쌍이 얼마나 흔한지(열운동, e^(−E/kT)),
+ * 2) 그 에너지로 서로의 전기적 벽을 터널 효과로 지날 확률(e^(−√(E_G/E)), E_G ≈ 493 keV),
+ * 3) 둘을 곱한 값(실제로 뭉치는 쌍)을 그린다. 온도 슬라이더로 봉우리와 뭉치는 빠르기가 바뀐다.
+ */
+interface Props {
+  t?: number;
+}
+const { t = 15 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p13-gamow class="sim" data-ratio="0.62">
+  <canvas aria-label="부딪히는 에너지에 따라, 흔한 정도는 줄고 벽을 지날 확률은 늘어난다. 둘을 곱한 값은 몇 keV에서 봉우리를 이룬다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p13g-t-${uid}`}>한가운데 온도 (백만 K)</label>
+      <input id={`p13g-t-${uid}`} type="range" min="5" max="30" step="1" value={t} data-param="T" />
+      <output data-out="T"></output>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p13-gamow>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  const EG = 493; // 양성자 둘의 가모프 에너지 (keV)
+  const KB = 0.08617; // keV / 백만 K
+  const EMAX = 30;
+
+  function rate(T: number) {
+    const kT = KB * T;
+    let s = 0;
+    for (let i = 1; i <= 3000; i++) {
+      const E = (i / 3000) * 60;
+      s += Math.exp(-E / kT - Math.sqrt(EG / E));
+    }
+    return s;
+  }
+  const R15 = rate(15);
+
+  class SimP13Gamow extends Sim {
+    animated = false;
+
+    format(name: string) {
+      return name === 'T' ? `${this.p.T}` : '';
+    }
+
+    readout() {
+      const T = this.p.T!;
+      const kT = KB * T;
+      const E0 = Math.cbrt((EG * kT * kT) / 4);
+      const r = rate(T) / R15;
+      const rs = r >= 100 ? Math.round(r).toLocaleString('ko-KR') : r >= 1 ? r.toFixed(1) : r.toPrecision(2);
+      return `평균 열에너지 약 ${kT.toFixed(1)} keV · 봉우리 약 ${E0.toFixed(1)} keV · 뭉치는 빠르기는 1,500만 K일 때의 ${rs}배`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const T = this.p.T!;
+      const kT = KB * T;
+      const L = 14;
+      const R = w - 10;
+      const top = 22;
+      const bot = h - 24;
+      const X = (E: number) => L + (E / EMAX) * (R - L);
+      this.line(L, bot, R, bot, c.line, 1);
+      [0, 10, 20, 30].forEach((e) => this.text(`${e}`, X(e), bot + 11, c.text2, 10, 'center'));
+      this.text('부딪히는 에너지 (keV)', R, bot + 21, c.text2, 10, 'right');
+
+      const N = 300;
+      const fs: number[] = [];
+      const ps: number[] = [];
+      const qs: number[] = [];
+      for (let i = 0; i <= N; i++) {
+        const E = Math.max(0.05, (i / N) * EMAX);
+        fs.push(Math.exp(-E / kT));
+        ps.push(Math.exp(-Math.sqrt(EG / E)));
+      }
+      const pmax = Math.max(...ps);
+      for (let i = 0; i <= N; i++) qs.push(fs[i]! * ps[i]!);
+      const qmax = Math.max(...qs);
+      const curve = (arr: number[], scale: number, col: string, wd: number, fill = false) => {
+        g.beginPath();
+        arr.forEach((v, i) => {
+          const x = X((i / N) * EMAX);
+          const y = bot - Math.min(1, v / scale) * (bot - top);
+          if (i) g.lineTo(x, y);
+          else g.moveTo(x, y);
+        });
+        if (fill) {
+          g.lineTo(X(EMAX), bot);
+          g.lineTo(X(0), bot);
+          g.closePath();
+          g.fillStyle = 'rgba(214,170,60,0.35)';
+          g.fill();
+        } else {
+          g.strokeStyle = col;
+          g.lineWidth = wd;
+          g.stroke();
+        }
+      };
+      curve(fs, 1, c.heat, 2);
+      curve(ps, pmax, c.space, 2);
+      curve(qs, qmax, c.energy, 2, true);
+      curve(qs, qmax, c.energy, 2.5);
+      this.text('흔한 정도 (열운동)', X(0.6), top - 8, c.heat, 10);
+      this.text('벽을 지날 확률 (터널 효과)', R, top - 8, c.space, 10, 'right');
+      const E0 = Math.cbrt((EG * kT * kT) / 4);
+      this.text('곱: 실제로 뭉치는 쌍', X(E0) + 6, bot - (bot - top) * 0.55, c.energy, 10);
+    }
+  }
+  define('qm-sim-p13-gamow', SimP13Gamow);
+</script>

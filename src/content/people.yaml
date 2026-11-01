@@ -702,6 +702,23 @@
   role: 미국의 화학자
   summary: 1949년 생물이 죽은 뒤 몸속 탄소-14가 반감기에 따라 줄어드는 것으로 그 나이를 재는 방법을 내놓았어요. 1960년 노벨 화학상을 받았어요.
   lessons: [107]
+- id: eddington
+  name: 아서 에딩턴
+  original: Arthur Eddington
+  born: 1882
+  died: 1944
+  role: 영국의 천체물리학자
+  summary: 1920년, 헬륨 원자핵이 수소 원자핵 넷보다 조금 가볍다는 측정에서 별이 수소를 헬륨으로 바꾸며 빛난다고 짐작했어요. 1919년 개기 일식 관측을 이끌어 일반상대성이론의 예측을 확인한 사람이기도 해요. 1935년에는 찬드라세카르의 질량 한계에 공개적으로 반대했어요.
+  lessons: [108, 110]
+  sources: ["Eddington, A. S. The Internal Constitution of the Stars, The Observatory 43, 341 (1920)"]
+- id: bethe
+  name: 한스 베테
+  original: Hans Bethe
+  born: 1906
+  died: 2005
+  role: 독일 출신의 미국 물리학자
+  summary: 1939년 별 속에서 수소가 헬륨으로 바뀌는 두 가지 길, 양성자끼리 차례로 뭉치는 길과 탄소를 거쳐 가는 길을 계산해 냈어요. 이 연구로 1967년 노벨 물리학상을 받았어요. 제2차 세계대전 때는 로스앨러모스에서 이론 부서를 이끌었어요.
+  lessons: [108]
 
 # ── 세션 4 (84~105강, 111~120강) ──
 # (여기 아래에 더한다)
