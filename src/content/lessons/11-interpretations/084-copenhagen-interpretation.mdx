@@ -6,6 +6,10 @@ question: 재기 전의 전자는 어떤 상태에 '있는' 걸까요?
 mechanism: 양자역학의 식은 측정하면 어떤 결과가 얼마의 확률로 나오는지만 알려 주고, 재기 전에 전자가 실제로 어디 있었는지는 말하지 않아요. 1927년 무렵 보어와 하이젠베르크는 이것을 이론이 모자란 탓이 아니라 자연의 성질로 받아들였어요. 재기 전의 성질은 정해져 있지 않고, 어떤 장치로 묻느냐에 따라 파동이나 입자처럼 서로 다른 그림이 필요하다고 봤거든요. 이 생각들을 묶어 코펜하겐 해석이라고 불러요.
 part: 11
 minutes: 20
+epigraph:
+  text: "물리학의 일이 자연이 어떠한지를 알아내는 것이라고 생각하는 건 잘못이다. 물리학은 자연에 대해 우리가 무엇을 말할 수 있는지를 다룬다."
+  by: 닐스 보어
+  source: 오게 페테르센의 회고, 『원자과학자 회보』 (1963)
 assumes: [complementarity, wavefunction, collapse, quantum-state, born-rule, uncertainty-principle, spin, stern-gerlach, interference, double-slit, probability]
 introduces: [copenhagen-interpretation]
 sources:
@@ -14,6 +18,7 @@ sources:
   - "Heisenberg, W. The Development of the Interpretation of the Quantum Theory. In W. Pauli (ed.), Niels Bohr and the Development of Physics (1955)"
   - "Howard, D. Who Invented the 'Copenhagen Interpretation'? A Study in Mythology. Philosophy of Science 71, 669–682 (2004)"
   - "Faye, J. Copenhagen Interpretation of Quantum Mechanics. Stanford Encyclopedia of Philosophy (2019)"
+  - "Petersen, A. The Philosophy of Niels Bohr. Bulletin of the Atomic Scientists 19(7), 8–14 (1963)"
 testout: [q84-a, q84-b, q84-c]
 status: published
 ---
@@ -183,7 +188,9 @@ status: published
 
 <Screen kind="step" title="길은 볼 때 생겨요">
   <Fragment slot="visual">
-    <BigNumber top="하이젠베르크, 1927년 불확정성 원리 논문" value="“길은 우리가 볼 때 비로소 생긴다”" bottom="Die „Bahn“ entsteht erst dadurch, daß wir sie beobachten." />
+    <Quote by="베르너 하이젠베르크" source="불확정성 원리 논문 (1927)">
+      길은 우리가 그것을 볼 때 비로소 생긴다.
+    </Quote>
   </Fragment>
 
 하이젠베르크는 같은 해 논문에서 더 짧게 말했어요. 전자가 지나간 길은 우리가 볼 때 비로소 생긴다는 거예요.
@@ -223,6 +230,24 @@ status: published
 위아래로 재면 위와 아래가 반반의 확률로 나오는 전자가 있어요. 코펜하겐 해석에서는 재기 전 이 전자의 위아래 스핀을 어떻게 볼까요?
 
 </Check>
+
+</Screen>
+
+<Screen kind="compare" title="녹화 중계와 생중계">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '녹화 중계', caption: '결과는 이미 났어요. 나만 모를 뿐이에요' },
+      { big: '생중계', caption: '결과가 아직 나지 않았어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+월드컵 경기를 다음 날 녹화 중계로 보면, 손에 땀을 쥐어도 결과는 이미 나 있어요. 나만 모를 뿐이죠.
+
+<S n={2}>
+
+생중계는 달라요. 결과가 아직 **정해지지 않았어요**. 두 경우 모두 "누가 이길지 모른다"고 말하지만, 그 "모른다"의 뜻은 전혀 달라요.
+
+</S>
 
 </Screen>
 
