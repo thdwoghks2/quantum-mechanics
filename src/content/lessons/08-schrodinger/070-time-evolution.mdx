@@ -6,6 +6,10 @@ question: 원자가 내는 빛의 진동수는 왜 두 에너지 칸의 차이�
 mechanism: 에너지가 정해진 상태의 파동함수는 자리마다의 값이 복소평면 위에서 크기는 그대로 둔 채 1초에 E/h바퀴씩 돌기만 해서, 찾을 확률이 변하지 않아요. 에너지가 다른 두 상태를 섞으면 두 부분이 서로 다른 빠르기로 돌며 간섭해서, 찾을 확률이 두 에너지의 차이를 h로 나눈 진동수로 출렁여요. 전자처럼 전하를 띤 입자가 이 진동수로 출렁이니, 원자는 바로 그 진동수의 빛과 에너지를 주고받아요.
 part: 8
 minutes: 20
+epigraph:
+  text: "영원히 변하지 않는 길이와 시간과 질량의 기준을 얻고 싶다면, 우리 행성의 크기나 움직임이나 질량이 아니라, 썩지도 바뀌지도 않고 서로 완전히 똑같은 분자들의 파장과 진동 주기와 질량에서 찾아야 한다."
+  by: 제임스 클러크 맥스웰
+  source: 영국과학진흥협회 수학·물리 분과 강연 (1870)
 assumes: [complex-number, complex-plane, modulus, euler-formula, probability-amplitude, born-rule, wavefunction, quantum-state, superposition, interference, particle-in-a-box, tunneling, schrodinger-equation, energy-level, ground-state, photon, planck-constant, frequency, em-wave, charge, electron, ultraviolet, standing-wave, molecule]
 introduces: [stationary-state]
 sources:
@@ -13,6 +17,8 @@ sources:
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 7-9 (1965)"
   - "Gordon, J. P., Zeiger, H. J., Townes, C. H. Molecular Microwave Oscillator and New Hyperfine Structure in the Microwave Spectrum of NH₃, Physical Review 95, 282 (1954)"
   - "NIST Atomic Spectra Database: 수소 라이먼 알파선 121.6 nm (약 2.47 × 10¹⁵ Hz, 10.2 eV)"
+  - "BIPM. SI Brochure, 9th ed.: 초의 정의 (세슘-133 바닥상태 초미세 전이 9,192,631,770 Hz, 1967년 제13차 국제도량형총회)"
+  - "Maxwell, J. C. Address to the Mathematical and Physical Sections of the British Association, Liverpool (1870)"
 testout: [q70-stat, q70-shift, q70-mix]
 status: published
 ---
@@ -293,6 +299,27 @@ status: published
 <S n={2}>
 
 메이저는 빛으로 같은 일을 하는 <Later n={133}>레이저</Later>로 이어졌어요. 오늘 계산한 출렁임이 기술로 쓰인 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1초를 정하는 출렁임">
+  <Fragment slot="visual">
+    <BigNumber top="세슘 원자가 1초 동안 출렁이는 횟수" value="약 92억 번" bottom="정확히 9,192,631,770번 세면 1초라고 1967년에 정했어요" q="time" />
+  </Fragment>
+
+3강에서 1초는 원자시계로 정한다고 했죠. 그 원자시계가 세는 것이 오늘의 출렁임이에요.
+
+<S n={2}>
+
+세슘 원자의 가장 낮은 두 칸은 에너지가 아주 조금 달라서, 두 칸을 섞으면 1초에 9,192,631,770번 출렁여요. 1967년부터는 이 출렁임을 그만큼 센 시간을 1초라고 정했어요.
+
+</S>
+
+<S n={3}>
+
+**스마트폰의 GPS가 내 자리를 몇 m까지 맞히는 것도, 위성마다 실린 원자시계가 이런 출렁임을 세고 있어서예요.**
 
 </S>
 
