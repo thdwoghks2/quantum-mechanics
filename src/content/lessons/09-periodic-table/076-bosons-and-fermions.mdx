@@ -6,6 +6,10 @@ question: 전자는 서로 같은 상태를 피하는데, 광자는 왜 한 상�
 mechanism: 같은 종류의 입자는 정말로 구별할 수 없어서, 두 입자가 자리를 바꿔도 찾을 확률이 같아야 해요. 그래서 진폭은 그대로이거나 부호만 바뀔 수 있고, 그대로인 입자가 보손, 부호가 바뀌는 입자가 페르미온이에요. 페르미온 둘이 같은 상태에 있으면 진폭이 그대로이면서 부호도 바뀌어야 하니 0이 되어 배타 원리가 나오고, 보손은 진폭이 더해져 오히려 같은 상태에 모이려 해요. 아주 차갑게 식힌 보손 원자들이 한 상태에 모인 것이 보스-아인슈타인 응축이에요.
 part: 9
 minutes: 20
+epigraph:
+  text: "보스가 플랑크 공식을 이끌어 낸 것은, 내 생각에 중요한 진전이다. 여기 쓰인 방법은 이상 기체의 양자론도 내놓는데, 이는 다른 곳에서 자세히 밝히겠다."
+  by: 알베르트 아인슈타인
+  source: 보스의 논문을 독일어로 옮기며 덧붙인 옮긴이의 말 (1924)
 assumes: [pauli-exclusion, spin, orbital, electron, photon, atom, nucleus, probability-amplitude, born-rule, probability, absolute-temperature, absolute-zero, de-broglie-wavelength, particle-in-a-box, thermal-radiation, interference, quantum-state]
 introduces: [boson, fermion, bose-einstein-condensate]
 sources:
@@ -15,6 +19,9 @@ sources:
   - "Pauli, W. The Connection Between Spin and Statistics, Physical Review 58, 716 (1940)"
   - "Fried, D. G. et al. Bose-Einstein Condensation of Atomic Hydrogen, Physical Review Letters 81, 3811 (1998)"
   - "The Nobel Prize in Physics 2001, nobelprize.org"
+  - "Lee, S., Kim, J.-H., Kwon, Y.-W. The First Room-Temperature Ambient-Pressure Superconductor, arXiv:2307.12008 (2023)"
+  - "한국초전도저온학회 LK-99 검증위원회 발표: 상온 상압 초전도체라는 근거를 찾지 못함 (2023년 12월)"
+  - "Bardeen, J., Cooper, L. N., Schrieffer, J. R. Theory of Superconductivity, Physical Review 108, 1175 (1957)"
 testout: [q76-pauli, q76-he3, q76-coin]
 status: published
 ---
@@ -316,7 +323,7 @@ status: published
 
 <S n={2}>
 
-우주의 텅 빈 곳보다 1,000만 배 넘게 차가운 거죠. 이 정도로 차가워야 원자의 드브로이 파장이 원자 사이 거리만큼 길어져서, 원자들의 파동이 서로 겹쳐요.
+**우주의 텅 빈 곳보다 1,000만 배 넘게 차가운 거죠.** 이 정도로 차가워야 원자의 드브로이 파장이 원자 사이 거리만큼 길어져서, 원자들의 파동이 서로 겹쳐요.
 
 </S>
 
@@ -335,6 +342,30 @@ status: published
 <S n={2}>
 
 <Later n={133}>레이저</Later> 빛도 수많은 광자가 같은 상태에 모인 거예요. 보손이 모이려는 성질이 쓰이는 곳이죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="2023년 여름의 LK-99">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'LK-99', caption: '2023년 · 상온 초전도체라는 주장' },
+      { icon: 'magnet', title: '초전도', caption: '저항 없이 흐르는 전류', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2023년 여름, 실온에서도 초전도가 된다는 물질 LK-99 소식에 많은 사람이 들떴어요. 여러 나라 연구진이 다시 만들어 봤지만, 초전도는 확인되지 않았어요.
+
+<S n={2}>
+
+초전도란 전기 저항이 0이 되어 전류가 줄지 않고 흐르는 일이에요. 어떤 금속을 아주 차갑게 식히면 전자들이 둘씩 짝을 짓는데, 이 짝이 보손처럼 행동해요.
+
+</S>
+
+<S n={3}>
+
+**페르미온인 전자도 둘이 짝을 지으면, 수많은 짝이 한 상태에 모여 한 덩어리로 흘러요.**
 
 </S>
 
