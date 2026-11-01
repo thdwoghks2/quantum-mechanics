@@ -6,6 +6,10 @@ question: 냉장고 자석의 힘은 어디서 오고, 원자들은 왜 자석 �
 mechanism: 전자는 처음부터 작은 막대자석처럼 행동하는 성질, 스핀을 지녀요. 작은 자석은 고르지 않은 자석 사이에서 자기 방향에 따라 밀려나니까, 방향이 제멋대로라면 원자들은 고르게 퍼져야 해요. 그런데 은 원자들은 두 갈래로만 갈라졌고, 이건 전자의 스핀을 어느 축으로 재든 '위'와 '아래' 두 값 가운데 하나만 나온다는 뜻이에요. 그래서 전자의 상태를 다 적으려면 n, l, m에 더해 스핀의 위아래를 정하는 네 번째 양자수가 필요해요.
 part: 9
 minutes: 20
+epigraph:
+  text: "방향 양자화의 실험적 증거를 함께 보냅니다. 당신의 이론이 확인된 것을 축하드립니다."
+  by: 발터 게를라흐
+  source: 닐스 보어에게 보낸 엽서 (1922년 2월 8일)
 assumes: [quantum-number, orbital, electron, atom, mass, charge, speed-of-light, line-spectrum, model]
 introduces: [spin, stern-gerlach]
 sources:
@@ -168,6 +172,24 @@ status: published
 
 </Screen>
 
+<Screen kind="story" title="엽서의 반전">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1922년 엽서', caption: '보어의 이론이 확인됐다고 축하해요' },
+      { big: '실제 까닭', caption: '아직 아무도 몰랐던 전자의 스핀', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+게를라흐는 두 갈래로 갈라진 자국의 사진을 엽서에 붙여 보어에게 보내며, 보어의 이론이 확인됐다고 축하했어요. 오늘 첫 화면의 말이에요.
+
+<S n={2}>
+
+그런데 실제로 두 갈래를 만든 것은 보어의 이론이 아니라, 아직 아무도 몰랐던 전자의 스핀이었어요. **옳은 실험이 3년 넘게 틀린 까닭으로 축하받은 거예요.**
+
+</S>
+
+</Screen>
+
 <Screen kind="story" title="1925년의 제안">
   <Fragment slot="visual">
     <Panels arrows panels={[
@@ -234,6 +256,21 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="언제나 둘">
+  <Fragment slot="visual">
+    <BigNumber top="자석을 어느 방향으로 돌려도 은 원자가 갈라지는 갈래 수" value="2" bottom="위아래로, 옆으로, 비스듬히 돌려도" />
+  </Fragment>
+
+자석을 위아래로 두든, 옆으로 눕히든, 비스듬히 기울이든 갈래는 언제나 딱 둘이에요.
+
+<S n={2}>
+
+**전자의 작은 자석은 어느 축으로 물어도 '위' 아니면 '아래', 두 가지로만 대답해요.** 나침반 바늘과는 전혀 다른 자석이죠.
+
+</S>
+
+</Screen>
+
 <Screen kind="check" title="비스듬한 자석">
 
 <Check id="q72-rot" options={[
@@ -280,6 +317,24 @@ status: published
 <S n={2}>
 
 그러니까 냉장고 자석이 쇠문에 붙는 힘은, 결국 전자의 스핀에서 나와요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="병원의 거대한 자석">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'magnet', title: '아주 센 자석', caption: '몸속 수소 원자핵의 스핀을 줄 세워요' },
+      { icon: 'radio', title: '전파', caption: '흔들었다가 돌아오는 신호를 읽어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+병원에서 몸속을 찍는 <Later n={134}>MRI</Later> 장치도 스핀을 써요. 원자핵도 전자처럼 스핀을 지니거든요.
+
+<S n={2}>
+
+거대한 자석으로 몸속 수소 원자핵의 스핀을 줄 세운 뒤, 전파로 흔들어 돌아오는 신호를 읽어요. 이 이야기는 134강에서 자세히 봐요.
 
 </S>
 
