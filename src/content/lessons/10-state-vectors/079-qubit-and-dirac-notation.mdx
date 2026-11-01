@@ -6,12 +6,20 @@ question: 재면 0 아니면 1만 나오는데, 재기 전의 상태는 어떻�
 mechanism: 재면 두 값 가운데 하나가 나오는 양자 대상은, 두 결과를 길이 1인 직각 화살표 |0⟩과 |1⟩로 두고 그 둘을 섞은 화살표 α|0⟩ + β|1⟩로 적어요. α와 β는 확률 진폭이라서, 재면 0이 |α|²의 확률로, 1이 |β|²의 확률로 나오고, 두 확률의 합이 1이니 화살표의 길이는 1이에요. 이런 대상이 큐비트예요. 같은 확률을 주는 상태라도 부호가 다르면 서로 다른 화살표라서, 큐비트의 상태는 확률 두 개가 아니라 부호까지 가진 화살표 하나예요.
 part: 10
 minutes: 20
+epigraph:
+  text: "모든 '것'은, 입자 하나하나와 힘의 장, 시공간 자체까지도, 그 존재를 예 아니면 아니요로 답하는 질문들, 곧 비트에서 얻는다."
+  by: 존 휠러
+  source: "「정보, 물리학, 양자: 연결 고리를 찾아서」 (1989)"
 assumes: [polarization, vector, dot-product, photon, probability-amplitude, born-rule, complex-number, quantum-state, spin, superposition, probability]
 introduces: [qubit, dirac-notation]
 sources:
   - "Dirac, P. A. M. A new notation for quantum mechanics, Mathematical Proceedings of the Cambridge Philosophical Society 35, 416 (1939)"
   - "Schumacher, B. Quantum coding, Physical Review A 51, 2738 (1995)"
   - "Nielsen, M. A., Chuang, I. L. Quantum Computation and Quantum Information, Ch. 1.2 (2010)"
+  - "Wheeler, J. A. Information, Physics, Quantum: The Search for Links, Proceedings of the 3rd International Symposium on Foundations of Quantum Mechanics, Tokyo (1989)"
+  - "Arute, F. et al. Quantum supremacy using a programmable superconducting processor, Nature 574, 505 (2019)"
+  - "Pednault, E. et al. Leveraging Secondary Storage to Simulate Deep 54-qubit Sycamore Circuits, arXiv:1910.09534 (2019)"
+  - "관측 가능한 우주의 원자 수 약 10⁸⁰개 (어림값)"
 testout: [q79-prob, q79-sum, q79-sign]
 status: published
 ---
@@ -304,6 +312,39 @@ status: published
 <S n={2}>
 
 이런 큐비트를 많이 모아 계산하는 기계가 <Later n={135}>양자컴퓨터</Later>예요. 135강에서 다시 만나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="2019년의 시커모어">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '200초', caption: '큐비트 53개짜리 칩 시커모어' },
+      { big: '1만 년? 이틀 반?', caption: '같은 계산을 슈퍼컴퓨터로', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+2019년 구글은 큐비트 53개짜리 칩 시커모어로, 가장 빠른 슈퍼컴퓨터도 1만 년 걸릴 계산을 200초에 했다고 발표했어요.
+
+<S n={2}>
+
+IBM은 더 나은 방법을 쓰면 슈퍼컴퓨터로 이틀 반이면 된다고 반박했어요. 어느 쪽이든, 큐비트 53개를 흉내 내는 데 가장 큰 컴퓨터가 매달려야 했어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="2의 300제곱">
+  <Fragment slot="visual">
+    <BigNumber top="큐비트 300개의 상태를 적는 데 드는 진폭의 수" value="2³⁰⁰ ≈ 10⁹⁰" bottom="관측할 수 있는 우주의 원자는 약 10⁸⁰개" q="energy" />
+  </Fragment>
+
+큐비트 하나는 진폭 2개로 적어요. 큐비트 둘이면 00, 01, 10, 11마다 진폭이 하나씩, 모두 4개가 필요해요.
+
+<S n={2}>
+
+큐비트가 하나 늘 때마다 진폭의 수는 두 배라서, 300개면 2³⁰⁰개예요. **우주의 원자보다 많은 수가 있어야 큐비트 300개의 상태를 적을 수 있어요.** 다만 재면 0과 1이 300개 나올 뿐이에요.
 
 </S>
 
