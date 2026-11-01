@@ -6,6 +6,10 @@ question: 원자핵 하나가 언제 바뀔지 모르는데, 어떻게 5,000년 
 mechanism: 불안정한 원자핵은 스스로 조각이나 빛을 내보내며 다른 원자핵으로 바뀌는데, 하나하나가 언제 바뀔지는 확률로만 정해지고 그 확률은 원자핵의 나이와 상관없어요. 원자핵마다 같은 시간에 같은 확률로 붕괴하니, 많이 모이면 남은 수가 일정한 시간마다 꼭 절반으로 줄고, 이 시간이 반감기예요. 살아 있는 생물은 공기와 같은 비율의 탄소-14를 지니다가 죽은 뒤에는 탄소-14가 반감기 약 5,730년으로 줄기만 하니, 남은 비율로 죽은 뒤 지난 시간을 잴 수 있어요.
 part: 13
 minutes: 20
+epigraph:
+  text: "라듐은 범죄자의 손에 들어가면 몹시 위험해질 수 있다. 그렇다면 인류가 자연의 비밀을 아는 것이 득이 되는지 물을 수 있다. 나는 노벨과 마찬가지로, 인류가 새로운 발견에서 해보다 득을 더 많이 얻으리라고 생각하는 사람이다."
+  by: 피에르 퀴리
+  source: 노벨 물리학상 강연 「방사성 물질, 특히 라듐」 (1905)
 assumes: [nucleus, proton, neutron, alpha-particle, electron, tunneling, binding-energy, probability, energy-level, photon, power-of-ten, exponent]
 introduces: [radioactive-decay, half-life]
 sources:
@@ -15,6 +19,9 @@ sources:
   - "Godwin, H. Half-life of Radiocarbon, Nature 195, 984 (1962) (5,730 ± 40년)"
   - "Bonani, G. et al. AMS 14C age determination of tissue, bone and grass samples from the Ötztal Ice Man, Radiocarbon 36, 247 (1994)"
   - "NNDC Chart of Nuclides: I-131 반감기 8.02일, Rn-222 3.82일, 자유 중성자 약 10분, U-238 4.468 × 10⁹년"
+  - "Curie, P. Radioactive Substances, Especially Radium, Nobel Lecture (6 June 1905), nobelprize.org"
+  - "세슘-137의 반감기 약 30.1년; 우라늄-238의 반감기 약 44.7억 년, 지구의 나이 약 45.4억 년 (IAEA, NNDC 자료와 일반적 추정값)"
+  - "IAEA, Chernobyl's Legacy: Health, Environmental and Socio-economic Impacts (2006)"
 testout: [q107-left, q107-age, q107-two]
 status: published
 ---
@@ -363,6 +370,40 @@ status: published
 <S n={2}>
 
 공룡 화석처럼 수천만 년 된 것은 우라늄이나 칼륨처럼 반감기가 훨씬 긴 원자핵으로 그 둘레 바위의 나이를 재요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="1986년에 흩어진 세슘">
+  <Fragment slot="visual">
+    <DataTable caption="세슘-137은 약 30년마다 절반" head={['때', '남은 양']} rows={[
+      ['1986년', '1'],
+      ['2016년쯤', '½'],
+      ['2046년쯤', '¼', ],
+    ]} highlight={[1]} />
+  </Fragment>
+
+1986년 체르노빌 원자력 발전소 사고로 세슘-137이 넓은 땅에 흩어졌어요. 이 원자핵의 반감기는 약 30년이에요.
+
+<S n={2}>
+
+그래서 2016년쯤에는 처음의 절반으로, 2046년쯤에는 4분의 1로 줄어요. 줄어드는 속도는 사람이 바꿀 수 없고, 사고가 남긴 일은 그만큼 오래 이어져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="지구와 같은 나이">
+  <Fragment slot="visual">
+    <BigNumber top="우라늄-238의 반감기" value="약 45억 년" bottom="지구의 나이와 거의 같아요" q="energy" />
+  </Fragment>
+
+우라늄-238의 반감기는 지구의 나이와 거의 같아요. 지구가 막 생겼을 때 있던 우라늄-238 가운데, 약 절반이 지금도 남아 있다는 뜻이에요.
+
+<S n={2}>
+
+**땅속의 우라늄 원자핵은 지구가 태어난 때부터 지금까지, 아직 한 번도 바뀌지 않은 것이 절반이나 돼요.**
 
 </S>
 
