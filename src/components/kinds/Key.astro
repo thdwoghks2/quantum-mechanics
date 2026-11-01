@@ -38,7 +38,7 @@
     opacity: 0.75;
   }
 
-  /* 화면이 열릴 때, 또는 단계로 나타날 때 한 번 써진다 */
+  /* 화면이 열릴 때, 또는 단계로 나타날 때 한 번 써진다. 잘라 내는 틀은 상자보다 넓게 잡아서 아래로 퍼지는 빛이 잘리지 않게 한다. */
   :global(html.js .screen.is-active) .key {
     animation: key-write 1.7s 0.25s cubic-bezier(0.45, 0, 0.2, 1) both, key-glow 3.2s 1.6s ease-in-out both;
   }
@@ -49,22 +49,22 @@
 
   @keyframes key-write {
     from {
-      clip-path: inset(0 100% 0 0);
+      clip-path: inset(-40% 100% -60% -20%);
       opacity: 0.4;
     }
     to {
-      clip-path: inset(0 0 0 0);
+      clip-path: inset(-40% -20% -60% -20%);
       opacity: 1;
     }
   }
 
   @keyframes key-write-again {
     from {
-      clip-path: inset(0 100% 0 0);
+      clip-path: inset(-40% 100% -60% -20%);
       opacity: 0.4;
     }
     to {
-      clip-path: inset(0 0 0 0);
+      clip-path: inset(-40% -20% -60% -20%);
       opacity: 1;
     }
   }

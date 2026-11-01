@@ -88,7 +88,7 @@ const turn = isPartEnd && part
         {d.epigraph && (
           <figure class="title__epigraph">
             <blockquote>{d.epigraph.text}</blockquote>
-            <figcaption>{d.epigraph.by}{d.epigraph.source && <span>, {d.epigraph.source}</span>}</figcaption>
+            <figcaption><span class="ep__by">{d.epigraph.by}</span>{d.epigraph.source && <span class="ep__src">{d.epigraph.source}</span>}</figcaption>
           </figure>
         )}
         <div class="title__meta title__late">

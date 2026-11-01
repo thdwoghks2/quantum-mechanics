@@ -2,6 +2,7 @@
 /**
  * 옆에서 한마디. 글쓴이(저)가 잠깐 멈춰서, 헷갈리기 쉬운 곳을 다시 짚거나 한 걸음 더 풀어 줄 때 쓴다.
  * 한 강에 한두 번만 쓴다.
+ * 생김새: 칠판 옆에 붙여 둔 쪽지. 이름표는 손글씨로, 오른쪽 위 귀퉁이는 접혀 있다.
  */
 interface Props {
   label?: string;
@@ -9,22 +10,60 @@ interface Props {
 const { label = '잠깐' } = Astro.props;
 ---
 <aside class="note">
-  <p class="note__label label">{label}</p>
+  <p class="note__label">{label}</p>
   <div class="note__body"><slot /></div>
 </aside>
 
 <style>
   .note {
+    --note-bg: #1a1813;
+    --fold: 19px;
+    position: relative;
     display: grid;
-    gap: 8px;
-    padding: 14px 16px;
-    border: 1px dashed var(--line-2);
-    border-radius: var(--radius);
-    background: var(--ink-2);
+    gap: 6px;
+    padding: 14px 20px 18px;
+    border-radius: var(--radius-lg);
+    /* 오른쪽 위 귀퉁이를 비스듬히 잘라 접힌 자리를 만든다 */
+    background:
+      radial-gradient(120% 90% at 0% 0%, rgba(242, 180, 107, 0.07), transparent 55%),
+      linear-gradient(225deg, transparent calc(var(--fold) * 0.7071), var(--note-bg) calc(var(--fold) * 0.7071 + 0.5px));
+    box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.9);
+  }
+
+  /* 접힌 귀퉁이 */
+  .note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--fold);
+    height: var(--fold);
+    border-bottom-left-radius: 4px;
+    background: linear-gradient(to bottom left, transparent 50%, #34302a 50%);
+  }
+
+  /* 왼쪽 가장자리의 가는 빛줄 */
+  .note::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 2px;
+    border-radius: 1px;
+    background: linear-gradient(var(--accent), rgba(231, 145, 58, 0));
+    opacity: 0.7;
   }
 
   .note__label {
-    color: var(--accent);
+    font-family: var(--font-hand);
+    font-size: 1.625rem;
+    line-height: 1.1;
+    color: var(--accent-2);
+    transform: rotate(-2deg);
+    transform-origin: left center;
+    width: fit-content;
+    text-shadow: 0 0 18px rgba(242, 180, 107, 0.25);
   }
 
   .note__body {
@@ -35,5 +74,9 @@ const { label = '잠깐' } = Astro.props;
 
   .note__body :global(p + p) {
     margin-top: 0.6em;
+  }
+
+  .note__body :global(strong) {
+    color: var(--text);
   }
 </style>
