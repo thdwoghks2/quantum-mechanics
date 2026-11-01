@@ -6,6 +6,10 @@ question: 평면의 모든 화살표를 한꺼번에 돌리는 일을 숫자 몇
 mechanism: 평면의 모든 화살표는 (1, 0)과 (0, 1)을 섞어 만들고, 돌리기나 늘이기 같은 변환은 그 섞는 비율을 그대로 지켜요. 그래서 (1, 0)과 (0, 1)이 어디로 가는지만 알면 모든 화살표가 어디로 가는지 정해지고, 그 두 화살표를 세로줄로 적은 숫자 네 개가 2×2 행렬이에요. 행렬과 화살표를 곱하면 가로줄마다 화살표와 내적한 값이 새 성분이 돼요. 양자 상태를 바꾸는 행렬은 길이를 지켜야 하고, 두 변환을 잇따라 할 때는 순서에 따라 결과가 달라질 수 있어요.
 part: 10
 minutes: 20
+epigraph:
+  text: "나는 원자 현상의 표면을 뚫고 그 아래 깊은 곳에 놓인, 신기한 내적 아름다움을 지닌 바탕을 내려다보는 것 같았다. 자연이 내 앞에 펼쳐 놓은 이 풍부한 수학적 구조를 이제 파헤쳐야 한다는 생각에 거의 어지러울 지경이었다."
+  by: 베르너 하이젠베르크
+  source: 『부분과 전체』, 헬골란트에서 보낸 1925년 여름밤을 돌아보며 (1969)
 assumes: [vector, dot-product, qubit, dirac-notation, basis, projection, polarization, probability, quantum-state]
 introduces: [matrix]
 sources:
@@ -13,6 +17,7 @@ sources:
   - "Born, M., Jordan, P. Zur Quantenmechanik, Zeitschrift für Physik 34, 858 (1925)"
   - "Born, M., Heisenberg, W., Jordan, P. Zur Quantenmechanik II, Zeitschrift für Physik 35, 557 (1926)"
   - "Strang, G. Introduction to Linear Algebra, 5th ed., Ch. 2, 8 (2016)"
+  - "Heisenberg, W. Der Teil und das Ganze, Piper (1969), 헬골란트 장면"
 testout: [q81-col, q81-mul, q81-order]
 status: published
 ---
@@ -281,11 +286,29 @@ $$\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$
     <BigNumber top="행렬역학이 나온 해" value="1925" bottom="하이젠베르크, 보른, 요르단" />
   </Fragment>
 
-1925년 여름 베르너 하이젠베르크는 원자가 내는 빛을 설명하려고, 숫자를 가로세로로 늘어놓은 표끼리 곱했어요. 그런데 이 곱셈은 순서를 바꾸면 결과가 달랐죠.
+1925년 여름 베르너 하이젠베르크는 원자가 내는 빛을 설명하려고, 숫자를 가로세로로 늘어놓은 표끼리 곱했어요. **그런데 이 곱셈은 순서를 바꾸면 결과가 달랐죠.**
 
 <S n={2}>
 
 막스 보른은 그 표가 수학자들이 쓰던 행렬이라는 걸 알아보았어요. 보른과 파스쿠알 요르단, 하이젠베르크는 함께 행렬로 양자역학을 세웠고, 이를 행렬역학이라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="인공지능 속의 행렬">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '입력', caption: '글자나 그림을 숫자 칸으로 바꿔요' },
+      { big: '행렬 곱하기', caption: '수십억 개의 숫자가 곱하는 쪽에 들어가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+챗봇이나 그림을 알아보는 인공지능 속에서는, 수십억 개의 숫자가 행렬로 놓여 있어요. 입력이 들어오면 이 행렬들을 차례로 곱해서 답을 만들어요.
+
+<S n={2}>
+
+그래서 인공지능 계산용 칩은 행렬 곱하기를 아주 빨리 하도록 만들어져 있어요. 오늘 배운 2×2 계산을 아주아주 크게 되풀이하는 일이에요.
 
 </S>
 
