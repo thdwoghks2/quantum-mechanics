@@ -6,6 +6,10 @@ question: 원자는 거의 빈 공간인데, 손은 왜 책상을 뚫고 지나�
 mechanism: 두 원자가 아주 가까워지면 두 원자의 전자들이 같은 곳을 나눠 써야 하는데, 배타 원리 때문에 이미 찬 상태에는 들어갈 수 없어서 비어 있는 높은 칸으로 올라가야 해요. 게다가 좁은 곳에 갇힐수록 칸의 에너지는 길이의 제곱에 반비례해 치솟아요. 그래서 물질을 누르려면 큰 에너지가 들고, 이 버팀이 축퇴압이에요. 전기력만으로는 물질이 버티지 못하고, 배타 원리가 있어야 물질이 단단해요.
 part: 9
 minutes: 20
+epigraph:
+  text: "전자들이 모두 한데 포개질 수 없다는 사실이, 탁자와 다른 모든 것을 단단하게 만든다."
+  by: 리처드 파인먼
+  source: 『파인만의 물리학 강의』 3권 4장 (1965)
 assumes: [atom, nucleus, electron, charge, electric-force, pauli-exclusion, orbital, particle-in-a-box, energy-level, uncertainty-principle, zero-point-energy, gravity, molecule]
 introduces: [degeneracy-pressure]
 sources:
@@ -14,6 +18,9 @@ sources:
   - "Lieb, E. H., Thirring, W. E. Bound for the Kinetic Energy of Fermions Which Proves the Stability of Matter, Physical Review Letters 35, 687 (1975)"
   - "Fowler, R. H. On Dense Matter, Monthly Notices of the Royal Astronomical Society 87, 114 (1926)"
   - "물의 부피 탄성률 약 2.2 GPa: 부피를 1% 줄이는 데 약 22 MPa(바닷속 약 2.2 km의 수압)"
+  - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, ch. 4 (1965)"
+  - "백색왜성의 평균 밀도 약 10⁶ g/cm³ (시리우스 B: 질량 약 1.0 태양질량, 반지름 약 0.008 태양반지름)"
+  - "영화 「앤트맨」(Ant-Man, 2015)"
 testout: [q75-why, q75-six, q75-repel]
 status: published
 ---
@@ -66,7 +73,7 @@ status: published
 
 <S n={2}>
 
-원자는 전체로 보면 전하가 0이라서, 조금만 떨어져 있어도 서로 거의 밀어내지 않거든요. 버팀의 큰 몫은 다른 데서 와요.
+원자는 전체로 보면 전하가 0이라서, 조금만 떨어져 있어도 서로 거의 밀어내지 않거든요. **버팀의 큰 몫은 다른 데서 와요.**
 
 </S>
 
@@ -236,7 +243,7 @@ status: published
 
 <S n={2}>
 
-다이슨은 같은 해, 전자들이 배타 원리를 따르지 않는다면 물질이 스스로 무너져 내린다는 것도 보였어요. 전기력만으로는 부족하고, 배타 원리가 있어야 물질이 버틴다는 거예요.
+다이슨은 같은 해, 전자들이 배타 원리를 따르지 않는다면 물질이 스스로 무너져 내린다는 것도 보였어요. 전기력만으로는 부족하고, **배타 원리가 있어야 물질이 버틴다**는 거예요.
 
 </S>
 
@@ -324,6 +331,30 @@ status: published
 <S n={2}>
 
 태양만 한 질량이 지구만 한 크기로 줄어든 별, <Later n={110}>백색왜성</Later>이 그렇게 버티는 별이에요. 1926년 랠프 파울러가 처음 이렇게 설명했고, 110강에서 다시 만나요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="앤트맨의 몸무게">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '키 1.8 m', caption: '보통 사람' },
+      { big: '키 1.8 cm', caption: '부피는 100만분의 1', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+영화 「앤트맨」(2015)의 주인공은 원자 사이의 거리를 줄여서 개미만큼 작아져요. 오늘 본 대로라면, 그 거리를 지키는 것은 배타 원리예요.
+
+<S n={2}>
+
+키가 100분의 1이 되면 부피는 100만분의 1이라서, 몸무게가 그대로면 1 cm³가 1톤쯤 나가요.
+
+</S>
+
+<S n={3}>
+
+<Key>이만큼 빽빽한 물질은 별 하나의 중력이 눌러야 생겨요. <Later n={110}>백색왜성</Later>의 밀도가 대략 이만해요.</Key>
 
 </S>
 
