@@ -6,6 +6,10 @@ question: 원자 속 전자들은 왜 모두 가장 낮은 칸으로 내려가�
 mechanism: 원자 속 전자의 상태는 n, l, m과 스핀, 네 양자수로 정해지고, 두 전자는 네 양자수가 모두 같은 상태에 함께 있을 수 없어요. 오비탈 하나에서 남은 양자수는 스핀의 위아래 둘뿐이라, 오비탈마다 전자가 많아야 둘 들어가요. 그래서 전자가 많은 원자는 낮은 칸부터 차례로 채워 위 칸까지 올라가야 하고, 가장 바깥 칸에 전자가 몇 개 남느냐에 따라 원소의 성질이 달라져요.
 part: 9
 minutes: 20
+epigraph:
+  text: "나는 처음 논문에서부터, 배타 원리의 논리적인 까닭을 댈 수 없고 더 일반적인 가정에서 이끌어 낼 수도 없다는 점을 강조했다. 그것이 모자람이라는 느낌은 그때도 있었고, 오늘도 있다."
+  by: 볼프강 파울리
+  source: 노벨상 강연 「배타 원리와 양자역학」 (1946)
 assumes: [quantum-number, orbital, spin, stern-gerlach, electron, atom, energy-level, ground-state, electric-force, photon, line-spectrum]
 introduces: [pauli-exclusion]
 sources:
@@ -13,6 +17,7 @@ sources:
   - "Stoner, E. C. The distribution of electrons among atomic levels, Philosophical Magazine 48, 719 (1924)"
   - "The Nobel Prize in Physics 1945, nobelprize.org"
   - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Sec. 5.1-5.2 (2018)"
+  - "Pauli, W. Exclusion principle and quantum mechanics, Nobel Lecture (13 December 1946)"
 testout: [q73-cap, q73-li, q73-ne]
 status: published
 ---
@@ -48,6 +53,24 @@ status: published
 <S n={2}>
 
 전자 하나 차이로 성질이 이렇게 달라요. 그 까닭은 셋째 전자가 들어갈 자리에 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="이미 팔린 자리">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '콘서트 예매 화면', caption: '이미 팔린 자리는 회색으로 막혀요' },
+      { big: '원자 속 전자', caption: '이미 찬 상태에는 못 들어가요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+인기 가수의 콘서트를 예매해 본 적 있나요? 이미 누가 고른 자리는 회색으로 막혀서, 다음 사람은 남은 자리 가운데서 골라야 하죠.
+
+<S n={2}>
+
+원자 속 전자에게도 이런 규칙이 있어요. 다만 전자의 '자리'는 의자가 아니라 네 양자수로 정해지는 상태예요.
 
 </S>
 
@@ -331,6 +354,21 @@ n = 1이면 2개, n = 2면 8개, n = 3이면 18개예요. 이 2, 8이라는 수�
 네온(전자 10개)은 헬륨처럼 거의 반응하지 않고, 나트륨(전자 11개)은 리튬처럼 잘 반응해요. 가장 알맞은 설명은 무엇일까요?
 
 </Check>
+
+</Screen>
+
+<Screen kind="step" title="규칙 하나가 만든 세계">
+  <Fragment slot="visual">
+    <BigNumber top="저마다 다른 성질을 지닌 원소" value="118가지" bottom="전자가 모두 1s로 갔다면 이 다양함은 없었어요" />
+  </Fragment>
+
+지금까지 알려진 원소 118가지가 저마다 다른 성질을 갖는 건, 전자들이 같은 상태를 나눠 쓰지 않기 때문이에요. 75강에서는 물질이 단단한 까닭도 여기에 있다는 걸 볼 거예요.
+
+<S n={2}>
+
+**이 작은 규칙 덕분에 화학이 있고, 생명이 있고, 우리가 있어요.** 파울리 자신은 그 까닭을 끝내 모자라게 여겼지만요.
+
+</S>
 
 </Screen>
 
