@@ -1,0 +1,520 @@
+---
+number: 110
+title: 별의 죽음
+short: 별의 죽음
+question: 연료를 다 쓴 별의 한가운데는 무엇이 버티게 하고, 버틸 수 있는 데에는 왜 한계가 있을까요?
+mechanism: 연료를 다 쓴 별의 한가운데는 열로 버티지 못하고, 75강의 전자 축퇴압으로 중력을 버티는 백색왜성이 돼요. 무거울수록 전자를 더 좁게 몰아넣어야 하는데, 전자가 빛의 속력에 가까워지면 버티는 힘이 누르는 힘만큼 커지지 못해서, 해 질량의 약 1.4배를 넘으면 백색왜성은 버틸 수 없어요. 이것이 찬드라세카르 한계예요. 한계를 넘은 한가운데는 전자가 양성자에 밀려 들어가 중성자별이 되고, 그보다 더 무거우면 블랙홀이 돼요. 빠르게 도는 중성자별의 전파 줄기가 지구를 스칠 때마다 오는 신호가 펄서예요.
+part: 13
+minutes: 20
+epigraph:
+  text: "별이 이렇게 터무니없이 행동하지 못하게 막는 자연의 법칙이 있어야 한다고 나는 생각한다."
+  by: 아서 에딩턴
+  source: 영국 왕립천문학회 회의에서 찬드라세카르의 발표에 답하며 (1935)
+assumes: [degeneracy-pressure, pauli-exclusion, electron, proton, neutron, nuclear-fusion, nucleosynthesis, gravity, speed-of-light, constancy-of-light-speed, black-hole, gravitational-wave, radio-wave, mass]
+introduces: [white-dwarf, neutron-star, chandrasekhar-limit]
+sources:
+  - "Chandrasekhar, S. The Maximum Mass of Ideal White Dwarfs, Astrophysical Journal 74, 81 (1931)"
+  - "Eddington, A. S. Relativistic Degeneracy, The Observatory 58, 37 (1935)"
+  - "Fowler, R. H. On Dense Matter, Monthly Notices of the Royal Astronomical Society 87, 114 (1926)"
+  - "Baade, W., Zwicky, F. On Super-novae, Proceedings of the National Academy of Sciences 20, 254 (1934)"
+  - "Hewish, A., Bell, S. J., Pilkington, J. D. H., Scott, P. F., Collins, R. A. Observation of a Rapidly Pulsating Radio Source, Nature 217, 709 (1968)"
+  - "Nauenberg, M. Analytic Approximations to the Mass-Radius Relation and Energy of Zero-Temperature Stars, Astrophysical Journal 175, 417 (1972)"
+  - "Cromartie, H. T. et al. Relativistic Shapiro delay measurements of an extremely massive millisecond pulsar, Nature Astronomy 4, 72 (2020) (약 2.1 태양질량)"
+  - "Breakthrough Prize Foundation, Special Breakthrough Prize in Fundamental Physics 2018: Jocelyn Bell Burnell"
+testout: [q110-limit, q110-ns, q110-pulsar]
+status: published
+---
+
+<Screen kind="scene" title="무너진 한가운데">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '연료가 바닥나요', caption: '핵융합의 열이 멈춰요' },
+      { big: '중력이 눌러요', caption: '한가운데가 쪼그라들어요' },
+      { big: '무엇이 버틸까', caption: '오늘의 질문', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+지난 강에서 무거운 별은 한가운데가 무너지며 폭발했어요. 무너진 한가운데는 사라지지 않고, 별의 무게에 따라 다른 모습으로 남아요.
+
+<S n={2}>
+
+오늘은 그 갈림길을 따라가요. 원자보다 작은 세계의 규칙이, 하늘에 있는 별의 운명을 정하는 이야기예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="scene" title="해의 마지막">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'sun', title: '지금의 해', caption: '수소를 태우는 중이에요' },
+      { big: '약 50억 년 뒤', caption: '크게 부풀었다가 바깥을 흩어요' },
+      { big: '지구만 한 공', caption: '남은 한가운데', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+약 50억 년 뒤 해는 한가운데의 수소를 다 쓰고 크게 부풀었다가, 바깥을 우주로 흩어 보내요. 남는 것은 지구만 한 크기의 뜨거운 한가운데예요.
+
+<S n={2}>
+
+이 남은 별은 더는 핵융합을 하지 않는데도 무너지지 않아요. 무엇이 버티게 하는지는 75강에서 이미 봤어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={75} title="빈자리가 없어서 버텨요">
+  <Fragment slot="visual">
+    <SimP09Squeeze />
+  </Fragment>
+
+75강에서 전자들을 좁은 곳에 밀어 넣으면, 배타 원리 때문에 높은 칸까지 채워야 해서 버틴다고 했어요. 이 버팀이 축퇴압이었죠.
+
+<S n={2}>
+
+연료를 다 쓴 별의 한가운데는 열로 버티지 못하는 대신, 바로 이 전자의 축퇴압으로 중력을 버텨요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="백색왜성">
+  <Fragment slot="visual">
+    <Define term="white-dwarf" />
+  </Fragment>
+
+전자의 축퇴압으로 중력을 버티는, 연료를 다 쓴 별의 한가운데를 **백색왜성**이라고 불러요. 해만 한 질량이 지구만 한 크기에 들어 있어요.
+
+<S n={2}>
+
+밤하늘에서 가장 밝은 별 시리우스 곁에도 백색왜성 하나가 돌고 있어요. 이 별은 1 cm³ 조각 하나가 약 2톤, 자동차 한두 대만큼 무거워요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="무거울수록 작아져요">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '보통 물체', caption: '무거울수록 커요' },
+      { big: '백색왜성', caption: '무거울수록 작아져요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+보통 물체는 무거울수록 크죠. 그런데 백색왜성은 무거울수록 오히려 작아져요.
+
+<S n={2}>
+
+질량이 크면 중력이 더 세게 누르니까, 전자들을 더 좁게 몰아넣어야 버틸 수 있거든요. 75강에서 본 대로, 좁을수록 축퇴압이 세지니까요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="질량과 크기">
+  <Fragment slot="visual">
+    <Plot
+      alt="백색왜성의 질량에 따른 반지름. 무거울수록 작아지다가 해 질량의 약 1.44배에서 반지름이 0으로 떨어진다"
+      x={[0.2, 1.6]} y={[0, 2.3]}
+      xLabel="백색왜성의 질량 (해 질량의 몇 배)" yLabel="반지름 (지구의 몇 배)" xq="force" yq="space"
+      xTicks={[0.2, 0.6, 1, 1.44]} yTicks={[0, 1, 2]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'x < 1.44 ? 1.22 * x ** (-1 / 3) * sqrt(max(0, 1 - (x / 1.44) ** (4 / 3))) : 0', q: 'space', step: 2, samples: 400 }]}
+      lines={[{ x: 1.44, label: '약 1.4배', step: 3 }]}
+      points={[{ x: 1.02, y: 0.74, label: '시리우스 B 근처', step: 2 }]}
+    />
+  </Fragment>
+
+<S n={1}>
+
+가로축은 백색왜성의 질량, 세로축은 반지름이에요.
+
+</S>
+
+<S n={2}>
+
+무거울수록 반지름이 작아지는데, 무거워질수록 줄어드는 빠르기가 점점 가팔라져요.
+
+</S>
+
+<S n={3}>
+
+그리고 해 질량의 약 1.4배에서 곡선이 0으로 떨어져요. 그보다 무거운 백색왜성은 있을 수 없다는 뜻이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="왜 한계가 있을까">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '더 좁게 가두면', caption: '전자가 더 빨리 움직이며 버텨요' },
+      { big: '빛의 속력', caption: '그 이상은 빨라질 수 없어요', tone: 'no' },
+      { big: '중력이 이겨요', caption: '버티는 힘이 따라 커지지 못해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+더 좁게 갇힌 전자는 더 빨리 움직이며 더 세게 버텨요. 그런데 전자가 97강의 빛의 속력에 가까워지면, 더는 그만큼 빨라질 수 없어요.
+
+<S n={2}>
+
+그래서 누르는 힘이 커지는 만큼 버티는 힘이 따라 커지지 못하고, 어느 질량을 넘으면 중력이 이겨요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="1930년, 배 위의 열아홉 살">
+  <Fragment slot="visual">
+    <BigNumber top="찬드라세카르가 백색왜성의 한계를 계산한 해" value="1930" bottom="인도에서 영국으로 가는 배 위에서, 열아홉 살" />
+  </Fragment>
+
+1930년 열아홉 살의 수브라마니안 찬드라세카르는 인도에서 영국으로 공부하러 가는 배에 올랐어요. 그리고 배 위에서 백색왜성 속 전자에 상대성이론을 넣어 계산했죠.
+
+<S n={2}>
+
+그러자 백색왜성이 버틸 수 있는 질량에 한계가 있다는 결과가 나왔어요. 해 질량의 약 1.4배였죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="찬드라세카르 한계">
+  <Fragment slot="visual">
+    <Define term="chandrasekhar-limit" />
+  </Fragment>
+
+전자의 축퇴압으로 버틸 수 있는 백색왜성의 가장 큰 질량, 해 질량의 약 1.4배를 **찬드라세카르 한계**라고 불러요.
+
+<S n={2}>
+
+<Key>배타 원리가 만든 전자의 축퇴압은 빛의 속력에 묶여 끝없이 세질 수 없어서, 해 질량의 약 1.4배를 넘는 죽은 별의 한가운데는 전자의 힘으로 버티지 못하고 무너져요.</Key>
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="작은 세계가 정한 별의 운명">
+  <Fragment slot="visual">
+    <BigNumber top="죽은 별의 운명을 가르는 수" value="해 질량의 1.4배" bottom="73강의 배타 원리 + 97강의 빛의 속력" q="force" />
+  </Fragment>
+
+**전자 하나가 따르는 규칙에서 나온 수가, 하늘의 별이 어떻게 죽을지를 정해요.**
+
+<S n={2}>
+
+원자 속 오비탈에 전자가 둘씩만 들어가는 까닭과 별 하나의 마지막이, 이렇게 수 하나로 이어져 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="에딩턴의 반대">
+  <Fragment slot="visual">
+    <BigNumber top="찬드라세카르의 발표에 에딩턴이 공개적으로 반대한 해" value="1935" bottom="영국 왕립천문학회 · 1983년 노벨 물리학상" />
+  </Fragment>
+
+1935년 영국 왕립천문학회에서, 가장 이름난 천문학자 가운데 하나였던 에딩턴은 찬드라세카르의 결과를 공개적으로 깎아내렸어요. 오늘 첫 화면의 말처럼, 별이 그렇게 터무니없이 행동할 리 없다고 했죠.
+
+<S n={2}>
+
+결론이 널리 받아들여지기까지는 오랜 시간이 걸렸어요. 찬드라세카르는 반세기가 지난 1983년 노벨 물리학상을 받았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="한계를 넘은 백색왜성">
+
+<Check id="q110-limit" options={[
+  { t: '전자의 축퇴압이 중력을 버티지 못해서 더 무너져요', ok: true, why: '찬드라세카르 한계를 넘으면, 빛의 속력에 묶인 전자가 누르는 힘만큼 버티지 못해요.' },
+  { t: '더 무거워졌으니 더 크게 부풀어요', why: '백색왜성은 무거울수록 오히려 작아지고, 한계에서는 버틸 수 있는 크기가 0이 돼요.' },
+  { t: '다시 수소를 태우기 시작해요', why: '백색왜성의 한가운데에는 태울 수소가 남아 있지 않아요. 버티는 것은 열이 아니라 축퇴압이에요.' },
+  { t: '아무 일도 없이 그대로 버텨요', why: '축퇴압은 끝없이 세질 수 없어서, 한계를 넘으면 버티지 못해요.' },
+]}>
+
+어떤 백색왜성이 짝별에서 가스를 받아 계속 무거워져서, 해 질량의 1.4배를 넘었어요. 이 별에는 무슨 일이 생길까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="한계를 넘으면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '전자 + 양성자', caption: '세게 눌려 만나요' },
+      { big: '중성자', caption: '' },
+      { big: '중성자로 된 공', caption: '중성자의 축퇴압이 버텨요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+한계를 넘은 한가운데가 무너지면, 전자들이 원자핵 속 양성자에 밀려 들어가요. 양성자와 전자가 만나 중성자가 되죠.
+
+<S n={2}>
+
+그러면 별의 한가운데는 거의 중성자로만 된 공이 돼요. 이 공을 버티는 것은 이번엔 76강의 페르미온인 중성자의 축퇴압과 원자핵의 센 힘이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="중성자별">
+  <Fragment slot="visual">
+    <Define term="neutron-star" />
+  </Fragment>
+
+거의 중성자로만 이루어져 중력을 버티는 별의 한가운데를 **중성자별**이라고 불러요. 1934년 발터 바데와 프리츠 츠비키가 초신성 폭발 뒤에 이런 별이 남을 거라고 내다봤어요.
+
+<S n={2}>
+
+해보다 무거운 질량이 지름 약 20 km, 서울보다 작은 공에 들어 있어요. 작은 숟가락 하나만큼의 무게가 10억 톤을 넘어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="그보다 무거우면">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '해 질량의 약 2배', caption: '지금까지 잰 가장 무거운 중성자별' },
+      { big: '블랙홀', caption: '아무것도 버티지 못해요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+중성자별도 버틸 수 있는 질량에 한계가 있어요. 지금까지 잰 가장 무거운 중성자별은 해 질량의 약 2배예요.
+
+<S n={2}>
+
+그보다 무거운 한가운데는 아무것도 버티지 못하고, 104강의 블랙홀이 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="worked" title="세 가지 끝">
+  <Fragment slot="visual">
+    <DataTable caption="처음 별의 질량과 남는 것 (대략)" head={['처음 별의 질량', '남는 것', '크기', '버티는 힘']} rows={[
+      ['해의 약 8배까지', '백색왜성', '지구만 함', '전자의 축퇴압'],
+      ['그보다 무거우면', '중성자별', '도시만 함', '중성자의 축퇴압'],
+      ['훨씬 무거우면', '블랙홀', '사건의 지평선', '없음'],
+    ]} steps={[undefined, 2, 3]} />
+  </Fragment>
+
+처음 별의 질량에 따라 남는 것이 갈려요. 해보다 대략 여덟 배 가벼운 별은 백색왜성으로 남아요.
+
+<S n={2}>
+
+그보다 무거운 별은 초신성 폭발 뒤 중성자별을 남기고요.
+
+</S>
+
+<S n={3}>
+
+훨씬 무거운 별은 블랙홀이 돼요. 감각으로 확인하면, 무거울수록 남는 것이 작고 빽빽해져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="중성자별을 버티는 것">
+
+<Check id="q110-ns" options={[
+  { t: '중성자의 축퇴압과 원자핵의 센 힘', ok: true, why: '중성자도 페르미온이라 배타 원리를 따라요. 아주 좁게 눌리면 중성자의 축퇴압이 생기고, 원자핵의 센 힘도 함께 버텨요.' },
+  { t: '전자의 축퇴압', why: '전자의 축퇴압은 찬드라세카르 한계에서 이미 졌어요. 그래서 전자가 양성자에 밀려 들어가 중성자가 됐어요.' },
+  { t: '핵융합에서 나오는 열', why: '중성자별은 더는 핵융합을 하지 않아요. 열이 아니라 축퇴압으로 버텨요.' },
+  { t: '중성자끼리의 전기력', why: '중성자는 전하가 없어서 전기력으로 밀어내지 않아요.' },
+]}>
+
+중성자별이 자기 중력에 무너지지 않고 버티게 하는 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="기록지 위의 지저분한 자국">
+  <Fragment slot="visual">
+    <BigNumber top="벨이 찾은 신호가 되풀이되는 간격" value="1.337초" bottom="1967년 · 영국 케임브리지" q="time" />
+  </Fragment>
+
+1967년 영국 케임브리지의 대학원생 조슬린 벨은, 동료들과 직접 세운 전파 망원경의 기록지를 날마다 수십 m씩 살펴보고 있었어요.
+
+<S n={2}>
+
+그러다 기록지에 이상한 '지저분한 자국'이 있는 걸 알아챘어요. 자세히 보니 1.337초마다 꼬박꼬박 되풀이되는 전파 신호였죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="작은 초록 사람">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: 'LGM-1', caption: '작은 초록 사람 1' },
+      { big: '두 번째, 세 번째 신호', caption: '하늘의 다른 곳에서도' },
+      { big: '펄서', caption: '자연의 천체예요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+신호가 너무 규칙적이라서, 연구진은 반쯤 농담으로 'LGM-1', 작은 초록 사람 1이라는 이름을 붙였어요. 외계인의 신호일 가능성까지 따져 봐야 했거든요.
+
+<S n={2}>
+
+곧 하늘의 다른 곳에서 비슷한 신호가 더 발견되면서, 외계인이 아니라 자연의 천체라는 게 분명해졌어요. 이 천체를 펄서라고 불러요.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="도는 등대">
+  <Fragment slot="visual">
+    <SimP13Pulsar period={1.337} />
+  </Fragment>
+
+펄서는 빠르게 도는 중성자별이에요. 자기 극에서 나오는 전파 줄기가 등대 불빛처럼 돌면서, 지구를 스칠 때마다 신호가 와요.
+
+<S n={2}>
+
+재생을 누르고 도는 빠르기를 바꿔 보세요. 별이 무너지며 크기가 작아질 때, 팔을 오므린 피겨 선수처럼 아주 빨리 돌게 된 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="1054년의 손님별">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1054년', caption: '낮에도 보인 손님별' },
+      { big: '게 성운', caption: '폭발의 잔해' },
+      { big: '1초에 약 30바퀴', caption: '한가운데의 펄서', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1054년 중국 송나라 천문학자들은 낮에도 보일 만큼 밝은 '손님별'이 나타났다고 기록했어요. 지금 그 자리에는 게 성운이 있고, 한가운데에서 펄서가 1초에 약 30번씩 깜빡여요.
+
+<S n={2}>
+
+**약 1,000년 전 사람들이 본 별의 죽음이, 지금도 도는 중성자별로 남아 있는 거예요.**
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="펄서가 규칙적인 까닭">
+
+<Check id="q110-pulsar" options={[
+  { t: '무겁고 작은 중성자별이 아주 일정하게 돌기 때문이에요', ok: true, why: '중성자별은 해보다 무거운 질량이 작은 공에 뭉쳐 있어서, 도는 빠르기가 쉽게 바뀌지 않아요. 그래서 신호가 시계처럼 일정해요.' },
+  { t: '별이 일정한 간격으로 폭발하기 때문이에요', why: '펄서는 폭발을 되풀이하지 않아요. 도는 전파 줄기가 지구를 스칠 때마다 신호가 와요.' },
+  { t: '외계인이 일정하게 신호를 보내기 때문이에요', why: '처음엔 그 가능성도 따졌지만, 비슷한 신호가 하늘 곳곳에서 발견되면서 자연의 천체로 밝혀졌어요.' },
+  { t: '별이 부풀었다 줄었다 하기 때문이에요', why: '그렇게 흔들리는 별도 있지만, 1초 남짓한 빠른 신호는 작은 중성자별의 회전으로만 설명돼요.' },
+]}>
+
+펄서의 신호가 시계처럼 아주 규칙적인 까닭으로 가장 알맞은 것은 무엇일까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="story" title="상을 받지 못한 발견자">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '1974', caption: '노벨상은 지도교수 휴이시와 라일에게' },
+      { big: '2018', caption: '벨은 상금 300만 달러를 장학금으로', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+1974년 펄서 발견과 관련한 노벨 물리학상은 지도교수 앤터니 휴이시와 마틴 라일이 받았어요. 처음 신호를 찾은 조슬린 벨은 받지 못했죠.
+
+<S n={2}>
+
+2018년 벨은 브레이크스루상 상금 300만 달러를, 물리학을 공부하려는 소수 집단 학생들의 장학금으로 모두 내놓았어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="등대와 펄서">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['등대', '펄서'],
+        ['돌아가는 불빛', '자기 극에서 나오는 전파 줄기'],
+        ['불빛이 배를 스칠 때 번쩍', '줄기가 지구를 스칠 때 신호'],
+      ]}
+      fits="빛은 계속 나오는데, 돌기 때문에 멀리서는 깜빡이는 것처럼 보인다는 점이 같아요."
+      breaks="등대는 사람이 일정하게 돌리지만, 펄서는 별이 무너지며 쪼그라들 때 저절로 빨라진 회전이에요. 또 펄서는 줄기를 내보내며 수백만 년에 걸쳐 아주 조금씩 느려져요."
+    />
+  </Fragment>
+
+펄서를 등대에 빗대어 볼게요. 맞는 곳과 틀리는 곳을 함께 봐 두세요.
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['white-dwarf', 'chandrasekhar-limit', 'neutron-star']}>
+
+1. 연료를 다 쓴 별의 한가운데는 전자의 축퇴압으로 버티는 백색왜성이 돼요.
+2. 무거울수록 전자를 좁게 가둬야 하는데, 전자는 빛의 속력을 넘을 수 없어요.
+3. 그래서 해 질량의 약 1.4배를 넘으면 백색왜성은 버티지 못해요.
+4. 한계를 넘으면 중성자별이, 그보다 무거우면 블랙홀이 돼요.
+5. 빠르게 도는 중성자별의 전파 줄기가 지구를 스칠 때마다 펄서의 신호가 와요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="한계에서 터지는 별">
+
+<DailyProblem id="p110">
+
+짝별에서 가스를 받아 무거워지던 백색왜성은 찬드라세카르 한계에 다다르면 통째로 폭발해요. 이런 폭발은 우주 곳곳에서 일어나요.
+
+이 폭발들이 서로 비슷한 밝기로 빛날 거라고 짐작할 수 있는 까닭은 무엇일까요?
+
+<Fragment slot="hint1">
+
+이런 폭발은 언제나 어떤 질량에서 일어나나요?
+
+</Fragment>
+<Fragment slot="solution">
+
+언제나 거의 같은 질량, 해 질량의 약 1.4배에서 폭발하기 때문이에요. 터지는 재료의 양이 비슷하니, 내는 빛의 세기도 비슷해요.
+
+그래서 천문학자들은 이 폭발이 얼마나 어둡게 보이는지로 그곳까지의 거리를 재요. 1998년 이 방법으로 먼 우주를 재다가, 우주가 점점 빨리 팽창한다는 사실을 찾았어요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+죽은 별의 한가운데는 전자의 축퇴압으로 버티지만, 전자가 빛의 속력에 묶여 해 질량의 1.4배를 넘으면 무너져 중성자별이나 블랙홀이 돼요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="원자핵의 에너지를 지구에서">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 'sun', title: '별', caption: '원자핵의 에너지로 수십억 년을 빛나요' },
+      { big: '1933년 런던', caption: '그 에너지를 지구에서 꺼낼 수 있을까', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이번 부에서 별은 원자핵 속 에너지로 수십억 년을 빛나고, 그 에너지가 바닥나면 죽는다는 걸 봤어요. 원자핵 속에는 그만큼 큰 에너지가 들어 있어요.
+
+<S n={2}>
+
+1933년 레오 실라르드는 런던의 길을 건너다, 이 에너지를 지구에서 꺼낼 방법을 떠올렸다고 회고했어요. 다음 부는 그 생각, <Later n={111}>연쇄 반응</Later>에서 시작해 과학자들이 마주한 가장 무거운 질문으로 가요.
+
+</S>
+
+</Screen>

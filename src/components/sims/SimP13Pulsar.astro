@@ -1,0 +1,102 @@
+---
+/**
+ * 펄서. 빠르게 도는 중성자별의 전파 줄기가 등대 불빛처럼 돌며, 지구를 스칠 때마다 신호가 온다.
+ * 위: 위에서 본 별과 도는 줄기, 오른쪽 끝의 지구. 아래: 시간에 따라 흘러가는 신호 기록지.
+ */
+interface Props {
+  period?: number;
+}
+const { period = 1.337 } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-p13-pulsar class="sim" data-ratio="0.66">
+  <canvas aria-label="가운데의 중성자별에서 나온 두 전파 줄기가 등대처럼 돌고, 줄기가 지구를 스칠 때마다 아래 기록지에 뾰족한 신호가 찍힌다"></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`p13p-p-${uid}`}>한 바퀴 도는 시간 (초)</label>
+      <input id={`p13p-p-${uid}`} type="range" min="0.5" max="3" step="0.001" value={period} data-param="P" />
+      <output data-out="P"></output>
+    </div>
+  </div>
+  <div class="sim__buttons">
+    <button type="button" class="btn" data-set="P=1.337">1967년 벨의 펄서</button>
+    <button type="button" class="btn" data-play>재생</button>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p13-pulsar>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimP13Pulsar extends Sim {
+    trace: number[] = [];
+    ang = 0;
+
+    format(name: string) {
+      return name === 'P' ? (this.p.P ?? 1).toFixed(3) : '';
+    }
+
+    signal() {
+      // 줄기 둘(반대 방향) 가운데 하나만 지구를 스친다고 보고, 지구 방향(0)과의 각도 차이로 세기를 정한다
+      const a = ((this.ang % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      const d = Math.min(a, 2 * Math.PI - a);
+      return Math.exp(-(d * d) / 0.012);
+    }
+
+    tick(dt: number) {
+      this.ang += (dt * 2 * Math.PI) / (this.p.P ?? 1);
+      this.trace.push(this.signal());
+      if (this.trace.length > 480) this.trace.shift();
+    }
+
+    readout() {
+      const P = this.p.P ?? 1;
+      return `한 바퀴 ${P.toFixed(3)}초 · 신호도 ${P.toFixed(3)}초마다 꼬박꼬박 와요 · 실제 펄서는 수천 년이 지나도 이 간격이 거의 그대로예요`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const topH = h * 0.62;
+      const cx = w * 0.4;
+      const cy = topH / 2 + 4;
+      const L = Math.min(w * 0.36, topH * 0.48);
+      // 줄기 두 개 (부채꼴)
+      for (const off of [0, Math.PI]) {
+        const a = this.ang + off;
+        g.fillStyle = 'rgba(214,170,60,0.28)';
+        g.beginPath();
+        g.moveTo(cx, cy);
+        g.arc(cx, cy, L, -a - 0.12, -a + 0.12);
+        g.closePath();
+        g.fill();
+      }
+      this.dot(cx, cy, 7, c.text);
+      this.text('중성자별', cx, cy + 18, c.text2, 10, 'center');
+      // 지구
+      const ex = w - 22;
+      this.dot(ex, cy, 7, c.space);
+      this.text('지구', ex, cy + 18, c.space, 10, 'center');
+      const s = this.signal();
+      if (s > 0.3) this.dot(ex, cy, 7 + 6 * s, c.energy);
+      // 기록지
+      const y0 = topH + 8;
+      const y1 = h - 8;
+      g.strokeStyle = c.line;
+      g.strokeRect(8, y0, w - 16, y1 - y0);
+      this.text('기록지 (시간 →)', 12, y0 + 9, c.text2, 10);
+      g.strokeStyle = c.energy;
+      g.lineWidth = 1.5;
+      g.beginPath();
+      const n = this.trace.length;
+      this.trace.forEach((v, i) => {
+        const x = 8 + ((w - 16) * (480 - n + i)) / 480;
+        const y = y1 - 4 - v * (y1 - y0 - 16);
+        if (i) g.lineTo(x, y);
+        else g.moveTo(x, y);
+      });
+      g.stroke();
+    }
+  }
+  define('qm-sim-p13-pulsar', SimP13Pulsar);
+</script>
