@@ -6,12 +6,17 @@ question: 움직이는 기차의 길이와 "동시에"라는 말은, 누가 재�
 mechanism: 빛의 속력이 어느 기준틀에서나 같으면, 달리는 기차 한가운데서 앞뒤로 보낸 빛은 기차 안에서는 양 끝에 동시에 닿지만 땅에서는 뒤끝에 먼저 닿아요. 이렇게 떨어진 두 곳의 "동시"가 기준틀마다 달라서, 움직이는 물체의 앞끝과 뒤끝을 같은 순간에 재서 얻는 길이도 달라져요. 그래서 땅에서 재면 움직이는 물체는 움직이는 방향으로 √(1 − v²/c²)배 짧아요.
 part: 12
 minutes: 22
+epigraph:
+  text: "이제부터 공간 그 자체와 시간 그 자체는 그림자 속으로 사라질 운명이며, 둘이 하나로 묶인 것만이 독립된 실재로 남을 것이다."
+  by: 헤르만 민코프스키
+  source: 강연 「공간과 시간」 (1908)
 assumes: [time-dilation, constancy-of-light-speed, reference-frame, speed-of-light, velocity]
 introduces: [length-contraction, relativity-of-simultaneity]
 sources:
   - "Einstein, A. Zur Elektrodynamik bewegter Körper. Annalen der Physik 17, 891–921 (1905), 1절 동시성의 정의"
   - "Einstein, A. Über die spezielle und die allgemeine Relativitätstheorie (1917), 9절 기차와 둑의 번개"
   - "Taylor, E. F. & Wheeler, J. A. Spacetime Physics, 2nd ed. (Freeman, 1992)"
+  - "Minkowski, H. Raum und Zeit, 쾰른 강연 (1908). Physikalische Zeitschrift 10, 104 (1909)"
 testout: [q99-a, q99-b, q99-c]
 status: published
 ---
@@ -357,6 +362,24 @@ status: published
 <S n={2}>
 
 "서로 느리다면 왜 여행한 쪽만 젊지?" 하는 물음이 생기죠. 여행한 쪽은 돌아오려고 방향을 바꾸면서 기준틀을 갈아탔고, 그 순간 그에게 지구의 "지금"이 크게 바뀌어요. 두 쌍둥이의 처지가 같지 않은 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="늙어 버린 딸">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { title: '쿠퍼', caption: '여행에서 돌아와도 젊어요' },
+      { title: '머프', caption: '아버지보다 늙어 버렸어요', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+영화 「인터스텔라」(2014)의 끝에서, 여행에서 돌아온 쿠퍼는 자기보다 훨씬 늙어 버린 딸 머프를 만나요. **여행한 쪽이 더 젊다는 쌍둥이 이야기와 같은 결과예요.**
+
+<S n={2}>
+
+다만 영화에서 시간을 크게 벌린 건 빠르기보다 <Later n={104}>블랙홀</Later> 가까이의 중력이었어요. 중력도 시계를 느리게 한다는 건 103강에서 봐요.
 
 </S>
 
