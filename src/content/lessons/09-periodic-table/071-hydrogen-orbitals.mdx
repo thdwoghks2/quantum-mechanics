@@ -6,6 +6,10 @@ question: 원자 속 전자는 정말 원자핵 둘레를 동그랗게 돌고 �
 mechanism: 수소의 전자는 원자핵에 끌려 3차원 퍼텐셜 우물에 갇혀 있어서, 그 정상파는 줄처럼 번호 하나가 아니라 n, l, m 세 양자수로 정해져요. n은 에너지와 크기를, l은 모양을, m은 방향을 정하고, l은 0부터 n − 1, m은 −l부터 l까지만 될 수 있어서 n번째 칸에는 n²가지 상태가 있어요. 이 상태들이 오비탈이고, 오비탈은 전자가 따라 도는 길이 아니라 전자를 찾을 확률이 퍼진 모양이에요.
 part: 9
 minutes: 20
+epigraph:
+  text: "원자에 관해서라면, 언어는 시에서처럼만 쓰일 수 있다는 것을 분명히 알아야 하네."
+  by: 닐스 보어
+  source: 하이젠베르크의 회고 『부분과 전체』 (1969)
 assumes: [atom, nucleus, electron, electric-force, potential-well, standing-wave, node, mode, stationary-state, schrodinger-equation, energy-level, ground-state, bohr-model, line-spectrum, wavefunction, born-rule, uncertainty-principle, double-slit]
 introduces: [quantum-number, orbital]
 sources:
@@ -13,6 +17,8 @@ sources:
   - "Schrödinger, E. Quantisierung als Eigenwertproblem (Erste Mitteilung), Annalen der Physik 79, 361 (1926)"
   - "Mulliken, R. S. Electronic Structures of Polyatomic Molecules and Valence. II. General Considerations, Physical Review 41, 49 (1932)"
   - "Chladni, E. F. F. Entdeckungen über die Theorie des Klanges (1787)"
+  - "Heisenberg, W. Der Teil und das Ganze (1969), 3장"
+  - "Stodolna, A. S. et al. Hydrogen Atoms under Magnification: Direct Observation of the Nodal Structure of Stark States, Physical Review Letters 110, 213001 (2013)"
 testout: [q71-count, q71-orbit, q71-shape]
 status: published
 ---
@@ -212,6 +218,21 @@ n = 3이면 1 + 3 + 5 = 9가지예요. 칸마다 n²가지가 있고, 수소에�
 <S n={2}>
 
 같은 상태를 여러 번 재면 찾은 자리들이 쌓여 구름 같은 모양이 돼요. 50강에서 전자가 하나씩 쌓여 간섭 무늬를 만든 것과 같아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="2013년, 마디가 보이다">
+  <Fragment slot="visual">
+    <BigNumber top="수소 원자 속 전자의 파동함수가 만드는 마디 무늬를 검출기에 직접 비춘 해" value="2013" bottom="네덜란드 연구진 · 전자를 하나씩 쌓아 고리 무늬를 얻었어요" />
+  </Fragment>
+
+2013년 네덜란드의 한 연구진은 전기장 속에 둔 수소 원자에서 전자를 하나씩 떼어 내, 멀리 있는 검출기에 쌓았어요. 그러자 파동함수의 마디에 맞춰 동그란 고리 무늬가 나타났죠.
+
+<S n={2}>
+
+**하나씩 찾은 전자들이 쌓여, 오비탈의 마디가 실제 무늬로 드러난 거예요.** 방금 시뮬레이션에서 점이 쌓이던 것과 같은 방식이에요.
 
 </S>
 
