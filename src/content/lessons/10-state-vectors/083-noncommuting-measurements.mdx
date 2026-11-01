@@ -6,12 +6,18 @@ question: 스핀의 위아래와 옆 방향을 둘 다 확실하게 정해 둘 �
 mechanism: 관측가능량을 재면 상태가 그 고유 상태로 바뀌어요. 스핀을 위아래로 재서 '위'만 골라내도, 옆으로 재는 순간 상태는 옆 방향의 고유 상태가 되는데, 이 상태는 위아래의 고유 상태가 아니라서 다시 위아래로 재면 반반이 나와요. 행렬로는 Z와 X를 곱하는 순서를 바꾸면 결과가 달라서 교환자 ZX − XZ가 0이 아니고, 교환자가 0이 아닌 두 양은 함께 확실한 상태가 없어요. 위치와 운동량도 교환자가 0이 아니라서 불확정성 원리가 생겨요.
 part: 10
 minutes: 20
+epigraph:
+  text: "며칠을 매달려 생각하고 이리저리 시험한 끝에, 나는 불현듯 브레슬라우에서 로자네스 선생께 배운 대수 이론을 떠올렸다. 이런 네모꼴의 수 배열은 수학자들에게 낯익은 것으로, 행렬이라고 부른다."
+  by: 막스 보른
+  source: 노벨상 강연 「양자역학의 통계적 해석」 (1954)
 assumes: [observable, eigenstate, eigenvalue, matrix, spin, stern-gerlach, basis, projection, qubit, dirac-notation, uncertainty-principle, momentum, imaginary-number, planck-constant, complementarity]
 introduces: [commutator]
 sources:
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 5 Spin One (1965)"
   - "Sakurai, J. J., Napolitano, J. Modern Quantum Mechanics, 2nd ed., Sec. 1.1 The Stern-Gerlach Experiment (2011)"
   - "Born, M., Jordan, P. Zur Quantenmechanik, Zeitschrift für Physik 34, 858 (1925)"
+  - "Born, M. The Statistical Interpretation of Quantum Mechanics, Nobel Lecture (11 December 1954), nobelprize.org"
+  - "Rokicki, T., Kociemba, H., Davidson, M., Dethridge, J. The Diameter of the Rubik's Cube Group Is Twenty, SIAM Journal on Discrete Mathematics 27, 1082 (2013)"
 testout: [q83-chain, q83-comm, q83-zxz]
 status: published
 ---
@@ -255,7 +261,7 @@ Z와 (2 0 / 0 5)는 곱하는 순서를 바꿔도 같아서 교환자가 0이에
 
 <S n={2}>
 
-순서를 바꾸면 결과가 달라진다는 이 식 하나에서, 61강의 불확정성 원리와 오늘의 연속 측정이 모두 나와요.
+**순서를 바꾸면 결과가 달라진다**는 이 식 하나에서, 61강의 불확정성 원리와 오늘의 연속 측정이 모두 나와요.
 
 </S>
 
@@ -309,6 +315,27 @@ Z와 (2 0 / 0 5)는 곱하는 순서를 바꿔도 같아서 교환자가 0이에
 위아래로 재서 위만, 옆으로 재서 +만, 다시 위아래로 재서 위만 골랐어요. 이 원자들을 마지막으로 옆으로 재면, +가 나오는 원자는 얼마쯤일까요?
 
 </Check>
+
+</Screen>
+
+<Screen kind="scene" title="루빅 큐브의 순서">
+  <Fragment slot="visual">
+    <BigNumber top="3×3 루빅 큐브가 가질 수 있는 모습의 수" value="약 4.3 × 10¹⁹" bottom="2010년에 어떤 모습이든 20번 안에 풀 수 있다고 밝혀졌어요" q="energy" />
+  </Fragment>
+
+루빅 큐브에서 윗면을 돌린 뒤 옆면을 돌리는 것과, 옆면을 먼저 돌리고 윗면을 돌리는 것은 결과가 달라요.
+
+<S n={2}>
+
+돌리는 순서가 결과를 바꾸는 이 성질 때문에, 큐브는 모습이 4경 개가 넘는 퍼즐이 돼요. 순서가 상관없다면 훨씬 쉽게 풀렸을 거예요.
+
+</S>
+
+<S n={3}>
+
+**양자 세계의 측정도 큐브처럼 순서가 결과를 바꿔요.**
+
+</S>
 
 </Screen>
 
