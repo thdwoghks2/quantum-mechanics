@@ -2,22 +2,22 @@
 
 이 파일은 `npm run docs:curriculum`이 만든다. 원본은 `src/content/curriculum.yaml`이다.
 
-공개 20 / 137강
+공개 137 / 137강
 
 ## 0부 · 기초
 
-물리학이 세상을 다루는 방식과, 뒤에서 계속 쓰는 운동·힘·에너지의 기본
+물리학이 세상을 다루는 방식과, 뒤에서 계속 쓰는 움직임·힘·에너지의 기본
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
 | 1 | 물리학이 하는 일 | 관찰에서 규칙을 찾고, 그 규칙으로 예측해요. 모형이란 무엇일까요 | 공개 (`src/content/lessons/00-basics/001-what-physics-does.mdx`) |
-| 2 | 큰 수와 작은 수 | 10의 거듭제곱으로 원자에서 우주까지의 크기를 적는다 | 공개 (`src/content/lessons/00-basics/002-big-and-small-numbers.mdx`) |
-| 3 | 단위와 측정 | 미터, 킬로그램, 초. 단위로 계산을 검산하고 어림한다 | 공개 (`src/content/lessons/00-basics/003-units-and-measurement.mdx`) |
-| 4 | 속도와 가속도 | 얼마나 빨리 움직이는지, 그 빠르기가 얼마나 빨리 바뀌는지 | 공개 (`src/content/lessons/00-basics/004-speed-and-acceleration.mdx`) |
-| 5 | 힘과 운동 법칙 | 힘은 속도를 바꾼다. F = ma | 공개 (`src/content/lessons/00-basics/005-force-and-motion.mdx`) |
-| 6 | 에너지 | 모양을 바꿔도 전체 양은 그대로인 것. 운동 에너지와 위치 에너지 | 공개 (`src/content/lessons/00-basics/006-energy.mdx`) |
-| 7 | 운동량 | 충돌에서 보존되는 양. 공을 받을 때 손을 당기는 이유 | 공개 (`src/content/lessons/00-basics/007-momentum.mdx`) |
-| 8 | 예측 가능한 세계 | 지금을 정확히 알면 미래도 알 수 있는가. 라플라스의 악마 | 공개 (`src/content/lessons/00-basics/008-determinism.mdx`) |
+| 2 | 큰 수와 작은 수 | 10의 거듭제곱으로 원자에서 우주까지의 크기를 적어요 | 공개 (`src/content/lessons/00-basics/002-big-and-small-numbers.mdx`) |
+| 3 | 단위와 측정 | 미터, 킬로그램, 초. 단위로 계산을 검산하고 어림해요 | 공개 (`src/content/lessons/00-basics/003-units-and-measurement.mdx`) |
+| 4 | 속도와 가속도 | 얼마나 빨리 움직이는지, 그 빠르기가 얼마나 빨리 바뀌는지 적어요 | 공개 (`src/content/lessons/00-basics/004-speed-and-acceleration.mdx`) |
+| 5 | 힘과 운동 법칙 | 힘은 속도를 바꿔요. F = ma | 공개 (`src/content/lessons/00-basics/005-force-and-motion.mdx`) |
+| 6 | 에너지 | 모습을 바꿔도 합은 그대로인 양. 운동 에너지와 위치 에너지 | 공개 (`src/content/lessons/00-basics/006-energy.mdx`) |
+| 7 | 운동량 | 부딪혀도 합이 그대로인 양. 공을 받을 때 손을 당기는 까닭 | 공개 (`src/content/lessons/00-basics/007-momentum.mdx`) |
+| 8 | 예측 가능한 세계 | 지금을 정확히 알면 미래도 알 수 있을까요. 라플라스의 악마와 카오스 | 공개 (`src/content/lessons/00-basics/008-determinism.mdx`) |
 
 ## 1부 · 파동과 빛
 
@@ -26,17 +26,17 @@
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
 | 9 | 진동 | 제자리에서 되풀이되는 움직임. 주기와 진동수 | 공개 (`src/content/lessons/01-waves/009-vibration.mdx`) |
-| 10 | 파동 | 물질이 아니라 흔들림이 전해진다 | 공개 (`src/content/lessons/01-waves/010-waves.mdx`) |
+| 10 | 파동 | 물질이 아니라 흔들림이 전해져요 | 공개 (`src/content/lessons/01-waves/010-waves.mdx`) |
 | 11 | 파장과 속력 | 파동의 속력 = 진동수 × 파장 | 공개 (`src/content/lessons/01-waves/011-wavelength-and-speed.mdx`) |
-| 12 | 사인 함수로 파동 그리기 | 돌아가는 점의 그림자가 파동의 모양이 된다 | 공개 (`src/content/lessons/01-waves/012-sine.mdx`) |
-| 13 | 중첩 | 두 파동이 만나면 더해진다. 노이즈 캔슬링의 원리 | 공개 (`src/content/lessons/01-waves/013-superposition.mdx`) |
-| 14 | 간섭 | 두 파동의 박자가 맞으면 커지고, 어긋나면 사라진다 | 공개 (`src/content/lessons/01-waves/014-interference.mdx`) |
-| 15 | 회절 | 파동은 틈을 지나며 퍼진다. 소리는 담을 넘고 빛은 못 넘는 이유 | 공개 (`src/content/lessons/01-waves/015-diffraction.mdx`) |
-| 16 | 영의 이중 슬릿 실험 | 빛이 파동이라는 증거. 무늬 간격으로 빛의 파장을 잰다 | 공개 (`src/content/lessons/01-waves/016-double-slit.mdx`) |
-| 17 | 빛의 색은 진동수로 정해진다 | 빨간빛은 1초에 약 400조 번, 보랏빛은 약 750조 번 진동한다 | 공개 (`src/content/lessons/01-waves/017-color-and-frequency.mdx`) |
+| 12 | 사인 함수로 파동 그리기 | 원을 도는 점의 높이가 파동의 모양이 돼요. 위상 | 공개 (`src/content/lessons/01-waves/012-sine.mdx`) |
+| 13 | 중첩 | 두 파동이 만나면 더해져요. 노이즈 캔슬링의 원리 | 공개 (`src/content/lessons/01-waves/013-superposition.mdx`) |
+| 14 | 간섭 | 두 파동의 박자가 맞으면 커지고, 어긋나면 사라져요 | 공개 (`src/content/lessons/01-waves/014-interference.mdx`) |
+| 15 | 회절 | 파동은 틈을 지나며 퍼져요. 소리는 문 뒤로 돌아오고 빛은 곧게 가는 까닭 | 공개 (`src/content/lessons/01-waves/015-diffraction.mdx`) |
+| 16 | 영의 이중 슬릿 실험 | 빛이 파동이라는 증거. 무늬 간격으로 빛의 파장을 재요 | 공개 (`src/content/lessons/01-waves/016-double-slit.mdx`) |
+| 17 | 빛의 색과 진동수 | 빨간빛은 1초에 약 400조 번, 보랏빛은 약 750조 번 진동해요 | 공개 (`src/content/lessons/01-waves/017-color-and-frequency.mdx`) |
 | 18 | 전하와 전기력 | 전기를 띤 것끼리 밀고 당기는 힘. 거리가 2배면 힘은 4분의 1 | 공개 (`src/content/lessons/01-waves/018-charge-and-electric-force.mdx`) |
-| 19 | 전자기파 | 흔들리는 전하가 빛을 낸다. 라디오에서 X선까지 | 공개 (`src/content/lessons/01-waves/019-electromagnetic-waves.mdx`) |
-| 20 | 정상파와 진동 모드 | 기타 줄에서 정해진 음만 나는 이유 | 공개 (`src/content/lessons/01-waves/020-standing-waves.mdx`) |
+| 19 | 전자기파 | 흔들리는 전하가 빛을 내요. 라디오에서 X선까지 | 공개 (`src/content/lessons/01-waves/019-electromagnetic-waves.mdx`) |
+| 20 | 정상파와 진동 모드 | 기타 줄에서 정해진 음만 나는 까닭 | 공개 (`src/content/lessons/01-waves/020-standing-waves.mdx`) |
 
 ## 2부 · 열과 빛
 
@@ -44,22 +44,22 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 21 | 물질은 알갱이다 | 원자와 분자. 설탕이 물에 녹으면 어디로 가나 | 준비 중 |
-| 22 | 원자는 실제로 있는가 | 브라운 운동과 아인슈타인(1905), 페랭(1908) | 준비 중 |
-| 23 | 온도의 정체 | 온도는 원자가 흔들리는 세기다. 절대온도 | 준비 중 |
-| 24 | 확률과 평균 | 주사위 두 개의 합. 기댓값 | 준비 중 |
-| 25 | 볼츠만 분포 | 에너지가 높은 상태일수록 드물다. 높은 산의 공기가 희박한 이유 | 준비 중 |
-| 26 | 에너지 등분배 | 온도가 같으면 움직이는 방식마다 같은 평균 에너지를 갖는다 | 준비 중 |
-| 27 | 뜨거운 물체는 빛을 낸다: 열복사 | 전기난로, 리모컨, 열화상 카메라 | 준비 중 |
-| 28 | 흑체와 별의 색 | 붉은 베텔게우스와 푸른 리겔의 온도 | 준비 중 |
-| 29 | 상자 속의 빛: 진동 모드 세기 | 진동수가 높을수록 들어갈 수 있는 진동 모드가 많다 | 준비 중 |
-| 30 | 고전 계산의 실패: 자외선 파탄 | 계산대로라면 난로는 무한한 에너지를 내야 한다 | 준비 중 |
-| 31 | 1900년, 물리학의 두 구름 | 켈빈의 강연. 두 문제가 각각 양자역학과 상대성이론이 된다 | 준비 중 |
-| 32 | 플랑크의 가정: 에너지는 덩어리로 오간다 | E = hf | 준비 중 |
-| 33 | h는 얼마나 작은가 | 일상에서 에너지 덩어리가 보이지 않는 이유 | 준비 중 |
-| 34 | 광전 효과: 실험 사실 | 태양전지와 자동문 센서 | 준비 중 |
-| 35 | 광자 | 아인슈타인(1905), 밀리컨의 검증(1916) | 준비 중 |
-| 36 | 광자의 운동량 | 콤프턴 산란(1923). 빛으로 미는 태양 돛 | 준비 중 |
+| 21 | 원자와 분자 | 물질은 알갱이예요. 설탕이 물에 녹으면 어디로 갈까요 | 공개 (`src/content/lessons/02-heat-light/021-atoms-and-molecules.mdx`) |
+| 22 | 원자는 정말 있을까 | 브라운 운동과 아인슈타인(1905), 페랭(1908) | 공개 (`src/content/lessons/02-heat-light/022-are-atoms-real.mdx`) |
+| 23 | 온도의 정체 | 온도는 분자들이 제멋대로 움직이는 평균 운동 에너지예요. 절대영도와 절대온도 | 공개 (`src/content/lessons/02-heat-light/023-what-temperature-is.mdx`) |
+| 24 | 확률과 기댓값 | 주사위 두 개의 합이 7이 자주 나오는 까닭. 확률과 기댓값 | 공개 (`src/content/lessons/02-heat-light/024-probability-and-expectation.mdx`) |
+| 25 | 볼츠만 분포 | 에너지가 높은 상태일수록 드물어요. 높은 산의 공기가 옅은 까닭 | 공개 (`src/content/lessons/02-heat-light/025-boltzmann-distribution.mdx`) |
+| 26 | 에너지 등분배 | 온도가 같으면 에너지를 담는 자리마다 같은 평균 에너지를 가져요. 자유도 | 공개 (`src/content/lessons/02-heat-light/026-equipartition.mdx`) |
+| 27 | 열복사: 뜨거운 물체가 내는 빛 | 전기난로, 리모컨, 열화상 카메라 | 공개 (`src/content/lessons/02-heat-light/027-thermal-radiation.mdx`) |
+| 28 | 흑체와 별의 색 | 붉은 베텔게우스와 푸른 리겔의 온도 | 공개 (`src/content/lessons/02-heat-light/028-blackbody-and-star-colors.mdx`) |
+| 29 | 상자 속의 빛: 진동 모드 세기 | 진동수가 높을수록 상자에 들어가는 진동 모드가 많아요 | 공개 (`src/content/lessons/02-heat-light/029-counting-modes.mdx`) |
+| 30 | 고전 계산의 실패: 자외선 파탄 | 계산대로라면 난로는 무한한 에너지를 내야 해요 | 공개 (`src/content/lessons/02-heat-light/030-ultraviolet-catastrophe.mdx`) |
+| 31 | 1900년, 물리학의 두 구름 | 켈빈의 강연. 두 문제가 각각 상대성이론과 양자역학으로 이어져요 | 공개 (`src/content/lessons/02-heat-light/031-two-clouds.mdx`) |
+| 32 | 플랑크의 가정: 덩어리로 오가는 에너지 | E = hf. 진동수가 높은 진동은 첫 덩어리도 받기 어려워요 | 공개 (`src/content/lessons/02-heat-light/032-planck-hypothesis.mdx`) |
+| 33 | h는 얼마나 작을까 | 일상에서 에너지 덩어리가 보이지 않는 까닭 | 공개 (`src/content/lessons/02-heat-light/033-how-small-is-h.mdx`) |
+| 34 | 광전 효과: 실험 사실 | 태양전지와 자동문 센서 | 공개 (`src/content/lessons/02-heat-light/034-photoelectric-effect.mdx`) |
+| 35 | 광자 | 아인슈타인(1905), 밀리컨의 검증(1916) | 공개 (`src/content/lessons/02-heat-light/035-photon.mdx`) |
+| 36 | 광자의 운동량 | 콤프턴 산란(1923). 빛으로 미는 태양 돛 | 공개 (`src/content/lessons/02-heat-light/036-photon-momentum.mdx`) |
 
 ## 3부 · 원자의 구조
 
@@ -67,16 +67,16 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 37 | 전자의 발견 | 톰슨(1897). 옛날 브라운관 TV | 준비 중 |
-| 38 | 전하의 최소 단위 | 밀리컨 기름방울(1909) | 준비 중 |
-| 39 | 원자 속의 빈 공간 | 가이거·마스든(1909), 러더퍼드(1911) | 준비 중 |
-| 40 | 원운동과 구심력 | 물 담은 양동이 돌리기, 인공위성 | 준비 중 |
-| 41 | 고전 원자가 무너져야 하는 이유 | 계산하면 1000억분의 1초 만에 무너진다 | 준비 중 |
-| 42 | 선 스펙트럼 | 네온사인, 나트륨 가로등, 불꽃놀이 색. 태양에서 먼저 찾은 헬륨(1868) | 준비 중 |
-| 43 | 발머 공식 | 숫자 속의 규칙(1885) | 준비 중 |
-| 44 | 보어 모형 | 에너지 준위(1913). 계단과 경사로 | 준비 중 |
-| 45 | 에너지 준위로 스펙트럼 계산하기 | 뤼드베리 상수 | 준비 중 |
-| 46 | 보어 모형의 성공과 한계 | 프랑크-헤르츠 실험(1914) | 준비 중 |
+| 37 | 전자의 발견 | 톰슨(1897). 옛날 브라운관 TV에서 스마트폰 칩까지 | 공개 (`src/content/lessons/03-atoms/037-electron.mdx`) |
+| 38 | 전하의 최소 단위 | 밀리컨 기름방울(1909). 배터리 하나에 옮겨 가는 10²³개의 전자 | 공개 (`src/content/lessons/03-atoms/038-elementary-charge.mdx`) |
+| 39 | 원자 속의 빈 공간 | 가이거·마스든(1909), 러더퍼드(1911). 빈 공간을 빼면 인류는 각설탕 하나 | 공개 (`src/content/lessons/03-atoms/039-nucleus.mdx`) |
+| 40 | 원운동과 구심력 | 물 담은 양동이, 인공위성, 영화 속 회전하는 우주선 | 공개 (`src/content/lessons/03-atoms/040-circular-motion.mdx`) |
+| 41 | 고전 원자가 무너져야 하는 이유 | 계산하면 1000억분의 1초 만에 무너진다 | 공개 (`src/content/lessons/03-atoms/041-classical-collapse.mdx`) |
+| 42 | 선 스펙트럼 | 네온사인, 나트륨 가로등, 불꽃놀이 색. 태양에서 먼저 찾은 헬륨(1868), 제임스 웹 우주망원경 | 공개 (`src/content/lessons/03-atoms/042-line-spectra.mdx`) |
+| 43 | 발머 공식 | 숫자 속의 규칙(1885) | 공개 (`src/content/lessons/03-atoms/043-balmer.mdx`) |
+| 44 | 보어 모형 | 에너지 준위(1913). 계단과 경사로, 불꽃축제의 색 | 공개 (`src/content/lessons/03-atoms/044-bohr-model.mdx`) |
+| 45 | 에너지 준위로 스펙트럼 계산하기 | 뤼드베리 상수. 우주 끝 은하에서 온 수소의 선 | 공개 (`src/content/lessons/03-atoms/045-rydberg.mdx`) |
+| 46 | 보어 모형의 성공과 한계 | 프랑크-헤르츠 실험(1914) | 공개 (`src/content/lessons/03-atoms/046-franck-hertz.mdx`) |
 
 ## 4부 · 물질파
 
@@ -84,21 +84,21 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 47 | 드브로이 파장 | 야구공과 전자의 파장 비교 | 준비 중 |
-| 48 | 보어 궤도를 정상파로 보기 | 20강의 진동 모드와 44강의 에너지 준위를 잇는다 | 준비 중 |
-| 49 | 전자 회절 실험 | 데이비슨-거머(1927). 톰슨 부자의 두 노벨상 | 준비 중 |
-| 50 | 전자 하나씩 쏘는 이중 슬릿 | 토노무라(1989) | 준비 중 |
-| 51 | 경로를 측정하면 간섭이 사라진다 | 상보성 | 준비 중 |
+| 47 | 드브로이 파장 | 야구공과 전자의 파장 비교 | 공개 (`src/content/lessons/04-matter-waves/047-de-broglie.mdx`) |
+| 48 | 보어 궤도를 정상파로 보기 | 20강의 진동 모드와 44강의 에너지 준위를 잇는다 | 공개 (`src/content/lessons/04-matter-waves/048-bohr-standing-waves.mdx`) |
+| 49 | 전자 회절 실험 | 데이비슨-거머(1927). 톰슨 부자의 두 노벨상 | 공개 (`src/content/lessons/04-matter-waves/049-electron-diffraction.mdx`) |
+| 50 | 전자 하나씩 쏘는 이중 슬릿 | 토노무라(1989) | 공개 (`src/content/lessons/04-matter-waves/050-single-electrons.mdx`) |
+| 51 | 경로를 측정하면 간섭이 사라진다 | 상보성 | 공개 (`src/content/lessons/04-matter-waves/051-which-path.mdx`) |
 
 ## 5부 · 복소수
 
-양자역학의 언어를 위한 수학 도구
+크기와 각도를 함께 담는 수. 양자역학이 쓰는 언어
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 52 | 허수와 복소평면 | 카르다노, 봄벨리 | 준비 중 |
-| 53 | 복소수의 곱셈은 회전이다 | 시계 바늘 | 준비 중 |
-| 54 | 오일러 공식 | 회전하는 화살표로 본 파동 | 준비 중 |
+| 52 | 허수와 복소평면 | 카르다노, 봄벨리 | 공개 (`src/content/lessons/05-complex-numbers/052-imaginary-numbers.mdx`) |
+| 53 | 복소수의 곱셈은 회전이다 | 시계 바늘 | 공개 (`src/content/lessons/05-complex-numbers/053-multiplication-is-rotation.mdx`) |
+| 54 | 오일러 공식 | 복리에서 나온 e, 회전하는 화살표로 본 파동 | 공개 (`src/content/lessons/05-complex-numbers/054-euler-formula.mdx`) |
 
 ## 6부 · 확률 진폭
 
@@ -106,22 +106,22 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 55 | 확률 진폭 | 더한 뒤에 제곱한다. 파인먼의 화살표 | 준비 중 |
-| 56 | 보른 규칙 | 1926년 논문의 각주 | 준비 중 |
-| 57 | 기댓값과 표준편차 | 반 학생들의 키 | 준비 중 |
-| 58 | 파동함수 | 무엇이고 무엇이 아닌가 | 준비 중 |
-| 59 | 측정과 상태의 붕괴 | 같은 측정을 반복하면 | 준비 중 |
+| 55 | 확률 진폭 | 더한 뒤에 제곱한다. 파인먼의 화살표 | 공개 (`src/content/lessons/06-amplitudes/055-probability-amplitude.mdx`) |
+| 56 | 보른 규칙 | 1926년 논문의 각주 | 공개 (`src/content/lessons/06-amplitudes/056-born-rule.mdx`) |
+| 57 | 기댓값과 표준편차 | 반 학생들의 키, 수능 표준점수 | 공개 (`src/content/lessons/06-amplitudes/057-standard-deviation.mdx`) |
+| 58 | 파동함수 | 무엇이고 무엇이 아닌가 | 공개 (`src/content/lessons/06-amplitudes/058-wavefunction.mdx`) |
+| 59 | 측정과 상태의 붕괴 | 같은 측정을 반복하면. 지켜보는 냄비는 끓지 않는다(1990) | 공개 (`src/content/lessons/06-amplitudes/059-measurement-collapse.mdx`) |
 
 ## 7부 · 불확정성 원리
 
-위치와 운동량을 동시에 정확히 정할 수 없는 이유
+자리와 운동량, 에너지와 시간을 동시에 정확히 정할 수 없는 이유
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 60 | 파동묶음과 푸리에 | 짧은 박수 소리에는 여러 음이 섞여 있다 | 준비 중 |
-| 61 | 불확정성 원리 | 1927. 감마선 현미경 비유가 오해를 낳는 지점 | 준비 중 |
-| 62 | 불확정성으로 원자 크기 어림하기 | 영점 에너지 | 준비 중 |
-| 63 | 에너지-시간 불확정성 | 스펙트럼선의 폭 | 준비 중 |
+| 60 | 파동묶음과 푸리에 | 짧은 박수 소리에는 여러 음이 섞여 있다. 음악 앱의 이퀄라이저 | 공개 (`src/content/lessons/07-uncertainty/060-wave-packets.mdx`) |
+| 61 | 불확정성 원리 | 1927. 감마선 현미경 비유가 오해를 낳는 지점 | 공개 (`src/content/lessons/07-uncertainty/061-uncertainty-principle.mdx`) |
+| 62 | 불확정성으로 원자 크기 어림하기 | 영점 에너지. 아무리 식혀도 얼지 않는 헬륨 | 공개 (`src/content/lessons/07-uncertainty/062-atom-size.mdx`) |
+| 63 | 에너지-시간 불확정성 | 스펙트럼선의 폭, 원자시계와 GPS | 공개 (`src/content/lessons/07-uncertainty/063-energy-time.mdx`) |
 
 ## 8부 · 슈뢰딩거 방정식
 
@@ -129,13 +129,13 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 64 | 미분: 변화율과 곡률 | 속도계 바늘, 도로의 굽은 정도 | 준비 중 |
-| 65 | 슈뢰딩거 방정식의 구조 | 운동 에너지 + 위치 에너지 = 전체 에너지 | 준비 중 |
-| 66 | 상자 속 입자 | QLED TV의 양자점 색 | 준비 중 |
-| 67 | 유한 우물과 금지 영역 | 곡률로 파동함수 읽기 | 준비 중 |
-| 68 | 터널 효과 | 가모프의 알파 붕괴(1928), 주사 터널링 현미경(1981) | 준비 중 |
-| 69 | 조화 진동자 | 이산화탄소가 적외선을 흡수하는 이유 | 준비 중 |
-| 70 | 시간에 따른 상태 변화 | 두 에너지 상태의 중첩이 진동한다 | 준비 중 |
+| 64 | 미분: 변화율과 곡률 | 속도계 바늘, 도로의 굽은 정도 | 공개 (`src/content/lessons/08-schrodinger/064-derivative-and-curvature.mdx`) |
+| 65 | 슈뢰딩거 방정식의 구조 | 운동 에너지 + 위치 에너지 = 전체 에너지 | 공개 (`src/content/lessons/08-schrodinger/065-schrodinger-equation.mdx`) |
+| 66 | 상자 속 입자 | QLED TV의 양자점 색 | 공개 (`src/content/lessons/08-schrodinger/066-particle-in-a-box.mdx`) |
+| 67 | 유한 우물과 금지 영역 | 곡률로 파동함수 읽기 | 공개 (`src/content/lessons/08-schrodinger/067-finite-well.mdx`) |
+| 68 | 터널 효과 | 가모프의 알파 붕괴(1928), 주사 터널링 현미경(1981) | 공개 (`src/content/lessons/08-schrodinger/068-tunneling.mdx`) |
+| 69 | 조화 진동자 | 이산화탄소가 적외선을 흡수하는 이유 | 공개 (`src/content/lessons/08-schrodinger/069-harmonic-oscillator.mdx`) |
+| 70 | 시간에 따른 상태 변화 | 두 에너지 상태의 중첩이 진동한다 | 공개 (`src/content/lessons/08-schrodinger/070-time-evolution.mdx`) |
 
 ## 9부 · 원자와 주기율표
 
@@ -143,12 +143,12 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 71 | 수소 원자의 양자수와 오비탈 | 궤도는 없다 | 준비 중 |
-| 72 | 스핀 | 슈테른-게를라흐(1922). 냉장고 자석부터 | 준비 중 |
-| 73 | 파울리 배타 원리 | 1925 | 준비 중 |
-| 74 | 주기율표를 양자역학으로 설명하기 | 멘델레예프의 예언(1869) | 준비 중 |
-| 75 | 물질이 단단한 이유 | 손이 책상을 뚫고 지나가지 않는 이유 | 준비 중 |
-| 76 | 보손과 페르미온 | 보스의 편지(1924), 보스-아인슈타인 응축(1995) | 준비 중 |
+| 71 | 수소 원자의 양자수와 오비탈 | 궤도는 없다 | 공개 (`src/content/lessons/09-periodic-table/071-hydrogen-orbitals.mdx`) |
+| 72 | 스핀 | 슈테른-게를라흐(1922). 냉장고 자석부터 | 공개 (`src/content/lessons/09-periodic-table/072-spin.mdx`) |
+| 73 | 파울리 배타 원리 | 1925 | 공개 (`src/content/lessons/09-periodic-table/073-pauli-exclusion.mdx`) |
+| 74 | 주기율표를 양자역학으로 설명하기 | 멘델레예프의 예언(1869) | 공개 (`src/content/lessons/09-periodic-table/074-periodic-table.mdx`) |
+| 75 | 물질이 단단한 이유 | 손이 책상을 뚫고 지나가지 않는 이유 | 공개 (`src/content/lessons/09-periodic-table/075-why-matter-is-solid.mdx`) |
+| 76 | 보손과 페르미온 | 보스의 편지(1924), 보스-아인슈타인 응축(1995) | 공개 (`src/content/lessons/09-periodic-table/076-bosons-and-fermions.mdx`) |
 
 ## 10부 · 상태 벡터
 
@@ -156,13 +156,13 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 77 | 벡터와 내적 | 지도 위의 이동 | 준비 중 |
-| 78 | 빛의 편광 | 편광 선글라스 두 개 겹치기 | 준비 중 |
-| 79 | 큐비트와 디랙 표기 | α|0⟩ + β|1⟩ | 준비 중 |
-| 80 | 측정은 기저로의 투영 | 비스듬한 햇빛에 생기는 그림자의 길이 | 준비 중 |
-| 81 | 2×2 행렬 | 행렬은 변환이다 | 준비 중 |
-| 82 | 관측가능량과 고윳값 | 파울리 행렬 | 준비 중 |
-| 83 | 교환하지 않는 측정 | 연속 슈테른-게를라흐 | 준비 중 |
+| 77 | 벡터와 내적 | 지도 위의 이동 | 공개 (`src/content/lessons/10-state-vectors/077-vectors-and-dot-product.mdx`) |
+| 78 | 빛의 편광 | 편광 선글라스 두 개 겹치기 | 공개 (`src/content/lessons/10-state-vectors/078-polarization.mdx`) |
+| 79 | 큐비트와 디랙 표기 | α|0⟩ + β|1⟩ | 공개 (`src/content/lessons/10-state-vectors/079-qubit-and-dirac-notation.mdx`) |
+| 80 | 측정은 기저로의 투영 | 비스듬한 햇빛에 생기는 그림자의 길이 | 공개 (`src/content/lessons/10-state-vectors/080-measurement-as-projection.mdx`) |
+| 81 | 2×2 행렬 | 행렬은 변환이다 | 공개 (`src/content/lessons/10-state-vectors/081-matrices.mdx`) |
+| 82 | 관측가능량과 고윳값 | 파울리 행렬 | 공개 (`src/content/lessons/10-state-vectors/082-observables-and-eigenvalues.mdx`) |
+| 83 | 교환하지 않는 측정 | 연속 슈테른-게를라흐 | 공개 (`src/content/lessons/10-state-vectors/083-noncommuting-measurements.mdx`) |
 
 ## 11부 · 양자역학의 해석
 
@@ -170,18 +170,18 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 84 | 코펜하겐 해석과 상보성 | 코모 강연(1927) | 준비 중 |
-| 85 | 1927 솔베이 회의 | 아인슈타인과 보어 | 준비 중 |
-| 86 | 1930 광자 상자 논쟁 | 보어가 아인슈타인의 일반상대성으로 반박하다 | 준비 중 |
-| 87 | 슈뢰딩거의 고양이와 측정 문제 | 1935 | 준비 중 |
-| 88 | EPR 논문 | 1935. 국소성과 실재성 | 준비 중 |
-| 89 | 얽힘 | 나눠 담은 장갑 한 켤레, 그리고 그 비유가 틀리는 곳 | 준비 중 |
-| 90 | 벨 부등식 | 1964 | 준비 중 |
-| 91 | 벨 실험 | 클라우저(1972), 아스페(1982), 델프트(2015), 2022 노벨상 | 준비 중 |
-| 92 | 국소 실재론이 틀렸다는 것의 의미 | 아무도 보지 않을 때 달은 있는가 | 준비 중 |
-| 93 | 해석들 | 다세계, 봄 역학, 결어긋남, 큐비즘, 객관적 붕괴 | 준비 중 |
-| 94 | 결정론과 자유 의지 | 8강의 라플라스로 돌아간다 | 준비 중 |
-| 95 | 과학 이론은 어떻게 바뀌는가 | 포퍼와 쿤 | 준비 중 |
+| 84 | 코펜하겐 해석과 상보성 | 코모 강연(1927) | 공개 (`src/content/lessons/11-interpretations/084-copenhagen-interpretation.mdx`) |
+| 85 | 1927 솔베이 회의 | 아인슈타인과 보어 | 공개 (`src/content/lessons/11-interpretations/085-solvay-1927.mdx`) |
+| 86 | 1930 광자 상자 논쟁 | 보어가 아인슈타인의 일반상대성으로 반박하다 | 공개 (`src/content/lessons/11-interpretations/086-photon-box.mdx`) |
+| 87 | 슈뢰딩거의 고양이와 측정 문제 | 1935 | 공개 (`src/content/lessons/11-interpretations/087-schrodingers-cat.mdx`) |
+| 88 | EPR 논문 | 1935. 국소성과 실재성 | 공개 (`src/content/lessons/11-interpretations/088-epr.mdx`) |
+| 89 | 얽힘 | 나눠 담은 장갑 한 켤레, 그리고 그 비유가 틀리는 곳 | 공개 (`src/content/lessons/11-interpretations/089-entanglement.mdx`) |
+| 90 | 벨 부등식 | 1964 | 공개 (`src/content/lessons/11-interpretations/090-bell-inequality.mdx`) |
+| 91 | 벨 실험 | 클라우저(1972), 아스페(1982), 델프트(2015), 2022 노벨상 | 공개 (`src/content/lessons/11-interpretations/091-bell-experiments.mdx`) |
+| 92 | 국소 실재론이 틀렸다는 것의 의미 | 아무도 보지 않을 때 달은 있는가 | 공개 (`src/content/lessons/11-interpretations/092-local-realism.mdx`) |
+| 93 | 해석들 | 다세계, 봄 역학, 결어긋남, 큐비즘, 객관적 붕괴 | 공개 (`src/content/lessons/11-interpretations/093-interpretations.mdx`) |
+| 94 | 결정론과 자유 의지 | 8강의 라플라스로 돌아간다 | 공개 (`src/content/lessons/11-interpretations/094-determinism-and-free-will.mdx`) |
+| 95 | 과학 이론은 어떻게 바뀌는가 | 포퍼와 쿤 | 공개 (`src/content/lessons/11-interpretations/095-popper-and-kuhn.mdx`) |
 
 ## 12부 · 상대성이론
 
@@ -189,16 +189,16 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 96 | 기준틀 | 달리는 기차 안에서 공 던지기 | 준비 중 |
-| 97 | 광속 불변 | 마이컬슨-몰리(1887). 31강의 두 번째 구름 | 준비 중 |
-| 98 | 시간 지연 | 빛 시계, 우주에서 날아오는 뮤온 | 준비 중 |
-| 99 | 길이 수축과 동시성 | 동시라는 말은 관찰자마다 다르다 | 준비 중 |
-| 100 | E = mc² | 질량과 에너지 | 준비 중 |
-| 101 | 디랙 방정식과 반물질 | 1928, 앤더슨의 양전자(1932) | 준비 중 |
-| 102 | 등가 원리 | 엘리베이터가 내려가기 시작할 때 몸이 가벼워지는 느낌 | 준비 중 |
-| 103 | 일반상대성 | 영화 속 밀러 행성의 1시간 = 7년 계산, GPS의 하루 38μs 보정 | 준비 중 |
-| 104 | 블랙홀 | EHT(2019, 2022) | 준비 중 |
-| 105 | 중력파 | 2015년 첫 검출 | 준비 중 |
+| 96 | 기준틀 | 달리는 기차 안에서 공 던지기 | 공개 (`src/content/lessons/12-relativity/096-reference-frames.mdx`) |
+| 97 | 광속 불변 | 마이컬슨-몰리(1887). 31강의 첫째 구름 | 공개 (`src/content/lessons/12-relativity/097-constancy-of-light-speed.mdx`) |
+| 98 | 시간 지연 | 빛 시계, 우주에서 날아오는 뮤온 | 공개 (`src/content/lessons/12-relativity/098-time-dilation.mdx`) |
+| 99 | 길이 수축과 동시성 | 동시라는 말은 관찰자마다 다르다 | 공개 (`src/content/lessons/12-relativity/099-length-contraction-and-simultaneity.mdx`) |
+| 100 | E = mc² | 질량과 에너지 | 공개 (`src/content/lessons/12-relativity/100-mass-energy.mdx`) |
+| 101 | 디랙 방정식과 반물질 | 1928, 앤더슨의 양전자(1932) | 공개 (`src/content/lessons/12-relativity/101-dirac-and-antimatter.mdx`) |
+| 102 | 등가 원리 | 엘리베이터가 내려가기 시작할 때 몸이 가벼워지는 느낌 | 공개 (`src/content/lessons/12-relativity/102-equivalence-principle.mdx`) |
+| 103 | 일반상대성 | 영화 속 밀러 행성의 1시간 = 7년 계산, GPS의 하루 38μs 보정 | 공개 (`src/content/lessons/12-relativity/103-general-relativity.mdx`) |
+| 104 | 블랙홀 | EHT(2019, 2022) | 공개 (`src/content/lessons/12-relativity/104-black-holes.mdx`) |
+| 105 | 중력파 | 2015년 첫 검출 | 공개 (`src/content/lessons/12-relativity/105-gravitational-waves.mdx`) |
 
 ## 13부 · 원자핵과 별
 
@@ -206,11 +206,11 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 106 | 원자핵과 결합 에너지 | 채드윅의 중성자(1932) | 준비 중 |
-| 107 | 방사성 붕괴와 반감기 | 탄소 연대 측정 | 준비 중 |
-| 108 | 별의 핵융합과 터널 효과 | 베테(1939) | 준비 중 |
-| 109 | 원소는 별에서 만들어졌다 | 몸속의 철과 반지의 금은 어디서 왔나 | 준비 중 |
-| 110 | 별의 죽음 | 찬드라세카르 한계(1930), 펄서(1967)와 조슬린 벨 | 준비 중 |
+| 106 | 원자핵과 결합 에너지 | 채드윅의 중성자(1932) | 공개 (`src/content/lessons/13-nuclei-stars/106-nucleus-and-binding-energy.mdx`) |
+| 107 | 방사성 붕괴와 반감기 | 탄소 연대 측정 | 공개 (`src/content/lessons/13-nuclei-stars/107-radioactive-decay-and-half-life.mdx`) |
+| 108 | 별의 핵융합과 터널 효과 | 베테(1939) | 공개 (`src/content/lessons/13-nuclei-stars/108-stellar-fusion-and-tunneling.mdx`) |
+| 109 | 원소는 별에서 만들어졌다 | 몸속의 철과 반지의 금은 어디서 왔나 | 공개 (`src/content/lessons/13-nuclei-stars/109-nucleosynthesis.mdx`) |
+| 110 | 별의 죽음 | 찬드라세카르 한계(1930), 펄서(1967)와 조슬린 벨 | 공개 (`src/content/lessons/13-nuclei-stars/110-death-of-stars.mdx`) |
 
 ## 14부 · 핵무기와 과학자
 
@@ -218,16 +218,16 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 111 | 연쇄 반응이라는 아이디어 | 실라르드(1933). 도미노 | 준비 중 |
-| 112 | 핵분열의 발견 | 한과 슈트라스만, 마이트너와 프리슈(1938) | 준비 중 |
-| 113 | 아인슈타인-실라르드 편지 | 1939 | 준비 중 |
-| 114 | 최초의 원자로: 시카고 파일 1 | 1942 | 준비 중 |
-| 115 | 로스앨러모스와 맨해튼 프로젝트 | 임계 질량, 내폭 설계 | 준비 중 |
-| 116 | 트리니티 실험 | 1945년 7월 16일. 페르미의 종잇조각 어림 | 준비 중 |
-| 117 | 히로시마와 나가사키 | 프랑크 보고서, 실라르드 청원 | 준비 중 |
-| 118 | 과학자의 책임 | 결과주의, 의무론, 덕 윤리. 로트블랫 | 준비 중 |
-| 119 | 전쟁 이후 | 1954년 청문회, 러셀-아인슈타인 선언(1955) | 준비 중 |
-| 120 | 1941년 하이젠베르크의 코펜하겐 방문 | 2002년 공개된 보어의 편지 | 준비 중 |
+| 111 | 연쇄 반응이라는 아이디어 | 실라르드(1933). 도미노 | 공개 (`src/content/lessons/14-bomb/111-chain-reaction.mdx`) |
+| 112 | 핵분열의 발견 | 한과 슈트라스만, 마이트너와 프리슈(1938) | 공개 (`src/content/lessons/14-bomb/112-nuclear-fission.mdx`) |
+| 113 | 아인슈타인-실라르드 편지 | 1939 | 공개 (`src/content/lessons/14-bomb/113-einstein-szilard-letter.mdx`) |
+| 114 | 최초의 원자로: 시카고 파일 1 | 1942 | 공개 (`src/content/lessons/14-bomb/114-chicago-pile-1.mdx`) |
+| 115 | 로스앨러모스와 맨해튼 프로젝트 | 임계 질량, 내폭 설계 | 공개 (`src/content/lessons/14-bomb/115-manhattan-project.mdx`) |
+| 116 | 트리니티 실험 | 1945년 7월 16일. 페르미의 종잇조각 어림 | 공개 (`src/content/lessons/14-bomb/116-trinity.mdx`) |
+| 117 | 히로시마와 나가사키 | 프랑크 보고서, 실라르드 청원 | 공개 (`src/content/lessons/14-bomb/117-hiroshima-nagasaki.mdx`) |
+| 118 | 과학자의 책임 | 결과주의, 의무론, 덕 윤리. 로트블랫 | 공개 (`src/content/lessons/14-bomb/118-scientists-responsibility.mdx`) |
+| 119 | 전쟁 이후 | 1954년 청문회, 러셀-아인슈타인 선언(1955) | 공개 (`src/content/lessons/14-bomb/119-after-the-war.mdx`) |
+| 120 | 1941년 하이젠베르크의 코펜하겐 방문 | 2002년 공개된 보어의 편지 | 공개 (`src/content/lessons/14-bomb/120-heisenberg-in-copenhagen.mdx`) |
 
 ## 15부 · 양자장과 우주
 
@@ -235,16 +235,16 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 121 | 장이란 무엇인가 | 자석 위에 뿌린 쇳가루 | 준비 중 |
-| 122 | 양자전기역학과 파인먼 다이어그램 | 측정과 12자리까지 맞는 예측 | 준비 중 |
-| 123 | 자연의 네 가지 힘 | 세기와 도달 거리 | 준비 중 |
-| 124 | 표준 모형과 힉스 입자 | 2012 | 준비 중 |
-| 125 | 대칭과 보존 법칙: 뇌터 정리 | 6·7강의 보존 법칙으로 돌아간다 | 준비 중 |
-| 126 | 우주 배경 복사 | 27·28강의 열복사와 흑체로 돌아온다 | 준비 중 |
-| 127 | 빅뱅, 인플레이션, 양자 요동 | 은하의 씨앗 | 준비 중 |
-| 128 | 암흑물질과 암흑에너지 | 베라 루빈의 회전 곡선, 가속 팽창(1998) | 준비 중 |
-| 129 | 호킹 복사와 정보 역설 | 1974 | 준비 중 |
-| 130 | 양자 중력 | 아직 풀리지 않은 문제 | 준비 중 |
+| 121 | 장이란 무엇인가 | 자석 위에 뿌린 쇳가루 | 공개 (`src/content/lessons/15-fields-cosmos/121-what-is-a-field.mdx`) |
+| 122 | 양자전기역학과 파인먼 다이어그램 | 측정과 12자리까지 맞는 예측 | 공개 (`src/content/lessons/15-fields-cosmos/122-qed-and-feynman-diagrams.mdx`) |
+| 123 | 자연의 네 가지 힘 | 세기와 도달 거리 | 공개 (`src/content/lessons/15-fields-cosmos/123-four-forces.mdx`) |
+| 124 | 표준 모형과 힉스 입자 | 2012 | 공개 (`src/content/lessons/15-fields-cosmos/124-standard-model-and-higgs.mdx`) |
+| 125 | 대칭과 보존 법칙: 뇌터 정리 | 6·7강의 보존 법칙으로 돌아간다 | 공개 (`src/content/lessons/15-fields-cosmos/125-symmetry-and-noether.mdx`) |
+| 126 | 우주 배경 복사 | 27·28강의 열복사와 흑체로 돌아온다 | 공개 (`src/content/lessons/15-fields-cosmos/126-cosmic-background.mdx`) |
+| 127 | 빅뱅, 인플레이션, 양자 요동 | 은하의 씨앗 | 공개 (`src/content/lessons/15-fields-cosmos/127-big-bang-and-inflation.mdx`) |
+| 128 | 암흑물질과 암흑에너지 | 베라 루빈의 회전 곡선, 가속 팽창(1998) | 공개 (`src/content/lessons/15-fields-cosmos/128-dark-matter-and-dark-energy.mdx`) |
+| 129 | 호킹 복사와 정보 역설 | 1974 | 공개 (`src/content/lessons/15-fields-cosmos/129-hawking-radiation.mdx`) |
+| 130 | 양자 중력 | 아직 풀리지 않은 문제 | 공개 (`src/content/lessons/15-fields-cosmos/130-quantum-gravity.mdx`) |
 
 ## 16부 · 응용과 마무리
 
@@ -252,10 +252,10 @@
 
 | 강 | 제목 | 내용 | 상태 |
 |---|---|---|---|
-| 131 | 고체의 에너지 띠 | 도체, 부도체, 반도체 | 준비 중 |
-| 132 | 트랜지스터 | 1947. 스마트폰 칩 하나에 든 수백억 개 | 준비 중 |
-| 133 | 레이저 | 바코드 스캐너, 레이저 포인터 | 준비 중 |
-| 134 | MRI | 핵 스핀이 보여주는 몸속 | 준비 중 |
-| 135 | 양자컴퓨터 | 간섭으로 하는 계산 | 준비 중 |
-| 136 | 양자 암호와 양자 순간이동 | BB84(1984), 복제 불가 정리 | 준비 중 |
-| 137 | 마무리: 지금 물리학이 풀지 못한 문제들 | 31강의 두 구름에 대응하는 오늘의 구름 | 준비 중 |
+| 131 | 고체의 에너지 띠 | 도체, 부도체, 반도체 | 공개 (`src/content/lessons/16-applications/131-energy-bands.mdx`) |
+| 132 | 트랜지스터 | 1947. 스마트폰 칩 하나에 든 수백억 개 | 공개 (`src/content/lessons/16-applications/132-transistor.mdx`) |
+| 133 | 레이저 | 바코드 스캐너, 레이저 포인터 | 공개 (`src/content/lessons/16-applications/133-laser.mdx`) |
+| 134 | MRI | 핵 스핀이 보여주는 몸속 | 공개 (`src/content/lessons/16-applications/134-mri.mdx`) |
+| 135 | 양자컴퓨터 | 간섭으로 하는 계산 | 공개 (`src/content/lessons/16-applications/135-quantum-computer.mdx`) |
+| 136 | 양자 암호와 양자 순간이동 | BB84(1984), 복제 불가 정리 | 공개 (`src/content/lessons/16-applications/136-quantum-cryptography-and-teleportation.mdx`) |
+| 137 | 마무리: 지금 물리학이 풀지 못한 문제들 | 31강의 두 구름에 대응하는 오늘의 구름 | 공개 (`src/content/lessons/16-applications/137-open-questions.mdx`) |
