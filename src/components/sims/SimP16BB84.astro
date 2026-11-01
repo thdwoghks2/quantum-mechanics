@@ -1,0 +1,128 @@
+---
+/**
+ * BB84 양자 암호(136강). 앨리스는 비트마다 방향(+ 또는 ×)을 아무렇게나 골라 광자의 편광에 실어 보낸다.
+ * 밥도 방향을 아무렇게나 골라 잰다. 둘이 방향만 공개해서 같았던 자리의 비트를 남기면 같은 비밀 열쇠가 된다.
+ * 엿듣는 사람(이브)이 중간에서 아무 방향으로 재고 다시 보내면, 남긴 비트의 4분의 1쯤이 어긋나서 들킨다.
+ * 위 표에는 처음 12개만 보이고, 아래 숫자는 광자 400개로 센다.
+ */
+---
+<qm-sim-p16-bb84 class="sim" data-ratio="0.82" data-autoplay="false">
+  <canvas aria-label="앨리스가 보낸 비트와 방향, 밥이 고른 방향과 잰 값을 표로 보여요. 방향이 같은 자리만 남기고, 엿듣는 사람이 있으면 남긴 비트 가운데 어긋난 것이 생겨요."></canvas>
+  <div class="sim__controls">
+    <input type="hidden" data-param="eve" value="0" />
+    <div class="sim__buttons">
+      <button type="button" class="btn" data-send>광자 400개 새로 보내기</button>
+      <button type="button" class="btn" data-set="eve=0" aria-pressed="true">엿듣는 사람 없음</button>
+      <button type="button" class="btn" data-set="eve=1" aria-pressed="false">엿듣는 사람 있음</button>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-p16-bb84>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  interface Row {
+    bit: number;
+    a: number; // 앨리스의 방향: 0은 +, 1은 ×
+    b: number; // 밥의 방향
+    got: number; // 밥이 잰 값
+  }
+
+  const TOTAL = 400;
+  const SHOW = 12;
+  const DIR = ['+', '×'];
+
+  class SimP16BB84 extends Sim {
+    animated = false;
+    rows: Row[] = [];
+    seed = 1984;
+
+    rand() {
+      this.seed = (this.seed * 1664525 + 1013904223) >>> 0;
+      return this.seed / 4294967296;
+    }
+
+    coin() {
+      return this.rand() < 0.5 ? 0 : 1;
+    }
+
+    init() {
+      this.querySelector('[data-send]')!.addEventListener('click', () => {
+        this.seed += 7919;
+        this.run();
+        this.frame();
+      });
+      this.run();
+    }
+
+    changed() {
+      this.run();
+    }
+
+    /** 편광을 방향 d로 쟀을 때: 방향이 같으면 그대로, 다르면 반반 */
+    measure(bit: number, sent: number, d: number) {
+      return sent === d ? bit : this.coin();
+    }
+
+    run() {
+      const s0 = this.seed;
+      const eve = (this.p.eve ?? 0) > 0;
+      this.rows = [];
+      for (let i = 0; i < TOTAL; i++) {
+        const bit = this.coin();
+        const a = this.coin();
+        let carry = bit;
+        let dirNow = a;
+        if (eve) {
+          const e = this.coin();
+          carry = this.measure(carry, dirNow, e);
+          dirNow = e; // 이브가 잰 방향으로 다시 보낸다
+        }
+        const b = this.coin();
+        const got = this.measure(carry, dirNow, b);
+        this.rows.push({ bit, a, b, got });
+      }
+      this.seed = s0;
+    }
+
+    stats() {
+      const kept = this.rows.filter((r) => r.a === r.b);
+      const bad = kept.filter((r) => r.bit !== r.got).length;
+      return { kept: kept.length, bad };
+    }
+
+    readout() {
+      const { kept, bad } = this.stats();
+      const rate = kept ? (bad / kept) * 100 : 0;
+      const who = (this.p.eve ?? 0) > 0 ? '엿듣는 사람 있음' : '엿듣는 사람 없음';
+      return `${who} · 광자 ${TOTAL}개 가운데 방향이 같아 남긴 비트 ${kept}개 · 그 가운데 어긋난 비트 ${bad}개 (${rate.toFixed(0)}%)`;
+    }
+
+    draw() {
+      const { w, h, c, ctx } = this;
+      const heads = ['앨리스 비트', '앨리스 방향', '밥 방향', '밥이 잰 값', '남김'];
+      const left = 8;
+      const colW = (w - 16) / heads.length;
+      const top = 26;
+      const rowH = (h - top - 12) / SHOW;
+      heads.forEach((t, j) => this.text(t, left + colW * (j + 0.5), 12, c.muted, 10, 'center'));
+      this.line(left, top - 4, w - 8, top - 4, c.line, 1);
+      this.rows.slice(0, SHOW).forEach((r, i) => {
+        const y = top + rowH * (i + 0.5);
+        const same = r.a === r.b;
+        const wrong = same && r.bit !== r.got;
+        if (same) {
+          ctx.fillStyle = wrong ? 'rgba(229, 128, 106, 0.18)' : 'rgba(143, 198, 163, 0.1)';
+          ctx.fillRect(left, y - rowH / 2 + 1, w - 16, rowH - 2);
+        }
+        const cells = [String(r.bit), DIR[r.a]!, DIR[r.b]!, String(r.got), same ? (wrong ? '어긋남' : '남김') : '버림'];
+        cells.forEach((t, j) => {
+          const color = j === 4 ? (wrong ? c.no : same ? c.ok : c.muted) : j === 1 || j === 2 ? c.time : c.text;
+          this.text(t, left + colW * (j + 0.5), y, color, 12, 'center');
+        });
+      });
+    }
+  }
+  define('qm-sim-p16-bb84', SimP16BB84);
+</script>

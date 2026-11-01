@@ -16,4 +16,5 @@ export default {
   's5-blackboard': '<rect x="4" y="8" width="56" height="38" rx="2"/><path d="M10 18c4-3 6 3 10 0M24 16h8M36 18l4-4 4 4M10 28h14M28 30c3-4 7 4 10 0M44 26h10M10 38h8M22 36l6 4M34 38h16"/><path d="M14 46l-4 12M50 46l4 12"/>',
   's5-scanner': '<circle cx="32" cy="28" r="22"/><circle cx="32" cy="28" r="11"/><path d="M4 54h56M14 54v-6h36v6"/><path d="M21 28h22" stroke-dasharray="2 3"/>',
   's5-top': '<path d="M22 14l20 0-10 34z"/><path d="M32 48v10"/><path d="M14 10c8-6 28-6 36 0" stroke-dasharray="3 3"/><path d="M28 6l4-4 4 4"/>',
+  's5-beam': '<path d="M20 4h24M20 60h24"/><path d="M25 9v46M32 7v50M39 9v46" stroke-dasharray="2 4"/><circle cx="32" cy="22" r="5"/><path d="M24 44c0-8 4-12 8-12s8 4 8 12"/>',
 };

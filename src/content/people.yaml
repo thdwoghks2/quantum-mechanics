@@ -1025,3 +1025,22 @@
   lessons: [135]
   sources:
     - "Grover, L. K. Proceedings 28th STOC, 212 (1996)"
+- id: bennett
+  name: 찰스 베넷
+  original: Charles Bennett
+  born: 1943
+  role: 미국의 물리학자, IBM 연구원
+  summary: 1984년 질 브라사르와 함께 양자 암호 BB84를 내놓았고, 1993년에는 다섯 동료와 함께 양자 순간이동의 방법을 찾았어요. 정보를 물리의 눈으로 보는 양자 정보 과학의 길을 연 사람 가운데 하나예요.
+  lessons: [136]
+  sources:
+    - "Bennett, C. H. & Brassard, G. Proceedings IEEE ICCSSP, 175 (1984)"
+    - "Bennett, C. H. et al. Physical Review Letters 70, 1895 (1993)"
+- id: brassard
+  name: 질 브라사르
+  original: Gilles Brassard
+  born: 1955
+  role: 캐나다의 컴퓨터 과학자
+  summary: 몬트리올 대학에서 찰스 베넷과 함께 양자 암호 BB84를 만들고, 양자 순간이동의 방법을 함께 찾았어요.
+  lessons: [136]
+  sources:
+    - "Bennett, C. H. & Brassard, G. Proceedings IEEE ICCSSP, 175 (1984)"
