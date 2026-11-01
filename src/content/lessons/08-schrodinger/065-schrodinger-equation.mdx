@@ -6,6 +6,10 @@ question: 파동함수가 어디서 얼마나 굽을지는 무엇이 정할까�
 mechanism: 고전 물리에서 자리마다 운동 에너지와 위치 에너지를 더하면 늘 전체 에너지가 돼요. 지난 강에서 운동 에너지는 파동함수의 곡률로 읽을 수 있었으니, 그 자리에 곡률을 넣으면 '곡률로 읽은 운동 에너지 + 위치 에너지 = 전체 에너지'라는 식이 되고, 이게 슈뢰딩거 방정식이에요. 그래서 위치 에너지가 높은 곳일수록 운동 에너지가 적어 파동함수가 덜 굽고 파장이 길어져요.
 part: 8
 minutes: 20
+epigraph:
+  text: "제 동료 데바이가 파동 방정식이 있어야 한다고 했지요. 자, 제가 하나 찾았습니다!"
+  by: 에르빈 슈뢰딩거
+  source: 펠릭스 블로흐의 회고, 『피직스 투데이』 (1976)
 assumes: [energy, kinetic-energy, potential-energy, energy-conservation, wavelength, standing-wave, planck-constant, de-broglie-wavelength, matter-wave, wavefunction, energy-level, bohr-model, derivative, curvature, model, prediction]
 introduces: [schrodinger-equation]
 sources:
@@ -13,6 +17,8 @@ sources:
   - "Feynman, R. P., Leighton, R. B., Sands, M. The Feynman Lectures on Physics, Vol. III, Ch. 16 (1965)"
   - "Griffiths, D. J. Introduction to Quantum Mechanics, 3rd ed., Ch. 1-2 (2018)"
   - "Moore, W. Schrödinger: Life and Thought (1989)"
+  - "Bloch, F. Heisenberg and the early days of quantum mechanics, Physics Today 29(12), 23 (1976)"
+  - "Dirac, P. A. M. Quantum Mechanics of Many-Electron Systems, Proc. R. Soc. A 123, 714 (1929)"
 testout: [q65-wave, q65-parts, q65-num]
 status: published
 ---
@@ -324,6 +330,12 @@ $$-\frac{\hbar^2}{2m}\,\frac{d^2\psi}{dx^2} + V\psi = E\psi$$
 
 </S>
 
+<S n={3}>
+
+시작은 1925년 말 취리히의 세미나였어요. 슈뢰딩거가 드브로이의 물질파를 소개하자, 피터 데바이가 파동이라면 파동 방정식이 있어야 한다고 했죠.
+
+</S>
+
 </Screen>
 
 <Screen kind="compare" title="가정 대신 결과로">
@@ -358,6 +370,23 @@ $$-\frac{\hbar^2}{2m}\,\frac{d^2\psi}{dx^2} + V\psi = E\psi$$
 <S n={2}>
 
 그래도 우리가 이 식을 믿는 건 1강의 고리를 돌았기 때문이에요. 이 식으로 한 예측이 원자부터 분자까지 실험과 맞았거든요.
+
+</S>
+
+</Screen>
+
+<Screen kind="story" title="화학 전체가 이 식 안에">
+  <Fragment slot="visual">
+    <Quote by="폴 디랙" source="「여러 전자계의 양자역학」, 왕립학회보 (1929)">
+      물리학의 많은 부분과 화학 전체를 수학으로 다루는 데 필요한 기본 법칙은 이제 완전히 알려졌다.
+    </Quote>
+  </Fragment>
+
+3년 뒤 폴 디랙은 이렇게 썼어요. 원자가 붙어 분자가 되고 물질이 타고 녹고 색을 띠는 일이, 모두 이 식과 이 식이 정하는 파동함수에서 나온다는 뜻이었죠.
+
+<S n={2}>
+
+디랙은 식이 너무 복잡해서 정확히 풀기는 어렵다는 말도 덧붙였어요. **그래도 지금 새 약과 배터리 재료를 찾는 컴퓨터 계산은, 이 식을 어림해서 푸는 일이에요.**
 
 </S>
 
