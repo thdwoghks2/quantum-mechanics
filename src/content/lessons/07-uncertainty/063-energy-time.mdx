@@ -1,0 +1,402 @@
+---
+number: 63
+title: 에너지-시간 불확정성
+short: 에너지-시간
+question: 스펙트럼선은 왜 아주 조금 두꺼울까요?
+mechanism: 60강에서 이어지는 시간이 짧은 파동일수록 섞인 진동수가 넓게 퍼진다고 했어요. 빛 하나의 에너지는 hf이니, 진동수가 퍼지면 에너지도 퍼져서, 에너지의 퍼짐과 시간의 길이를 곱한 값은 h ÷ 4π보다 작아질 수 없어요. 들뜬상태는 정해진 시간쯤 머문 뒤 빛을 내니, 그 빛도 그만큼만 이어지는 파동이고, 그래서 스펙트럼선은 수명에 반비례하는 폭을 가져요. 오래 머무는 상태일수록 선이 가늘어서 원자시계에 쓰여요.
+part: 7
+year: 1967
+minutes: 20
+epigraph:
+  text: "1초는 세슘-133 원자의 바닥상태의 두 초미세 준위 사이를 옮겨 갈 때 나오는 빛이 9,192,631,770번 진동하는 시간이다."
+  by: 제13차 국제도량형총회
+  source: 초의 정의 (1967)
+assumes: [uncertainty-principle, wave-packet, fourier-decomposition, planck-constant, photon, frequency, line-spectrum, excited-state, ground-state, energy-level, standard-deviation, si, unit]
+introduces: [linewidth]
+sources:
+  - "Bureau International des Poids et Mesures: The International System of Units (SI), 9th ed. (2019), 초의 정의"
+  - "Mandelstam, L. & Tamm, I. The uncertainty relation between energy and time in non-relativistic quantum mechanics. Journal of Physics (USSR) 9, 249–254 (1945)"
+  - "Steck, D. A. Sodium D Line Data (2019): 3P 상태의 수명 약 16.2 ns"
+  - "Ludlow, A. D. et al. Optical atomic clocks. Reviews of Modern Physics 87, 637–701 (2015)"
+  - "U.S. Space Force: GPS.gov, GPS 위성에 실린 원자시계"
+testout: [q63-width, q63-longer, q63-clock]
+status: published
+---
+
+<Screen kind="scene" title="아주 조금 두꺼운 선">
+  <Fragment slot="visual">
+    <SimP03Spectrum sources="na" />
+  </Fragment>
+
+42강에서 나트륨 가로등의 빛은 노란빛 근처의 아주 가는 선 두 개였어요. 그런데 그 선을 아주아주 정밀하게 재면, 선마다 아주 조금씩 폭이 있어요.
+
+<S n={2}>
+
+62강 끝에서 에너지와 시간도 맞바꿈을 한다고 예고했어요. 오늘은 선의 그 작은 폭이 어디서 오는지, 그리고 그 원리가 스마트폰의 GPS와 어떻게 이어지는지 따라가요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={60} title="짧을수록 넓게 섞여요">
+  <Fragment slot="visual">
+    <DataTable caption="60강: 소리가 이어지는 시간 × 섞인 진동수의 폭 ≈ 1" head={['소리', '이어지는 시간', '섞인 진동수의 폭']} rows={[
+      ['길게 부는 "삐-"', '1초', '1 Hz쯤'],
+      ['손뼉 "짝"', '0.001초쯤', '1,000 Hz쯤'],
+    ]} />
+  </Fragment>
+
+60강에서 짧게 이어지는 파동일수록 섞인 진동수가 넓게 퍼진다고 했어요. 손뼉처럼 짧은 소리는 높이를 말할 수 없었죠.
+
+<S n={2}>
+
+정확하게는 표준편차로 쟀을 때, 시간의 퍼짐 × 진동수의 퍼짐이 1 ÷ 4π보다 작아질 수 없어요. 61강에서 자리와 파장 사이에 있던 것과 같은 관계예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recall" from={32} title="진동수는 곧 에너지">
+  <Fragment slot="visual">
+    <BigNumber top="32강, 빛 하나의 에너지" value="E = h × f" bottom="진동수가 퍼지면 에너지도 그만큼 퍼져요" q="energy" />
+  </Fragment>
+
+32강에서 진동수 f인 빛 하나의 에너지는 h × f라고 했어요.
+
+<S n={2}>
+
+그러니 진동수가 퍼져 있다는 말은 곧 에너지가 퍼져 있다는 말이에요. 진동수의 퍼짐에 h를 곱하면 에너지의 퍼짐이 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="에너지와 시간의 맞바꿈">
+  <Fragment slot="visual">
+    <Flow alt="이어지는 시간이 짧으면 진동수가 넓게 퍼지고, 에너지는 h 곱하기 진동수라서 에너지도 넓게 퍼진다" items={[
+      { t: '시간이 짧아요', sub: '파동이 짧게 이어져요' },
+      { t: '진동수가 퍼져요', sub: '60강의 푸리에 분해', step: 2 },
+      { t: '에너지가 퍼져요', sub: '32강의 E = hf', step: 3 },
+    ]} />
+  </Fragment>
+
+두 강을 이으면 61강과 똑같은 모양의 사슬이 생겨요. 무언가가 짧은 시간 동안만 이어지면 그 진동수가 넓게 퍼지고, 그래서 에너지도 넓게 퍼져요.
+
+<S n={2}>
+
+진동수의 관계에 h를 곱하면, 에너지의 퍼짐 × 시간 ≥ h ÷ 4π가 돼요.
+
+</S>
+
+<S n={3}>
+
+자리와 운동량처럼, **에너지와 시간도 둘 다 딱 정해질 수는 없어요.**
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="들뜬상태의 수명">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '들뜬상태', caption: '정해진 시간쯤 머물러요' },
+      { big: '빛을 내요', caption: '그동안 이어지는 파동', tone: 'accent' },
+      { big: '바닥상태', caption: '' },
+    ]} />
+  </Fragment>
+
+이제 원자에 써 볼게요. 46강에서 들뜬상태의 원자는 아주 짧은 시간 안에 빛을 내며 아래 준위로 내려온다고 했어요. 그 머무는 시간을 수명이라고 해요.
+
+<S n={2}>
+
+들뜬상태가 수명만큼만 이어지니, 그동안 나오는 빛도 수명쯤 이어지다 사그라지는 파동이에요. 끝없이 이어지는 사인 곡선이 아니죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="observe" title="수명과 선의 모양">
+  <Fragment slot="visual">
+    <SimP07Linewidth />
+  </Fragment>
+
+위는 들뜬 원자가 내는 빛의 파동, 아래는 그 빛을 진동수별로 나눈 스펙트럼선이에요. 들뜬상태의 수명을 바꿔 보세요.
+
+<S n={2}>
+
+수명이 짧으면 빛이 금방 사그라지고, 선이 넓게 퍼져요. 수명이 길면 빛이 오래 이어지고, 선이 가늘어져요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="선폭이라는 이름">
+  <Fragment slot="visual">
+    <Define term="linewidth" />
+  </Fragment>
+
+스펙트럼선이 한 진동수에 딱 놓이지 않고 퍼져 있는 폭을 **선폭**이라고 해요. 들뜬상태의 수명이 짧을수록 선폭이 넓어요.
+
+<Key>들뜬상태가 수명만큼만 머무니 그 빛도 수명만큼만 이어지는 파동이고, 짧은 파동일수록 진동수가 넓게 퍼지니까, 스펙트럼선은 수명에 반비례하는 폭, 곧 선폭을 가져요.</Key>
+
+</Screen>
+
+<Screen kind="worked" title="나트륨의 노란 선">
+  <Fragment slot="visual">
+    <DataTable caption="나트륨 가로등의 노란 선 (어림한 값)" head={['재는 것', '값']} rows={[
+      ['들뜬상태의 수명', '약 1.6 × 10⁻⁸초'],
+      ['선폭 ≈ 1 ÷ (2π × 수명)', '약 1 × 10⁷ Hz'],
+      ['선의 진동수', '약 5.09 × 10¹⁴ Hz'],
+      ['선폭 ÷ 진동수', '약 2 × 10⁻⁸'],
+    ]} highlight={[3]} />
+  </Fragment>
+
+나트륨의 노란빛을 내는 들뜬상태는 약 1.6 × 10⁻⁸초, 곧 1억분의 1.6초쯤 머물러요. 선폭은 1 ÷ (2π × 1.6 × 10⁻⁸) ≈ 1,000만 Hz쯤이에요.
+
+<S n={2}>
+
+1,000만 Hz면 큰 수 같지만, 선의 진동수 509조 Hz와 견주면 5,000만분의 1이에요. 그래서 보통의 분광기로는 폭이 없는 선처럼 보였던 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="1 ns만 머무는 상태">
+
+<Numeric id="q63-width" answer={1.6e8} mode="order" unit="Hz">
+
+어떤 들뜬상태의 수명이 1 ns, 곧 10⁻⁹초예요. 이 상태가 내는 빛의 선폭은 대략 몇 Hz일까요? 선폭 ≈ 1 ÷ (2π × 수명)으로 어림해 보세요.
+
+<Fragment slot="solution">
+
+1 ÷ (2 × 3.14 × 10⁻⁹) ≈ 1.6 × 10⁸ Hz, 곧 1억 6,000만 Hz쯤이에요. 수명이 나트륨보다 16배쯤 짧으니 선폭도 16배쯤 넓어요.
+
+</Fragment>
+</Numeric>
+
+</Screen>
+
+<Screen kind="check" title="오래 머무는 상태">
+
+<Check id="q63-longer" options={[
+  { t: '선이 더 가늘어져요.', ok: true, why: '오래 머물수록 빛이 오래 이어지는 파동이 돼서 진동수가 덜 퍼져요. 선폭은 수명에 반비례해요.' },
+  { t: '선이 더 넓어져요.', why: '선이 넓어지는 건 수명이 짧을 때예요.' },
+  { t: '선이 더 밝아져요.', why: '선폭은 선의 넓이를 말해요. 밝기와는 따로예요.' },
+  { t: '선의 자리가 옮겨 가요.', why: '선의 가운데 진동수는 두 준위의 에너지 차이가 정해요. 수명은 폭만 바꿔요.' },
+]}>
+
+어떤 원자에서 들뜬상태의 수명이 다른 상태보다 100배 길어요. 이 상태가 내는 스펙트럼선은 어떻게 다를까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="step" title="실제 선이 더 넓은 까닭">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: '수명이 정하는 폭', caption: '가장 좁을 때의 폭', tone: 'accent' },
+      { big: '움직이는 원자', caption: '구급차 사이렌처럼 진동수가 바뀌어요' },
+      { big: '부딪히는 원자', caption: '빛이 도중에 끊겨요' },
+    ]} />
+  </Fragment>
+
+실제 가로등의 선은 이보다 넓어요. 뜨거운 기체 속 원자들이 이리저리 움직여서, 다가오며 낸 빛과 멀어지며 낸 빛의 진동수가 구급차 사이렌 소리처럼 조금씩 달라지거든요.
+
+<S n={2}>
+
+원자끼리 부딪혀 빛이 도중에 끊기는 것도 선을 넓혀요. 그러니 수명이 정하는 폭은 어떤 경우에도 그보다 좁아질 수 없는 **바닥**이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="시간은 무엇의 퍼짐일까">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { big: 'Δx', caption: '여러 번 잰 자리의 표준편차' },
+      { big: 'Δt', caption: '상태가 머무는 시간, 파동이 이어지는 시간', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+<Note>
+
+저는 여기서 Δt도 Δx처럼 시간을 여러 번 재서 얻은 퍼짐인 줄 알았어요. 그런데 양자역학에서 시간은 재는 대상이 아니라, 모든 것이 따라 흐르는 바탕이에요.
+
+그래서 Δt는 상태가 머무는 시간이나 파동이 이어지는 시간을 뜻해요. 모양은 같아 보여도 61강의 식과는 뜻이 조금 다른 짝이에요.
+
+</Note>
+
+</Screen>
+
+<Screen kind="story" title="1초의 정의">
+  <Fragment slot="visual">
+    <BigNumber top="1967년부터 1초를 정하는 수" value="9,192,631,770번" bottom="세슘 원자의 바닥상태 안의 두 준위 사이를 옮겨 갈 때 나오는 빛이 진동하는 횟수" q="time" />
+  </Fragment>
+
+3강에서 배운 1초는 1967년부터 원자로 정해요. 세슘 원자가 바닥상태 안의 아주 가까운 두 준위 사이를 옮겨 갈 때 나오는 빛이 9,192,631,770번 진동하는 시간이에요.
+
+<S n={2}>
+
+이 두 준위는 둘 다 바닥상태라서 아주 오래 머물러요. 그래서 그 빛의 선폭이 아주 좁고, 진동수를 아주 정확히 맞출 수 있어요. 가장 정밀한 원자시계들은 우주의 나이만큼 가도 1초가 틀리지 않을 만큼 정확해요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="GPS 위성의 시계">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { icon: 's2-satellite', title: 'GPS 위성', caption: '원자시계를 싣고 신호를 보내요' },
+      { icon: 'phone', title: '스마트폰', caption: '신호가 오는 데 걸린 시간을 재요' },
+      { big: '10억분의 1초', title: '시계 오차', caption: '자리 오차 약 30 cm', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+스마트폰의 GPS도 이 시계 덕분이에요. 위성마다 원자시계가 실려 있고, 스마트폰은 여러 위성의 신호가 도착하는 데 걸린 시간으로 자기 자리를 계산해요.
+
+<S n={2}>
+
+빛은 10억분의 1초에 약 30 cm를 가요. 그래서 시계가 10억분의 1초만 틀려도 자리가 30 cm쯤 틀어져요. 선폭이 좁은 원자의 빛이 지도 앱의 파란 점을 붙잡아 두는 셈이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="check" title="원자시계가 고르는 상태">
+
+<Check id="q63-clock" options={[
+  { t: '아주 오래 머무는 상태 사이에서 나오는 빛을 써요. 선폭이 좁아 진동수를 정확히 맞출 수 있거든요.', ok: true, why: '수명이 길수록 선폭이 좁아요. 좁은 선일수록 가운데 진동수를 더 정확히 짚을 수 있어서 시계가 정확해져요.' },
+  { t: '아주 빨리 내려오는 상태를 써요. 빛이 세게 나오거든요.', why: '빨리 내려오면 수명이 짧아 선폭이 넓어져요. 진동수를 정확히 맞추기 어려워요.' },
+  { t: '어떤 상태를 써도 똑같이 정확해요.', why: '선폭은 상태의 수명이 정하니, 상태마다 정확도가 달라요.' },
+  { t: '진동수가 가장 낮은 빛을 써요.', why: '진동수의 높낮이보다 선폭이 얼마나 좁은지가 정확도를 정해요.' },
+]}>
+
+원자시계는 원자가 내는 빛의 진동수를 기준으로 시간을 재요. 정확한 시계를 만들려면 어떤 두 상태 사이의 빛을 써야 할까요?
+
+</Check>
+
+</Screen>
+
+<Screen kind="compare" title="두 불확정성">
+  <Fragment slot="visual">
+    <DataTable caption="7부에서 만난 두 맞바꿈" head={['', '자리와 운동량 (61강)', '에너지와 시간 (오늘)']} rows={[
+      ['식', 'Δx × Δp ≥ h ÷ 4π', 'ΔE × Δt ≥ h ÷ 4π'],
+      ['뿌리', '좁은 묶음 → 넓은 파장', '짧은 파동 → 넓은 진동수'],
+      ['드러나는 곳', '원자의 크기, 영점 에너지', '선폭, 원자시계'],
+    ]} />
+  </Fragment>
+
+두 맞바꿈은 같은 뿌리에서 나와요. 좁거나 짧은 파동일수록 여러 파장이나 진동수를 품어야 한다는 60강의 푸리에 분해예요.
+
+<S n={2}>
+
+자리가 좁으면 운동량이 퍼지고, 시간이 짧으면 에너지가 퍼져요. 7부의 모든 이야기가 이 한 가지 파동의 성질에서 나왔어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="analogy" title="손으로 잡은 종">
+  <Fragment slot="visual">
+    <Analogy
+      rows={[
+        ['길게 울리는 종', '오래 머무는 들뜬상태'],
+        ['맑고 또렷한 음 높이', '좁은 선폭'],
+        ['치자마자 손으로 잡은 종', '금방 내려오는 들뜬상태'],
+        ['둔탁하고 높이가 흐린 소리', '넓은 선폭'],
+      ]}
+      fits="소리가 짧게 끊길수록 음 높이가 흐려지듯, 빛이 짧게 끊길수록 진동수가 넓게 퍼진다는 점이 같아요."
+      breaks="종소리는 공기가 실제로 떠는 파동이고, 손으로 잡는 건 바깥에서 하는 일이에요. 들뜬상태의 수명은 바깥에서 막지 않아도 원자 스스로 정해지는 값이에요."
+    />
+  </Fragment>
+
+수명과 선폭을 종소리에 빗대 볼게요.
+
+</Screen>
+
+<Screen kind="story" title="7부를 닫으며">
+  <Fragment slot="visual">
+    <Panels arrows panels={[
+      { big: '1897', title: '전자의 발견', caption: '알갱이' },
+      { big: '1924', title: '물질파', caption: '파동' },
+      { big: '1926', title: '확률 진폭', caption: '확률' },
+      { big: '1927', title: '불확정성', caption: '한계', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+37강에서 알갱이로 발견된 전자는 47강에서 파동이 됐고, 56강에서는 확률을 말하는 화살표가 됐어요. 그리고 7부에서 그 파동의 성질이 자리와 운동량, 에너지와 시간에 넘을 수 없는 한계를 그었죠.
+
+<S n={2}>
+
+1927년, 이 모든 조각이 맞춰지면서 지금의 양자역학이 서 있게 됐어요. 남은 일은 파동함수가 실제로 어떤 모양이 되고 어떻게 변하는지를 정하는 식을 세우는 거예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="recap" title="오늘 온 길">
+
+여기까지 온 길을 한 번에 모아 볼게요.
+
+<Recap terms={['linewidth', 'uncertainty-principle', 'excited-state', 'fourier-decomposition']}>
+
+1. 짧게 이어지는 파동일수록 진동수가 넓게 퍼지고, 에너지는 h × 진동수라서 에너지도 퍼져요.
+2. 그래서 에너지의 퍼짐 × 시간은 h ÷ 4π보다 작아질 수 없어요.
+3. 들뜬상태는 수명만큼만 머무니 그 빛도 짧은 파동이고, 스펙트럼선은 수명에 반비례하는 선폭을 가져요.
+4. 오래 머무는 상태의 빛은 선폭이 좁아서 원자시계와 GPS의 기준이 돼요.
+
+</Recap>
+
+</Screen>
+
+<Screen kind="problem" title="두 들뜬상태">
+
+<DailyProblem id="p63">
+
+어떤 원자에 들뜬상태 A와 B가 있어요. A는 평균 100 ns 머물고, B는 평균 1 ns 머물러요. 두 상태가 바닥상태로 내려오며 내는 빛 가운데 어느 쪽의 선이 더 넓고, 몇 배쯤일까요? 시계를 만든다면 어느 쪽을 고를지도 생각해 보세요.
+
+<Fragment slot="hint1">
+
+선폭 ≈ 1 ÷ (2π × 수명)이에요. 수명이 100배 차이 나면 선폭은 어떻게 될까요?
+
+</Fragment>
+<Fragment slot="solution">
+
+선폭은 수명에 반비례하니, 수명이 100배 짧은 B의 선이 100배쯤 넓어요. 계산하면 A는 약 160만 Hz, B는 약 1억 6,000만 Hz예요.
+
+시계에는 A를 골라야 해요. 선이 가늘수록 가운데 진동수를 정확히 짚을 수 있거든요. 실제 원자시계가 수명이 아주 긴 상태를 찾아 쓰는 까닭이에요.
+
+</Fragment>
+</DailyProblem>
+
+</Screen>
+
+<Screen kind="one" title="한 문장으로">
+
+오늘 배운 걸 한 문장으로 적어 보세요. 다 쓰면 제 문장과 비교해 볼 수 있어요.
+
+<OneLine>
+
+에너지의 퍼짐과 시간의 곱은 h ÷ 4π보다 작아질 수 없어서, 짧게 머무는 들뜬상태의 빛일수록 스펙트럼선이 넓어요.
+
+</OneLine>
+
+</Screen>
+
+<Screen kind="next" title="파동함수의 모양을 정하는 식">
+  <Fragment slot="visual">
+    <Panels panels={[
+      { icon: 'speedometer', title: '얼마나 빨리 바뀌나', caption: '속도계 바늘처럼' },
+      { icon: 'car', title: '얼마나 굽었나', caption: '도로가 굽은 정도처럼', tone: 'accent' },
+    ]} />
+  </Fragment>
+
+이제 파동함수가 실제로 어떤 모양이 되는지 정하는 식으로 갈 차례예요. 1926년 슈뢰딩거가 세운 그 식은 파동함수가 자리에 따라 얼마나 빨리 바뀌고, 얼마나 굽어 있는지로 쓰여 있어요.
+
+<S n={2}>
+
+그래서 다음 강에서는 식에 앞서 그 두 말부터 익혀요. 속도계 바늘이 보여 주는 한순간의 빠르기, 곧 <Later n={64}>미분</Later>과, 도로가 굽은 정도처럼 휘어진 정도를 재는 <Later n={64}>곡률</Later>이에요.
+
+</S>
+
+</Screen>

@@ -1,0 +1,103 @@
+---
+/**
+ * 63강: 들뜬상태의 수명과 선폭. 들뜬 원자가 내는 빛은 수명쯤 이어지다 사그라지는 파동이다.
+ * 위: 시간에 따라 사그라지는 빛의 파동. 아래: 그 빛을 진동수별로 나눈 스펙트럼선의 모양.
+ * 수명이 길수록 파동이 오래 이어지고 선은 좁아진다(선폭 ≈ 1 ÷ (2π × 수명)).
+ */
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<qm-sim-linewidth class="sim" data-ratio="0.8">
+  <canvas aria-label="위에는 들뜬 원자가 내는 빛의 파동이 시간에 따라 사그라지는 모습이, 아래에는 그 빛의 스펙트럼선 모양이 그려진다. 수명이 길수록 파동이 오래 이어지고 선이 좁아진다."></canvas>
+  <div class="sim__controls">
+    <div class="sim__row">
+      <label for={`lw-t-${uid}`}>들뜬상태의 수명</label>
+      <input id={`lw-t-${uid}`} type="range" min="0" max="1" step="0.01" value="0.4" data-param="u" />
+      <output data-out="u"></output>
+    </div>
+  </div>
+  <p class="sim__readout"></p>
+</qm-sim-linewidth>
+
+<script>
+  import { Sim, define } from '../../lib/client/sim.ts';
+
+  class SimLinewidth extends Sim {
+    animated = false;
+
+    /** 수명 (그림 단위). 슬라이더 u(0~1)를 0.6 ~ 12 사이 로그 눈금으로 바꾼다. */
+    tau() {
+      return 0.6 * Math.pow(20, this.p.u!);
+    }
+
+    format() {
+      const r = this.tau() / 0.6;
+      return r < 1.5 ? '아주 짧게' : r < 5 ? '짧게' : r < 12 ? '길게' : '아주 길게';
+    }
+
+    readout() {
+      const tau = this.tau();
+      return `수명이 ${(tau / 0.6).toFixed(1)}배가 되면 선폭은 ${(0.6 / tau).toFixed(2)}배예요. 수명 × 선폭은 늘 같아요(선폭 ≈ 1 ÷ (2π × 수명)).`;
+    }
+
+    draw() {
+      const { w, h, c } = this;
+      const g = this.ctx;
+      const tau = this.tau();
+      const x0 = 14;
+      const x1 = w - 14;
+      // 위: 사그라지는 파동
+      const my = h * 0.24;
+      const amp = h * 0.16;
+      this.text('들뜬 원자가 내는 빛 (시간 →)', x0, 12, c.time, 10);
+      this.line(x0, my, x1, my, c.line, 1);
+      g.strokeStyle = c.energy;
+      g.lineWidth = 1.8;
+      g.beginPath();
+      const T = 14; // 그림의 시간 범위
+      for (let p = 0; p <= 600; p++) {
+        const t = (p / 600) * T;
+        const y = my - amp * Math.exp(-t / tau) * Math.cos(2 * Math.PI * 1.6 * t);
+        const x = x0 + (p / 600) * (x1 - x0);
+        if (p) g.lineTo(x, y);
+        else g.moveTo(x, y);
+      }
+      g.stroke();
+      // 수명 표시
+      const tx = x0 + (tau / T) * (x1 - x0);
+      if (tx < x1) {
+        g.setLineDash([3, 4]);
+        this.line(tx, my - amp, tx, my + amp, c.muted, 1);
+        g.setLineDash([]);
+        this.text('수명', tx + 4, my - amp + 6, c.muted, 10);
+      }
+      // 아래: 선의 모양
+      const by = h - 24;
+      const bh = h * 0.42;
+      this.text('그 빛의 스펙트럼선 (진동수 →)', x0, by - bh - 10, c.time, 10);
+      this.line(x0, by, x1, by, c.text2, 1);
+      const cx = (x0 + x1) / 2;
+      const gamma = (1 / (2 * Math.PI * tau)) * 2.2; // 그림에서의 반폭 (임의 단위)
+      g.fillStyle = 'rgba(232, 190, 90, 0.25)';
+      g.strokeStyle = c.energy;
+      g.lineWidth = 2;
+      g.beginPath();
+      g.moveTo(x0, by);
+      for (let p = 0; p <= 400; p++) {
+        const f = (p / 400) * 2 - 1; // −1 ~ 1
+        const L = 1 / (1 + (f / gamma) ** 2);
+        g.lineTo(x0 + (p / 400) * (x1 - x0), by - L * bh);
+      }
+      g.lineTo(x1, by);
+      g.closePath();
+      g.fill();
+      g.stroke();
+      // 선폭 표시 (높이의 절반에서의 폭)
+      const hw = gamma * ((x1 - x0) / 2);
+      if (hw < (x1 - x0) / 2) {
+        this.line(cx - hw, by - bh / 2, cx + hw, by - bh / 2, c.accent, 2);
+        this.text('선폭', cx + hw + 6, by - bh / 2, c.accent, 11);
+      }
+    }
+  }
+  define('qm-sim-linewidth', SimLinewidth);
+</script>
