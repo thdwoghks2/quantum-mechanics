@@ -55,9 +55,11 @@
       const { w, h, c } = this;
       const ref = G[this.p.ref ?? 0]!;
       const cx = w / 2;
-      const cy = h / 2;
-      const S = Math.min(w, h) * 0.34;
+      const cy = (h - 22) / 2;
+      const S = Math.min(w, h - 22) * 0.34;
       const a = this.a;
+      const band = 22; // 아래 설명 한 줄 자리. 은하와 화살표가 이 글을 덮지 않게 그 위에서만 그린다.
+      this.clipRect(0, 0, w, h - band);
       // 화살표: 멀어지는 빠르기는 거리에 비례
       G.forEach(([x, y], i) => {
         const dx = (x - ref[0]) * a * S;
@@ -76,7 +78,9 @@
         this.dot(px, py, isRef ? 5 : named ? 3.6 : 2.4, isRef ? c.accent : named ? c.text : c.text2);
         if (named) this.text(NAMES[i]!, px + 7, py - 8, isRef ? c.accent : c.text2, 11, 'left');
       });
-      this.text('화살표: 멀어지는 빠르기 (먼 은하일수록 길어요)', 10, h - 8, c.motion, 10, 'left');
+      this.restore();
+      this.line(0, h - band, w, h - band, c.line, 1);
+      this.text('화살표: 멀어지는 빠르기 (먼 은하일수록 길어요)', 10, h - band / 2, c.motion, 10, 'left');
     }
   }
   define('qm-sim-p15-expand', SimP15Expand);

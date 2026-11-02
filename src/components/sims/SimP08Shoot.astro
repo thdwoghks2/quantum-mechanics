@@ -168,6 +168,9 @@ const levels = [0.0809, 0.3181, 0.6868];
       g.stroke();
       g.restore();
       this.text('파동함수', L + 4, B - 8, c.text, 11);
+      // 허용되지 않는 에너지에서는 파동함수가 틀 밖으로 끝없이 커진다. 잘린 끝에 그 방향을 적어 둔다.
+      const t = this.tail();
+      if (Math.abs(t) >= 0.08) this.text(t > 0 ? '↑ 끝없이 커져요' : '↓ 끝없이 커져요', R - 2, t > 0 ? T + 10 : B - 10, c.no, 11, 'right');
     }
   }
   define('qm-sim-p08-shoot', SimP08Shoot);

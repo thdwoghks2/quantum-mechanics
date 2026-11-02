@@ -135,7 +135,18 @@ const rows =
       const { w, h, c } = this;
       const g = this.ctx;
       const m = this.dataset.mode;
-      const L = 4.5;
+      const a = this.p.a!;
+      const b = this.p.b!;
+      // 그릴 점이 모두 들어가게 눈금을 넓힌다. 평소에는 −4 ~ 4.
+      const pts: [number, number][] = [[a, b], ...this.trail];
+      if (m === 'add') pts.push([a + this.p.c!, b + this.p.d!], [this.p.c!, this.p.d!]);
+      if (m !== 'plane' && m !== 'add') {
+        const [wr, wi] = this.mulBy();
+        pts.push([a * wr - b * wi, a * wi + b * wr]);
+      }
+      const far = Math.max(0, ...pts.map(([x, y]) => Math.max(Math.abs(x), Math.abs(y))));
+      const L = Math.max(4.5, far * 1.25 + 0.5);
+      const stepK = L > 9 ? 2 : 1;
       const cx = w / 2;
       const cy = h / 2;
       const S = Math.min(w, h) / (2 * L);
@@ -144,7 +155,7 @@ const rows =
       // 격자
       g.strokeStyle = c.line;
       g.lineWidth = 1;
-      for (let k = -4; k <= 4; k++) {
+      for (let k = -Math.floor(L / stepK) * stepK; k <= L; k += stepK) {
         g.beginPath();
         g.moveTo(X(k), Y(-L));
         g.lineTo(X(k), Y(L));
@@ -154,14 +165,13 @@ const rows =
       }
       this.line(X(-L), cy, X(L), cy, c.text2, 1.5);
       this.line(cx, Y(-L), cx, Y(L), c.text2, 1.5);
-      for (const k of [-3, -2, -1, 1, 2, 3]) {
+      for (let k = -Math.floor((L - 1) / stepK) * stepK; k <= L - 1; k += stepK) {
+        if (k === 0) continue;
         this.text(`${k}`, X(k), cy + 11, c.muted, 9, 'center');
         this.text(`${k}i`.replace('1i', 'i'), cx - 5, Y(k), c.muted, 9, 'right');
       }
       this.text('실수 축 →', X(L) - 2, cy - 10, c.text2, 10, 'right');
       this.text('↑ 허수 축', cx + 6, Y(L) + 8, c.text2, 10);
-      const a = this.p.a!;
-      const b = this.p.b!;
       if (m === 'plane') {
         g.setLineDash([3, 4]);
         this.line(X(a), cy, X(a), Y(b), c.muted, 1);

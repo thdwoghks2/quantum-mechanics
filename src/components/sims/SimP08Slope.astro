@@ -104,7 +104,9 @@ const uid = Math.random().toString(36).slice(2, 8);
       // 닿는 직선(기울기)
       const s = this.d1(u);
       const span = (b - a) * 0.16;
+      this.clipRect(0, T - 8, w, B - T + 16); // 가파른 곳에서 닿는 직선이 틀 밖으로 나가지 않게
       this.line(px(u - span), py(this.f(u) - s * span), px(u + span), py(this.f(u) + s * span), c.motion, 2.5);
+      this.restore();
 
       // 곡률: 굽는 방향을 가리키는 화살표, 길이는 곡률의 크기
       if (this.show === 'both') {
@@ -117,7 +119,9 @@ const uid = Math.random().toString(36).slice(2, 8);
       }
 
       this.dot(X, Y, 6, c.accent);
-      this.text('기울기', Math.min(R - 40, px(u + span) + 4), py(this.f(u) + s * span), c.motion, 11);
+      // 이름표는 닿는 직선의 오른쪽 끝 근처에 두되, 틀 안에서 보이는 자리로 들인다.
+      const ly = Math.max(T + 8, Math.min(B - 8, py(this.f(u) + s * span)));
+      this.text('기울기', Math.min(R - 40, px(u + span) + 4), ly, c.motion, 11);
     }
   }
   define('qm-sim-p08-slope', SimP08Slope);

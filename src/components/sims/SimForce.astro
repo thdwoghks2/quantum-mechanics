@@ -117,7 +117,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       this.text(`${this.p.m} kg`, cx, floorY - size * 0.55, c.text, 12, 'center');
       // 힘 화살표
       if (this.pushing() && this.p.f! > 0) {
-        const len = this.p.f! * 1.1;
+        const len = Math.min(this.p.f! * 1.1, cx - size - 14); // 화살표가 왼쪽 끝을 넘지 않게
         this.arrow(cx - size - len - 6, floorY - size * 0.55, cx - size - 6, floorY - size * 0.55, c.force, 3);
         this.text(`미는 힘 ${this.p.f} N`, cx - size - len / 2 - 6, floorY - size * 0.55 - 14, c.force, 11, 'center');
       } else {
@@ -131,7 +131,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       // 그래프
       const gx0 = 44;
       const gx1 = w - 12;
-      const gy0 = h - 26;
+      const gy0 = h - 38; // 눈금 숫자 한 줄과 축 이름 한 줄이 겹치지 않게
       const gy1 = h * 0.5;
       const VMAX = 10;
       const X = (t: number) => gx0 + (t / T) * (gx1 - gx0);
@@ -147,7 +147,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       this.line(gx0, gy0, gx1, gy0, c.text2, 1.2);
       this.line(gx0, gy0, gx0, gy1, c.text2, 1.2);
       this.text('속도 (m/s)', gx0 + 4, gy1 - 8, c.motion, 11);
-      this.text('시간 (s)', (gx0 + gx1) / 2, h - 6, c.time, 11, 'center');
+      this.text('시간 (s)', (gx0 + gx1) / 2, h - 8, c.time, 11, 'center');
       g.strokeStyle = c.motion;
       g.lineWidth = 2.5;
       g.beginPath();

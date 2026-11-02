@@ -137,7 +137,9 @@ export abstract class Sim extends HTMLElement {
     this.querySelector('button[data-play]')?.replaceChildren('멈춤');
     const loop = (now: number) => {
       if (!this.playing) return;
-      const dt = Math.min(0.05, (now - this.last) / 1000);
+      // 첫 프레임의 시각(now)은 play()에서 잰 시각보다 이를 수 있다. 음수 시간이 들어가면
+      // √(시간)을 쓰는 시뮬레이션(브라운 운동, 공기 기둥)이 NaN이 되어 아무것도 안 그려진다.
+      const dt = Math.max(0, Math.min(0.05, (now - this.last) / 1000));
       this.last = now;
       this.t += dt;
       this.tick(dt);
@@ -206,13 +208,43 @@ export abstract class Sim extends HTMLElement {
     g.fill();
   }
 
+  /**
+   * 글자 한 줄. 캔버스 밖으로 나가지 않게 한다.
+   * 좁은 화면에서 글이 캔버스보다 넓으면 글자를 줄이고, 가장자리에 걸치면 안쪽으로 민다.
+   */
   text(s: string, x: number, y: number, color = this.c.text2, size = 12, align: CanvasTextAlign = 'left') {
     const g = this.ctx;
+    const family = (this.fontFamily ??= getComputedStyle(document.body).fontFamily);
+    const pad = 3;
     g.fillStyle = color;
-    g.font = `${size}px ${getComputedStyle(document.body).fontFamily}`;
-    g.textAlign = align;
+    g.font = `${size}px ${family}`;
+    let tw = g.measureText(s).width;
+    if (this.w && tw > this.w - pad * 2) {
+      size = Math.max(8, Math.floor((size * (this.w - pad * 2)) / tw));
+      g.font = `${size}px ${family}`;
+      tw = g.measureText(s).width;
+    }
+    g.textAlign = 'left';
     g.textBaseline = 'middle';
-    g.fillText(s, x, y);
+    let x0 = align === 'center' ? x - tw / 2 : align === 'right' || align === 'end' ? x - tw : x;
+    if (this.w) x0 = Math.max(pad, Math.min(this.w - pad - tw, x0));
+    if (this.h) y = Math.max(pad + size / 2, Math.min(this.h - pad - size / 2, y));
+    g.fillText(s, x0, y);
+  }
+
+  private fontFamily?: string;
+
+  /** 그래프 영역 밖으로 나가는 선과 점을 잘라 낸다. 그린 뒤에는 꼭 restore()를 부른다. */
+  clipRect(x: number, y: number, w: number, h: number) {
+    const g = this.ctx;
+    g.save();
+    g.beginPath();
+    g.rect(x, y, w, h);
+    g.clip();
+  }
+
+  restore() {
+    this.ctx.restore();
   }
 
   arrow(x0: number, y0: number, x1: number, y1: number, color: string, width = 2) {

@@ -93,6 +93,33 @@ const paths = curves.map((c) => {
   return { ...c, d, area, lx: at ? sx(at[0]) : undefined, ly: at ? sy(at[1]) : undefined };
 });
 
+/** 빌드 때는 글자 폭을 잴 수 없으니 어림한다. 한글은 글자 크기만큼, 나머지는 그 0.6배쯤. */
+function textWidth(s: string, size = 12) {
+  let w = 0;
+  for (const ch of s) w += /[ㄱ-힝]/.test(ch) ? size : ch === ' ' ? size * 0.3 : size * 0.6;
+  return w;
+}
+/**
+ * 이름표를 그림 안에 둔다. 오른쪽으로 넘치면 점의 왼쪽에 붙이고, 위나 아래로 넘치면 안으로 들인다.
+ * 그 결과 x, y와 text-anchor를 돌려준다.
+ */
+function placeLabel(label: string, px: number, py: number, dx: number, dy: number) {
+  const tw = textWidth(label);
+  let anchor: 'start' | 'end' = 'start';
+  let lx = px + dx;
+  if (lx + tw > width - 2) {
+    anchor = 'end';
+    lx = Math.min(width - 2, px - Math.abs(dx));
+  }
+  if (anchor === 'end' && lx - tw < 2) {
+    anchor = 'start';
+    lx = 2;
+  }
+  if (anchor === 'start' && lx < 2) lx = 2;
+  const ly = Math.max(12, Math.min(height - 4, py + dy));
+  return { lx, ly, anchor };
+}
+
 const tick = (t: number | [number, string]) => (Array.isArray(t) ? t : [t, fmt(t)] as [number, string]);
 const stepAttr = (s?: number) => (s ? { 'data-step': s } : {});
 const xs = axisSteps ? stepAttr(axisSteps[0]) : {};
@@ -146,7 +173,10 @@ const rainbowId = `rb-${Math.random().toString(36).slice(2, 8)}`;
       <g {...stepAttr(l.step)}>
         {l.x !== undefined && <line x1={sx(l.x)} x2={sx(l.x)} y1={pad.t} y2={pad.t + H} class="plot__ref" />}
         {l.y !== undefined && <line x1={pad.l} x2={pad.l + W} y1={sy(l.y)} y2={sy(l.y)} class="plot__ref" />}
-        {l.label && l.x !== undefined && <text x={sx(l.x) + 4} y={pad.t + 26} class="plot__note" text-anchor="start">{l.label}</text>}
+        {l.label && l.x !== undefined && (() => {
+          const L = placeLabel(l.label, sx(l.x), pad.t + 26, 4, 0);
+          return <text x={L.lx} y={L.ly} class="plot__note" text-anchor={L.anchor}>{l.label}</text>;
+        })()}
         {l.label && l.y !== undefined && <text x={pad.l + W - 2} y={sy(l.y) - 5} class="plot__note" text-anchor="end">{l.label}</text>}
       </g>
     ))}
@@ -155,18 +185,20 @@ const rainbowId = `rb-${Math.random().toString(36).slice(2, 8)}`;
       <g {...stepAttr(p.step)}>
         {p.area && <path d={p.area} style={`fill:var(--q-${p.q ?? 'plain'});opacity:.12`} />}
         <path d={p.d} class="plot__curve" style={`stroke:var(--q-${p.q ?? 'plain'})${p.dash ? ';stroke-dasharray:5 5' : ''}`} />
-        {p.label && p.lx !== undefined && (
-          <text x={p.lx} y={p.ly} class="plot__note" style={`fill:var(--q-${p.q ?? 'plain'})`} text-anchor="start">{p.label}</text>
-        )}
+        {p.label && p.lx !== undefined && (() => {
+          const L = placeLabel(p.label, p.lx, p.ly!, 0, 0);
+          return <text x={L.lx} y={L.ly} class="plot__note" style={`fill:var(--q-${p.q ?? 'plain'})`} text-anchor={L.anchor}>{p.label}</text>;
+        })()}
       </g>
     ))}
 
     {points.map((p) => (
       <g {...stepAttr(p.step)}>
         <circle cx={sx(p.x)} cy={sy(p.y)} r="5" style={`fill:var(--q-${p.q ?? 'plain'})`} class="plot__pt" />
-        {p.label && (
-          <text x={sx(p.x) + (p.dx ?? 9)} y={sy(p.y) + (p.dy ?? -8)} class="plot__note" text-anchor="start">{p.label}</text>
-        )}
+        {p.label && (() => {
+          const L = placeLabel(p.label, sx(p.x), sy(p.y), p.dx ?? 9, p.dy ?? -8);
+          return <text x={L.lx} y={L.ly} class="plot__note" text-anchor={L.anchor}>{p.label}</text>;
+        })()}
       </g>
     ))}
   </svg>

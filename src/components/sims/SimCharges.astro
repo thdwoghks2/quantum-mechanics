@@ -42,8 +42,9 @@ const uid = Math.random().toString(36).slice(2, 8);
     draw() {
       const { w, h, c } = this;
       const cy = h * 0.5;
-      const unit = (w - 80) / 4.4;
-      const ax = 40;
+      // 거리가 1일 때 밀어내는 힘 화살표(길이 80)가 A의 왼쪽에 다 들어가도록 A를 안쪽에 둔다.
+      const ax = Math.min(104, w * 0.3);
+      const unit = (w - ax - 40) / 4.2;
       const bx = ax + this.p.r! * unit;
       // 거리 표시
       this.line(ax, cy + 40, bx, cy + 40, c.space, 1.5);
@@ -57,7 +58,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       draw(ax, 1, 'A (+)');
       draw(bx, this.p.sign!, `B (${this.p.sign! > 0 ? '+' : '−'})`);
       // 힘 화살표: 길이는 1/r²에 비례
-      const len = Math.min(120, 80 / this.p.r! ** 2);
+      const len = Math.min(ax - 22, 80 / this.p.r! ** 2);
       const repel = this.p.sign! > 0;
       if (repel) {
         this.arrow(ax - 18, cy, ax - 18 - len, cy, c.charge, 3);

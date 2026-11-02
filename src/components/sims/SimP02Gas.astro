@@ -95,12 +95,15 @@ const uid = Math.random().toString(36).slice(2, 8);
       g.lineWidth = 1.5;
       g.strokeRect(ox, oy, S, S);
       const sc = this.scale();
+      // 빠른 분자의 꼬리(지나온 길)가 상자 벽을 뚫고 나가 보이지 않게 상자 안만 그린다.
+      this.clipRect(ox + 1, oy + 1, S - 2, S - 2);
       for (const m of this.mols) {
         const x = ox + m.x * S;
         const y = oy + m.y * S;
         this.dot(x, y, r * S, c.heat);
         if (sc > 0) this.line(x, y, x - m.dx * m.s * sc * S * 0.12, y - m.dy * m.s * sc * S * 0.12, c.heat, 1);
       }
+      this.restore();
       // 온도 막대
       const bx = ox + S + 28;
       const top = oy + 10;

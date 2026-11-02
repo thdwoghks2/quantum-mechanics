@@ -57,11 +57,11 @@ const uid = Math.random().toString(36).slice(2, 8);
     draw() {
       const { w, h, c } = this;
       const g = this.ctx;
-      const R = Math.min(h * 0.36, w * 0.17);
+      const R = Math.min(h * 0.32, w * 0.17); // 아래에 눈금 숫자와 축 이름이 겹치지 않을 자리를 남긴다
       const cx = R + 18;
       const cy = h / 2;
       const gx0 = cx + R + 28;
-      const gx1 = w - 10;
+      const gx1 = w - 22; // 오른쪽 끝 눈금(720°) 글자가 캔버스 안에 들어가게
       const X = (deg: number) => gx0 + (deg / 720) * (gx1 - gx0);
       const deg = this.p.deg!;
       const rad = (deg * Math.PI) / 180;

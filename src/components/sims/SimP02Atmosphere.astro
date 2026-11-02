@@ -96,16 +96,16 @@ const uid = Math.random().toString(36).slice(2, 8);
     draw() {
       const { w, h, c } = this;
       const g = this.ctx;
-      const bot = h - 22;
-      const top = 14;
+      const bot = h - 14;
+      const top = 26; // 위에 막대 제목 자리를 둔다
       const colW = w * 0.42;
-      const ox = 34;
+      const ox = 44;
       const Y = (y: number) => bot - (y / TOP) * (bot - top);
       g.strokeStyle = c.line;
       g.lineWidth = 1;
       g.strokeRect(ox, top, colW, bot - top);
-      this.line(ox - 6, bot, ox + colW + 6, bot, c.text2, 2);
-      for (let km = 0; km <= TOP; km += 10) this.text(`${km} km`, ox - 4, Y(km), c.muted, 10, 'right');
+      this.line(ox, bot, ox + colW, bot, c.text2, 2);
+      for (let km = 0; km <= TOP; km += 10) this.text(`${km} km`, ox - 6, Y(km), c.muted, 10, 'right');
       for (let i = 0; i < N; i++) this.dot(ox + this.xs[i]! * colW, Y(this.ys[i]!), 2.2, c.space);
       // 막대
       const counts = this.counts();
@@ -130,7 +130,7 @@ const uid = Math.random().toString(36).slice(2, 8);
         g.strokeRect(bx, y0 + 2, Math.min(eLen, bw + 6), bandH - 4);
         g.setLineDash([]);
       }
-      this.text('높이 3 km마다 분자 수', bx, top - 2, c.muted, 10);
+      this.text('높이 3 km마다 분자 수 (점선: 계산값)', bx, top - 12, c.muted, 10);
     }
   }
   define('qm-sim-atmos', SimAtmos);

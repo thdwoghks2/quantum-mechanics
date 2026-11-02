@@ -101,7 +101,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       // 그래프
       const gx0 = 44;
       const gx1 = w - 14;
-      const gy0 = h - 30;
+      const gy0 = h - 40; // 아래에 눈금 숫자 한 줄과 축 이름 한 줄이 겹치지 않게 들어갈 자리
       const gy1 = h * 0.42;
       const X = (t: number) => gx0 + (t / T) * (gx1 - gx0);
       const Y = (vv: number) => gy0 - (vv / VMAX) * (gy0 - gy1);
@@ -112,7 +112,7 @@ const uid = Math.random().toString(36).slice(2, 8);
       for (let t = 0; t <= T; t += 2) this.text(String(t), X(t), gy0 + 12, c.muted, 10, 'center');
       this.line(gx0, gy0, gx1, gy0, c.text2, 1.2);
       this.line(gx0, gy0, gx0, gy1, c.text2, 1.2);
-      this.text('시간 (s)', (gx0 + gx1) / 2, h - 6, c.time, 11, 'center');
+      this.text('시간 (s)', (gx0 + gx1) / 2, h - 8, c.time, 11, 'center');
       this.text('속도 (m/s)', gx0 + 4, gy1 - 10, c.motion, 11, 'left');
       // 미리 그린 옅은 선 + 지나온 진한 선
       g.strokeStyle = c.line;

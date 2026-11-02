@@ -57,12 +57,13 @@ const uid = Math.random().toString(36).slice(2, 8);
       const N = this.N;
       const top = 18;
       const bot = h - 24;
-      // 에너지 눈금: 0 ~ 10 eV를 화면 높이에 맞춘다.
-      const E = (e: number) => bot - (e / 10) * (bot - top);
       const maxW = 2.6; // 띠의 가장 넓은 폭(eV)
       const width = maxW * (1 - 1 / Math.sqrt(N)) + 0.05;
       const lowC = 2.2;
       const upC = lowC + width / 2 + gap + width / 2;
+      // 에너지 눈금: 위 띠의 꼭대기까지 화면 높이에 맞춘다(띠틈이 넓은 다이아몬드도 위 띠가 잘리지 않게).
+      const Emax = Math.max(10, upC + maxW / 2 + 0.6);
+      const E = (e: number) => bot - (e / Emax) * (bot - top);
       const x0 = w * 0.3;
       const x1 = w * 0.88;
       const filled = perAtom * N; // 전자 수
