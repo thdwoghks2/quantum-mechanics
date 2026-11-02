@@ -38,6 +38,7 @@ const shown = shuffled(options, id);
 
 <script>
   import { getLessonNumber, onCheckAnswered } from '../../lib/client/bus.ts';
+  import { readCheck } from '../../lib/client/checks.ts';
 
   class QmCheck extends HTMLElement {
     connectedCallback() {
@@ -70,15 +71,7 @@ const shown = shuffled(options, id);
     }
 
     payload() {
-      return {
-        kind: 'choice',
-        q: this.querySelector('.check__q')!.innerHTML,
-        options: [...this.querySelectorAll('.check__item')].map((li) => ({
-          t: li.querySelector('.check__t')!.textContent,
-          ok: li.querySelector<HTMLElement>('.check__opt')!.dataset.ok === '1',
-          why: li.querySelector('.check__why')!.textContent,
-        })),
-      };
+      return readCheck(this);
     }
   }
   if (!customElements.get('qm-check')) customElements.define('qm-check', QmCheck);

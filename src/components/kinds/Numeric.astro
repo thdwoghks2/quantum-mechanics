@@ -29,6 +29,7 @@ const inputId = `num-${id}`;
 
 <script>
   import { getLessonNumber, onCheckAnswered } from '../../lib/client/bus.ts';
+  import { readCheck } from '../../lib/client/checks.ts';
   import { isCorrect, parseNumber } from '../../lib/numbers.ts';
 
   class QmNumeric extends HTMLElement {
@@ -65,15 +66,7 @@ const inputId = `num-${id}`;
       if (first) {
         this.dispatchEvent(new CustomEvent('qm:answered', { bubbles: true, detail: { id: this.dataset.id, ok } }));
         if (this.dataset.review === '1' && !this.closest('[data-no-record]')) {
-          onCheckAnswered(this.dataset.id!, getLessonNumber(this), {
-            kind: 'numeric',
-            q: this.querySelector('.numeric__q')!.innerHTML,
-            answer,
-            unit: this.dataset.unit,
-            tol: Number(this.dataset.tol),
-            mode: this.dataset.mode,
-            solution: this.querySelector('.numeric__solution')!.innerHTML,
-          }, ok);
+          onCheckAnswered(this.dataset.id!, getLessonNumber(this), readCheck(this), ok);
         }
       }
     }

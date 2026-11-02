@@ -8,6 +8,8 @@ import {
   importText,
   load,
   nextLesson,
+  packState,
+  unpackState,
   recordCheck,
   recordReview,
   save,
@@ -71,16 +73,62 @@ describe('progress', () => {
     expect(nextLesson(s, [1, 2, 3, 4, 5, 6])).toBe(5);
   });
 
-  it('내보내기와 불러오기는 한글 메모와 익힘 상태를 보존한다', () => {
+  it('내보내기와 불러오기는 한글 메모와 익힘 상태를 보존한다', async () => {
     let s = setLesson(emptyState(), 1, 'done', 0);
     s = { ...s, notes: { 1: { three: ['관찰', '규칙', '예측'] } } };
-    s = recordCheck(s, 'q', 1, {}, true, 0);
-    s.reviews.q!.box = INTERVAL_DAYS.length;
-    s.reviews.q!.due = Number.POSITIVE_INFINITY;
-    const back = importText(exportText(s))!;
+    s = recordCheck(s, 'q1-a', 1, {}, true, 0);
+    s.reviews['q1-a']!.box = INTERVAL_DAYS.length;
+    s.reviews['q1-a']!.due = Number.POSITIVE_INFINITY;
+    const back = (await importText(await exportText(s)))!;
     expect(back.notes[1]!.three).toEqual(['관찰', '규칙', '예측']);
+    expect(back.reviews['q1-a']!.due).toBe(Number.POSITIVE_INFINITY);
+    expect(back.reviews['q1-a']!.lesson).toBe(1);
+    expect(await importText('엉뚱한 글')).toBeNull();
+  });
+
+  it('내보내기 글은 강 상태를 구간으로 줄이고, 문제 내용은 넣지 않는다', async () => {
+    const t0 = Date.UTC(2026, 10, 1);
+    let s = emptyState();
+    for (let n = 1; n <= 43; n++) s = setLesson(s, n, 'done', t0);
+    s = setLesson(s, 44, 'started', t0, 12);
+    s = recordCheck(s, 'q44-4to2', 44, { q: '<p>'.padEnd(3000, 'x') }, false, t0);
+    const packed = packState(s);
+    expect(packed).toContain('"l":"1-43d,44s12"');
+    expect(packed).not.toContain('xxx');
+    const back = unpackState(packed)!;
+    expect(back.lessons[43]!.status).toBe('done');
+    expect(back.lessons[44]).toMatchObject({ status: 'started', screen: 12 });
+    expect(back.reviews['q44-4to2']).toMatchObject({ lesson: 44, box: 0, payload: null });
+    // 복습일은 날 단위로 보존한다.
+    expect(Math.abs(back.reviews['q44-4to2']!.due - s.reviews['q44-4to2']!.due)).toBeLessThanOrEqual(DAY / 2);
+  });
+
+  it('1강만 끝냈을 때 내보내기 글은 짧다', async () => {
+    let s = setLesson(emptyState(), 1, 'done', Date.UTC(2026, 10, 1));
+    for (const id of ['q1-a', 'q1-b', 'q1-c', 'q1-d']) s = recordCheck(s, id, 1, { q: '<p>긴 문제</p>'.repeat(40) }, true, Date.UTC(2026, 10, 1));
+    const text = await exportText(s);
+    expect(text.length).toBeLessThan(150);
+  });
+
+  it('137강을 다 끝내도 메모를 빼면 3,000자를 넘지 않는다', async () => {
+    const t0 = Date.UTC(2026, 10, 1);
+    let s = emptyState();
+    for (let n = 1; n <= 137; n++) {
+      s = setLesson(s, n, 'done', t0);
+      for (let k = 0; k < 4; k++) s = recordCheck(s, `q${n}-check${k}`, n, { q: 'x'.repeat(500) }, k % 2 === 0, t0 + n * DAY);
+    }
+    const text = await exportText(s);
+    expect(text.length).toBeLessThan(3000);
+  });
+
+  it('예전 형식(1판) 글도 불러온다', async () => {
+    const old = { version: 1, lessons: { 3: { status: 'done', updatedAt: 1 } }, reviews: { q: { id: 'q', lesson: 3, box: 4, due: null, history: [], payload: {} } }, notes: {} };
+    const bytes = new TextEncoder().encode(JSON.stringify(old));
+    let bin = '';
+    for (const b of bytes) bin += String.fromCharCode(b);
+    const back = (await importText('qm137:' + btoa(bin)))!;
+    expect(back.lessons[3]!.status).toBe('done');
     expect(back.reviews.q!.due).toBe(Number.POSITIVE_INFINITY);
-    expect(importText('엉뚱한 글')).toBeNull();
   });
 
   it('저장소가 막혀 있어도 멈추지 않는다', () => {

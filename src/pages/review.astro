@@ -27,13 +27,13 @@ import '../styles/lesson.css';
     import { load, recordReview, save } from '../lib/progress.ts';
     import { dueItems, isLearned } from '../lib/review.ts';
     import { isCorrect, parseNumber } from '../lib/numbers.ts';
+    import { fetchCheck, type CheckPayload } from '../lib/client/checks.ts';
+    import { lessonUrl } from '../lib/url.ts';
 
     // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
     // 그래서 이 페이지에 들어올 때마다 astro:page-load에서 다시 실행하고, 다른 페이지에서는 아무것도 하지 않는다.
     function init() {
       if (!document.querySelector('[data-page="review"]')) return;
-      interface Choice { kind: 'choice'; q: string; options: { t: string; ok: boolean; why: string }[] }
-      interface Num { kind: 'numeric'; q: string; answer: number; unit?: string; tol: number; mode: 'value' | 'order'; solution: string }
 
       const DAY = 86_400_000;
       let queue = dueItems(Object.values(load().reviews), Date.now());
@@ -58,7 +58,7 @@ import '../styles/lesson.css';
         stats();
       }
 
-      function render() {
+      async function render() {
         const box = document.getElementById('item')!;
         const empty = document.getElementById('empty')!;
         const item = queue.shift();
@@ -75,15 +75,33 @@ import '../styles/lesson.css';
         document.getElementById('item-meta')!.textContent = `${item.lesson}강 · ${doneCount + 1}/${total}`;
         const body = document.getElementById('item-body')!;
         body.innerHTML = '';
-        const p = item.payload as Choice | Num;
+        // 다른 기기에서 불러온 기록에는 문제 내용이 없다. 그 강 페이지에서 문제를 다시 읽어 와 저장해 둔다.
+        let p = item.payload as CheckPayload | null;
+        if (!p || !('kind' in p)) {
+          body.textContent = '문제를 불러오는 중이에요…';
+          p = await fetchCheck(lessonUrl(item.lesson), item.id);
+          body.innerHTML = '';
+          if (!p) {
+            body.textContent = '이 문제를 불러오지 못했어요. 인터넷에 연결된 뒤 다시 열어 보세요.';
+            const next = document.getElementById('item-next')!;
+            next.hidden = false;
+            return;
+          }
+          const s = load();
+          if (s.reviews[item.id]) {
+            s.reviews[item.id]!.payload = p;
+            save(s);
+          }
+        }
+        const payload = p;
         const q = document.createElement('div');
         q.className = 'check__q';
-        q.innerHTML = p.q;
+        q.innerHTML = payload.q;
         body.append(q);
-        if (p.kind === 'choice') {
+        if (payload.kind === 'choice') {
           const ol = document.createElement('ol');
           ol.className = 'check__opts';
-          p.options.forEach((o) => {
+          payload.options.forEach((o) => {
             const li = document.createElement('li');
             const b = document.createElement('button');
             b.type = 'button';
@@ -99,7 +117,7 @@ import '../styles/lesson.css';
               b.classList.add(o.ok ? 'is-ok' : 'is-no');
               why.hidden = false;
               if (!o.ok) {
-                const idx = p.options.findIndex((x) => x.ok);
+                const idx = payload.options.findIndex((x) => x.ok);
                 const li2 = ol.children[idx]!;
                 li2.querySelector('button')!.classList.add('is-answer');
                 (li2.querySelector('.check__why') as HTMLElement).hidden = false;
@@ -119,7 +137,7 @@ import '../styles/lesson.css';
           input.inputMode = 'decimal';
           const unit = document.createElement('span');
           unit.className = 'numeric__unit mono';
-          unit.textContent = p.unit ?? '';
+          unit.textContent = payload.unit ?? '';
           const go = document.createElement('button');
           go.className = 'btn';
           go.textContent = '확인';
@@ -129,14 +147,14 @@ import '../styles/lesson.css';
           const sol = document.createElement('div');
           sol.className = 'numeric__solution';
           sol.hidden = true;
-          sol.innerHTML = p.solution;
+          sol.innerHTML = payload.solution;
           form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const ok = isCorrect(parseNumber(input.value), p.answer, p.mode, p.tol);
+            const ok = isCorrect(parseNumber(input.value), payload.answer, payload.mode, payload.tol);
             verdict.className = `numeric__verdict ${ok ? 'is-ok' : 'is-no'}`;
             verdict.textContent = ok
-              ? `맞았어요. 정답은 약 ${p.answer.toLocaleString('ko-KR')}${p.unit ? ` ${p.unit}` : ''}이에요.`
-              : `아직이에요. 정답은 약 ${p.answer.toLocaleString('ko-KR')}${p.unit ? ` ${p.unit}` : ''}이에요. 아래 풀이와 비교해 보세요.`;
+              ? `맞았어요. 정답은 약 ${payload.answer.toLocaleString('ko-KR')}${payload.unit ? ` ${payload.unit}` : ''}이에요.`
+              : `아직이에요. 정답은 약 ${payload.answer.toLocaleString('ko-KR')}${payload.unit ? ` ${payload.unit}` : ''}이에요. 아래 풀이와 비교해 보세요.`;
             sol.hidden = false;
             go.disabled = true;
             answered(item.id, ok);
@@ -145,9 +163,9 @@ import '../styles/lesson.css';
         }
       }
 
-      document.getElementById('item-next')!.addEventListener('click', render);
+      document.getElementById('item-next')!.addEventListener('click', () => void render());
       stats();
-      render();
+      void render();
     }
     document.addEventListener('astro:page-load', init);
   </script>

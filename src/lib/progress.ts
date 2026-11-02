@@ -111,18 +111,152 @@ export function nextLesson(state: State, published: number[]): number | undefine
   });
 }
 
-/** 다른 기기로 옮길 때 쓰는 텍스트. */
-export function exportText(state: State): string {
-  const json = JSON.stringify(state);
-  const bytes = new TextEncoder().encode(json);
-  let bin = '';
-  for (const b of bytes) bin += String.fromCharCode(b);
-  return 'qm137:' + btoa(bin);
+/* ── 다른 기기로 옮기는 글 ─────────────────────
+ * 2판(qm137:2:): 기록을 짧은 JSON으로 줄인 뒤 deflate로 압축하고 base64url로 적는다.
+ * - 강 상태는 구간으로: "1-43d,44s12,50k" (d 끝냄, k 건너뜀, t 통과, s 보는 중 + 보던 화면)
+ * - 복습은 문제 ID, 칸, 다음 복습일(기준일부터 센 날 수)만. 문제 내용(payload)과 풀이 기록은 넣지 않는다.
+ *   불러온 기기에서 복습할 때 그 강 페이지에서 문제를 다시 읽어 온다.
+ * 1판(qm137: + base64 JSON 전체)도 그대로 불러온다. */
+
+const DAY = 86_400_000;
+/** 복습일을 날 수로 적을 때의 기준일 (2026-01-01 UTC) */
+const DAY0 = Date.UTC(2026, 0, 1);
+const CODE: Record<LessonStatus, string> = { done: 'd', skipped: 'k', 'tested-out': 't', started: 's' };
+const UNCODE: Record<string, LessonStatus> = { d: 'done', k: 'skipped', t: 'tested-out', s: 'started' };
+
+interface Packed {
+  v: 2;
+  /** 강 상태 구간 */
+  l: string;
+  /** 복습: "44-4to2:1:300,44-absorb:2:302" (q 접두사는 뺀다, 익힌 문제는 날 수 대신 x) */
+  r: string;
+  n?: Record<string, Notes>;
+  /** 진단: [추천 강, 진단한 날] */
+  p?: [number, number];
 }
 
-export function importText(text: string): State | null {
+/** 기록을 짧은 JSON 문자열로 줄인다(압축 전). */
+export function packState(state: State): string {
+  const nums = Object.keys(state.lessons).map(Number).filter(Number.isFinite).sort((a, b) => a - b);
+  const runs: string[] = [];
+  let i = 0;
+  while (i < nums.length) {
+    const n = nums[i]!;
+    const rec = state.lessons[n]!;
+    const code = CODE[rec.status] ?? 's';
+    if (rec.status === 'started') {
+      runs.push(`${n}s${rec.screen ?? ''}`);
+      i++;
+      continue;
+    }
+    let j = i;
+    while (j + 1 < nums.length && nums[j + 1] === nums[j]! + 1 && state.lessons[nums[j + 1]!]!.status === rec.status) j++;
+    runs.push(j > i ? `${n}-${nums[j]}${code}` : `${n}${code}`);
+    i = j + 1;
+  }
+  const r = Object.values(state.reviews)
+    .map((it) => {
+      const id = it.id.startsWith('q') ? it.id.slice(1) : `~${it.id}`;
+      const due = Number.isFinite(it.due) ? Math.round((it.due - DAY0) / DAY) : 'x';
+      return `${id}:${it.box}:${due}`;
+    })
+    .join(',');
+  const notes: Record<string, Notes> = {};
+  for (const [k, v] of Object.entries(state.notes)) {
+    const clean = clip(v);
+    if (clean) notes[k] = clean;
+  }
+  const out: Packed = { v: 2, l: runs.join(','), r };
+  if (Object.keys(notes).length) out.n = notes;
+  if (state.placement) out.p = [state.placement.recommended, Math.round((state.placement.at - DAY0) / DAY)];
+  return JSON.stringify(out);
+}
+
+/** 빈 메모 칸은 빼서 글을 줄인다. 남는 게 없으면 undefined. */
+function clip(n: Notes): Notes | undefined {
+  const out: Notes = {};
+  if (n.problem?.trim()) out.problem = n.problem;
+  if (n.one?.trim()) out.one = n.one;
+  if (n.three?.some((t) => t.trim())) out.three = n.three;
+  if (n.reflect) {
+    const r = Object.fromEntries(Object.entries(n.reflect).filter(([, v]) => v.trim()));
+    if (Object.keys(r).length) out.reflect = r;
+  }
+  return Object.keys(out).length ? out : undefined;
+}
+
+export function unpackState(json: string, now = Date.now()): State | null {
+  const p = JSON.parse(json) as Packed;
+  if (!p || p.v !== 2 || typeof p.l !== 'string') return null;
+  const s = emptyState();
+  for (const run of p.l.split(',').filter(Boolean)) {
+    const m = run.match(/^(\d+)(?:-(\d+))?([dkts])(\d*)$/);
+    if (!m) return null;
+    const a = Number(m[1]);
+    const b = m[2] ? Number(m[2]) : a;
+    const status = UNCODE[m[3]!]!;
+    for (let n = a; n <= b; n++) {
+      s.lessons[n] = { status, updatedAt: now, ...(m[4] ? { screen: Number(m[4]) } : {}) };
+    }
+  }
+  for (const item of (p.r ?? '').split(',').filter(Boolean)) {
+    const m = item.match(/^(.+):(\d+):(x|-?\d+)$/);
+    if (!m) return null;
+    const id = m[1]!.startsWith('~') ? m[1]!.slice(1) : `q${m[1]}`;
+    const lesson = Number(m[1]!.match(/^(\d+)/)?.[1] ?? 0);
+    const due = m[3] === 'x' ? Number.POSITIVE_INFINITY : DAY0 + Number(m[3]) * DAY;
+    s.reviews[id] = { id, lesson, box: Number(m[2]), due, history: [], payload: null };
+  }
+  if (p.n) s.notes = p.n;
+  if (p.p) s.placement = { recommended: p.p[0], at: DAY0 + p.p[1] * DAY };
+  return s;
+}
+
+function toB64url(bytes: Uint8Array): string {
+  let bin = '';
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function fromB64url(text: string): Uint8Array {
+  const b64 = text.replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(b64 + '='.repeat((4 - (b64.length % 4)) % 4));
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+
+async function pipe(bytes: Uint8Array, stream: CompressionStream | DecompressionStream): Promise<Uint8Array> {
+  const out = new Response(new Blob([bytes as BlobPart]).stream().pipeThrough(stream));
+  return new Uint8Array(await out.arrayBuffer());
+}
+
+const canZip = () => typeof CompressionStream !== 'undefined' && typeof DecompressionStream !== 'undefined';
+
+/** 다른 기기로 옮길 때 쓰는 글. 압축을 못 하는 브라우저에서는 qm137:2u:(압축 없음)로 적는다. */
+export async function exportText(state: State): Promise<string> {
+  const bytes = new TextEncoder().encode(packState(state));
+  if (canZip()) return 'qm137:2:' + toB64url(await pipe(bytes, new CompressionStream('deflate-raw')));
+  return 'qm137:2u:' + toB64url(bytes);
+}
+
+export async function importText(text: string): Promise<State | null> {
   try {
-    const body = text.trim().replace(/^qm137:/, '');
+    const t = text.trim().replace(/\s+/g, '');
+    if (t.startsWith('qm137:2:')) {
+      if (!canZip()) return null;
+      const bytes = await pipe(fromB64url(t.slice(8)), new DecompressionStream('deflate-raw'));
+      return unpackState(new TextDecoder().decode(bytes));
+    }
+    if (t.startsWith('qm137:2u:')) return unpackState(new TextDecoder().decode(fromB64url(t.slice(9))));
+    return importV1(t);
+  } catch {
+    return null;
+  }
+}
+
+/** 1판: 'qm137:' + base64(JSON 전체) */
+function importV1(text: string): State | null {
+  try {
+    const body = text.replace(/^qm137:/, '');
     const bin = atob(body);
     const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
     const parsed = JSON.parse(new TextDecoder().decode(bytes));
