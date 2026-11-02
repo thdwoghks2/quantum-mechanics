@@ -113,7 +113,7 @@ class QmLesson extends HTMLElement {
     const screen = this.screens[this.i]!;
     for (const el of this.stepsOf(screen).els) {
       el.classList.toggle('step-hidden', Number(el.dataset.step) > this.step);
-      el.classList.remove('step-enter', 'step-next');
+      el.classList.remove('step-enter', 'step-shown', 'step-next');
     }
     // 다음에 열릴 글 자리에 작은 표시를 둔다.
     screen.querySelector<HTMLElement>(`.screen__body .step[data-step="${this.step + 1}"]`)?.classList.add('step-next');
@@ -136,10 +136,17 @@ class QmLesson extends HTMLElement {
       this.step++;
       this.applySteps();
       // 새로 열린 단계만 천천히 떠오르게 하고, 화면이 넘치는 경우에만 그 단계가 보이게 내린다.
+      // 떠오름이 끝나도 step-enter를 그냥 떼면 화면 전체의 한 줄씩 떠오르기(line-rise)가 다시 걸려
+      // 같은 글이 한 번 더 떠오른다. 그래서 애니메이션을 끈 step-shown으로 바꿔 둔다.
       const opened = [...screen.querySelectorAll<HTMLElement>(`[data-step="${this.step}"]`)];
       for (const el of opened) {
         el.classList.add('step-enter');
-        el.addEventListener('animationend', () => el.classList.remove('step-enter'), { once: true });
+        const done = (e: AnimationEvent) => {
+          if (e.target !== el) return; // 안쪽 요소의 애니메이션이 끝난 것은 무시
+          el.removeEventListener('animationend', done);
+          el.classList.replace('step-enter', 'step-shown');
+        };
+        el.addEventListener('animationend', done);
       }
       opened.find((el) => el.closest('.screen__body'))?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       this.updateChrome();
