@@ -19,6 +19,7 @@ sources:
   - "Hecht, E. Optics (5th ed.), Ch. 9.3: Wavefront-splitting Interferometers"
 testout: [q16-dy, q16-closer, q16-dark]
 status: published
+symbols: { d: slit-d, theta: angle-theta, m: order-m, lambda: wavelength-lambda, L: screen-L, y: screen-y, Delta: delta }
 ---
 
 <Screen kind="recall" from={14} title="두 파원의 줄무늬">
@@ -134,7 +135,7 @@ status: published
 
 <S n={1}>
 
-두 슬릿 S₁, S₂ 사이 간격을 d라 하고, 화면 위의 한 점 P를 볼게요.
+두 슬릿 S₁, S₂ 사이 간격을 $d$라 하고, 화면 위의 한 점 P를 볼게요. $d$는 4강의 간 거리가 아니라 두 틈 사이의 거리예요.
 
 </S>
 
@@ -146,13 +147,31 @@ status: published
 
 <S n={3}>
 
-θ는 P가 가운데에서 벗어난 각도이고, 화면이 아주 멀면 경로차는 그림의 굵은 선 d × sin θ예요.
+$\theta$는 P가 가운데에서 벗어난 각도이고, 화면이 아주 멀면 경로차는 그림의 굵은 선 $d \sin\theta$예요.
 
 </S>
 
-<S n={4}>
+</Screen>
 
-그래서 d sin θ = mλ (m = 0, 1, 2 …)인 곳이 밝은 줄이고, m = 0인 한가운데 줄이 경로차 0인 곳이에요.
+<Screen kind="step" title="밝은 줄의 조건">
+  <Fragment slot="visual">
+    <FormulaBuild id="double-slit-formula" />
+  </Fragment>
+
+경로차 $d\sin\theta$가 파장의 0배, 1배, 2배 …면 같은 위상으로 만나 밝아져요. 식으로는 $d\sin\theta = m\lambda$예요.
+
+</Screen>
+
+<Screen kind="compare" title="같은 글자 m, 다른 뜻">
+  <Fragment slot="visual">
+    <SymTable ids={['order-m', 'mass-m']} />
+  </Fragment>
+
+헷갈리지 마세요. 이 식의 $m$은 5강의 질량이 아니라 밝은 줄의 번호예요. 한가운데 줄이 0번이고 바깥으로 1, 2, 3 …이에요.
+
+<S n={2}>
+
+그래서 이 강의 $m$은 번호 모양(옅은 네모 바탕)으로 보여요. 질량을 쓰지 않는 강이라 한 글자에 한 뜻만 남겨 두었어요.
 
 </S>
 
@@ -161,23 +180,23 @@ status: published
 <Screen kind="worked" title="무늬 간격 계산">
   <Fragment slot="visual">
     <DataTable caption="무늬 간격 계산" head={['단계', '내용']} rows={[
-      ['각도가 아주 작아요', 'sin θ ≈ 화면 위 거리 y ÷ 화면까지 거리 L'],
-      ['m번째 밝은 줄', 'd × (y ÷ L) = mλ, 곧 y = mλL ÷ d'],
-      ['이웃한 밝은 줄 사이', '무늬 간격 = λL ÷ d'],
+      ['각도가 아주 작아요', '$\\sin\\theta \\approx y \\div L$'],
+      ['$m$번째 밝은 줄', '$d \\times (y \\div L) = m\\lambda$, 곧 $y = m\\lambda L \\div d$'],
+      ['이웃한 밝은 줄 사이', '무늬 간격 $= \\lambda L \\div d$'],
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
-화면이 멀어서 θ는 아주 작아요. 각도가 아주 작을 때 sin θ는 (가운데에서 P까지 거리 y) ÷ (화면까지 거리 L)과 거의 같아요.
+화면이 멀어서 $\theta$는 아주 작아요. 각도가 아주 작을 때 $\sin\theta$는 (가운데에서 P까지 거리 $y$) ÷ (화면까지 거리 $L$)과 거의 같아요.
 
 <S n={2}>
 
-이걸 d sin θ = mλ에 넣으면 m번째 밝은 줄의 자리는 y = mλL ÷ d예요.
+이걸 $d \sin\theta = m\lambda$에 넣으면 $m$번째 밝은 줄의 자리는 $y = m\lambda L \div d$예요.
 
 </S>
 
 <S n={3}>
 
-m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파장 × 화면까지 거리 ÷ 슬릿 간격이에요. 앞의 레이저라면 650 × 10⁻⁹ × 2 ÷ (0.25 × 10⁻³) = 5.2 mm죠.
+$m$이 1 늘 때마다 $y$는 $\lambda L \div d$씩 늘어요. 그래서 무늬 간격 = 파장 × 화면까지 거리 ÷ 슬릿 간격이에요. 앞의 레이저라면 $650 \times 10^{-9} \times 2 \div (0.25 \times 10^{-3}) = 5.2\,\mathrm{mm}$죠.
 
 </S>
 
@@ -191,7 +210,7 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 
 <Fragment slot="solution">
 
-무늬 간격 = λL ÷ d = 532 × 10⁻⁹ × 1.5 ÷ (0.2 × 10⁻³) ≈ 3.99 × 10⁻³ m, 약 4.0 mm예요.
+무늬 간격 $= \lambda L \div d = 532 \times 10^{-9} \times 1.5 \div (0.2 \times 10^{-3}) \approx 3.99 \times 10^{-3}\,\mathrm{m}$, 약 4.0 mm예요.
 
 </Fragment>
 </Numeric>
@@ -203,7 +222,7 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
     <BigNumber top="토머스 영이 계산한 빛의 파장" value="약 0.4 ~ 0.7 μm" bottom="보랏빛이 가장 짧고, 빨간빛이 가장 길어요" q="space" />
   </Fragment>
 
-이 식은 거꾸로 쓸 수 있어요. 슬릿 간격 d와 화면까지 거리 L을 알고 무늬 간격을 자로 재면, 파장 = 무늬 간격 × d ÷ L이에요.
+이 식은 거꾸로 쓸 수 있어요. 슬릿 간격 $d$와 화면까지 거리 $L$을 알고 무늬 간격을 자로 재면, 파장 = 무늬 간격 × $d$ ÷ $L$이에요.
 
 <S n={2}>
 
@@ -222,7 +241,7 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 
 <S n={2}>
 
-파란빛은 빨간빛보다 무늬 간격이 좁아요. 색마다 파장이 다르다는 뜻이죠. 슬릿 간격을 좁히면 무늬 간격이 넓어지는데, λL ÷ d에서 d가 나누는 수라서 그래요.
+파란빛은 빨간빛보다 무늬 간격이 좁아요. 색마다 파장이 다르다는 뜻이죠. 슬릿 간격을 좁히면 무늬 간격이 넓어지는데, $\lambda L \div d$에서 $d$가 나누는 수라서 그래요.
 
 </S>
 
@@ -231,9 +250,9 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 <Screen kind="check" title="슬릿 간격을 절반으로">
 
 <Check id="q16-closer" options={[
-  { t: '넓어져요', ok: true, why: '무늬 간격 = λL ÷ d라서 d가 작아지면 간격이 커져요. 슬릿이 가까우면 옆으로 더 멀리 가야 경로차가 파장 하나만큼 바뀌어요.' },
+  { t: '넓어져요', ok: true, why: '무늬 간격 $= \\lambda L \\div d$라서 $d$가 작아지면 간격이 커져요. 슬릿이 가까우면 옆으로 더 멀리 가야 경로차가 파장 하나만큼 바뀌어요.' },
   { t: '좁아져요', why: '슬릿 간격을 넓힐 때의 결과예요.' },
-  { t: '그대로예요', why: '무늬 간격은 슬릿 간격 d에 따라 바뀌어요.' },
+  { t: '그대로예요', why: '무늬 간격은 슬릿 간격 $d$에 따라 바뀌어요.' },
   { t: '무늬가 사라져요', why: '두 슬릿에서 같은 위상의 빛이 나오는 한 무늬는 생겨요. 간격이 바뀔 뿐이에요.' },
 ]}>
 
@@ -302,10 +321,19 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 
 <Fragment slot="solution">
 
-밝은 줄 11개 사이에는 간격이 10개 있으니까 무늬 간격은 6.3 mm예요. 파장 = 6.3 × 10⁻³ × 0.3 × 10⁻³ ÷ 3 = 6.3 × 10⁻⁷ m = 630 nm, 빨간빛이에요.
+밝은 줄 11개 사이에는 간격이 10개 있으니까 무늬 간격은 6.3 mm예요. 파장 $= 6.3 \times 10^{-3} \times 0.3 \times 10^{-3} \div 3 = 6.3 \times 10^{-7}\,\mathrm{m} = 630\,\mathrm{nm}$, 빨간빛이에요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="이중 슬릿, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="double-slit-idea" />
+  </Fragment>
+
+오늘은 기호가 많았어요. 카드의 네 단계를 따라가며 $d$, $\theta$, $m$, $\lambda$, $L$이 각각 무엇이었는지 다시 짚어 보세요.
 
 </Screen>
 
@@ -316,8 +344,8 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 <Recap terms={['slit', 'double-slit', 'fringe']}>
 
 1. 전등 두 개는 박자가 제각각이라, 빛 하나를 슬릿 두 개로 나눠 같은 위상의 두 파원을 만들어요.
-2. 경로차 d sin θ가 파장의 정수배인 곳마다 밝은 줄이 생겨 간섭 무늬가 돼요.
-3. 무늬 간격이 λL ÷ d라서, 간격을 재면 빛의 파장을 계산할 수 있어요.
+2. 경로차 $d \sin\theta$가 파장의 정수배인 곳마다 밝은 줄이 생겨 간섭 무늬가 돼요.
+3. 무늬 간격이 $\lambda L \div d$라서, 간격을 재면 빛의 파장을 계산할 수 있어요.
 4. 빛에 빛을 더해 어두운 줄이 생기니까, 빛은 파동이에요.
 
 </Recap>
@@ -334,7 +362,7 @@ m이 1 늘 때마다 y는 λL ÷ d씩 늘어요. 그래서 무늬 간격 = 파�
 
 <Fragment slot="hint1">
 
-파장이 짧을수록, 옆으로 조금만 가도 경로차가 파장 하나만큼 바뀌어요. 무늬 간격 = λL ÷ d에서 무엇이 바뀌었는지 보세요.
+파장이 짧을수록, 옆으로 조금만 가도 경로차가 파장 하나만큼 바뀌어요. 무늬 간격 $= \lambda L \div d$에서 무엇이 바뀌었는지 보세요.
 
 </Fragment>
 <Fragment slot="solution">

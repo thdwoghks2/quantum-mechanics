@@ -113,7 +113,7 @@
   read: 킬로그램
   kind: unit
   q: force
-  meaning: 질량의 기본 단위예요. 1 L 물의 질량이 약 1 kg이에요.
+  meaning: 물체가 얼마나 무거운지 재는 기본 단위예요. 1 L 물이 약 1 kg이에요. 5강에서 이 양의 정확한 이름을 배워요.
   taughtIn: 3
 - id: unit-g
   sym: '\mathrm{g}'
@@ -166,7 +166,7 @@
   kind: unit
   q: time
   meaning: 1초에 몇 번 진동하는지를 세는 단위예요. 1초에 10번이면 10 Hz예요.
-  origin: 전자기파를 처음 만들어 확인한 하인리히 헤르츠의 이름에서 왔어요.
+  origin: 19강에 나오는 물리학자 하인리히 헤르츠의 이름에서 왔어요.
   taughtIn: 9
 - id: unit-kHz
   sym: '\mathrm{kHz}'
@@ -208,7 +208,7 @@
   read: 도 (섭씨)
   kind: unit
   q: heat
-  meaning: 일상에서 쓰는 온도 단위예요. 물이 어는 온도를 0 ℃, 끓는 온도를 100 ℃로 정했어요.
+  meaning: 일상에서 온도를 재는 눈금이에요. 물이 어는 온도를 0 ℃, 끓는 온도를 100 ℃로 정했어요.
   origin: 안데르스 셀시우스의 이름에서 왔어요. '섭씨'는 셀시우스의 한자 표기예요.
   taughtIn: 1
 - id: unit-C
@@ -263,7 +263,7 @@
   kind: unit
   q: energy
   meaning: 1,000 eV예요.
-  taughtIn: 38
+  taughtIn: 108
 - id: unit-MeV
   sym: '\mathrm{MeV}'
   name: 메가전자볼트
@@ -271,7 +271,7 @@
   kind: unit
   q: energy
   meaning: 100만 eV예요. 원자핵에서 오가는 에너지가 MeV 크기예요.
-  taughtIn: 38
+  taughtIn: 68
 - id: unit-GeV
   sym: '\mathrm{GeV}'
   name: 기가전자볼트
@@ -279,7 +279,7 @@
   kind: unit
   q: energy
   meaning: 10억 eV예요. 양성자 하나의 질량을 에너지로 바꾸면 약 1 GeV예요.
-  taughtIn: 38
+  taughtIn: 124
 
 # ── 0부: 움직임과 힘과 에너지 ─────────────
 - id: time-t
@@ -436,3 +436,155 @@
   meaning: 높은 곳에 있어서 가진 에너지예요. 아래의 작은 p는 영어 potential(잠재된)의 첫 글자예요.
   unit: J (줄)
   taughtIn: 6
+
+# ── 1부: 파동과 빛 ─────────────────────
+- id: period-T
+  sym: 'T'
+  name: 주기
+  read: 티
+  kind: variable
+  q: time
+  meaning: 진동이 한 번 되풀이되는 데 걸리는 시간이에요.
+  unit: s (초)
+  origin: 영어 time(시간)의 첫 글자로 흔히 써요.
+  notThis: 23강부터 나오는 T는 절대온도예요. 한 강 안에서 두 뜻을 섞어 쓰지 않아요.
+  taughtIn: 9
+- id: frequency-f
+  sym: 'f'
+  name: 진동수
+  read: 에프
+  kind: variable
+  q: time
+  meaning: 1초 동안 진동하는 횟수예요. 주기를 뒤집은 값이에요.
+  unit: Hz (헤르츠)
+  origin: 영어 frequency(진동수)의 첫 글자예요.
+  notThis: 기울어진 대문자 F는 힘이에요.
+  taughtIn: 9
+- id: amplitude-A
+  sym: 'A'
+  name: 진폭
+  read: 에이
+  kind: variable
+  q: space
+  meaning: 진동하는 물체가 가운데에서 가장 멀리 벗어난 거리예요.
+  unit: m, cm
+  origin: 영어 amplitude(진폭)의 첫 글자예요.
+  taughtIn: 12
+- id: displacement-y
+  sym: 'y'
+  name: 변위
+  read: 와이
+  kind: variable
+  q: space
+  meaning: 가운데(가만히 있을 때의 자리)에서 지금 얼마나 벗어나 있는지예요. 위로 벗어나면 +, 아래로 벗어나면 −예요.
+  unit: m, cm
+  origin: 그래프의 세로축을 흔히 y로 부르는 데서 왔어요.
+  taughtIn: 12
+- id: wavelength-lambda
+  sym: '\lambda'
+  name: 파장
+  read: 람다
+  kind: variable
+  q: space
+  meaning: 파동에서 같은 모양이 되풀이되는 거리예요. 가장 높이 솟은 곳에서 다음으로 가장 높이 솟은 곳까지예요.
+  unit: m (미터), 빛은 흔히 nm
+  origin: 그리스 문자 람다로, 로마자 l에 해당해요. length(길이)를 떠올리면 쉬워요.
+  taughtIn: 11
+- id: angle-theta
+  sym: '\theta'
+  name: 각도
+  read: 세타
+  kind: variable
+  q: plain
+  meaning: 돌아간 정도나 기울어진 정도예요. 한 바퀴가 360°예요.
+  unit: ° (도)
+  origin: 그리스 문자 세타예요. 각도에 흔히 쓰는 글자예요.
+  taughtIn: 12
+- id: slit-d
+  sym: 'd'
+  name: 슬릿 간격
+  read: 디
+  kind: variable
+  q: space
+  meaning: 이중 슬릿에서 두 틈 사이의 거리예요. 보통 0.1 mm쯤으로 아주 좁아요.
+  unit: m
+  notThis: 4강의 d는 간 거리예요. 둘 다 거리지만 무엇과 무엇 사이인지가 달라요.
+  taughtIn: 16
+- id: screen-L
+  sym: 'L'
+  name: 화면까지 거리
+  read: 엘
+  kind: variable
+  q: space
+  meaning: 슬릿에서 무늬가 맺히는 화면까지의 거리예요. 보통 1 m쯤으로, 슬릿 간격보다 훨씬 멀어요.
+  unit: m
+  origin: 영어 length(길이)의 첫 글자예요.
+  notThis: 20강의 L은 줄의 길이예요.
+  taughtIn: 16
+- id: screen-y
+  sym: 'y'
+  name: 화면 위 자리
+  read: 와이
+  kind: variable
+  q: space
+  meaning: 화면의 한가운데에서 잰, 밝은 줄까지의 거리예요.
+  unit: m
+  notThis: 10강의 y는 진동하는 물체의 변위예요.
+  taughtIn: 16
+- id: order-m
+  sym: 'm'
+  name: 밝은 줄의 번호 (차수)
+  read: 엠
+  kind: index
+  meaning: 한가운데 밝은 줄을 0번으로 하고 바깥으로 1, 2, 3 …으로 센 번호예요. 경로차가 파장의 몇 배인지와 같아요.
+  notThis: 5강부터 쓴 m은 질량이에요. 이 강에서는 질량을 쓰지 않으니, m은 번호예요. 번호는 옅은 네모 바탕으로 보여요.
+  taughtIn: 16
+- id: light-speed-c
+  sym: 'c'
+  name: 빛의 속력
+  read: 씨
+  kind: constant
+  q: motion
+  meaning: 진공에서 빛이 1초에 가는 거리예요. 빨간빛이든 보랏빛이든 모든 빛이 같아요.
+  unit: m/s
+  value: 약 3 × 10⁸ m/s (정확히 299,792,458 m/s)
+  origin: 라틴어 celeritas(빠르기)의 첫 글자라고 흔히 설명해요.
+  taughtIn: 17
+- id: charge-q
+  sym: 'q'
+  name: 전하량
+  read: 큐
+  kind: variable
+  q: charge
+  meaning: 물체가 띤 전기의 양이에요. 양(+)일 수도 음(−)일 수도 있어요.
+  unit: C (쿨롱)
+  origin: 영어 quantity of electricity(전기의 양)에서 흔히 q를 써요.
+  taughtIn: 18
+- id: separation-r
+  sym: 'r'
+  name: 두 전하 사이 거리
+  read: 알
+  kind: variable
+  q: space
+  meaning: 두 전하의 가운데와 가운데 사이의 거리예요.
+  unit: m
+  origin: 영어 radius(반지름)나 range(거리)에서 흔히 r을 써요.
+  taughtIn: 18
+- id: string-L
+  sym: 'L'
+  name: 줄의 길이
+  read: 엘
+  kind: variable
+  q: space
+  meaning: 양 끝이 묶인 줄에서 진동할 수 있는 부분의 길이예요.
+  unit: m
+  notThis: 16강의 L은 화면까지 거리예요.
+  taughtIn: 20
+- id: mode-n
+  sym: 'n'
+  name: 진동 모드 번호
+  read: 엔
+  kind: index
+  meaning: 줄에 반 파장이 몇 개 들어가는지 센 번호예요. 1이면 기본 진동, 2부터는 배음이에요.
+  notThis: 2강의 n은 10을 곱한 횟수(지수)였어요. 둘 다 세는 수예요.
+  taughtIn: 20

@@ -17,6 +17,7 @@ sources:
   - "Halliday, Resnick & Walker, Fundamentals of Physics, Ch. 21: Coulomb's Law"
 testout: [q18-two, q18-r, q18-pair]
 status: published
+symbols: { F: force-F, q: charge-q, r: separation-r }
 ---
 
 <Screen kind="scene" title="풍선과 문손잡이">
@@ -182,6 +183,21 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="쿨롱 법칙을 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="coulomb-formula" />
+  </Fragment>
+
+전기력은 5강의 $F$, 전하의 양은 $q$, 두 전하 사이 거리는 $r$로 써요. 두 전하를 구분하려고 $q_1$, $q_2$처럼 아래에 번호를 붙여요.
+
+<S n={2}>
+
+$\propto$는 "비례한다"는 기호예요. $F \propto \dfrac{q_1 q_2}{r^2}$은 "힘은 두 전하의 곱에 비례하고 거리의 제곱에 반비례한다"고 읽어요.
+
+</S>
+
+</Screen>
+
 <Screen kind="analogy" title="스프레이 물감">
   <Fragment slot="visual">
     <Analogy
@@ -207,13 +223,19 @@ status: published
 
 <Screen kind="worked" title="거리와 힘">
   <Fragment slot="visual">
-    <DataTable caption="거리 1일 때의 힘을 1로 잡으면" head={['거리', '힘', '계산']} rows={[
-      ['1', '1', ''],
-      ['2', '1/4', '1 ÷ 2²'],
-      ['3', '1/9', '1 ÷ 3²'],
-      ['10', '1/100', '1 ÷ 10²'],
-      ['1/2', '4', '1 ÷ (1/2)²'],
-    ]} steps={[undefined, undefined, undefined, 2, 3]} />
+    <Plot
+      alt="두 전하 사이 거리와 전기력의 그래프. 거리 1일 때의 힘을 1로 하면 거리 2에서 4분의 1, 거리 3에서 9분의 1로 빠르게 줄어드는 곡선. 거리 2분의 1에서는 4"
+      x={[0, 4]} y={[0, 4.4]}
+      xLabel="두 전하 사이 거리 (거리 1 = 1)" yLabel="전기력 (거리 1일 때 = 1)" xq="space" yq="force"
+      xTicks={[0, 0.5, 1, 2, 3, 4]} yTicks={[0, 1, 2, 3, 4]}
+      curves={[{ fn: 'x > 0.47 ? 1 / (x * x) : NaN', q: 'force' }]}
+      points={[
+        { x: 1, y: 1, label: '거리 1 → 1', q: 'force' },
+        { x: 2, y: 0.25, label: '거리 2 → 1/4', q: 'force', step: 1 },
+        { x: 3, y: 0.111, label: '거리 3 → 1/9', q: 'force', step: 1 },
+        { x: 0.5, y: 4, label: '거리 1/2 → 4', q: 'force', step: 3 },
+      ]}
+    />
   </Fragment>
 
 거리가 2배면 힘은 2² = 4분의 1, 3배면 3² = 9분의 1이 돼요.
@@ -294,6 +316,15 @@ status: published
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="전하와 쿨롱 법칙, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="coulomb-idea" />
+  </Fragment>
+
+오늘 배운 전기력을 한 장에 모았어요. 거리의 제곱이 왜 나오는지는 스프레이 물감 비유를 다시 떠올려 보세요.
 
 </Screen>
 

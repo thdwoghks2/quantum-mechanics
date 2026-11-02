@@ -18,6 +18,7 @@ sources:
   - "BIPM: 진공에서 빛의 속력은 정확히 299,792,458 m/s로 정의되어 있다"
 testout: [q17-freq, q17-water, q17-white]
 status: published
+symbols: { c: light-speed-c, f: frequency-f, lambda: wavelength-lambda, v: velocity-v }
 ---
 
 <Screen kind="recall" from={16} title="색마다 다른 무늬">
@@ -106,15 +107,30 @@ status: published
     <Define term="speed-of-light" />
   </Fragment>
 
-진공에서 빛이 1초 동안 가는 거리를 **빛의 속력**이라고 하고, 기호 c로 써요. c = 3 × 10⁸ m/s이고, 3강에서 본 대로 1미터의 길이가 이 값으로 정해져 있어요.
+진공에서 빛이 1초 동안 가는 거리를 **빛의 속력**이라고 하고, 기호 $c$로 써요. $c \approx 3 \times 10^8\,\mathrm{m/s}$이고, 3강에서 본 대로 1미터의 길이가 이 값으로 정해져 있어요.
 
-<Key>진공에서는 빨간빛이든 보랏빛이든 모든 빛이 같은 속력 c로 가니까, c 하나만 알면 빛의 파장과 진동수를 서로 바꿀 수 있어요.</Key>
+<Key>진공에서는 빨간빛이든 보랏빛이든 모든 빛이 같은 속력 $c$로 가니까, $c$ 하나만 알면 빛의 파장과 진동수를 서로 바꿀 수 있어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="빛의 진동수와 파장을 식으로">
+  <Fragment slot="visual">
+    <Formula id="light-wave-formula" />
+  </Fragment>
+
+11강의 $v = f\lambda$에서 빛의 속력을 $c$로 바꾸면 $c = f\lambda$예요. $c$는 금빛 글자예요. 늘 같은 값인 상수라서 그래요.
+
+<S n={2}>
+
+$c$가 늘 같으니, 파장 $\lambda$가 짧은 빛일수록 진동수 $f$가 커요. 보랏빛이 빨간빛보다 파장이 짧고 진동수가 큰 까닭이에요.
+
+</S>
 
 </Screen>
 
 <Screen kind="worked" title="파장에서 진동수로">
   <Fragment slot="visual">
-    <DataTable caption="진동수 = c ÷ 파장 (진공이나 공기 속)" head={['색', '파장', '1초에 진동하는 횟수']} rows={[
+    <DataTable caption="진동수 = $c$ ÷ 파장 (진공이나 공기 속)" head={['색', '파장', '1초에 진동하는 횟수']} rows={[
       ['빨강', '약 700 nm', '약 430조 번'],
       ['노랑', '약 580 nm', '약 520조 번'],
       ['초록', '약 530 nm', '약 570조 번'],
@@ -123,7 +139,7 @@ status: published
     ]} steps={[undefined, 2, 2, 2, undefined]} />
   </Fragment>
 
-11강의 v = fλ를 빛에 쓰면 c = fλ라서, 진동수는 f = c ÷ λ예요. 빨간빛 700 nm라면 3 × 10⁸ ÷ (7 × 10⁻⁷) ≈ 4.3 × 10¹⁴ Hz, 1초에 약 430조 번 진동하죠.
+$c = f\lambda$를 진동수에 대해 바꾸면 $f = c \div \lambda$예요. 빨간빛 700 nm라면 $3 \times 10^8 \div (7 \times 10^{-7}) \approx 4.3 \times 10^{14}\,\mathrm{Hz}$, 1초에 약 430조 번 진동하죠.
 
 <S n={2}>
 
@@ -137,11 +153,11 @@ status: published
 
 <Numeric id="q17-freq" answer={600} tol={0.02} unit="조 번">
 
-공기 속에서 파장이 500 nm인 초록빛은 1초에 몇 조 번 진동할까요? (c = 3 × 10⁸ m/s, 1조 = 10¹²)
+공기 속에서 파장이 500 nm인 초록빛은 1초에 몇 조 번 진동할까요? ($c = 3 \times 10^8\,\mathrm{m/s}$, 1조 = 10¹²)
 
 <Fragment slot="solution">
 
-f = c ÷ λ = 3 × 10⁸ ÷ (5 × 10⁻⁷) = 6 × 10¹⁴ Hz, 1초에 600조 번이에요.
+$f = c \div \lambda = 3 \times 10^8 \div (5 \times 10^{-7}) = 6 \times 10^{14}\,\mathrm{Hz}$, 1초에 600조 번이에요.
 
 </Fragment>
 </Numeric>
@@ -221,7 +237,7 @@ f = c ÷ λ = 3 × 10⁸ ÷ (5 × 10⁻⁷) = 6 × 10¹⁴ Hz, 1초에 600조 �
 <Check id="q17-water" options={[
   { t: '진동수', ok: true, why: '물은 들어오는 빛의 박자대로 흔들리니까 1초에 진동하는 횟수는 바뀌지 않아요. 그래서 색도 그대로예요.' },
   { t: '속력', why: '물속에서 빛은 진공에서의 약 4분의 3으로 느려져요.' },
-  { t: '파장', why: '속력이 줄어든 만큼 파장도 짧아져요. λ = v ÷ f예요.' },
+  { t: '파장', why: '속력이 줄어든 만큼 파장도 짧아져요. $\\lambda = v \\div f$예요.' },
   { t: '셋 다 바뀌어요', why: '진동수는 바뀌지 않아요. 그래서 물속에서도 색이 그대로예요.' },
 ]}>
 
@@ -313,13 +329,22 @@ f = c ÷ λ = 3 × 10⁸ ÷ (5 × 10⁻⁷) = 6 × 10¹⁴ Hz, 1초에 600조 �
 
 </Screen>
 
+<Screen kind="step" title="빛의 색, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="light-color-idea" />
+  </Fragment>
+
+색을 정하는 건 무엇이고, 물속에서 무엇이 바뀌는지를 한 장에 모았어요.
+
+</Screen>
+
 <Screen kind="recap" title="오늘 온 길">
 
 여기까지 온 길을 한 번에 모아 볼게요.
 
 <Recap terms={['spectrum', 'speed-of-light', 'visible-light']}>
 
-1. 진공에서 모든 빛은 같은 속력 c로 가니까, 진동수 = c ÷ 파장으로 바꿀 수 있어요.
+1. 진공에서 모든 빛은 같은 속력 $c$로 가니까, 진동수 = c ÷ 파장으로 바꿀 수 있어요.
 2. 빛이 물에 들어가면 속력과 파장은 바뀌지만 진동수와 색은 그대로예요.
 3. 그래서 색을 정하는 건 진동수이고, 눈은 1초에 약 400조~750조 번 진동하는 빛을 봐요.
 4. 흰빛은 여러 진동수가 섞인 빛이고, 프리즘은 그걸 진동수에 따라 나눌 뿐이에요.
@@ -338,7 +363,7 @@ f = c ÷ λ = 3 × 10⁸ ÷ (5 × 10⁻⁷) = 6 × 10¹⁴ Hz, 1초에 600조 �
 
 <Fragment slot="hint1">
 
-공기 속에서 파장이 488 nm인 청록색 빛은 1초에 몇 번 진동할까요? c ÷ 488 nm로 구해서 460조 번과 견줘 보세요.
+공기 속에서 파장이 488 nm인 청록색 빛은 1초에 몇 번 진동할까요? $c \div 488\,\mathrm{nm}$로 구해서 460조 번과 견줘 보세요.
 
 </Fragment>
 <Fragment slot="solution">

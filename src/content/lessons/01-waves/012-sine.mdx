@@ -16,6 +16,7 @@ sources:
   - "Stewart, J. Precalculus: Mathematics for Calculus, Ch. 5: Trigonometric Functions"
 testout: [q12-sin, q12-y, q12-phase]
 status: published
+symbols: { theta: angle-theta, y: displacement-y, A: amplitude-A, t: time-t, T: period-T }
 ---
 
 <Screen kind="scene" title="옆에서 본 관람차">
@@ -76,15 +77,30 @@ status: published
     <Define term="sine" />
   </Fragment>
 
-반지름이 1인 원 위를 도는 점이 각도 θ(세타)만큼 돌았을 때의 높이를 **사인**이라고 하고, sin θ로 써요. 가운데보다 아래 있으면 −예요.
+반지름이 1인 원 위를 도는 점이 각도 $\theta$(세타)만큼 돌았을 때의 높이를 **사인**이라고 하고, $\sin\theta$로 써요. 가운데보다 아래 있으면 −예요.
 
 <Key>사인은 각도를 넣으면 그만큼 돈 점의 높이 하나가 나오는 규칙이라서, 각도 자체가 아니라 높이이고 반지름 1인 원에서는 늘 −1에서 1 사이예요.</Key>
 
 </Screen>
 
+<Screen kind="step" title="θ라는 글자">
+  <Fragment slot="visual">
+    <SymTable ids={['angle-theta']} />
+  </Fragment>
+
+$\theta$는 그리스 문자 '세타'예요. 수학과 물리에서 각도를 적을 때 흔히 쓰는 글자예요.
+
+<S n={2}>
+
+$\sin\theta$는 "세타의 사인"이라고 읽고, $\theta$만큼 돈 점의 높이를 뜻해요. sin은 곱하는 글자가 아니라 '사인을 구한다'는 뜻의 이름표예요.
+
+</S>
+
+</Screen>
+
 <Screen kind="worked" title="사인 값 몇 개">
   <Fragment slot="visual">
-    <DataTable caption="반지름 1인 원 위의 높이" head={['돈 각도 θ', 'sin θ', '점의 자리']} rows={[
+    <DataTable caption="반지름 1인 원 위의 높이" head={['돈 각도 $\\theta$', '$\\sin\\theta$', '점의 자리']} rows={[
       ['0°', '0', '가운데 높이'],
       ['30°', '0.5', '반지름의 절반 높이'],
       ['90°', '1', '맨 위'],
@@ -99,7 +115,7 @@ status: published
 
 <S n={2}>
 
-30°일 때 높이는 정확히 0.5예요. 도형으로 보일 수 있는 사실이고, 150°에서도 높이가 같아서 sin 150° = 0.5예요.
+30°일 때 높이는 정확히 0.5예요. 도형으로 보일 수 있는 사실이고, 150°에서도 높이가 같아서 $\sin 150^\circ = 0.5$예요.
 
 </S>
 
@@ -114,7 +130,7 @@ status: published
   { t: '270', why: '사인은 각도 자체가 아니라 그 각도만큼 돈 점의 높이예요. 반지름이 1인 원에서 높이는 −1에서 1 사이예요.' },
 ]}>
 
-반지름 1인 원에서 sin 270°는 얼마일까요?
+반지름 1인 원에서 $\sin 270^\circ$는 얼마일까요?
 
 </Check>
 
@@ -135,7 +151,7 @@ status: published
 
 <S n={1}>
 
-가로축은 돈 각도, 세로축은 그때의 높이 sin θ예요.
+가로축은 돈 각도, 세로축은 그때의 높이 $\sin\theta$예요.
 
 </S>
 
@@ -180,6 +196,27 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="변위를 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="oscillation-formula" />
+  </Fragment>
+
+앞 화면의 말을 글자로 써 볼게요. 변위는 $y$, 진폭은 $A$, 지난 시간은 $t$, 주기는 9강의 $T$예요.
+
+<S n={2}>
+
+먼저 $t \div T$로 몇 바퀴째인지 구하고 360°를 곱해 각도로 바꿔요. 그 각도의 사인에 진폭 $A$를 곱하면 변위 $y$예요.
+
+</S>
+
+<S n={3}>
+
+$t$가 $T$만큼 지나면 각도가 360°, 한 바퀴라서 변위가 처음으로 돌아오고 진동이 되풀이돼요.
+
+</S>
+
+</Screen>
+
 <Screen kind="step" title="원을 안 도는데 각도">
   <Fragment slot="visual">
     <Panels panels={[
@@ -203,11 +240,11 @@ status: published
 
 <Numeric id="q12-y" answer={2.83} tol={0.03} unit="cm">
 
-진폭 4 cm, 주기 8초로 진동하는 추가 가운데 높이에서 위로 출발했어요. 1초 뒤 추의 변위는 몇 cm일까요? (sin 45° ≈ 0.71)
+진폭 4 cm, 주기 8초로 진동하는 추가 가운데 높이에서 위로 출발했어요. 1초 뒤 추의 변위는 몇 cm일까요? ($\sin 45^\circ \approx 0.71$)
 
 <Fragment slot="solution">
 
-돈 각도는 360° × 1 ÷ 8 = 45°예요. 변위는 4 × sin 45° ≈ 4 × 0.71 ≈ 2.8 cm예요.
+돈 각도는 360° × 1 ÷ 8 = 45°예요. 변위는 $4 \times \sin 45^\circ \approx 4 \times 0.71 \approx 2.8\,\mathrm{cm}$예요.
 
 </Fragment>
 </Numeric>
@@ -329,10 +366,19 @@ A에서 파장 하나 떨어진 B는 정확히 한 주기 늦어서 A와 박자�
 
 <Fragment slot="solution">
 
-55 + 50 × sin θ = 80이니까 sin θ = 0.5, θ = 30°예요. 30°는 한 바퀴의 12분의 1이라서 20분 ÷ 12 = 1분 40초, 그러니까 100초예요.
+$55 + 50 \times \sin\theta = 80$이니까 $\sin\theta = 0.5$, $\theta = 30^\circ$예요. 30°는 한 바퀴의 12분의 1이라서 20분 ÷ 12 = 1분 40초, 그러니까 100초예요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="사인과 위상, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="sine-idea" />
+  </Fragment>
+
+원, 사인 곡선, 진동, 위상이 하나로 이어진다는 게 오늘의 줄기예요. 카드의 네 단계로 다시 따라가 보세요.
 
 </Screen>
 
@@ -342,8 +388,8 @@ A에서 파장 하나 떨어진 B는 정확히 한 주기 늦어서 A와 박자�
 
 <Recap terms={['sine', 'phase']}>
 
-1. 일정하게 도는 원운동을 옆에서 보면 진동이 되고, 돈 각도에 따른 높이가 sin θ예요.
-2. 진동은 한 주기에 원을 한 바퀴 도는 셈이라서, 변위 = 진폭 × sin(360° × 시간 ÷ 주기)로 적어요.
+1. 일정하게 도는 원운동을 옆에서 보면 진동이 되고, 돈 각도에 따른 높이가 $\sin\theta$예요.
+2. 진동은 한 주기에 원을 한 바퀴 도는 셈이라서, 변위 $y = A\sin(360^\circ \times t \div T)$로 적어요.
 3. 원 위에서 어디쯤 왔는지를 각도로 적은 게 위상이고, 두 진동의 위상 차이가 박자 차이예요.
 4. 위상 차이 0°면 변위를 더해 2배, 180°면 더해 0이 돼요.
 

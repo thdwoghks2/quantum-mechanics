@@ -16,6 +16,7 @@ sources:
   - "Farkas, I., Helbing, D. & Vicsek, T. Mexican waves in an excitable medium, Nature 419, 131–132 (2002)"
 testout: [q10-medium, q10-graph, q10-energy]
 status: published
+symbols: {}
 ---
 
 <Screen kind="recall" from={9} title="줄 흔들기">
@@ -258,10 +259,22 @@ status: published
 
 <Screen kind="step" title="닮은 두 그래프">
   <Fragment slot="visual">
-    <Panels panels={[
-      { big: '가로축이 위치', caption: '한 순간의 줄 모양이에요' },
-      { big: '가로축이 시간', caption: '점 하나가 움직인 기록이에요', tone: 'accent' },
-    ]} />
+    <div style="display:grid;gap:4px;width:100%;max-width:520px">
+      <Plot
+        alt="위: 가로축이 줄 위의 위치인 그래프. 한 순간의 줄 모양"
+        x={[0, 2]} y={[-2.4, 2.4]} height={190}
+        xLabel="줄 위의 위치 (m) → 한 순간의 줄 모양" yLabel="변위 (cm)" xq="space" yq="space"
+        xTicks={[0, 0.5, 1, 1.5, 2]} yTicks={[-2, 0, 2]}
+        curves={[{ fn: '2 * sin(2 * PI * x / 0.8)', q: 'space' }]}
+      />
+      <Plot
+        alt="아래: 가로축이 시간인 그래프. 줄 위 점 하나가 시간에 따라 움직인 기록"
+        x={[0, 2]} y={[-2.4, 2.4]} height={190}
+        xLabel="시간 (s) → 점 하나의 기록" yLabel="변위 (cm)" xq="time" yq="space"
+        xTicks={[0, 0.5, 1, 1.5, 2]} yTicks={[-2, 0, 2]}
+        curves={[{ fn: '2 * sin(2 * PI * x / 0.5)', q: 'time' }]}
+      />
+    </div>
   </Fragment>
 
 <Note>
@@ -355,6 +368,15 @@ status: published
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="파동, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="wave-idea" />
+  </Fragment>
+
+오늘의 생각을 한 장에 모았어요. 무엇이 멀리 가고 무엇이 제자리에 있는지가 핵심이에요.
 
 </Screen>
 

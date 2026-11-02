@@ -76,7 +76,18 @@ for (const f of formulaList) {
     for (const k of texKeys(t)) if (!resolveKey(k, f.symbols)) err('formulas.yaml', `${f.id}: 식의 '${k.key}'가 무슨 기호인지 symbols에 없다`);
   }
 }
+// 카드의 글도 용어 계약을 따른다: 처음 보여 주는 강(taughtIn)보다 뒤에 배우는 용어를 쓰면 안 된다.
+function cardContract(where, n, texts) {
+  const usable = glossary.filter((g) => !(g.previewIn ?? []).includes(n));
+  const text = texts.filter(Boolean).join('\n').replace(/\$[^$]*\$/g, ' ');
+  for (const v of contractViolations(text, n, usable)) err(where, `'${v.surface}'은 ${v.taughtIn}강에서 배우는데, 카드는 ${n}강에서 보여 준다`);
+}
+for (const f of formulaList) {
+  cardContract(`formulas.yaml: ${f.id}`, f.taughtIn, [f.name, f.read, f.says, f.holds, f.fails, f.example?.note, ...(f.build ?? []).map((b) => b.note)]);
+}
+for (const x of symbolList) cardContract(`symbols.yaml: ${x.id}`, x.taughtIn, [x.name, x.meaning, x.unit, x.value, x.origin]);
 for (const c of conceptList) {
+  cardContract(`concepts.yaml: ${c.id}`, c.taughtIn, [c.name, c.core, c.why, ...c.steps, ...(c.wrong ?? []).flatMap((w) => [w.wrong, w.right])]);
   for (const t of c.terms ?? []) if (!gById.has(t)) err('concepts.yaml', `${c.id}: 용어 '${t}'가 용어집에 없다`);
   for (const f of c.formulas ?? []) if (!fById.has(f)) err('concepts.yaml', `${c.id}: 공식 '${f}'가 없다`);
 }
@@ -203,7 +214,11 @@ for (const { file, fm, body, fmLines } of lessons) {
       if (x && x.taughtIn === n && x.kind !== 'unit' && !shown.has(id)) err(file, `기호 '${x.name}'(${id})는 이 강에서 처음 배우는데, 공식 카드나 기호 표(<SymTable ids={['${id}']} />)로 뜻을 보여 주지 않았다`);
     }
     // $ 밖의 평문 공식: "F = ma", "v = fλ" 같은 꼴
-    const outside = blank(blank(plainBody, /\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g), /\b(?:id|term|name|icon|kind|from|q|xq|yq|alt|fn)="[^"]*"/g);
+    // 그래프 속 글자(Plot의 label, alt, fn)는 그림이라서 평문 공식 검사에서 뺀다.
+    const outside = blank(
+      blank(blank(plainBody, /\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g), /\b(?:id|term|name|icon|kind|from|q|xq|yq|alt|fn)="[^"]*"/g),
+      /\b(?:label|fn): '[^']*'/g,
+    );
     for (const m of outside.matchAll(/(?<![A-Za-z가-힣\-])([A-Za-zλθψΔħν][₀-₉ₙ]?(?:\s?[×·]?\s?[A-Za-zλθψħν][₀-₉²³]?){0,3})\s?=\s?(?=[A-Za-z0-9½λθψΔħν(√−-])/g)) {
       const line = outside.slice(0, m.index).split('\n').length + fmLines;
       err(`${file}:${line}`, `평문 공식 "${outside.slice(m.index, m.index + 14).trim()}…"은 $…$로 쓴다`);

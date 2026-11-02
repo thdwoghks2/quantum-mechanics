@@ -160,3 +160,107 @@
     note: 멈춰 있던 어른과 아이가 서로 밀면, 민 뒤에도 운동량의 합은 0이에요.
   holds: 튕기는 충돌, 달라붙는 충돌 모두에서 맞아요. 운동 에너지의 합은 달라붙으면 줄지만, 운동량의 합은 그대로예요.
   taughtIn: 7
+
+- id: frequency-period
+  name: 진동수와 주기
+  tex: 'f = \dfrac{1}{T}'
+  read: 진동수 = 1 ÷ 주기
+  says: 한 번에 걸리는 시간이 짧을수록 1초에 더 많이 진동해요. 주기와 진동수는 서로 뒤집은 값이에요.
+  symbols: { f: frequency-f, T: period-T }
+  example:
+    tex: 'f = \dfrac{1}{0.5\,\mathrm{s}} = 2\,\mathrm{Hz}'
+    note: 한 번 오가는 데 0.5초 걸리면 1초에 두 번 오가요.
+  holds: 같은 모양이 되풀이되는 진동이면 무엇이든 맞아요.
+  taughtIn: 9
+
+- id: wave-speed-formula
+  name: 파동의 속력
+  tex: 'v = f\lambda'
+  read: 파동의 속력 = 진동수 × 파장
+  says: 한 주기 동안 파동은 파장 하나만큼 나아가요. 그래서 1초 동안 나아가는 거리는 1초에 진동하는 횟수 × 파장이에요.
+  symbols: { v: velocity-v, f: frequency-f, lambda: wavelength-lambda, T: period-T }
+  example:
+    tex: '\lambda = \dfrac{v}{f} = \dfrac{340\,\mathrm{m/s}}{440\,\mathrm{Hz}} \approx 0.77\,\mathrm{m}'
+    note: 피아노 '라' 음이 공기 속에서 만드는 파장이에요.
+  holds: 매질이 정하는 속력 $v$는 그대로이고, 진동수 $f$는 소리를 내는 물체가 정해요. 매질이 바뀌면 $f$는 그대로, $v$와 $\lambda$가 바뀌어요.
+  build:
+    - { tex: 'v = \dfrac{\lambda}{T}', note: '한 주기 $T$ 동안 파장 $\lambda$만큼 나아가니까, 속력은 파장 ÷ 주기예요.' }
+    - { tex: 'v = \lambda \times \dfrac{1}{T}', note: '나누기를 곱하기로 바꿔 써요.' }
+    - { tex: 'v = f\lambda', note: '9강에서 $\dfrac{1}{T}$은 진동수 $f$였어요. 그래서 속력 = 진동수 × 파장이에요.' }
+  taughtIn: 11
+
+- id: oscillation-formula
+  name: 진동하는 물체의 변위
+  tex: 'y = A \sin\!\left(360^\circ \times \dfrac{t}{T}\right)'
+  read: 변위 = 진폭 × sin(360° × 지난 시간 ÷ 주기)
+  says: 원을 일정하게 도는 점의 높이처럼, 진동하는 물체의 변위도 사인 곡선을 따라요. 한 주기가 지나면 360°, 한 바퀴를 돈 셈이에요.
+  symbols: { y: displacement-y, A: amplitude-A, t: time-t, T: period-T }
+  example:
+    tex: 'y = 5\,\mathrm{cm} \times \sin\!\left(360^\circ \times \dfrac{0.5\,\mathrm{s}}{2\,\mathrm{s}}\right) = 5\,\mathrm{cm} \times \sin 90^\circ = 5\,\mathrm{cm}'
+    note: 진폭 5 cm, 주기 2초인 진동은 0.5초 뒤에 가장 높이 올라가요.
+  holds: 가운데에서 위로 출발한 진동이에요. 다른 자리에서 출발하면 각도에 위상(12강)을 더해요.
+  build:
+    - { tex: '360^\circ \times \dfrac{t}{T}', note: '먼저 지금까지 몇 바퀴째인지를 각도로 바꿔요. 한 주기 $T$가 지나면 360°예요.' }
+    - { tex: '\sin\!\left(360^\circ \times \dfrac{t}{T}\right)', note: '그 각도의 사인은 반지름 1인 원 위에서의 높이예요. −1과 1 사이예요.' }
+    - { tex: 'y = A \sin\!\left(360^\circ \times \dfrac{t}{T}\right)', note: '반지름 대신 진폭 $A$를 곱하면 실제 변위 $y$가 돼요.' }
+  taughtIn: 12
+
+- id: double-slit-formula
+  name: 이중 슬릿의 밝은 줄
+  tex: 'd \sin\theta = m\lambda'
+  read: 슬릿 간격 × sin(각도) = 번호 × 파장
+  says: 두 슬릿에서 온 빛의 경로차가 파장의 정수배(0배, 1배, 2배 …)인 곳에서 두 빛이 같은 위상으로 만나 밝은 줄이 생겨요.
+  symbols: { d: slit-d, theta: angle-theta, m: order-m, lambda: wavelength-lambda, L: screen-L, y: screen-y, Delta: delta }
+  example:
+    tex: '\Delta y = \dfrac{\lambda L}{d} = \dfrac{532 \times 10^{-9}\,\mathrm{m} \times 1.5\,\mathrm{m}}{0.2 \times 10^{-3}\,\mathrm{m}} \approx 4.0\,\mathrm{mm}'
+    note: 초록 레이저(532 nm)로 만든 무늬의 간격이에요. 화면이 멀면 이웃한 밝은 줄 사이가 $\lambda L \div d$예요.
+  holds: 화면이 슬릿보다 아주 멀고 각도가 작을 때 $\sin\theta \approx y \div L$로 바꿔 써요.
+  build:
+    - { tex: 'd \sin\theta', note: '화면의 한 점까지 두 슬릿에서 온 빛의 경로차예요.' }
+    - { tex: 'd \sin\theta = m\lambda', note: '경로차가 파장의 $m$배(정수배)면 같은 위상으로 만나 밝아져요. $m$은 밝은 줄의 번호예요.' }
+    - { tex: 'y_m = \dfrac{m \lambda L}{d}', note: '각도가 아주 작으면 $\sin\theta \approx y \div L$이라서, $m$번째 밝은 줄은 가운데에서 이만큼 떨어져 있어요.' }
+  taughtIn: 16
+
+- id: light-wave-formula
+  name: 빛의 진동수와 파장
+  tex: 'c = f\lambda'
+  read: 빛의 속력 = 진동수 × 파장
+  says: 진공에서 모든 빛은 같은 속력 $c$로 가니까, 파장을 알면 진동수를, 진동수를 알면 파장을 구할 수 있어요.
+  symbols: { c: light-speed-c, f: frequency-f, lambda: wavelength-lambda }
+  example:
+    tex: 'f = \dfrac{c}{\lambda} = \dfrac{3 \times 10^8\,\mathrm{m/s}}{5 \times 10^{-7}\,\mathrm{m}} = 6 \times 10^{14}\,\mathrm{Hz}'
+    note: 파장 500 nm인 초록빛은 1초에 600조 번 진동해요.
+  holds: 진공(공기도 거의 같아요)에서 맞아요. 물이나 유리 속에서는 빛이 느려져서 $c$ 대신 그 속에서의 속력을 써요.
+  taughtIn: 17
+
+- id: standing-wave-formula
+  name: 줄의 진동 모드
+  tex: 'f_n = n\,\dfrac{v}{2L}'
+  read: n번째 모드의 진동수 = 번호 × (줄 위 파동의 속력 ÷ 줄 길이의 2배)
+  says: 양 끝이 묶인 줄에는 반 파장이 1개, 2개, 3개 … 들어가는 모양만 남아요. 그래서 진동수도 기본 진동의 1배, 2배, 3배 …만 나와요.
+  symbols: { f: frequency-f, n: mode-n, v: velocity-v, L: string-L, lambda: wavelength-lambda }
+  example:
+    tex: 'f_1 = \dfrac{143\,\mathrm{m/s}}{2 \times 0.65\,\mathrm{m}} = 110\,\mathrm{Hz}'
+    note: 기타의 다섯째 줄(라, 110 Hz)의 기본 진동이에요.
+  holds: 양 끝이 묶이고 줄 위 파동의 속력이 일정할 때 맞아요.
+  build:
+    - { tex: '\lambda_n = \dfrac{2L}{n}', note: '길이 $L$에 반 파장이 $n$개 들어가니까, 파장은 $2L \div n$이에요.' }
+    - { tex: 'f_n = \dfrac{v}{\lambda_n}', note: '11강의 $v = f\lambda$를 진동수에 대해 바꿔 써요.' }
+    - { tex: 'f_n = n\,\dfrac{v}{2L}', note: '파장을 넣으면 진동수는 기본 진동 $\dfrac{v}{2L}$의 $n$배예요.' }
+  taughtIn: 20
+
+- id: coulomb-formula
+  name: 쿨롱 법칙 (비례 관계)
+  tex: 'F \propto \dfrac{q_1\,q_2}{r^2}'
+  read: 전기력은 두 전하의 곱에 비례하고, 거리의 제곱에 반비례해요
+  says: 전하가 클수록 힘이 세고, 멀어질수록 빠르게 약해져요. 거리가 2배면 힘은 4분의 1이에요.
+  symbols: { F: force-F, q: charge-q, r: separation-r }
+  example:
+    tex: '\dfrac{F_{\text{거리 }3}}{F_{\text{거리 }1}} = \dfrac{1}{3^2} = \dfrac{1}{9}'
+    note: 거리를 3배로 늘리면 힘은 9분의 1이 돼요.
+  holds: $\propto$는 '비례한다'는 기호예요. 정확한 값을 구하려면 앞에 상수 하나를 곱해요(쿨롱 상수, 약 9 × 10⁹ N·m²/C²).
+  build:
+    - { tex: 'F \propto q_1\,q_2', note: '두 전하 $q_1$, $q_2$가 클수록 힘이 세요. 한쪽이 2배면 힘도 2배예요. 아래 작은 숫자는 첫째, 둘째라는 이름표예요.' }
+    - { tex: 'F \propto \dfrac{1}{r^2}', note: '거리 $r$이 2배면 힘은 $2^2 = 4$분의 1이에요. 거리의 제곱에 반비례해요.' }
+    - { tex: 'F \propto \dfrac{q_1\,q_2}{r^2}', note: '둘을 합치면 쿨롱 법칙이에요. $\propto$는 "비례한다"는 기호예요.' }
+  taughtIn: 18

@@ -16,6 +16,7 @@ sources:
   - "Hecht, E. Optics (5th ed.), Ch. 9: Interference"
 testout: [q14-type, q14-more, q14-freq]
 status: published
+symbols: { lambda: wavelength-lambda, v: velocity-v, f: frequency-f }
 ---
 
 <Screen kind="scene" title="웅덩이와 비눗방울">
@@ -189,7 +190,7 @@ B에서 온 물결은 1 m를 더 지나왔어요. 12강에서 본 것처럼 파�
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
-공기 중에서 340 Hz 소리의 파장은 11강의 v = fλ로 1 m예요. 두 스피커에서 같은 거리에 있는 자리 '가'에서는 소리가 커요.
+공기 중에서 340 Hz 소리의 파장은 11강의 $\lambda = v \div f$로 1 m예요. 두 스피커에서 같은 거리에 있는 자리 '가'에서는 소리가 커요.
 
 <S n={2}>
 
@@ -252,10 +253,18 @@ B에서 온 물결은 1 m를 더 지나왔어요. 12강에서 본 것처럼 파�
 
 <Screen kind="step" title="지워진 에너지는">
   <Fragment slot="visual">
-    <Panels panels={[
-      { title: '상쇄 간섭인 곳', big: '잔잔해요', caption: '에너지가 오지 않아요' },
-      { title: '보강 간섭인 곳', big: '진폭 2배', caption: '에너지는 4배', tone: 'accent' },
-    ]} />
+    <Plot
+      alt="진폭과 파동의 에너지. 진폭이 1일 때 에너지를 1로 하면, 진폭 2에서 에너지는 4. 위로 휘는 곡선"
+      x={[0, 2.3]} y={[0, 5]}
+      xLabel="진폭 (파동 하나일 때 = 1)" yLabel="그곳의 에너지 (파동 하나일 때 = 1)" xq="space" yq="energy"
+      xTicks={[0, 1, 2]} yTicks={[0, 1, 2, 3, 4]}
+      curves={[{ fn: 'x * x', q: 'energy' }]}
+      points={[
+        { x: 0, y: 0, label: '상쇄: 진폭 0 → 에너지 0', q: 'energy', dx: 10, dy: -12 },
+        { x: 1, y: 1, label: '파동 하나: 1', q: 'energy' },
+        { x: 2, y: 4, label: '보강: 진폭 2 → 에너지 4', q: 'energy', dx: -150, dy: -10 },
+      ]}
+    />
   </Fragment>
 
 상쇄 간섭에서 파동이 지워지면 그곳의 에너지는 사라진 걸까요? 아니에요, 상쇄되는 곳에서 보강되는 곳으로 옮겨 갈 뿐이에요.
@@ -298,6 +307,15 @@ B에서 온 물결은 1 m를 더 지나왔어요. 12강에서 본 것처럼 파�
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="간섭, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="interference-idea" />
+  </Fragment>
+
+경로차 하나로 어디가 크고 어디가 조용한지 정해져요. 카드의 네 단계를 따라가 보세요.
 
 </Screen>
 

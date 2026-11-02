@@ -17,6 +17,7 @@ sources:
   - "Kinsler, L. E. et al. Fundamentals of Acoustics (4th ed.): 물속 소리 약 1,500 m/s, 강철 약 5,900 m/s"
 testout: [q11-lambda, q11-medium, q11-thunder]
 status: published
+symbols: { v: velocity-v, f: frequency-f, lambda: wavelength-lambda, T: period-T }
 ---
 
 <Screen kind="recall" from={10} title="모든 점의 진동수">
@@ -123,7 +124,28 @@ status: published
 
 <S n={2}>
 
-식으로는 v = fλ예요. v는 속력(m/s), f는 진동수(Hz), λ(람다)는 파장(m)이에요.
+이 관계를 식으로 써 볼게요. 다음 화면에서 한 덩어리씩 쌓아요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="파동의 속력을 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="wave-speed-formula" />
+  </Fragment>
+
+파동의 속력은 $v$, 진동수는 9강의 $f$, 파장은 그리스 문자 $\lambda$로 써요. $\lambda$는 '람다'라고 읽어요.
+
+<S n={2}>
+
+한 주기 $T$ 동안 파장 하나만큼 가니까 $v = \lambda \div T$이고, $1 \div T$이 $f$라서 $v = f\lambda$가 돼요.
+
+</S>
+
+<S n={3}>
+
+$v = f\lambda$는 "속력 = 진동수 × 파장"이라고 읽어요. 단위도 $\mathrm{Hz} \times \mathrm{m} = \mathrm{1/s} \times \mathrm{m} = \mathrm{m/s}$로 맞아요.
 
 </S>
 
@@ -138,7 +160,7 @@ status: published
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
-v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리는 1초에 약 340 m를 가니까, 진동수만 알면 파장을 계산할 수 있어요.
+$v = f\lambda$를 파장에 대해 바꾸면 $\lambda = v \div f$예요. 공기 중에서 소리는 1초에 약 340 m를 가니까, 진동수만 알면 파장을 계산할 수 있어요.
 
 <S n={2}>
 
@@ -162,7 +184,7 @@ v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리
 
 <Fragment slot="solution">
 
-λ = v ÷ f = 340 ÷ 170 = 2 m예요.
+$\lambda = v \div f = 340 \div 170 = 2\,\mathrm{m}$예요.
 
 </Fragment>
 </Numeric>
@@ -191,9 +213,9 @@ v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리
 <Screen kind="check" title="물속으로 들어간 소리">
 
 <Check id="q11-medium" options={[
-  { t: '진동수는 그대로, 파장은 길어져요', ok: true, why: '진동수는 스피커가 정하니까 그대로예요. 물에서 속력이 빨라졌으니 λ = v ÷ f에 따라 파장이 길어져요.' },
+  { t: '진동수는 그대로, 파장은 길어져요', ok: true, why: '진동수는 스피커가 정하니까 그대로예요. 물에서 속력이 빨라졌으니 $\\lambda = v \\div f$에 따라 파장이 길어져요.' },
   { t: '진동수가 커지고, 파장은 그대로예요', why: '물 분자는 공기가 진동하는 대로 따라 진동하니까 1초에 진동하는 횟수는 바뀌지 않아요.' },
-  { t: '진동수도 파장도 그대로예요', why: '속력이 바뀌었는데 진동수와 파장이 둘 다 그대로면 v = fλ가 맞지 않아요.' },
+  { t: '진동수도 파장도 그대로예요', why: '속력이 바뀌었는데 진동수와 파장이 둘 다 그대로면 $v = f\\lambda$가 맞지 않아요.' },
   { t: '진동수는 줄고, 파장은 짧아져요', why: '진동수가 줄면 소리가 낮아져야 하는데, 물속에서 들어도 노래의 음높이는 그대로예요.' },
 ]}>
 
@@ -262,19 +284,26 @@ v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리
 
 </Screen>
 
-<Screen kind="step" title="목소리의 높낮이">
+<Screen kind="graph" title="목소리의 높낮이">
   <Fragment slot="visual">
-    <Panels panels={[
-      { title: '낮은 목소리', big: '약 120 Hz', caption: '파장 약 2.8 m' },
-      { title: '높은 목소리', big: '약 250 Hz', caption: '파장 약 1.4 m', tone: 'accent' },
-    ]} />
+    <Plot
+      alt="공기 속 소리의 진동수와 파장. 진동수가 클수록 파장이 짧아지는 곡선. 120 Hz는 약 2.8 m, 250 Hz는 약 1.4 m"
+      x={[0, 400]} y={[0, 4.5]}
+      xLabel="진동수: 1초에 진동하는 횟수 (Hz)" yLabel="파장 (m)" xq="time" yq="space"
+      xTicks={[0, 100, 200, 300, 400]} yTicks={[0, 1, 2, 3, 4]}
+      curves={[{ fn: 'x > 76 ? 340 / x : NaN', q: 'space' }]}
+      points={[
+        { x: 120, y: 2.83, label: '낮은 목소리 120 Hz → 2.8 m', q: 'space' },
+        { x: 250, y: 1.36, label: '높은 목소리 250 Hz → 1.4 m', q: 'space' },
+      ]}
+    />
   </Fragment>
 
 목소리의 높낮이도 진동수예요. 성인 남성의 목소리는 대개 1초에 100~150번, 성인 여성과 아이의 목소리는 200~300번쯤 진동하죠.
 
 <S n={2}>
 
-같은 공기 속에서 두 목소리는 같은 속력으로 귀에 닿아요. 다만 높은 목소리일수록 파장이 짧아요.
+같은 공기 속에서 두 목소리는 같은 속력으로 귀에 닿아요. 그래프처럼 진동수가 2배쯤 큰 높은 목소리는 파장이 절반쯤으로 짧아요.
 
 </S>
 
@@ -306,10 +335,19 @@ v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리
 
 <Fragment slot="solution">
 
-λ = 340 ÷ 50,000 = 0.0068 m = 6.8 mm예요.
+$\lambda = 340 \div 50{,}000 = 0.0068\,\mathrm{m} = 6.8\,\mathrm{mm}$예요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="속력, 진동수, 파장, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="wave-speed-idea" />
+  </Fragment>
+
+세 양이 어떻게 묶여 있는지 한 장에 모았어요. 누가 무엇을 정하는지가 핵심이에요.
 
 </Screen>
 
@@ -320,7 +358,7 @@ v = fλ를 파장에 대해 바꾸면 λ = v ÷ f예요. 공기 중에서 소리
 <Recap terms={['wavelength', 'wave-speed']}>
 
 1. 한 순간의 줄 모양은 일정한 거리마다 되풀이되고, 그 거리가 파장이에요.
-2. 한 주기 동안 파동은 파장 하나만큼 나아가니까, 속력 = 진동수 × 파장(v = fλ)이에요.
+2. 한 주기 동안 파동은 파장 하나만큼 나아가니까, 속력 = 진동수 × 파장($v = f\lambda$)이에요.
 3. 속력은 매질이, 진동수는 파동을 만드는 쪽이 정해요.
 4. 그래서 같은 매질에서는 진동수가 높을수록 파장이 짧아요.
 

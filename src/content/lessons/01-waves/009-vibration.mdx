@@ -17,6 +17,7 @@ sources:
   - "Huygens, C. Horologium (1658): 진자시계"
 testout: [q9-period, q9-amp, q9-mass]
 status: published
+symbols: { f: frequency-f, T: period-T }
 ---
 
 <Screen kind="scene" title="되풀이되는 움직임">
@@ -177,19 +178,42 @@ status: published
 
 </Screen>
 
-<Screen kind="step" title="주기와 진동수 구별하기">
+<Screen kind="step" title="주기와 진동수를 식으로">
   <Fragment slot="visual">
-    <Panels panels={[
-      { big: '주기', title: '한 번에 몇 초', caption: '단위는 초(s)예요' },
-      { big: '진동수', title: '1초에 몇 번', caption: '단위는 헤르츠(Hz)예요', tone: 'accent' },
-    ]} />
+    <Formula id="frequency-period" />
+  </Fragment>
+
+주기는 $T$, 진동수는 $f$로 써요. 둘 다 시간과 관련된 양이라 같은 파란색으로 칠했어요.
+
+<S n={2}>
+
+$f = \dfrac{1}{T}$은 "1을 주기로 나누면 진동수"라는 뜻이에요. 앞 화면의 그네, 심장, 피아노 줄이 모두 이 식을 따라요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="주기와 진동수 구별하기">
+  <Fragment slot="visual">
+    <Plot
+      alt="주기와 진동수의 그래프. 주기가 짧을수록 진동수가 커지는 곡선. 0.5초면 2 Hz, 3초면 약 0.33 Hz"
+      x={[0, 3.2]} y={[0, 4.5]}
+      xLabel="주기: 한 번에 몇 초 (s)" yLabel="진동수: 1초에 몇 번 (Hz)" xq="time" yq="time"
+      xTicks={[0, 1, 2, 3]} yTicks={[0, 1, 2, 3, 4]}
+      curves={[{ fn: 'x > 0.22 ? 1 / x : NaN', q: 'time' }]}
+      points={[
+        { x: 0.5, y: 2, label: '추 0.5초 → 2 Hz', q: 'time' },
+        { x: 0.83, y: 1.2, label: '심장 0.83초 → 1.2 Hz', q: 'time' },
+        { x: 3, y: 0.333, label: '그네 3초 → 0.33 Hz', q: 'time', dx: -120, dy: -12 },
+      ]}
+    />
   </Fragment>
 
 <Note>
 
 저는 주기와 진동수가 자꾸 헷갈려서 단위로 구별해요. 초로 적혀 있으면 주기, Hz로 적혀 있으면 진동수예요.
 
-그리고 빨리 오갈수록 주기는 짧아지고 진동수는 커져요.
+그래프에서 보듯 빨리 오갈수록(주기가 짧을수록) 진동수는 커져요. 곧은 선이 아니라 곡선이라서, 주기가 절반이 되면 진동수는 2배가 돼요.
 
 </Note>
 
@@ -338,6 +362,15 @@ status: published
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="진동, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="vibration-idea" />
+  </Fragment>
+
+오늘 본 진동을 네 단계로 정리했어요. 다음 강에서는 이 흔들림이 옆으로 옮겨 가는 모습을 봐요.
 
 </Screen>
 

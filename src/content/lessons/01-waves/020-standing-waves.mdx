@@ -17,6 +17,7 @@ sources:
   - "Fletcher, N. H. & Rossing, T. D. The Physics of Musical Instruments (2nd ed.)"
 testout: [q20-half, q20-touch, q20-guitar]
 status: published
+symbols: { L: string-L, n: mode-n, v: velocity-v, f: frequency-f, lambda: wavelength-lambda }
 ---
 
 <Screen kind="scene" title="정해진 음만 나요">
@@ -180,25 +181,46 @@ status: published
 
 <Screen kind="worked" title="진동수는 정수배">
   <Fragment slot="visual">
-    <DataTable caption="길이 L인 줄의 진동 모드 (줄 위 파동의 속력 v)" head={['모드', '줄에 들어간 반 파장', '파장', '진동수 = v ÷ 파장']} rows={[
-      ['첫째', '1개', '2L', 'v ÷ 2L'],
-      ['둘째', '2개', 'L', '2 × (v ÷ 2L)'],
-      ['셋째', '3개', '2L ÷ 3', '3 × (v ÷ 2L)'],
-      ['n번째', 'n개', '2L ÷ n', 'n × (v ÷ 2L)'],
+    <DataTable caption="길이 $L$인 줄의 진동 모드 (줄 위 파동의 속력 $v$)" head={['모드', '줄에 들어간 반 파장', '파장', '진동수 = $v$ ÷ 파장']} rows={[
+      ['첫째', '1개', '$2L$', '$v \\div 2L$'],
+      ['둘째', '2개', '$L$', '$2 \\times (v \\div 2L)$'],
+      ['셋째', '3개', '$2L \\div 3$', '$3 \\times (v \\div 2L)$'],
+      ['$n$번째', '$n$개', '$2L \\div n$', '$n \\times (v \\div 2L)$'],
     ]} steps={[undefined, 2, 2, 3]} />
   </Fragment>
 
-반 파장 n개가 길이 L에 들어가니까 파장은 λ = 2L ÷ n이에요. 첫째 모드의 파장은 줄 길이의 2배죠.
+반 파장 $n$개가 길이 $L$에 들어가니까 파장은 $\lambda = 2L \div n$이에요. 첫째 모드의 파장은 줄 길이의 2배죠.
 
 <S n={2}>
 
-한 줄 위에서 파동의 속력 v는 정해져 있어요(11강). 그러니 진동수는 f = v ÷ λ = n × (v ÷ 2L)이고, 둘째 모드는 첫째의 2배, 셋째는 3배예요.
+한 줄 위에서 파동의 속력 $v$는 정해져 있어요(11강). 그러니 진동수는 $f = v \div \lambda = n \times (v \div 2L)$이고, 둘째 모드는 첫째의 2배, 셋째는 3배예요.
 
 </S>
 
 <S n={3}>
 
 그래서 양 끝이 고정된 줄은 첫째 모드 진동수의 정수배로만 떨어요. 그 사이의 진동수는 없어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="진동 모드를 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="standing-wave-formula" />
+  </Fragment>
+
+표의 마지막 줄을 식으로 쓰면 이래요. $L$은 줄의 길이, $n$은 반 파장이 몇 개 들어갔는지 센 모드 번호예요.
+
+<S n={2}>
+
+$f_n$의 아래 작은 $n$은 "$n$번째 모드의"라는 이름표라서, $n$에 1, 2, 3을 넣으면 기본 진동과 배음들이 나와요.
+
+</S>
+
+<S n={3}>
+
+16강의 $L$은 화면까지 거리였지만, 여기서는 줄의 길이예요. 글자를 누르면 이 강에서의 뜻이 나와요.
 
 </S>
 
@@ -243,7 +265,7 @@ status: published
 
 <S n={2}>
 
-n번째 모드는 마디가 양 끝을 포함해 n + 1개이고, 기본 진동보다 n배 빠르게 흔들려요. "섞기"는 실제로 퉁긴 줄에 더 가까운데, 복잡해 보여도 정해진 모드 몇 개의 합이에요.
+$n$번째 모드는 마디가 양 끝을 포함해 $n + 1$개이고, 기본 진동보다 $n$배 빠르게 흔들려요. "섞기"는 실제로 퉁긴 줄에 더 가까운데, 복잡해 보여도 정해진 모드 몇 개의 합이에요.
 
 </S>
 
@@ -253,8 +275,8 @@ n번째 모드는 마디가 양 끝을 포함해 n + 1개이고, 기본 진동�
   <Fragment slot="visual">
     <DataTable caption="기타 5번 줄 (떨리는 길이 0.65 m)" head={['', '계산', '결과']} rows={[
       ['그냥 퉁긴 음 (라, A2)', '기본 진동수', '110 Hz'],
-      ['줄 위 파동의 속력', 'v = 2L × f = 2 × 0.65 × 110', '약 143 m/s'],
-      ['12번 칸을 짚음 (길이 절반)', 'f = v ÷ (2 × 0.325)', '220 Hz'],
+      ['줄 위 파동의 속력', '$v = 2L \\times f = 2 \\times 0.65 \\times 110$', '약 143 m/s'],
+      ['12번 칸을 짚음 (길이 절반)', '$f = v \\div (2 \\times 0.325)$', '220 Hz'],
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
@@ -262,7 +284,7 @@ n번째 모드는 마디가 양 끝을 포함해 n + 1개이고, 기본 진동�
 
 <S n={2}>
 
-f = v ÷ 2L을 거꾸로 쓰면, 이 줄 위 파동의 속력은 v = 2 × 0.65 × 110 ≈ 143 m/s예요.
+$f = v \div 2L$을 거꾸로 쓰면, 이 줄 위 파동의 속력은 $v = 2 \times 0.65 \times 110 \approx 143\,\mathrm{m/s}$예요.
 
 </S>
 
@@ -362,10 +384,19 @@ f = v ÷ 2L을 거꾸로 쓰면, 이 줄 위 파동의 속력은 v = 2 × 0.65 �
 
 <Fragment slot="solution">
 
-기본 진동은 파장이 줄 길이의 2배라서 f = v ÷ 2L이에요. L = v ÷ 2f = 143 ÷ 330 ≈ 0.433 m = 43.3 cm예요.
+기본 진동은 파장이 줄 길이의 2배라서 $f = v \div 2L$이에요. $L = v \div 2f = 143 \div 330 \approx 0.433\,\mathrm{m} = 43.3\,\mathrm{cm}$예요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="정상파, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="standing-wave-idea" />
+  </Fragment>
+
+'정해진 값만 남는다'는 오늘의 생각은 이 책 뒤쪽에서 원자를 설명할 때 다시 쓰여요. 카드로 한 번 더 정리해 두세요.
 
 </Screen>
 

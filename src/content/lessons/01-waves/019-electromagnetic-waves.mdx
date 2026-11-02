@@ -19,6 +19,7 @@ sources:
   - "Röntgen, W. C. Über eine neue Art von Strahlen (1895)"
 testout: [q19-vacuum, q19-phone, q19-order]
 status: published
+symbols: { c: light-speed-c, f: frequency-f, lambda: wavelength-lambda }
 ---
 
 <Screen kind="recall" from={18} title="떨어져도 미는 힘">
@@ -158,7 +159,7 @@ status: published
     ]} highlight={[2]} />
   </Fragment>
 
-헤르츠가 만든 파동과 빛은 진동수만 다른 같은 종류의 파동이에요. 진동수에 따라 이름이 다를 뿐, 모두 진공에서 c로 가요.
+헤르츠가 만든 파동과 빛은 진동수만 다른 같은 종류의 파동이에요. 진동수에 따라 이름이 다를 뿐, 모두 진공에서 빛의 속력 $c$로 가요.
 
 <S n={2}>
 
@@ -230,14 +231,14 @@ X선은 살은 대부분 지나가고 뼈에는 더 많이 막혀요. 그래서 
 
 <Screen kind="worked" title="전파의 파장">
   <Fragment slot="visual">
-    <DataTable caption="파장 = c ÷ 진동수" head={['전파', '진동수', '파장']} rows={[
+    <DataTable caption="파장 = $c$ ÷ 진동수" head={['전파', '진동수', '파장']} rows={[
       ['FM 라디오', '89.1 MHz', '약 3.4 m'],
       ['와이파이', '2.4 GHz', '약 12.5 cm'],
       ['전자레인지', '2.45 GHz', '약 12.2 cm'],
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
-전자기파도 c = fλ를 따라요. 메가(M)는 10⁶, 기가(G)는 10⁹이니까, FM 89.1 MHz의 파장은 3 × 10⁸ ÷ (8.91 × 10⁷) ≈ 3.4 m예요.
+전자기파도 $c = f\lambda$를 따라요. 메가(M)는 10⁶, 기가(G)는 10⁹이니까, FM 89.1 MHz의 파장은 $3 \times 10^8 \div (8.91 \times 10^7) \approx 3.4\,\mathrm{m}$예요.
 
 <S n={2}>
 
@@ -257,11 +258,11 @@ X선은 살은 대부분 지나가고 뼈에는 더 많이 막혀요. 그래서 
 
 <Numeric id="q19-phone" answer={16.7} tol={0.03} unit="cm">
 
-휴대전화가 쓰는 전파 가운데 1.8 GHz짜리가 있어요. 이 전파의 파장은 몇 cm일까요? (c = 3 × 10⁸ m/s)
+휴대전화가 쓰는 전파 가운데 1.8 GHz짜리가 있어요. 이 전파의 파장은 몇 cm일까요? ($c = 3 \times 10^8\,\mathrm{m/s}$)
 
 <Fragment slot="solution">
 
-λ = c ÷ f = 3 × 10⁸ ÷ (1.8 × 10⁹) ≈ 0.167 m, 약 16.7 cm예요.
+$\lambda = c \div f = 3 \times 10^8 \div (1.8 \times 10^9) \approx 0.167\,\mathrm{m}$, 약 16.7 cm예요.
 
 </Fragment>
 </Numeric>
@@ -309,10 +310,19 @@ X선은 살은 대부분 지나가고 뼈에는 더 많이 막혀요. 그래서 
 
 <Fragment slot="solution">
 
-녹은 자리 사이가 반 파장이니까 파장은 12.2 cm = 0.122 m예요. c = fλ = 2.45 × 10⁹ × 0.122 ≈ 2.99 × 10⁸ m/s로, 실제 빛의 속력과 거의 같아요.
+녹은 자리 사이가 반 파장이니까 파장은 $12.2\,\mathrm{cm} = 0.122\,\mathrm{m}$예요. $c = f\lambda = 2.45 \times 10^9 \times 0.122 \approx 2.99 \times 10^8\,\mathrm{m/s}$로, 실제 빛의 속력과 거의 같아요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="전자기파, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="em-wave-idea" />
+  </Fragment>
+
+리모컨, 라디오, 전자레인지, 햇빛이 모두 같은 파동이라는 게 오늘의 줄기예요.
 
 </Screen>
 
