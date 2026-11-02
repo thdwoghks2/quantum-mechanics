@@ -15,7 +15,8 @@
     "docs:curriculum": "node scripts/curriculum-md.mjs",
     "deploy": "npm run check && npx -y firebase-tools@15.34.2 deploy --only hosting:app",
     "check:screens": "node scripts/screen-fit.mjs",
-    "check:bounds": "node scripts/audit-bounds.mjs"
+    "check:bounds": "node scripts/audit-bounds.mjs",
+    "audit:content": "node scripts/audit-content.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "4.3.14",

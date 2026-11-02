@@ -24,3 +24,139 @@
     - { tex: 'F = m', note: '질량이 클수록 같은 가속도를 내는 데 힘이 더 들어요.' }
     - { tex: 'F = ma', note: '가속도가 클수록 힘이 더 들어요. 힘은 질량과 가속도를 곱한 만큼이에요.' }
   taughtIn: 5
+
+- id: power-of-ten
+  name: 10의 거듭제곱
+  tex: '10^n = \underbrace{10 \times 10 \times \cdots \times 10}_{n\text{번}}'
+  read: 10의 n제곱은 10을 n번 곱한 수
+  says: 지수 $n$이 1 커질 때마다 수는 10배가 돼요. $n$이 음수면 10으로 그만큼 나눈 수예요.
+  symbols: { n: exponent-n }
+  example:
+    tex: '10^3 = 10 \times 10 \times 10 = 1{,}000'
+    note: 1 뒤에 0이 3개 붙어요.
+  holds: $n$은 0이나 음의 정수여도 돼요. $10^0 = 1$, $10^{-2} = 0.01$이에요.
+  taughtIn: 2
+
+- id: exponent-product
+  name: 거듭제곱의 곱셈과 나눗셈
+  tex: '10^n \times 10^k = 10^{n+k}, \quad 10^n \div 10^k = 10^{n-k}'
+  read: 곱하면 지수끼리 더하고, 나누면 지수끼리 빼요
+  says: 10을 $n$번 곱한 수에 10을 $k$번 곱한 수를 곱하면, 10을 모두 $n+k$번 곱한 셈이에요.
+  symbols: { n: exponent-n, k: exponent-k }
+  example:
+    tex: '10^3 \times 10^4 = 10^{3+4} = 10^7'
+    note: 1,000 × 10,000 = 10,000,000이에요.
+  holds: 밑이 같은 거듭제곱끼리만 이렇게 계산해요. $10^3 \times 2^4$는 지수를 더할 수 없어요.
+  build:
+    - { tex: '10^3 \times 10^4', note: '10을 세 번 곱한 수와 네 번 곱한 수를 곱해요.' }
+    - { tex: '10^3 \times 10^4 = 10^{3+4} = 10^7', note: '10을 모두 일곱 번 곱했으니 지수를 더해요.' }
+    - { tex: '10^n \times 10^k = 10^{n+k}', note: '숫자 대신 아무 지수 $n$, $k$로 쓰면 이 규칙이 돼요. 나눗셈은 지수를 빼요.' }
+  taughtIn: 2
+
+- id: speed-formula
+  name: 속력 구하기
+  tex: 'v = \dfrac{d}{t}'
+  read: 속력 = 간 거리 ÷ 걸린 시간
+  says: 1초 동안 간 거리가 속력이에요. 같은 시간에 더 멀리 가면 더 빨라요.
+  symbols: { v: velocity-v, d: distance-d, t: time-t }
+  example:
+    tex: 'v = \dfrac{100\,\mathrm{m}}{9.58\,\mathrm{s}} \approx 10.4\,\mathrm{m/s}'
+    note: 우사인 볼트가 100 m를 달린 평균 속력이에요.
+  holds: 이렇게 구한 값은 그동안의 평균 속력이에요. 어느 한 순간의 속력은 아주 짧은 시간으로 나눠 구해요.
+  taughtIn: 4
+
+- id: acceleration-formula
+  name: 가속도 구하기
+  tex: 'a = \dfrac{v_{\text{나중}} - v_{\text{처음}}}{t}'
+  read: 가속도 = (나중 속도 − 처음 속도) ÷ 걸린 시간
+  says: 1초마다 속도가 얼마나 바뀌는지가 가속도예요. 느려지면 가속도는 음수예요.
+  symbols: { a: acceleration-a, v: velocity-v, t: time-t }
+  example:
+    tex: 'a = \dfrac{25\,\mathrm{m/s} - 0\,\mathrm{m/s}}{5\,\mathrm{s}} = 5\,\mathrm{m/s^2}'
+    note: 멈춰 있던 자동차가 5초 만에 25 m/s가 되면 가속도는 5 m/s²예요.
+  holds: 속도가 고르게 바뀔 때는 어느 구간에서 재도 같은 값이 나와요. 고르지 않으면 그 구간의 평균 가속도예요.
+  build:
+    - { tex: 'v_{\text{나중}} - v_{\text{처음}}', note: '먼저 속도가 얼마나 바뀌었는지 구해요. 나중 속도에서 처음 속도를 빼요.' }
+    - { tex: '\dfrac{v_{\text{나중}} - v_{\text{처음}}}{t}', note: '바뀐 속도를 걸린 시간 $t$로 나누면 1초 동안 바뀐 양이 돼요.' }
+    - { tex: 'a = \dfrac{v_{\text{나중}} - v_{\text{처음}}}{t}', note: '그 값이 가속도 $a$예요. 단위는 m/s ÷ s = m/s²예요.' }
+  taughtIn: 4
+
+- id: kinetic-energy-formula
+  name: 운동 에너지
+  tex: 'E_k = \tfrac{1}{2} m v^2'
+  read: 운동 에너지 = ½ × 질량 × 속력 × 속력
+  says: 질량이 2배면 운동 에너지도 2배지만, 속력이 2배면 4배가 돼요. 속력을 두 번 곱하기 때문이에요.
+  symbols: { E: energy-E, E_k: energy-Ek, m: mass-m, v: velocity-v }
+  example:
+    tex: 'E_k = \tfrac{1}{2} \times 1\,\mathrm{kg} \times (10\,\mathrm{m/s})^2 = 50\,\mathrm{J}'
+    note: 1 kg 공이 10 m/s로 날아갈 때의 운동 에너지예요.
+  holds: 빛보다 아주 느린 물체에서 맞아요. 빛에 가까운 빠르기에서는 100강의 식으로 바꿔야 해요.
+  build:
+    - { tex: 'm', note: '무거울수록 에너지가 많아요. 질량 $m$에 비례해요.' }
+    - { tex: 'm v^2', note: '속력 $v$는 두 번 곱해요. 그래서 2배 빠르면 4배예요.' }
+    - { tex: 'E_k = \tfrac{1}{2} m v^2', note: '앞의 ½은 단위를 J로 맞추고 값을 정확하게 만드는 숫자예요. 질량이나 속력과 상관없이 늘 ½이에요.' }
+  taughtIn: 6
+
+- id: potential-energy-formula
+  name: 위치 에너지 (지표 가까이)
+  tex: 'E_p = m g h'
+  read: 위치 에너지 = 질량 × 중력 가속도 × 높이
+  says: 무거울수록, 높이 있을수록 위치 에너지가 커요. 높이를 2배로 하면 위치 에너지도 2배예요.
+  symbols: { E_p: energy-Ep, m: mass-m, g: gravity-g, h: height-h }
+  example:
+    tex: 'E_p = 0.1\,\mathrm{kg} \times 9.8\,\mathrm{m/s^2} \times 1\,\mathrm{m} \approx 1\,\mathrm{J}'
+    note: 100 g 사과를 1 m 들어 올리면 약 1 J이에요.
+  holds: 지구 표면 가까이, 높이가 지구 크기보다 훨씬 작을 때 맞아요. 높이는 기준으로 정한 곳에서 재요.
+  taughtIn: 6
+
+- id: energy-conservation-formula
+  name: 역학적 에너지 보존 (마찰이 없을 때)
+  tex: 'E_k + E_p = \text{일정}'
+  read: 운동 에너지 + 위치 에너지 = 늘 같은 값
+  says: 내려가면 위치 에너지가 줄고 그만큼 운동 에너지가 늘어요. 둘을 더한 값은 그대로예요.
+  symbols: { E_k: energy-Ek, E_p: energy-Ep, m: mass-m, v: velocity-v, g: gravity-g, h: height-h }
+  example:
+    tex: '\tfrac{1}{2} m v^2 = m g h \;\Rightarrow\; v = \sqrt{2 g h}'
+    note: 멈춘 채 높이 h에서 출발하면, 바닥에서는 위치 에너지가 모두 운동 에너지가 돼요.
+  holds: 마찰이 있으면 일부가 열로 바뀌어서 둘의 합은 줄어요. 열까지 더한 전체 에너지는 그래도 그대로예요.
+  taughtIn: 6
+
+- id: momentum-formula
+  name: 운동량
+  tex: 'p = m v'
+  read: 운동량 = 질량 × 속도
+  says: 무겁고 빠를수록 운동량이 커요. 속도에 방향이 있으니 운동량에도 방향이 있어요.
+  symbols: { p: momentum-p, m: mass-m, v: velocity-v }
+  example:
+    tex: 'p = 0.15\,\mathrm{kg} \times 40\,\mathrm{m/s} = 6\,\mathrm{kg{\cdot}m/s}'
+    note: 강속구로 던진 야구공의 운동량이에요.
+  holds: 빛보다 아주 느린 물체에서 맞아요. 빛에는 질량이 없지만 운동량이 있어요(36강).
+  taughtIn: 7
+
+- id: impulse-formula
+  name: 충격량과 운동량의 변화
+  tex: 'F\,t = m\,\Delta v'
+  read: 힘 × 힘이 작용한 시간 = 질량 × 바뀐 속도
+  says: 힘을 오래 줄수록, 세게 줄수록 운동량이 많이 바뀌어요. 같은 운동량을 바꾸려면 큰 힘을 짧게 주거나 작은 힘을 길게 주면 돼요.
+  symbols: { F: force-F, t: time-t, m: mass-m, v: velocity-v, Delta: delta, a: acceleration-a }
+  example:
+    tex: 'F = \dfrac{6\,\mathrm{kg{\cdot}m/s}}{0.1\,\mathrm{s}} = 60\,\mathrm{N}'
+    note: 6 kg·m/s인 공을 0.1초 만에 멈추면 손이 평균 60 N을 받아요. 0.01초면 600 N이에요.
+  holds: 힘이 바뀌어도 그동안의 평균 힘으로 보면 맞아요.
+  build:
+    - { tex: 'F = m a', note: '5강의 가속도 법칙에서 출발해요.' }
+    - { tex: 'F = m\,\dfrac{\Delta v}{t}', note: '가속도 $a$는 바뀐 속도 $\Delta v$를 걸린 시간 $t$로 나눈 값이에요. $\Delta v$는 한 덩어리로 "바뀐 속도"라고 읽어요.' }
+    - { tex: 'F\,t = m\,\Delta v', note: '양쪽에 $t$를 곱해요. 왼쪽이 충격량, 오른쪽이 운동량이 바뀐 양이에요.' }
+  taughtIn: 7
+
+- id: momentum-conservation-formula
+  name: 운동량 보존
+  tex: 'p_A + p_B = \text{일정}'
+  read: 두 물체의 운동량을 더한 값은 늘 같아요
+  says: 두 물체가 서로 밀거나 부딪혀도, 바깥에서 힘이 들어오지 않으면 운동량의 합은 그대로예요. 한쪽이 얻은 만큼 다른 쪽이 잃어요.
+  symbols: { p: momentum-p }
+  example:
+    tex: '80\,\mathrm{kg} \times (-1\,\mathrm{m/s}) + 40\,\mathrm{kg} \times (+2\,\mathrm{m/s}) = 0'
+    note: 멈춰 있던 어른과 아이가 서로 밀면, 민 뒤에도 운동량의 합은 0이에요.
+  holds: 튕기는 충돌, 달라붙는 충돌 모두에서 맞아요. 운동 에너지의 합은 달라붙으면 줄지만, 운동량의 합은 그대로예요.
+  taughtIn: 7

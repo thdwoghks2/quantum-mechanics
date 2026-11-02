@@ -17,6 +17,7 @@ sources:
   - "도로교통공단: 제동 거리는 속도의 제곱에 비례한다"
 testout: [q6-hill, q6-slide, q6-brake]
 status: published
+symbols: { E_k: energy-Ek, E_p: energy-Ep, E: energy-E, m: mass-m, v: velocity-v, g: gravity-g, h: height-h, F: force-F, a: acceleration-a }
 ---
 
 <Screen kind="recall" from={5} title="엔진 없는 롤러코스터">
@@ -31,7 +32,7 @@ status: published
 
 <S n={2}>
 
-다음 언덕을 넘을지 F = ma로 따지려면 경사가 바뀔 때마다 힘과 가속도를 다시 구해야 해요. 오늘은 그런 계산 없이 답을 내는 방법을 배워요.
+다음 언덕을 넘을지 $F = ma$로 따지려면 경사가 바뀔 때마다 힘과 가속도를 다시 구해야 해요. 오늘은 그런 계산 없이 답을 내는 방법을 배워요.
 
 </S>
 
@@ -117,9 +118,56 @@ status: published
     <Define term="kinetic-energy" />
   </Fragment>
 
-움직이는 물체가 가진 에너지를 **운동 에너지**라고 해요. 식은 ½ × 질량 × 속력²이고, 기호로는 ½mv²로 써요. m은 질량(kg), v는 속력(m/s)이에요.
+움직이는 물체가 가진 에너지를 **운동 에너지**라고 해요. 식은 ½ × 질량 × 속력 × 속력이에요. 다음 화면에서 식을 글자로 쌓아 볼게요.
 
 <Key>운동 에너지는 속력을 두 번 곱해서 구하니까, 질량이 2배면 2배지만 속력이 2배면 4배가 되고, 그래서 2배 빠른 자동차는 멈추는 거리가 4배로 늘어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="운동 에너지를 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="kinetic-energy-formula" />
+  </Fragment>
+
+운동 에너지는 $E_k$로 써요. 큰 글자 E는 에너지, 아래의 작은 글자 k는 '움직임의'라는 이름표예요.
+
+<S n={2}>
+
+질량 $m$을 한 번, 속력 $v$를 두 번 곱하고 절반을 해요. $v^2$은 $v \times v$라는 뜻이고, 그래서 같은 물체가 2배 빠르면 4배가 돼요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="2배 빠르면 4배">
+  <Fragment slot="visual">
+    <Plot
+      alt="질량 1,000 kg 자동차의 속력과 운동 에너지 그래프. 속력이 10 m/s이면 5만 J, 20 m/s이면 20만 J로 4배가 된다. 위로 휘는 곡선"
+      x={[0, 30]} y={[0, 450000]}
+      xLabel="속력 (m/s)" yLabel="운동 에너지 (J)" xq="motion" yq="energy"
+      xTicks={[0, 10, 20, 30]} yTicks={[[0, '0'], [100000, '10만'], [200000, '20만'], [300000, '30만'], [400000, '40만']]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: '0.5 * 1000 * x * x', q: 'energy', step: 2 }]}
+      points={[
+        { x: 10, y: 50000, label: '10 m/s → 5만 J', q: 'energy', step: 3 },
+        { x: 20, y: 200000, label: '20 m/s → 20만 J', q: 'energy', step: 3, dx: -118, dy: -10 },
+      ]}
+    />
+  </Fragment>
+
+1,000 kg 자동차의 속력과 운동 에너지를 그래프로 그려 볼게요. 가로축은 속력, 세로축은 운동 에너지예요.
+
+<S n={2}>
+
+선이 곧지 않고 위로 휘어서, 속력이 커질수록 같은 만큼 빨라져도 에너지가 더 많이 늘어요.
+
+</S>
+
+<S n={3}>
+
+10 m/s에서 5만 J, 20 m/s에서 20만 J이에요. 속력은 2배인데 에너지는 4배라서, 멈추는 데 미끄러지는 거리도 4배가 돼요.
+
+</S>
 
 </Screen>
 
@@ -147,11 +195,26 @@ status: published
     <Define term="potential-energy" />
   </Fragment>
 
-높은 곳에 있어서 가진 에너지를 **위치 에너지**라고 해요. 식은 질량 × 9.8 × 높이이고, 기호로는 mgh로 써요. g는 5강의 9.8 m/s², h는 높이(m)예요.
+높은 곳에 있어서 가진 에너지를 **위치 에너지**라고 해요. 식은 질량 × 9.8 m/s² × 높이예요. 9.8 m/s²는 5강에서 본, 떨어지는 물체가 1초마다 빨라지는 정도예요.
 
 <S n={2}>
 
-무게(mg)가 클수록, 높이(h) 들수록 위치 에너지가 커요. 무거운 걸 높이 들어 올릴수록 힘들었던 경험과 맞죠.
+무거울수록, 높이 들수록 위치 에너지가 커요. 무거운 걸 높이 들어 올릴수록 힘들었던 경험과 맞죠.
+
+</S>
+
+</Screen>
+
+<Screen kind="step" title="위치 에너지를 식으로">
+  <Fragment slot="visual">
+    <Formula id="potential-energy-formula" compact />
+  </Fragment>
+
+위치 에너지는 $E_p$로 써요. 아래의 작은 글자 p는 '잠재된'이라는 이름표예요. 질량 $m$, 높이 $h$, 그리고 9.8 m/s²를 뜻하는 $g$를 곱해요.
+
+<S n={2}>
+
+$g$는 금빛 글자예요. 지구 표면 가까이에서는 늘 같은 값이라서, 변하는 양과 다르게 상수의 색으로 칠했어요.
 
 </S>
 
@@ -181,7 +244,7 @@ status: published
     ]} steps={[undefined, 2, 3]} />
   </Fragment>
 
-질량 500 kg인 차량이 40 m 꼭대기에서 거의 멈춘 채 출발해요. 위치 에너지는 500 × 9.8 × 40 = 196,000 J이고, 운동 에너지는 0이에요.
+질량 500 kg인 차량이 40 m 꼭대기에서 거의 멈춘 채 출발해요. 위치 에너지는 $500 \times 9.8 \times 40 = 196{,}000\,\mathrm{J}$이고, 운동 에너지는 0이에요.
 
 <S n={2}>
 
@@ -191,7 +254,7 @@ status: published
 
 <S n={3}>
 
-바닥에서는 196,000 J이 모두 운동 에너지예요. ½ × 500 × v² = 196,000을 풀면 v = 28 m/s, 약 101 km/h죠.
+바닥에서는 196,000 J이 모두 운동 에너지예요. $\tfrac{1}{2} \times 500 \times v^2 = 196{,}000$을 풀면 $v = 28\,\mathrm{m/s}$, 약 101 km/h죠.
 
 </S>
 
@@ -220,6 +283,21 @@ status: published
 에너지는 모습만 바뀔 뿐 모두 더한 양은 늘지도 줄지도 않아요. 이걸 **에너지 보존** 법칙이라고 해요.
 
 <Key>에너지는 모습만 바뀌고 합은 그대로라서, 경사가 어떻게 생겼는지 몰라도 처음 높이와 지금 높이만 알면 줄어든 위치 에너지만큼 생긴 운동 에너지로 지금의 빠르기를 계산할 수 있어요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="에너지 보존을 식으로">
+  <Fragment slot="visual">
+    <Formula id="energy-conservation-formula" compact />
+  </Fragment>
+
+마찰이 없으면 운동 에너지와 위치 에너지의 합이 늘 같아요. 식으로는 $E_k + E_p$가 일정하다고 써요.
+
+<S n={2}>
+
+멈춘 채 높이 $h$에서 출발하면 바닥에서 $\tfrac{1}{2}mv^2 = mgh$가 돼요. 양쪽의 $m$이 지워지니 속력은 높이만으로 정해져요.
+
+</S>
 
 </Screen>
 
@@ -293,11 +371,11 @@ status: published
 
 <Numeric id="q6-slide" answer={9.9} tol={0.03} unit="m/s">
 
-마찰이 없는 높이 5 m 미끄럼틀 꼭대기에서 출발해요. 바닥에 닿을 때의 속력은 얼마일까요? (g = 9.8 m/s²)
+마찰이 없는 높이 5 m 미끄럼틀 꼭대기에서 출발해요. 바닥에 닿을 때의 속력은 얼마일까요? ($g = 9.8\,\mathrm{m/s^2}$)
 
 <Fragment slot="solution">
 
-위치 에너지 mgh가 모두 운동 에너지 ½mv²가 돼요. 양쪽의 m이 지워지니까 v² = 2gh = 2 × 9.8 × 5 = 98, v ≈ 9.9 m/s예요. 5강에서 무거운 돌과 가벼운 돌이 같은 가속도로 떨어진 것과 같은 까닭으로, 질량은 답에 들어가지 않아요.
+위치 에너지 $mgh$가 모두 운동 에너지 $\tfrac{1}{2}mv^2$가 돼요. 양쪽의 $m$이 지워지니까 $v^2 = 2gh = 2 \times 9.8 \times 5 = 98$, $v \approx 9.9\,\mathrm{m/s}$예요. 5강에서 무거운 돌과 가벼운 돌이 같은 가속도로 떨어진 것과 같은 까닭으로, 질량은 답에 들어가지 않아요.
 
 </Fragment>
 </Numeric>
@@ -344,14 +422,23 @@ status: published
 
 <Numeric id="q6-bottom" answer={31.3} tol={0.02} unit="m/s">
 
-질량 600 kg인 차량이 높이 50 m 꼭대기에서 거의 멈춘 채 출발해요. 마찰이 없다면, 가장 낮은 곳(높이 0 m)에서의 속력은 얼마일까요? (g = 9.8 m/s²)
+질량 600 kg인 차량이 높이 50 m 꼭대기에서 거의 멈춘 채 출발해요. 마찰이 없다면, 가장 낮은 곳(높이 0 m)에서의 속력은 얼마일까요? ($g = 9.8\,\mathrm{m/s^2}$)
 
 <Fragment slot="solution">
 
-½mv² = mgh에서 v = √(2 × 9.8 × 50) = √980 ≈ 31.3 m/s예요. 약 113 km/h죠.
+$\tfrac{1}{2}mv^2 = mgh$에서 $v = \sqrt{2 \times 9.8 \times 50} = \sqrt{980} \approx 31.3\,\mathrm{m/s}$예요. 약 113 km/h죠.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="에너지 보존, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="energy-conservation-idea" />
+  </Fragment>
+
+에너지 보존은 이 책 끝까지 가장 자주 꺼내 쓰는 생각이에요. 앞으로 빛과 별을 다룰 때도 같은 규칙이 지켜져요.
 
 </Screen>
 
@@ -385,7 +472,7 @@ status: published
 </Fragment>
 <Fragment slot="solution">
 
-그대로예요. 위치 에너지 mgh와 운동 에너지 ½mv²가 모두 질량에 비례하니까, 식의 양쪽에서 m이 지워져요.
+그대로예요. 위치 에너지 $mgh$와 운동 에너지 $\tfrac{1}{2}mv^2$가 모두 질량에 비례하니까, 식의 양쪽에서 $m$이 지워져요.
 
 무거운 차량은 에너지가 1.5배 많지만, 같은 속력을 내는 데도 1.5배가 필요해요. 그래서 속력은 높이만으로 정해져요.
 

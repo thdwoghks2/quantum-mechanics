@@ -18,6 +18,7 @@ sources:
   - "물이 끓는 온도와 높이: 약 300 m 올라갈 때마다 약 1 ℃씩 낮아진다는 어림 (표준 대기 기준)"
 testout: [q1-law, q1-predict, q1-model]
 status: published
+symbols: {}
 ---
 
 <Screen kind="scene" title="내일을 미리 아는 일">
@@ -73,15 +74,36 @@ status: published
 
 </Screen>
 
-<Screen kind="step" title="산에서 일찍 끓는 까닭">
+<Screen kind="graph" title="산에서 일찍 끓는 까닭">
   <Fragment slot="visual">
-    <Panels panels={[
-      { big: '공기가 짙어요', caption: '물 위를 꾹 눌러요' },
-      { big: '공기가 옅어요', caption: '덜 눌러서 일찍 끓어요', tone: 'accent' },
-    ]} />
+    <Plot
+      alt="높이에 따라 공기가 누르는 세기. 바닷가를 100으로 하면 한라산 꼭대기는 약 78, 에베레스트 꼭대기는 약 33으로, 높이 올라갈수록 줄어든다"
+      x={[0, 9]} y={[0, 110]}
+      xLabel="바닷가에서 잰 높이 (km)" yLabel="공기가 누르는 세기" xq="space"
+      xTicks={[0, 2, 4, 6, 8]} yTicks={[[0, '0'], [50, '50'], [100, '100']]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: '100 * exp(-x / 8)', q: 'plain', step: 2 }]}
+      points={[
+        { x: 0, y: 100, label: '바닷가 100', step: 2, dy: -10 },
+        { x: 1.947, y: 78, label: '한라산 약 78', step: 3 },
+        { x: 8.849, y: 33, label: '에베레스트 약 33', step: 3, dx: -120, dy: -12 },
+      ]}
+    />
   </Fragment>
 
-왜 그럴까요? 높이 올라갈수록 물 위를 누르는 공기가 옅어지기 때문이에요. 덜 눌린 물은 더 낮은 온도에서도 끓어오를 수 있어요.
+왜 그럴까요? 그래프의 가로축은 바닷가에서 잰 높이, 세로축은 물 위를 누르는 공기의 세기이고, 바닷가를 100으로 놓았어요.
+
+<S n={2}>
+
+높이 올라갈수록 곡선이 내려가요. 위에 있는 공기가 줄어서 누르는 세기가 약해지거든요.
+
+</S>
+
+<S n={3}>
+
+에베레스트 꼭대기에서는 바닷가의 3분의 1쯤밖에 누르지 않으니, 덜 눌린 물이 약 70 ℃에서 끓어올라요.
+
+</S>
 
 </Screen>
 
@@ -429,6 +451,15 @@ status: published
 그 조건 바깥을 설명하려고 새로 세운 물리학이 양자역학이에요. 이 책은 거기까지 같이 가요.
 
 </S>
+
+</Screen>
+
+<Screen kind="step" title="물리학이 하는 일, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="physics-cycle-idea" />
+  </Fragment>
+
+오늘 본 네 단계를 한 장에 모았어요. 137강 동안 이 네 단계가 몇 번이고 되풀이돼요.
 
 </Screen>
 

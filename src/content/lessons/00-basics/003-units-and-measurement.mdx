@@ -18,6 +18,7 @@ sources:
   - "올림픽 규격 수영장: 길이 50 m, 폭 25 m, 깊이 2 m 이상 (World Aquatics 시설 규정)"
 testout: [q3-unit, q3-conv, q3-dim]
 status: published
+symbols: {}
 ---
 
 <Screen kind="scene" title="뼘으로 잰 책상">
@@ -216,9 +217,9 @@ status: published
 <Screen kind="step" title="단위도 계산돼요">
   <Fragment slot="visual">
     <DataTable caption="단위도 계산된다" head={['계산', '수', '단위']} rows={[
-      ['넓이 = 가로 × 세로', '3 × 2 = 6', 'm × m = m²'],
-      ['부피 = 가로 × 세로 × 높이', '3 × 2 × 1 = 6', 'm × m × m = m³'],
-      ['빠르기 = 거리 ÷ 시간', '100 ÷ 10 = 10', 'm ÷ s = m/s'],
+      ['넓이 = 가로 × 세로', '3 × 2 = 6', '$\\mathrm{m} \\times \\mathrm{m} = \\mathrm{m^2}$'],
+      ['부피 = 가로 × 세로 × 높이', '3 × 2 × 1 = 6', '$\\mathrm{m} \\times \\mathrm{m} \\times \\mathrm{m} = \\mathrm{m^3}$'],
+      ['빠르기 = 거리 ÷ 시간', '100 ÷ 10 = 10', '$\\mathrm{m} \\div \\mathrm{s} = \\mathrm{m/s}$'],
     ]} steps={[undefined, undefined, 2]} />
   </Fragment>
 
@@ -226,7 +227,7 @@ status: published
 
 <S n={2}>
 
-100 m를 10초에 달렸다면 빠르기는 100 m ÷ 10 s = 10 m/s예요. m/s는 "1초에 몇 미터"라는 뜻이고, "미터 매 초"라고 읽어요.
+100 m를 10초에 달렸다면 빠르기는 $100\,\mathrm{m} \div 10\,\mathrm{s} = 10\,\mathrm{m/s}$예요. m/s는 "1초에 몇 미터"라는 뜻이고, "미터 매 초"라고 읽어요.
 
 </S>
 
@@ -314,7 +315,7 @@ status: published
 
 <S n={3}>
 
-거리 ÷ 빠르기는 m ÷ m/s = s라서 시간의 단위가 맞아요. 답은 1,000 ÷ 20 = 50초예요.
+거리 ÷ 빠르기는 $\mathrm{m} \div \mathrm{m/s} = \mathrm{s}$라서 시간의 단위가 맞아요. 답은 1,000 ÷ 20 = 50초예요.
 
 </S>
 
@@ -341,9 +342,9 @@ status: published
 <Screen kind="check" title="거리를 구하는 식">
 
 <Check id="q3-dim" options={[
-  { t: '빠르기 × 시간', ok: true, why: 'm/s × s = m라서 거리의 단위가 나와요.' },
-  { t: '빠르기 ÷ 시간', why: 'm/s ÷ s = m/s²라서 거리의 단위가 아니에요.' },
-  { t: '시간 ÷ 빠르기', why: 's ÷ (m/s) = s²/m라서 거리의 단위가 아니에요.' },
+  { t: '빠르기 × 시간', ok: true, why: '$\\mathrm{m/s} \\times \\mathrm{s} = \\mathrm{m}$라서 거리의 단위가 나와요.' },
+  { t: '빠르기 ÷ 시간', why: '$\\mathrm{m/s} \\div \\mathrm{s} = \\mathrm{m/s^2}$라서 거리의 단위가 아니에요.' },
+  { t: '시간 ÷ 빠르기', why: '$\\mathrm{s} \\div \\mathrm{m/s} = \\mathrm{s^2/m}$라서 거리의 단위가 아니에요.' },
   { t: '빠르기 + 시간', why: 'm/s와 s는 단위가 달라서 더할 수 없어요. 사과 3개와 2시간을 더할 수 없는 것과 같아요.' },
 ]}>
 
@@ -384,7 +385,7 @@ status: published
 
 <S n={2}>
 
-넓이는 100 m × 60 m = 6,000 m², 그러니까 6 × 10³ m²예요. 한 걸음을 0.6 m로 잡아도 약 4,400 m²라서 자릿수는 그대로 10³이죠.
+넓이는 $100\,\mathrm{m} \times 60\,\mathrm{m} = 6{,}000\,\mathrm{m^2}$, 그러니까 6 × 10³ m²예요. 한 걸음을 0.6 m로 잡아도 약 4,400 m²라서 자릿수는 그대로 10³이죠.
 
 </S>
 
@@ -402,12 +403,21 @@ status: published
 
 <Fragment slot="solution">
 
-10 cm는 0.1 m라서 1 L = (0.1 m)³ = 10⁻³ m³예요. 한 사람이 1.5 × 10⁻³ m³를 마시고, 사람은 9.4 × 10⁶명이에요. 곱하면 약 1.4 × 10⁴ m³예요.
+10 cm는 0.1 m라서 $1\,\mathrm{L} = (0.1\,\mathrm{m})^3 = 10^{-3}\,\mathrm{m^3}$예요. 한 사람이 1.5 × 10⁻³ m³를 마시고, 사람은 9.4 × 10⁶명이에요. 곱하면 약 1.4 × 10⁴ m³예요.
 
 올림픽 수영장 하나(50 m × 25 m × 2 m)가 2,500 m³이니까, 수영장 대여섯 개를 채울 만큼이에요.
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="단위로 검산하기, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="unit-check-idea" />
+  </Fragment>
+
+단위 검산은 앞으로 137강 내내 쓰는 도구예요. 새 식이 나올 때마다 단위부터 맞춰 보면 틀린 식을 일찍 알아챌 수 있어요.
 
 </Screen>
 

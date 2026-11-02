@@ -23,7 +23,7 @@ const GREEK: Record<string, string> = {
 const UNICODE_GREEK = new Map(Object.entries(GREEK).map(([k, v]) => [v, k]));
 
 /** 기호로 보지 않는 명령: 다음 {…} 하나를 통째로 넘기거나(글자 모양), 그냥 넘긴다. */
-const TEXT_LIKE = new Set(['text', 'textrm', 'textbf', 'textit', 'mbox', 'operatorname', 'label', 'tag']);
+const TEXT_LIKE = new Set(['text', 'textrm', 'textbf', 'textit', 'mbox', 'operatorname', 'label', 'tag', 'begin', 'end', 'color', 'hspace', 'vspace', 'textcolor']);
 const UNIT_LIKE = new Set(['mathrm', 'unit']);
 
 export interface TexKey {
@@ -168,7 +168,8 @@ export function instrument(tex: string): string {
   for (const t of merged) {
     out += tex.slice(pos, t.start);
     const body = tex.slice(t.start, t.end);
-    out += t.kind === 'unit' ? `\\htmlData{u=${t.key}}{${body}}` : `\\htmlData{s=${t.key}}{${body}}`;
+    // 중괄호로 한 번 감싼다. 10^n처럼 ^ 바로 뒤의 글자를 감쌀 때 {}가 없으면 KaTeX가 위 첨자를 읽지 못한다.
+    out += t.kind === 'unit' ? `{\\htmlData{u=${t.key}}{${body}}}` : `{\\htmlData{s=${t.key}}{${body}}}`;
     pos = t.end;
   }
   return out + tex.slice(pos);

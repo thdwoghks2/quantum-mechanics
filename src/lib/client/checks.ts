@@ -6,6 +6,7 @@
 export interface ChoicePayload {
   kind: 'choice';
   q: string;
+  /** 선택지 글과 해설은 HTML이다(수식이 들어 있을 수 있다). */
   options: { t: string; ok: boolean; why: string }[];
 }
 
@@ -21,11 +22,11 @@ export interface NumericPayload {
 
 export type CheckPayload = ChoicePayload | NumericPayload;
 
-/** 글 속 용어 밑줄(span.term)은 강 화면에서만 의미가 있으니 글자만 남긴다. */
+/** 글 속 용어 밑줄(span.term)과 단위(span.unit)는 강 화면에서만 의미가 있으니 글자만 남긴다. */
 function plainHtml(el: Element | null): string {
   if (!el) return '';
   const copy = el.cloneNode(true) as Element;
-  copy.querySelectorAll('.term').forEach((t) => t.replaceWith(t.textContent ?? ''));
+  copy.querySelectorAll('.term, .unit').forEach((t) => t.replaceWith(t.textContent ?? ''));
   return copy.innerHTML;
 }
 
@@ -37,9 +38,9 @@ export function readCheck(el: Element): CheckPayload | null {
       kind: 'choice',
       q: plainHtml(el.querySelector('.check__q')),
       options: [...el.querySelectorAll('.check__item')].map((li) => ({
-        t: li.querySelector('.check__t')?.textContent ?? '',
+        t: plainHtml(li.querySelector('.check__t')),
         ok: li.querySelector<HTMLElement>('.check__opt')?.dataset.ok === '1',
-        why: li.querySelector('.check__why')?.textContent ?? '',
+        why: plainHtml(li.querySelector('.check__why')),
       })),
     };
   }

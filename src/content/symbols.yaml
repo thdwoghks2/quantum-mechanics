@@ -385,3 +385,54 @@
   meaning: 질량과 속도를 곱한 양이에요. 무겁고 빠를수록 멈추게 하기 어려워요.
   unit: kg·m/s
   taughtIn: 7
+
+# ── 2강: 지수 ─────────────────────────
+- id: exponent-n
+  sym: 'n'
+  name: 지수 (곱한 횟수)
+  read: 엔
+  kind: index
+  meaning: 10을 몇 번 곱했는지 센 수예요. 10ⁿ에서 10 위에 작게 올려 써요. 음수면 그만큼 10으로 나눴다는 뜻이에요.
+  origin: 영어 number(수)의 첫 글자로 흔히 써요. 정해진 수가 아니라 '아무 정수'를 대신하는 글자예요.
+  notThis: 42강부터 나오는 n은 원자의 에너지 준위 번호예요. 둘 다 '몇 번째인지 세는 수'라는 점은 같아요.
+  taughtIn: 2
+- id: exponent-k
+  sym: 'k'
+  name: 또 다른 지수
+  read: 케이
+  kind: index
+  meaning: 지수 n과 함께 쓰는 또 하나의 지수예요. 두 거듭제곱을 곱하거나 나누는 규칙을 쓸 때 둘을 구분하려고 써요.
+  notThis: 숫자 뒤의 똑바로 선 k는 1,000배를 뜻하는 앞붙이(킬로)예요. km의 k가 그것이에요.
+  taughtIn: 2
+
+# ── 4강: 움직임 ────────────────────────
+- id: distance-d
+  sym: 'd'
+  name: 간 거리
+  read: 디
+  kind: variable
+  q: space
+  meaning: 물체가 움직인 거리예요.
+  unit: m (미터)
+  origin: 영어 distance(거리)의 첫 글자예요.
+  taughtIn: 4
+
+# ── 6강: 에너지 ────────────────────────
+- id: energy-Ek
+  sym: 'E_k'
+  name: 운동 에너지
+  read: 이 케이
+  kind: variable
+  q: energy
+  meaning: 움직이는 물체가 가진 에너지예요. 아래의 작은 k는 영어 kinetic(움직임의)의 첫 글자로, 어떤 에너지인지 알려 주는 이름표예요.
+  unit: J (줄)
+  taughtIn: 6
+- id: energy-Ep
+  sym: 'E_p'
+  name: 위치 에너지
+  read: 이 피
+  kind: variable
+  q: energy
+  meaning: 높은 곳에 있어서 가진 에너지예요. 아래의 작은 p는 영어 potential(잠재된)의 첫 글자예요.
+  unit: J (줄)
+  taughtIn: 6

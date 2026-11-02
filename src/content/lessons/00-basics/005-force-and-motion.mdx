@@ -255,6 +255,70 @@ symbols: { F: force-F, m: mass-m, a: acceleration-a }
 
 </Screen>
 
+<Screen kind="graph" title="힘이 2배면 가속도도 2배">
+  <Fragment slot="visual">
+    <Plot
+      alt="질량 20 kg 카트를 미는 힘과 가속도의 그래프. 원점을 지나는 곧은 선이다. 40 N이면 2 m/s², 80 N이면 4 m/s²"
+      x={[0, 100]} y={[0, 5]}
+      xLabel="미는 힘 (N)" yLabel="가속도 (m/s²)" xq="force" yq="motion"
+      xTicks={[0, 20, 40, 60, 80, 100]} yTicks={[0, 1, 2, 3, 4, 5]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'x / 20', q: 'motion', step: 2 }]}
+      points={[
+        { x: 40, y: 2, label: '40 N → 2 m/s²', q: 'force', step: 3 },
+        { x: 80, y: 4, label: '80 N → 4 m/s²', q: 'force', step: 3, dx: -100, dy: -10 },
+      ]}
+    />
+  </Fragment>
+
+말로 한 "비례"를 그래프로 보면 이래요. 가로축은 20 kg 카트를 미는 힘, 세로축은 그때의 가속도예요.
+
+<S n={2}>
+
+점들은 원점(0, 0)을 지나는 곧은 선 위에 놓여서, 힘이 0이면 가속도도 0이에요.
+
+</S>
+
+<S n={3}>
+
+40 N에서 2 m/s², 80 N에서 4 m/s²예요. 힘을 2배로 하면 가속도도 2배가 되는 것, 이것이 비례예요.
+
+</S>
+
+</Screen>
+
+<Screen kind="graph" title="질량이 2배면 가속도는 절반">
+  <Fragment slot="visual">
+    <Plot
+      alt="같은 힘 40 N으로 밀 때 카트의 질량과 가속도의 그래프. 질량이 늘수록 가속도가 줄어드는 곡선이다. 20 kg이면 2 m/s², 40 kg이면 1 m/s²"
+      x={[0, 80]} y={[0, 5]}
+      xLabel="카트의 질량 (kg)" yLabel="가속도 (m/s²)" xq="force" yq="motion"
+      xTicks={[0, 20, 40, 60, 80]} yTicks={[0, 1, 2, 3, 4, 5]}
+      axisSteps={[1, 1]}
+      curves={[{ fn: 'x > 7.9 ? 40 / x : NaN', q: 'motion', step: 2 }]}
+      points={[
+        { x: 20, y: 2, label: '20 kg → 2 m/s²', q: 'force', step: 3 },
+        { x: 40, y: 1, label: '40 kg → 1 m/s²', q: 'force', step: 3 },
+      ]}
+    />
+  </Fragment>
+
+이번에는 미는 힘을 40 N으로 두고 카트의 질량만 바꿔요. 가로축은 질량, 세로축은 가속도예요.
+
+<S n={2}>
+
+질량이 늘수록 가속도가 줄어드는데, 곧은 선이 아니라 곡선이 돼요.
+
+</S>
+
+<S n={3}>
+
+20 kg에서 2 m/s², 40 kg에서 1 m/s²예요. 질량을 2배로 하면 가속도는 절반이 되는 것, 이것이 반비례예요.
+
+</S>
+
+</Screen>
+
 <Screen kind="step" title="가속도 법칙을 식으로">
   <Fragment slot="visual">
     <FormulaBuild id="newton-second-law" />

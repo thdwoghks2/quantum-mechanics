@@ -6,6 +6,7 @@
  * 선택지는 문제 ID로 정해지는 순서로 섞어서 보여 준다. 정답을 어디에 적었든 자리가 고르게 퍼진다.
  */
 import { shuffled } from '../../lib/shuffle.ts';
+import { renderMath } from '../../lib/math.ts';
 interface Option {
   t: string;
   ok?: boolean;
@@ -28,9 +29,9 @@ const shown = shuffled(options, id);
       <li class="check__item">
         <button type="button" class="check__opt" data-i={i} data-ok={o.ok ? '1' : '0'}>
           <span class="check__mark" aria-hidden="true"></span>
-          <span class="check__t">{o.t}</span>
+          <span class="check__t" set:html={renderMath(o.t)} />
         </button>
-        <p class="check__why" hidden>{o.why}</p>
+        <p class="check__why" hidden set:html={renderMath(o.why)} />
       </li>
     ))}
   </ol>

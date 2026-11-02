@@ -189,7 +189,8 @@ for (const { file, fm, body, fmLines } of lessons) {
     const used = new Set();
     let plainBody = blank(body, /\{\/\*[\s\S]*?\*\/\}/g);
     for (const m of plainBody.matchAll(/\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g)) {
-      const t = m[1] ?? m[2];
+      // JS 문자열('…') 안의 수식은 \\mathrm처럼 역슬래시가 두 겹이다. 한 겹으로 되돌려 읽는다.
+      const t = (m[1] ?? m[2]).replace(/\\\\/g, '\\');
       const line = plainBody.slice(0, m.index).split('\n').length + fmLines;
       for (const k of texKeys(t)) {
         const id = resolveKey(k, fm.symbols);

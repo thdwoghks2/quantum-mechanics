@@ -18,6 +18,7 @@ sources:
   - "해운대해수욕장 길이 약 1.5 km (부산광역시 해운대구)"
 testout: [q2-neg, q2-sci, q2-mul]
 status: published
+symbols: { n: exponent-n, k: exponent-k }
 ---
 
 <Screen kind="scene" title="0이 너무 많은 수">
@@ -61,7 +62,7 @@ status: published
     <Define term="power-of-ten" />
   </Fragment>
 
-곱한 횟수만 적어 두려면 그걸 적는 모양이 있어야 해요. 10을 n번 곱한 수를 **10의 거듭제곱**이라고 하고, 10ⁿ으로 써요.
+곱한 횟수만 적어 두려면 그걸 적는 모양이 있어야 해요. 10을 $n$번 곱한 수를 **10의 거듭제곱**이라고 하고, $10^n$으로 써요.
 
 <S n={2}>
 
@@ -76,9 +77,24 @@ status: published
     <Define term="exponent" />
   </Fragment>
 
-10ⁿ에서 10 옆에 작게 올려 쓴 n에도 이름이 있어요. 이 수를 **지수**라고 하고, 10을 몇 번 곱했는지 센 수예요.
+$10^n$에서 10 옆에 작게 올려 쓴 $n$에도 이름이 있어요. 이 수를 **지수**라고 하고, 10을 몇 번 곱했는지 센 수예요.
 
 <Key>지수는 10을 곱한 횟수라서, 지수가 1 커지면 수는 1이 아니라 10배만큼 커지고, 그래서 10⁴는 10³보다 10배 큰 수예요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="10의 거듭제곱 카드">
+  <Fragment slot="visual">
+    <Formula id="power-of-ten" />
+  </Fragment>
+
+식에서 $n$은 정해진 수가 아니라 '아무 정수'를 대신하는 글자예요. $n$에 3을 넣으면 $10^3$, 9를 넣으면 $10^9$가 돼요.
+
+<S n={2}>
+
+$n$처럼 곱한 횟수를 세는 글자는 이 사이트에서 옅은 네모 바탕으로 보여요. 글자를 누르면 뜻이 나와요.
+
+</S>
 
 </Screen>
 
@@ -123,7 +139,7 @@ status: published
 
 <S n={2}>
 
-10으로 n번 나눈 수는 지수에 −를 붙여 10⁻ⁿ으로 써요. 0.001은 10으로 세 번 나눴으니 10⁻³이에요. 아무것도 곱하거나 나누지 않은 1은 10⁰이고요.
+10으로 $n$번 나눈 수는 지수에 −를 붙여 $10^{-n}$으로 써요. 0.001은 10으로 세 번 나눴으니 10⁻³이에요. 아무것도 곱하거나 나누지 않은 1은 10⁰이고요.
 
 </S>
 
@@ -278,6 +294,27 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="두 규칙을 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="exponent-product" />
+  </Fragment>
+
+앞의 두 화면에서 본 규칙을 글자로 써 볼게요. 숫자로 한 번 해 보고, 마지막에 숫자 자리를 글자로 바꿔요.
+
+<S n={2}>
+
+$n$과 $k$는 둘 다 지수인데, 두 거듭제곱을 구분하려고 글자를 둘 썼어요.
+
+</S>
+
+<S n={3}>
+
+곱하면 $n + k$, 나누면 $n - k$라서 0을 세지 않고 지수만 더하고 빼면 돼요.
+
+</S>
+
+</Screen>
+
 <Screen kind="worked" title="태양까지 지구 몇 개">
   <Fragment slot="visual">
     <Panels panels={[
@@ -418,6 +455,15 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="지수로 크기 재기, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="exponent-idea" />
+  </Fragment>
+
+오늘 배운 생각을 한 장에 모았어요. 흔한 오해 두 가지도 함께 적었으니, 헷갈렸던 적이 있는지 확인해 보세요.
+
+</Screen>
+
 <Screen kind="recap" title="오늘 온 길">
 
 여기까지 온 길을 한 번에 모아 볼게요.
@@ -426,7 +472,7 @@ status: published
 
 1. 10을 한 번 곱할 때마다 0이 하나 붙으니까, 0을 세는 대신 곱한 횟수인 지수를 적어요.
 2. 10으로 나눈 횟수는 지수에 −를 붙여 적으니까, 아주 작은 수도 같은 방법으로 적을 수 있어요.
-3. 수를 (1 이상 10 미만의 수) × 10ⁿ으로 맞춰 쓰면, 곱셈은 지수끼리 더하고 나눗셈은 지수끼리 빼면 돼요.
+3. 수를 (1 이상 10 미만의 수) $\times 10^n$으로 맞춰 쓰면, 곱셈은 지수끼리 더하고 나눗셈은 지수끼리 빼면 돼요.
 4. 지수가 1 커질 때마다 10배가 되니까, 크기는 자릿수라는 단계로 견줄 수 있어요.
 
 </Recap>

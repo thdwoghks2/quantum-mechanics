@@ -17,6 +17,7 @@ sources:
   - "Halliday, Resnick & Walker, Fundamentals of Physics, Ch. 9: Center of Mass and Linear Momentum"
 testout: [q7-catch, q7-throw, q7-rocket]
 status: published
+symbols: { p: momentum-p, m: mass-m, v: velocity-v, F: force-F, a: acceleration-a, t: time-t, Delta: delta }
 ---
 
 <Screen kind="scene" title="공을 받는 두 방법">
@@ -61,9 +62,24 @@ status: published
     <Define term="momentum" />
   </Fragment>
 
-질량에 속도를 곱한 양을 **운동량**이라고 해요. 기호로는 p = mv로 쓰고, 단위는 kg·m/s예요.
+질량에 속도를 곱한 양을 **운동량**이라고 해요. 단위는 kg·m/s(킬로그램 미터 매 초)예요.
 
 <Key>운동량은 속력이 아니라 속도를 곱한 양이라서 방향이 있고, 한 방향을 +로 정하면 마주 오는 물체의 운동량은 −가 되며, 운동 에너지와 달리 속도를 제곱하지 않아요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="운동량을 식으로">
+  <Fragment slot="visual">
+    <Formula id="momentum-formula" />
+  </Fragment>
+
+운동량은 글자 $p$로 써요. 식은 $p = mv$, 질량 $m$과 속도 $v$를 곱해요.
+
+<S n={2}>
+
+6강의 운동 에너지 $\tfrac{1}{2}mv^2$과 달리 $v$를 한 번만 곱해요. 그래서 속도가 2배면 운동량은 2배예요.
+
+</S>
 
 </Screen>
 
@@ -88,24 +104,20 @@ status: published
 
 <Screen kind="step" title="가속도 법칙에서 출발">
   <Fragment slot="visual">
-    <Flow alt="F = ma에서 힘 곱하기 시간 = 운동량의 변화를 끌어내는 과정" items={[
-      { t: 'F = ma', sub: '5강의 가속도 법칙' },
-      { t: 'F = m × (Δv ÷ t)', sub: '가속도 = 바뀐 속도 ÷ 시간', step: 2 },
-      { t: 'F × t = m × Δv', sub: '양쪽에 t를 곱해요', step: 3 },
-    ]} />
+    <FormulaBuild id="impulse-formula" />
   </Fragment>
 
-가속도는 바뀐 속도를 걸린 시간으로 나눈 거예요. 바뀐 속도는 "얼마나 바뀌었나"를 뜻하는 기호 Δ를 붙여 Δv(델타 브이)로 쓸게요.
+가속도는 바뀐 속도를 걸린 시간으로 나눈 거예요. 바뀐 속도는 "얼마나 바뀌었나"를 뜻하는 기호 $\Delta$(델타)를 붙여 $\Delta v$(델타 브이)로 쓸게요.
 
 <S n={2}>
 
-그러면 F = ma는 F = m × (Δv ÷ t)가 돼요.
+그러면 $F = ma$는 $F = m\,\dfrac{\Delta v}{t}$가 되는데, $\Delta v$는 $\Delta$와 $v$를 곱한 게 아니라 한 덩어리예요.
 
 </S>
 
 <S n={3}>
 
-양쪽에 시간 t를 곱하면 F × t = m × Δv예요. 오른쪽은 운동량이 바뀐 양이니까, 힘에 시간을 곱한 만큼 운동량이 바뀌는 거죠.
+양쪽에 시간 $t$를 곱하면 $F\,t = m\,\Delta v$예요. $m\,\Delta v$는 운동량이 바뀐 양이니까, 힘에 시간을 곱한 만큼 운동량이 바뀌는 거죠.
 
 </S>
 
@@ -231,18 +243,18 @@ status: published
 <Screen kind="step" title="운동량 변화의 합">
   <Fragment slot="visual">
     <DataTable caption="서로 미는 동안" head={['', '친구', '나']} rows={[
-      ['받는 힘', '+F', '−F'],
-      ['미는 시간', 't', 't'],
-      ['운동량 변화 (힘 × 시간)', '+Ft', '−Ft'],
+      ['받는 힘', '$+F$', '$-F$'],
+      ['미는 시간', '$t$', '$t$'],
+      ['운동량 변화 (힘 × 시간)', '$+Ft$', '$-Ft$'],
       ['운동량 변화의 합', '0', ''],
     ]} steps={[undefined, undefined, 2, 3]} />
   </Fragment>
 
-작용 반작용과 충격량을 합쳐 볼게요. 서로 미는 동안 친구는 +F, 저는 −F의 힘을 받고, 두 힘은 손이 닿아 있는 같은 시간 t 동안만 작용해요.
+작용 반작용과 충격량을 합쳐 볼게요. 서로 미는 동안 친구는 $+F$, 저는 $-F$의 힘을 받고, 두 힘은 손이 닿아 있는 같은 시간 $t$ 동안만 작용해요.
 
 <S n={2}>
 
-그러니 친구의 운동량은 +Ft, 제 운동량은 −Ft만큼 바뀌죠.
+그러니 친구의 운동량은 $+Ft$, 제 운동량은 $-Ft$만큼 바뀌죠.
 
 </S>
 
@@ -266,6 +278,15 @@ status: published
 부딪히는 순간의 힘이 아무리 복잡하게 바뀌어도 상관없어요. 늘 크기가 같고 방향이 반대인 힘이 같은 시간 동안 작용하니까요.
 
 </S>
+
+</Screen>
+
+<Screen kind="step" title="운동량 보존을 식으로">
+  <Fragment slot="visual">
+    <Formula id="momentum-conservation-formula" />
+  </Fragment>
+
+두 물체를 A, B라고 부르면, A의 운동량 $p_A$와 B의 운동량 $p_B$를 더한 값이 늘 같아요. 아래 작은 글자 A, B는 어느 물체인지 알려 주는 이름표예요.
 
 </Screen>
 
@@ -406,6 +427,15 @@ status: published
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="운동량 보존, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="momentum-conservation-idea" />
+  </Fragment>
+
+오늘의 생각을 한 장에 모았어요. 흔한 오해 두 가지는 실제로 많이 하는 실수예요.
 
 </Screen>
 

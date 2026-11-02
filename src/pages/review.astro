@@ -107,11 +107,14 @@ import '../styles/lesson.css';
             b.type = 'button';
             b.className = 'check__opt';
             b.innerHTML = '<span class="check__mark" aria-hidden="true"></span>';
-            b.append(o.t);
+            const t = document.createElement('span');
+            t.className = 'check__t';
+            t.innerHTML = o.t;
+            b.append(t);
             const why = document.createElement('p');
             why.className = 'check__why';
             why.hidden = true;
-            why.textContent = o.why;
+            why.innerHTML = o.why;
             b.addEventListener('click', () => {
               ol.querySelectorAll('button').forEach((x) => (x.disabled = true));
               b.classList.add(o.ok ? 'is-ok' : 'is-no');

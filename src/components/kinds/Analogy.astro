@@ -1,4 +1,5 @@
 ---
+import { renderMath } from '../../lib/math.ts';
 /** 비유 대응표: 비유 속 ↔ 실제. 맞는 곳과 틀리는 곳을 함께 적는다. */
 interface Props {
   title?: string;
@@ -16,13 +17,13 @@ const { title = '비유', rows, fits, breaks } = Astro.props;
     </thead>
     <tbody>
       {rows.map(([a, r]) => (
-        <tr><td>{a}</td><td>{r}</td></tr>
+        <tr><td set:html={renderMath(a)} /><td set:html={renderMath(r)} /></tr>
       ))}
     </tbody>
   </table>
   <div class="analogy__notes">
-    <p><span class="analogy__tag analogy__tag--ok">맞는 곳</span>{fits}</p>
-    <p><span class="analogy__tag analogy__tag--no">틀리는 곳</span>{breaks}</p>
+    <p><span class="analogy__tag analogy__tag--ok">맞는 곳</span><span set:html={renderMath(fits)} /></p>
+    <p><span class="analogy__tag analogy__tag--no">틀리는 곳</span><span set:html={renderMath(breaks)} /></p>
   </div>
 </figure>
 

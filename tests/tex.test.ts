@@ -15,6 +15,7 @@ describe('수식 속 기호 찾기', () => {
     expect(keys('\\Delta x\\,\\Delta p_x \\ge \\frac{\\hbar}{2}')).toEqual(['Delta', 'x', 'p_x', 'hbar']);
     expect(keys('v = f\\lambda \\text{ (파동의 속력)}')).toEqual(['v', 'f', 'lambda']);
     expect(keys('λ = v ÷ f')).toEqual(['lambda', 'v', 'f']);
+    expect(keys('\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}')).toEqual(['a', 'b', 'c', 'd']);
   });
 
   it('표시를 단 수식도 KaTeX가 그리고, data-s와 data-u가 남는다', () => {
@@ -24,5 +25,13 @@ describe('수식 속 기호 찾기', () => {
     expect(html).toContain('data-u="J|s"');
     expect(html).toContain('data-s="theta"');
     expect(html).not.toContain('katex-error');
+  });
+
+  it('^ 바로 뒤의 글자(10^n)도 깨지지 않는다', () => {
+    for (const t of ['10^n \\times 10^k = 10^{n+k}', 'x^2 + y_n^2', 'e^\\theta']) {
+      const html = katex.renderToString(instrument(t), katexOptions);
+      expect(html, t).not.toContain('katex-error');
+      expect(html, t).not.toContain('color:#cc0000');
+    }
   });
 });

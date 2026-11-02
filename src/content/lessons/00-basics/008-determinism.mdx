@@ -18,18 +18,19 @@ sources:
   - "Laskar, J. A numerical experiment on the chaotic behaviour of the Solar System, Nature 338 (1989)"
 testout: [q8-same, q8-det, q8-weather]
 status: published
+symbols: { F: force-F, m: mass-m, a: acceleration-a, E_k: energy-Ek, E_p: energy-Ep, p: momentum-p }
 ---
 
 <Screen kind="recall" from={7} title="세 가지 법칙">
   <Fragment slot="visual">
     <Panels panels={[
-      { big: 'F = ma', caption: '힘이 속도를 어떻게 바꾸는지 (5강)' },
-      { big: '에너지 보존', caption: '모습이 바뀌어도 합은 그대로 (6강)' },
-      { big: '운동량 보존', caption: '부딪혀도 합은 그대로 (7강)' },
+      { big: '$F = ma$', title: '가속도 법칙', caption: '힘이 속도를 어떻게 바꾸는지 (5강)' },
+      { big: '$E_k + E_p$', title: '에너지 보존', caption: '모습이 바뀌어도 합은 그대로 (6강)' },
+      { big: '$p_A + p_B$', title: '운동량 보존', caption: '부딪혀도 합은 그대로 (7강)' },
     ]} />
   </Fragment>
 
-지금까지 운동의 법칙 세 가지를 배웠어요. 힘이 속도를 바꾸는 방식인 F = ma, 에너지 보존, 운동량 보존이죠.
+지금까지 운동의 법칙 세 가지를 배웠어요. 힘이 속도를 바꾸는 방식인 $F = ma$, 에너지 보존, 운동량 보존이죠.
 
 <S n={2}>
 
@@ -355,6 +356,15 @@ status: published
 
 </Fragment>
 </Numeric>
+
+</Screen>
+
+<Screen kind="step" title="결정론과 카오스, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="determinism-idea" />
+  </Fragment>
+
+미래는 정해져 있다는 생각과, 그래도 맞힐 수는 없다는 생각을 카드에 나란히 놓았어요.
 
 </Screen>
 

@@ -11,12 +11,13 @@ epigraph:
   by: 갈릴레오 갈릴레이
   source: 『시금저울』 (1623)
 assumes: [unit, si, prefix, model, scientific-notation]
-introduces: [speed, velocity, acceleration]
+introduces: [speed, velocity, acceleration, slope]
 sources:
   - "World Athletics: 남자 100 m 9.58초 (우사인 볼트, 2009 베를린 세계선수권)"
   - "Graubner, R. & Nixdorf, E. Biomechanical Analysis of the Sprint and Hurdles Events at the 2009 IAAF World Championships, New Studies in Athletics (2011): 60~80 m 구간 최고 속력 약 12.4 m/s"
 testout: [q4-speed, q4-zero, q4-fall]
 status: published
+symbols: { v: velocity-v, d: distance-d, t: time-t, a: acceleration-a }
 ---
 
 <Screen kind="scene" title="두 가지 빠르기">
@@ -70,6 +71,21 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="속력을 식으로">
+  <Fragment slot="visual">
+    <Formula id="speed-formula" />
+  </Fragment>
+
+물리에서는 양을 글자 하나로 줄여 써요. 속력은 $v$, 간 거리는 $d$, 걸린 시간은 $t$예요.
+
+<S n={2}>
+
+그러면 "속력 = 간 거리 ÷ 걸린 시간"은 $v = d \div t$, 분수로 쓰면 카드의 식이 돼요. 글자를 누르면 뜻과 단위가 나와요.
+
+</S>
+
+</Screen>
+
 <Screen kind="compare" title="평균과 그 순간">
   <Fragment slot="visual">
     <Panels panels={[
@@ -96,7 +112,7 @@ status: published
 
 <Fragment slot="solution">
 
-1.2 km는 1,200 m이고, 20분은 1,200초예요. 1,200 m ÷ 1,200 s = 1 m/s죠. 사람이 보통 걷는 빠르기가 1초에 1 m쯤이에요.
+1.2 km는 1,200 m이고, 20분은 1,200초예요. $1{,}200\,\mathrm{m} \div 1{,}200\,\mathrm{s} = 1\,\mathrm{m/s}$죠. 사람이 보통 걷는 빠르기가 1초에 1 m쯤이에요.
 
 </Fragment>
 </Numeric>
@@ -198,6 +214,27 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="가속도를 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="acceleration-formula" />
+  </Fragment>
+
+가속도는 글자 $a$로 쓰고, 식을 세 덩어리로 나눠 쌓아 볼게요.
+
+<S n={2}>
+
+먼저 속도가 바뀐 양을 구하고, 그걸 걸린 시간 $t$로 나눠요. $v$ 아래의 작은 글씨는 어느 때의 속도인지 알려 주는 이름표예요.
+
+</S>
+
+<S n={3}>
+
+단위도 따라가 보면 m/s를 s로 나누니까 m/s²가 돼요. 3강에서 본 단위 검산 그대로예요.
+
+</S>
+
+</Screen>
+
 <Screen kind="worked" title="떨어지는 공">
   <Fragment slot="visual">
     <DataTable caption="손에서 놓은 공 (공기를 무시한 모형)" head={['놓은 뒤', '속도', '1초 동안 바뀐 속도']} rows={[
@@ -278,7 +315,22 @@ status: published
 
 <S n={2}>
 
-이 올라가는 정도를 선의 **기울기**라고 해요. 선이 가로로 평평하면 속도가 그대로라서 가속도는 0이에요.
+선이 가로로 평평하면 속도가 그대로라서 가속도는 0이에요. 이 "올라가는 정도"에는 이름이 있어요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="기울기라는 이름">
+  <Fragment slot="visual">
+    <Define term="slope" />
+  </Fragment>
+
+그래프에서 가로로 1만큼 갈 때 선이 세로로 올라가는 양을 **기울기**라고 해요. 오르막길이 가파를수록 기울기가 크다고 하는 것과 같은 말이에요.
+
+<S n={2}>
+
+속도-시간 그래프에서는 가로가 시간, 세로가 속도라서, 기울기가 곧 1초 동안 바뀐 속도, 가속도예요.
 
 </S>
 
@@ -350,7 +402,7 @@ status: published
 
 <S n={2}>
 
-거리는 평균 속도 × 시간이라서 14.7 m/s × 3 s = 44.1 m예요. 그래프에서 선 아래 삼각형의 넓이와 같은 값이죠. 속도-시간 그래프 아래의 넓이가 간 거리예요.
+거리는 평균 속도 × 시간이라서 $14.7\,\mathrm{m/s} \times 3\,\mathrm{s} = 44.1\,\mathrm{m}$예요. 그래프에서 선 아래 삼각형의 넓이와 같은 값이죠. 속도-시간 그래프 아래의 넓이가 간 거리예요.
 
 </S>
 
@@ -371,11 +423,20 @@ status: published
 
 </Screen>
 
+<Screen kind="step" title="가속도, 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="acceleration-idea" />
+  </Fragment>
+
+가속도는 처음 배울 때 가장 많이 헷갈리는 개념이에요. 카드의 네 단계를 차례로 읽고, 흔한 오해 두 가지를 확인해 보세요.
+
+</Screen>
+
 <Screen kind="recap" title="오늘 온 길">
 
 여기까지 온 길을 한 번에 모아 볼게요.
 
-<Recap terms={['speed', 'velocity', 'acceleration']}>
+<Recap terms={['speed', 'velocity', 'acceleration', 'slope']}>
 
 1. 빠르기를 견주려고 1초 동안 간 거리, 그러니까 속력으로 맞췄어요.
 2. 어디에 도착할지 알려면 방향도 필요해서, 속력에 방향을 붙인 속도를 썼어요.
