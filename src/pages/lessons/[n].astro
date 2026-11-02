@@ -6,6 +6,7 @@ import { lessonUrl, url } from '../../lib/url.ts';
 import MusicToggle from '../../components/music/MusicToggle.astro';
 import { mdxComponents } from '../../components/mdx.ts';
 import Dust from '../../components/figures/Dust.astro';
+import StageBar from '../../components/rewards/StageBar.astro';
 import { firstYearOf, hasBatchim, turnLines } from '../../lib/rewards.ts';
 
 export async function getStaticPaths() {
@@ -107,6 +108,9 @@ const turn = isPartEnd && part
           {d.year && <span class="label">{d.year}</span>}
           {d.place && <span class="label">{d.place}</span>}
         </div>
+        <div class="title__stage title__late">
+          <StageBar n={d.number} compact />
+        </div>
         <p class="title__status" hidden></p>
         <div class="title__actions title__late">
           <button type="button" class="btn btn--primary" data-action="start">시작</button>
@@ -114,7 +118,6 @@ const turn = isPartEnd && part
             <button type="button" class="btn" data-action="testout">이미 안다면: 문제 {d.testout.length}개로 건너뛰기</button>
           )}
         </div>
-        <p class="title__save title__late">어디까지 봤는지와 푼 문제는 이 기기에 저절로 저장돼요. <a href={url('settings/')}>기록</a>에서 확인하고 내보낼 수 있어요.</p>
         <p class="title__links label title__late">
           <a href={url('')}>← 처음 화면</a>
           <a href={url('course/')}>코스 전체</a>

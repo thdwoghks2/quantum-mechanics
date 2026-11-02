@@ -1,0 +1,149 @@
+---
+/**
+ * 교육 과정 띠: 중학교 ▸ 고등학교 ▸ 대학 ▸ 대학원 위에서 이 강이 어디쯤인지.
+ * n을 주면 빌드할 때 그 강의 위치로 그린다. 홈처럼 볼 강이 기기마다 다르면 client에서 paintStage()로 다시 칠한다.
+ */
+import { STAGES, ZONES, stageOf, stageLine } from '../../lib/stage.ts';
+
+interface Props {
+  n?: number;
+  /** 띠 위에 "137강 중 44강 · 3부 원자의 구조" 같은 한 줄 */
+  head?: string;
+  compact?: boolean;
+}
+const { n, head, compact = false } = Astro.props;
+const ls = n ? stageOf(n) : undefined;
+const cur = ls ? STAGES.findIndex((s) => s.id === ls.stage) : -1;
+const zoneSpan = ZONES.map((z) => STAGES.filter((s) => s.zone === z).length);
+---
+<div class:list={['stagebar', { 'stagebar--compact': compact }]} data-stagebar data-n={n ?? ''}>
+  {head !== undefined && <p class="stagebar__head label" data-stage-head>{head}</p>}
+  <ol class="stagebar__segs" aria-hidden="true" style={`--cols:${STAGES.length}`}>
+    {STAGES.map((s, i) => (
+      <li class:list={['stagebar__seg', { 'is-past': i < cur, 'is-here': i === cur }]} data-i={i} title={s.name}>
+        <span class="stagebar__short">{s.short}</span>
+      </li>
+    ))}
+  </ol>
+  <ol class="stagebar__zones" aria-hidden="true">
+    {ZONES.map((z, i) => <li style={`grid-column: span ${zoneSpan[i]}`}>{z}</li>)}
+  </ol>
+  <p class="stagebar__line small" data-stage-line>{ls ? stageLine(ls) : ''}</p>
+</div>
+
+<script>
+  import { STAGES, stageOf, stageLine } from '../../lib/stage.ts';
+
+  /** 홈처럼 브라우저에서 강 번호가 정해지는 곳에서 띠를 다시 칠한다. */
+  function paint(root: HTMLElement, n: number, head?: string) {
+    const ls = stageOf(n);
+    if (!ls) return;
+    const cur = STAGES.findIndex((s) => s.id === ls.stage);
+    root.querySelectorAll<HTMLElement>('.stagebar__seg').forEach((seg) => {
+      const i = Number(seg.dataset.i);
+      seg.classList.toggle('is-past', i < cur);
+      seg.classList.toggle('is-here', i === cur);
+    });
+    root.querySelector('[data-stage-line]')!.textContent = stageLine(ls);
+    const h = root.querySelector('[data-stage-head]');
+    if (h && head !== undefined) h.textContent = head;
+    root.dataset.n = String(n);
+  }
+  (window as unknown as { paintStage: typeof paint }).paintStage = paint;
+</script>
+
+<style>
+  .stagebar {
+    display: grid;
+    gap: 6px;
+  }
+
+  .stagebar__head {
+    letter-spacing: 0.08em;
+  }
+
+  .stagebar__segs,
+  .stagebar__zones {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 7), minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .stagebar__seg {
+    position: relative;
+    height: 22px;
+    border-radius: 4px;
+    background: var(--ink-3);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .stagebar__short {
+    font-size: 9.5px;
+    line-height: 1;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+  }
+
+  .stagebar__seg.is-past {
+    background: color-mix(in srgb, var(--accent) 30%, var(--ink-3));
+  }
+
+  .stagebar__seg.is-past .stagebar__short {
+    color: var(--text-2);
+  }
+
+  .stagebar__seg.is-here {
+    background: var(--accent);
+    box-shadow: 0 0 14px rgba(231, 145, 58, 0.35);
+  }
+
+  .stagebar__seg.is-here .stagebar__short {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .stagebar__zones {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .stagebar__zones li {
+    border-top: 1px solid var(--line-2);
+    padding-top: 3px;
+    text-align: center;
+  }
+
+  .stagebar__line {
+    color: var(--text-2);
+    margin: 0;
+  }
+
+  .stagebar--compact {
+    gap: 4px;
+  }
+
+  .stagebar--compact .stagebar__seg {
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  .stagebar--compact .stagebar__zones li {
+    padding-top: 2px;
+    font-size: 10.5px;
+  }
+
+  .stagebar--compact .stagebar__line {
+    font-size: var(--fs-xs);
+  }
+
+  .stagebar--compact .stagebar__short {
+    display: none;
+  }
+</style>

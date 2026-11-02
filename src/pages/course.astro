@@ -5,6 +5,7 @@ import StarMap from '../components/rewards/StarMap.astro';
 import YearLine from '../components/rewards/YearLine.astro';
 import { getCourse } from '../lib/course.ts';
 import { lessonUrl } from '../lib/url.ts';
+import { stageInfo, stageLine, stageOf, stageRange } from '../lib/stage.ts';
 
 const course = await getCourse();
 const total = course.reduce((s, p) => s + p.lessons.length, 0);
@@ -35,6 +36,7 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
             <p class="mono track__pn">{p.number}부</p>
             <h2>{p.title}</h2>
             <p class="small muted">{p.summary}</p>
+            <p class="label track__stage">교육 과정: {stageRange(p.lessons.map((l) => l.n))}</p>
           </div>
           <ol class="track__lessons">
             {p.lessons.map((l) => (
@@ -44,6 +46,7 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
                 <span class="node__body">
                   {l.published ? <a href={lessonUrl(l.n)} class="node__t">{l.title}</a> : <span class="node__t">{l.title}</span>}
                   {l.note && <span class="node__note">{l.note}</span>}
+                  {stageOf(l.n) && <span class="node__stage" title={stageLine(stageOf(l.n)!)}>{stageInfo(stageOf(l.n)!.stage).short}</span>}
                 </span>
                 <span class="node__state">{l.published ? '' : '준비 중'}</span>
               </li>
@@ -226,6 +229,21 @@ const total = course.reduce((s, p) => s + p.lessons.length, 0);
 
   .node:not(.is-open) .node__note {
     opacity: 0.75;
+  }
+
+  /* 학교 교육 과정에서의 위치 (중학교, 고2·3 일반, 대학 기초 …) */
+  .node__stage {
+    justify-self: start;
+    font-size: 10.5px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 5px;
+    margin-top: 2px;
+  }
+
+  .track__stage {
+    color: var(--accent);
   }
 
   .node__state {

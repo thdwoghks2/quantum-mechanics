@@ -412,7 +412,7 @@ html.js .step-enter {
    큰 강 번호 → 제목 → 질문 → 한 줄(epigraph)이 차례로 떠오르고, 그 뒤에 버튼들이 조용히 나타난다. */
 .screen--title {
   position: relative;
-  gap: 20px;
+  gap: 14px;
 }
 
 .screen--title > .dust {
@@ -471,6 +471,11 @@ html.js .step-enter {
   gap: 6px 18px;
 }
 
+/* 교육 과정 띠: 첫 화면에서 이 강이 학교 과정의 어디쯤인지 */
+.title__stage {
+  width: min(100%, 460px);
+}
+
 .title__actions {
   display: flex;
   flex-wrap: wrap;
@@ -481,13 +486,6 @@ html.js .step-enter {
 .title__status {
   font-size: var(--fs-sm);
   color: var(--text-2);
-}
-
-.title__save {
-  font-size: var(--fs-xs);
-  color: var(--muted);
-  max-width: 34em;
-  line-height: 1.65;
 }
 
 .title__links {
@@ -1610,4 +1608,9 @@ html.js .screen--title.is-active .title__epigraph figcaption {
 .stage .screen--title.is-denser .title__epigraph blockquote {
   font-size: 1rem;
   line-height: 1.75;
+}
+
+/* 첫 화면이 넘치면 위 막대에도 있는 링크 줄(처음 화면, 코스 전체, 앞 강)부터 접는다. */
+.stage .screen--title.is-denser .title__links {
+  display: none;
 }

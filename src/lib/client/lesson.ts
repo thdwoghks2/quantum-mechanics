@@ -24,7 +24,7 @@ interface Gloss extends TermEntry {
 }
 
 const SKIP =
-  'button, input, textarea, select, a, svg, canvas, .katex, .defcard, .term, .check__opt, .label, code, .sim, .sheet__kicker, .sheet__where, dt, [data-no-terms]';
+  'button, input, textarea, select, a, svg, canvas, .katex, .defcard, .term, .check__opt, .label, code, .sim, .sheet__kicker, .sheet__where, dt, .title__h, .title__epigraph, blockquote, [data-no-terms]';
 
 /** 목차에 보일 화면 이름. 글쓴이가 붙인 제목이 없으면 본문 첫 문장을 낱말 단위로 줄인다. */
 function tocTitle(screen: HTMLElement): string {

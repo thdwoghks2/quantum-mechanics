@@ -247,3 +247,22 @@ describe('진단 문제 정답 자리', () => {
     for (const slot of [0, 1, 2, 3]) expect(placeAnswer(opts, slot, 'k').findIndex((o) => o.ok)).toBe(slot);
   });
 });
+
+describe('교육 과정 위치', () => {
+  it('137강 모두 단계가 있고, 한 줄 설명이 비지 않는다', async () => {
+    const { LESSON_STAGE, STAGES, stageLine } = await import('../src/lib/stage.ts');
+    for (let n = 1; n <= 137; n++) {
+      const ls = LESSON_STAGE[n];
+      expect(ls, `${n}강`).toBeTruthy();
+      expect(STAGES.some((s) => s.id === ls!.stage)).toBe(true);
+      expect(stageLine(ls!).length).toBeGreaterThan(4);
+    }
+  });
+
+  it('학교 단원은 「과목」 「단원」으로 적는다', async () => {
+    const { LESSON_STAGE, stageLine, stageRange } = await import('../src/lib/stage.ts');
+    expect(stageLine(LESSON_STAGE[44]!)).toBe('고등학교 「물리학」 「빛과 물질」에서 배우는 내용');
+    expect(stageLine(LESSON_STAGE[4]!)).toBe('중학교 과학 「운동과 에너지」에서 배우는 내용');
+    expect(stageRange([1, 2, 3, 4])).toBe('중학교 ~ 고등학교');
+  });
+});

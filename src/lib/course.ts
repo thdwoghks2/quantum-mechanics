@@ -8,6 +8,10 @@ export interface CourseLesson {
   part: number;
   published: boolean;
   minutes?: number;
+  /** 강 제목의 짧은 꼴 */
+  short?: string;
+  /** 이 강이 답하는 질문 */
+  question?: string;
 }
 
 export interface CoursePart {
@@ -34,6 +38,8 @@ export async function getCourse(): Promise<CoursePart[]> {
         part: p.number,
         published: !!real,
         minutes: real?.minutes,
+        short: real?.short,
+        question: real?.question,
       };
     }),
   }));
