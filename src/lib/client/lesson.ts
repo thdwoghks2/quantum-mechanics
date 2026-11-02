@@ -19,10 +19,12 @@ interface Gloss extends TermEntry {
   examples: string[];
   notThis?: string;
   q: string;
-  highlight: boolean;
+  /** 처음 배우는 강의 짧은 제목 */
+  where: string;
 }
 
-const SKIP = 'button, input, textarea, a, svg, .katex, .defcard, .term, .check__opt, .label, code';
+const SKIP =
+  'button, input, textarea, select, a, svg, canvas, .katex, .defcard, .term, .check__opt, .label, code, .sim, .sheet__kicker, .sheet__where, dt, [data-no-terms]';
 
 /** 목차에 보일 화면 이름. 글쓴이가 붙인 제목이 없으면 본문 첫 문장을 낱말 단위로 줄인다. */
 function tocTitle(screen: HTMLElement): string {
@@ -322,22 +324,47 @@ class QmLesson extends HTMLElement {
       const open = t.closest<HTMLElement>('[data-open]')?.dataset.open;
       if (open) this.toggleRail(open);
       if (t.closest('[data-close]')) this.closeRails();
-      const term = t.closest<HTMLElement>('[data-term]');
-      if (term && !t.closest('.defcard')) this.openTerm(term.dataset.term!);
+      if (t.closest('[data-sheet-close]')) this.closeSheet();
+      else if (t.closest('[data-sheet-back]')) this.sheetBack();
+      const term = t.closest<HTMLElement>('.term[data-term]');
+      if (term) {
+        e.preventDefault();
+        this.openTerm(term.dataset.term!, term, !!term.closest('.sheet'));
+      }
     });
+    // 밑줄 용어는 키보드로도 연다.
+    this.addEventListener('keydown', (e) => {
+      const term = (e.target as HTMLElement).closest?.<HTMLElement>('.term[data-term]');
+      if (term && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        this.openTerm(term.dataset.term!, term, !!term.closest('.sheet'));
+      }
+    });
+    // 시트를 아래로 밀면 닫힌다.
+    const panel = this.querySelector<HTMLElement>('.sheet__panel');
+    let sy = 0;
+    panel?.addEventListener('touchstart', (e) => (sy = e.touches[0]!.clientY), { passive: true });
+    panel?.addEventListener('touchend', (e) => {
+      const body = panel.querySelector<HTMLElement>('.sheet__body')!;
+      if (e.changedTouches[0]!.clientY - sy > 80 && body.scrollTop <= 0) this.closeSheet();
+    }, { passive: true });
 
     // 페이지를 바꿔 끼워도 문서는 그대로라, 문서에 건 키보드 처리는 강을 떠날 때 떼어 낸다.
     this.onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement;
       if (el.closest('input, textarea, [contenteditable]')) return;
+      if (this.sheetOpen()) {
+        // 시트가 열려 있으면 화면을 넘기지 않는다. Esc는 시트만 닫는다.
+        if (e.key === 'Escape') this.closeSheet();
+        return;
+      }
       if (e.key === 'Escape') {
-        this.closePop();
         this.closeRails();
         const turn = this.querySelector<HTMLElement>('.turn');
         if (turn) turn.hidden = true;
         return;
       }
-      if (!this.querySelector('.testout')!.hidden) return;
+      if (!this.querySelector<HTMLElement>('.testout')!.hidden) return;
       if (e.key === 'ArrowRight') this.next();
       if (e.key === 'ArrowLeft') this.prev();
     };
@@ -387,74 +414,138 @@ class QmLesson extends HTMLElement {
     for (const g of JSON.parse(raw) as Gloss[]) this.glossary.set(g.id, g);
   }
 
-  /** 물리량 용어(highlight)에 화면마다 처음 나오는 곳 한 번만 색 밑줄을 긋는다. */
+  /**
+   * 글 속 용어에 모두 밑줄을 긋는다. 화면마다 나오는 곳 전부에.
+   * 본문, 그림 설명(Panels, Flow, 표), 문제 지문과 해설까지. 선택지 버튼 안은 누르면 답이 골라지니 뺀다.
+   * 물리량 용어는 그 물리량 색 밑줄, 나머지는 흐린 점선 밑줄(CSS가 data-q로 나눈다).
+   */
   highlightTerms() {
-    const entries = [...this.glossary.values()].filter((g) => g.highlight);
-    if (!entries.length) return;
-    const matchers = buildMatchers(entries);
-    for (const screen of this.screens) {
-      const body = screen.querySelector('.screen__body');
-      if (!body) continue;
-      const seen = new Set<string>();
-      const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
-        acceptNode: (node) => (node.parentElement?.closest(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
-      });
-      const nodes: Text[] = [];
-      while (walker.nextNode()) nodes.push(walker.currentNode as Text);
-      for (const node of nodes) {
-        const text = node.data;
-        const hits = findTerms(text, matchers).filter((h) => !seen.has(h.id));
-        if (!hits.length) continue;
-        const frag = document.createDocumentFragment();
-        let pos = 0;
-        for (const h of hits) {
-          if (seen.has(h.id) || h.index < pos) continue;
-          seen.add(h.id);
-          frag.append(text.slice(pos, h.index));
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'term';
-          b.dataset.term = h.id;
-          b.dataset.q = this.glossary.get(h.id)!.q;
-          b.textContent = h.surface;
-          frag.append(b);
-          pos = h.index + h.surface.length;
-        }
-        frag.append(text.slice(pos));
-        node.replaceWith(frag);
+    if (!this.glossary.size) return;
+    this.matchers = buildMatchers([...this.glossary.values()]);
+    for (const screen of this.screens) this.markTerms(screen);
+  }
+
+  matchers: ReturnType<typeof buildMatchers> = [];
+
+  /** root 안의 글에서 용어를 찾아 누를 수 있는 밑줄로 바꾼다. except 용어는 건너뛴다(시트 속 자기 자신). */
+  markTerms(root: Element, except?: string) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) =>
+        !node.nodeValue?.trim() || node.parentElement?.closest(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+    });
+    const nodes: Text[] = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+    for (const node of nodes) {
+      const text = node.data;
+      const hits = findTerms(text, this.matchers).filter((h) => h.id !== except);
+      if (!hits.length) continue;
+      const frag = document.createDocumentFragment();
+      let pos = 0;
+      for (const h of hits) {
+        if (h.index < pos) continue;
+        frag.append(text.slice(pos, h.index));
+        frag.append(this.termEl(h.id, h.surface));
+        pos = h.index + h.surface.length;
       }
+      frag.append(text.slice(pos));
+      node.replaceWith(frag);
     }
   }
 
-  openTerm(id: string) {
-    const g = this.glossary.get(id);
-    if (!g) return;
-    const pop = this.querySelector<HTMLElement>('.pop')!;
-    pop.dataset.q = g.q;
-    pop.innerHTML = '';
-    const h = el('p', 'pop__term', g.term);
-    h.id = 'pop-term';
-    const def = el('p', 'pop__def', g.definition);
-    const dl = document.createElement('dl');
-    if (g.unit) dl.append(el('dt', '', '단위'), el('dd', 'mono', g.unit));
-    dl.append(el('dt', '', '예'), el('dd', '', g.examples.join(' / ')));
-    if (g.notThis) dl.append(el('dt', '', '헷갈림 주의'), el('dd', '', g.notThis));
-    const foot = el('div', 'pop__foot', '');
-    const where = document.createElement('a');
-    where.href = `${this.dataset.course!.replace(/course\/$/, '')}lessons/${g.taughtIn}/`;
-    where.textContent = g.taughtIn === this.n ? '이 강에서 처음 배워요' : `${g.taughtIn}강에서 처음 배웠어요`;
-    const close = el('button', 'btn', '닫기') as HTMLButtonElement;
-    close.type = 'button';
-    close.addEventListener('click', () => this.closePop());
-    foot.append(where, close);
-    pop.append(h, def, dl, foot);
-    pop.hidden = false;
-    close.focus();
+  termEl(id: string, surface: string) {
+    // <button> 대신 span을 쓴다. 문제 지문이나 다른 버튼 근처에서도 문서 구조가 깨지지 않게.
+    const b = document.createElement('span');
+    b.className = 'term';
+    b.setAttribute('role', 'button');
+    b.tabIndex = 0;
+    b.dataset.term = id;
+    b.dataset.q = this.glossary.get(id)!.q;
+    b.textContent = surface;
+    return b;
   }
 
-  closePop() {
-    const pop = this.querySelector<HTMLElement>('.pop');
-    if (pop) pop.hidden = true;
+  /* ── 용어 시트 ──
+   * 아래에서 올라오는 시트. 강의 화면 위치는 그대로 두고, 다른 강으로 넘어가지 않는다.
+   * 시트 안의 글에 나온 용어를 누르면 시트 안에서 다음 장으로 넘어가고, "‹ 앞 용어"로 돌아온다. */
+  sheetStack: string[] = [];
+  sheetOpener: HTMLElement | null = null;
+
+  get sheet() {
+    return this.querySelector<HTMLElement>('.sheet')!;
+  }
+
+  sheetOpen() {
+    return !this.sheet.hidden;
+  }
+
+  openTerm(id: string, from?: HTMLElement, push = false) {
+    if (!this.glossary.has(id)) return;
+    if (!push) {
+      this.sheetStack = [];
+      this.sheetOpener = from ?? null;
+    }
+    if (this.sheetStack.at(-1) !== id) this.sheetStack.push(id);
+    this.renderSheet();
+  }
+
+  sheetBack() {
+    this.sheetStack.pop();
+    if (this.sheetStack.length) this.renderSheet();
+    else this.closeSheet();
+  }
+
+  renderSheet() {
+    const id = this.sheetStack.at(-1)!;
+    const g = this.glossary.get(id)!;
+    const sheet = this.sheet;
+    const panel = sheet.querySelector<HTMLElement>('.sheet__panel')!;
+    const body = sheet.querySelector<HTMLElement>('.sheet__body')!;
+    panel.dataset.q = g.q;
+    body.innerHTML = '';
+    const kicker = el('p', 'label sheet__kicker', g.taughtIn > this.n ? '용어 · 미리 보기' : '용어');
+    const h = el('h3', 'sheet__title', g.term);
+    h.id = 'sheet-title';
+    const def = el('p', 'sheet__def', g.definition);
+    const dl = document.createElement('dl');
+    dl.className = 'sheet__dl';
+    if (g.unit) dl.append(el('dt', '', '단위'), el('dd', 'mono', g.unit));
+    const ex = document.createElement('dd');
+    const ul = document.createElement('ul');
+    for (const e of g.examples) ul.append(el('li', '', e));
+    ex.append(ul);
+    dl.append(el('dt', '', '예'), ex);
+    if (g.notThis) dl.append(el('dt', '', '헷갈림 주의'), el('dd', '', g.notThis));
+    // 처음 배운 곳은 글로만 알려 준다. 링크로 넘어가면 지금 보던 화면으로 돌아오기 어렵다.
+    const where =
+      g.taughtIn === this.n
+        ? '이 강에서 배워요'
+        : g.taughtIn < this.n
+          ? `처음 배운 곳: ${g.taughtIn}강 「${g.where}」`
+          : `${g.taughtIn}강 「${g.where}」에서 자세히 배워요`;
+    body.append(kicker, h, def, dl, el('p', 'sheet__where', where));
+    this.markTerms(body, id);
+    const back = sheet.querySelector<HTMLButtonElement>('[data-sheet-back]')!;
+    const prevId = this.sheetStack.at(-2);
+    back.hidden = !prevId;
+    if (prevId) back.textContent = `‹ ${this.glossary.get(prevId)!.term}`;
+    sheet.querySelector('.sheet__trail')!.textContent =
+      this.sheetStack.length > 1 ? `${this.sheetStack.length}번째 용어` : '';
+    const wasHidden = sheet.hidden;
+    sheet.hidden = false;
+    body.scrollTop = 0;
+    if (wasHidden) requestAnimationFrame(() => sheet.classList.add('is-open'));
+    h.tabIndex = -1;
+    h.focus({ preventScroll: true });
+  }
+
+  closeSheet() {
+    const sheet = this.sheet;
+    if (sheet.hidden) return;
+    sheet.classList.remove('is-open');
+    sheet.hidden = true;
+    this.sheetStack = [];
+    this.sheetOpener?.focus({ preventScroll: true });
+    this.sheetOpener = null;
   }
 
   /* ── 통과 시험 ── */

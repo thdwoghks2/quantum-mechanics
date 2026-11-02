@@ -253,17 +253,28 @@ canvas {
   background: transparent;
 }
 
-/* 물리량 밑줄 (글 속 용어) */
+/* 글 속 용어 밑줄. 누르면 아래에서 용어 시트가 올라온다.
+   물리량 용어는 그 물리량 색 실선, 나머지 용어는 흐린 점선. */
 .term {
-  all: unset;
   cursor: pointer;
   border-bottom: 2px solid var(--qc, var(--q-plain));
   padding-bottom: 0;
   line-height: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.term[data-q='plain'] {
+  border-bottom: 1.5px dotted color-mix(in srgb, var(--text-2) 70%, transparent);
+}
+
+.term:hover,
+.term:active {
+  background: color-mix(in srgb, var(--qc, var(--q-plain)) 14%, transparent);
 }
 
 .term:focus-visible {
   outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 [data-q="time"] { --qc: var(--q-time); }

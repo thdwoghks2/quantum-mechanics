@@ -1,7 +1,7 @@
 # 용어집. 용어마다 정식으로 가르치는 강(taughtIn)이 하나 있다.
 # 그 강보다 앞선 강에서는 이 용어를 쓸 수 없다(npm run validate가 검사한다).
 # 정식 도입 = 정의 카드 + 일상 예시 2개 + 시각 자료 + 확인 문제.
-# q: 물리량 묶음(색). highlight: 글 속에서 색 밑줄을 칠지.
+# q: 물리량 묶음(색). 글 속 밑줄은 모든 용어에 붙고, q가 plain이 아니면 그 물리량 색 실선이 된다.
 
 # ── 1강 ───────────────────────────────
 - id: law
@@ -102,7 +102,6 @@
   notThis: 속도와는 달라요. 속력에는 방향이 없어요.
   taughtIn: 4
   q: motion
-  highlight: true
 - id: velocity
   term: 속도
   definition: 속력에 움직이는 방향까지 붙인 양.
@@ -113,7 +112,6 @@
   notThis: 속력과는 달라요. 일상에서는 둘을 섞어 쓰지만 물리학에서는 방향이 있는지로 구별해요.
   taughtIn: 4
   q: motion
-  highlight: true
 - id: acceleration
   term: 가속도
   definition: 1초 동안 속도가 바뀐 양. 바뀐 속도를 걸린 시간으로 나눠서 구하는 값.
@@ -124,7 +122,6 @@
   notThis: 빠르기 자체가 아니에요. 아무리 빨리 달려도 속도가 바뀌지 않으면 가속도는 0이에요.
   taughtIn: 4
   q: motion
-  highlight: true
 
 # ── 5강 ───────────────────────────────
 - id: inertia
@@ -146,7 +143,6 @@
   notThis: 움직임 자체가 힘은 아니에요. 같은 속도로 미끄러지는 물체에는 속도를 바꾸는 힘이 없어도 돼요.
   taughtIn: 5
   q: force
-  highlight: true
 - id: mass
   term: 질량
   definition: 물체의 속도를 바꾸기 어려운 정도. 물체에 든 물질의 양이라고 봐도 되는 양.
@@ -157,7 +153,6 @@
   notThis: 무게와는 달라요. 무게는 지구가 끌어당기는 힘이라서 장소에 따라 달라져요.
   taughtIn: 5
   q: force
-  highlight: true
 - id: friction
   term: 마찰
   definition: 맞닿은 두 물체가 서로 미끄러지려 할 때 그 움직임을 방해하는 힘.
@@ -208,7 +203,6 @@
   notThis: 힘과는 달라요. 힘은 속도를 바꾸는 밀기·당기기이고, 에너지는 모습이 바뀌어도 합이 남는 양이에요.
   taughtIn: 6
   q: energy
-  highlight: true
 - id: kinetic-energy
   term: 운동 에너지
   definition: 움직이는 물체가 가진 에너지. ½ × 질량 × 속력².
@@ -219,7 +213,6 @@
   notThis: 운동량과는 달라요. 운동량은 질량 × 속도이고, 7강에서 배워요.
   taughtIn: 6
   q: energy
-  highlight: true
 - id: potential-energy
   term: 위치 에너지
   definition: 높은 곳에 있어서 가진 에너지. 질량 × 9.8 × 높이(mgh)로, 물체가 떨어지면 운동 에너지로 바뀌는 것.
@@ -230,7 +223,6 @@
   notThis: 이미 써 버린 에너지가 아니에요. 아직 다른 모습으로 바뀌지 않고 남아 있는 에너지예요.
   taughtIn: 6
   q: energy
-  highlight: true
 - id: joule
   term: 줄(J)
   pattern: '줄\(J\)'
@@ -262,7 +254,6 @@
   notThis: 운동 에너지와는 달라요. 운동량에는 방향이 있고, 속도를 제곱하지 않고 그대로 곱해요.
   taughtIn: 7
   q: force
-  highlight: true
 - id: impulse
   term: 충격량
   definition: 힘 × 그 힘이 작용한 시간. 물체의 운동량이 바뀐 양과 같은 값.
@@ -338,7 +329,6 @@
   notThis: 진동수와는 달라요. 주기는 '한 번에 몇 초', 진동수는 '1초에 몇 번'이에요.
   taughtIn: 9
   q: time
-  highlight: true
 - id: frequency
   term: 진동수
   definition: 1초 동안 진동이 되풀이되는 횟수.
@@ -349,7 +339,6 @@
   notThis: 진동의 크기(진폭)와는 달라요. 크게 흔들리든 작게 흔들리든 1초에 되풀이되는 횟수가 같으면 진동수는 같아요.
   taughtIn: 9
   q: time
-  highlight: true
 - id: hertz
   term: 헤르츠
   aliases: [Hz]
@@ -370,7 +359,6 @@
   notThis: 진동수와는 달라요. 진폭이 커져도 1초에 되풀이되는 횟수는 거의 그대로예요.
   taughtIn: 9
   q: space
-  highlight: true
 
 # ── 10강 ──────────────────────────────
 - id: wave
@@ -400,7 +388,6 @@
   notThis: 지금까지 움직인 거리가 아니에요. 변위는 지금 원래 자리에서 얼마나 떨어져 있는지만 봐요.
   taughtIn: 10
   q: space
-  highlight: true
 
 # ── 11강 ──────────────────────────────
 - id: wavelength
@@ -413,7 +400,6 @@
   notThis: 진폭과는 달라요. 파장은 옆으로 잰 거리, 진폭은 위아래로 잰 거리예요.
   taughtIn: 11
   q: space
-  highlight: true
 - id: wave-speed
   term: 파동의 속력
   definition: 파동의 모양이 1초 동안 나아가는 거리. 진동수 × 파장과 같은 값.
@@ -424,7 +410,6 @@
   notThis: 매질이 흔들리는 빠르기와는 달라요. 줄 위 한 점은 위아래로만 움직이고, 앞으로 나아가는 건 모양이에요.
   taughtIn: 11
   q: motion
-  highlight: true
 
 # ── 12강 ──────────────────────────────
 - id: sine
@@ -445,7 +430,6 @@
   notThis: 진폭과는 달라요. 위상은 '언제쯤', 진폭은 '얼마나 크게'예요.
   taughtIn: 12
   q: time
-  highlight: true
 
 # ── 13강 ──────────────────────────────
 - id: superposition
@@ -502,7 +486,6 @@
   notThis: 두 파원 사이의 거리와는 달라요.
   taughtIn: 14
   q: space
-  highlight: true
 
 # ── 15강 ──────────────────────────────
 - id: diffraction
@@ -559,7 +542,6 @@
   notThis: 무한히 빠른 게 아니에요. 빛도 가는 데 시간이 걸려요.
   taughtIn: 17
   q: motion
-  highlight: true
 - id: spectrum
   term: 스펙트럼
   pattern: '스펙트럼(?! 그래프)'
@@ -582,7 +564,6 @@
   notThis: 전류와는 달라요. 전류는 전하가 흐르는 거예요.
   taughtIn: 18
   q: charge
-  highlight: true
 - id: electric-force
   term: 전기력
   definition: 전하를 띤 물체끼리 서로 밀거나 당기는 힘. 같은 종류끼리는 밀고 다른 종류끼리는 당기는 힘.
@@ -593,7 +574,6 @@
   notThis: 중력과는 달라요. 중력은 당기기만 하지만 전기력은 밀기도 해요.
   taughtIn: 18
   q: charge
-  highlight: true
 - id: coulomb-law
   term: 쿨롱 법칙
   definition: 두 전하 사이의 전기력은 두 전하의 곱에 비례하고 거리의 제곱에 반비례한다는 법칙.
@@ -934,7 +914,6 @@
   notThis: 전하를 아무 크기로나 나눌 수 있다는 생각과는 달라요. 0.5e나 1.3e 같은 전하를 띤 알갱이는 홀로 발견된 적이 없어요. 쿼크라는 알갱이는 e의 3분의 1 단위 전하를 띠지만, 늘 둘이나 셋씩 묶여 있어서 홀로 나타나지 않아요.
   taughtIn: 38
   q: charge
-  highlight: true
 
 # ── 39강 ─────────────────────────────
 - id: nucleus
@@ -975,7 +954,6 @@
   notThis: 원 바깥으로 미는 힘이 아니에요. 버스가 돌 때 몸이 바깥으로 쏠리는 느낌은 몸이 하던 대로 곧게 가려는 관성 때문이에요.
   taughtIn: 40
   q: force
-  highlight: true
 
 # ── 41강 ─────────────────────────────
 # (새 용어 없음)
@@ -1077,7 +1055,6 @@
   notThis: 알갱이의 크기가 아니에요. 같은 전자라도 빠를수록 운동량이 커져서 파장이 짧아져요.
   taughtIn: 47
   q: space
-  highlight: true
 
 # ── 48강 ─────────────────────────────
 # (새 용어 없음)

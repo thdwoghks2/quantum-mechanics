@@ -24,9 +24,19 @@ const { entry, prev, next } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
 
-const glossary = (await getCollection('glossary')).filter((g) => g.data.taughtIn <= d.number && !g.data.planned);
+// 글에 밑줄을 칠 용어: 이미 배운 용어, 그리고 정식 도입 전이지만 일상어로 미리 쓰는 용어(previewIn).
+const glossary = (await getCollection('glossary')).filter(
+  (g) => !g.data.planned && (g.data.taughtIn <= d.number || g.data.previewIn.includes(d.number)),
+);
+// 용어 시트에 "처음 배운 곳: 27강 「…」"을 링크 없이 적으려고 강 제목을 함께 넣는다.
+const lessonTitles = new Map(
+  (await getCollection('lessons')).map((l) => [l.data.number, l.data.short] as const),
+);
 const glossaryJson = JSON.stringify(
-  glossary.map((g) => ({ id: g.id, ...g.data })),
+  glossary.map((g) => {
+    const { highlight: _h, planned: _p, previewIn: _pv, pattern, ...rest } = g.data;
+    return { id: g.id, ...rest, ...(pattern ? { pattern } : {}), where: lessonTitles.get(g.data.taughtIn) ?? '' };
+  }),
 ).replace(/</g, '\\u003c');
 const term = (id: string) => glossary.find((g) => g.id === id);
 const assumes = d.assumes.map(term).filter((x) => !!x);
@@ -154,7 +164,19 @@ const turn = isPartEnd && part
       <button type="button" class="btn btn--primary lnav__next" data-action="next">다음 ›</button>
     </nav>
 
-    <div class="pop" role="dialog" aria-modal="false" aria-labelledby="pop-term" hidden></div>
+    <!-- 용어 시트: 아래에서 올라온다. 다른 강으로 넘어가지 않고, 시트 안에서 용어를 따라갔다가 돌아올 수 있다. -->
+    <div class="sheet" hidden>
+      <div class="sheet__scrim" data-sheet-close></div>
+      <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <div class="sheet__grip" aria-hidden="true"></div>
+        <div class="sheet__bar">
+          <button type="button" class="sheet__back" data-sheet-back hidden>‹ 앞 용어</button>
+          <span class="sheet__trail label" aria-live="polite"></span>
+          <button type="button" class="sheet__close" data-sheet-close aria-label="닫기">닫기</button>
+        </div>
+        <div class="sheet__body"></div>
+      </div>
+    </div>
 
     <div class="testout" role="dialog" aria-modal="true" aria-label="통과 시험" hidden>
       <div class="testout__inner">

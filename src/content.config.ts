@@ -48,9 +48,8 @@ const glossary = defineCollection({
     previewIn: z.array(z.number().int().positive()).default([]),
     /** 아직 그 강을 쓰지 않아 이름과 강 번호만 정해 둔 용어. 그 강을 공개할 때 내용을 채우고 지운다. */
     planned: z.boolean().default(false),
+    /** 물리량 묶음. plain이 아니면 글 속 밑줄이 그 물리량 색 실선이 된다(나머지는 흐린 점선). */
     q: z.enum(QUANTITY).default('plain'),
-    /** 글 속에서 색 밑줄을 칠지 */
-    highlight: z.boolean().default(false),
   }),
 });
 
