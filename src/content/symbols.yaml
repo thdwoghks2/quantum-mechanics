@@ -1,0 +1,387 @@
+# 기호 사전. 이 코스에서 쓰는 모든 알파벳·그리스 문자 기호와 단위 기호.
+# 강의 수식 속 글자를 누르면 이 카드가 아래에서 올라온다.
+#
+# sym      기호 모양(TeX)
+# name     이름                 read  읽는 법(한글)
+# kind     variable(변하는 양) | constant(상수) | unit(단위) | index(번호) | operator(연산 기호)
+# q        색 묶음(물리량)       meaning  뜻
+# unit     단위                 value  상수의 값
+# origin   글자가 어디서 왔는지(확실한 것만)
+# notThis  헷갈리기 쉬운 것      taughtIn  처음 배우는 강
+#
+# 같은 글자가 다른 뜻으로 쓰이면(h: 높이, 플랑크 상수) 항목을 따로 둔다.
+# 기호 카드는 같은 모양의 다른 기호를 저절로 "헷갈리지 마세요"에 보여 준다.
+# 강에서는 frontmatter의 symbols로 "이 강의 h는 무엇인지"를 정한다.
+
+# ── 단위 ──────────────────────────────
+- id: unit-m
+  sym: '\mathrm{m}'
+  name: 미터
+  read: 미터
+  kind: unit
+  q: space
+  meaning: 길이의 기본 단위예요. 어른 걸음으로 한 걸음 반쯤이에요.
+  origin: 프랑스어 mètre. 그리스어로 '재다'라는 말에서 왔어요.
+  notThis: 수식에서 기울어진 m은 질량이에요. 단위 m은 똑바로 선 회색 글자로 써요.
+  taughtIn: 3
+- id: unit-km
+  sym: '\mathrm{km}'
+  name: 킬로미터
+  read: 킬로미터
+  kind: unit
+  q: space
+  meaning: 1,000 m예요. 앞의 k(킬로)는 '1,000배'라는 뜻이에요.
+  taughtIn: 3
+- id: unit-cm
+  sym: '\mathrm{cm}'
+  name: 센티미터
+  read: 센티미터
+  kind: unit
+  q: space
+  meaning: 1 m의 100분의 1이에요. 앞의 c(센티)는 '100분의 1'이라는 뜻이에요.
+  taughtIn: 3
+- id: unit-mm
+  sym: '\mathrm{mm}'
+  name: 밀리미터
+  read: 밀리미터
+  kind: unit
+  q: space
+  meaning: 1 m의 1,000분의 1이에요. 앞의 m(밀리)는 '1,000분의 1'이라는 뜻이에요.
+  taughtIn: 3
+- id: unit-um
+  sym: '\mu\mathrm{m}'
+  name: 마이크로미터
+  read: 마이크로미터
+  kind: unit
+  q: space
+  meaning: 1 m의 100만분의 1(10⁻⁶ m)이에요. 머리카락 굵기가 약 70 μm예요.
+  origin: μ(뮤)는 그리스어로 '작다'라는 말 mikros의 첫 글자예요.
+  taughtIn: 3
+- id: unit-nm
+  sym: '\mathrm{nm}'
+  name: 나노미터
+  read: 나노미터
+  kind: unit
+  q: space
+  meaning: 1 m의 10억분의 1(10⁻⁹ m)이에요. 원자 몇 개를 늘어놓은 길이예요.
+  origin: 나노는 그리스어로 '난쟁이'라는 말에서 왔어요.
+  taughtIn: 3
+- id: unit-fm
+  sym: '\mathrm{fm}'
+  name: 펨토미터
+  read: 펨토미터
+  kind: unit
+  q: space
+  meaning: 1 m의 1,000조분의 1(10⁻¹⁵ m)이에요. 원자핵의 크기가 몇 fm예요.
+  taughtIn: 106
+- id: unit-L
+  sym: '\mathrm{L}'
+  name: 리터
+  read: 리터
+  kind: unit
+  q: space
+  meaning: 부피의 단위예요. 한 변이 10 cm인 정육면체의 부피가 1 L예요.
+  taughtIn: 3
+- id: unit-s
+  sym: '\mathrm{s}'
+  name: 초
+  read: 초 (에스)
+  kind: unit
+  q: time
+  meaning: 시간의 기본 단위예요. second의 첫 글자예요.
+  taughtIn: 3
+- id: unit-ns
+  sym: '\mathrm{ns}'
+  name: 나노초
+  read: 나노초
+  kind: unit
+  q: time
+  meaning: 1초의 10억분의 1(10⁻⁹ s)이에요. 빛은 1 ns 동안 약 30 cm를 가요.
+  taughtIn: 63
+- id: unit-h
+  sym: '\mathrm{h}'
+  name: 시간
+  read: 시간 (에이치)
+  kind: unit
+  q: time
+  meaning: 1시간(3,600초)이에요. km/h는 '1시간에 몇 킬로미터'라는 뜻이에요. hour의 첫 글자예요.
+  notThis: 수식에서 기울어진 h는 높이나 플랑크 상수예요. 단위 h는 숫자 바로 뒤에 똑바로 선 회색 글자로 써요.
+  taughtIn: 3
+- id: unit-kg
+  sym: '\mathrm{kg}'
+  name: 킬로그램
+  read: 킬로그램
+  kind: unit
+  q: force
+  meaning: 질량의 기본 단위예요. 1 L 물의 질량이 약 1 kg이에요.
+  taughtIn: 3
+- id: unit-g
+  sym: '\mathrm{g}'
+  name: 그램
+  read: 그램
+  kind: unit
+  q: force
+  meaning: 1 kg의 1,000분의 1이에요.
+  notThis: 수식에서 기울어진 g는 중력 가속도(약 9.8 m/s²)예요.
+  taughtIn: 3
+- id: unit-N
+  sym: '\mathrm{N}'
+  name: 뉴턴
+  read: 뉴턴
+  kind: unit
+  q: force
+  meaning: 힘의 단위예요. 질량 1 kg인 물체를 1초에 1 m/s씩 빨라지게 하는 힘이 1 N이에요. 손바닥에 사과 하나를 올렸을 때 누르는 힘이 약 1 N이에요.
+  origin: 아이작 뉴턴의 이름에서 왔어요.
+  taughtIn: 5
+- id: unit-J
+  sym: '\mathrm{J}'
+  name: 줄
+  read: 줄
+  kind: unit
+  q: energy
+  meaning: 에너지의 단위예요. 1 N의 힘으로 물체를 1 m 밀 때 드는 에너지가 1 J이에요.
+  origin: 제임스 줄(James Joule)의 이름에서 왔어요.
+  taughtIn: 6
+- id: unit-kJ
+  sym: '\mathrm{kJ}'
+  name: 킬로줄
+  read: 킬로줄
+  kind: unit
+  q: energy
+  meaning: 1,000 J이에요.
+  taughtIn: 6
+- id: unit-W
+  sym: '\mathrm{W}'
+  name: 와트
+  read: 와트
+  kind: unit
+  q: energy
+  meaning: 1초에 오가는 에너지의 단위예요. 1초에 1 J이면 1 W예요.
+  origin: 증기기관을 고친 제임스 와트의 이름에서 왔어요.
+  taughtIn: 6
+- id: unit-Hz
+  sym: '\mathrm{Hz}'
+  name: 헤르츠
+  read: 헤르츠
+  kind: unit
+  q: time
+  meaning: 1초에 몇 번 진동하는지를 세는 단위예요. 1초에 10번이면 10 Hz예요.
+  origin: 전자기파를 처음 만들어 확인한 하인리히 헤르츠의 이름에서 왔어요.
+  taughtIn: 9
+- id: unit-kHz
+  sym: '\mathrm{kHz}'
+  name: 킬로헤르츠
+  read: 킬로헤르츠
+  kind: unit
+  q: time
+  meaning: 1,000 Hz예요. 1초에 1,000번 진동해요.
+  taughtIn: 9
+- id: unit-MHz
+  sym: '\mathrm{MHz}'
+  name: 메가헤르츠
+  read: 메가헤르츠
+  kind: unit
+  q: time
+  meaning: 100만 Hz예요. 앞의 M(메가)는 '100만 배'라는 뜻이에요. FM 라디오가 약 100 MHz예요.
+  taughtIn: 19
+- id: unit-GHz
+  sym: '\mathrm{GHz}'
+  name: 기가헤르츠
+  read: 기가헤르츠
+  kind: unit
+  q: time
+  meaning: 10억 Hz예요. 앞의 G(기가)는 '10억 배'라는 뜻이에요. 전자레인지가 약 2.45 GHz예요.
+  taughtIn: 19
+- id: unit-K
+  sym: '\mathrm{K}'
+  name: 켈빈
+  read: 켈빈
+  kind: unit
+  q: heat
+  meaning: 절대온도의 단위예요. 0 K가 가장 낮은 온도이고, 0 ℃는 약 273 K예요. 눈금 한 칸의 크기는 ℃와 같아요.
+  origin: 윌리엄 톰슨, 곧 켈빈 경의 이름에서 왔어요.
+  notThis: 수식에서 기울어진 K는 다른 뜻일 수 있어요. 단위 K는 숫자 뒤의 똑바로 선 회색 글자예요.
+  taughtIn: 23
+- id: unit-celsius
+  sym: '{}^\circ\mathrm{C}'
+  name: 섭씨온도
+  read: 도 (섭씨)
+  kind: unit
+  q: heat
+  meaning: 일상에서 쓰는 온도 단위예요. 물이 어는 온도를 0 ℃, 끓는 온도를 100 ℃로 정했어요.
+  origin: 안데르스 셀시우스의 이름에서 왔어요. '섭씨'는 셀시우스의 한자 표기예요.
+  taughtIn: 1
+- id: unit-C
+  sym: '\mathrm{C}'
+  name: 쿨롱
+  read: 쿨롱
+  kind: unit
+  q: charge
+  meaning: 전하의 단위예요. 전자 하나의 전하는 약 1.6 × 10⁻¹⁹ C예요.
+  origin: 샤를 쿨롱의 이름에서 왔어요.
+  taughtIn: 18
+- id: unit-V
+  sym: '\mathrm{V}'
+  name: 볼트
+  read: 볼트
+  kind: unit
+  q: charge
+  meaning: 전압의 단위예요. 전하 1 C가 1 V를 지나면 1 J의 에너지를 얻거나 잃어요. 휴대폰 배터리가 약 4 V예요.
+  origin: 전지를 만든 알레산드로 볼타의 이름에서 왔어요.
+  taughtIn: 38
+- id: unit-A
+  sym: '\mathrm{A}'
+  name: 암페어
+  read: 암페어
+  kind: unit
+  q: charge
+  meaning: 전류의 단위예요. 1초에 1 C의 전하가 지나가면 1 A예요.
+  origin: 앙드레마리 앙페르의 이름에서 왔어요.
+  taughtIn: 59
+- id: unit-T
+  sym: '\mathrm{T}'
+  name: 테슬라
+  read: 테슬라
+  kind: unit
+  q: charge
+  meaning: 자기장 세기의 단위예요. 냉장고 자석이 약 0.01 T, 병원 MRI가 1.5~3 T예요.
+  origin: 니콜라 테슬라의 이름에서 왔어요.
+  taughtIn: 134
+- id: unit-eV
+  sym: '\mathrm{eV}'
+  name: 전자볼트
+  read: 전자볼트
+  kind: unit
+  q: energy
+  meaning: 아주 작은 에너지를 재는 단위예요. 전자 하나가 1 V를 지날 때 얻는 에너지가 1 eV이고, 약 1.6 × 10⁻¹⁹ J이에요.
+  notThis: e와 V를 곱한 것이 아니라 한 덩어리 단위예요.
+  taughtIn: 38
+- id: unit-keV
+  sym: '\mathrm{keV}'
+  name: 킬로전자볼트
+  read: 킬로전자볼트
+  kind: unit
+  q: energy
+  meaning: 1,000 eV예요.
+  taughtIn: 38
+- id: unit-MeV
+  sym: '\mathrm{MeV}'
+  name: 메가전자볼트
+  read: 메가전자볼트
+  kind: unit
+  q: energy
+  meaning: 100만 eV예요. 원자핵에서 오가는 에너지가 MeV 크기예요.
+  taughtIn: 38
+- id: unit-GeV
+  sym: '\mathrm{GeV}'
+  name: 기가전자볼트
+  read: 기가전자볼트
+  kind: unit
+  q: energy
+  meaning: 10억 eV예요. 양성자 하나의 질량을 에너지로 바꾸면 약 1 GeV예요.
+  taughtIn: 38
+
+# ── 0부: 움직임과 힘과 에너지 ─────────────
+- id: time-t
+  sym: 't'
+  name: 시간
+  read: 티
+  kind: variable
+  q: time
+  meaning: 걸린 시간, 또는 시계로 잰 어느 순간이에요.
+  unit: s (초)
+  origin: 영어 time의 첫 글자예요.
+  taughtIn: 4
+- id: velocity-v
+  sym: 'v'
+  name: 속도
+  read: 브이
+  kind: variable
+  q: motion
+  meaning: 1초에 얼마나, 어느 방향으로 움직이는지예요. 방향을 빼고 크기만 말하면 속력이에요.
+  unit: m/s (미터 매 초)
+  origin: 영어 velocity(속도)의 첫 글자예요.
+  taughtIn: 4
+- id: acceleration-a
+  sym: 'a'
+  name: 가속도
+  read: 에이
+  kind: variable
+  q: motion
+  meaning: 1초에 속도가 얼마나 바뀌는지예요. 1초마다 2 m/s씩 빨라지면 가속도는 2 m/s²예요.
+  unit: m/s² (미터 매 초 제곱)
+  origin: 영어 acceleration의 첫 글자예요.
+  taughtIn: 4
+- id: delta
+  sym: '\Delta'
+  name: 변화량 (델타)
+  read: 델타
+  kind: operator
+  meaning: 뒤에 붙은 양이 얼마나 바뀌었는지를 뜻해요. Δv는 '나중 속도 − 처음 속도'예요. Δ 혼자서는 값이 없어요.
+  origin: 그리스 문자 델타(Δ)로, 로마자 D에 해당해요. difference(차이)를 떠올리면 쉬워요.
+  notThis: Δv는 Δ와 v를 곱한 것이 아니에요. 두 글자가 한 덩어리예요.
+  taughtIn: 7
+- id: force-F
+  sym: 'F'
+  name: 힘
+  read: 에프
+  kind: variable
+  q: force
+  meaning: 물체를 밀거나 당겨서 속도를 바꾸는 작용의 크기예요.
+  unit: N (뉴턴)
+  origin: 영어 force의 첫 글자예요.
+  notThis: 기울어진 소문자 f는 진동수예요(9강부터).
+  taughtIn: 5
+- id: mass-m
+  sym: 'm'
+  name: 질량
+  read: 엠
+  kind: variable
+  q: force
+  meaning: 물체의 속도를 바꾸기가 얼마나 어려운지를 나타내는 양이에요. 무거운 물체일수록 커요.
+  unit: kg (킬로그램)
+  origin: 영어 mass의 첫 글자예요.
+  notThis: 숫자 뒤의 똑바로 선 회색 m은 길이 단위 미터예요.
+  taughtIn: 5
+- id: gravity-g
+  sym: 'g'
+  name: 중력 가속도
+  read: 지
+  kind: constant
+  q: motion
+  meaning: 지구 표면 가까이에서 떨어지는 물체가 1초마다 빨라지는 정도예요.
+  unit: m/s²
+  value: 약 9.8 m/s²
+  origin: 영어 gravity(중력)의 첫 글자예요.
+  notThis: 숫자 뒤의 똑바로 선 회색 g는 질량 단위 그램이에요.
+  taughtIn: 6
+- id: height-h
+  sym: 'h'
+  name: 높이
+  read: 에이치
+  kind: variable
+  q: space
+  meaning: 기준으로 정한 곳(보통 바닥)에서 잰 높이예요.
+  unit: m (미터)
+  origin: 영어 height의 첫 글자예요.
+  notThis: 32강부터 나오는 h는 플랑크 상수예요. 한 강 안에서 두 뜻을 섞어 쓰지 않아요.
+  taughtIn: 6
+- id: energy-E
+  sym: 'E'
+  name: 에너지
+  read: 이
+  kind: variable
+  q: energy
+  meaning: 물체가 가진 '일을 할 수 있는 능력'의 양이에요. 모양이 바뀌어도 전체 양은 그대로예요.
+  unit: J (줄)
+  origin: 영어 energy의 첫 글자예요.
+  taughtIn: 6
+- id: momentum-p
+  sym: 'p'
+  name: 운동량
+  read: 피
+  kind: variable
+  q: force
+  meaning: 질량과 속도를 곱한 양이에요. 무겁고 빠를수록 멈추게 하기 어려워요.
+  unit: kg·m/s
+  taughtIn: 7

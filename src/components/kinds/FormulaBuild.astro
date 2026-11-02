@@ -1,0 +1,29 @@
+---
+/**
+ * 복잡한 식을 한 덩어리씩 쌓아 보여 준다. formulas.yaml의 build 단계를 쓴다.
+ * 단계마다 data-step이 붙어서, 강에서 '계속'을 누를 때마다 한 줄씩 열린다.
+ * from: 이 화면의 몇 번째 단계부터 열지 (기본 1). 본문 글의 <S n>과 맞춘다.
+ */
+import { getEntry } from 'astro:content';
+import { renderMath, tex } from '../../lib/math.ts';
+import '../../styles/cards.css';
+
+interface Props {
+  id: string;
+  from?: number;
+}
+const { id, from = 1 } = Astro.props;
+const e = await getEntry('formulas', id);
+if (!e) throw new Error(`공식 카드에 없는 공식: ${id}`);
+const f = e.data;
+if (!f.build?.length) throw new Error(`공식 ${id}에 build 단계가 없다`);
+---
+<article class="fcard fbuild" data-formula={id} data-symmap={JSON.stringify(f.symbols)}>
+  <p class="fcard__kicker label">식을 한 덩어리씩 · {f.name}</p>
+  {f.build.map((b, i) => (
+    <div class="fbuild__step" data-step={from + i > 1 ? from + i : undefined}>
+      <div class="fbuild__tex" set:html={tex(b.tex, true)} />
+      <p class="fbuild__note" set:html={renderMath(b.note)} />
+    </div>
+  ))}
+</article>

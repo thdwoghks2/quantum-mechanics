@@ -1,0 +1,38 @@
+---
+/**
+ * 개념 카드. concepts.yaml의 항목을 보여 준다.
+ * 이름 → 핵심 한 문장 → 왜 필요한가 → 이해 단계 → 흔한 오해.
+ */
+import { getEntry } from 'astro:content';
+import { renderMath } from '../../lib/math.ts';
+import '../../styles/cards.css';
+
+interface Props {
+  id: string;
+  compact?: boolean;
+}
+const { id, compact = false } = Astro.props;
+const e = await getEntry('concepts', id);
+if (!e) throw new Error(`개념 카드에 없는 개념: ${id}`);
+const c = e.data;
+---
+<article class="fcard ccard" data-concept={id}>
+  <p class="fcard__kicker label">개념</p>
+  <h3 class="fcard__name">{c.name}</h3>
+  <p class="ccard__core" set:html={renderMath(c.core)} />
+  {!compact && <p class="ccard__why" set:html={renderMath(c.why)} />}
+  {!compact && (
+    <div>
+      <p class="label">차근차근</p>
+      <ol class="ccard__steps">{c.steps.map((s) => <li set:html={renderMath(s)} />)}</ol>
+    </div>
+  )}
+  {!compact && c.wrong.length > 0 && (
+    <div class="ccard__wrong">
+      <p class="label">흔한 오해</p>
+      {c.wrong.map((w) => (
+        <p><s set:html={renderMath(w.wrong)} /> → <span set:html={renderMath(w.right)} /></p>
+      ))}
+    </div>
+  )}
+</article>

@@ -124,6 +124,10 @@ status: draft                         # 다 쓰면 published
 | `S n` | 화면 안에서 "계속"을 누를 때마다 나타나는 단계 |
 | `Later n` | 아직 배우지 않은 용어를 일부러 미리 언급할 때. 용어 계약 검사에서 빠진다 |
 | `Define term` | 정의 카드 (용어집에서 읽는다) |
+| `Formula id compact` | 공식 카드 (`formulas.yaml`). 이름, 식, 말로 읽기, 이 식이 말하는 것, 기호 표, 숫자 예, 맞는 곳 |
+| `FormulaBuild id from` | 식을 한 덩어리씩 쌓기 (`formulas.yaml`의 `build`). 단계마다 '계속'으로 열린다 |
+| `Concept id compact` | 개념 카드 (`concepts.yaml`). 핵심 한 문장, 왜 필요한가, 차근차근(2~5단계), 흔한 오해 |
+| `SymTable ids` | 기호 표. 공식 없이 기호만 새로 소개할 때 |
 | `Check id options` | 객관식. 선택지마다 `why` |
 | `Numeric id answer tol unit mode` | 숫자 답. `mode="order"`는 자릿수 어림 |
 | `Key` | 핵심 문장 하나 |
@@ -138,6 +142,17 @@ status: draft                         # 다 쓰면 published
 | `Quote by source` | 화면 하나를 통째로 쓰는 인용. `slot="visual"`에 두고 본문은 짧게. 출처가 확인된 말만 |
 | `Panels`, `Icon`, `BigNumber`, `DataTable`, `Flow` | 장면, 비교, 큰 숫자, 표, 흐름도. `BigNumber`는 화면이 열릴 때 숫자가 세어지며 올라간다(숫자가 하나이고 2 이상일 때만, 연도와 식은 세지 않는다. `count={false}`로 끈다) |
 | `Sim…` | 시뮬레이션 (`src/components/sims/`) |
+
+### 수식과 기호
+
+- 공식과 기호는 모두 `$…$`로 쓴다. 본문에서 `$F = ma$`, 컴포넌트 문자열에서 `'$E = hf$'`(Panels, Flow, DataTable, BigNumber가 그려 준다).
+- 강의 frontmatter에 `symbols: { F: force-F, m: mass-m, a: acceleration-a }`처럼 **이 강에서 글자가 무슨 기호인지** 적는다.
+  아래 첨자가 붙은 기호는 `E_n: level-energy`, 그리스 문자는 이름으로 `lambda: wavelength`.
+- 단위는 숫자 뒤에 `\,\mathrm{J}`처럼 쓴다. 단위는 기호 사전에서 저절로 찾는다. 글 속의 `100 m`처럼 수식 밖의 단위도 누르면 단위 카드가 열린다.
+- 새 기호는 `src/content/symbols.yaml`에 이름, 읽는 법, 종류(변하는 양, 상수, 단위, 번호, 연산 기호), 뜻, 단위, 처음 배우는 강을 적는다.
+  같은 글자가 다른 뜻이면 항목을 따로 두고(높이 h, 플랑크 상수 h), 한 강 안에서는 한 뜻만 쓴다.
+- 기호를 처음 배우는 강에서는 공식 카드나 `SymTable`로 뜻을 보여 준다.
+- `npm run validate`가 `symbols`가 있는 강에서 이것을 모두 검사한다: 정해지지 않은 글자, 앞당겨 쓴 기호, 뜻을 보여 주지 않은 새 기호, `$` 밖의 평문 공식.
 
 ## 4. 화면이 보이는 모양
 

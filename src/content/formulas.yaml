@@ -1,0 +1,26 @@
+# 공식 카드. 강에서 <Formula id="…" />로 보여 주고, 용어집 페이지의 '공식' 칸에도 모인다.
+#
+# name     이름                tex   식(TeX)
+# read     말로 읽기            says  이 식이 말하는 것(1~2문장)
+# symbols  식 속 글자 → 기호 id(symbols.yaml). 기호 표가 여기서 저절로 만들어진다.
+# example  숫자 넣어 보기 { tex, note }
+# holds    맞는 범위            fails 안 맞는 범위, 흔한 잘못
+# build    단계별로 쌓기 [{ tex, note }]  <FormulaBuild id="…" />가 한 단계씩 보여 준다.
+# taughtIn 처음 배우는 강
+
+- id: newton-second-law
+  name: 가속도 법칙 (뉴턴 제2법칙)
+  tex: 'F = ma'
+  read: 힘 = 질량 × 가속도
+  says: 같은 힘이면 질량이 클수록 덜 빨라지고, 같은 질량이면 힘이 셀수록 더 빨라져요.
+  symbols: { F: force-F, m: mass-m, a: acceleration-a }
+  example:
+    tex: 'F = 20\,\mathrm{kg} \times 2\,\mathrm{m/s^2} = 40\,\mathrm{N}'
+    note: 20 kg 카트를 1초마다 2 m/s씩 빨라지게 하려면 40 N으로 밀어야 해요.
+  holds: 빛보다 아주 느린 물체에서 잘 맞아요.
+  fails: 빛에 가까운 빠르기에서는 맞지 않아요(12부). F는 물체가 받는 모든 힘을 더한 알짜힘이에요.
+  build:
+    - { tex: 'F', note: '물체가 받는 힘을 모두 더한 것(알짜힘)이에요. 단위는 N이에요.' }
+    - { tex: 'F = m', note: '질량이 클수록 같은 가속도를 내는 데 힘이 더 들어요.' }
+    - { tex: 'F = ma', note: '가속도가 클수록 힘이 더 들어요. 힘은 질량과 가속도를 곱한 만큼이에요.' }
+  taughtIn: 5

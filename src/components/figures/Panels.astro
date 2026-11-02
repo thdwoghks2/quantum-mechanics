@@ -4,6 +4,7 @@
  * 시간 변화(켠 직후 / 2분 뒤 / 5분 뒤)나 서로 다른 일상 예를 나란히 보여줄 때 쓴다.
  */
 import Icon from './Icon.astro';
+import { renderMath } from '../../lib/math.ts';
 
 interface Panel {
   icon?: string;
@@ -23,9 +24,9 @@ const { panels, arrows = false } = Astro.props;
   {panels.map((p) => (
     <div class:list={['panel', p.tone && `panel--${p.tone}`]} data-step={p.step}>
       {p.icon && <Icon name={p.icon} size={56} />}
-      {p.big && <p class="panel__big">{p.big}</p>}
-      {p.title && <p class="panel__title">{p.title}</p>}
-      <p class="panel__cap">{p.caption}</p>
+      {p.big && <p class="panel__big" set:html={renderMath(p.big)} />}
+      {p.title && <p class="panel__title" set:html={renderMath(p.title)} />}
+      <p class="panel__cap" set:html={renderMath(p.caption)} />
     </div>
   ))}
 </div>

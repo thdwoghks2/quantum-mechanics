@@ -1,4 +1,5 @@
 ---
+import { renderMath, texToPlain } from '../../lib/math.ts';
 /**
  * 단계 흐름도. cycle이면 마지막에서 처음으로 돌아가는 고리 모양.
  * 각 칸에 step을 주면 단계별로 나타난다.
@@ -46,8 +47,8 @@ const mid = `flow-${Math.random().toString(36).slice(2, 8)}`;
       {items.map((it, i) => (
         <g data-step={it.step}>
           <rect x={pos[i]!.x - 70} y={pos[i]!.y - 26} width="140" height={it.sub ? 52 : 40} rx="8" class="flow__box" />
-          <text x={pos[i]!.x} y={pos[i]!.y + (it.sub ? -4 : 5)} class="flow__t">{it.t}</text>
-          {it.sub && <text x={pos[i]!.x} y={pos[i]!.y + 15} class="flow__sub">{it.sub}</text>}
+          <text x={pos[i]!.x} y={pos[i]!.y + (it.sub ? -4 : 5)} class="flow__t">{texToPlain(it.t)}</text>
+          {it.sub && <text x={pos[i]!.x} y={pos[i]!.y + 15} class="flow__sub">{texToPlain(it.sub)}</text>}
         </g>
       ))}
     </svg>
@@ -56,8 +57,8 @@ const mid = `flow-${Math.random().toString(36).slice(2, 8)}`;
   <ol class="flow flow--line" aria-label={alt}>
     {items.map((it) => (
       <li data-step={it.step}>
-        <span class="flow__t">{it.t}</span>
-        {it.sub && <span class="flow__sub">{it.sub}</span>}
+        <span class="flow__t" set:html={renderMath(it.t)} />
+        {it.sub && <span class="flow__sub" set:html={renderMath(it.sub)} />}
       </li>
     ))}
   </ol>

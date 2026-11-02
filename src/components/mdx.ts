@@ -3,6 +3,10 @@ import Screen from './screen/Screen.astro';
 import S from './screen/S.astro';
 import Later from './screen/Later.astro';
 import Define from './kinds/Define.astro';
+import Formula from './kinds/Formula.astro';
+import FormulaBuild from './kinds/FormulaBuild.astro';
+import Concept from './kinds/Concept.astro';
+import SymTable from './kinds/SymTable.astro';
 import Check from './kinds/Check.astro';
 import Numeric from './kinds/Numeric.astro';
 import Analogy from './kinds/Analogy.astro';
@@ -28,6 +32,10 @@ export const mdxComponents = {
   S,
   Later,
   Define,
+  Formula,
+  FormulaBuild,
+  Concept,
+  SymTable,
   Check,
   Numeric,
   Analogy,

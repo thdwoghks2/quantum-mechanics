@@ -15,11 +15,20 @@
  * 6. 인물·사건이 가리키는 강과 사람이 실제로 있어야 한다.
  * 7. 아직 쓰지 않은 강의 용어는 glossary.yaml에 planned: true로 이름과 강 번호만 정해 둔다.
  *    공개한 강이 planned 용어를 가르치면 안 된다(내용을 채우고 planned를 지운다).
+ * 8. 기호 계약(frontmatter에 symbols가 있는 강부터 적용한다. 모든 강에 symbols가 생기면 전체에 적용).
+ *    - 수식($…$) 속 글자는 모두 이 강의 symbols에서 무슨 기호인지 정해져 있어야 한다. 단위는 \mathrm{…}로 쓴다.
+ *    - 그 기호는 이 강이나 앞 강에서 배운 것이어야 하고(taughtIn), 이 강에서 처음 배우는 기호는
+ *      공식 카드(<Formula>, <FormulaBuild>)나 기호 표(<SymTable>)로 뜻을 보여 줘야 한다.
+ *    - 같은 강에서 같은 글자를 두 뜻으로 쓸 수 없다(symbols가 글자마다 하나라서 저절로 지켜진다).
+ *    - $ 밖에 평문 공식("E = hf")을 쓰지 않는다.
+ * 9. 공식 카드와 개념 카드: 쓰는 기호와 용어가 있어야 하고, 처음 배우는 강에서 카드를 보여 줘야 한다.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parse } from 'yaml';
 import { contractViolations } from '../src/lib/terms.ts';
+import { baseKey, texKeys } from '../src/lib/tex.ts';
+import { texToPlain } from '../src/lib/math.ts';
 
 const root = new URL('..', import.meta.url).pathname;
 const read = (p) => readFileSync(join(root, p), 'utf8');
@@ -27,6 +36,9 @@ const glossary = parse(read('src/content/glossary.yaml'));
 const curriculum = parse(read('src/content/curriculum.yaml'));
 const people = parse(read('src/content/people.yaml'));
 const events = parse(read('src/content/events.yaml'));
+const symbolList = parse(read('src/content/symbols.yaml'));
+const formulaList = parse(read('src/content/formulas.yaml'));
+const conceptList = parse(read('src/content/concepts.yaml'));
 
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -38,6 +50,35 @@ for (const g of glossary) {
   for (const k of g.previewIn ?? []) {
     if (!Number.isInteger(k) || k >= g.taughtIn) err('glossary.yaml', `${g.id}: previewIn의 ${k}강은 정식 도입(${g.taughtIn}강)보다 앞이어야 한다`);
   }
+}
+
+// 기호, 공식, 개념
+const sById = new Map(symbolList.map((x) => [x.id, x]));
+if (sById.size !== symbolList.length) err('symbols.yaml', '기호 id가 겹친다');
+const unitByText = new Map();
+for (const x of symbolList) {
+  if (x.kind === 'unit') unitByText.set(texToPlain(`$${x.sym}$`).trim(), x.id);
+}
+const fById = new Map(formulaList.map((x) => [x.id, x]));
+const cById = new Map(conceptList.map((x) => [x.id, x]));
+/** 수식 속 열쇠 하나를 기호 id로. map(글자 → id)에서 찾고, 없으면 바탕 글자로. 단위는 단위 표에서. */
+function resolveKey(k, map) {
+  if (k.kind === 'unit') return unitByText.get(k.key) ?? null;
+  return map?.[k.key] ?? map?.[baseKey(k.key)] ?? null;
+}
+for (const f of formulaList) {
+  for (const [k, id] of Object.entries(f.symbols ?? {})) {
+    const x = sById.get(id);
+    if (!x) err('formulas.yaml', `${f.id}: 글자 '${k}'의 기호 '${id}'가 기호 사전에 없다`);
+    else if (x.taughtIn > f.taughtIn) err('formulas.yaml', `${f.id}: 기호 '${id}'는 ${x.taughtIn}강에서 배우는데 공식은 ${f.taughtIn}강이다`);
+  }
+  for (const t of [f.tex, f.example?.tex, ...(f.build ?? []).map((b) => b.tex)].filter(Boolean)) {
+    for (const k of texKeys(t)) if (!resolveKey(k, f.symbols)) err('formulas.yaml', `${f.id}: 식의 '${k.key}'가 무슨 기호인지 symbols에 없다`);
+  }
+}
+for (const c of conceptList) {
+  for (const t of c.terms ?? []) if (!gById.has(t)) err('concepts.yaml', `${c.id}: 용어 '${t}'가 용어집에 없다`);
+  for (const f of c.formulas ?? []) if (!fById.has(f)) err('concepts.yaml', `${c.id}: 공식 '${f}'가 없다`);
 }
 
 const planned = new Map();
@@ -111,6 +152,60 @@ for (const { file, fm, body, fmLines } of lessons) {
       const g = gById.get(id);
       if (!g) err(file, `되짚기의 '${id}'가 용어집에 없다`);
       else if (g.taughtIn > n) err(file, `되짚기의 '${id}'는 ${g.taughtIn}강에서 배운다`);
+    }
+  }
+
+  // 공식·개념 카드
+  const usedFormulas = [...body.matchAll(/<Formula(?:Build)?\s+id="([^"]+)"/g)].map((x) => x[1]);
+  for (const id of usedFormulas) {
+    const f = fById.get(id);
+    if (!f) err(file, `공식 카드 '${id}'가 formulas.yaml에 없다`);
+    else if (f.taughtIn > n) err(file, `공식 '${f.name}'은 ${f.taughtIn}강에서 배운다`);
+  }
+  const usedConcepts = [...body.matchAll(/<Concept\s+id="([^"]+)"/g)].map((x) => x[1]);
+  for (const id of usedConcepts) {
+    const c = cById.get(id);
+    if (!c) err(file, `개념 카드 '${id}'가 concepts.yaml에 없다`);
+    else if (c.taughtIn > n) err(file, `개념 '${c.name}'은 ${c.taughtIn}강에서 배운다`);
+  }
+  const tables = [...body.matchAll(/<SymTable\s+ids=\{\[([^\]]*)\]\}/g)].flatMap((x) => [...x[1].matchAll(/'([^']+)'|"([^"]+)"/g)].map((y) => y[1] ?? y[2]));
+  for (const id of tables) if (!sById.has(id)) err(file, `기호 표의 '${id}'가 기호 사전에 없다`);
+
+  // 기호 계약: symbols가 있는 강만
+  if (fm.symbols) {
+    for (const f of formulaList.filter((x) => x.taughtIn === n)) {
+      if (!usedFormulas.includes(f.id)) err(file, `공식 '${f.name}'은 이 강에서 배우는데 공식 카드(<Formula id="${f.id}" />)가 없다`);
+    }
+    for (const c of conceptList.filter((x) => x.taughtIn === n)) {
+      if (!usedConcepts.includes(c.id)) err(file, `개념 '${c.name}'은 이 강에서 배우는데 개념 카드(<Concept id="${c.id}" />)가 없다`);
+    }
+    for (const [k, id] of Object.entries(fm.symbols)) {
+      const x = sById.get(id);
+      if (!x) err(file, `symbols의 '${k}: ${id}'가 기호 사전에 없다`);
+      else if (x.taughtIn > n) err(file, `symbols의 '${id}'(${x.name})는 ${x.taughtIn}강에서 배운다`);
+    }
+    // 이 강에서 뜻을 보여 준 기호: 공식 카드의 기호 + 기호 표
+    const shown = new Set([...tables, ...usedFormulas.flatMap((id) => Object.values(fById.get(id)?.symbols ?? {}))]);
+    const used = new Set();
+    let plainBody = blank(body, /\{\/\*[\s\S]*?\*\/\}/g);
+    for (const m of plainBody.matchAll(/\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g)) {
+      const t = m[1] ?? m[2];
+      const line = plainBody.slice(0, m.index).split('\n').length + fmLines;
+      for (const k of texKeys(t)) {
+        const id = resolveKey(k, fm.symbols);
+        if (!id) err(`${file}:${line}`, k.kind === 'unit' ? `단위 '${k.key}'가 기호 사전에 없다` : `수식의 '${k.key}'가 무슨 기호인지 symbols에 없다`);
+        else used.add(id);
+      }
+    }
+    for (const id of used) {
+      const x = sById.get(id);
+      if (x && x.taughtIn === n && x.kind !== 'unit' && !shown.has(id)) err(file, `기호 '${x.name}'(${id})는 이 강에서 처음 배우는데, 공식 카드나 기호 표(<SymTable ids={['${id}']} />)로 뜻을 보여 주지 않았다`);
+    }
+    // $ 밖의 평문 공식: "F = ma", "v = fλ" 같은 꼴
+    const outside = blank(blank(plainBody, /\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g), /\b(?:id|term|name|icon|kind|from|q|xq|yq|alt|fn)="[^"]*"/g);
+    for (const m of outside.matchAll(/(?<![A-Za-z가-힣\-])([A-Za-zλθψΔħν][₀-₉ₙ]?(?:\s?[×·]?\s?[A-Za-zλθψħν][₀-₉²³]?){0,3})\s?=\s?(?=[A-Za-z0-9½λθψΔħν(√−-])/g)) {
+      const line = outside.slice(0, m.index).split('\n').length + fmLines;
+      err(`${file}:${line}`, `평문 공식 "${outside.slice(m.index, m.index + 14).trim()}…"은 $…$로 쓴다`);
     }
   }
 

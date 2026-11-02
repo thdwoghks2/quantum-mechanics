@@ -18,6 +18,7 @@ sources:
   - "NASA JPL Voyager mission status: 보이저 1호는 태양에 대해 약 17 km/s로 움직인다"
 testout: [q5-bus, q5-a, q5-moon]
 status: published
+symbols: { F: force-F, m: mass-m, a: acceleration-a }
 ---
 
 <Screen kind="scene" title="밀어야 움직일까">
@@ -112,6 +113,15 @@ status: published
 물체가 지금의 속도를 그대로 유지하려는 성질을 **관성**이라고 해요. 멈춰 있는 물체는 계속 멈춰 있으려 하고, 움직이는 물체는 같은 속도로 계속 가려 하죠.
 
 <Key>관성 때문에 물체는 아무것도 방해하지 않으면 같은 속도로 계속 움직이니까, 설명이 필요한 건 "왜 계속 움직이나"가 아니라 "왜 속도가 바뀌나"예요.</Key>
+
+</Screen>
+
+<Screen kind="step" title="관성을 한 장으로">
+  <Fragment slot="visual">
+    <Concept id="inertia-idea" />
+  </Fragment>
+
+관성은 한 번에 받아들이기 어려운 생각이에요. 우리 눈에는 굴러가던 공이 늘 멈추니까요. 카드의 세 단계를 차례로 따라가 보세요.
 
 </Screen>
 
@@ -235,13 +245,43 @@ status: published
     <Define term="second-law" />
   </Fragment>
 
-시뮬레이션에서 본 관계를 말로 하면, 가속도는 받는 힘에 비례하고 질량에 반비례해요. 이걸 **가속도 법칙**이라고 하고, 식으로는 F = ma예요.
+시뮬레이션에서 본 관계를 말로 하면, 가속도는 받는 힘에 비례하고 질량에 반비례해요. 이걸 **가속도 법칙**이라고 해요.
 
 <S n={2}>
 
-F는 힘(N), m은 질량(kg), a는 가속도(m/s²)예요. 1 N은 질량 1 kg인 물체를 1초에 1 m/s씩 빨라지게 하는 힘이죠. 뉴턴이 1687년에 펴낸 책에 이 법칙이 실려 있어요.
+뉴턴이 1687년에 펴낸 책에 이 법칙이 실려 있어요. 다음 화면에서 이 법칙을 글자 세 개로 짧게 써 볼게요.
 
 </S>
+
+</Screen>
+
+<Screen kind="step" title="가속도 법칙을 식으로">
+  <Fragment slot="visual">
+    <FormulaBuild id="newton-second-law" />
+  </Fragment>
+
+식에서는 양을 글자 하나로 줄여 써요. $F$는 힘, $m$은 질량, $a$는 가속도이고, 글자를 누르면 뜻과 단위가 나와요.
+
+<S n={2}>
+
+한 덩어리씩 쌓으면 $F = ma$, 곧 질량 $m$과 가속도 $a$를 곱하면 힘 $F$가 나온다는 뜻이에요.
+
+</S>
+
+<S n={3}>
+
+1 N은 질량 1 kg인 물체를 1초에 1 m/s씩 빨라지게 하는 힘이에요. 손바닥에 올린 사과 하나가 누르는 힘쯤이에요.
+
+</S>
+
+</Screen>
+
+<Screen kind="define" title="가속도 법칙 카드">
+  <Fragment slot="visual">
+    <Formula id="newton-second-law" />
+  </Fragment>
+
+공식 카드에 식, 읽는 법, 기호의 뜻과 단위, 숫자 예, 이 식이 맞는 곳을 모아 두었어요. 용어집의 '공식' 칸에서도 다시 볼 수 있어요.
 
 </Screen>
 
@@ -254,7 +294,7 @@ F는 힘(N), m은 질량(kg), a는 가속도(m/s²)예요. 1 N은 질량 1 kg인
     ]} steps={[undefined, 2, 2]} />
   </Fragment>
 
-F = ma를 a에 대해 바꾸면 a = F ÷ m이에요. 20 kg 카트를 40 N으로 밀면 가속도는 40 ÷ 20 = 2 m/s²죠.
+$F = ma$를 $a$에 대해 바꾸면 $a = F \div m$이에요. 20 kg 카트를 40 N으로 밀면 가속도는 40 ÷ 20 = 2 m/s²죠.
 
 <S n={2}>
 
@@ -272,7 +312,7 @@ F = ma를 a에 대해 바꾸면 a = F ÷ m이에요. 20 kg 카트를 40 N으로 
 
 <Fragment slot="solution">
 
-a = F ÷ m = 100 N ÷ 50 kg = 2 m/s²예요.
+$a = F \div m = 100\,\mathrm{N} \div 50\,\mathrm{kg} = 2\,\mathrm{m/s^2}$예요.
 
 </Fragment>
 </Numeric>
@@ -462,7 +502,7 @@ a = F ÷ m = 100 N ÷ 50 kg = 2 m/s²예요.
     ]} />
   </Fragment>
 
-롤러코스터는 첫 언덕까지만 끌어 올려지고, 그다음부터는 엔진 없이 오르내리기를 되풀이해요. 다음 언덕을 넘을지 F = ma로 계산하려면 경사가 바뀔 때마다 힘과 가속도를 다시 구해야 하죠.
+롤러코스터는 첫 언덕까지만 끌어 올려지고, 그다음부터는 엔진 없이 오르내리기를 되풀이해요. 다음 언덕을 넘을지 $F = ma$로 계산하려면 경사가 바뀔 때마다 힘과 가속도를 다시 구해야 하죠.
 
 <S n={2}>
 

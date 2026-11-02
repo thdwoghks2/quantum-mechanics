@@ -1,4 +1,5 @@
 ---
+import { renderMath } from '../../lib/math.ts';
 /** 표. 숫자 열은 고정폭 글꼴로 줄을 맞춘다. 행에 step을 주면 단계별로 나타난다. */
 interface Props {
   caption?: string;
@@ -14,14 +15,14 @@ const isNum = (v: string | number) => typeof v === 'number' || /^[\d\s.,×⁰-�
 ---
 <figure class="dtable">
   <table>
-    {caption && <caption class="label">{caption}</caption>}
+    {caption && <caption class="label" set:html={renderMath(caption)} />}
     <thead>
-      <tr>{head.map((h) => <th scope="col">{h}</th>)}</tr>
+      <tr>{head.map((h) => <th scope="col" set:html={renderMath(h)} />)}</tr>
     </thead>
     <tbody>
       {rows.map((r, i) => (
         <tr data-step={steps[i]} class:list={{ 'is-hi': highlight.includes(i) }}>
-          {r.map((c, j) => (j === 0 ? <th scope="row">{c}</th> : <td class:list={{ num: isNum(c) }}>{c}</td>))}
+          {r.map((c, j) => (j === 0 ? <th scope="row" set:html={renderMath(c)} /> : <td class:list={{ num: isNum(c) }} set:html={renderMath(c)} />))}
         </tr>
       ))}
     </tbody>

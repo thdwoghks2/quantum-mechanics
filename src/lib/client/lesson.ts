@@ -11,6 +11,7 @@
 import { load, save, setLesson, setScreen } from '../progress.ts';
 import { buildMatchers, findTerms, type TermEntry } from '../terms.ts';
 import { shouldTurn } from '../rewards.ts';
+import { loadSymbolData, markSymbols, markUnits, symbolCard, type SymbolData } from './symbols.ts';
 import { navigate } from 'astro:transitions/client';
 
 interface Gloss extends TermEntry {
@@ -55,6 +56,7 @@ class QmLesson extends HTMLElement {
     this.buildProgress();
     this.buildToc();
     this.highlightTerms();
+    this.highlightSymbols();
     this.bind();
     this.restore();
     // 글꼴이 늦게 도착하면 글 높이가 달라지니 한 번 더 잰다.
@@ -326,18 +328,19 @@ class QmLesson extends HTMLElement {
       if (t.closest('[data-close]')) this.closeRails();
       if (t.closest('[data-sheet-close]')) this.closeSheet();
       else if (t.closest('[data-sheet-back]')) this.sheetBack();
-      const term = t.closest<HTMLElement>('.term[data-term]');
-      if (term) {
+      const hit = this.sheetTarget(t);
+      if (hit) {
         e.preventDefault();
-        this.openTerm(term.dataset.term!, term, !!term.closest('.sheet'));
+        this.openSheet(hit.key, hit.el, !!hit.el.closest('.sheet'));
       }
     });
-    // 밑줄 용어는 키보드로도 연다.
+    // 밑줄 용어와 기호는 키보드로도 연다.
     this.addEventListener('keydown', (e) => {
-      const term = (e.target as HTMLElement).closest?.<HTMLElement>('.term[data-term]');
-      if (term && (e.key === 'Enter' || e.key === ' ')) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const hit = this.sheetTarget(e.target as HTMLElement);
+      if (hit) {
         e.preventDefault();
-        this.openTerm(term.dataset.term!, term, !!term.closest('.sheet'));
+        this.openSheet(hit.key, hit.el, !!hit.el.closest('.sheet'));
       }
     });
     // 시트를 아래로 밀면 닫힌다.
@@ -464,9 +467,31 @@ class QmLesson extends HTMLElement {
     return b;
   }
 
-  /* ── 용어 시트 ──
+  /* ── 기호 ── */
+  syms: SymbolData | null = null;
+
+  /** 수식 속 기호와 글 속 단위를 누를 수 있게 한다(symbols.ts). */
+  highlightSymbols() {
+    this.syms = loadSymbolData();
+    if (!this.syms) return;
+    for (const screen of this.screens) {
+      markSymbols(screen, this.syms);
+      markUnits(screen, this.syms, `${SKIP}, .katex`);
+    }
+  }
+
+  /** 누른 곳이 용어나 기호면 시트에 열 열쇠("term:id", "sym:id")를 돌려준다. */
+  sheetTarget(t: HTMLElement): { key: string; el: HTMLElement } | null {
+    const term = t.closest?.<HTMLElement>('.term[data-term]');
+    if (term) return { key: `term:${term.dataset.term}`, el: term };
+    const sym = t.closest?.<HTMLElement>('.katex [data-sym], .unit[data-sym]');
+    if (sym) return { key: `sym:${sym.dataset.sym}`, el: sym };
+    return null;
+  }
+
+  /* ── 용어·기호 시트 ──
    * 아래에서 올라오는 시트. 강의 화면 위치는 그대로 두고, 다른 강으로 넘어가지 않는다.
-   * 시트 안의 글에 나온 용어를 누르면 시트 안에서 다음 장으로 넘어가고, "‹ 앞 용어"로 돌아온다. */
+   * 시트 안의 글에 나온 용어나 기호를 누르면 시트 안에서 다음 장으로 넘어가고, "‹ 앞 장"으로 돌아온다. */
   sheetStack: string[] = [];
   sheetOpener: HTMLElement | null = null;
 
@@ -479,12 +504,18 @@ class QmLesson extends HTMLElement {
   }
 
   openTerm(id: string, from?: HTMLElement, push = false) {
-    if (!this.glossary.has(id)) return;
+    this.openSheet(`term:${id}`, from, push);
+  }
+
+  openSheet(key: string, from?: HTMLElement, push = false) {
+    const [kind, id] = key.split(':') as [string, string];
+    if (kind === 'term' && !this.glossary.has(id)) return;
+    if (kind === 'sym' && !id.split(',').every((x) => this.syms?.symbols.has(x))) return;
     if (!push) {
       this.sheetStack = [];
       this.sheetOpener = from ?? null;
     }
-    if (this.sheetStack.at(-1) !== id) this.sheetStack.push(id);
+    if (this.sheetStack.at(-1) !== key) this.sheetStack.push(key);
     this.renderSheet();
   }
 
@@ -494,48 +525,66 @@ class QmLesson extends HTMLElement {
     else this.closeSheet();
   }
 
+  /** 시트 한 장의 이름 (‹ 앞 장 단추에 쓴다) */
+  sheetLabel(key: string): string {
+    const [kind, id] = key.split(':') as [string, string];
+    if (kind === 'term') return this.glossary.get(id)?.term ?? '';
+    const list = id.split(',').map((x) => this.syms?.symbols.get(x));
+    return list.length > 1 ? list.map((s) => s?.plain).join('·') : (list[0]?.name ?? '');
+  }
+
   renderSheet() {
-    const id = this.sheetStack.at(-1)!;
-    const g = this.glossary.get(id)!;
+    const key = this.sheetStack.at(-1)!;
+    const [kind, id] = key.split(':') as [string, string];
     const sheet = this.sheet;
     const panel = sheet.querySelector<HTMLElement>('.sheet__panel')!;
     const body = sheet.querySelector<HTMLElement>('.sheet__body')!;
-    panel.dataset.q = g.q;
     body.innerHTML = '';
-    const kicker = el('p', 'label sheet__kicker', g.taughtIn > this.n ? '용어 · 미리 보기' : '용어');
-    const h = el('h3', 'sheet__title', g.term);
-    h.id = 'sheet-title';
-    const def = el('p', 'sheet__def', g.definition);
-    const dl = document.createElement('dl');
-    dl.className = 'sheet__dl';
-    if (g.unit) dl.append(el('dt', '', '단위'), el('dd', 'mono', g.unit));
-    const ex = document.createElement('dd');
-    const ul = document.createElement('ul');
-    for (const e of g.examples) ul.append(el('li', '', e));
-    ex.append(ul);
-    dl.append(el('dt', '', '예'), ex);
-    if (g.notThis) dl.append(el('dt', '', '헷갈림 주의'), el('dd', '', g.notThis));
-    // 처음 배운 곳은 글로만 알려 준다. 링크로 넘어가면 지금 보던 화면으로 돌아오기 어렵다.
-    const where =
-      g.taughtIn === this.n
-        ? '이 강에서 배워요'
-        : g.taughtIn < this.n
-          ? `처음 배운 곳: ${g.taughtIn}강 「${g.where}」`
-          : `${g.taughtIn}강 「${g.where}」에서 자세히 배워요`;
-    body.append(kicker, h, def, dl, el('p', 'sheet__where', where));
-    this.markTerms(body, id);
+    let title: HTMLElement;
+    if (kind === 'sym') {
+      const card = symbolCard(id.split(','), this.syms!, this.n);
+      panel.dataset.q = card.q;
+      body.append(...card.nodes);
+      title = card.title;
+      this.markTerms(body);
+    } else {
+      const g = this.glossary.get(id)!;
+      panel.dataset.q = g.q;
+      const kicker = el('p', 'label sheet__kicker', g.taughtIn > this.n ? '용어 · 미리 보기' : '용어');
+      title = el('h3', 'sheet__title', g.term);
+      const def = el('p', 'sheet__def', g.definition);
+      const dl = document.createElement('dl');
+      dl.className = 'sheet__dl';
+      if (g.unit) dl.append(el('dt', '', '단위'), el('dd', 'mono', g.unit));
+      const ex = document.createElement('dd');
+      const ul = document.createElement('ul');
+      for (const e of g.examples) ul.append(el('li', '', e));
+      ex.append(ul);
+      dl.append(el('dt', '', '예'), ex);
+      if (g.notThis) dl.append(el('dt', '', '헷갈림 주의'), el('dd', '', g.notThis));
+      // 처음 배운 곳은 글로만 알려 준다. 링크로 넘어가면 지금 보던 화면으로 돌아오기 어렵다.
+      const where =
+        g.taughtIn === this.n
+          ? '이 강에서 배워요'
+          : g.taughtIn < this.n
+            ? `처음 배운 곳: ${g.taughtIn}강 「${g.where}」`
+            : `${g.taughtIn}강 「${g.where}」에서 자세히 배워요`;
+      body.append(kicker, title, def, dl, el('p', 'sheet__where', where));
+      this.markTerms(body, id);
+    }
+    if (this.syms) markUnits(body, this.syms, `${SKIP}, .katex`);
+    title.id = 'sheet-title';
     const back = sheet.querySelector<HTMLButtonElement>('[data-sheet-back]')!;
-    const prevId = this.sheetStack.at(-2);
-    back.hidden = !prevId;
-    if (prevId) back.textContent = `‹ ${this.glossary.get(prevId)!.term}`;
-    sheet.querySelector('.sheet__trail')!.textContent =
-      this.sheetStack.length > 1 ? `${this.sheetStack.length}번째 용어` : '';
+    const prevKey = this.sheetStack.at(-2);
+    back.hidden = !prevKey;
+    if (prevKey) back.textContent = `‹ ${this.sheetLabel(prevKey)}`;
+    sheet.querySelector('.sheet__trail')!.textContent = this.sheetStack.length > 1 ? `${this.sheetStack.length}번째 장` : '';
     const wasHidden = sheet.hidden;
     sheet.hidden = false;
     body.scrollTop = 0;
     if (wasHidden) requestAnimationFrame(() => sheet.classList.add('is-open'));
-    h.tabIndex = -1;
-    h.focus({ preventScroll: true });
+    title.tabIndex = -1;
+    title.focus({ preventScroll: true });
   }
 
   closeSheet() {

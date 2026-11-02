@@ -1,0 +1,37 @@
+---
+/**
+ * 기호 표: 기호 / 이름과 읽는 법 / 뜻 / 단위.
+ * 공식 카드 안에서 쓰고, 강에서 기호를 처음 소개할 때 <SymTable ids={['force-F', 'mass-m']} />로 따로 쓸 수도 있다.
+ * map을 주면 표 안의 기호가 그 뜻으로 색칠된다(수식 속 글자를 누르면 같은 카드가 열린다).
+ */
+import { getEntry } from 'astro:content';
+import { tex } from '../../lib/math.ts';
+
+interface Props {
+  ids: string[];
+  /** 뜻까지 한 줄로 보여 줄지 */
+  meaning?: boolean;
+}
+const { ids, meaning = true } = Astro.props;
+const rows = await Promise.all(
+  ids.map(async (id) => {
+    const e = await getEntry('symbols', id);
+    if (!e) throw new Error(`기호 사전에 없는 기호: ${id}`);
+    return { id, ...e.data };
+  }),
+);
+---
+<table class="symtab">
+  <tbody>
+    {rows.map((r) => (
+      <tr>
+        <td><span class="symtab__sym" data-symid={r.id} set:html={tex(r.sym)} /></td>
+        <td>
+          <span class="symtab__name">{r.name}</span><span class="symtab__read">{r.read}</span>
+          {meaning && <div class="small muted">{r.meaning}</div>}
+        </td>
+        <td class="symtab__unit">{r.unit ?? (r.kind === 'unit' ? '단위' : r.value ?? '')}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

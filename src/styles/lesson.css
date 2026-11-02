@@ -1614,3 +1614,58 @@ html.js .screen--title.is-active .title__epigraph figcaption {
 .stage .screen--title.is-denser .title__links {
   display: none;
 }
+
+/* ── 기호 카드(시트 안) ─────────────────── */
+.sheet__symhead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin: 4px 0 10px;
+}
+
+.sheet__glyph {
+  min-width: 64px;
+  height: 64px;
+  padding: 0 10px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-lg);
+  background: var(--ink);
+  font-size: 1.9rem;
+}
+
+.sheet__glyph[data-kind='variable'] {
+  color: var(--qc, var(--text));
+}
+
+.sheet__glyph[data-kind='constant'] {
+  color: var(--sym-const);
+}
+
+.sheet__glyph[data-kind='unit'] {
+  color: var(--text-2);
+}
+
+.sheet__symhead .sheet__title {
+  margin: 0;
+}
+
+.sheet__read {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.sheet__units {
+  margin: 8px 0 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.sheet__same {
+  margin-top: 4px;
+}

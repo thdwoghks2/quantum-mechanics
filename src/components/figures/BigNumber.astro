@@ -5,6 +5,7 @@
  * 연도(1000~2100의 네 자리 정수), 식, 위 첨자가 있는 값은 세지 않고 천천히 밝아지기만 한다.
  * count={false}로 끌 수 있고, 움직임을 줄이는 설정이면 세지 않는다.
  */
+import { hasMath, renderMath } from '../../lib/math.ts';
 type Q = 'time' | 'space' | 'motion' | 'force' | 'energy' | 'charge' | 'heat' | 'plain';
 interface Props {
   value: string;
@@ -14,11 +15,13 @@ interface Props {
   count?: boolean;
 }
 const { value, top, bottom, q = 'plain', count = true } = Astro.props;
+// 값에 수식($…$)이 있으면 KaTeX로 그리고 세지 않는다.
+const math = hasMath(value);
 ---
-<qm-bignum class="bignum" data-q={q} data-count={count ? '1' : '0'}>
-  {top && <p class="bignum__top">{top}</p>}
-  <p class="bignum__value">{value}</p>
-  {bottom && <p class="bignum__bottom">{bottom}</p>}
+<qm-bignum class="bignum" data-q={q} data-count={count && !math ? '1' : '0'}>
+  {top && <p class="bignum__top" set:html={renderMath(top)} />}
+  {math ? <p class="bignum__value" set:html={renderMath(value)} /> : <p class="bignum__value">{value}</p>}
+  {bottom && <p class="bignum__bottom" set:html={renderMath(bottom)} />}
 </qm-bignum>
 
 <script>

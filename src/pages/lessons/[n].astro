@@ -2,6 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import '../../styles/lesson.css';
+import '../../styles/cards.css';
+import { tex, texToPlain } from '../../lib/math.ts';
 import { lessonUrl, url } from '../../lib/url.ts';
 import MusicToggle from '../../components/music/MusicToggle.astro';
 import { mdxComponents } from '../../components/mdx.ts';
@@ -39,6 +41,26 @@ const glossaryJson = JSON.stringify(
     return { id: g.id, ...rest, ...(pattern ? { pattern } : {}), where: lessonTitles.get(g.data.taughtIn) ?? '' };
   }),
 ).replace(/</g, '\\u003c');
+// 기호 카드: 수식 속 글자나 글 속 단위를 누르면 아래에서 올라온다(symbols.ts).
+const symbolsJson = JSON.stringify({
+  map: d.symbols ?? {},
+  symbols: (await getCollection('symbols')).map((s) => ({
+    id: s.id,
+    name: s.data.name,
+    read: s.data.read,
+    kind: s.data.kind,
+    q: s.data.q,
+    meaning: s.data.meaning,
+    unit: s.data.unit,
+    value: s.data.value,
+    origin: s.data.origin,
+    notThis: s.data.notThis,
+    taughtIn: s.data.taughtIn,
+    html: tex(s.data.sym),
+    plain: texToPlain(`$${s.data.sym}$`).trim(),
+    where: lessonTitles.get(s.data.taughtIn) ?? '',
+  })),
+}).replace(/</g, '\\u003c');
 const term = (id: string) => glossary.find((g) => g.id === id);
 const assumes = d.assumes.map(term).filter((x) => !!x);
 const introduces = d.introduces.map(term).filter((x) => !!x);
@@ -212,6 +234,7 @@ const turn = isPartEnd && part
     <template id="next-planned">{plannedNext ? `${plannedNext.n}강 「${plannedNext.title}」${hasBatchim(plannedNext.title.slice(-1)) ? '은' : '는'} 아직 준비하고 있어요.` : ''}</template>
   </qm-lesson>
   <script type="application/json" id="qm-glossary" set:html={glossaryJson} />
+  <script type="application/json" id="qm-symbols" set:html={symbolsJson} />
   <script>
     import '../../lib/client/lesson.ts';
   </script>

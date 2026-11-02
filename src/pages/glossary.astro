@@ -1,55 +1,238 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Formula from '../components/kinds/Formula.astro';
+import Concept from '../components/kinds/Concept.astro';
 import '../styles/pages.css';
+import '../styles/cards.css';
 import { lessonUrl } from '../lib/url.ts';
 import { publishedNumbers } from '../lib/course.ts';
+import { tex, texToPlain } from '../lib/math.ts';
 
 const terms = (await getCollection('glossary', (g) => !g.data.planned)).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
+const symbols = (await getCollection('symbols')).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
+const formulas = (await getCollection('formulas')).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
+const concepts = (await getCollection('concepts')).sort((a, b) => a.data.taughtIn - b.data.taughtIn);
 const published = new Set(await publishedNumbers());
-const byLesson = new Map<number, typeof terms>();
-for (const t of terms) {
-  const list = byLesson.get(t.data.taughtIn) ?? [];
-  list.push(t);
-  byLesson.set(t.data.taughtIn, list);
+const lessonTitle = new Map((await getCollection('lessons')).map((l) => [l.data.number, l.data.short] as const));
+
+const KIND: Record<string, string> = { variable: '변하는 양', constant: '상수', index: '번호', operator: '연산 기호', unit: '단위' };
+const kinds = ['variable', 'constant', 'index', 'operator', 'unit'];
+const plainOf = (sym: string) => texToPlain(`$${sym}$`).trim();
+// 같은 모양의 다른 기호
+const glyphs = new Map<string, string[]>();
+for (const s of symbols) {
+  if (s.data.kind === 'unit') continue;
+  const k = plainOf(s.data.sym);
+  glyphs.set(k, [...(glyphs.get(k) ?? []), s.id]);
 }
+const symName = new Map(symbols.map((s) => [s.id, s.data] as const));
+
+const tabs = [
+  { id: 'terms', label: '용어', count: terms.length },
+  { id: 'symbols', label: '기호', count: symbols.length },
+  { id: 'formulas', label: '공식', count: formulas.length },
+  { id: 'concepts', label: '개념', count: concepts.length },
+];
+const symbolsJson = JSON.stringify({
+  map: {},
+  symbols: symbols.map((s) => ({ id: s.id, ...s.data, html: '', plain: plainOf(s.data.sym), where: '' })),
+}).replace(/</g, '\\u003c');
+const where = (n: number) => (published.has(n) ? lessonUrl(n) : undefined);
 ---
-<Base title="용어집" description="137강에서 정식으로 배우는 용어를 강 순서대로 모았어요.">
-  <main class="page">
+<Base title="용어집" description="137강에서 배우는 용어, 기호, 공식, 개념을 강 순서대로 모았어요.">
+  <main class="page" data-page="glossary">
     <header class="page__head">
-      <p class="label">용어 {terms.length}개</p>
+      <p class="label">용어 {terms.length} · 기호 {symbols.length} · 공식 {formulas.length} · 개념 {concepts.length}</p>
       <h1>용어집</h1>
       <p class="page__lead">
-        용어마다 그 용어를 처음 정식으로 가르치는 강이 하나 있어요. 그 강보다 앞에서는 그 용어를 쓰지 않아요.
-        강 순서대로 모았어요.
+        용어, 기호, 공식, 개념마다 처음 배우는 강이 하나씩 있어요. 그 강보다 앞에서는 쓰지 않아요.
+        아직 배우지 않은 것은 흐리게 보여요.
       </p>
     </header>
-    {[...byLesson.entries()].map(([n, list]) => (
-      <section class="section gl__sec">
-        <h2 class="gl__h">
-          {published.has(n) ? <a href={lessonUrl(n)}>{n}강</a> : <span>{n}강</span>}
-        </h2>
-        {list.map((t) => (
-          <article class="card gl" id={t.id} data-q={t.data.q}>
-            <h3 class="gl__term">{t.data.term}</h3>
-            <p>{t.data.definition}</p>
-            {t.data.unit && <p class="small muted">단위: <span class="mono">{t.data.unit}</span></p>}
-            <ul class="small muted gl__ex">{t.data.examples.map((e) => <li>{e}</li>)}</ul>
-            {t.data.notThis && <p class="small muted"><span class="label">헷갈림 주의</span> {t.data.notThis}</p>}
-          </article>
-        ))}
-      </section>
-    ))}
+
+    <div class="gl-tabs" role="tablist" aria-label="용어집 칸">
+      {tabs.map((t, i) => (
+        <button type="button" role="tab" class="gl-tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-tab={t.id}>
+          {t.label} <span class="mono gl-tab__n">{t.count}</span>
+        </button>
+      ))}
+    </div>
+    <label class="sr-only" for="gl-find">찾기</label>
+    <input id="gl-find" class="field" type="search" placeholder="찾을 말 (예: 진동수, h, 줄)" autocomplete="off" />
+
+    <section class="gl-panel" id="panel-terms" role="tabpanel" aria-labelledby="tab-terms">
+      {terms.map((t) => (
+        <article class="card gl" id={t.id} data-q={t.data.q} data-n={t.data.taughtIn}>
+          <p class="label gl__n">{where(t.data.taughtIn) ? <a href={where(t.data.taughtIn)}>{t.data.taughtIn}강</a> : `${t.data.taughtIn}강`}</p>
+          <h3 class="gl__term">{t.data.term}</h3>
+          <p>{t.data.definition}</p>
+          {t.data.unit && <p class="small muted">단위: <span class="mono">{t.data.unit}</span></p>}
+          <ul class="small muted gl__ex">{t.data.examples.map((e) => <li>{e}</li>)}</ul>
+          {t.data.notThis && <p class="small muted"><span class="label">헷갈림 주의</span> {t.data.notThis}</p>}
+        </article>
+      ))}
+    </section>
+
+    <section class="gl-panel" id="panel-symbols" role="tabpanel" aria-labelledby="tab-symbols" hidden>
+      <p class="small muted">
+        수식에서 글자의 모양으로 종류를 나눠요. <span class="gl-key" data-kind="variable">변하는 양</span>은 기울인 글자에 그 물리량의 색,
+        <span class="gl-key" data-kind="constant">상수</span>는 금빛에 아래 점선, <span class="gl-key" data-kind="unit">단위</span>는 똑바로 선 회색 글자,
+        <span class="gl-key" data-kind="index">번호</span>는 옅은 네모 바탕이에요.
+      </p>
+      {kinds.map((k) => (
+        <div class="gl-group">
+          <h2 class="gl__h">{KIND[k]}</h2>
+          {symbols.filter((s) => s.data.kind === k).map((s) => {
+            const same = (glyphs.get(plainOf(s.data.sym)) ?? []).filter((id) => id !== s.id);
+            return (
+              <article class="card gl gl--sym" id={`sym-${s.id}`} data-q={s.data.q} data-n={s.data.taughtIn}>
+                <div class="gl-sym__head">
+                  <span class="gl-sym__glyph" data-kind={s.data.kind} data-q={s.data.q} set:html={tex(s.data.sym)} />
+                  <div>
+                    <h3 class="gl-sym__name">{s.data.name}</h3>
+                    <p class="small muted">읽는 법: {s.data.read} · {where(s.data.taughtIn) ? <a href={where(s.data.taughtIn)}>{s.data.taughtIn}강</a> : `${s.data.taughtIn}강`}</p>
+                  </div>
+                </div>
+                <p>{s.data.meaning}</p>
+                {(s.data.unit || s.data.value) && <p class="small muted">{s.data.unit && <>단위: {s.data.unit}</>}{s.data.unit && s.data.value && ' · '}{s.data.value && <>값: {s.data.value}</>}</p>}
+                {s.data.origin && <p class="small muted"><span class="label">글자가 온 곳</span> {s.data.origin}</p>}
+                {(s.data.notThis || same.length > 0) && (
+                  <p class="small muted">
+                    <span class="label">헷갈리지 마세요</span> {s.data.notThis}
+                    {same.length > 0 && <> 같은 모양, 다른 뜻: {same.map((id, i) => <>{i > 0 && ', '}<a href={`#sym-${id}`}>{symName.get(id)!.name} ({symName.get(id)!.taughtIn}강)</a></>)}</>}
+                  </p>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      ))}
+    </section>
+
+    <section class="gl-panel" id="panel-formulas" role="tabpanel" aria-labelledby="tab-formulas" hidden>
+      {formulas.map((f) => (
+        <div class="gl-wrap" id={`formula-${f.id}`} data-n={f.data.taughtIn}>
+          <p class="label gl__n">{where(f.data.taughtIn) ? <a href={where(f.data.taughtIn)}>{f.data.taughtIn}강 · {lessonTitle.get(f.data.taughtIn)}</a> : `${f.data.taughtIn}강`}</p>
+          <Formula id={f.id} />
+        </div>
+      ))}
+      {formulas.length === 0 && <p class="empty">아직 모은 공식이 없어요.</p>}
+    </section>
+
+    <section class="gl-panel" id="panel-concepts" role="tabpanel" aria-labelledby="tab-concepts" hidden>
+      {concepts.map((c) => (
+        <div class="gl-wrap" id={`concept-${c.id}`} data-n={c.data.taughtIn}>
+          <p class="label gl__n">{where(c.data.taughtIn) ? <a href={where(c.data.taughtIn)}>{c.data.taughtIn}강 · {lessonTitle.get(c.data.taughtIn)}</a> : `${c.data.taughtIn}강`}</p>
+          <Concept id={c.id} />
+        </div>
+      ))}
+      {concepts.length === 0 && <p class="empty">아직 모은 개념이 없어요.</p>}
+    </section>
   </main>
+  <script type="application/json" id="qm-symbols" set:html={symbolsJson} />
+  <script>
+    import { load } from '../lib/progress.ts';
+    import { loadSymbolData, markSymbols } from '../lib/client/symbols.ts';
+
+    // 사이트는 페이지를 새로 불러오지 않고 내용만 바꿔 끼운다(배경 음악이 끊기지 않게).
+    function init() {
+      if (!document.querySelector('[data-page="glossary"]')) return;
+      const tabs = [...document.querySelectorAll<HTMLButtonElement>('.gl-tab')];
+      const find = document.getElementById('gl-find') as HTMLInputElement;
+      const show = (id: string) => {
+        for (const t of tabs) {
+          const on = t.dataset.tab === id;
+          t.setAttribute('aria-selected', String(on));
+          document.getElementById(`panel-${t.dataset.tab}`)!.hidden = !on;
+        }
+        filter();
+      };
+      const filter = () => {
+        const q = find.value.trim().toLowerCase();
+        const panel = document.querySelector<HTMLElement>('.gl-panel:not([hidden])');
+        panel?.querySelectorAll<HTMLElement>('.gl, .gl-wrap').forEach((c) => {
+          c.hidden = !!q && !c.textContent!.toLowerCase().includes(q);
+        });
+      };
+      tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab!)));
+      find.addEventListener('input', filter);
+      // 주소의 #sym-…, #formula-…, #concept-…로 바로 그 칸을 연다.
+      const h = location.hash.slice(1);
+      if (h.startsWith('sym-')) show('symbols');
+      else if (h.startsWith('formula-')) show('formulas');
+      else if (h.startsWith('concept-')) show('concepts');
+      if (h) document.getElementById(h)?.scrollIntoView();
+
+      // 아직 배우지 않은 것은 흐리게: 그 강을 끝내거나 통과·건너뛰기 전이면
+      const state = load();
+      const learned = (n: number) => ['done', 'tested-out', 'skipped'].includes(state.lessons[n]?.status ?? '');
+      const started = Object.keys(state.lessons).length > 0;
+      document.querySelectorAll<HTMLElement>('[data-n]').forEach((c) => {
+        c.classList.toggle('is-ahead', started && !learned(Number(c.dataset.n)));
+      });
+      const data = loadSymbolData();
+      if (data) markSymbols(document, data);
+    }
+    document.addEventListener('astro:page-load', init);
+  </script>
 </Base>
 
 <style>
-  .gl {
-    gap: 10px;
+  .gl-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: -24px;
   }
 
-  .gl__sec {
+  .gl-tab {
+    all: unset;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 4px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--text-2);
+  }
+
+  .gl-tab[aria-selected='true'] {
+    border-color: var(--accent);
+    color: var(--text);
+    box-shadow: inset 0 -2px 0 var(--accent);
+  }
+
+  .gl-tab:focus-visible {
+    outline: 2px solid var(--accent);
+  }
+
+  .gl-tab__n {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .gl-panel {
+    display: grid;
     gap: 12px;
+  }
+
+  .gl-group {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .gl {
+    gap: 8px;
+  }
+
+  .gl__n {
+    color: var(--accent);
+  }
+
+  .gl__n a {
+    color: inherit;
   }
 
   .gl__h {
@@ -58,10 +241,7 @@ for (const t of terms) {
     font-size: var(--fs-xs);
     letter-spacing: 0.14em;
     color: var(--accent);
-  }
-
-  .gl__h a {
-    color: inherit;
+    margin-top: 8px;
   }
 
   .gl__term {
@@ -76,5 +256,56 @@ for (const t of terms) {
     padding-left: 1.1em;
     display: grid;
     gap: 2px;
+  }
+
+  .gl-sym__head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+  }
+
+  .gl-sym__glyph {
+    min-width: 54px;
+    height: 54px;
+    padding: 0 8px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--ink);
+    font-size: 1.6rem;
+  }
+
+  .gl-sym__glyph[data-kind='variable'],
+  .gl-key[data-kind='variable'] {
+    color: var(--q-motion);
+  }
+
+  .gl-sym__glyph[data-kind='variable'] {
+    color: var(--qc);
+  }
+
+  .gl-sym__glyph[data-kind='constant'],
+  .gl-key[data-kind='constant'] {
+    color: var(--sym-const);
+  }
+
+  .gl-sym__glyph[data-kind='unit'],
+  .gl-key[data-kind='unit'] {
+    color: var(--text-2);
+  }
+
+  .gl-sym__name {
+    font-size: var(--fs-lg);
+  }
+
+  .gl-wrap {
+    display: grid;
+    gap: 6px;
+  }
+
+  :global(.is-ahead) {
+    opacity: 0.5;
   }
 </style>

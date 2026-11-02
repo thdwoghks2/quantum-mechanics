@@ -1,0 +1,39 @@
+---
+/**
+ * 공식 카드. formulas.yaml의 항목을 보여 준다.
+ * 이름 → 식(크게) → 말로 읽기 → 이 식이 말하는 것 → 기호 표 → 숫자 넣어 보기 → 맞는 범위.
+ * 기호 표는 한 줄에 기호 하나(모양, 이름, 단위). 뜻은 기호를 누르면 시트에서 본다.
+ * compact면 이름, 식, 말로 읽기, 기호 표만(화면이 좁을 때나 떠올리기 화면).
+ */
+import { getEntry } from 'astro:content';
+import { renderMath, tex } from '../../lib/math.ts';
+import SymTable from './SymTable.astro';
+import '../../styles/cards.css';
+
+interface Props {
+  id: string;
+  compact?: boolean;
+}
+const { id, compact = false } = Astro.props;
+const e = await getEntry('formulas', id);
+if (!e) throw new Error(`공식 카드에 없는 공식: ${id}`);
+const f = e.data;
+---
+<article class="fcard" data-formula={id} data-symmap={JSON.stringify(f.symbols)}>
+  <p class="fcard__kicker label">공식</p>
+  <h3 class="fcard__name">{f.name}</h3>
+  <div class="fcard__tex" set:html={tex(f.tex, true)} />
+  <p class="fcard__read">{f.read}</p>
+  {!compact && <p class="fcard__says" set:html={renderMath(f.says)} />}
+  <SymTable ids={[...new Set(Object.values(f.symbols))]} meaning={false} />
+  {!compact && f.example && (
+    <div class="fcard__ex">
+      <p class="label">숫자 넣어 보기</p>
+      <div class="fcard__extex" set:html={tex(f.example.tex)} />
+      {f.example.note && <p set:html={renderMath(f.example.note)} />}
+    </div>
+  )}
+  {!compact && (f.holds || f.fails) && (
+    <p class="fcard__range"><span class="label">맞는 곳</span> <span set:html={renderMath([f.holds, f.fails].filter(Boolean).join(' '))} /></p>
+  )}
+</article>
